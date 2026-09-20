@@ -1,0 +1,585 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__device__discovery_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_device_discovery.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">themis/gpu/device_discovery.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_device_discovery.cpp</label>
+        <link refid="test__gpu__device__discovery_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>themis/gpu/device_discovery.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, Enumerate_ReturnsNonEmptyList)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>Enumerate_ReturnsNonEmptyList</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="10" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="10" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1aab67b967f1f048ad3c0ba185850239f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, Enumerate_AllDevicesHaveNames)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>Enumerate_AllDevicesHaveNames</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="16" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="16" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a3cab045c2c58a16952c03d6159d2a70c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, Enumerate_AllDevicesHaveBackend)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>Enumerate_AllDevicesHaveBackend</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="23" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1ac9c5025fb5de13ce5b1c2c3315fe9d7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, Enumerate_CPUFallbackHasNegativeIndex)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>Enumerate_CPUFallbackHasNegativeIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="30" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="30" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1ae5e6ecaa46ec1b43f27a3132fc716258" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, Enumerate_CPUFallbackIsHealthy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>Enumerate_CPUFallbackIsHealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="40" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="40" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1afcfcd6a5dd4c0efbc0dd432888d4a35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, Enumerate_HealthyDevicesHaveNoErrorMessage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>Enumerate_HealthyDevicesHaveNoErrorMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="49" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="49" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1ac8df9d8323796dd7a23867a8d61b140b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, GetBestDevice_ReturnsADevice)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>GetBestDevice_ReturnsADevice</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="64" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="64" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a2511469b4a40c55da10527eec4123e9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, GetBestDevice_FromDeviceList_ReturnsHighestFreeVRAM)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>GetBestDevice_FromDeviceList_ReturnsHighestFreeVRAM</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="70" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="70" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a6633f2aca3aaef96b1c48fb12075a7f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, GetBestDevice_SkipsUnhealthyDevices)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>GetBestDevice_SkipsUnhealthyDevices</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="96" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="96" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a5b686552fd661e5df6a574e8dac7e537" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, GetBestDevice_AllUnhealthy_ReturnsCPUFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>GetBestDevice_AllUnhealthy_ReturnsCPUFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="120" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="120" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a1c3c44ea1e516a32c28e463e0077b6a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, GetBestDevice_EmptyList_ReturnsCPUFallback)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>GetBestDevice_EmptyList_ReturnsCPUFallback</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="135" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="135" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1ade8eae5a4a676a15669d109ece38d6b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, GetHealthyDevices_FiltersUnhealthy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>GetHealthyDevices_FiltersUnhealthy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="146" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="146" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1af8d95276720af1b959c3417c02c70047" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, GetHealthyDevices_AllHealthy_ReturnsSameCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>GetHealthyDevices_AllHealthy_ReturnsSameCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="165" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="165" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a62f12211746414fcbce676e81acd5edc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, HasGPU_CPUFallbackOnly_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>HasGPU_CPUFallbackOnly_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="182" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="182" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a47cc8dd20dd5866bf788b6105d503b42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, HasGPU_RealGPUPresent_ReturnsTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>HasGPU_RealGPUPresent_ReturnsTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="192" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="192" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a430ef5914acca3c6ec50f86e09641e30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, HasGPU_UnhealthyGPUOnly_ReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>HasGPU_UnhealthyGPUOnly_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="202" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="202" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__device__discovery_8cpp_1a1662e88566e73a6669a5e789a0b185f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DeviceDiscoveryTest, CPUFallbackVRAM_MatchesEditionLimit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DeviceDiscoveryTest</type>
+        </param>
+        <param>
+          <type>CPUFallbackVRAM_MatchesEditionLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_device_discovery.cpp" line="217" column="1" bodyfile="tests/gpu/test_gpu_device_discovery.cpp" bodystart="217" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/gpu/device_discovery.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Enumerate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>Enumerate_ReturnsNonEmptyList)<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>CI<sp/>without<sp/>GPU<sp/>hardware,<sp/>expect<sp/>the<sp/>CPU-fallback<sp/>sentinel.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devices<sp/>=<sp/>DeviceDiscovery::Enumerate();</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(devices.empty());</highlight></codeline>
+<codeline lineno="14"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>Enumerate_AllDevicesHaveNames)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devices<sp/>=<sp/>DeviceDiscovery::Enumerate();</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>devices)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.name.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Device<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>d.index<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>no<sp/>name&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>Enumerate_AllDevicesHaveBackend)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devices<sp/>=<sp/>DeviceDiscovery::Enumerate();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>devices)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(d.backend.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Device<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>d.index<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>no<sp/>backend&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>Enumerate_CPUFallbackHasNegativeIndex)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devices<sp/>=<sp/>DeviceDiscovery::Enumerate();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>list<sp/>contains<sp/>a<sp/>CPU_FALLBACK<sp/>entry<sp/>its<sp/>index<sp/>must<sp/>be<sp/>-1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>devices)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(d.backend<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;CPU_FALLBACK&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(d.index,<sp/>-1);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>Enumerate_CPUFallbackIsHealthy)<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devices<sp/>=<sp/>DeviceDiscovery::Enumerate();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>devices)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(d.backend<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;CPU_FALLBACK&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(d.is_healthy);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>Enumerate_HealthyDevicesHaveNoErrorMessage)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devices<sp/>=<sp/>DeviceDiscovery::Enumerate();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>devices)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(d.is_healthy)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(d.error_message.empty())</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Healthy<sp/>device<sp/>at<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>d.index</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>unexpected<sp/>error:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>d.error_message;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GetBestDevice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>GetBestDevice_ReturnsADevice)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>best<sp/>=<sp/>DeviceDiscovery::GetBestDevice();</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(best.name.empty());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(best.is_healthy);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>GetBestDevice_FromDeviceList_ReturnsHighestFreeVRAM)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>d0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>d0.index<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>d0.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GPU_A&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>d0.backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>d0.total_vram_bytes<sp/>=<sp/>8ULL<sp/><sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>d0.free_vram_bytes<sp/><sp/>=<sp/>4ULL<sp/><sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>d0.is_healthy<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(d0);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>d1;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>d1.index<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>d1.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GPU_B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>d1.backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>d1.total_vram_bytes<sp/>=<sp/>24ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>d1.free_vram_bytes<sp/><sp/>=<sp/>20ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>d1.is_healthy<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(d1);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>best<sp/>=<sp/>DeviceDiscovery::GetBestDevice(devices);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(best.name,<sp/></highlight><highlight class="stringliteral">&quot;GPU_B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(best.free_vram_bytes,<sp/>20ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>GetBestDevice_SkipsUnhealthyDevices)<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>bad;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.index<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Bad_GPU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.free_vram_bytes<sp/><sp/>=<sp/>100ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>huge<sp/>but<sp/>unhealthy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.is_healthy<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.error_message<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;device<sp/>lost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(bad);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>good;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>good.index<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>good.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Good_GPU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>good.backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>good.free_vram_bytes<sp/>=<sp/>8ULL<sp/><sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>good.is_healthy<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(good);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>best<sp/>=<sp/>DeviceDiscovery::GetBestDevice(devices);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(best.name,<sp/></highlight><highlight class="stringliteral">&quot;Good_GPU&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>GetBestDevice_AllUnhealthy_ReturnsCPUFallback)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>bad;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.index<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Dead_GPU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.backend<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.is_healthy<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>bad.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;device<sp/>lost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(bad);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>best<sp/>=<sp/>DeviceDiscovery::GetBestDevice(devices);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(best.backend,<sp/></highlight><highlight class="stringliteral">&quot;CPU_FALLBACK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>GetBestDevice_EmptyList_ReturnsCPUFallback)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>empty;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>best<sp/>=<sp/>DeviceDiscovery::GetBestDevice(empty);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(best.backend,<sp/></highlight><highlight class="stringliteral">&quot;CPU_FALLBACK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(best.is_healthy);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GetHealthyDevices</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>GetHealthyDevices_FiltersUnhealthy)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>d_ok;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>d_ok.name<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>d_ok.is_healthy<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(d_ok);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>d_bad;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>d_bad.name<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;BAD&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>d_bad.is_healthy<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>d_bad.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;lost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(d_bad);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>healthy<sp/>=<sp/>DeviceDiscovery::GetHealthyDevices(devices);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(healthy.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(healthy[0].name,<sp/></highlight><highlight class="stringliteral">&quot;OK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>GetHealthyDevices_AllHealthy_ReturnsSameCount)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>DeviceInfo<sp/>d;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.index<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.name<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dev_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d.is_healthy<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>devices.push_back(d);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(DeviceDiscovery::GetHealthyDevices(devices).size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HasGPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>HasGPU_CPUFallbackOnly_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>cpu;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu.backend<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CPU_FALLBACK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu.is_healthy<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(cpu);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(DeviceDiscovery::HasGPU(devices));</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>HasGPU_RealGPUPresent_ReturnsTrue)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>d;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>d.backend<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>d.is_healthy<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(d);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(DeviceDiscovery::HasGPU(devices));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>HasGPU_UnhealthyGPUOnly_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DeviceInfo&gt;<sp/>devices;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>DeviceInfo<sp/>d;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>d.backend<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>d.is_healthy<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>d.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;device<sp/>lost&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>devices.push_back(d);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(DeviceDiscovery::HasGPU(devices));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VRAM<sp/>/<sp/>edition<sp/>limits<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><ref refid="test__gpu__device__discovery_8cpp_1a4ff30e7a8c89df40fe9fec130ef6b203" kindref="member">TEST</ref>(DeviceDiscoveryTest,<sp/>CPUFallbackVRAM_MatchesEditionLimit)<sp/>{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>CPU<sp/>fallback<sp/>sentinel&apos;s<sp/>total_vram_bytes<sp/>must<sp/>equal<sp/>the<sp/>edition&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>VRAM<sp/>limit<sp/>so<sp/>the<sp/>memory<sp/>manager<sp/>and<sp/>fallback<sp/>logic<sp/>stay<sp/>consistent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>devices<sp/>=<sp/>DeviceDiscovery::Enumerate();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>devices)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(d.backend<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;CPU_FALLBACK&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint64_t<sp/>edition_limit<sp/>=</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(themis::edition::GPU_MAX_VRAM_GB)</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>1024ULL<sp/>*<sp/>1024ULL<sp/>*<sp/>1024ULL;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(d.total_vram_bytes,<sp/>edition_limit);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_device_discovery.cpp"/>
+  </compounddef>
+</doxygen>

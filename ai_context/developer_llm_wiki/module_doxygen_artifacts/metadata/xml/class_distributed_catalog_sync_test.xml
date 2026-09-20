@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_distributed_catalog_sync_test" kind="class" language="C++" prot="public">
+    <compoundname>DistributedCatalogSyncTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_distributed_catalog_sync_test_1a709a03ff41f022b7c94be91e36a0fc54" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; DistributedCatalogSyncTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>DistributedCatalogSyncTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="232" column="35" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_catalog_sync_test_1aafdb1d0c893b6899d4b0487a663d9288" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; DistributedCatalogSyncTest::index_mgr_</definition>
+        <argsstring></argsstring>
+        <name>index_mgr_</name>
+        <qualifiedname>DistributedCatalogSyncTest::index_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="233" column="28" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_catalog_sync_test_1af0f949a5442ead614180d4c298949506" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SchemaManager&gt; DistributedCatalogSyncTest::schema_mgr_</definition>
+        <argsstring></argsstring>
+        <name>schema_mgr_</name>
+        <qualifiedname>DistributedCatalogSyncTest::schema_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="234" column="36" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_catalog_sync_test_1a70896a62459c5fc4f1b59da4f123df77" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; MetadataShardRouter &gt;</type>
+        <definition>std::unique_ptr&lt;MetadataShardRouter&gt; DistributedCatalogSyncTest::router_</definition>
+        <argsstring></argsstring>
+        <name>router_</name>
+        <qualifiedname>DistributedCatalogSyncTest::router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="235" column="30" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_catalog_sync_test_1abc01ef622374e992d5ff3e23f819a71e" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; MetadataShard &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;MetadataShard&gt; &gt; DistributedCatalogSyncTest::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>DistributedCatalogSyncTest::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="236" column="19" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_distributed_catalog_sync_test_1af19f49ae5a6592578069d721bc15a758" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_distributed_metadata_catalog" kindref="compound">DistributedMetadataCatalog</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistributedMetadataCatalog&gt; DistributedCatalogSyncTest::catalog_</definition>
+        <argsstring></argsstring>
+        <name>catalog_</name>
+        <qualifiedname>DistributedCatalogSyncTest::catalog_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="237" column="23" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_distributed_catalog_sync_test_1a76f0ec32e025f7a0222a357d025eee0d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedCatalogSyncTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DistributedCatalogSyncTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="198" column="10" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="198" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="class_distributed_catalog_sync_test_1a7d2c5023adbc7ce2fe672dc6714b56b6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DistributedCatalogSyncTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DistributedCatalogSyncTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_distributed_catalog.cpp" line="220" column="10" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="220" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DistributedCatalogSyncTest</label>
+        <link refid="class_distributed_catalog_sync_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DistributedCatalogSyncTest</label>
+        <link refid="class_distributed_catalog_sync_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_distributed_catalog.cpp" line="196" column="1" bodyfile="tests/metadata/test_distributed_catalog.cpp" bodystart="196" bodyend="238"/>
+    <listofallmembers>
+      <member refid="class_distributed_catalog_sync_test_1af19f49ae5a6592578069d721bc15a758" prot="protected" virt="non-virtual"><scope>DistributedCatalogSyncTest</scope><name>catalog_</name></member>
+      <member refid="class_distributed_catalog_sync_test_1a709a03ff41f022b7c94be91e36a0fc54" prot="protected" virt="non-virtual"><scope>DistributedCatalogSyncTest</scope><name>db_</name></member>
+      <member refid="class_distributed_catalog_sync_test_1aafdb1d0c893b6899d4b0487a663d9288" prot="protected" virt="non-virtual"><scope>DistributedCatalogSyncTest</scope><name>index_mgr_</name></member>
+      <member refid="class_distributed_catalog_sync_test_1a70896a62459c5fc4f1b59da4f123df77" prot="protected" virt="non-virtual"><scope>DistributedCatalogSyncTest</scope><name>router_</name></member>
+      <member refid="class_distributed_catalog_sync_test_1af0f949a5442ead614180d4c298949506" prot="protected" virt="non-virtual"><scope>DistributedCatalogSyncTest</scope><name>schema_mgr_</name></member>
+      <member refid="class_distributed_catalog_sync_test_1a76f0ec32e025f7a0222a357d025eee0d" prot="protected" virt="non-virtual"><scope>DistributedCatalogSyncTest</scope><name>SetUp</name></member>
+      <member refid="class_distributed_catalog_sync_test_1abc01ef622374e992d5ff3e23f819a71e" prot="protected" virt="non-virtual"><scope>DistributedCatalogSyncTest</scope><name>shards_</name></member>
+      <member refid="class_distributed_catalog_sync_test_1a7d2c5023adbc7ce2fe672dc6714b56b6" prot="protected" virt="non-virtual"><scope>DistributedCatalogSyncTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

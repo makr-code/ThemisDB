@@ -1,0 +1,905 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__spatial__index_8cpp" kind="file" language="C++">
+    <compoundname>test_spatial_index.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">index/spatial_index.h</includes>
+    <includes refid="spatial__backend_8h" local="yes">geo/spatial_backend.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cmath</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_spatial_index.cpp</label>
+        <link refid="test__spatial__index_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>cmath</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>filesystem</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>index/spatial_index.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_spatial_index_test" prot="public">SpatialIndexTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, CreateIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>CreateIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="48" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1aba430a07e860e35abc1dd4c653f0ecea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, InsertAndSearchPoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>InsertAndSearchPoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="60" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="60" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a570e485e6aae64c40d5b1e601fd4e0e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, MultiplePoints)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>MultiplePoints</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="82" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="82" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1aa2bf6b333f69ca8adfec15410726c6a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchWithin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchWithin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="114" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="114" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1ab8c1b9dc3a3f18f4f727dabd0887c9c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchContainsPoint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchContainsPoint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="137" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="137" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a63fab06e144b30131442b73f8f02722f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchNearby)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchNearby</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="156" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="156" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1aba6aff147b2b6e5d67f33a64ec7b1e15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, MultiTableSupport)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>MultiTableSupport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="192" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="192" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a48847ae0df4f5353fa490afe696c2f45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, UpdateLocation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateLocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="233" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="233" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1acd755893a043f5b4b3a130b8f1d731cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, RemoveEntity)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveEntity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="260" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="260" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a539d3310e23eab305f914ee48071485f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, IndexStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>IndexStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="283" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="283" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1aee4e0ea12a9e060a64643a23ecbc86df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, MortonEncoder)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>MortonEncoder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="306" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="306" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a4f57179dff0fdab18fb7afef922ebcc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, DropIndex)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>DropIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="330" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="330" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1ae585b488012dc38f309a4fad1d5f2f88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchKNN_ReturnsKClosest)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchKNN_ReturnsKClosest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="348" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="348" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1ad499e6a61bd519742dc12a44cdb85766" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchKNN_ZeroK_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchKNN_ZeroK_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="375" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="375" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a459029beb40289de2c35659493ff1adb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchKNN_MoreThanAvailable_ReturnAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchKNN_MoreThanAvailable_ReturnAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="381" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="381" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1ad4edc06dc3cbd6abf9c1589923eabd48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchIntersectsWithZ_FiltersOnZ)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchIntersectsWithZ_FiltersOnZ</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="396" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="396" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a6809a7e634e7a9ca5646cc50798671ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchZRange_ReturnsMatchingElevations)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchZRange_ReturnsMatchingElevations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="433" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="433" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="test__spatial__index_8cpp_1a5596ee5402011ba6ba21db8647e52a9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SpatialIndexTest, SearchZRange_NoIndexReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref></type>
+        </param>
+        <param>
+          <type>SearchZRange_NoIndexReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="466" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="466" bodyend="469"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/spatial_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__backend_8h" kindref="compound">geo/spatial_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::index;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13" refid="class_spatial_index_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_spatial_index_test_1a5a17db71de25ddd0f7d5099a45c2bbbe" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>SpatialIndex<sp/>tests<sp/>on<sp/>Windows&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_spatial_index_db&quot;</highlight><highlight class="normal">;<sp/>cfg.memtable_size_mb<sp/>=<sp/>16;<sp/>cfg.block_cache_size_mb<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_index_test_1a8e91c183cd198deb91d11627185aa97b" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);<sp/>ASSERT_TRUE(<ref refid="class_spatial_index_test_1a8e91c183cd198deb91d11627185aa97b" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_index_test_1a8db79d1cb24cf8fb390e46fa219bb663" kindref="member">spatial_mgr_</ref><sp/>=<sp/>std::make_unique&lt;SpatialIndexManager&gt;(*<ref refid="class_spatial_index_test_1a8e91c183cd198deb91d11627185aa97b" kindref="member">db_</ref>);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wire<sp/>GPU<sp/>backend<sp/>(CPU<sp/>fallback<sp/>always<sp/>available)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>gpu_backend<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6a624344c315b22db1046070c5e3c504" kindref="member">geo::getGpuSpatialBackend</ref>();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(gpu_backend)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_index_test_1a8db79d1cb24cf8fb390e46fa219bb663" kindref="member">spatial_mgr_</ref>-&gt;setExactBackend(gpu_backend);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_spatial_index_test_1a46a410c77ad249af17badb43b6e8e2da" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_index_test_1a8db79d1cb24cf8fb390e46fa219bb663" kindref="member">spatial_mgr_</ref>.reset();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_spatial_index_test_1a8e91c183cd198deb91d11627185aa97b" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(</highlight><highlight class="stringliteral">&quot;test_spatial_index_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_spatial_index_test_1a66e8d06bb65f842066a630a37fd979d1" kindref="member">approxEqual</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>a,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>b,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>epsilon<sp/>=<sp/>1e-6)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::fabs(a<sp/>-<sp/>b)<sp/>&lt;<sp/>epsilon;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="class_spatial_index_test_1a8e91c183cd198deb91d11627185aa97b" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SpatialIndexManager&gt;<sp/><ref refid="class_spatial_index_test_1a8db79d1cb24cf8fb390e46fa219bb663" kindref="member">spatial_mgr_</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Create<sp/>spatial<sp/>index<sp/>for<sp/>table</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>CreateIndex)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>RTreeConfig<sp/>config;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>config.total_bounds<sp/>=<sp/>MBR(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;geometry&quot;</highlight><highlight class="normal">,<sp/>config);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(status);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(spatial_mgr_-&gt;hasSpatialIndex(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(spatial_mgr_-&gt;hasSpatialIndex(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Insert<sp/>and<sp/>search<sp/>single<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>InsertAndSearchPoint)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>Berlin<sp/>(13.4,<sp/>52.5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>berlin_sidecar;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>berlin_sidecar.mbr<sp/>=<sp/>MBR(13.4,<sp/>52.5,<sp/>13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>berlin_sidecar.centroid<sp/>=<sp/>Coordinate(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>status<sp/>=<sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cities/berlin&quot;</highlight><highlight class="normal">,<sp/>berlin_sidecar);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(status);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search:<sp/>query<sp/>box<sp/>around<sp/>Berlin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>query_box(13.0,<sp/>52.0,<sp/>14.0,<sp/>53.0);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">,<sp/>query_box);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;cities/berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approxEqual(results[0].mbr.minx,<sp/>13.4));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Multiple<sp/>points<sp/>in<sp/>same<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>MultiplePoints)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;locations&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>multiple<sp/>German<sp/>cities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">City<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>id;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/>lat;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;City&gt;<sp/>cities<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/>13.4,<sp/>52.5},</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;munich&quot;</highlight><highlight class="normal">,<sp/>11.6,<sp/>48.1},</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hamburg&quot;</highlight><highlight class="normal">,<sp/>10.0,<sp/>53.6},</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cologne&quot;</highlight><highlight class="normal">,<sp/>6.96,<sp/>50.94}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>city<sp/>:<sp/>cities)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sidecar;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sidecar.mbr<sp/>=<sp/>MBR(city.lon,<sp/>city.lat,<sp/>city.lon,<sp/>city.lat);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sidecar.centroid<sp/>=<sp/>Coordinate(city.lon,<sp/>city.lat);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;locations&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;locations/&quot;</highlight><highlight class="normal"><sp/>+<sp/>city.id,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search:<sp/>Germany<sp/>bounding<sp/>box</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>germany(6.0,<sp/>47.0,<sp/>15.0,<sp/>55.0);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;locations&quot;</highlight><highlight class="normal">,<sp/>germany);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>4);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Search<sp/>within<sp/>(strict<sp/>containment)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchWithin)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;regions&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>regions<sp/>(as<sp/>bounding<sp/>boxes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>bavaria;<sp/><sp/></highlight><highlight class="comment">//<sp/>Large<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>bavaria.mbr<sp/>=<sp/>MBR(10.0,<sp/>47.0,<sp/>13.5,<sp/>50.5);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>bavaria.centroid<sp/>=<sp/>bavaria.mbr.center();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;regions&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;regions/bavaria&quot;</highlight><highlight class="normal">,<sp/>bavaria);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>small_area;<sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>region<sp/>fully<sp/>inside<sp/>Bavaria</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>small_area.mbr<sp/>=<sp/>MBR(11.5,<sp/>48.0,<sp/>11.7,<sp/>48.2);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>small_area.centroid<sp/>=<sp/>small_area.mbr.center();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;regions&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;regions/munich_area&quot;</highlight><highlight class="normal">,<sp/>small_area);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search:<sp/>Find<sp/>regions<sp/>within<sp/>Bavaria<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>query<sp/>=<sp/>bavaria.mbr;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchWithin(</highlight><highlight class="stringliteral">&quot;regions&quot;</highlight><highlight class="normal">,<sp/>query);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>should<sp/>intersect,<sp/>but<sp/>only<sp/>small_area<sp/>is<sp/>fully<sp/>within</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>2);<sp/><sp/></highlight><highlight class="comment">//<sp/>bavaria<sp/>itself<sp/>+<sp/>munich_area</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Search<sp/>contains<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchContainsPoint)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;areas&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>a<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>region;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>region.mbr<sp/>=<sp/>MBR(10.0,<sp/>50.0,<sp/>12.0,<sp/>52.0);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>region.centroid<sp/>=<sp/>region.mbr.center();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;areas&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;areas/region1&quot;</highlight><highlight class="normal">,<sp/>region);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search:<sp/>point<sp/>inside<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results_inside<sp/>=<sp/>spatial_mgr_-&gt;searchContains(</highlight><highlight class="stringliteral">&quot;areas&quot;</highlight><highlight class="normal">,<sp/>11.0,<sp/>51.0);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results_inside.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search:<sp/>point<sp/>outside<sp/>region</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results_outside<sp/>=<sp/>spatial_mgr_-&gt;searchContains(</highlight><highlight class="stringliteral">&quot;areas&quot;</highlight><highlight class="normal">,<sp/>15.0,<sp/>51.0);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results_outside.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Search<sp/>nearby<sp/>(distance-based)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchNearby)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;pois&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>points<sp/>of<sp/>interest<sp/>around<sp/>Berlin<sp/>(13.4,<sp/>52.5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">POI<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>id;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon,<sp/>lat;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;POI&gt;<sp/>pois<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;brandenburger_tor&quot;</highlight><highlight class="normal">,<sp/>13.377,<sp/>52.516},<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>~1.5<sp/>km<sp/>from<sp/>center</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;alexanderplatz&quot;</highlight><highlight class="normal">,<sp/>13.413,<sp/>52.521},<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>~1<sp/>km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;tempelhofer_feld&quot;</highlight><highlight class="normal">,<sp/>13.405,<sp/>52.473},<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>~3<sp/>km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;potsdam&quot;</highlight><highlight class="normal">,<sp/>13.064,<sp/>52.399}<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>~30<sp/>km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>poi<sp/>:<sp/>pois)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sidecar;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sidecar.mbr<sp/>=<sp/>MBR(poi.lon,<sp/>poi.lat,<sp/>poi.lon,<sp/>poi.lat);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sidecar.centroid<sp/>=<sp/>Coordinate(poi.lon,<sp/>poi.lat);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;pois&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pois/&quot;</highlight><highlight class="normal"><sp/>+<sp/>poi.id,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search:<sp/>POIs<sp/>within<sp/>5km<sp/>of<sp/>Berlin<sp/>center</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchNearby(</highlight><highlight class="stringliteral">&quot;pois&quot;</highlight><highlight class="normal">,<sp/>13.4,<sp/>52.5,<sp/>5000.0);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>find<sp/>3<sp/>(not<sp/>Potsdam<sp/>which<sp/>is<sp/>~30km<sp/>away)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Results<sp/>should<sp/>be<sp/>sorted<sp/>by<sp/>distance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(results[0].distance,<sp/>results[1].distance);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(results[1].distance,<sp/>results[2].distance);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Multi-table<sp/>support<sp/>(different<sp/>models)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>MultiTableSupport)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>indexes<sp/>for<sp/>different<sp/>models</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Relational</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;locations&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graph<sp/>nodes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;images&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(spatial_mgr_-&gt;hasSpatialIndex(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(spatial_mgr_-&gt;hasSpatialIndex(</highlight><highlight class="stringliteral">&quot;locations&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(spatial_mgr_-&gt;hasSpatialIndex(</highlight><highlight class="stringliteral">&quot;images&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(spatial_mgr_-&gt;hasSpatialIndex(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>into<sp/>different<sp/>tables</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sidecar;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>sidecar.mbr<sp/>=<sp/>MBR(13.4,<sp/>52.5,<sp/>13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>sidecar.centroid<sp/>=<sp/>Coordinate(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cities/berlin&quot;</highlight><highlight class="normal">,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;locations&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;locations/loc1&quot;</highlight><highlight class="normal">,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;images&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;images/img1&quot;</highlight><highlight class="normal">,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;documents/doc1&quot;</highlight><highlight class="normal">,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>each<sp/>table<sp/>independently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>query(13.0,<sp/>52.0,<sp/>14.0,<sp/>53.0);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cities_results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;cities&quot;</highlight><highlight class="normal">,<sp/>query);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>locations_results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;locations&quot;</highlight><highlight class="normal">,<sp/>query);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>images_results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;images&quot;</highlight><highlight class="normal">,<sp/>query);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>docs_results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,<sp/>query);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cities_results.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(locations_results.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(images_results.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(docs_results.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>isolation<sp/>(cities<sp/>query<sp/>doesn&apos;t<sp/>return<sp/>locations)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cities_results[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;cities/berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(locations_results[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;locations/loc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Update<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>UpdateLocation)<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;vehicles&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>old_sidecar;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>old_sidecar.mbr<sp/>=<sp/>MBR(13.4,<sp/>52.5,<sp/>13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>old_sidecar.centroid<sp/>=<sp/>Coordinate(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;vehicles&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vehicles/car1&quot;</highlight><highlight class="normal">,<sp/>old_sidecar);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>to<sp/>new<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>new_sidecar;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>new_sidecar.mbr<sp/>=<sp/>MBR(13.5,<sp/>52.6,<sp/>13.5,<sp/>52.6);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>new_sidecar.centroid<sp/>=<sp/>Coordinate(13.5,<sp/>52.6);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;update(</highlight><highlight class="stringliteral">&quot;vehicles&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;vehicles/car1&quot;</highlight><highlight class="normal">,<sp/>old_sidecar,<sp/>new_sidecar);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>old<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>old_query(13.35,<sp/>52.45,<sp/>13.45,<sp/>52.55);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>old_results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;vehicles&quot;</highlight><highlight class="normal">,<sp/>old_query);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(old_results.size(),<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>find<sp/>in<sp/>old<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Search<sp/>new<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>new_query(13.45,<sp/>52.55,<sp/>13.55,<sp/>52.65);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>new_results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;vehicles&quot;</highlight><highlight class="normal">,<sp/>new_query);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(new_results.size(),<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>find<sp/>in<sp/>new<sp/>location</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Remove<sp/>entity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>RemoveEntity)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;temp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sidecar;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>sidecar.mbr<sp/>=<sp/>MBR(13.4,<sp/>52.5,<sp/>13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>sidecar.centroid<sp/>=<sp/>Coordinate(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;temp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;temp/item1&quot;</highlight><highlight class="normal">,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>query(13.0,<sp/>52.0,<sp/>14.0,<sp/>53.0);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;temp&quot;</highlight><highlight class="normal">,<sp/>query);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(before.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;remove(</highlight><highlight class="stringliteral">&quot;temp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;temp/item1&quot;</highlight><highlight class="normal">,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>removed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>after<sp/>=<sp/>spatial_mgr_-&gt;searchIntersects(</highlight><highlight class="stringliteral">&quot;temp&quot;</highlight><highlight class="normal">,<sp/>query);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(after.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Index<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>IndexStats)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;stats_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>multiple<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sidecar;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sidecar.mbr<sp/>=<sp/>MBR(13.0<sp/>+<sp/>i<sp/>*<sp/>0.1,<sp/>52.0<sp/>+<sp/>i<sp/>*<sp/>0.1,<sp/>13.0<sp/>+<sp/>i<sp/>*<sp/>0.1,<sp/>52.0<sp/>+<sp/>i<sp/>*<sp/>0.1);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sidecar.centroid<sp/>=<sp/>sidecar.mbr.center();</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;stats_test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stats_test/item&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>sidecar);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>spatial_mgr_-&gt;getStats(</highlight><highlight class="stringliteral">&quot;stats_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>The<sp/>index<sp/>appears<sp/>to<sp/>count<sp/>20<sp/>entries<sp/>(possibly<sp/>internal<sp/>structure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TODO:<sp/>Investigate<sp/>if<sp/>this<sp/>is<sp/>double-counting<sp/>or<sp/>correct<sp/>behavior</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.entry_count,<sp/>20);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.morton_buckets,<sp/>0);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approxEqual(stats.total_bounds.minx,<sp/>-180.0));</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approxEqual(stats.total_bounds.maxx,<sp/>180.0));</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Morton<sp/>encoder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>MortonEncoder)<sp/>{</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>bounds(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encode<sp/>and<sp/>decode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>code<sp/>=<sp/>MortonEncoder::encode2D(13.4,<sp/>52.5,<sp/>bounds);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[x,<sp/>y]<sp/>=<sp/>MortonEncoder::decode2D(code,<sp/>bounds);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>approximately<sp/>equal<sp/>(some<sp/>precision<sp/>loss)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approxEqual(x,<sp/>13.4,<sp/>0.01));</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(approxEqual(y,<sp/>52.5,<sp/>0.01));</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spatial<sp/>locality:<sp/>nearby<sp/>points<sp/>should<sp/>have<sp/>similar<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>code1<sp/>=<sp/>MortonEncoder::encode2D(13.4,<sp/>52.5,<sp/>bounds);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>code2<sp/>=<sp/>MortonEncoder::encode2D(13.5,<sp/>52.6,<sp/>bounds);<sp/><sp/></highlight><highlight class="comment">//<sp/>Nearby</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>code3<sp/>=<sp/>MortonEncoder::encode2D(100.0,<sp/>20.0,<sp/>bounds);<sp/><sp/></highlight><highlight class="comment">//<sp/>Far<sp/>away</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Codes<sp/>for<sp/>nearby<sp/>points<sp/>should<sp/>be<sp/>closer<sp/>than<sp/>distant<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>diff_nearby<sp/>=<sp/>std::abs(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code1<sp/>-<sp/>code2));</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>diff_far<sp/>=<sp/>std::abs(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code1<sp/>-<sp/>code3));</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(diff_nearby,<sp/>diff_far);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test:<sp/>Drop<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>DropIndex)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;drop_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sidecar;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>sidecar.mbr<sp/>=<sp/>MBR(13.4,<sp/>52.5,<sp/>13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>sidecar.centroid<sp/>=<sp/>Coordinate(13.4,<sp/>52.5);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;drop_test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;drop_test/item1&quot;</highlight><highlight class="normal">,<sp/>sidecar);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(spatial_mgr_-&gt;hasSpatialIndex(</highlight><highlight class="stringliteral">&quot;drop_test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drop<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;dropSpatialIndex(</highlight><highlight class="stringliteral">&quot;drop_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(spatial_mgr_-&gt;hasSpatialIndex(</highlight><highlight class="stringliteral">&quot;drop_test&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>searchKNN<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchKNN_ReturnsKClosest)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;knn_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>four<sp/>cities<sp/>at<sp/>known<sp/>distances<sp/>from<sp/>Berlin<sp/>(13.4,<sp/>52.5).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CityEntry<sp/>{<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lon;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat;<sp/>};</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>CityEntry<sp/>cities[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">,<sp/><sp/>13.4,<sp/><sp/><sp/>52.5<sp/><sp/>},</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hamburg&quot;</highlight><highlight class="normal">,<sp/>10.0,<sp/><sp/><sp/>53.6<sp/><sp/>},</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;munich&quot;</highlight><highlight class="normal">,<sp/><sp/>11.58,<sp/><sp/>48.14<sp/>},</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;london&quot;</highlight><highlight class="normal">,<sp/><sp/>-0.12,<sp/><sp/>51.51<sp/>},</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>c<sp/>:<sp/>cities)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sc;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.mbr<sp/>=<sp/>MBR(c.lon,<sp/>c.lat,<sp/>c.lon,<sp/>c.lat);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.centroid<sp/>=<sp/>Coordinate(c.lon,<sp/>c.lat);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;knn_test&quot;</highlight><highlight class="normal">,<sp/>c.key,<sp/>sc);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ask<sp/>for<sp/>the<sp/>2<sp/>nearest<sp/>to<sp/>Berlin<sp/>itself.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchKNN(</highlight><highlight class="stringliteral">&quot;knn_test&quot;</highlight><highlight class="normal">,<sp/>13.4,<sp/>52.5,<sp/>2);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(results.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>first<sp/>result<sp/>should<sp/>be<sp/>Berlin<sp/>(distance<sp/>≈<sp/>0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results[0].primary_key,<sp/></highlight><highlight class="stringliteral">&quot;berlin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Results<sp/>must<sp/>be<sp/>sorted<sp/>ascending<sp/>by<sp/>distance.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(results[0].distance,<sp/>results[1].distance);</highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchKNN_ZeroK_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;knn_empty_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchKNN(</highlight><highlight class="stringliteral">&quot;knn_empty_test&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/>0.0,<sp/>0);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchKNN_MoreThanAvailable_ReturnAll)<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;knn_small_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sc;</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.mbr<sp/>=<sp/>MBR(i<sp/>*<sp/>1.0,<sp/>0.0,<sp/>i<sp/>*<sp/>1.0,<sp/>0.0);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sc.centroid<sp/>=<sp/>Coordinate(i<sp/>*<sp/>1.0,<sp/>0.0);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;knn_small_test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;p&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>sc);</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>more<sp/>than<sp/>available<sp/>—<sp/>should<sp/>return<sp/>all<sp/>3.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchKNN(</highlight><highlight class="stringliteral">&quot;knn_small_test&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/>0.0,<sp/>10);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>searchIntersectsWithZ<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchIntersectsWithZ_FiltersOnZ)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;z_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>two<sp/>points<sp/>—<sp/>one<sp/>at<sp/>low<sp/>elevation,<sp/>one<sp/>at<sp/>high<sp/>elevation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>low_sc;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>low_sc.mbr<sp/>=<sp/>MBR(10.0,<sp/>50.0,<sp/>10.0,<sp/>50.0);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>low_sc.centroid<sp/>=<sp/>Coordinate(10.0,<sp/>50.0);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>low_sc.z_min<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>low_sc.z_max<sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;z_test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">,<sp/>low_sc);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>high_sc;</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>high_sc.mbr<sp/>=<sp/>MBR(10.0,<sp/>50.0,<sp/>10.0,<sp/>50.0);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>high_sc.centroid<sp/>=<sp/>Coordinate(10.0,<sp/>50.0);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/>high_sc.z_min<sp/>=<sp/>500.0;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>high_sc.z_max<sp/>=<sp/>600.0;</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;z_test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">,<sp/>high_sc);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>MBR<sp/>wide(-180.0,<sp/>-90.0,<sp/>180.0,<sp/>90.0);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hasPK<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SpatialResult&gt;&amp;<sp/>v,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>pk)<sp/>{</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(v.begin(),<sp/>v.end(),</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[pk](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SpatialResult&amp;<sp/>r){<sp/>return<sp/>r.primary_key<sp/>==<sp/>pk;<sp/>});</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>Z<sp/>range<sp/>[0,<sp/>200]<sp/>—<sp/>should<sp/>include<sp/>&quot;low&quot;<sp/>only.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersectsWithZ(</highlight><highlight class="stringliteral">&quot;z_test&quot;</highlight><highlight class="normal">,<sp/>wide,<sp/>0.0,<sp/>200.0);</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasPK(results,<sp/></highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasPK(results,<sp/></highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>Z<sp/>range<sp/>[400,<sp/>700]<sp/>—<sp/>should<sp/>include<sp/>&quot;high&quot;<sp/>only.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchIntersectsWithZ(</highlight><highlight class="stringliteral">&quot;z_test&quot;</highlight><highlight class="normal">,<sp/>wide,<sp/>400.0,<sp/>700.0);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasPK(results,<sp/></highlight><highlight class="stringliteral">&quot;low&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasPK(results,<sp/></highlight><highlight class="stringliteral">&quot;high&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="429"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>searchZRange<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchZRange_ReturnsMatchingElevations)<sp/>{</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;createSpatialIndex(</highlight><highlight class="stringliteral">&quot;zrange_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>two<sp/>entities<sp/>with<sp/>distinct<sp/>Z<sp/>ranges.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>ground;</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>ground.mbr<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MBR(10.0,<sp/>50.0,<sp/>11.0,<sp/>51.0);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>ground.centroid<sp/>=<sp/>ground.mbr.center();</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>ground.z_min<sp/><sp/><sp/><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>ground.z_max<sp/><sp/><sp/><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;zrange_test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ground&quot;</highlight><highlight class="normal">,<sp/>ground);</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>GeoSidecar<sp/>sky;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>sky.mbr<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>MBR(12.0,<sp/>52.0,<sp/>13.0,<sp/>53.0);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>sky.centroid<sp/>=<sp/>sky.mbr.center();</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>sky.z_min<sp/><sp/><sp/><sp/>=<sp/>1000.0;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>sky.z_max<sp/><sp/><sp/><sp/>=<sp/>2000.0;</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>spatial_mgr_-&gt;insert(</highlight><highlight class="stringliteral">&quot;zrange_test&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sky&quot;</highlight><highlight class="normal">,<sp/>sky);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>Z<sp/>[0,<sp/>200]:<sp/>should<sp/>match<sp/>&quot;ground&quot;<sp/>only.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchZRange(</highlight><highlight class="stringliteral">&quot;zrange_test&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/>200.0);</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hasPK<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SpatialResult&gt;&amp;<sp/>v,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>pk)<sp/>{</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::any_of(v.begin(),<sp/>v.end(),</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[pk](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SpatialResult&amp;<sp/>r){<sp/>return<sp/>r.primary_key<sp/>==<sp/>pk;<sp/>});</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasPK(results,<sp/></highlight><highlight class="stringliteral">&quot;ground&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasPK(results,<sp/></highlight><highlight class="stringliteral">&quot;sky&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>Z<sp/>[900,<sp/>1500]:<sp/>should<sp/>match<sp/>&quot;sky&quot;<sp/>only.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchZRange(</highlight><highlight class="stringliteral">&quot;zrange_test&quot;</highlight><highlight class="normal">,<sp/>900.0,<sp/>1500.0);</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(hasPK(results,<sp/></highlight><highlight class="stringliteral">&quot;ground&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(hasPK(results,<sp/></highlight><highlight class="stringliteral">&quot;sky&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="464"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><ref refid="test__spatial__index_8cpp_1a4a1f7b08aca256aad4e4a6c3c47614d6" kindref="member">TEST_F</ref>(<ref refid="class_spatial_index_test" kindref="compound">SpatialIndexTest</ref>,<sp/>SearchZRange_NoIndexReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>spatial_mgr_-&gt;searchZRange(</highlight><highlight class="stringliteral">&quot;nonexistent_table&quot;</highlight><highlight class="normal">,<sp/>0.0,<sp/>100.0);</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="469"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/></highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_spatial_index.cpp"/>
+  </compounddef>
+</doxygen>

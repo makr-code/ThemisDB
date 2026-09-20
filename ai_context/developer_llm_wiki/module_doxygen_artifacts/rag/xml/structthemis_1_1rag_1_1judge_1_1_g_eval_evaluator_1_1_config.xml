@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::GEvalEvaluator::Config</compoundname>
+    <includes refid="geval__evaluator_8h" local="no">geval_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1abddce6fd68045f5c1fa3a299a2e080c7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::GEvalEvaluator::Config::num_samples</definition>
+        <argsstring></argsstring>
+        <name>num_samples</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::Config::num_samples</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Number of evaluations for robustness. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="60" column="13" bodyfile="include/rag/geval_evaluator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1a7f90040625bc225981da194cd0f3717f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920b" kindref="member">AggregationMethod</ref></type>
+        <definition>AggregationMethod themis::rag::judge::GEvalEvaluator::Config::aggregation</definition>
+        <argsstring></argsstring>
+        <name>aggregation</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::Config::aggregation</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba4ea6d1161ea24d7599365f574aff6610" kindref="member">AggregationMethod::MEAN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="61" column="27" bodyfile="include/rag/geval_evaluator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1afaa3e60b6ea9e6ade7e1d4782fadee8f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GEvalEvaluator::Config::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::Config::temperature</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Sampling temperature. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="62" column="16" bodyfile="include/rag/geval_evaluator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1aa6e17d1afa21e180ec021f8cb23a7247" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::GEvalEvaluator::Config::extract_reasoning</definition>
+        <argsstring></argsstring>
+        <name>extract_reasoning</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::Config::extract_reasoning</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Extract reasoning before score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="63" column="14" bodyfile="include/rag/geval_evaluator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1a5cf291c5731796d59678556ae48bc081" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::GEvalEvaluator::Config::confidence_threshold</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold</name>
+        <qualifiedname>themis::rag::judge::GEvalEvaluator::Config::confidence_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>Minimum confidence for valid score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="64" column="16" bodyfile="include/rag/geval_evaluator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for G-Eval. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/geval_evaluator.h" line="59" column="5" bodyfile="include/rag/geval_evaluator.h" bodystart="59" bodyend="65"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1a7f90040625bc225981da194cd0f3717f" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator::Config</scope><name>aggregation</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1a5cf291c5731796d59678556ae48bc081" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator::Config</scope><name>confidence_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1aa6e17d1afa21e180ec021f8cb23a7247" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator::Config</scope><name>extract_reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1abddce6fd68045f5c1fa3a299a2e080c7" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator::Config</scope><name>num_samples</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config_1afaa3e60b6ea9e6ade7e1d4782fadee8f" prot="public" virt="non-virtual"><scope>themis::rag::judge::GEvalEvaluator::Config</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

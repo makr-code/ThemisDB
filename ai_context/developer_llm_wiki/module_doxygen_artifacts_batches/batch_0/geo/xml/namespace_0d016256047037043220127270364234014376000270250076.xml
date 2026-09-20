@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d016256047037043220127270364234014376000270250076" kind="namespace" language="C++">
+    <compoundname>@016256047037043220127270364234014376000270250076</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/geo/test_geo_gpu_backend.cpp" line="55" column="1"/>
+  </compounddef>
+</doxygen>

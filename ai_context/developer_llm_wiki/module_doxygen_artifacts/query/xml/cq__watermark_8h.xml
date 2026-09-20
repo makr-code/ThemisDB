@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cq__watermark_8h" kind="file" language="C++">
+    <compoundname>cq_watermark.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__continuous__query_8cpp" local="yes">benchmarks/query/bench_continuous_query.cpp</includedby>
+    <includedby refid="continuous__query__engine__impl_8h" local="yes">include/query/continuous_query_engine_impl.h</includedby>
+    <includedby refid="continuous__query__planner_8h" local="yes">include/query/continuous_query_planner.h</includedby>
+    <includedby refid="cq__watermark_8cpp" local="yes">src/query/cq_watermark.cpp</includedby>
+    <includedby refid="test__continuous__query__engine_8cpp" local="yes">tests/query/test_continuous_query_engine.cpp</includedby>
+    <includedby refid="test__query__safety__fixes_8cpp" local="yes">tests/query/test_query_safety_fixes.cpp</includedby>
+    <includedby refid="test__wave1__critical__gap__fixes_8cpp" local="yes">tests/query/test_wave1_critical_gap_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/cq_watermark.h</label>
+        <link refid="cq__watermark_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/query/bench_continuous_query.cpp</label>
+        <link refid="bench__continuous__query_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/query/continuous_query_engine_impl.h</label>
+        <link refid="continuous__query__engine__impl_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/query/continuous_query_planner.h</label>
+        <link refid="continuous__query__planner_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/cq_watermark.h</label>
+        <link refid="cq__watermark_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/query/continuous_query_engine.cpp</label>
+        <link refid="continuous__query__engine_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/query/continuous_query_planner.cpp</label>
+        <link refid="continuous__query__planner_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/query/cq_watermark.cpp</label>
+        <link refid="cq__watermark_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/query/test_continuous_query_engine.cpp</label>
+        <link refid="test__continuous__query__engine_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/query/test_query_safety_fixes.cpp</label>
+        <link refid="test__query__safety__fixes_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/query/test_wave1_critical_gap_fixes.cpp</label>
+        <link refid="test__wave1__critical__gap__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1_c_q_watermark" prot="public">themis::query::CQWatermark</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1query_1_1_c_q_watermark" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_c_q_watermark_1ae3179e021960d86ad72dc37cde9704f8" kindref="member">CQWatermark</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark_1ae3179e021960d86ad72dc37cde9704f8" kindref="member">CQWatermark</ref>(int64_t<sp/>allowed_lateness_ms<sp/>=<sp/>500)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark_1a74216d327f82c8a49a394f0dca3ab1a6" kindref="member">observe</ref>(int64_t<sp/>event_ts_us)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark_1a1e68f56736feb74027ad1f1da9daf103" kindref="member">advance</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>int64_t<sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark_1a824c50aa18e04bebe2194b74ee42a592" kindref="member">watermarkUs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>int64_t<sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark_1abba8562d54ab652f9550055eead95c2a" kindref="member">maxSeenUs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark_1ab7579355b7d354b073f7477756301572" kindref="member">lateProcessed</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint64_t<sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark_1a9535a877177b55f4063b712b211b097e" kindref="member">lateDropped</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1_c_q_watermark_1afd783ee43d68dbbf01978fcad8c28bce" kindref="member">reset</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>allowed_lateness_us_{0};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>max_seen_us_{0};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>watermark_us_{0};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>late_processed_{0};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>late_dropped_{0};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/cq_watermark.h"/>
+  </compounddef>
+</doxygen>

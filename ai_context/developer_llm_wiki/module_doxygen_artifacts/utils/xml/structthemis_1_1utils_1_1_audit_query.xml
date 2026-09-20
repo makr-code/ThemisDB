@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_audit_query" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::AuditQuery</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_query_1ac7ef4e5edc291a2fda598917f50ded87" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref> &gt;</type>
+        <definition>std::optional&lt;EntryId&gt; themis::utils::AuditQuery::fromEntry</definition>
+        <argsstring></argsstring>
+        <name>fromEntry</name>
+        <qualifiedname>themis::utils::AuditQuery::fromEntry</qualifiedname>
+        <briefdescription>
+<para>Start of range (inclusive); nullopt = start. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="168" column="19" bodyfile="include/utils/utils_interfaces.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_query_1a2d2e096d433f0aa3806c34b516cb4063" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1utils_1ac6d4f43c9fd9aa70c76f4f17cbb89433" kindref="member">EntryId</ref> &gt;</type>
+        <definition>std::optional&lt;EntryId&gt; themis::utils::AuditQuery::toEntry</definition>
+        <argsstring></argsstring>
+        <name>toEntry</name>
+        <qualifiedname>themis::utils::AuditQuery::toEntry</qualifiedname>
+        <briefdescription>
+<para>End of range (inclusive); nullopt = end. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="169" column="19" bodyfile="include/utils/utils_interfaces.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_query_1a602b09c8a17764a34824a2492d3f4924" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::utils::AuditQuery::eventTypeFilter</definition>
+        <argsstring></argsstring>
+        <name>eventTypeFilter</name>
+        <qualifiedname>themis::utils::AuditQuery::eventTypeFilter</qualifiedname>
+        <briefdescription>
+<para>Optional event-type prefix filter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="170" column="19" bodyfile="include/utils/utils_interfaces.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_audit_query_1a64b084fb46d5f03625b92b3c89cff638" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditQuery::pageSize</definition>
+        <argsstring></argsstring>
+        <name>pageSize</name>
+        <qualifiedname>themis::utils::AuditQuery::pageSize</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Maximum entries per page. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="171" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query parameters for <ref refid="classthemis_1_1utils_1_1_i_hash_chain_audit_log_1a8835ddb9d91ddfc6e7f23eecae8920d0" kindref="member">IHashChainAuditLog::query()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="167" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="167" bodyend="172"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_audit_query_1a602b09c8a17764a34824a2492d3f4924" prot="public" virt="non-virtual"><scope>themis::utils::AuditQuery</scope><name>eventTypeFilter</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_query_1ac7ef4e5edc291a2fda598917f50ded87" prot="public" virt="non-virtual"><scope>themis::utils::AuditQuery</scope><name>fromEntry</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_query_1a64b084fb46d5f03625b92b3c89cff638" prot="public" virt="non-virtual"><scope>themis::utils::AuditQuery</scope><name>pageSize</name></member>
+      <member refid="structthemis_1_1utils_1_1_audit_query_1a2d2e096d433f0aa3806c34b516cb4063" prot="public" virt="non-virtual"><scope>themis::utils::AuditQuery</scope><name>toEntry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

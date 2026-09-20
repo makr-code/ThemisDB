@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSQueryOptimizer::QueryPlan</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a34cc36a0adfb9f6d625d4b0b5227e735" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TSQueryOptimizer::QueryPlan::uses_aggregate</definition>
+        <argsstring></argsstring>
+        <name>uses_aggregate</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::uses_aggregate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="119" column="14" bodyfile="include/timeseries/query_optimizer.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1aff4b5d140ef6321270a5533f8cddd17a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TSQueryOptimizer::QueryPlan::source_metric</definition>
+        <argsstring></argsstring>
+        <name>source_metric</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::source_metric</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="120" column="21" bodyfile="include/timeseries/query_optimizer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ab8932a9c5617c7ba92e2ea4f44e79000" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSQueryOptimizer::QueryPlan::from_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>from_timestamp_ms</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::from_timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="121" column="17" bodyfile="include/timeseries/query_optimizer.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1aa13b72c9ca0278f9def075a704c89841" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSQueryOptimizer::QueryPlan::to_timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>to_timestamp_ms</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::to_timestamp_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="122" column="17" bodyfile="include/timeseries/query_optimizer.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a3b604a1d24225c5682fd419cc8146c1d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSQueryOptimizer::QueryPlan::estimated_points</definition>
+        <argsstring></argsstring>
+        <name>estimated_points</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::estimated_points</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="123" column="16" bodyfile="include/timeseries/query_optimizer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a8fc128d396784c24feea145cec02cdb1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::TSQueryOptimizer::QueryPlan::estimated_speedup</definition>
+        <argsstring></argsstring>
+        <name>estimated_speedup</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::estimated_speedup</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="124" column="16" bodyfile="include/timeseries/query_optimizer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a1488972422c6a7c80a6f2f3512adaa3c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TSQueryOptimizer::QueryPlan::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="125" column="21" bodyfile="include/timeseries/query_optimizer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ad0b0909744a14a3fab6ff0a27ab7397e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter" kindref="compound">PredicateFilter</ref> &gt;</type>
+        <definition>std::vector&lt;PredicateFilter&gt; themis::TSQueryOptimizer::QueryPlan::active_predicates</definition>
+        <argsstring></argsstring>
+        <name>active_predicates</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::active_predicates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Predicates included in this plan </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="126" column="21" bodyfile="include/timeseries/query_optimizer.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ae4a70ab7672d4bebb936089d52f415f9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05" kindref="member">OptimizationHint::DecodeWidth</ref></type>
+        <definition>OptimizationHint::DecodeWidth themis::TSQueryOptimizer::QueryPlan::decode_width</definition>
+        <argsstring></argsstring>
+        <name>decode_width</name>
+        <qualifiedname>themis::TSQueryOptimizer::QueryPlan::decode_width</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint_1aaba3e5fd27ac76702fe5a0daa31d0d05a06b9281e396db002010bde1de57262eb" kindref="member">OptimizationHint::DecodeWidth::Auto</ref></initializer>
+        <briefdescription>
+<para>Decode-width resolved from the hint, propagated to the SIMD decoder. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="128" column="39" bodyfile="include/timeseries/query_optimizer.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/query_optimizer.h" line="118" column="5" bodyfile="include/timeseries/query_optimizer.h" bodystart="118" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ad0b0909744a14a3fab6ff0a27ab7397e" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>active_predicates</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ae4a70ab7672d4bebb936089d52f415f9" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>decode_width</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a3b604a1d24225c5682fd419cc8146c1d" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>estimated_points</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a8fc128d396784c24feea145cec02cdb1" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>estimated_speedup</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a1488972422c6a7c80a6f2f3512adaa3c" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1ab8932a9c5617c7ba92e2ea4f44e79000" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>from_timestamp_ms</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1aff4b5d140ef6321270a5533f8cddd17a" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>source_metric</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1aa13b72c9ca0278f9def075a704c89841" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>to_timestamp_ms</name></member>
+      <member refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan_1a34cc36a0adfb9f6d625d4b0b5227e735" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer::QueryPlan</scope><name>uses_aggregate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

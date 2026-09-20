@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_scoped_e_v_p_context" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ScopedEVPContext</compoundname>
+    <includes refid="raii__wrappers_8h" local="no">raii_wrappers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ad2bb3d40c536507eb9f864dcf50e351c" prot="private" static="no" mutable="no">
+        <type><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref> *</type>
+        <definition>EVP_MD_CTX* themis::llm::ScopedEVPContext::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::ctx_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="331" column="16" bodyfile="include/llm/raii_wrappers.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPContext::ScopedEVPContext</definition>
+        <argsstring>(EVP_MD_CTX *ctx=nullptr) noexcept</argsstring>
+        <name>ScopedEVPContext</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::ScopedEVPContext</qualifiedname>
+        <param>
+          <type><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref> *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct from EVP_MD_CTX* (takes ownership). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="286" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="286" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1adb43a21b6544418a6985169fca1c8c1c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPContext::~ScopedEVPContext</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedEVPContext</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::~ScopedEVPContext</qualifiedname>
+        <briefdescription>
+<para>Destructor: frees <ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref> if not null. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="289" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="289" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1af993a6e956cf72011f79b6dd34ce3fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPContext::ScopedEVPContext</definition>
+        <argsstring>(const ScopedEVPContext &amp;)=delete</argsstring>
+        <name>ScopedEVPContext</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::ScopedEVPContext</qualifiedname>
+        <param>
+          <type>const ScopedEVPContext &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="297" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a2504c15059129900a91c6a2cfc86cb32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref> &amp;</type>
+        <definition>ScopedEVPContext &amp; themis::llm::ScopedEVPContext::operator=</definition>
+        <argsstring>(const ScopedEVPContext &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="298" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ad19015daf6a0986f78891c7d4b6b9deb" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPContext::ScopedEVPContext</definition>
+        <argsstring>(ScopedEVPContext &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedEVPContext</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::ScopedEVPContext</qualifiedname>
+        <param>
+          <type>ScopedEVPContext &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="301" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="301" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1afa930fb084f2d317d853c824fd67c31c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref> &amp;</type>
+        <definition>ScopedEVPContext &amp; themis::llm::ScopedEVPContext::operator=</definition>
+        <argsstring>(ScopedEVPContext &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="304" column="22" bodyfile="include/llm/raii_wrappers.h" bodystart="304" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ac7e295f722f89d5f1d6d9be4b8efb282" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref> *</type>
+        <definition>EVP_MD_CTX * themis::llm::ScopedEVPContext::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::get</qualifiedname>
+        <briefdescription>
+<para>Get the underlying EVP_MD_CTX*. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="310" column="16" bodyfile="include/llm/raii_wrappers.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a3337c0130628fe8547c2d93a564f9931" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedEVPContext::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::operator bool</qualifiedname>
+        <briefdescription>
+<para>Explicit conversion to bool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="313" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a6a1acf2a375480fb10cb915a563f7c58" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref> *</type>
+        <definition>EVP_MD_CTX * themis::llm::ScopedEVPContext::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::release</qualifiedname>
+        <briefdescription>
+<para>Release ownership without freeing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="316" column="16" bodyfile="include/llm/raii_wrappers.h" bodystart="316" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a5b98e2f86f797e9b39bb4a3f8fcda6e1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ScopedEVPContext::reset</definition>
+        <argsstring>(EVP_MD_CTX *ctx=nullptr) noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::ScopedEVPContext::reset</qualifiedname>
+        <param>
+          <type><ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref> *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Free and reset to nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="323" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="323" bodyend="328"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for OpenSSL <ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically frees the <ref refid="raii__wrappers_8h_1a11ccc869c9ea1749e6fe88f44826b56a" kindref="member">EVP_MD_CTX</ref> on destruction via EVP_MD_CTX_free. Supports move semantics.</para>
+<para>Exception-safe: destructor is noexcept.</para>
+<para>Example: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" kindref="member">ScopedEVPContext</ref><sp/>ctx(EVP_MD_CTX_new());</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Failed<sp/>to<sp/>create<sp/>context&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>EVP_DigestSignInit(ctx.get(),<sp/>...);</highlight></codeline>
+<codeline><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>EVP_MD_CTX_free()<sp/>automatically<sp/>called<sp/>here</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/llm/raii_wrappers.h" line="283" column="1" bodyfile="include/llm/raii_wrappers.h" bodystart="283" bodyend="332"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ad2bb3d40c536507eb9f864dcf50e351c" prot="private" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ac7e295f722f89d5f1d6d9be4b8efb282" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a3337c0130628fe8547c2d93a564f9931" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a2504c15059129900a91c6a2cfc86cb32" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1afa930fb084f2d317d853c824fd67c31c" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a6a1acf2a375480fb10cb915a563f7c58" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a5b98e2f86f797e9b39bb4a3f8fcda6e1" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1a86acd32ace5fa30854bb35c17f2e8d34" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>ScopedEVPContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1af993a6e956cf72011f79b6dd34ce3fc0" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>ScopedEVPContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1ad19015daf6a0986f78891c7d4b6b9deb" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>ScopedEVPContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_e_v_p_context_1adb43a21b6544418a6985169fca1c8c1c" prot="public" virt="non-virtual"><scope>themis::llm::ScopedEVPContext</scope><name>~ScopedEVPContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

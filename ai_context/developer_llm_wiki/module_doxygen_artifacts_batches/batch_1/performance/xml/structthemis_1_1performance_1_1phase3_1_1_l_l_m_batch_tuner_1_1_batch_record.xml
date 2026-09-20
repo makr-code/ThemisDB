@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::LLMBatchTuner::BatchRecord</compoundname>
+    <includes refid="adaptive__batch__tuner_8h" local="no">adaptive_batch_tuner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1ad02850202e1cb79aaf5e4bdf2cfa33c1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::LLMBatchTuner::BatchRecord::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::BatchRecord::batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of sequences in the batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="109" column="18" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a1c457ead002a06a88ba30e0f381c8ce9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::LLMBatchTuner::BatchRecord::total_tokens</definition>
+        <argsstring></argsstring>
+        <name>total_tokens</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::BatchRecord::total_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total tokens processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="110" column="18" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a6abbf0f2b0c7f80be5797c09697b64c1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::phase3::LLMBatchTuner::BatchRecord::cycles</definition>
+        <argsstring></argsstring>
+        <name>cycles</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::BatchRecord::cycles</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>CPU cycles elapsed (RDTSCP). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="111" column="18" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a130c18f370feb951ce8900bed5cf29e6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::LLMBatchTuner::BatchRecord::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::BatchRecord::latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock duration (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="112" column="18" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a67fef54ac49d018be469a984704bfb02" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::LLMBatchTuner::BatchRecord::tokens_per_s</definition>
+        <argsstring></argsstring>
+        <name>tokens_per_s</name>
+        <qualifiedname>themis::performance::phase3::LLMBatchTuner::BatchRecord::tokens_per_s</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Derived throughput. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/adaptive_batch_tuner.h" line="113" column="18" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/adaptive_batch_tuner.h" line="108" column="5" bodyfile="include/performance/phase3/adaptive_batch_tuner.h" bodystart="108" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1ad02850202e1cb79aaf5e4bdf2cfa33c1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::BatchRecord</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a6abbf0f2b0c7f80be5797c09697b64c1" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::BatchRecord</scope><name>cycles</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a130c18f370feb951ce8900bed5cf29e6" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::BatchRecord</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a67fef54ac49d018be469a984704bfb02" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::BatchRecord</scope><name>tokens_per_s</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_l_l_m_batch_tuner_1_1_batch_record_1a1c457ead002a06a88ba30e0f381c8ce9" prot="public" virt="non-virtual"><scope>themis::performance::phase3::LLMBatchTuner::BatchRecord</scope><name>total_tokens</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,632 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__stream__sse_8cpp" kind="file" language="C++">
+    <compoundname>test_query_stream_sse.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">boost/asio.hpp</includes>
+    <includes local="no">boost/beast.hpp</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">sstream</includes>
+    <includes local="yes">server/http_server.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes local="yes">transaction/transaction_manager.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/query/test_query_stream_sse.cpp</label>
+        <link refid="test__query__stream__sse_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="5">
+        <label>boost/beast.hpp</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="12">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="14">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>server/http_server.h</label>
+      </node>
+      <node id="9">
+        <label>sstream</label>
+      </node>
+      <node id="11">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>transaction/transaction_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_query_stream_sse_test" prot="public">QueryStreamSseTest</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="test__query__stream__sse_8cpp_1a60a92ea513bd2f25705cdd673983c5a8" prot="public" static="no">
+        <type>net::ip::tcp</type>
+        <definition>using tcp = net::ip::tcp</definition>
+        <argsstring></argsstring>
+        <name>tcp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_stream_sse.cpp" line="35" column="1" bodyfile="tests/query/test_query_stream_sse.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__stream__sse_8cpp_1a62570f03250861a8d43741e1167cc29e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryStreamSseTest, MissingQueryParam_Returns400)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref></type>
+        </param>
+        <param>
+          <type>MissingQueryParam_Returns400</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_stream_sse.cpp" line="178" column="1" bodyfile="tests/query/test_query_stream_sse.cpp" bodystart="178" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__stream__sse_8cpp_1af4fba84405650963d529be6b759b9467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryStreamSseTest, ValidQuery_ContentTypeIsEventStream)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref></type>
+        </param>
+        <param>
+          <type>ValidQuery_ContentTypeIsEventStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_stream_sse.cpp" line="183" column="1" bodyfile="tests/query/test_query_stream_sse.cpp" bodystart="183" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__stream__sse_8cpp_1ad5e2df7a94abe1e38c4885c69580b555" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryStreamSseTest, ValidQuery_ContainsRetryDirective)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref></type>
+        </param>
+        <param>
+          <type>ValidQuery_ContainsRetryDirective</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_stream_sse.cpp" line="192" column="1" bodyfile="tests/query/test_query_stream_sse.cpp" bodystart="192" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__stream__sse_8cpp_1acbb0656eeb87fc854ecf23d3573b0bc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryStreamSseTest, ValidQuery_EmitsTerminalDoneEvent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref></type>
+        </param>
+        <param>
+          <type>ValidQuery_EmitsTerminalDoneEvent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_stream_sse.cpp" line="198" column="1" bodyfile="tests/query/test_query_stream_sse.cpp" bodystart="198" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__stream__sse_8cpp_1aad778909abe9d0b469c3cf7053d894f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryStreamSseTest, EmptyResult_EmitsHeartbeatComment)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyResult_EmitsHeartbeatComment</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_stream_sse.cpp" line="208" column="1" bodyfile="tests/query/test_query_stream_sse.cpp" bodystart="208" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__stream__sse_8cpp_1a1d121ffbbed6f248f594e4a4b4d02fcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryStreamSseTest, WithEntities_StreamsIndividualRows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref></type>
+        </param>
+        <param>
+          <type>WithEntities_StreamsIndividualRows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_stream_sse.cpp" line="214" column="1" bodyfile="tests/query/test_query_stream_sse.cpp" bodystart="214" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__stream__sse_8cpp_1ad6eb33df2ea62323cd3c14f5a1897192" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryStreamSseTest, DoneEvent_ContainsRowsStreamed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref></type>
+        </param>
+        <param>
+          <type>DoneEvent_ContainsRowsStreamed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_stream_sse.cpp" line="245" column="1" bodyfile="tests/query/test_query_stream_sse.cpp" bodystart="245" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for GET /v2/query/stream — AQL query result SSE streaming endpoint. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers:<itemizedlist>
+<listitem><para>Missing query parameter returns 400</para>
+</listitem><listitem><para>SSE Content-Type header</para>
+</listitem><listitem><para>SSE retry directive is present</para>
+</listitem><listitem><para>Rows streamed as individual SSE data events</para>
+</listitem><listitem><para>Terminal &quot;done&quot; event is emitted</para>
+</listitem><listitem><para>Heartbeat comment emitted when no rows are produced</para>
+</listitem><listitem><para>WebSocket /v2/changes path propagation (unit-level) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/beast.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/http_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/transaction_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">beast<sp/>=<sp/>boost::beast;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/><sp/>=<sp/>beast::http;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">net<sp/><sp/><sp/>=<sp/>boost::asio;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="test__query__stream__sse_8cpp_1a60a92ea513bd2f25705cdd673983c5a8" kindref="member">tcp</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>net::ip::tcp;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="class_query_stream_sse_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint16_t<sp/><ref refid="class_query_stream_sse_test_1a7a9a221ab4edb416c13982b493570698" kindref="member">kPort</ref><sp/>=<sp/>18095;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="class_query_stream_sse_test_1a24f86fb8effc9f1b5ba99315d150bb94" kindref="member">kDbPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/themis_query_stream_sse_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_query_stream_sse_test_1af3438b4288f4c61453c10c15cca9e04f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(<ref refid="class_query_stream_sse_test_1a24f86fb8effc9f1b5ba99315d150bb94" kindref="member">kDbPath</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_query_stream_sse_test_1a24f86fb8effc9f1b5ba99315d150bb94" kindref="member">kDbPath</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/><ref refid="class_query_stream_sse_test_1a24f86fb8effc9f1b5ba99315d150bb94" kindref="member">kDbPath</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref><sp/>=<sp/>std::make_shared&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1ab09db8e1f624f33c485a80c84baa8929" kindref="member">secondary_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::SecondaryIndexManager&gt;(*<ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1ae59ffd25fbfc420ad839a1adc70ac25f" kindref="member">graph_index_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;themis::GraphIndexManager&gt;(*<ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1a876686d3a132a327da9d6fa622351cc5" kindref="member">vector_index_</ref><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;themis::VectorIndexManager&gt;(*<ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1a32c3f98c8f1f627d58761c2b79ec7e55" kindref="member">tx_manager_</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;themis::TransactionManager&gt;(</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>,<sp/>*<ref refid="class_query_stream_sse_test_1ab09db8e1f624f33c485a80c84baa8929" kindref="member">secondary_index_</ref>,<sp/>*<ref refid="class_query_stream_sse_test_1ae59ffd25fbfc420ad839a1adc70ac25f" kindref="member">graph_index_</ref>,<sp/>*<ref refid="class_query_stream_sse_test_1a876686d3a132a327da9d6fa622351cc5" kindref="member">vector_index_</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::server::HttpServer::Config<sp/>scfg;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.host<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.port<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="class_query_stream_sse_test_1a7a9a221ab4edb416c13982b493570698" kindref="member">kPort</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg.num_threads<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1ab12a80094eb286c1640f0a34aa5426c7" kindref="member">server_</ref><sp/>=<sp/>std::make_unique&lt;themis::server::HttpServer&gt;(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>scfg,<sp/><ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>,<sp/><ref refid="class_query_stream_sse_test_1ab09db8e1f624f33c485a80c84baa8929" kindref="member">secondary_index_</ref>,<sp/><ref refid="class_query_stream_sse_test_1ae59ffd25fbfc420ad839a1adc70ac25f" kindref="member">graph_index_</ref>,<sp/><ref refid="class_query_stream_sse_test_1a876686d3a132a327da9d6fa622351cc5" kindref="member">vector_index_</ref>,<sp/><ref refid="class_query_stream_sse_test_1a32c3f98c8f1f627d58761c2b79ec7e55" kindref="member">tx_manager_</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1ab12a80094eb286c1640f0a34aa5426c7" kindref="member">server_</ref>-&gt;start();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_query_stream_sse_test_1afa7366c121125cd78e63d80c2802d885" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_query_stream_sse_test_1ab12a80094eb286c1640f0a34aa5426c7" kindref="member">server_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1ab12a80094eb286c1640f0a34aa5426c7" kindref="member">server_</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(<ref refid="class_query_stream_sse_test_1a24f86fb8effc9f1b5ba99315d150bb94" kindref="member">kDbPath</ref>);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="class_query_stream_sse_test_1a02d9bf01c96c38cd18d71da0fb26dff8" kindref="member">httpGetResponse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>net::io_context<sp/>ioc;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::resolver<sp/>resolver(ioc);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::tcp_stream<sp/>stream(ioc);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>resolver.resolve(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/>std::to_string(<ref refid="class_query_stream_sse_test_1a7a9a221ab4edb416c13982b493570698" kindref="member">kPort</ref>));</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.connect(results);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{http::verb::get,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::write(stream,<sp/>req);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::flat_buffer<sp/>buf;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::read(stream,<sp/>buf,<sp/>res);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::error_code<sp/>ec;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.socket().shutdown(tcp::socket::shutdown_both,<sp/>ec);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/><ref refid="class_query_stream_sse_test_1abbe8c57d99024669d2819af49f09fb9a" kindref="member">httpPost</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>json&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>net::io_context<sp/>ioc;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tcp::resolver<sp/>resolver(ioc);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::tcp_stream<sp/>stream(ioc);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>resolver.resolve(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/>std::to_string(<ref refid="class_query_stream_sse_test_1a7a9a221ab4edb416c13982b493570698" kindref="member">kPort</ref>));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.connect(results);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{http::verb::post,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::content_type,<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.body()<sp/>=<sp/>body.dump();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.prepare_payload();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::write(stream,<sp/>req);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::flat_buffer<sp/>buf;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>res;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::read(stream,<sp/>buf,<sp/>res);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::error_code<sp/>ec;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.socket().shutdown(tcp::socket::shutdown_both,<sp/>ec);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>&quot;data:<sp/>...&quot;<sp/>lines<sp/>from<sp/>an<sp/>SSE<sp/>body</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;json&gt;<sp/><ref refid="class_query_stream_sse_test_1a68f90e14ec6d05f1efd453967e2d1e41" kindref="member">parseSseDataEvents</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;json&gt;<sp/>events;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::istringstream<sp/>iss(body);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(iss,<sp/>line))<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!line.empty()<sp/>&amp;&amp;<sp/>line.rfind(</highlight><highlight class="stringliteral">&quot;data:<sp/>&quot;</highlight><highlight class="normal">,<sp/>0)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>events.push_back(json::parse(line.substr(6)));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>events;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>&quot;event:<sp/>&lt;name&gt;&quot;<sp/>lines</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_query_stream_sse_test_1ac72dd76037265ab2cafdd5e6c1d9fd11" kindref="member">parseSseEventNames</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>names;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::istringstream<sp/>iss(body);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::getline(iss,<sp/>line))<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!line.empty()<sp/>&amp;&amp;<sp/>line.rfind(</highlight><highlight class="stringliteral">&quot;event:<sp/>&quot;</highlight><highlight class="normal">,<sp/>0)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>names.push_back(line.substr(7));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>trim<sp/>CR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!names.back().empty()<sp/>&amp;&amp;<sp/>names.back().back()<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\r&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>names.back().pop_back();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>names;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::RocksDBWrapper&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1aee11d03cb817757780cfddbbdf6c37d8" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::SecondaryIndexManager&gt;<sp/><ref refid="class_query_stream_sse_test_1ab09db8e1f624f33c485a80c84baa8929" kindref="member">secondary_index_</ref>;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::GraphIndexManager&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1ae59ffd25fbfc420ad839a1adc70ac25f" kindref="member">graph_index_</ref>;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1a876686d3a132a327da9d6fa622351cc5" kindref="member">vector_index_</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::TransactionManager&gt;<sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1a32c3f98c8f1f627d58761c2b79ec7e55" kindref="member">tx_manager_</ref>;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::server::HttpServer&gt;<sp/><sp/><sp/><sp/><ref refid="class_query_stream_sse_test_1ab12a80094eb286c1640f0a34aa5426c7" kindref="member">server_</ref>;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__query__stream__sse_8cpp_1a62570f03250861a8d43741e1167cc29e" kindref="member">TEST_F</ref>(<ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref>,<sp/>MissingQueryParam_Returns400)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>httpGetResponse(</highlight><highlight class="stringliteral">&quot;/v2/query/stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(res.result()),<sp/>400);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__query__stream__sse_8cpp_1a62570f03250861a8d43741e1167cc29e" kindref="member">TEST_F</ref>(<ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref>,<sp/>ValidQuery_ContentTypeIsEventStream)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encode<sp/>a<sp/>trivial<sp/>AQL<sp/>that<sp/>returns<sp/>no<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>httpGetResponse(</highlight><highlight class="stringliteral">&quot;/v2/query/stream?q=FOR+x+IN+nonexistent+RETURN+x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content-Type<sp/>must<sp/>be<sp/>text/event-stream<sp/>regardless<sp/>of<sp/>whether<sp/>rows<sp/>exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>ct<sp/>=<sp/>std::string(res[http::field::content_type]);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ct.find(</highlight><highlight class="stringliteral">&quot;text/event-stream&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>text/event-stream,<sp/>got:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ct;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__query__stream__sse_8cpp_1a62570f03250861a8d43741e1167cc29e" kindref="member">TEST_F</ref>(<ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref>,<sp/>ValidQuery_ContainsRetryDirective)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>httpGetResponse(</highlight><highlight class="stringliteral">&quot;/v2/query/stream?q=FOR+x+IN+nonexistent+RETURN+x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SSE<sp/>body<sp/>must<sp/>start<sp/>with<sp/>&quot;retry:<sp/>&lt;ms&gt;&quot;<sp/>directive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(res.body().find(</highlight><highlight class="stringliteral">&quot;retry:<sp/>&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__query__stream__sse_8cpp_1a62570f03250861a8d43741e1167cc29e" kindref="member">TEST_F</ref>(<ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref>,<sp/>ValidQuery_EmitsTerminalDoneEvent)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>httpGetResponse(</highlight><highlight class="stringliteral">&quot;/v2/query/stream?q=FOR+x+IN+nonexistent+RETURN+x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>names<sp/>=<sp/>parseSseEventNames(res.body());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_done<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>names)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;done&quot;</highlight><highlight class="normal">)<sp/>{<sp/>has_done<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_done)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;event:<sp/>done&apos;<sp/>in<sp/>SSE<sp/>body:\n&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__query__stream__sse_8cpp_1a62570f03250861a8d43741e1167cc29e" kindref="member">TEST_F</ref>(<ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref>,<sp/>EmptyResult_EmitsHeartbeatComment)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>httpGetResponse(</highlight><highlight class="stringliteral">&quot;/v2/query/stream?q=FOR+x+IN+nonexistent+RETURN+x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(res.body().find(</highlight><highlight class="stringliteral">&quot;:<sp/>heartbeat&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>heartbeat<sp/>comment<sp/>in<sp/>SSE<sp/>body:\n&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__query__stream__sse_8cpp_1a62570f03250861a8d43741e1167cc29e" kindref="member">TEST_F</ref>(<ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref>,<sp/>WithEntities_StreamsIndividualRows)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>some<sp/>entities<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)httpPost(</highlight><highlight class="stringliteral">&quot;/entities&quot;</highlight><highlight class="normal">,<sp/>json{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stream:1&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;blob&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;val&quot;:1})&quot;}});</highlight></codeline>
+<codeline lineno="217"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(void)httpPost(</highlight><highlight class="stringliteral">&quot;/entities&quot;</highlight><highlight class="normal">,<sp/>json{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stream:2&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;blob&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;val&quot;:2})&quot;}});</highlight></codeline>
+<codeline lineno="218"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>(void)httpPost(</highlight><highlight class="stringliteral">&quot;/entities&quot;</highlight><highlight class="normal">,<sp/>json{{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;stream:3&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;blob&quot;</highlight><highlight class="normal">,<sp/>R</highlight><highlight class="stringliteral">&quot;({&quot;val&quot;:3})&quot;}});</highlight></codeline>
+<codeline lineno="219"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="220"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AQL<sp/>query<sp/>over<sp/>the<sp/>&apos;stream&apos;<sp/>prefix<sp/>—<sp/>adapt<sp/>to<sp/>actual<sp/>storage<sp/>table<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Using<sp/>the<sp/>generic<sp/>entity<sp/>scan<sp/>which<sp/>works<sp/>with<sp/>the<sp/>test<sp/>storage<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>httpGetResponse(</highlight><highlight class="stringliteral">&quot;/v2/query/stream?q=FOR+x+IN+entities+RETURN+x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>text/event-stream</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(std::string(res[http::field::content_type]).find(</highlight><highlight class="stringliteral">&quot;text/event-stream&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>have<sp/>a<sp/>&quot;done&quot;<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>names<sp/>=<sp/>parseSseEventNames(res.body());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_done<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>n<sp/>:<sp/>names)<sp/>{<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;done&quot;</highlight><highlight class="normal">)<sp/>{<sp/>has_done<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}<sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_done);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>&quot;done&quot;<sp/>event<sp/>data<sp/>should<sp/>contain<sp/>rows_streamed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>parseSseDataEvents(res.body());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Find<sp/>the<sp/>done-event<sp/>data<sp/>(last<sp/>event<sp/>in<sp/>most<sp/>cases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>events)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.contains(</highlight><highlight class="stringliteral">&quot;rows_streamed&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(ev[</highlight><highlight class="stringliteral">&quot;rows_streamed&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><ref refid="test__query__stream__sse_8cpp_1a62570f03250861a8d43741e1167cc29e" kindref="member">TEST_F</ref>(<ref refid="class_query_stream_sse_test" kindref="compound">QueryStreamSseTest</ref>,<sp/>DoneEvent_ContainsRowsStreamed)<sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>httpGetResponse(</highlight><highlight class="stringliteral">&quot;/v2/query/stream?q=FOR+x+IN+nonexistent+RETURN+x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>parseSseDataEvents(res.body());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ev<sp/>:<sp/>events)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ev.contains(</highlight><highlight class="stringliteral">&quot;rows_streamed&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(ev[</highlight><highlight class="stringliteral">&quot;rows_streamed&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>0);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;rows_streamed&apos;<sp/>in<sp/>done<sp/>event<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WebSocket<sp/>/v2/changes<sp/>message-format<sp/>tests<sp/>(unit-level,<sp/>no<sp/>live<sp/>server)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_WEBSOCKET</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/websocket_session.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__continuous__query__engine_8cpp_1a17a7fbc1479ba76ed47a847209707efc" kindref="member">TEST</ref>(WsChangesMessageFormat,<sp/>ActionFieldIsNormalisedToType)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>the<sp/>JSON<sp/>message<sp/>format<sp/>that<sp/>/v2/changes<sp/>clients<sp/>are<sp/>expected<sp/>to<sp/>send.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>handler<sp/>normalises<sp/>&quot;action&quot;<sp/>→<sp/>&quot;type&quot;<sp/>and<sp/>&quot;collection&quot;<sp/>→<sp/>&quot;channel&quot;<sp/>+<sp/>&quot;key_prefix&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>client_msg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;subscribe&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PUT&quot;</highlight><highlight class="normal">}}}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>the<sp/>normalisation<sp/>logic<sp/>in<sp/>WebSocketSession::processMessage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>!client_msg.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>!client_msg.contains(</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;changefeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;key_prefix&quot;</highlight><highlight class="normal">]<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(client_msg[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;subscribe&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(client_msg[</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;changefeed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(client_msg[</highlight><highlight class="stringliteral">&quot;key_prefix&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;orders:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__continuous__query__engine_8cpp_1a17a7fbc1479ba76ed47a847209707efc" kindref="member">TEST</ref>(WsChangesMessageFormat,<sp/>UnsubscribeActionIsNormalised)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>client_msg<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;unsubscribe&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>!client_msg.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>!client_msg.contains(</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;changefeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;key_prefix&quot;</highlight><highlight class="normal">]<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(client_msg[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unsubscribe&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(client_msg[</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;changefeed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><ref refid="test__continuous__query__engine_8cpp_1a17a7fbc1479ba76ed47a847209707efc" kindref="member">TEST</ref>(WsChangesMessageFormat,<sp/>ExistingTypeFieldIsPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>the<sp/>client<sp/>already<sp/>sends<sp/>&quot;type&quot;,<sp/>it<sp/>must<sp/>not<sp/>be<sp/>overwritten</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>client_msg<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;subscribe&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;changefeed&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>!client_msg.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(client_msg[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;subscribe&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(client_msg.contains(</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><ref refid="test__continuous__query__engine_8cpp_1a17a7fbc1479ba76ed47a847209707efc" kindref="member">TEST</ref>(WsChangesMessageFormat,<sp/>FilterTypeIsParsedToPutEventType)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>that<sp/>filter.type=&quot;PUT&quot;<sp/>produces<sp/>the<sp/>correct<sp/>event<sp/>type<sp/>set.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>mirrors<sp/>the<sp/>logic<sp/>in<sp/>WebSocketSession::processMessage.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>client_msg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;subscribe&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PUT&quot;</highlight><highlight class="normal">}}}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normalise</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>!client_msg.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">]<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>!client_msg.contains(</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;channel&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;changefeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>client_msg[</highlight><highlight class="stringliteral">&quot;key_prefix&quot;</highlight><highlight class="normal">]<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;()<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>event_types<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>event_types<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">].is_object())<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flt<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(flt.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>flt[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">].is_string())<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>event_types.insert(flt[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;());</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(event_types.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(event_types.count(</highlight><highlight class="stringliteral">&quot;PUT&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__continuous__query__engine_8cpp_1a17a7fbc1479ba76ed47a847209707efc" kindref="member">TEST</ref>(WsChangesMessageFormat,<sp/>FilterTypeDeleteIsParsed)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>client_msg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;subscribe&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">}}}</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>event_types<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">].is_object())<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flt<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(flt.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>flt[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">].is_string())<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>event_types.insert(flt[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;());</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(event_types.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(event_types.count(</highlight><highlight class="stringliteral">&quot;DELETE&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><ref refid="test__continuous__query__engine_8cpp_1a17a7fbc1479ba76ed47a847209707efc" kindref="member">TEST</ref>(WsChangesMessageFormat,<sp/>NoFilterMeansAllEventTypes)<sp/>{</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>client_msg<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;action&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;subscribe&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;collection&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;std::string&gt;<sp/>event_types<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(client_msg.contains(</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">].is_object())<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flt<sp/>=<sp/>client_msg[</highlight><highlight class="stringliteral">&quot;filter&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(flt.contains(</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>flt[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">].is_string())<sp/>{</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>event_types.insert(flt[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;());</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>filter<sp/>→<sp/>empty<sp/>set<sp/>→<sp/>all<sp/>event<sp/>types<sp/>(unfiltered)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(event_types.empty());</highlight></codeline>
+<codeline lineno="377"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>THEMIS_ENABLE_WEBSOCKET</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_stream_sse.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_hybrid_match_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::HybridMatchResult</compoundname>
+    <includes refid="entity__matcher_8h" local="no">entity_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hybrid_match_result_1a5f5469c11cc0dd7278a771a0f6fa97c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HybridMatchResult::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themis::importers::HybridMatchResult::entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="283" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hybrid_match_result_1a8c60c1f89eccdca6ac8fba28a58547c3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::HybridMatchResult::deterministic_score</definition>
+        <argsstring></argsstring>
+        <name>deterministic_score</name>
+        <qualifiedname>themis::importers::HybridMatchResult::deterministic_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="284" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hybrid_match_result_1a39db05023467b8e5b30abbc4192b6551" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::HybridMatchResult::semantic_score</definition>
+        <argsstring></argsstring>
+        <name>semantic_score</name>
+        <qualifiedname>themis::importers::HybridMatchResult::semantic_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="285" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hybrid_match_result_1a46d3ad369dd24c8e6b31d9e1bf9783a0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::HybridMatchResult::hybrid_score</definition>
+        <argsstring></argsstring>
+        <name>hybrid_score</name>
+        <qualifiedname>themis::importers::HybridMatchResult::hybrid_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Weighted combination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="286" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hybrid_match_result_1af1826ff8b9d71907fa8a69ab123df864" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::HybridMatchResult::match_method</definition>
+        <argsstring></argsstring>
+        <name>match_method</name>
+        <qualifiedname>themis::importers::HybridMatchResult::match_method</qualifiedname>
+        <briefdescription>
+<para>&quot;deterministic&quot; | &quot;semantic&quot; | &quot;ensemble&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="287" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_hybrid_match_result_1a779ebb6a1749e848662d883f4a178706" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::HybridMatchResult::confidence_evidence</definition>
+        <argsstring></argsstring>
+        <name>confidence_evidence</name>
+        <qualifiedname>themis::importers::HybridMatchResult::confidence_evidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="288" column="17" bodyfile="include/importers/entity_matcher.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/entity_matcher.h" line="282" column="1" bodyfile="include/importers/entity_matcher.h" bodystart="282" bodyend="289"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_hybrid_match_result_1a779ebb6a1749e848662d883f4a178706" prot="public" virt="non-virtual"><scope>themis::importers::HybridMatchResult</scope><name>confidence_evidence</name></member>
+      <member refid="structthemis_1_1importers_1_1_hybrid_match_result_1a8c60c1f89eccdca6ac8fba28a58547c3" prot="public" virt="non-virtual"><scope>themis::importers::HybridMatchResult</scope><name>deterministic_score</name></member>
+      <member refid="structthemis_1_1importers_1_1_hybrid_match_result_1a5f5469c11cc0dd7278a771a0f6fa97c1" prot="public" virt="non-virtual"><scope>themis::importers::HybridMatchResult</scope><name>entity_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_hybrid_match_result_1a46d3ad369dd24c8e6b31d9e1bf9783a0" prot="public" virt="non-virtual"><scope>themis::importers::HybridMatchResult</scope><name>hybrid_score</name></member>
+      <member refid="structthemis_1_1importers_1_1_hybrid_match_result_1af1826ff8b9d71907fa8a69ab123df864" prot="public" virt="non-virtual"><scope>themis::importers::HybridMatchResult</scope><name>match_method</name></member>
+      <member refid="structthemis_1_1importers_1_1_hybrid_match_result_1a39db05023467b8e5b30abbc4192b6551" prot="public" virt="non-virtual"><scope>themis::importers::HybridMatchResult</scope><name>semantic_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

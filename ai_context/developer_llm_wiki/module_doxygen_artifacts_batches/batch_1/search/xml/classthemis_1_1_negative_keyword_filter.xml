@@ -1,0 +1,344 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_negative_keyword_filter" kind="class" language="C++" prot="public">
+    <compoundname>themis::NegativeKeywordFilter</compoundname>
+    <includes refid="negative__keyword__filter_8h" local="no">negative_keyword_filter.h</includes>
+    <innerclass refid="structthemis_1_1_negative_keyword_filter_1_1_config" prot="public">themis::NegativeKeywordFilter::Config</innerclass>
+    <innerclass refid="structthemis_1_1_negative_keyword_filter_1_1_parsed_query" prot="public">themis::NegativeKeywordFilter::ParsedQuery</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_negative_keyword_filter_1ace6ce32c8b143c2604d1a4cb8cfb9734" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager* themis::NegativeKeywordFilter::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::NegativeKeywordFilter::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="196" column="27" bodyfile="include/search/negative_keyword_filter.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_negative_keyword_filter_1a994980098c254164576270622307f0a8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_negative_keyword_filter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::NegativeKeywordFilter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::NegativeKeywordFilter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="197" column="12" bodyfile="include/search/negative_keyword_filter.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_negative_keyword_filter_1a27d9412295b3f9c29a55e4a15b1357c5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::NegativeKeywordFilter::NegativeKeywordFilter</definition>
+        <argsstring>(SecondaryIndexManager *index=nullptr)</argsstring>
+        <name>NegativeKeywordFilter</name>
+        <qualifiedname>themis::NegativeKeywordFilter::NegativeKeywordFilter</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with a (possibly null) secondary index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to the SecondaryIndexManager used to look up documents containing excluded terms. May be null; all <ref refid="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" kindref="member">filter()</ref> calls return an error in that case. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="114" column="14" bodyfile="src/search/negative_keyword_filter.cpp" bodystart="26" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_negative_keyword_filter_1ad81027e57bc1ca6f3c2cd377bf77d1e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::NegativeKeywordFilter::NegativeKeywordFilter</definition>
+        <argsstring>(SecondaryIndexManager *index, const Config &amp;config)</argsstring>
+        <name>NegativeKeywordFilter</name>
+        <qualifiedname>themis::NegativeKeywordFilter::NegativeKeywordFilter</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_negative_keyword_filter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with a (possibly null) secondary index and optional config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to the SecondaryIndexManager used to look up documents containing excluded terms. May be null; all <ref refid="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" kindref="member">filter()</ref> calls return an error in that case. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Engine configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="123" column="5" bodyfile="src/search/negative_keyword_filter.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::NegativeKeywordFilter::filter</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column, const std::vector&lt; std::string &gt; &amp;candidate_pks, const std::vector&lt; std::string &gt; &amp;negative_terms) const</argsstring>
+        <name>filter</name>
+        <qualifiedname>themis::NegativeKeywordFilter::filter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidate_pks</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>negative_terms</declname>
+        </param>
+        <briefdescription>
+<para>Remove from <computeroutput>candidate_pks</computeroutput> any document that contains an excluded term. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For each term in <computeroutput>negative_terms</computeroutput>, looks up the set of documents in <computeroutput>table.column</computeroutput> that contain that term via the secondary index, then removes those documents from <computeroutput>candidate_pks</computeroutput>.</para>
+<para>An empty <computeroutput>negative_terms</computeroutput> list returns all <computeroutput>candidate_pks</computeroutput> unchanged with an OK Status.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fulltext-indexed column to search for excluded terms. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_pks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKs to filter (the search results before filtering). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>negative_terms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lower-case terms that must NOT appear in matching docs. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of Status and the filtered PK list. On index errors the Status is Error and the returned vector may be a partial result (terms that were successfully looked up are still filtered). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="181" column="15" bodyfile="src/search/negative_keyword_filter.cpp" bodystart="106" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_negative_keyword_filter_1ad686f433fe798a1953437328a8710472" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager * themis::NegativeKeywordFilter::getIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getIndex</name>
+        <qualifiedname>themis::NegativeKeywordFilter::getIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="192" column="27" bodyfile="include/search/negative_keyword_filter.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_negative_keyword_filter_1ae8b7dd879175d73be1b460ff014c8eab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_negative_keyword_filter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::NegativeKeywordFilter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::NegativeKeywordFilter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="193" column="18" bodyfile="include/search/negative_keyword_filter.h" bodystart="193" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_negative_keyword_filter_1ad9e3e59666bbbdba4297b1fc7df1c5e8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_negative_keyword_filter_1_1_parsed_query" kindref="compound">ParsedQuery</ref></type>
+        <definition>NegativeKeywordFilter::ParsedQuery themis::NegativeKeywordFilter::parseQuery</definition>
+        <argsstring>(const std::string &amp;raw_query)</argsstring>
+        <name>parseQuery</name>
+        <qualifiedname>themis::NegativeKeywordFilter::parseQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>raw_query</declname>
+        </param>
+        <briefdescription>
+<para>Parse a raw query string for positive and negative terms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Splits the query on whitespace. A token is treated as a negative term when it starts with a minus (<computeroutput>-</computeroutput>) or when the previous token was the keyword <computeroutput>NOT</computeroutput> (case-insensitive). All other tokens form the positive query.</para>
+<para>Minus tokens must be at least two characters long (e.g. <computeroutput>-word</computeroutput>); a lone <computeroutput>-</computeroutput> is treated as a regular positive token.</para>
+<para><computeroutput>NOT</computeroutput> is consumed as an operator and does not appear in the positive query or in the negative terms list itself.</para>
+<para>Examples:<itemizedlist>
+<listitem><para><computeroutput>"machine learning -neural"</computeroutput> → <computeroutput>{ positive: "machine learning", negatives: ["neural"] }</computeroutput></para>
+</listitem><listitem><para><computeroutput>"database NOT crash NOT slow"</computeroutput> → <computeroutput>{ positive: "database", negatives: ["crash", "slow"] }</computeroutput></para>
+</listitem><listitem><para><computeroutput>"<ref refid="namespacethemis_1_1search" kindref="compound">search</ref> -engine NOT <ref refid="namespacethemis_1_1index" kindref="compound">index</ref>"</computeroutput> → <computeroutput>{ positive: "<ref refid="namespacethemis_1_1search" kindref="compound">search</ref>", negatives: ["engine", "<ref refid="namespacethemis_1_1index" kindref="compound">index</ref>"] }</computeroutput></para>
+</listitem><listitem><para><computeroutput>"hello"</computeroutput> → <computeroutput>{ positive: "hello", negatives: [] }</computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>raw_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User-supplied query string (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_negative_keyword_filter_1_1_parsed_query" kindref="compound">ParsedQuery</ref> with <computeroutput>positive_query</computeroutput> and <computeroutput>negative_terms</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/search/negative_keyword_filter.h" line="157" column="24" bodyfile="src/search/negative_keyword_filter.cpp" bodystart="38" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Negative keyword filtering for the search pipeline (<computeroutput>NOT</computeroutput> operator). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="classthemis_1_1_negative_keyword_filter" kindref="compound">NegativeKeywordFilter</ref></computeroutput> implements the <computeroutput>NOT</computeroutput> / minus-prefix operator for full-text search queries, enabling callers to exclude documents that contain specific terms from their search results.</para>
+<para><heading level="3">Supported query syntax</heading>
+</para>
+<para><table rows="5" cols="3"><row>
+<entry thead="yes"><para>Syntax  </para>
+</entry><entry thead="yes"><para>Example  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Minus prefix (<computeroutput>-</computeroutput>)  </para>
+</entry><entry thead="no"><para><computeroutput>"machine learning -neural"</computeroutput>  </para>
+</entry><entry thead="no"><para>Search for &quot;machine learning&quot;, exclude &quot;neural&quot;  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><computeroutput>NOT</computeroutput> keyword  </para>
+</entry><entry thead="no"><para><computeroutput>"machine learning NOT neural"</computeroutput>  </para>
+</entry><entry thead="no"><para>Equivalent to minus prefix  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Mixed  </para>
+</entry><entry thead="no"><para><computeroutput>"database -slow NOT crash"</computeroutput>  </para>
+</entry><entry thead="no"><para>Exclude &quot;slow&quot; and &quot;crash&quot;  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Multiple  </para>
+</entry><entry thead="no"><para><computeroutput>"python -java -c++"</computeroutput>  </para>
+</entry><entry thead="no"><para>Exclude &quot;java&quot; and &quot;c&quot;  </para>
+</entry></row>
+</table>
+</para>
+<para><heading level="3">Typical usage in a search pipeline</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>1.<sp/>Parse<sp/>the<sp/>raw<sp/>user<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pq<sp/>=<sp/><ref refid="classthemis_1_1_negative_keyword_filter_1ad9e3e59666bbbdba4297b1fc7df1c5e8" kindref="member">NegativeKeywordFilter::parseQuery</ref>(</highlight><highlight class="stringliteral">&quot;machine<sp/>learning<sp/>-neural&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>pq.positive_query<sp/>==<sp/>&quot;machine<sp/>learning&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>pq.negative_terms<sp/>==<sp/>{&quot;neural&quot;}</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Run<sp/>the<sp/>normal<sp/>search<sp/>on<sp/>the<sp/>positive<sp/>part</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hybrid_search.search(pq.positive_query,<sp/>...);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Collect<sp/>result<sp/>PKs</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;std::string&gt;<sp/>pks;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>pks.push_back(r.document_id);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>4.<sp/>Apply<sp/>the<sp/>NOT<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_negative_keyword_filter_1a27d9412295b3f9c29a55e4a15b1357c5" kindref="member">NegativeKeywordFilter</ref><sp/>nkf(&amp;sec_index);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>filtered_pks]<sp/>=<sp/>nkf.filter(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">,<sp/>pks,<sp/>pq.negative_terms);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>5.<sp/>Retain<sp/>only<sp/>results<sp/>whose<sp/>PK<sp/>survived<sp/>the<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::unordered_set&lt;std::string&gt;<sp/>keep(filtered_pks.begin(),<sp/>filtered_pks.end());</highlight></codeline>
+<codeline><highlight class="normal">results.erase(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::remove_if(results.begin(),<sp/>results.end(),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;keep](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r){<sp/>return<sp/>keep.find(r.document_id)<sp/>==<sp/>keep.end();<sp/>}),</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>results.end());</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Null-index safety</heading>
+</para>
+<para>When constructed with a null SecondaryIndexManager pointer, <computeroutput><ref refid="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" kindref="member">filter()</ref></computeroutput> returns an error Status and the original <computeroutput>candidate_pks</computeroutput> unchanged — the caller can choose whether to treat this as a fatal or degraded-mode condition.</para>
+<para><simplesect kind="note"><para>Thread Safety: <computeroutput><ref refid="classthemis_1_1_negative_keyword_filter" kindref="compound">NegativeKeywordFilter</ref></computeroutput> is itself stateless (it holds only a non-owning pointer to the SecondaryIndexManager). <computeroutput><ref refid="classthemis_1_1_negative_keyword_filter_1ad9e3e59666bbbdba4297b1fc7df1c5e8" kindref="member">parseQuery()</ref></computeroutput> is a pure static function and is fully thread-safe. <computeroutput><ref refid="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" kindref="member">filter()</ref></computeroutput> is safe to call from multiple threads as long as the underlying SecondaryIndexManager is also thread-safe for concurrent reads — consult its documentation for details. The standard SecondaryIndexManager implementation does not guarantee concurrent read safety, so external synchronization is required if <ref refid="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" kindref="member">filter()</ref> is called from multiple threads on the same manager instance. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: <computeroutput><ref refid="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" kindref="member">filter()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1_negative_keyword_filter_1ad9e3e59666bbbdba4297b1fc7df1c5e8" kindref="member">parseQuery()</ref></computeroutput> never throw.</para>
+</simplesect>
+v2.2.0 Feature: initial delivery (Issue #2003). </para>
+    </detaileddescription>
+    <location file="include/search/negative_keyword_filter.h" line="80" column="1" bodyfile="include/search/negative_keyword_filter.h" bodystart="80" bodyend="198"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_negative_keyword_filter_1a994980098c254164576270622307f0a8" prot="private" virt="non-virtual"><scope>themis::NegativeKeywordFilter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_negative_keyword_filter_1a1a826dddef64263c3d8060b3ae0207ef" prot="public" virt="non-virtual"><scope>themis::NegativeKeywordFilter</scope><name>filter</name></member>
+      <member refid="classthemis_1_1_negative_keyword_filter_1ae8b7dd879175d73be1b460ff014c8eab" prot="public" virt="non-virtual"><scope>themis::NegativeKeywordFilter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_negative_keyword_filter_1ad686f433fe798a1953437328a8710472" prot="public" virt="non-virtual"><scope>themis::NegativeKeywordFilter</scope><name>getIndex</name></member>
+      <member refid="classthemis_1_1_negative_keyword_filter_1ace6ce32c8b143c2604d1a4cb8cfb9734" prot="private" virt="non-virtual"><scope>themis::NegativeKeywordFilter</scope><name>index_</name></member>
+      <member refid="classthemis_1_1_negative_keyword_filter_1a27d9412295b3f9c29a55e4a15b1357c5" prot="public" virt="non-virtual"><scope>themis::NegativeKeywordFilter</scope><name>NegativeKeywordFilter</name></member>
+      <member refid="classthemis_1_1_negative_keyword_filter_1ad81027e57bc1ca6f3c2cd377bf77d1e9" prot="public" virt="non-virtual"><scope>themis::NegativeKeywordFilter</scope><name>NegativeKeywordFilter</name></member>
+      <member refid="classthemis_1_1_negative_keyword_filter_1ad9e3e59666bbbdba4297b1fc7df1c5e8" prot="public" virt="non-virtual"><scope>themis::NegativeKeywordFilter</scope><name>parseQuery</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

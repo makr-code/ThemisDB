@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structllm_1_1_deployment_config" kind="struct" language="C++" prot="public">
+    <compoundname>llm::DeploymentConfig</compoundname>
+    <includes refid="adapter__deployment__manager_8h" local="no">adapter_deployment_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1a3e27457aaccb8794736c72f72a954be6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395" kindref="member">DeploymentStrategy</ref></type>
+        <definition>DeploymentStrategy llm::DeploymentConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>llm::DeploymentConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacellm_1ad8ca0df4b5395bd8ff0df69c92798395a501b457307b8108e6387c993be25ec58" kindref="member">DeploymentStrategy::CO_LOCATED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="56" column="24" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1a442ed6458259cadbc060a211d1498ccc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool llm::DeploymentConfig::validate_compatibility</definition>
+        <argsstring></argsstring>
+        <name>validate_compatibility</name>
+        <qualifiedname>llm::DeploymentConfig::validate_compatibility</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="57" column="10" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1a79c0cf583ca433b58fb007d0f6c0b7ab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool llm::DeploymentConfig::verify_signature</definition>
+        <argsstring></argsstring>
+        <name>verify_signature</name>
+        <qualifiedname>llm::DeploymentConfig::verify_signature</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="58" column="10" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1a772148391ec46e522483ca2feeaa2d9e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool llm::DeploymentConfig::auto_rollback_on_failure</definition>
+        <argsstring></argsstring>
+        <name>auto_rollback_on_failure</name>
+        <qualifiedname>llm::DeploymentConfig::auto_rollback_on_failure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="59" column="10" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1a9a0ad3e071cb075ff3b37e531389a351" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int llm::DeploymentConfig::max_concurrent_deployments</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_deployments</name>
+        <qualifiedname>llm::DeploymentConfig::max_concurrent_deployments</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="60" column="9" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1ae1c0ed2fb13029aeed7be3daf90fe0b7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int llm::DeploymentConfig::deployment_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>deployment_timeout_seconds</name>
+        <qualifiedname>llm::DeploymentConfig::deployment_timeout_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="61" column="9" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1ad92fc1b840594151b692e9328761c5cb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float llm::DeploymentConfig::min_affinity_threshold</definition>
+        <argsstring></argsstring>
+        <name>min_affinity_threshold</name>
+        <qualifiedname>llm::DeploymentConfig::min_affinity_threshold</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="62" column="11" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1a591d575f659a7c98a525bdf9b2b38539" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; llm::DeploymentConfig::preferred_shards</definition>
+        <argsstring></argsstring>
+        <name>preferred_shards</name>
+        <qualifiedname>llm::DeploymentConfig::preferred_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="63" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_config_1adc34e2107370d4eb3247546dcb1c26a6" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; llm::DeploymentConfig::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>llm::DeploymentConfig::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="64" column="14" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structllm_1_1_deployment_config_1a0970145599a2bfd21f7e72555cef0bbf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string llm::DeploymentConfig::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>llm::DeploymentConfig::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="70" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structllm_1_1_deployment_config_1a185b8251dadda4879fac1984ed1b40a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structllm_1_1_deployment_config" kindref="compound">DeploymentConfig</ref></type>
+        <definition>static DeploymentConfig llm::DeploymentConfig::fromJSON</definition>
+        <argsstring>(const std::string &amp;json)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>llm::DeploymentConfig::fromJSON</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="76" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="55" column="1" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="55" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structllm_1_1_deployment_config_1a772148391ec46e522483ca2feeaa2d9e" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>auto_rollback_on_failure</name></member>
+      <member refid="structllm_1_1_deployment_config_1adc34e2107370d4eb3247546dcb1c26a6" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>custom_metadata</name></member>
+      <member refid="structllm_1_1_deployment_config_1ae1c0ed2fb13029aeed7be3daf90fe0b7" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>deployment_timeout_seconds</name></member>
+      <member refid="structllm_1_1_deployment_config_1a185b8251dadda4879fac1984ed1b40a7" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>fromJSON</name></member>
+      <member refid="structllm_1_1_deployment_config_1a9a0ad3e071cb075ff3b37e531389a351" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>max_concurrent_deployments</name></member>
+      <member refid="structllm_1_1_deployment_config_1ad92fc1b840594151b692e9328761c5cb" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>min_affinity_threshold</name></member>
+      <member refid="structllm_1_1_deployment_config_1a591d575f659a7c98a525bdf9b2b38539" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>preferred_shards</name></member>
+      <member refid="structllm_1_1_deployment_config_1a3e27457aaccb8794736c72f72a954be6" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>strategy</name></member>
+      <member refid="structllm_1_1_deployment_config_1a0970145599a2bfd21f7e72555cef0bbf" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>toJSON</name></member>
+      <member refid="structllm_1_1_deployment_config_1a442ed6458259cadbc060a211d1498ccc" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>validate_compatibility</name></member>
+      <member refid="structllm_1_1_deployment_config_1a79c0cf583ca433b58fb007d0f6c0b7ab" prot="public" virt="non-virtual"><scope>llm::DeploymentConfig</scope><name>verify_signature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_query_bench" kind="class" language="C++" prot="public">
+    <compoundname>AQLQueryBench</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_query_bench_1a0f8a03d4410ed724c0707ce960b51729" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AQLQueryBench::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>AQLQueryBench::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="321" column="17" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="321" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_query_bench_1adfbe6089389b4bfeb2180f8146f362f2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; AQLQueryBench::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>AQLQueryBench::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="322" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_q_l_query_bench_1a1b766306f68949b5a8bcab723b7a7b40" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; AQLQueryBench::idx_mgr_</definition>
+        <argsstring></argsstring>
+        <name>idx_mgr_</name>
+        <qualifiedname>AQLQueryBench::idx_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="323" column="21" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_q_l_query_bench_1a2e4c3baf39d749d82a841ee585b61eb4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLQueryBench::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AQLQueryBench::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="298" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="298" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_q_l_query_bench_1a74510dcb759cd4d7ff8d1715c1fe7673" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AQLQueryBench::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AQLQueryBench::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_comprehensive.cpp" line="314" column="10" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="314" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLQueryBench</label>
+        <link refid="class_a_q_l_query_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLQueryBench</label>
+        <link refid="class_a_q_l_query_bench"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/base/bench_comprehensive.cpp" line="296" column="1" bodyfile="benchmarks/base/bench_comprehensive.cpp" bodystart="296" bodyend="324"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_query_bench_1adfbe6089389b4bfeb2180f8146f362f2" prot="protected" virt="non-virtual"><scope>AQLQueryBench</scope><name>db_</name></member>
+      <member refid="class_a_q_l_query_bench_1a0f8a03d4410ed724c0707ce960b51729" prot="protected" virt="non-virtual"><scope>AQLQueryBench</scope><name>db_path_</name></member>
+      <member refid="class_a_q_l_query_bench_1a1b766306f68949b5a8bcab723b7a7b40" prot="protected" virt="non-virtual"><scope>AQLQueryBench</scope><name>idx_mgr_</name></member>
+      <member refid="class_a_q_l_query_bench_1a2e4c3baf39d749d82a841ee585b61eb4" prot="public" virt="non-virtual"><scope>AQLQueryBench</scope><name>SetUp</name></member>
+      <member refid="class_a_q_l_query_bench_1a74510dcb759cd4d7ff8d1715c1fe7673" prot="public" virt="non-virtual"><scope>AQLQueryBench</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

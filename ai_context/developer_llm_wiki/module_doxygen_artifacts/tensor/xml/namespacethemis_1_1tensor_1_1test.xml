@@ -1,0 +1,2338 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1tensor_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::tensor::test</compoundname>
+    <innerclass refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" prot="public">themis::tensor::test::FederatedTensorSummariesTest</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" prot="public">themis::tensor::test::MockTensor</innerclass>
+    <innerclass refid="structthemis_1_1tensor_1_1test_1_1_mock_view" prot="public">themis::tensor::test::MockView</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" prot="public">themis::tensor::test::TensorEdgeCaseHandlerFixture</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" prot="public">themis::tensor::test::TensorMidLayerIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1tensor_1_1test_1_1_test" prot="public">themis::tensor::test::Test</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MockDevice</name>
+        <qualifiedname>themis::tensor::test::MockDevice</qualifiedname>
+        <enumvalue id="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bfa52f9ec21735243ad9917cda3ca077d32" prot="public">
+          <name>GPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Simulates device selection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="113" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="113" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1tensor_1_1test_1ab396835030dcbf169a60084309026998" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::tensor::test::kTensorContractSeed</definition>
+        <argsstring></argsstring>
+        <name>kTensorContractSeed</name>
+        <qualifiedname>themis::tensor::test::kTensorContractSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all TNCH tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="60" column="27" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a37f2f580ea7c93d3830215d62c7dc647" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_01_ShardSummaryCreation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_01_ShardSummaryCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="78" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="78" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a3e541218681bcceddf18430b51e607fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_02_MultipleSummariesDifferentSizes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_02_MultipleSummariesDifferentSizes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="106" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="106" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1afb8a0adb2df9f990fb2a36f895e84aed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_03_FederatedAggregation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_03_FederatedAggregation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="142" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="142" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a1e370a7e51a831f77dcc349c8d2c1841" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_04_ShardMetadataInFederated)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_04_ShardMetadataInFederated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="166" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="166" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a8dcf99a6295145a7478ed1126f67024d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_05_SummaryFirstRoutingContext)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_05_SummaryFirstRoutingContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="194" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="194" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1afc16392dc1c4bc9b42a9cfad5127bdd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_06_MergingShardResults)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_06_MergingShardResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="217" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="217" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a7a5b3e2889cfa2b1bafa7ac6311759f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_07_EmptyShardScopes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_07_EmptyShardScopes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="263" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="263" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a35160863ac72b90b9e09e4a687aa573d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_08_ShardHealthMetadata)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_08_ShardHealthMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="285" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="285" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a8f0ddb4848dd1ba7a32cf66750dc1c44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_09_CompressionMetrics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_09_CompressionMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="309" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="309" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a7d54d0e3c750e4c68539d8868c1e6ec1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_10_ShardAwareClassification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_10_ShardAwareClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="335" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="335" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a47c1b73fe2a53c1c38c8b10916912f8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_11_AggregatedCandidateCounts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_11_AggregatedCandidateCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="352" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="352" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a28304d74aad2c32ef22bcf41ce969805" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_12_CrossShardRetrievalFlow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_12_CrossShardRetrievalFlow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="401" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="401" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a72c9dee594790250dc7b8f0c5f7df163" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_13_ShardScopePrefixes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_13_ShardScopePrefixes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="428" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="428" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a411a4364326be9cec6386e6e7bed5948" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_14_TimestampMetadata)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_14_TimestampMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="451" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="451" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a0e10325ee667ec0759b4dc92ad20534b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(FederatedTensorSummariesTest, FS_15_FalseNegativeRiskMetrics)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_federated_tensor_summaries_test" kindref="compound">FederatedTensorSummariesTest</ref></type>
+        </param>
+        <param>
+          <type>FS_15_FalseNegativeRiskMetrics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="474" column="1" bodyfile="tests/tensor/test_federated_tensor_summaries.cpp" bodystart="474" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a0bde4727d512e69760e0734583df18c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(PersistentTensorFingerprintGraphTest, SaveLoadRemoveAndTenantIsolation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>PersistentTensorFingerprintGraphTest</type>
+        </param>
+        <param>
+          <type>SaveLoadRemoveAndTenantIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_persistent_tensor_fingerprint_graph.cpp" line="105" column="1" bodyfile="tests/tensor/test_persistent_tensor_fingerprint_graph.cpp" bodystart="105" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1afb283ffdeada912cc4cb06e58f4f2bd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(PersistentTensorFingerprintGraphTest, RehydratesAcrossRestartSimulation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>PersistentTensorFingerprintGraphTest</type>
+        </param>
+        <param>
+          <type>RehydratesAcrossRestartSimulation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_persistent_tensor_fingerprint_graph.cpp" line="134" column="1" bodyfile="tests/tensor/test_persistent_tensor_fingerprint_graph.cpp" bodystart="134" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1afd2d7edd2d273538e0b1ea44fd829122" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(PersistentTensorFingerprintGraphTest, RecoversDeleteJournalReplayWhenTargetAlreadyMissing)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>PersistentTensorFingerprintGraphTest</type>
+        </param>
+        <param>
+          <type>RecoversDeleteJournalReplayWhenTargetAlreadyMissing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_persistent_tensor_fingerprint_graph.cpp" line="154" column="1" bodyfile="tests/tensor/test_persistent_tensor_fingerprint_graph.cpp" bodystart="154" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1af234a3b659c287fac4d7e6b0f2e614fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorAccelerationTest, CompressionAndRoutingMatchCpuReference)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorAccelerationTest</type>
+        </param>
+        <param>
+          <type>CompressionAndRoutingMatchCpuReference</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_acceleration_observability.cpp" line="8" column="1" bodyfile="tests/tensor/test_tensor_acceleration_observability.cpp" bodystart="8" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a3efa1df5fd6621c67f622fc5f609de04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorObservabilityTest, EmitsPrometheusAndDetectsSloViolation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorObservabilityTest</type>
+        </param>
+        <param>
+          <type>EmitsPrometheusAndDetectsSloViolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_acceleration_observability.cpp" line="31" column="1" bodyfile="tests/tensor/test_tensor_acceleration_observability.cpp" bodystart="31" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a3e39470746567647fb2ff35cfcaf2f8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_01_InvalidAdapterReference)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_01_InvalidAdapterReference</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="61" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="61" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a362263fb34541bf08ecfd194b5a2e950" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_02_OutOfBoundsIndexAccess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_02_OutOfBoundsIndexAccess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="79" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="79" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a80824df0e89ea6fd98c37a0a3c57a62f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_03_StaleFingerprintNaN)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_03_StaleFingerprintNaN</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="97" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="97" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a4e570d93cabc0177c8446696e8e51b32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_04_SelfSimilarityComputationFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_04_SelfSimilarityComputationFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="114" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="114" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ada1abd26b8d85e445b20848e20674bb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_05_NullTrainInComparison)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_05_NullTrainInComparison</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="130" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="130" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a912b3a2800752db9f744b97a1adbfa2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_06_ConcurrentModificationConflict)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_06_ConcurrentModificationConflict</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="148" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="148" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a6bc7d1f24534d14899fe8619e839ade5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_07_BridgeRoutingFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_07_BridgeRoutingFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="166" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="166" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aab659801f3dd4c630fd78d4d84ab255a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_08_AdapterCommunicationFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_08_AdapterCommunicationFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="183" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="183" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a0c8f42a13d82bafd79a141eeebb30f9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_09_InvalidDecompositionParameters)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_09_InvalidDecompositionParameters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="200" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="200" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a2a153927542cab47d9b24efd6d02a9de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_10_KappaGateViolation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_10_KappaGateViolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="216" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="216" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a08ee1ce3cfe2ace84b1d92a7c075fd4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_11_ExportSerializationFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_11_ExportSerializationFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="233" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="233" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ab36f63a1de92e229c1297a67ba3e1491" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_12_ReplayDeserializationFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_12_ReplayDeserializationFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="249" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="249" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a662892b62aa13c76922b51f7dfdd3277" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_13_PartialGraphLoss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_13_PartialGraphLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="265" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="265" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aee679cce3727f59164c3acb9510bd311" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_14_OutOfMemoryDuringComputation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_14_OutOfMemoryDuringComputation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="282" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="282" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a77b5923c63a8b78b158acb242104cb75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_15_ConcurrentMemoryExhaustion)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_15_ConcurrentMemoryExhaustion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="299" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="299" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1af6d099e8251e8e8121dcdd95d583a8a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_16_MultipleConsecutiveOutOfBoundsAccesses)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_16_MultipleConsecutiveOutOfBoundsAccesses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="320" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="320" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a88a76556eba2e883045d985210487c27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_17_RecoveryPathRetryLoop)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_17_RecoveryPathRetryLoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="332" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="332" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aa875a05db05edd747e21657c96554bf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_18_FallbackPathAfterPrimaryFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_18_FallbackPathAfterPrimaryFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="345" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="345" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a473436291cf5557af8783581c8fab213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_19_DegradationPathPartialResults)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_19_DegradationPathPartialResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="357" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="357" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a80ff2150e35a65d98d1a81674de4a622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_20_FailClosedPathUnrecoverableError)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_20_FailClosedPathUnrecoverableError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="368" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="368" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a294399f817064bb2382a85d5cc241b26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_21_StaleFingerprintAndConcurrentModification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_21_StaleFingerprintAndConcurrentModification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="380" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="380" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a3d97965a005fc23cc4db57e7a7b800be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_22_SelfSimilarityAndKappaGateCombined)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_22_SelfSimilarityAndKappaGateCombined</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="390" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="390" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a55906c663032f533afac1174251d20ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_23_AdapterCommunicationAndBridgeRoutingFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_23_AdapterCommunicationAndBridgeRoutingFailure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="399" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="399" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a59375d250492c037c875fff0c06eb5e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_24_LargeSerializationAndPartialLoss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_24_LargeSerializationAndPartialLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="408" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="408" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a4d45291afc9627434ba9477498a75727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_25_InvalidAdapterAndOutOfBoundsCascading)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_25_InvalidAdapterAndOutOfBoundsCascading</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="417" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="417" bodyend="425"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a72d3116338f4b7560edf001749c5b348" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_26_NaNInfDetectionInFingerprint)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_26_NaNInfDetectionInFingerprint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="428" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="428" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a95e7dd83b8383d610698f898fae73ffc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_27_ZeroRecoveryEntryEdgeCase)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_27_ZeroRecoveryEntryEdgeCase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="437" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="437" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aa020f522483ce75113bb1707db66ac47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_28_MultipleMemoryAllocationFailures)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_28_MultipleMemoryAllocationFailures</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="445" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="445" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ac6d80f83b252c0de585e4570965c0e3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_29_ConcurrentModificationStressTest)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_29_ConcurrentModificationStressTest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="460" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="460" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aab4f0429c44a472fa878a5b23123a0b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, TEDGE_30_FullRecoveryPathSimulation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>TEDGE_30_FullRecoveryPathSimulation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="474" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="474" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a1a4adf809a563a67a38ad13364a175f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, ValidateStatisticsTracking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>ValidateStatisticsTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="490" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="490" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a1ee3251a6d3e7865ae36d69ee2920dab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, ValidateDiagnosticMessageGeneration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>ValidateDiagnosticMessageGeneration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="499" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="499" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ae899bd1ad5d95f0313fb398c2a29f712" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorEdgeCaseHandlerFixture, ValidateErrorCodeMapping)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_edge_case_handler_fixture" kindref="compound">TensorEdgeCaseHandlerFixture</ref></type>
+        </param>
+        <param>
+          <type>ValidateErrorCodeMapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" line="505" column="1" bodyfile="tests/tensor/test_tensor_bridge_edge_cases_focused.cpp" bodystart="505" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a420f5c748831be0b24977c6b83f2c553" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static std::size_t themis::tensor::test::shapeProduct</definition>
+        <argsstring>(const std::vector&lt; std::size_t &gt; &amp;shape)</argsstring>
+        <name>shapeProduct</name>
+        <qualifiedname>themis::tensor::test::shapeProduct</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Computes the product of a shape vector (element count). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="67" column="20" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="67" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a1383305d128d1f397f6103407e732b3f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" kindref="member">TensorErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; TensorErrorCode &gt; themis::tensor::test::mockReshapeValidate</definition>
+        <argsstring>(const std::vector&lt; std::size_t &gt; &amp;old_shape, const std::vector&lt; std::size_t &gt; &amp;new_shape)</argsstring>
+        <name>mockReshapeValidate</name>
+        <qualifiedname>themis::tensor::test::mockReshapeValidate</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>old_shape</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>new_shape</declname>
+        </param>
+        <briefdescription>
+<para>Validates a reshape: same element count required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="76" column="22" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="76" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a25f8f03c38a51001a45d3c251dd67385" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_view" kindref="compound">MockView</ref></type>
+        <definition>static MockView themis::tensor::test::mockSlice</definition>
+        <argsstring>(MockTensor &amp;parent, std::size_t offset, std::size_t count)</argsstring>
+        <name>mockSlice</name>
+        <qualifiedname>themis::tensor::test::mockSlice</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1tensor_1_1test_1_1_mock_tensor" kindref="compound">MockTensor</ref> &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="108" column="17" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a862eb81b1ae12569cf4cb4eee8511c6f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1tensor_1_1test_1a23d78630b792020e2623eb11a88508bf" kindref="member">MockDevice</ref></type>
+        <definition>static MockDevice themis::tensor::test::mockSelectDevice</definition>
+        <argsstring>(bool gpu_available)</argsstring>
+        <name>mockSelectDevice</name>
+        <qualifiedname>themis::tensor::test::mockSelectDevice</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>gpu_available</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="114" column="19" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a3926412e32bc211d7eec21762edde3d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::tensor::test::mockResultsAgree</definition>
+        <argsstring>(float cpu_val, float gpu_val, double tol)</argsstring>
+        <name>mockResultsAgree</name>
+        <qualifiedname>themis::tensor::test::mockResultsAgree</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>cpu_val</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>gpu_val</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>tol</declname>
+        </param>
+        <briefdescription>
+<para>Simulates elementwise add with tolerance check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="119" column="13" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="119" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ad95cf7e2b4be72b14abe9504226c9c28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1tensor_1adaa7e05434a45d2ee9122a88495cc5cc" kindref="member">TensorErrorCode</ref> &gt;</type>
+        <definition>static std::optional&lt; TensorErrorCode &gt; themis::tensor::test::mockDtypeCheck</definition>
+        <argsstring>(TensorDtype a, TensorDtype b)</argsstring>
+        <name>mockDtypeCheck</name>
+        <qualifiedname>themis::tensor::test::mockDtypeCheck</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1tensor_1af8b5d71f41c1c5311b8aa1730ad74678" kindref="member">TensorDtype</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Validates dtype compatibility for binary ops. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="125" column="22" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="125" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a442545cabbff01b572828caea3497ca6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH01_ReshapePreservesElements)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH01_ReshapePreservesElements</type>
+        </param>
+        <briefdescription>
+<para>TNCH-01: Reshape preserving element count succeeds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="137" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="137" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ade798117b6da294bb2ffa6e4639c27a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH02_ReshapeMismatchError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH02_ReshapeMismatchError</type>
+        </param>
+        <briefdescription>
+<para>TNCH-02: Reshape changing element count raises SHAPE_MISMATCH. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="147" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a8dba6e4d5bddcf9bf9e70c54548ac085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH03_SliceViewZeroCopy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH03_SliceViewZeroCopy</type>
+        </param>
+        <briefdescription>
+<para>TNCH-03: Slice view creation is zero-copy (same underlying pointer). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="158" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="158" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a94338b4a6a5a6c0fbbd0d50f3985d085" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH04_EmptyTensorIsValid)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH04_EmptyTensorIsValid</type>
+        </param>
+        <briefdescription>
+<para>TNCH-04: Empty tensor (a dimension = 0) is valid per contract. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="176" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="176" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a0015f76c97ce80617130a81341046355" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH05_CpuGpuResultsAgree)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH05_CpuGpuResultsAgree</type>
+        </param>
+        <briefdescription>
+<para>TNCH-05: CPU and GPU results agree within kDeviceDispatchToleranceF32. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="191" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="191" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a2a91f939b0e34659895339eaaead2098" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH06_GpuUnavailableFallbackToCpu)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH06_GpuUnavailableFallbackToCpu</type>
+        </param>
+        <briefdescription>
+<para>TNCH-06: When GPU is unavailable, dispatch falls back to CPU. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="207" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="207" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ab66b27838e0f0ff939a3d7edda213991" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH07_DeviceSelectionO1)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH07_DeviceSelectionO1</type>
+        </param>
+        <briefdescription>
+<para>TNCH-07: Device selection decision completes in O(1) (mock is synchronous). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="213" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="213" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a2a5001bbbeef384cb45ce620120dea91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH08_CpuAlwaysAvailable)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH08_CpuAlwaysAvailable</type>
+        </param>
+        <briefdescription>
+<para>TNCH-08: CPU device is always available (no DEVICE_UNAVAILABLE on CPU path). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="223" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="223" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a91e9563abaf2f1836471a5d5c32d8c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH09_OwningTensorRaii)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH09_OwningTensorRaii</type>
+        </param>
+        <briefdescription>
+<para>TNCH-09: Owning tensor frees data on destruction (RAII mock check). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="237" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="237" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ae4b20a05cf92225ce46ddec49cc8d46a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH10_SliceNoCopy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH10_SliceNoCopy</type>
+        </param>
+        <briefdescription>
+<para>TNCH-10: Slice view does not copy data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="250" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="250" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aff9fbef74b0dd50f2587cb80e66eedb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH11_ViewLifetimeTracking)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH11_ViewLifetimeTracking</type>
+        </param>
+        <briefdescription>
+<para>TNCH-11: View lifetime is tied to parent (parent_alive flag). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="261" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="261" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a5f9bacd9d4b1289f81fc15b825b16873" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH12_MaxTensorElementsPositive)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH12_MaxTensorElementsPositive</type>
+        </param>
+        <briefdescription>
+<para>TNCH-12: kMaxTensorElements is positive (contract sanity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="275" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="275" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1accb35f74672a08b620f521923ee774c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH13_CompatibleDtypesAccepted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH13_CompatibleDtypesAccepted</type>
+        </param>
+        <briefdescription>
+<para>TNCH-13: Same dtype (F32 op F32) is compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="285" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="285" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a6c1028a4738bc82de15290fe0293ec12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH14_IncompatibleDtypesError)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH14_IncompatibleDtypesError</type>
+        </param>
+        <briefdescription>
+<para>TNCH-14: Incompatible dtypes (F32 op Int8) → DTYPE_INCOMPATIBLE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="291" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="291" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a982b54e57195a145a5f3208f60553743" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH15_DtypeCompatibilityReflexive)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH15_DtypeCompatibilityReflexive</type>
+        </param>
+        <briefdescription>
+<para>TNCH-15: areDtypesCompatible is reflexive (every dtype is compatible with itself). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="299" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="299" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a71541ef91f21c517b9386de743ffa44c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorContractHardening, TNCH16_DtypeByteSizeCorrect)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorContractHardening</type>
+        </param>
+        <param>
+          <type>TNCH16_DtypeByteSizeCorrect</type>
+        </param>
+        <briefdescription>
+<para>TNCH-16: dtypeByteSize returns correct element sizes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="311" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="311" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a28ee8f19ec6df0c04c4df9618355a254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(CompressionStrategyTest, TTDecompositionBasic)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>CompressionStrategyTest</type>
+        </param>
+        <param>
+          <type>TTDecompositionBasic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="27" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="27" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aef4610e6aa0a187f3d15c3b7e084a578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(CompressionStrategyTest, TTDecompositionEstimate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>CompressionStrategyTest</type>
+        </param>
+        <param>
+          <type>TTDecompositionEstimate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="42" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="42" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a50e63cd10c7cf300d4e636bc28c998f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(CompressionStrategyTest, QuantizationINT8)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>CompressionStrategyTest</type>
+        </param>
+        <param>
+          <type>QuantizationINT8</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="53" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="53" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aafeb16d405b5c6675f44a9c055e60c4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(CompressionStrategyTest, QuantizationINT16)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>CompressionStrategyTest</type>
+        </param>
+        <param>
+          <type>QuantizationINT16</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="66" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a9587c7b531619bb0d4af3ac3b4414f81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(CompressionStrategyTest, SamplingStrategy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>CompressionStrategyTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_sampling_strategy" kindref="compound">SamplingStrategy</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="75" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="75" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aa8968b3fe704ec9e02127cfcdabb8ad8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(CompressionStrategyTest, HashingStrategy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>CompressionStrategyTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_hashing_strategy" kindref="compound">HashingStrategy</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="91" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="91" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a644f14368f26a5caca55a1661b1ad7f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(CompressionFactoryTest, CreateValidStrategies)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>CompressionFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateValidStrategies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="106" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="106" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ac042e7d63f4aca8bcbd94fda4d5bd466" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(CompressionFactoryTest, CreateInvalidStrategy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>CompressionFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateInvalidStrategy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="118" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="118" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a718b53cefbe777ab4a5aa4b71c68767c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorSummaryTypesTest, AdapterSummaryCreation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorSummaryTypesTest</type>
+        </param>
+        <param>
+          <type>AdapterSummaryCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="127" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="127" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a950313f12c2801127ef0f6aa1a6ae33d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorSummaryTypesTest, PackageSummaryCreation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorSummaryTypesTest</type>
+        </param>
+        <param>
+          <type>PackageSummaryCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="142" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="142" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a97840319f1967ca9a6745f6015c08928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorSummaryTypesTest, ShardSummaryCreation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorSummaryTypesTest</type>
+        </param>
+        <param>
+          <type>ShardSummaryCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="157" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="157" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a6675d444cc1aaff9b77e0a958a5e2882" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(TensorSummaryTypesTest, BaseSummaryMetadata)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>TensorSummaryTypesTest</type>
+        </param>
+        <param>
+          <type>BaseSummaryMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="171" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="171" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ab6f0058ef6836bffcaf9701f2950308c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(PrioritizationTest, SimilarityBased)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>PrioritizationTest</type>
+        </param>
+        <param>
+          <type>SimilarityBased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="188" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="188" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a8cf0ac57de75d78a986a6e02a7ce9ddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(PrioritizationTest, RankBased)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>PrioritizationTest</type>
+        </param>
+        <param>
+          <type>RankBased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="209" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="209" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a389f423e55270a41bc3687a5f1a275f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(PrioritizationTest, CostBased)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>PrioritizationTest</type>
+        </param>
+        <param>
+          <type>CostBased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="221" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="221" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ab377d775f21e8ce0af399c74a60bceae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RoutingStrategyTest, QualityBasedRouting)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RoutingStrategyTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_quality_based_routing" kindref="compound">QualityBasedRouting</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="234" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="234" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a9a7858659e7fa6a99bb7fe2bc9d9564f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RoutingStrategyTest, ShardAwareRouting)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RoutingStrategyTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_shard_aware_routing" kindref="compound">ShardAwareRouting</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="252" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="252" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a2a7f8497ab772359731d178e75a1851b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(AdaptiveRoutingTest, RecordOutcome)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>AdaptiveRoutingTest</type>
+        </param>
+        <param>
+          <type>RecordOutcome</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="269" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="269" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a9329659e3bef2cd338e0051017dab031" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RoutingFactoryTest, CreateValidRoutingStrategies)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RoutingFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateValidRoutingStrategies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="284" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="284" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ab9d923e11f2b98e3460cc1d4a2e3838c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RoutingFactoryTest, CreateValidPrioritizationStrategies)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RoutingFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateValidPrioritizationStrategies</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="295" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="295" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aef8cfb1e714ea2092649e5ad602966f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RedundancyDetectionTest, SimilarityBased)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RedundancyDetectionTest</type>
+        </param>
+        <param>
+          <type>SimilarityBased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="310" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="310" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a1fcbfb7021416cb852a652fb20948093" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RedundancyDetectionTest, ContentHashDetector)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RedundancyDetectionTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_content_hash_detector" kindref="compound">ContentHashDetector</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="338" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="338" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aac0cf0c58c21e47f6faae096b747d1f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RedundancyDetectionTest, EmbeddingBased)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RedundancyDetectionTest</type>
+        </param>
+        <param>
+          <type>EmbeddingBased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="361" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="361" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a0550514d02ec9cd8ca852f75a483edef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RedundancyDetectionTest, MetadataBased)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RedundancyDetectionTest</type>
+        </param>
+        <param>
+          <type>MetadataBased</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="381" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="381" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a894c83a63c8b7f42c35191943f4ecd24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RedundancyDetectionTest, CompositeDetector)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RedundancyDetectionTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1_composite_detector" kindref="compound">CompositeDetector</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="396" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="396" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a682f1284e7bf61975e51e2d88901a0b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST</definition>
+        <argsstring>(RedundancyFactoryTest, CreateDetectors)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::tensor::test::TEST</qualifiedname>
+        <param>
+          <type>RedundancyFactoryTest</type>
+        </param>
+        <param>
+          <type>CreateDetectors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_abstractions.cpp" line="409" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_abstractions.cpp" bodystart="409" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aa6955d8d7df72b2e043a599984d5bcd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, FullPipelineWithRepositoryAndGraph)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>FullPipelineWithRepositoryAndGraph</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="64" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="64" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a9535a43fd521348bec53c25f571eca85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, ErrorHandlingRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorHandlingRecovery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="100" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="100" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a1fbc2d4ab0b35c475d02ce8775bf8249" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, RoutingStrategySelection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RoutingStrategySelection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="123" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="123" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a78c3226911c8ed8cf215fde28648ea8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, FederatedShardSummarization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>FederatedShardSummarization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="157" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="157" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a5e5885332547c2e5883726f551ec527f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, RedundancyDetection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RedundancyDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="188" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="188" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1afbeaa0ba39818afa87f2c051c3f40c32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, CompressionFallbackChain)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>CompressionFallbackChain</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="211" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="211" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1aaf67cfe9299ca3b5fcb0c1c947f14523" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, FullEndToEndPipeline)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>FullEndToEndPipeline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="231" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="231" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1ae191181f19846fd2e3e6e5944f02f1d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, TenantIsolation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>TenantIsolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="258" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="258" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a8510cdee5931bd1754976f7c2420c8cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, PlanningPerformanceBaseline)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>PlanningPerformanceBaseline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="290" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="290" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a9b49117dc90751f44249d5969c04a237" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, SimilaritySearchPerformanceBaseline)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>SimilaritySearchPerformanceBaseline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="322" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="322" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1tensor_1_1test_1a54b969a6272c78090fefc570ebf7212a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tensor::test::TEST_F</definition>
+        <argsstring>(TensorMidLayerIntegrationTest, RedundancyDetectionPerformanceBaseline)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::tensor::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tensor_1_1test_1_1_tensor_mid_layer_integration_test" kindref="compound">TensorMidLayerIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>RedundancyDetectionPerformanceBaseline</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_mid_layer_integration.cpp" line="351" column="1" bodyfile="tests/tensor/test_tensor_mid_layer_integration.cpp" bodystart="351" bodyend="378"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_federated_tensor_summaries.cpp" line="46" column="1"/>
+  </compounddef>
+</doxygen>

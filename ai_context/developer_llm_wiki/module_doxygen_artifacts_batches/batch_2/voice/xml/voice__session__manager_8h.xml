@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="voice__session__manager_8h" kind="file" language="C++">
+    <compoundname>voice_session_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="voice__session__manager_8cpp" local="yes">src/voice/voice_session_manager.cpp</includedby>
+    <includedby refid="test__phase3__error__handling_8cpp" local="yes">tests/voice/test_phase3_error_handling.cpp</includedby>
+    <includedby refid="test__voice__audit__logging_8cpp" local="yes">tests/voice/test_voice_audit_logging.cpp</includedby>
+    <includedby refid="test__voice__coverage_8cpp" local="yes">tests/voice/test_voice_coverage.cpp</includedby>
+    <includedby refid="test__voice__create__session__focused_8cpp" local="yes">tests/voice/test_voice_create_session_focused.cpp</includedby>
+    <includedby refid="test__voice__multi__session__teardown_8cpp" local="yes">tests/voice/test_voice_multi_session_teardown.cpp</includedby>
+    <includedby refid="test__voice__production_8cpp" local="yes">tests/voice/test_voice_production.cpp</includedby>
+    <includedby refid="test__voice__session__manager__create_session__focused_8cpp" local="yes">tests/voice/test_voice_session_manager_createSession_focused.cpp</includedby>
+    <includedby refid="test__voice__session__manager__focused_8cpp" local="yes">tests/voice/test_voice_session_manager_focused.cpp</includedby>
+    <includedby refid="test__voice__wave__a8__hardening__focused_8cpp" local="yes">tests/voice/test_voice_wave_a8_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/voice/voice_session_manager.h</label>
+        <link refid="voice__session__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/voice/voice_session_manager.h</label>
+        <link refid="voice__session__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/voice/voice_session_manager.cpp</label>
+        <link refid="voice__session__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/voice/test_phase3_error_handling.cpp</label>
+        <link refid="test__phase3__error__handling_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/voice/test_voice_audit_logging.cpp</label>
+        <link refid="test__voice__audit__logging_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/voice/test_voice_coverage.cpp</label>
+        <link refid="test__voice__coverage_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/voice/test_voice_create_session_focused.cpp</label>
+        <link refid="test__voice__create__session__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/voice/test_voice_multi_session_teardown.cpp</label>
+        <link refid="test__voice__multi__session__teardown_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/voice/test_voice_production.cpp</label>
+        <link refid="test__voice__production_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/voice/test_voice_session_manager_createSession_focused.cpp</label>
+        <link refid="test__voice__session__manager__create_session__focused_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/voice/test_voice_session_manager_focused.cpp</label>
+        <link refid="test__voice__session__manager__focused_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/voice/test_voice_wave_a8_hardening_focused.cpp</label>
+        <link refid="test__voice__wave__a8__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_session_data" prot="public">themis::voice::VoiceSessionData</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_session_analytics" prot="public">themis::voice::SessionAnalytics</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_session_timeout_config" prot="public">themis::voice::SessionTimeoutConfig</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_i_session_persistence_backend" prot="public">themis::voice::ISessionPersistenceBackend</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_in_memory_session_backend" prot="public">themis::voice::InMemorySessionBackend</innerclass>
+    <innerclass refid="classthemis_1_1voice_1_1_voice_session_manager" prot="public">themis::voice::VoiceSessionManager</innerclass>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info" prot="private">themis::voice::VoiceSessionManager::TeardownInfo</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <briefdescription>
+<para>Voice Session Lifecycle Manager — Frozen API Contract for Phase 1. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>v1.0 frozen as of 2026-08-08</para>
+</simplesect>
+Canonical Doxygen file header for ThemisDB-generated maturity metadata. <simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Design/API Contract Frozen (Phase 1)</para>
+</simplesect>
+</para>
+<sect1 id="voice__session__manager_8h_1autotoc_md27_1s1"><sect2 id="voice__session__manager_8h_1autotoc_md27">
+<title>Session Lifecycle State Machine</title><para><programlisting><codeline><highlight class="normal">[CREATE]<sp/>→<sp/>[<ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>]<sp/>→<sp/>[<ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref>]<sp/>→<sp/>[<ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a38afd7ae34bd5e3e6fc170d8b09178a3" kindref="member">EXPIRED</ref>]<sp/>→<sp/>[<ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">TERMINATED</ref>]</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↓<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>↑</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[<ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a38afd7ae34bd5e3e6fc170d8b09178a3" kindref="member">EXPIRED</ref>]<sp/>←──────┴──────→<sp/>[<ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">TERMINATED</ref>]</highlight></codeline>
+</programlisting></para>
+<para><itemizedlist>
+<listitem><para><bold>ACTIVE</bold>: Session created, user is interacting</para>
+</listitem><listitem><para><bold>IDLE</bold>: No activity for idle_timeout_ms</para>
+</listitem><listitem><para><bold>EXPIRED</bold>: Session exceeded idle or absolute timeout and is no longer usable</para>
+</listitem><listitem><para><bold>TERMINATED</bold>: Explicit termination or cleanup</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__session__manager_8h_1autotoc_md28_1s1"><sect2 id="voice__session__manager_8h_1autotoc_md28">
+<title>Error Codes (Voice Module — Session)</title><para><itemizedlist>
+<listitem><para>6600: Session creation failed</para>
+</listitem><listitem><para>6601: Session not found</para>
+</listitem><listitem><para>6602: Session timeout/expiration</para>
+</listitem><listitem><para>6603: Session state transition invalid</para>
+</listitem><listitem><para>6604: Resource limit exceeded (e.g., max concurrent sessions)</para>
+</listitem><listitem><para>6605: User ID validation failed</para>
+</listitem><listitem><para>6606-6699: Reserved for future session-related errors</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="voice__session__manager_8h_1autotoc_md29_1s1"><sect2 id="voice__session__manager_8h_1autotoc_md29">
+<title>Thread Safety</title><para>All public methods are thread-safe (internal mutex protection). Persistence backend is assumed thread-safe. Expired or terminated sessions are removed from active storage fail-closed; only state-change timestamps remain for audit/teardown diagnostics. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Session<sp/>management<sp/>with<sp/>persistence<sp/>for<sp/>Phase<sp/>6<sp/>production<sp/>readiness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PHASE<sp/>1<sp/>CONTRACT<sp/>FREEZE:<sp/>This<sp/>file<sp/>documents<sp/>the<sp/>immutable<sp/>session<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>and<sp/>provides<sp/>canonical<sp/>error<sp/>codes<sp/>for<sp/>all<sp/>session-related<sp/>operations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{<sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Session<sp/>states<sp/>(Wave<sp/>A<sp/>Block<sp/>2:<sp/>Enhanced<sp/>teardown<sp/>safety)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>actively<sp/>interacting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7aa5daf7f2ebbba4975d61dab1c40188c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>activity<sp/>within<sp/>idle_timeout_ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a38afd7ae34bd5e3e6fc170d8b09178a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a38afd7ae34bd5e3e6fc170d8b09178a3" kindref="member">EXPIRED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exceeded<sp/>absolute<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7aa71a44c4c886bfc66b1edd511e6a677e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1acbee19c771ba379de245c39f4aa49c40aa71a44c4c886bfc66b1edd511e6a677e" kindref="member">CLOSING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>teardown<sp/>in<sp/>progress<sp/>(Wave<sp/>A<sp/>Block<sp/>2<sp/>addition)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">TERMINATED</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Teardown<sp/>complete,<sp/>resources<sp/>released</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1voice_1ad887c865bacb2688224293c52e047e74" kindref="member">sessionStateToString</ref>(<ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref><sp/>state);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Voice<sp/>session<sp/>with<sp/>full<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1voice_1_1_voice_session_data" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref><sp/>{</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1voice_1_1_voice_session_data_1a6aca11a80255784a1dfec310690d7fd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1a6aca11a80255784a1dfec310690d7fd6" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1voice_1_1_voice_session_data_1afdf71250631434ec5e8dedf11e85f40e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1afdf71250631434ec5e8dedf11e85f40e" kindref="member">user_id</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1voice_1_1_voice_session_data_1a24545e46cd792befbb496ea6ebee2201" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1a24545e46cd792befbb496ea6ebee2201" kindref="member">device_id</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1voice_1_1_voice_session_data_1ac8679f1712b6f331c0197649fd8b29fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref><sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1ac8679f1712b6f331c0197649fd8b29fa" kindref="member">state</ref><sp/>=<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" kindref="member">SessionState::ACTIVE</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1voice_1_1_voice_session_data_1a065b11cc943154cb18891d429b08d946" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1a065b11cc943154cb18891d429b08d946" kindref="member">created_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1voice_1_1_voice_session_data_1ab5d9d7a99b270eb554e43994a3e69560" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1ab5d9d7a99b270eb554e43994a3e69560" kindref="member">last_activity_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1voice_1_1_voice_session_data_1ab62d24fe7e646c2daf77b661d27624be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1ab62d24fe7e646c2daf77b661d27624be" kindref="member">expires_at_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1voice_1_1_voice_session_data_1ad09cd9ea8a6c70bb54a0e30cb4ff708a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1ad09cd9ea8a6c70bb54a0e30cb4ff708a" kindref="member">conversation_history</ref>;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1voice_1_1_voice_session_data_1a48d1a8f9e300cf91d0ca5fa68b537822" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1a48d1a8f9e300cf91d0ca5fa68b537822" kindref="member">context</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1voice_1_1_voice_session_data_1a317cc7b7a4e3bed13bf18ca567378138" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1a317cc7b7a4e3bed13bf18ca567378138" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1voice_1_1_voice_session_data_1a7be487954f35f34f591c671b314d7149" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1a7be487954f35f34f591c671b314d7149" kindref="member">total_turns</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1voice_1_1_voice_session_data_1ac7546ddd1c0a73ae16bce444f3d6579c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1ac7546ddd1c0a73ae16bce444f3d6579c" kindref="member">error_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1voice_1_1_voice_session_data_1a6f65996cf052051b1802e01042474c73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1a6f65996cf052051b1802e01042474c73" kindref="member">total_audio_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1voice_1_1_voice_session_data_1a12bdbed9a338593d910952e3342e3a57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data_1a12bdbed9a338593d910952e3342e3a57" kindref="member">preferred_language</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Session<sp/>analytics<sp/>report</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1voice_1_1_session_analytics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_session_analytics" kindref="compound">SessionAnalytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1voice_1_1_session_analytics_1a3fd0b517fac9825e5278e7b30e746ea7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_session_analytics_1a3fd0b517fac9825e5278e7b30e746ea7" kindref="member">total_sessions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1voice_1_1_session_analytics_1a5f8df2f30882c5da454bc9a89e807ac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_session_analytics_1a5f8df2f30882c5da454bc9a89e807ac0" kindref="member">active_sessions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1voice_1_1_session_analytics_1adae96a26ce2a4397edee66529972d13b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_session_analytics_1adae96a26ce2a4397edee66529972d13b" kindref="member">expired_sessions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1voice_1_1_session_analytics_1a266995aeb98226ff520ef993927f8413" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_session_analytics_1a266995aeb98226ff520ef993927f8413" kindref="member">avg_session_duration_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1voice_1_1_session_analytics_1a07613ef5d98acd85f02e03bb4984a0d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_session_analytics_1a07613ef5d98acd85f02e03bb4984a0d4" kindref="member">avg_turns_per_session</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1voice_1_1_session_analytics_1a5190b339f5ae93ead4bdab4c31f79545" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="structthemis_1_1voice_1_1_session_analytics_1a5190b339f5ae93ead4bdab4c31f79545" kindref="member">sessions_by_device</ref>;</highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1voice_1_1_session_analytics_1aa70ec3a38862ffcc5e8b939e5b4192cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>size_t&gt;<sp/><ref refid="structthemis_1_1voice_1_1_session_analytics_1aa70ec3a38862ffcc5e8b939e5b4192cb" kindref="member">sessions_by_language</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1voice_1_1_session_timeout_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1voice_1_1_session_timeout_config" kindref="compound">SessionTimeoutConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1voice_1_1_session_timeout_config_1a2b8c9b2b5733393034cc8743c1f7f131" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a2b8c9b2b5733393034cc8743c1f7f131" kindref="member">idle_timeout_ms</ref><sp/>=<sp/>5<sp/>*<sp/>60<sp/>*<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1voice_1_1_session_timeout_config_1a92631f2fc02a0ebd39eb7c2d28e5c742" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a92631f2fc02a0ebd39eb7c2d28e5c742" kindref="member">max_session_duration_ms</ref><sp/>=<sp/>30<sp/>*<sp/>60<sp/>*<sp/>1000;<sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>minutes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1voice_1_1_session_timeout_config_1ad089b58db2b5bac301392b5ce9e83ad0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1ad089b58db2b5bac301392b5ce9e83ad0" kindref="member">cleanup_interval_ms</ref><sp/>=<sp/>30<sp/>*<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30<sp/>seconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1voice_1_1_session_timeout_config_1a1d2ad784099186e0809aeefa6e6bcdb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a1d2ad784099186e0809aeefa6e6bcdb3" kindref="member">teardown_timeout_ms</ref><sp/>=<sp/>5<sp/>*<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5<sp/>seconds<sp/>(Wave<sp/>A<sp/>Block<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1voice_1_1_session_timeout_config_1a6e241c50f7b422bb2884f6c132523b92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a6e241c50f7b422bb2884f6c132523b92" kindref="member">closing_grace_period_ms</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100<sp/>ms<sp/>(Wave<sp/>A<sp/>Block<sp/>2)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1voice_1_1_session_timeout_config_1a784f92db542dff02024205eb98a7490f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a784f92db542dff02024205eb98a7490f" kindref="member">auto_expire</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1voice_1_1_session_timeout_config_1a8f305bc3ca9edbe3536da7db58251faa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config_1a8f305bc3ca9edbe3536da7db58251faa" kindref="member">enable_timeout_guards</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wave<sp/>A<sp/>Block<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Persistence<sp/>interface<sp/>(for<sp/>pluggable<sp/>backends)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1voice_1_1_i_session_persistence_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend" kindref="compound">ISessionPersistenceBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab3b9396f226618665e3112b5d61bae1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab3b9396f226618665e3112b5d61bae1c" kindref="member">~ISessionPersistenceBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1aee5689ccccc70251b018b29429a5c6fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1aee5689ccccc70251b018b29429a5c6fd" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref>&amp;<sp/>session)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1a563047a9527f048127243c4af86934ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;VoiceSessionData&gt;<sp/><ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1a563047a9527f048127243c4af86934ba" kindref="member">load</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab123adc3b6f2e3a2aa7e4ea6f9fc972a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1ab123adc3b6f2e3a2aa7e4ea6f9fc972a" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1a3f0c61c07de6e14eccb226010a44856c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend_1a3f0c61c07de6e14eccb226010a44856c" kindref="member">listActiveSessions</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-memory<sp/>persistence<sp/>backend<sp/>(default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1voice_1_1_in_memory_session_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_in_memory_session_backend" kindref="compound">InMemorySessionBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend" kindref="compound">ISessionPersistenceBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_in_memory_session_backend_1abe6026f74708904e39f7a8d655cd1762" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref>&amp;<sp/>session)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;VoiceSessionData&gt;<sp/><ref refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a7c4ccb724b87dd5e8072771b153fef9b" kindref="member">load</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a711caef3f529e8592180506a4f8ccd04" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1voice_1_1_in_memory_session_backend_1ae4c185a4d9b5ae8d0209fcbdf4fe8696" kindref="member">listActiveSessions</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_in_memory_session_backend_1a2fa90982d2a6782a812f972237f5c3cf" kindref="member">count</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>VoiceSessionData&gt;<sp/>store_;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VoiceSessionManager:<sp/>Phase<sp/>1<sp/>Frozen<sp/>API<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1voice_1_1_voice_session_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a1ec88a448dee03b4c3809126f8631e98" kindref="member">VoiceSessionManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a1ec88a448dee03b4c3809126f8631e98" kindref="member">VoiceSessionManager</ref>(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config" kindref="compound">SessionTimeoutConfig</ref>&amp;<sp/>timeout_config<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ISessionPersistenceBackend&gt;<sp/>backend<sp/>=<sp/>nullptr</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="231" refid="classthemis_1_1voice_1_1_voice_session_manager_1a234584420407dc76b65af203037f4050" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a234584420407dc76b65af203037f4050" kindref="member">~VoiceSessionManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a7c709b5b1200ac250257ee16b30501e8" kindref="member">createSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>device_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;VoiceSessionData&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ab70bd1132cb5971cb843cbea31c708ea" kindref="member">getSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a0d045122b55be1e4334990180a8a11e1" kindref="member">updateSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref>&amp;<sp/>context_update);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1af4e782da01727a27158b6cd0cc08e4d3" kindref="member">addConversationTurn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_msg,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>assistant_msg);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1aefe169a93c52902b54fe3e7f752ca14f" kindref="member">touchSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a5d56fdac867dd02c5fe3a3a593d8cf20" kindref="member">updatePreferredLanguage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>language_code);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ae2a9e5c0dd948bfdd37ea7ad92e00478" kindref="member">terminateSession</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1aaae1d1f5cd3a59ca34a214ddc6d98bd4" kindref="member">terminateSessionWithTimeout</ref>(</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timeout_ms</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1af2f487c143ba75091d20a071f9f219f8" kindref="member">terminateAllSessions</ref>(int64_t<sp/>timeout_ms<sp/>=<sp/>10000);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a8ca46db7a5d76367a600800eb37da2f7" kindref="member">isDoubleCloseAttempt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1af1dc167a715ebb6587d1912da6d4e402" kindref="member">getSessionTeardownStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a716034547d0307a5571c5a6b64610d35" kindref="member">expireOldSessions</ref>();</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VoiceSessionData&gt;<sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a559781abd8b8258f5e6a48b71c2bb3a7" kindref="member">getSessionsForUser</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_session_analytics" kindref="compound">SessionAnalytics</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a4d68c6c8cb9ca54a0e51efcc6ef06fe7" kindref="member">getAnalytics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a08a04b2204331287242a13a0ea03d89a" kindref="member">isSessionActive</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a48c1726094bd315c9d253ed06df4db53" kindref="member">getSessionState</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ae4fbbeeac2b715317b06ece516ff043c" kindref="member">generateSessionId</ref>();</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ae6b74f810d4ecf174db85e367bf72ab0" kindref="member">validateStateTransition</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref><sp/>new_state);</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a729b993395a2b7492a196962e51c0fb7" kindref="member">isUseAfterFreeAttempt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a1b50dbb2058d6249e21064fb66d0effb" kindref="member">sessionIdExists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a241ec1d68c48159b62c7e0a00237b5ac" kindref="member">getStateChangeTimestamp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id);</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_session_timeout_config" kindref="compound">SessionTimeoutConfig</ref><sp/>timeout_config_;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ISessionPersistenceBackend&gt;<sp/>backend_;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>manager_mutex_;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>VoiceSessionData&gt;<sp/>active_cache_;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>3<sp/>&amp;<sp/>Wave<sp/>A<sp/>Block<sp/>2:<sp/>Session<sp/>guard<sp/>tracking<sp/>and<sp/>teardown<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>int64_t&gt;<sp/>state_change_timestamps_;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wave<sp/>A<sp/>Block<sp/>2:<sp/>Teardown<sp/>safety<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TeardownInfo<sp/>{</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_time_ms<sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>teardown<sp/>initiated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref><sp/>pre_closing_state<sp/>=<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">SessionState::TERMINATED</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>State<sp/>before<sp/>CLOSING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>error_code<sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>during<sp/>teardown<sp/>if<sp/>any</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TeardownInfo&gt;<sp/>teardown_tracker_;</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isExpired(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref>&amp;<sp/>session)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>nowMs()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>teardownSessionLocked(</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timeout_ms</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="468"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal">}}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::voice</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/voice/voice_session_manager.h"/>
+  </compounddef>
+</doxygen>

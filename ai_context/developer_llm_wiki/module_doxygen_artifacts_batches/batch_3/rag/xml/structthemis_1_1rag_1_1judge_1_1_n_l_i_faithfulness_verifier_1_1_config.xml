@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::NLIFaithfulnessVerifier::Config</compoundname>
+    <includes refid="nli__faithfulness__verifier_8h" local="no">nli_faithfulness_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1ad2df7de1868e50bd2486b4cfafa7048f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::NLIFaithfulnessVerifier::Config::model_path</definition>
+        <argsstring></argsstring>
+        <name>model_path</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::model_path</qualifiedname>
+        <initializer>= &quot;roberta-large-mnli&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="105" column="21" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a2fc4858eb5c1a5d25d13c3a488ba8f43" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::NLIFaithfulnessVerifier::Config::use_gpu</definition>
+        <argsstring></argsstring>
+        <name>use_gpu</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::use_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="106" column="14" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1ac7654a110e64140da9552aea362bbbf4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::NLIFaithfulnessVerifier::Config::entailment_threshold</definition>
+        <argsstring></argsstring>
+        <name>entailment_threshold</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::entailment_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Min score for entailment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="109" column="16" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1ab9065f90a9f63b46f35484a6b6f064d0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::NLIFaithfulnessVerifier::Config::neutral_threshold</definition>
+        <argsstring></argsstring>
+        <name>neutral_threshold</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::neutral_threshold</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+<para>Min score for neutral. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="110" column="16" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a94a806fc5da9da17c360cc6bfea0e989" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::NLIFaithfulnessVerifier::Config::contradiction_threshold</definition>
+        <argsstring></argsstring>
+        <name>contradiction_threshold</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::contradiction_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Min score for contradiction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="111" column="16" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a8d08078a43d89b88f48ff947270c0f1f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::NLIFaithfulnessVerifier::Config::max_claims</definition>
+        <argsstring></argsstring>
+        <name>max_claims</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::max_claims</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Max claims to extract. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="114" column="16" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a20a1106e4f059afb284e36beb6c8aefb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::NLIFaithfulnessVerifier::Config::enable_claim_decomposition</definition>
+        <argsstring></argsstring>
+        <name>enable_claim_decomposition</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::enable_claim_decomposition</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Break complex claims. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="115" column="14" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a29df894a7978ecb8fe5cd5b352ee54df" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::NLIFaithfulnessVerifier::Config::min_faithfulness_score</definition>
+        <argsstring></argsstring>
+        <name>min_faithfulness_score</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::min_faithfulness_score</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Threshold for &quot;faithful&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="118" column="16" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1abe8dbaaa55ec43a77f706352b8c28106" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::NLIFaithfulnessVerifier::Config::enable_batching</definition>
+        <argsstring></argsstring>
+        <name>enable_batching</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::enable_batching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Batch NLI inference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="121" column="14" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1aeda8929de53914e3bba4098f617880a2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::NLIFaithfulnessVerifier::Config::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::batch_size</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="122" column="16" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a58b71c59cb19d53d9381deb0285a8c44" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::NLIFaithfulnessVerifier::Config::onnx_model_path</definition>
+        <argsstring></argsstring>
+        <name>onnx_model_path</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::onnx_model_path</qualifiedname>
+        <initializer>= &quot;roberta-large-mnli&quot;</initializer>
+        <briefdescription>
+<para>ONNX model path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="125" column="21" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a5234a590ee017ef065c2c2b249295887" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::NLIFaithfulnessVerifier::Config::onnx_tokenizer_path</definition>
+        <argsstring></argsstring>
+        <name>onnx_tokenizer_path</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::onnx_tokenizer_path</qualifiedname>
+        <initializer>= &quot;tokenizer.json&quot;</initializer>
+        <briefdescription>
+<para>Tokenizer config path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="126" column="21" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a71b218ffa9405ff112203e79f776ec9f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::NLIFaithfulnessVerifier::Config::use_onnx</definition>
+        <argsstring></argsstring>
+        <name>use_onnx</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::use_onnx</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable ONNX inference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="127" column="14" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a00ff2f70fce4b9e23a8270dd54cb5489" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::NLIFaithfulnessVerifier::Config::fallback_to_heuristic</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_heuristic</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::fallback_to_heuristic</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Fallback if ONNX fails. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="128" column="14" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1abdcc8d16d45a8f0844ace5969913a3e7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::NLIFaithfulnessVerifier::Config::onnx_inference_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>onnx_inference_timeout_ms</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::onnx_inference_timeout_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>ONNX inference timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="129" column="13" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1ac90aab698ec8f39a557f1047a27f9c08" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::NLIFaithfulnessVerifier::Config::log_inference_mode</definition>
+        <argsstring></argsstring>
+        <name>log_inference_mode</name>
+        <qualifiedname>themis::rag::judge::NLIFaithfulnessVerifier::Config::log_inference_mode</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Log ONNX vs heuristic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="130" column="14" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for NLI verification. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/nli_faithfulness_verifier.h" line="103" column="5" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="103" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1aeda8929de53914e3bba4098f617880a2" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a94a806fc5da9da17c360cc6bfea0e989" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>contradiction_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1abe8dbaaa55ec43a77f706352b8c28106" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>enable_batching</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a20a1106e4f059afb284e36beb6c8aefb" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>enable_claim_decomposition</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1ac7654a110e64140da9552aea362bbbf4" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>entailment_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a00ff2f70fce4b9e23a8270dd54cb5489" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>fallback_to_heuristic</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1ac90aab698ec8f39a557f1047a27f9c08" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>log_inference_mode</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a8d08078a43d89b88f48ff947270c0f1f" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>max_claims</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a29df894a7978ecb8fe5cd5b352ee54df" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>min_faithfulness_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1ad2df7de1868e50bd2486b4cfafa7048f" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>model_path</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1ab9065f90a9f63b46f35484a6b6f064d0" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>neutral_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1abdcc8d16d45a8f0844ace5969913a3e7" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>onnx_inference_timeout_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a58b71c59cb19d53d9381deb0285a8c44" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>onnx_model_path</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a5234a590ee017ef065c2c2b249295887" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>onnx_tokenizer_path</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a2fc4858eb5c1a5d25d13c3a488ba8f43" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>use_gpu</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config_1a71b218ffa9405ff112203e79f776ec9f" prot="public" virt="non-virtual"><scope>themis::rag::judge::NLIFaithfulnessVerifier::Config</scope><name>use_onnx</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_direct_x_vector_backend_1_1_direct_x_vector_backend_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::DirectXVectorBackend::DirectXVectorBackendImpl</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/graphics_backends.cpp" line="1014" column="1" bodyfile="src/acceleration/graphics_backends.cpp" bodystart="1014" bodyend="1016"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

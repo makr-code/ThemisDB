@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_hnsw_optimization_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HnswOptimizationConfig</compoundname>
+    <includes refid="hnsw__layer__optimizer_8h" local="no">hnsw_layer_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning" prot="public">themis::HnswOptimizationConfig::LayerPruning</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection" prot="public">themis::HnswOptimizationConfig::AdaptiveLayerSelection</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert" prot="public">themis::HnswOptimizationConfig::BatchInsert</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1a0afafb390487a57ebe3ef639c55de4f1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::HnswOptimizationConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::HnswOptimizationConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="29" column="10" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1a5d4a90042de520c2125997a9d08c8fd6" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning" kindref="compound">themis::HnswOptimizationConfig::LayerPruning</ref></type>
+        <definition>struct themis::HnswOptimizationConfig::LayerPruning themis::HnswOptimizationConfig::layer_pruning</definition>
+        <argsstring></argsstring>
+        <name>layer_pruning</name>
+        <qualifiedname>themis::HnswOptimizationConfig::layer_pruning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="36" column="19"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1ac36cbc5bca90072f64ead98f732b7c74" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection" kindref="compound">themis::HnswOptimizationConfig::AdaptiveLayerSelection</ref></type>
+        <definition>struct themis::HnswOptimizationConfig::AdaptiveLayerSelection themis::HnswOptimizationConfig::adaptive_layer_selection</definition>
+        <argsstring></argsstring>
+        <name>adaptive_layer_selection</name>
+        <qualifiedname>themis::HnswOptimizationConfig::adaptive_layer_selection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="43" column="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_hnsw_optimization_config_1a3ef8eead02e87020b6463697d0edb992" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert" kindref="compound">themis::HnswOptimizationConfig::BatchInsert</ref></type>
+        <definition>struct themis::HnswOptimizationConfig::BatchInsert themis::HnswOptimizationConfig::batch_insert</definition>
+        <argsstring></argsstring>
+        <name>batch_insert</name>
+        <qualifiedname>themis::HnswOptimizationConfig::batch_insert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_layer_optimizer.h" line="49" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for HNSW layer optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::HnswOptimizationConfig</label>
+        <link refid="structthemis_1_1_hnsw_optimization_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>layer_pruning</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>adaptive_layer_selection</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>batch_insert</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::HnswOptimizationConfig::AdaptiveLayerSelection</label>
+        <link refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection"/>
+      </node>
+      <node id="4">
+        <label>themis::HnswOptimizationConfig::BatchInsert</label>
+        <link refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert"/>
+      </node>
+      <node id="2">
+        <label>themis::HnswOptimizationConfig::LayerPruning</label>
+        <link refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/index/hnsw_layer_optimizer.h" line="28" column="1" bodyfile="include/index/hnsw_layer_optimizer.h" bodystart="28" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1ac36cbc5bca90072f64ead98f732b7c74" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig</scope><name>adaptive_layer_selection</name></member>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1a3ef8eead02e87020b6463697d0edb992" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig</scope><name>batch_insert</name></member>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1a0afafb390487a57ebe3ef639c55de4f1" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_hnsw_optimization_config_1a5d4a90042de520c2125997a9d08c8fd6" prot="public" virt="non-virtual"><scope>themis::HnswOptimizationConfig</scope><name>layer_pruning</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

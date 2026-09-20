@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tenant_1_1_i_tenant_quota_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::tenant::ITenantQuotaPolicy</compoundname>
+    <includes refid="itenant__quota__policy_8h" local="no">itenant_quota_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a801f83354d4f0627d6c729ed752cdf70" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::tenant::ITenantQuotaPolicy::~ITenantQuotaPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITenantQuotaPolicy</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::~ITenantQuotaPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="49" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a5c40043c41f5e058959b0536b3465a75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tenant::ITenantQuotaPolicy::ITenantQuotaPolicy</definition>
+        <argsstring>(const ITenantQuotaPolicy &amp;)=delete</argsstring>
+        <name>ITenantQuotaPolicy</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::ITenantQuotaPolicy</qualifiedname>
+        <param>
+          <type>const ITenantQuotaPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1afaf59f6c3915b83222a4e089ae6c399e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a5c40043c41f5e058959b0536b3465a75" kindref="member">ITenantQuotaPolicy</ref> &amp;</type>
+        <definition>ITenantQuotaPolicy &amp; themis::tenant::ITenantQuotaPolicy::operator=</definition>
+        <argsstring>(const ITenantQuotaPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a5c40043c41f5e058959b0536b3465a75" kindref="member">ITenantQuotaPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="53" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a31fbce57b55770e7ba40126345079dac" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tenant::ITenantQuotaPolicy::canAllocateStorage</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t additional_bytes) const =0</argsstring>
+        <name>canAllocateStorage</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::canAllocateStorage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>additional_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff <computeroutput>tenant_id</computeroutput> may store <computeroutput>additional_bytes</computeroutput> more bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not modify accounting state. Returns true unconditionally when <ref refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a534f44856cbb077c47409f0de0501742" kindref="member">maxStorageBytes()</ref> == 0 (unlimited).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant whose quota is checked. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>additional_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes the operation intends to add. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="68" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a534f44856cbb077c47409f0de0501742" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::tenant::ITenantQuotaPolicy::maxStorageBytes</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxStorageBytes</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::maxStorageBytes</qualifiedname>
+        <briefdescription>
+<para>Maximum storage bytes allowed per tenant by this policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Byte limit; 0 signals unlimited. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="76" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a010bd56726bd4b12712e9150bbc651eb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tenant::ITenantQuotaPolicy::canAddDocuments</definition>
+        <argsstring>(const std::string &amp;tenant_id, uint64_t count) const =0</argsstring>
+        <name>canAddDocuments</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::canAddDocuments</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff <computeroutput>tenant_id</computeroutput> may create <computeroutput>count</computeroutput> more documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant whose quota is checked. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of documents the caller intends to insert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="88" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a8f45f8ff5a59354cd561390770fe6d9e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::tenant::ITenantQuotaPolicy::maxDocuments</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxDocuments</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::maxDocuments</qualifiedname>
+        <briefdescription>
+<para>Maximum document count per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="94" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1afbd78ced91efe33f9b4e289c4a456b91" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tenant::ITenantQuotaPolicy::canAddCollection</definition>
+        <argsstring>(const std::string &amp;tenant_id) const =0</argsstring>
+        <name>canAddCollection</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::canAddCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff <computeroutput>tenant_id</computeroutput> may create one more collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant whose quota is checked. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="101" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1af285a368fae3ff103552b41ad51229c7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::tenant::ITenantQuotaPolicy::maxCollections</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxCollections</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::maxCollections</qualifiedname>
+        <briefdescription>
+<para>Maximum collection count per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="106" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a235fd8472e34b82176e46c15c6c5d826" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tenant::ITenantQuotaPolicy::canStartQuery</definition>
+        <argsstring>(const std::string &amp;tenant_id) const =0</argsstring>
+        <name>canStartQuery</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::canStartQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff <computeroutput>tenant_id</computeroutput> may dispatch one more concurrent query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not modify accounting state — call <ref refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a01130a3f07a34cc20a0b0729d526a5fb" kindref="member">onQueryStarted()</ref> only after the query has actually been admitted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant whose slot availability is checked. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="120" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a01130a3f07a34cc20a0b0729d526a5fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::tenant::ITenantQuotaPolicy::onQueryStarted</definition>
+        <argsstring>(const std::string &amp;tenant_id)=0</argsstring>
+        <name>onQueryStarted</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::onQueryStarted</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that <computeroutput>tenant_id</computeroutput> started a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates concurrent-query accounting. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="129" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1aea70aad5b22afbabe242dc042d6a0802" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::tenant::ITenantQuotaPolicy::onQueryFinished</definition>
+        <argsstring>(const std::string &amp;tenant_id)=0</argsstring>
+        <name>onQueryFinished</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::onQueryFinished</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that <computeroutput>tenant_id&apos;s</computeroutput> query has finished. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Releases the concurrent-query slot. Implementations must clamp to zero on mismatched calls. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="139" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a7ad1873e1fad065edd42782efd883836" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::tenant::ITenantQuotaPolicy::maxConcurrentQueries</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxConcurrentQueries</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::maxConcurrentQueries</qualifiedname>
+        <briefdescription>
+<para>Maximum concurrent queries per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="144" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a4950f61297700a00ee29509ad34be14a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tenant::ITenantQuotaPolicy::allowRequest</definition>
+        <argsstring>(const std::string &amp;tenant_id)=0</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::allowRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff <computeroutput>tenant_id</computeroutput> is allowed to send one more request now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses token-bucket semantics internally. May consume a token — callers must not issue the request if this method returns false.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant whose rate limit is checked. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="158" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1aa86a00d3a2077f46afd4d60b98f5f8d1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::tenant::ITenantQuotaPolicy::maxRequestsPerSecond</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxRequestsPerSecond</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::maxRequestsPerSecond</qualifiedname>
+        <briefdescription>
+<para>Maximum requests per second per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="163" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a49d87365bbf952350e68dcefa8027f27" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::tenant::ITenantQuotaPolicy::isEnforced</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isEnforced</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::isEnforced</qualifiedname>
+        <briefdescription>
+<para>Return true when per-tenant quota enforcement is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should return false when every limit is 0 (unlimited) and enforcement is a no-op, so callers can skip the check on hot paths. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="175" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a41c0a7941afbfd1c485fb0a3a2a7d053" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::tenant::ITenantQuotaPolicy::ITenantQuotaPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>ITenantQuotaPolicy</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::ITenantQuotaPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="178" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a3ff0e03273913b16e6c835d2f5344ec1" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::tenant::ITenantQuotaPolicy::ITenantQuotaPolicy</definition>
+        <argsstring>(ITenantQuotaPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>ITenantQuotaPolicy</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::ITenantQuotaPolicy</qualifiedname>
+        <param>
+          <type>ITenantQuotaPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="179" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1aaa36da485b56c9eda43d00d89eab0626" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a5c40043c41f5e058959b0536b3465a75" kindref="member">ITenantQuotaPolicy</ref> &amp;</type>
+        <definition>ITenantQuotaPolicy &amp; themis::tenant::ITenantQuotaPolicy::operator=</definition>
+        <argsstring>(ITenantQuotaPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::tenant::ITenantQuotaPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a5c40043c41f5e058959b0536b3465a75" kindref="member">ITenantQuotaPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/tenant/itenant_quota_policy.h" line="180" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract per-tenant resource-quota policy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls five resource axes per tenant:<itemizedlist>
+<listitem><para><bold>Storage</bold> — maximum bytes persisted on behalf of a tenant.</para>
+</listitem><listitem><para><bold>Documents</bold> — maximum document count per tenant.</para>
+</listitem><listitem><para><bold>Collections</bold> — maximum collection count per tenant.</para>
+</listitem><listitem><para><bold>Concurrent queries</bold> — maximum simultaneous query slots per tenant.</para>
+</listitem><listitem><para><bold>Request rate</bold> — maximum requests per second per tenant (token-bucket).</para>
+</listitem></itemizedlist>
+</para>
+<para>Implementations are installed into EditionManager via <computeroutput>EditionManager::installTenantQuotaPolicy()</computeroutput> and consulted by the server layer before admitting a tenant request. </para>
+    </detaileddescription>
+    <location file="include/themis/tenant/itenant_quota_policy.h" line="47" column="1" bodyfile="include/themis/tenant/itenant_quota_policy.h" bodystart="47" bodyend="181"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a4950f61297700a00ee29509ad34be14a" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1afbd78ced91efe33f9b4e289c4a456b91" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>canAddCollection</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a010bd56726bd4b12712e9150bbc651eb" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>canAddDocuments</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a31fbce57b55770e7ba40126345079dac" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>canAllocateStorage</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a235fd8472e34b82176e46c15c6c5d826" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>canStartQuery</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a49d87365bbf952350e68dcefa8027f27" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>isEnforced</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a5c40043c41f5e058959b0536b3465a75" prot="public" virt="non-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>ITenantQuotaPolicy</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a41c0a7941afbfd1c485fb0a3a2a7d053" prot="protected" virt="non-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>ITenantQuotaPolicy</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a3ff0e03273913b16e6c835d2f5344ec1" prot="protected" virt="non-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>ITenantQuotaPolicy</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1af285a368fae3ff103552b41ad51229c7" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>maxCollections</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a7ad1873e1fad065edd42782efd883836" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>maxConcurrentQueries</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a8f45f8ff5a59354cd561390770fe6d9e" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>maxDocuments</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1aa86a00d3a2077f46afd4d60b98f5f8d1" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>maxRequestsPerSecond</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a534f44856cbb077c47409f0de0501742" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>maxStorageBytes</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1aea70aad5b22afbabe242dc042d6a0802" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>onQueryFinished</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a01130a3f07a34cc20a0b0729d526a5fb" prot="public" virt="pure-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>onQueryStarted</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1afaf59f6c3915b83222a4e089ae6c399e" prot="public" virt="non-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1aaa36da485b56c9eda43d00d89eab0626" prot="protected" virt="non-virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1tenant_1_1_i_tenant_quota_policy_1a801f83354d4f0627d6c729ed752cdf70" prot="public" virt="virtual"><scope>themis::tenant::ITenantQuotaPolicy</scope><name>~ITenantQuotaPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

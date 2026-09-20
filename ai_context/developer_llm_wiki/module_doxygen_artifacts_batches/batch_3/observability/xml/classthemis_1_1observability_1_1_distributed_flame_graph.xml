@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_distributed_flame_graph" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::DistributedFlameGraph</compoundname>
+    <includes refid="distributed__flame__graph_8h" local="no">distributed_flame_graph.h</includes>
+    <innerclass refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl" prot="public">themis::observability::DistributedFlameGraph::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_flame_graph_1a1eefff1314c80b642631a99c9ad84b32" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::observability::DistributedFlameGraph::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="222" column="21" bodyfile="include/observability/distributed_flame_graph.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::DistributedFlameGraph::DistributedFlameGraph</definition>
+        <argsstring>(const DistributedFlameGraphConfig &amp;config=DistributedFlameGraphConfig{})</argsstring>
+        <name>DistributedFlameGraph</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::DistributedFlameGraph</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="149" column="14" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="344" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1ac456a7b816e4b3908b64303e9c104a14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::DistributedFlameGraph::~DistributedFlameGraph</definition>
+        <argsstring>()</argsstring>
+        <name>~DistributedFlameGraph</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::~DistributedFlameGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="151" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1adf8b47bc0387b7afeedcd9023267eab2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::DistributedFlameGraph::DistributedFlameGraph</definition>
+        <argsstring>(const DistributedFlameGraph &amp;)=delete</argsstring>
+        <name>DistributedFlameGraph</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::DistributedFlameGraph</qualifiedname>
+        <param>
+          <type>const DistributedFlameGraph &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="154" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1ace2cf696dec89ae359925f62f2791f2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" kindref="member">DistributedFlameGraph</ref> &amp;</type>
+        <definition>DistributedFlameGraph &amp; themis::observability::DistributedFlameGraph::operator=</definition>
+        <argsstring>(const DistributedFlameGraph &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" kindref="member">DistributedFlameGraph</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="155" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1ae2227d31070ab22b9839033f2d88f5fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedFlameGraph::addNodeProfile</definition>
+        <argsstring>(const NodeProfile &amp;profile)</argsstring>
+        <name>addNodeProfile</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::addNodeProfile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Add or replace the profile for <computeroutput>profile.node_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Node Profile.</para>
+<para>If a profile with the same <computeroutput>node_id</computeroutput> already exists it is overwritten (last-write-wins). Only <computeroutput><ref refid="namespacethemis_1_1observability_1a028f9dbb7f938631afbc4d71fcf893efa2b55387dd066c5bac646ac61543d152d" kindref="member">ProfileType::CPU</ref></computeroutput> snapshots contribute sample data; other types are accepted but ignored during <computeroutput><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a8c4f106255e8a76422ed8dd426aae26c" kindref="member">merge()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addNodeProfile without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="165" column="10" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="354" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1ad394dabe3e8161c12c5a10024094c0f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedFlameGraph::clearProfiles</definition>
+        <argsstring>()</argsstring>
+        <name>clearProfiles</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::clearProfiles</qualifiedname>
+        <briefdescription>
+<para>Remove all stored node profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Profiles.</para>
+<para>Implements clearProfiles without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="170" column="10" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="362" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1a8c4f106255e8a76422ed8dd426aae26c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref></type>
+        <definition>MergedFlameGraph themis::observability::DistributedFlameGraph::merge</definition>
+        <argsstring>() const</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::merge</qualifiedname>
+        <briefdescription>
+<para>Merge all stored node profiles into a single flame graph. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A <computeroutput><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref></computeroutput> whose <computeroutput>stacks</computeroutput> map contains the aggregate (or normalised) sample counts across all nodes. Returns an empty graph if no profiles have been added. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="179" column="22" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="366" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1a7746e6c0472cdba638d8fd4b503d53ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref></type>
+        <definition>MergedFlameGraph themis::observability::DistributedFlameGraph::mergeFiltered</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;node_ids) const</argsstring>
+        <name>mergeFiltered</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::mergeFiltered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>node_ids</declname>
+        </param>
+        <briefdescription>
+<para>Merge only the profiles for the specified <computeroutput>node_ids</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Node IDs not present in the store are silently ignored.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Subset of node IDs to include. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merged flame graph for the selected nodes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="189" column="22" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="370" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1a31d402cf02f6c62d9855b0f9ea062bcb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_profile_diff" kindref="compound">ProfileDiff</ref></type>
+        <definition>ProfileDiff themis::observability::DistributedFlameGraph::diff</definition>
+        <argsstring>(const MergedFlameGraph &amp;baseline, const MergedFlameGraph &amp;current) const</argsstring>
+        <name>diff</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::diff</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref> &amp;</type>
+          <declname>baseline</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref> &amp;</type>
+          <declname>current</declname>
+        </param>
+        <briefdescription>
+<para>Compute a differential between two merged flame graphs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reuses <computeroutput><ref refid="classthemis_1_1observability_1_1_continuous_profiler" kindref="compound">ContinuousProfiler</ref></computeroutput> semantics: new/removed/changed hotspots are identified by comparing the normalised share of each stack between <computeroutput>baseline</computeroutput> and <computeroutput>current</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>baseline</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Earlier flame graph (reference). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Later flame graph (subject). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <computeroutput><ref refid="structthemis_1_1observability_1_1_profile_diff" kindref="compound">ProfileDiff</ref></computeroutput> describing regressions and hotspot changes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="202" column="17" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="375" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1abf44163c84e11ede1c8b66a31f8b5333" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::observability::DistributedFlameGraph::getNodeIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getNodeIds</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::getNodeIds</qualifiedname>
+        <briefdescription>
+<para>Return the list of node IDs for which profiles are stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="208" column="17" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="380" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1a2cdd63cf2871ce3ca525fa12979a2e60" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::DistributedFlameGraph::nodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::nodeCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of stored node profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="213" column="12" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="384" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1ae48f604703a74d11739ec85839931de1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref></type>
+        <definition>DistributedFlameGraphConfig themis::observability::DistributedFlameGraph::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::getConfig</qualifiedname>
+        <briefdescription>
+<para>Retrieve the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/distributed_flame_graph.h" line="218" column="33" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="388" bodyend="390"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregates CPU-profile snapshots from multiple cluster nodes and produces a unified distributed flame graph. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Overview</heading>
+</para>
+<para>Each ThemisDB node collects CPU profiling data via <computeroutput><ref refid="classthemis_1_1observability_1_1_continuous_profiler" kindref="compound">ContinuousProfiler</ref></computeroutput>. <computeroutput><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph" kindref="compound">DistributedFlameGraph</ref></computeroutput> collects those per-node snapshots, merges the pprof folded-stacks data by summing (or normalising) sample counts for each unique stack, and exposes the result as a <computeroutput><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref></computeroutput>.</para>
+<para><heading level="3">Folded-stacks merging</heading>
+</para>
+<para>Given two nodes with profiles: <programlisting><codeline><highlight class="preprocessor">#<sp/>node-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">main;query_exec;scan<sp/>40</highlight></codeline>
+<codeline><highlight class="normal">main;compaction<sp/>10</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/>node-2</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">main;query_exec;scan<sp/>30</highlight></codeline>
+<codeline><highlight class="normal">main;flush<sp/>20</highlight></codeline>
+</programlisting> The merged graph is: <programlisting><codeline><highlight class="normal">main;compaction<sp/>10</highlight></codeline>
+<codeline><highlight class="normal">main;flush<sp/>20</highlight></codeline>
+<codeline><highlight class="normal">main;query_exec;scan<sp/>70</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe.</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" kindref="member">DistributedFlameGraph</ref><sp/>dfg;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Each<sp/>node<sp/>submits<sp/>its<sp/>local<sp/>profile<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">dfg.addNodeProfile({</highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/>profiler1.snapshot()});</highlight></codeline>
+<codeline><highlight class="normal">dfg.addNodeProfile({</highlight><highlight class="stringliteral">&quot;node-2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10.0.0.2&quot;</highlight><highlight class="normal">,<sp/>profiler2.snapshot()});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>merged<sp/>=<sp/>dfg.merge();</highlight></codeline>
+<codeline><highlight class="normal">merged.toFoldedText();<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pipe<sp/>to<sp/>flamegraph.pl</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">merged.toJSON();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>send<sp/>to<sp/>API<sp/>consumer</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/observability/distributed_flame_graph.h" line="147" column="1" bodyfile="include/observability/distributed_flame_graph.h" bodystart="147" bodyend="223"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae2227d31070ab22b9839033f2d88f5fe" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>addNodeProfile</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ad394dabe3e8161c12c5a10024094c0f9" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>clearProfiles</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a31d402cf02f6c62d9855b0f9ea062bcb" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>diff</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adfd57daff8088c42b3ccb01144ce2027" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>DistributedFlameGraph</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1adf8b47bc0387b7afeedcd9023267eab2" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>DistributedFlameGraph</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ae48f604703a74d11739ec85839931de1" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1abf44163c84e11ede1c8b66a31f8b5333" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>getNodeIds</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a1eefff1314c80b642631a99c9ad84b32" prot="private" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a8c4f106255e8a76422ed8dd426aae26c" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>merge</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a7746e6c0472cdba638d8fd4b503d53ab" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>mergeFiltered</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1a2cdd63cf2871ce3ca525fa12979a2e60" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ace2cf696dec89ae359925f62f2791f2b" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1ac456a7b816e4b3908b64303e9c104a14" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph</scope><name>~DistributedFlameGraph</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

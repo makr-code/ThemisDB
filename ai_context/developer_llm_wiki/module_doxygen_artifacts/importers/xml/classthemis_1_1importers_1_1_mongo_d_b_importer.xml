@@ -1,0 +1,1175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_mongo_d_b_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::MongoDBImporter</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_importer" prot="public" virt="non-virtual">themis::importers::IImporter</basecompoundref>
+    <includes refid="mongo__importer_8h" local="no">mongo_importer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1aa0a67c8ca65d72cfff357c6ac955ce3e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::importers::MongoDBImporter::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::importers::MongoDBImporter::cancelled_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="45" column="17" bodyfile="include/importers/mongo_importer.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1aeb18ab9c9314beeb95e31b22158b9bd4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MongoDBImporter::configured_collection_</definition>
+        <argsstring></argsstring>
+        <name>configured_collection_</name>
+        <qualifiedname>themis::importers::MongoDBImporter::configured_collection_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="47" column="17" bodyfile="include/importers/mongo_importer.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a93910ef3ae004aec3884c9d1c0f9dead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::MongoDBImporter::MongoDBImporter</definition>
+        <argsstring>()</argsstring>
+        <name>MongoDBImporter</name>
+        <qualifiedname>themis::importers::MongoDBImporter::MongoDBImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="23" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a518077556a9e96485288d0b83e8eef4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::MongoDBImporter::~MongoDBImporter</definition>
+        <argsstring>() override</argsstring>
+        <name>~MongoDBImporter</name>
+        <qualifiedname>themis::importers::MongoDBImporter::~MongoDBImporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="24" column="5" bodyfile="src/importers/mongo_importer.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1ac54867c51e1723242d8662c9c8c1898a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::importers::MongoDBImporter::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::importers::MongoDBImporter::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1aa17b5c532ea2e9928379e77fe1385212">getName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="27" column="16" bodyfile="include/importers/mongo_importer.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a69c3edb3ce11c19db0746a7956cf2383" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::importers::MongoDBImporter::getSupportedTypes</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSupportedTypes</name>
+        <qualifiedname>themis::importers::MongoDBImporter::getSupportedTypes</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a26a442906fade935ddfe41f8e91a15e6">getSupportedTypes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="28" column="17" bodyfile="src/importers/mongo_importer.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a7714198e5f2e81409f19fff3c246a19d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MongoDBImporter::initialize</definition>
+        <argsstring>(const std::string &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::importers::MongoDBImporter::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1ae57ccf0cf0c3b0dbe9647f43be339afc">initialize</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: clear(), empty(), json::parse(), contains(), is_string(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="29" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="122" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a783cabd801f9de2a365dcd3160d9dfe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MongoDBImporter::validateSource</definition>
+        <argsstring>(const std::string &amp;source_path, std::vector&lt; std::string &gt; &amp;errors) override</argsstring>
+        <name>validateSource</name>
+        <qualifiedname>themis::importers::MongoDBImporter::validateSource</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af2e09c4be51c0440e2ab1717ceeb2de5">validateSource</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Validate Source. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), push_back(), std::getline(), find_first_not_of(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="30" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="149" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1ae3041175474015673e5e2593a9a1d95b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::MongoDBImporter::importData</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options, ProgressCallback progress_callback=nullptr) override</argsstring>
+        <name>importData</name>
+        <qualifiedname>themis::importers::MongoDBImporter::importData</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a93d10ab9f3f1d941d17ac2a54a5ddc02">importData</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Import Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), THEMIS_INFO(), toJson(), dump(), permission_check(), addError(), empty(), collectionFromPath(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="32" column="17" bodyfile="src/importers/mongo_importer.cpp" bodystart="194" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a83e0799706ee00c901e1dfef6dd60743" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ImportHandle &gt; themis::importers::MongoDBImporter::importDataAsync</definition>
+        <argsstring>(const std::string &amp;source_path, const ImportOptions &amp;options) override</argsstring>
+        <name>importDataAsync</name>
+        <qualifiedname>themis::importers::MongoDBImporter::importDataAsync</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1af837fb18957347a51357191ee61a04a8">importDataAsync</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Import Data Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), get(), store(), setStage(), get_future(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="37" column="21" bodyfile="src/importers/mongo_importer.cpp" bodystart="363" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a9e2057d5e7e4be4feca9dd4f29a05531" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::importers::MongoDBImporter::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::importers::MongoDBImporter::cancel</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1abda4e925d1f832cbf0e07f294b96c526">cancel</reimplements>
+        <briefdescription>
+<para>Cancel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="41" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="427" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a5171255677bd2fdafcfa59d35238f6b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MongoDBImporter::getSourceSchema</definition>
+        <argsstring>(const std::string &amp;source_path) override</argsstring>
+        <name>getSourceSchema</name>
+        <qualifiedname>themis::importers::MongoDBImporter::getSourceSchema</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_importer_1a45b011aef76cd697e53d1e847dac430a">getSourceSchema</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <briefdescription>
+<para>Get Source Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), json::array(), is_object(), unwrapDocument(), begin(), end(), key(), inferThemisType(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="42" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="438" bodyend="583"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1abf33980107a2b5e9bc03512ceab09bda" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MongoDBImporter::parseJsonLines</definition>
+        <argsstring>(const std::string &amp;file_path, const std::string &amp;collection, const ImportOptions &amp;options, ImportStats &amp;stats, ProgressCallback &amp;callback)</argsstring>
+        <name>parseJsonLines</name>
+        <qualifiedname>themis::importers::MongoDBImporter::parseJsonLines</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Parse Json Lines. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), addError(), std::getline(), find_first_not_of(), size(), std::to_string(), push_back(), json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="62" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="599" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a9b95cbb2df95bb229e93738d49eead9c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MongoDBImporter::parseJsonArray</definition>
+        <argsstring>(const std::string &amp;file_path, const std::string &amp;collection, const ImportOptions &amp;options, ImportStats &amp;stats, ProgressCallback &amp;callback)</argsstring>
+        <name>parseJsonArray</name>
+        <qualifiedname>themis::importers::MongoDBImporter::parseJsonArray</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Parse Json Array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: file(), addError(), json::parse(), std::string(), what(), is_array(), empty(), emitSpan(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="77" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="697" bodyend="742"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1af4932efba6d6b6ae35cfcece87ccd151" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MongoDBImporter::importDocument</definition>
+        <argsstring>(const json &amp;doc, const std::string &amp;collection, const ImportOptions &amp;options, ImportStats &amp;stats, size_t doc_index)</argsstring>
+        <name>importDocument</name>
+        <qualifiedname>themis::importers::MongoDBImporter::importDocument</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>doc_index</declname>
+        </param>
+        <briefdescription>
+<para>Import Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">doc_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), is_object(), addError(), std::to_string(), push_back(), shouldImportCollection(), unwrapDocument(), emitMetric(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="92" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="754" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a8d2e28f955431f08527cf125690c112a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MongoDBImporter::addError</definition>
+        <argsstring>(ImportStats &amp;stats, ImportErrorCode code, ImportErrorSeverity severity, const std::string &amp;message, const std::string &amp;location=&quot;&quot;) const</argsstring>
+        <name>addError</name>
+        <qualifiedname>themis::importers::MongoDBImporter::addError</qualifiedname>
+        <param>
+          <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1a7ab8f0c7a8a3d9ee85ae85e2dc82739f" kindref="member">ImportErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1ab84e8d97ff72a5766b99d350cbe478d0" kindref="member">ImportErrorSeverity</ref></type>
+          <declname>severity</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>location</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="144" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="1106" bodyend="1120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a7994d85bfb8cdc1f597d7919145d3494" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MongoDBImporter::emitMetric</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;metric, const std::map&lt; std::string, std::string &gt; &amp;labels, double value) const</argsstring>
+        <name>emitMetric</name>
+        <qualifiedname>themis::importers::MongoDBImporter::emitMetric</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="150" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="1122" bodyend="1129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a29ab9515b24dfbc5e1b371131d9fb5c3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MongoDBImporter::emitSpan</definition>
+        <argsstring>(const ImportOptions &amp;options, const std::string &amp;operation, const std::map&lt; std::string, std::string &gt; &amp;attributes, double duration_seconds) const</argsstring>
+        <name>emitSpan</name>
+        <qualifiedname>themis::importers::MongoDBImporter::emitSpan</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>attributes</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>duration_seconds</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="155" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="1131" bodyend="1138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a33ea8933083b02993e364fb6e042b189" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::MongoDBImporter::reportProgress</definition>
+        <argsstring>(ProgressCallback &amp;callback, const std::string &amp;stage, size_t current, size_t total)</argsstring>
+        <name>reportProgress</name>
+        <qualifiedname>themis::importers::MongoDBImporter::reportProgress</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1af0b9616504935ed9689a3c01900b05e9" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>stage</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>total</declname>
+        </param>
+        <briefdescription>
+<para>Report Progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: callback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="167" column="10" bodyfile="src/importers/mongo_importer.cpp" bodystart="1148" bodyend="1154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1aab115e7e3b4f0b96855e257fb7b2fdbc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MongoDBImporter::inferThemisType</definition>
+        <argsstring>(const json &amp;value)</argsstring>
+        <name>inferThemisType</name>
+        <qualifiedname>themis::importers::MongoDBImporter::inferThemisType</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Type mapping / BSON extended JSON helpers --------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Private Methods — Type mapping / BSON helpers ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_null(), is_boolean(), is_number_integer(), is_number_float(), is_string(), is_array(), is_object(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="104" column="24" bodyfile="src/importers/mongo_importer.cpp" bodystart="836" bodyend="900"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1adf95f50312931d24a40fdec8e0cc1a46" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MongoDBImporter::unwrapBsonValue</definition>
+        <argsstring>(const json &amp;value)</argsstring>
+        <name>unwrapBsonValue</name>
+        <qualifiedname>themis::importers::MongoDBImporter::unwrapBsonValue</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Unwrap Bson Value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), contains(), is_string(), is_number(), dump(), std::stoi(), std::stod(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="111" column="17" bodyfile="src/importers/mongo_importer.cpp" bodystart="908" bodyend="1009"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a12feeaedd7db3dffdd7e8db71ff4d724" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::MongoDBImporter::unwrapDocument</definition>
+        <argsstring>(const json &amp;doc)</argsstring>
+        <name>unwrapDocument</name>
+        <qualifiedname>themis::importers::MongoDBImporter::unwrapDocument</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Unwrap Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_object(), json::object(), begin(), end(), key(), value(), unwrapBsonValue(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="118" column="17" bodyfile="src/importers/mongo_importer.cpp" bodystart="1017" bodyend="1058"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a3625188bfb36801ed21239a8fde08bba" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::MongoDBImporter::collectionFromPath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>collectionFromPath</name>
+        <qualifiedname>themis::importers::MongoDBImporter::collectionFromPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Collection From Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find_last_of(), substr(), rfind(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="129" column="24" bodyfile="src/importers/mongo_importer.cpp" bodystart="1070" bodyend="1080"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_mongo_d_b_importer_1a94cc938b6a7bad936c468798b6645e33" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::MongoDBImporter::shouldImportCollection</definition>
+        <argsstring>(const std::string &amp;collection, const ImportOptions &amp;options)</argsstring>
+        <name>shouldImportCollection</name>
+        <qualifiedname>themis::importers::MongoDBImporter::shouldImportCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Should Import Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::find(), begin(), end(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/mongo_importer.h" line="137" column="17" bodyfile="src/importers/mongo_importer.cpp" bodystart="1089" bodyend="1100"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::MongoDBImporter</label>
+        <link refid="classthemis_1_1importers_1_1_mongo_d_b_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::IImporter</label>
+        <link refid="classthemis_1_1importers_1_1_i_importer"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::MongoDBImporter</label>
+        <link refid="classthemis_1_1importers_1_1_mongo_d_b_importer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/mongo_importer.h" line="21" column="1" bodyfile="include/importers/mongo_importer.h" bodystart="21" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a8d2e28f955431f08527cf125690c112a" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>addError</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a9e2057d5e7e4be4feca9dd4f29a05531" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1aa0a67c8ca65d72cfff357c6ac955ce3e" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a3625188bfb36801ed21239a8fde08bba" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>collectionFromPath</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1aeb18ab9c9314beeb95e31b22158b9bd4" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>configured_collection_</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a7994d85bfb8cdc1f597d7919145d3494" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>emitMetric</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a29ab9515b24dfbc5e1b371131d9fb5c3" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>emitSpan</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1ac54867c51e1723242d8662c9c8c1898a" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>getName</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a5171255677bd2fdafcfa59d35238f6b6" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>getSourceSchema</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a69c3edb3ce11c19db0746a7956cf2383" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>getSupportedTypes</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1ae3041175474015673e5e2593a9a1d95b" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>importData</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a83e0799706ee00c901e1dfef6dd60743" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>importDataAsync</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a0790bcc7450b9294f9d9d7ae891eed52" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>importDataStreaming</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1af4932efba6d6b6ae35cfcece87ccd151" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>importDocument</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1aab115e7e3b4f0b96855e257fb7b2fdbc" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>inferThemisType</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a7714198e5f2e81409f19fff3c246a19d" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a93910ef3ae004aec3884c9d1c0f9dead" prot="public" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>MongoDBImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a9b95cbb2df95bb229e93738d49eead9c" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>parseJsonArray</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1abf33980107a2b5e9bc03512ceab09bda" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>parseJsonLines</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a33ea8933083b02993e364fb6e042b189" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>reportProgress</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a94cc938b6a7bad936c468798b6645e33" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>shouldImportCollection</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1adf95f50312931d24a40fdec8e0cc1a46" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>unwrapBsonValue</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a12feeaedd7db3dffdd7e8db71ff4d724" prot="private" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>unwrapDocument</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a783cabd801f9de2a365dcd3160d9dfe6" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>validateSource</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_importer_1a72b3cba1bf78aee41b2dfb19c8b91629" prot="public" virt="virtual"><scope>themis::importers::MongoDBImporter</scope><name>~IImporter</name></member>
+      <member refid="classthemis_1_1importers_1_1_mongo_d_b_importer_1a518077556a9e96485288d0b83e8eef4c" prot="public" virt="non-virtual"><scope>themis::importers::MongoDBImporter</scope><name>~MongoDBImporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

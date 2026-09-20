@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_federation_providers_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::FederationProvidersTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1tests_1_1_federation_providers_test_1abafebe065015f95eab68adcf9cf4ce16" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_federated_identity_manager" kindref="compound">FederatedIdentityManager</ref></type>
+        <definition>FederatedIdentityManager themis::auth::tests::FederationProvidersTest::fed_</definition>
+        <argsstring></argsstring>
+        <name>fed_</name>
+        <qualifiedname>themis::auth::tests::FederationProvidersTest::fed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_wavec_federation_providers.cpp" line="75" column="30" bodyfile="tests/auth/test_auth_wavec_federation_providers.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::FederationProvidersTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_federation_providers_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::auth::FederatedIdentityManager</label>
+        <link refid="classthemis_1_1auth_1_1_federated_identity_manager"/>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::FederationProvidersTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_federation_providers_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>fed_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_auth_wavec_federation_providers.cpp" line="73" column="1" bodyfile="tests/auth/test_auth_wavec_federation_providers.cpp" bodystart="73" bodyend="76"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_federation_providers_test_1abafebe065015f95eab68adcf9cf4ce16" prot="protected" virt="non-virtual"><scope>themis::auth::tests::FederationProvidersTest</scope><name>fed_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

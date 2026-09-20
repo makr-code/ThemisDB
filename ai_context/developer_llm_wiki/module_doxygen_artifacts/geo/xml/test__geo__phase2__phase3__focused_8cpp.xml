@@ -1,0 +1,354 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__phase2__phase3__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_phase2_phase3_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <includes refid="phase2__phase3__hardening_8h" local="yes">geo/phase2_phase3_hardening.h</includes>
+    <includes refid="geo__api__contract_8h" local="yes">geo/geo_api_contract.h</includes>
+    <incdepgraph>
+      <node id="12">
+        <label>geo/geo_api_contract.h</label>
+        <link refid="geo__api__contract_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>geo/phase2_phase3_hardening.h</label>
+        <link refid="phase2__phase3__hardening_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_phase2_phase3_focused.cpp</label>
+        <link refid="test__geo__phase2__phase3__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>array</label>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo_1_1test">themis::geo::test</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="phase2__phase3__hardening_8h" kindref="compound">geo/phase2_phase3_hardening.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__api__contract_8h" kindref="compound">geo/geo_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1geo_1_1test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Backend<sp/>Dispatch<sp/>Timeout<sp/>Tests<sp/>(P23-01..P23-04)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_01_TimeoutGuardInitialization)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>timeout<sp/>=<sp/>std::chrono::microseconds(100);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref><sp/>guard(timeout);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deadline<sp/>should<sp/>be<sp/>in<sp/>the<sp/>future<sp/>at<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(guard.<ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a99bba54a64ecdf1e0071190b7290fef8" kindref="member">expired</ref>());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.<ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a9e963602539d84f101dcd7ed21ba4103" kindref="member">timeoutMicros</ref>(),<sp/>100);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_02_TimeoutGuardExpiration)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>timeout<sp/>=<sp/>std::chrono::microseconds(50);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref><sp/>guard(timeout);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>longer<sp/>than<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(1));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deadline<sp/>should<sp/>have<sp/>passed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard.<ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a99bba54a64ecdf1e0071190b7290fef8" kindref="member">expired</ref>());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_03_TimeoutGuardCaching)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>timeout<sp/>=<sp/>std::chrono::microseconds(100);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard" kindref="compound">BackendDispatchTimeoutGuard</ref><sp/>guard(timeout);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>call<sp/>should<sp/>indicate<sp/>not<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first_check<sp/>=<sp/>guard.<ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a99bba54a64ecdf1e0071190b7290fef8" kindref="member">expired</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>past<sp/>expiration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(1));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>call<sp/>should<sp/>indicate<sp/>expired,<sp/>and<sp/>caching<sp/>should<sp/>be<sp/>working</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>second_check<sp/>=<sp/>guard.<ref refid="classthemis_1_1geo_1_1_backend_dispatch_timeout_guard_1a99bba54a64ecdf1e0071190b7290fef8" kindref="member">expired</ref>();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(first_check,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(second_check,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_04_BackendSelectionBudget)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1geo_1afd5e1d182d600deae3846e3c0bdc783d" kindref="member">kBackendSelectionBudget</ref><sp/>==<sp/>std::chrono::microseconds(100),</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Contract:<sp/>kBackendSelectionBudget<sp/>must<sp/>be<sp/>100µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1geo_1afd5e1d182d600deae3846e3c0bdc783d" kindref="member">kBackendSelectionBudget</ref>.count(),<sp/>100);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Geometry<sp/>Validation<sp/>Tests<sp/>(P23-05..P23-08)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_05_Wgs84ValidCoordinates)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a0fccc5df10fbeebb0e310c4ae63eae4d" kindref="member">isValidWgs84CoordinatePair</ref>(0.0,<sp/>0.0));<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Equator,<sp/>Prime<sp/>Meridian</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a0fccc5df10fbeebb0e310c4ae63eae4d" kindref="member">isValidWgs84CoordinatePair</ref>(-180.0,<sp/>-90.0));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Southwest<sp/>corner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a0fccc5df10fbeebb0e310c4ae63eae4d" kindref="member">isValidWgs84CoordinatePair</ref>(180.0,<sp/>90.0));<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Northeast<sp/>corner</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a0fccc5df10fbeebb0e310c4ae63eae4d" kindref="member">isValidWgs84CoordinatePair</ref>(51.5074,<sp/>-0.1278));</highlight><highlight class="comment">//<sp/>London</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_06_Wgs84OutOfBoundsCoordinates)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a0fccc5df10fbeebb0e310c4ae63eae4d" kindref="member">isValidWgs84CoordinatePair</ref>(181.0,<sp/>0.0));<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Longitude<sp/>too<sp/>large</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a0fccc5df10fbeebb0e310c4ae63eae4d" kindref="member">isValidWgs84CoordinatePair</ref>(-181.0,<sp/>0.0));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Longitude<sp/>too<sp/>small</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a0fccc5df10fbeebb0e310c4ae63eae4d" kindref="member">isValidWgs84CoordinatePair</ref>(0.0,<sp/>91.0));<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latitude<sp/>too<sp/>large</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a0fccc5df10fbeebb0e310c4ae63eae4d" kindref="member">isValidWgs84CoordinatePair</ref>(0.0,<sp/>-91.0));<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latitude<sp/>too<sp/>small</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_07_RingClosureValidation)<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Closed<sp/>ring<sp/>(4<sp/>vertices:<sp/>3<sp/>unique<sp/>+<sp/>closing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>lons_closed<sp/>=<sp/>{0.0,<sp/>1.0,<sp/>1.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>lats_closed<sp/>=<sp/>{0.0,<sp/>0.0,<sp/>1.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a73ce91499d365e580386422a24378d5c" kindref="member">isRingClosed</ref>(lons_closed,<sp/>lats_closed));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Open<sp/>ring<sp/>(first<sp/>!=<sp/>last)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>lons_open<sp/>=<sp/>{0.0,<sp/>1.0,<sp/>1.0,<sp/>0.5};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>lats_open<sp/>=<sp/>{0.0,<sp/>0.0,<sp/>1.0,<sp/>0.5};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a73ce91499d365e580386422a24378d5c" kindref="member">isRingClosed</ref>(lons_open,<sp/>lats_open));</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Too<sp/>small<sp/>(&lt;<sp/>4<sp/>vertices)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>lons_small<sp/>=<sp/>{0.0,<sp/>1.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>lats_small<sp/>=<sp/>{0.0,<sp/>1.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a73ce91499d365e580386422a24378d5c" kindref="member">isRingClosed</ref>(lons_small,<sp/>lats_small));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_08_MinimumVertexRequirements)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LineString:<sp/>≥<sp/>2<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a126c09a75561c663381ca31c4adde178" kindref="member">lineStringHasMinimumVertices</ref>(2));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a126c09a75561c663381ca31c4adde178" kindref="member">lineStringHasMinimumVertices</ref>(100));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a126c09a75561c663381ca31c4adde178" kindref="member">lineStringHasMinimumVertices</ref>(1));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a126c09a75561c663381ca31c4adde178" kindref="member">lineStringHasMinimumVertices</ref>(0));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Polygon<sp/>exterior:<sp/>≥<sp/>4<sp/>points<sp/>(including<sp/>closing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a530d69e16bd3e502f84b073aa786f701" kindref="member">polygonExteriorRingHasMinimumVertices</ref>(4));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a530d69e16bd3e502f84b073aa786f701" kindref="member">polygonExteriorRingHasMinimumVertices</ref>(100));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a530d69e16bd3e502f84b073aa786f701" kindref="member">polygonExteriorRingHasMinimumVertices</ref>(3));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a530d69e16bd3e502f84b073aa786f701" kindref="member">polygonExteriorRingHasMinimumVertices</ref>(0));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Result<sp/>Consistency<sp/>Tests<sp/>(P23-09..P23-12)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_09_DistanceConsistencyIdentical)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a3a171299c81b07d0baa355162c4ac1e8" kindref="member">isDistanceResultConsistent</ref>(100.0,<sp/>100.0));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a3a171299c81b07d0baa355162c4ac1e8" kindref="member">isDistanceResultConsistent</ref>(0.0,<sp/>0.0));</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a3a171299c81b07d0baa355162c4ac1e8" kindref="member">isDistanceResultConsistent</ref>(-50.0,<sp/>-50.0));</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_10_DistanceConsistencyWithinTolerance)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Within<sp/>default<sp/>1e-9<sp/>relative<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cpu_result<sp/>=<sp/>1000.0;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gpu_result<sp/>=<sp/>1000.0<sp/>+<sp/>1e-6;<sp/></highlight><highlight class="comment">//<sp/>1e-9<sp/>relative<sp/>=<sp/>1e-6<sp/>absolute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a3a171299c81b07d0baa355162c4ac1e8" kindref="member">isDistanceResultConsistent</ref>(cpu_result,<sp/>gpu_result));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_11_DistanceConsistencyOutsideTolerance)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Outside<sp/>default<sp/>1e-9<sp/>relative<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cpu_result<sp/>=<sp/>1000.0;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gpu_result<sp/>=<sp/>1000.0<sp/>+<sp/>1e-4;<sp/></highlight><highlight class="comment">//<sp/>1e-7<sp/>relative<sp/>&gt;&gt;<sp/>1e-9</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a3a171299c81b07d0baa355162c4ac1e8" kindref="member">isDistanceResultConsistent</ref>(cpu_result,<sp/>gpu_result));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_12_ContainmentConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>cpu_mask<sp/>=<sp/>{1,<sp/>0,<sp/>1,<sp/>0,<sp/>1};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>gpu_mask<sp/>=<sp/>{1,<sp/>0,<sp/>1,<sp/>0,<sp/>1};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a1b5abbc52b7501df2db73bf4d37bc645" kindref="member">isContainmentResultConsistent</ref>(cpu_mask,<sp/>gpu_mask,<sp/>5));</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Divergence<sp/>in<sp/>one<sp/>element</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>gpu_mask[2]<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Changed<sp/>1<sp/>to<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a1b5abbc52b7501df2db73bf4d37bc645" kindref="member">isContainmentResultConsistent</ref>(cpu_mask,<sp/>gpu_mask,<sp/>5));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>mismatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>gpu_mask.resize(4);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a1b5abbc52b7501df2db73bf4d37bc645" kindref="member">isContainmentResultConsistent</ref>(cpu_mask,<sp/>gpu_mask,<sp/>5));</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Spatial<sp/>Index<sp/>Contract<sp/>Tests<sp/>(P23-13..P23-16)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_13_IndexQueryConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;double,<sp/>4&gt;<sp/>query_bbox<sp/>=<sp/>{0.0,<sp/>0.0,<sp/>10.0,<sp/>10.0};<sp/></highlight><highlight class="comment">//<sp/>[minX,<sp/>minY,<sp/>maxX,<sp/>maxY]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>MBR<sp/>intersects<sp/>query<sp/>box</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::array&lt;double,<sp/>4&gt;&gt;<sp/>result_inside<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1.0,<sp/>1.0,<sp/>2.0,<sp/>2.0}<sp/><sp/></highlight><highlight class="comment">//<sp/>Inside<sp/>query<sp/>bbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a7c8397c3727b60d1767c4f62aaec743f" kindref="member">isSpatialIndexQueryConsistent</ref>(query_bbox,<sp/>result_inside));</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>MBR<sp/>outside<sp/>query<sp/>box<sp/>(violation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::array&lt;double,<sp/>4&gt;&gt;<sp/>result_outside<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{15.0,<sp/>15.0,<sp/>20.0,<sp/>20.0}<sp/><sp/></highlight><highlight class="comment">//<sp/>Outside<sp/>query<sp/>bbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a7c8397c3727b60d1767c4f62aaec743f" kindref="member">isSpatialIndexQueryConsistent</ref>(query_bbox,<sp/>result_outside));</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multiple<sp/>results,<sp/>one<sp/>outside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::array&lt;double,<sp/>4&gt;&gt;<sp/>result_mixed<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{1.0,<sp/>1.0,<sp/>2.0,<sp/>2.0},<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{15.0,<sp/>15.0,<sp/>20.0,<sp/>20.0}<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Outside<sp/>(violation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1geo_1a7c8397c3727b60d1767c4f62aaec743f" kindref="member">isSpatialIndexQueryConsistent</ref>(query_bbox,<sp/>result_mixed));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_14_IndexQueryEdgeCases)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;double,<sp/>4&gt;<sp/>query_bbox<sp/>=<sp/>{0.0,<sp/>0.0,<sp/>10.0,<sp/>10.0};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>MBR<sp/>tangent<sp/>to<sp/>query<sp/>bbox<sp/>(touches<sp/>boundary)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::array&lt;double,<sp/>4&gt;&gt;<sp/>result_tangent<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{10.0,<sp/>0.0,<sp/>20.0,<sp/>10.0}<sp/><sp/></highlight><highlight class="comment">//<sp/>Touches<sp/>right<sp/>edge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a7c8397c3727b60d1767c4f62aaec743f" kindref="member">isSpatialIndexQueryConsistent</ref>(query_bbox,<sp/>result_tangent));</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>MBR<sp/>partially<sp/>overlapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::array&lt;double,<sp/>4&gt;&gt;<sp/>result_partial<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{5.0,<sp/>5.0,<sp/>15.0,<sp/>15.0}<sp/><sp/></highlight><highlight class="comment">//<sp/>Partially<sp/>overlaps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a7c8397c3727b60d1767c4f62aaec743f" kindref="member">isSpatialIndexQueryConsistent</ref>(query_bbox,<sp/>result_partial));</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>result<sp/>set<sp/>(vacuously<sp/>true)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::array&lt;double,<sp/>4&gt;&gt;<sp/>result_empty;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a7c8397c3727b60d1767c4f62aaec743f" kindref="member">isSpatialIndexQueryConsistent</ref>(query_bbox,<sp/>result_empty));</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_15_ValidationErrorMessages)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msg1<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1aa28a29f3aa4fd2fe3f0bcf78d545442c" kindref="member">GeometryValidationErrorBuilder::coordinateOutOfBounds</ref>(</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>181.0,<sp/></highlight><highlight class="stringliteral">&quot;longitude&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemis_1_1geo_1a87388a314b2dda26c4da828711b8f3d7" kindref="member">kWgs84LonMin</ref>,<sp/><ref refid="namespacethemis_1_1geo_1a2082725f53b2d6a23036dec9398fce47" kindref="member">kWgs84LonMax</ref>);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg1.find(</highlight><highlight class="stringliteral">&quot;181&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);<sp/><sp/></highlight><highlight class="comment">//<sp/>Contains<sp/>the<sp/>bad<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg1.find(</highlight><highlight class="stringliteral">&quot;[-180,<sp/>180]&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);<sp/><sp/></highlight><highlight class="comment">//<sp/>Contains<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msg2<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1a543891e47aa1da31174e73b5ba5deab4" kindref="member">GeometryValidationErrorBuilder::unclosedRing</ref>(0,<sp/>5);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg2.find(</highlight><highlight class="stringliteral">&quot;ring<sp/>0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg2.find(</highlight><highlight class="stringliteral">&quot;RFC<sp/>7946&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msg3<sp/>=<sp/><ref refid="classthemis_1_1geo_1_1_geometry_validation_error_builder_1ae43b253987393b7f4466712341725684" kindref="member">GeometryValidationErrorBuilder::insufficientVertices</ref>(</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;LineString&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>2);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg3.find(</highlight><highlight class="stringliteral">&quot;LineString&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg3.find(</highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg3.find(</highlight><highlight class="stringliteral">&quot;2&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><ref refid="namespacethemis_1_1geo_1_1test_1a6ab6b2c48a2713004ffa2de287d43fb7" kindref="member">TEST</ref>(GeoPhase2Phase3FocusedTest,<sp/>P23_16_BackendFallbackDiagnostic)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic" kindref="compound">BackendFallbackDiagnostic</ref><sp/>diag;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a79767a4b77515d99e0562a21cb3dbddb" kindref="member">operation_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ST_Intersects&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aa819bfff5431f868824d11790563465d" kindref="member">geometry_type_a</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Polygon&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a0aab4ccc85fb6eb62a1f6b38698d75e6" kindref="member">geometry_type_b</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Point&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a20c1f4865395a92daf6c518e896ed403" kindref="member">batch_size</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1adbb0c7d8a3f02c540864e2cd31d2f379" kindref="member">backend_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a3fe904e4f14ea482c946223d56c68eaf" kindref="member">device_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RTX<sp/>3090&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a9f45284544b956d3be9b93c5b25133ab" kindref="member">failure_reason</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;timeout_exceeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aedcdcc23011c9a5a69f90a1340fd02d6" kindref="member">elapsed_micros</ref><sp/>=<sp/>150;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1aef326a86c42b056d3c3908f23c2d66d6" kindref="member">fallback_taken</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a68b699b7d305c4dfec88c9cf786aeba6" kindref="member">result_verified</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msg<sp/>=<sp/>diag.<ref refid="structthemis_1_1geo_1_1_backend_fallback_diagnostic_1a45c45290fa5f4d057b6d421956592ebe" kindref="member">formatMessage</ref>();</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg.find(</highlight><highlight class="stringliteral">&quot;ST_Intersects&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg.find(</highlight><highlight class="stringliteral">&quot;Polygon&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg.find(</highlight><highlight class="stringliteral">&quot;CUDA&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg.find(</highlight><highlight class="stringliteral">&quot;timeout_exceeded&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(msg.find(</highlight><highlight class="stringliteral">&quot;150&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);<sp/><sp/></highlight><highlight class="comment">//<sp/>elapsed_micros</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_phase2_phase3_focused.cpp"/>
+  </compounddef>
+</doxygen>

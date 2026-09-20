@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::GrpcChannelPool::Config</compoundname>
+    <includes refid="grpc__channel__pool_8h" local="no">grpc_channel_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1affd1422f32668f33719f5113f6f5ae38" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::GrpcChannelPool::Config::max_channels_per_target</definition>
+        <argsstring></argsstring>
+        <name>max_channels_per_target</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::max_channels_per_target</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a33ae982df62b845f2da7b2d93ec42c27" kindref="member">DEFAULT_MAX_CHANNELS_PER_TARGET</ref></initializer>
+        <briefdescription>
+<para>Max channels per target. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="55" column="16" bodyfile="include/utils/grpc_channel_pool.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a72e9f488fabb94126c73c2e45bf2e113" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::utils::GrpcChannelPool::Config::idle_timeout</definition>
+        <argsstring></argsstring>
+        <name>idle_timeout</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::idle_timeout</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Channel idle timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="56" column="30" bodyfile="include/utils/grpc_channel_pool.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a00a052bc19b629c6574af976ddeb2dae" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::utils::GrpcChannelPool::Config::connect_timeout</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::connect_timeout</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Connection timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="57" column="30" bodyfile="include/utils/grpc_channel_pool.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a5cb1e4b072c639f1afadd3a29b5ce7d0" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::utils::GrpcChannelPool::Config::acquire_timeout</definition>
+        <argsstring></argsstring>
+        <name>acquire_timeout</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::acquire_timeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Timeout for acquiring channel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="58" column="30" bodyfile="include/utils/grpc_channel_pool.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a9a9e2b67faf9fb28ce5520ef66a3bb75" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::GrpcChannelPool::Config::enable_keepalive</definition>
+        <argsstring></argsstring>
+        <name>enable_keepalive</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::enable_keepalive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable HTTP/2 keepalive. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="59" column="14" bodyfile="include/utils/grpc_channel_pool.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1ad9180f220edbe6016fb9565348939a33" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::utils::GrpcChannelPool::Config::keepalive_time</definition>
+        <argsstring></argsstring>
+        <name>keepalive_time</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::keepalive_time</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Keepalive time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="60" column="30" bodyfile="include/utils/grpc_channel_pool.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a56ed782e65306cd3b1a0921366024617" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::utils::GrpcChannelPool::Config::keepalive_timeout</definition>
+        <argsstring></argsstring>
+        <name>keepalive_timeout</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::keepalive_timeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+<para>Keepalive timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="61" column="30" bodyfile="include/utils/grpc_channel_pool.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a2d41a7120f7040a64b2e6df45d9617c9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::GrpcChannelPool::Config::max_concurrent_streams</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_streams</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::max_concurrent_streams</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Max concurrent streams per channel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="62" column="13" bodyfile="include/utils/grpc_channel_pool.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1abf6d725369398e657ab23932e9d37efb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::GrpcChannelPool::Config::allow_insecure</definition>
+        <argsstring></argsstring>
+        <name>allow_insecure</name>
+        <qualifiedname>themis::utils::GrpcChannelPool::Config::allow_insecure</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Explicit local/test-only fallback; false by default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/grpc_channel_pool.h" line="63" column="14" bodyfile="include/utils/grpc_channel_pool.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/grpc_channel_pool.h" line="54" column="5" bodyfile="include/utils/grpc_channel_pool.h" bodystart="54" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a5cb1e4b072c639f1afadd3a29b5ce7d0" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>acquire_timeout</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1abf6d725369398e657ab23932e9d37efb" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>allow_insecure</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a00a052bc19b629c6574af976ddeb2dae" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>connect_timeout</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a9a9e2b67faf9fb28ce5520ef66a3bb75" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>enable_keepalive</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a72e9f488fabb94126c73c2e45bf2e113" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>idle_timeout</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1ad9180f220edbe6016fb9565348939a33" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>keepalive_time</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a56ed782e65306cd3b1a0921366024617" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>keepalive_timeout</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1affd1422f32668f33719f5113f6f5ae38" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>max_channels_per_target</name></member>
+      <member refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a2d41a7120f7040a64b2e6df45d9617c9" prot="public" virt="non-virtual"><scope>themis::utils::GrpcChannelPool::Config</scope><name>max_concurrent_streams</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

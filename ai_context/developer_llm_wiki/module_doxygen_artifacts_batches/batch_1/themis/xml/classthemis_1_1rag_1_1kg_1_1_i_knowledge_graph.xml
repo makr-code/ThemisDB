@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::rag::kg::IKnowledgeGraph</compoundname>
+    <includes refid="knowledge__graph__interface_8h" local="no">knowledge_graph_interface.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1a5a6d1465a5be543cbf8c63bfcec478fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::rag::kg::IKnowledgeGraph::~IKnowledgeGraph</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IKnowledgeGraph</name>
+        <qualifiedname>themis::rag::kg::IKnowledgeGraph::~IKnowledgeGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="15" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1a2f0ce03c91fd40bd626b5536699cabff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; KGNode &gt;</type>
+        <definition>virtual std::optional&lt; KGNode &gt; themis::rag::kg::IKnowledgeGraph::findNode</definition>
+        <argsstring>(const std::string &amp;node_id) const =0</argsstring>
+        <name>findNode</name>
+        <qualifiedname>themis::rag::kg::IKnowledgeGraph::findNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="17" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1ad8b4883a693d03189da269a7241c3969" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::optional&lt; KGNode &gt;</type>
+        <definition>virtual std::optional&lt; KGNode &gt; themis::rag::kg::IKnowledgeGraph::findNodeByName</definition>
+        <argsstring>(const std::string &amp;text) const =0</argsstring>
+        <name>findNodeByName</name>
+        <qualifiedname>themis::rag::kg::IKnowledgeGraph::findNodeByName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="18" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1a2aca36c72a67555c6e007a09a8593842" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t themis::rag::kg::IKnowledgeGraph::nodeCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::rag::kg::IKnowledgeGraph::nodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="19" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1ad67ff8158ed143a194744f2119611b9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>virtual std::unordered_set&lt; std::string &gt; themis::rag::kg::IKnowledgeGraph::neighbours</definition>
+        <argsstring>(const std::string &amp;start_id, size_t max_depth=1, double min_edge_weight=0.0, size_t max_nodes=4096) const =0</argsstring>
+        <name>neighbours</name>
+        <qualifiedname>themis::rag::kg::IKnowledgeGraph::neighbours</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_edge_weight</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_nodes</declname>
+          <defval>4096</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="20" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1a70c02f351501ea0562679eeffb0cc7f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; KGEdge &gt;</type>
+        <definition>virtual std::vector&lt; KGEdge &gt; themis::rag::kg::IKnowledgeGraph::outEdges</definition>
+        <argsstring>(const std::string &amp;node_id) const =0</argsstring>
+        <name>outEdges</name>
+        <qualifiedname>themis::rag::kg::IKnowledgeGraph::outEdges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="25" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/rag/kg/knowledge_graph_interface.h" line="13" column="1" bodyfile="include/themis/rag/kg/knowledge_graph_interface.h" bodystart="13" bodyend="26"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1a2f0ce03c91fd40bd626b5536699cabff" prot="public" virt="pure-virtual"><scope>themis::rag::kg::IKnowledgeGraph</scope><name>findNode</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1ad8b4883a693d03189da269a7241c3969" prot="public" virt="pure-virtual"><scope>themis::rag::kg::IKnowledgeGraph</scope><name>findNodeByName</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1ad67ff8158ed143a194744f2119611b9e" prot="public" virt="pure-virtual"><scope>themis::rag::kg::IKnowledgeGraph</scope><name>neighbours</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1a2aca36c72a67555c6e007a09a8593842" prot="public" virt="pure-virtual"><scope>themis::rag::kg::IKnowledgeGraph</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1a70c02f351501ea0562679eeffb0cc7f9" prot="public" virt="pure-virtual"><scope>themis::rag::kg::IKnowledgeGraph</scope><name>outEdges</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_i_knowledge_graph_1a5a6d1465a5be543cbf8c63bfcec478fd" prot="public" virt="virtual"><scope>themis::rag::kg::IKnowledgeGraph</scope><name>~IKnowledgeGraph</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

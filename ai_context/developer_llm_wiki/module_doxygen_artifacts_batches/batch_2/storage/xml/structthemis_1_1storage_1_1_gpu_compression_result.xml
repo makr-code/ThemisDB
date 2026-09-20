@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_gpu_compression_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::GpuCompressionResult</compoundname>
+    <includes refid="gpu__compression_8h" local="no">gpu_compression.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_result_1a558d6f5f519477e372d55591c5c1fab0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::storage::GpuCompressionResult::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::storage::GpuCompressionResult::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="156" column="17" bodyfile="include/storage/gpu_compression.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_result_1a3ef9d0a00d2c39ae28f40c331871847d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1aa8354c33a977b5a40343459b6aa3e68b" kindref="member">GpuCompressionAlgorithm</ref></type>
+        <definition>GpuCompressionAlgorithm themis::storage::GpuCompressionResult::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themis::storage::GpuCompressionResult::algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="157" column="29" bodyfile="include/storage/gpu_compression.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_result_1a59bb37a07ae27637534ac458313b7cb3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::GpuCompressionResult::used_gpu</definition>
+        <argsstring></argsstring>
+        <name>used_gpu</name>
+        <qualifiedname>themis::storage::GpuCompressionResult::used_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if GPU path was taken </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="158" column="10" bodyfile="include/storage/gpu_compression.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_result_1a604b7853c16f95b613c418e5b433c82f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::GpuCompressionResult::original_size</definition>
+        <argsstring></argsstring>
+        <name>original_size</name>
+        <qualifiedname>themis::storage::GpuCompressionResult::original_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="159" column="12" bodyfile="include/storage/gpu_compression.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_result_1a790d42da85d1949893b95a3a200c6ce9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::storage::GpuCompressionResult::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::storage::GpuCompressionResult::compression_ratio</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="160" column="12" bodyfile="include/storage/gpu_compression.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_result_1a439e96086eed4f87fb199fed8bc15cb6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::GpuCompressionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::storage::GpuCompressionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="161" column="12" bodyfile="include/storage/gpu_compression.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_gpu_compression_result_1a5c4cb986460c0c0a34048c0b0d14ac5d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::storage::GpuCompressionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::storage::GpuCompressionResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="162" column="17" bodyfile="include/storage/gpu_compression.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_gpu_compression_result_1acdf50f0691a6d97a786c3e23f2ebf2df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::GpuCompressionResult::GpuCompressionResult</definition>
+        <argsstring>()</argsstring>
+        <name>GpuCompressionResult</name>
+        <qualifiedname>themis::storage::GpuCompressionResult::GpuCompressionResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/gpu_compression.h" line="164" column="5" bodyfile="include/storage/gpu_compression.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single compress or decompress call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/gpu_compression.h" line="155" column="1" bodyfile="include/storage/gpu_compression.h" bodystart="155" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_result_1a3ef9d0a00d2c39ae28f40c331871847d" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionResult</scope><name>algorithm</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_result_1a790d42da85d1949893b95a3a200c6ce9" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionResult</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_result_1a558d6f5f519477e372d55591c5c1fab0" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionResult</scope><name>data</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_result_1a5c4cb986460c0c0a34048c0b0d14ac5d" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_result_1acdf50f0691a6d97a786c3e23f2ebf2df" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionResult</scope><name>GpuCompressionResult</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_result_1a604b7853c16f95b613c418e5b433c82f" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionResult</scope><name>original_size</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_result_1a439e96086eed4f87fb199fed8bc15cb6" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1storage_1_1_gpu_compression_result_1a59bb37a07ae27637534ac458313b7cb3" prot="public" virt="non-virtual"><scope>themis::storage::GpuCompressionResult</scope><name>used_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

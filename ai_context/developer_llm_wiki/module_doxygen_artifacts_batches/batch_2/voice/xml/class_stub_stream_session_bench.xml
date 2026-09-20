@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_stream_session_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubStreamSessionBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_stream_session_bench_1a32af71b7b185c37583682f061135e74c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubStreamSessionBench::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>StubStreamSessionBench::count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="78" column="17" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_stream_session_bench_1af2c212ec40ca40d13bf7f80e472f477a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubStreamSessionBench::sendChunk</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;chunk)</argsstring>
+        <name>sendChunk</name>
+        <qualifiedname>StubStreamSessionBench::sendChunk</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="72" column="10" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_stream_session_bench_1ab475f99694d44ac0f2f3732e2565e331" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubStreamSessionBench::count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>count</name>
+        <qualifiedname>StubStreamSessionBench::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="76" column="14" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="70" column="1" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="70" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_stub_stream_session_bench_1ab475f99694d44ac0f2f3732e2565e331" prot="public" virt="non-virtual"><scope>StubStreamSessionBench</scope><name>count</name></member>
+      <member refid="class_stub_stream_session_bench_1a32af71b7b185c37583682f061135e74c" prot="private" virt="non-virtual"><scope>StubStreamSessionBench</scope><name>count_</name></member>
+      <member refid="class_stub_stream_session_bench_1af2c212ec40ca40d13bf7f80e472f477a" prot="public" virt="non-virtual"><scope>StubStreamSessionBench</scope><name>sendChunk</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

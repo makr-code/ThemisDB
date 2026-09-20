@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespaceprometheus" kind="namespace" language="C++">
+    <compoundname>prometheus</compoundname>
+    <innerclass refid="classprometheus_1_1_registry" prot="public">prometheus::Registry</innerclass>
+    <innerclass refid="classprometheus_1_1_family" prot="public">prometheus::Family</innerclass>
+    <innerclass refid="classprometheus_1_1_counter" prot="public">prometheus::Counter</innerclass>
+    <innerclass refid="classprometheus_1_1_gauge" prot="public">prometheus::Gauge</innerclass>
+    <innerclass refid="classprometheus_1_1_histogram" prot="public">prometheus::Histogram</innerclass>
+    <innerclass refid="classprometheus_1_1_summary" prot="public">prometheus::Summary</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_metrics.h" line="28" column="1"/>
+  </compounddef>
+</doxygen>

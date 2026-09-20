@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DistributedLockManager::LockStats</compoundname>
+    <includes refid="distributed__lock__manager_8h" local="no">distributed_lock_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ada2fa342d57b78773aafbd432976d487" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DistributedLockManager::LockStats::active_locks</definition>
+        <argsstring></argsstring>
+        <name>active_locks</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::LockStats::active_locks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="128" column="14" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ace8ad74929cb5e2ed3202beb1a5d5c5c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DistributedLockManager::LockStats::total_acquisitions</definition>
+        <argsstring></argsstring>
+        <name>total_acquisitions</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::LockStats::total_acquisitions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="130" column="14" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ae830531363fdad704d260a1c7cae0442" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DistributedLockManager::LockStats::contentions</definition>
+        <argsstring></argsstring>
+        <name>contentions</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::LockStats::contentions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="132" column="14" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1a2c0b14d15730509a7e1481b7cd52c11f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::DistributedLockManager::LockStats::expirations</definition>
+        <argsstring></argsstring>
+        <name>expirations</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::LockStats::expirations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="134" column="14" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1aafce43e6f2fde6238e5e50043beae573" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_tensor::DistributedLockManager::LockStats::average_hold_time_sec</definition>
+        <argsstring></argsstring>
+        <name>average_hold_time_sec</name>
+        <qualifiedname>themis::distributed_tensor::DistributedLockManager::LockStats::average_hold_time_sec</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="136" column="12" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="127" column="3" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="127" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ada2fa342d57b78773aafbd432976d487" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager::LockStats</scope><name>active_locks</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1aafce43e6f2fde6238e5e50043beae573" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager::LockStats</scope><name>average_hold_time_sec</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ae830531363fdad704d260a1c7cae0442" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager::LockStats</scope><name>contentions</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1a2c0b14d15730509a7e1481b7cd52c11f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager::LockStats</scope><name>expirations</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_lock_manager_1_1_lock_stats_1ace8ad74929cb5e2ed3202beb1a5d5c5c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedLockManager::LockStats</scope><name>total_acquisitions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

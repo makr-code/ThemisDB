@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_fallback_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceFallbackStrategy</compoundname>
+    <includes refid="voice__error__handler_8h" local="no">voice_error_handler.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" prot="public">themis::voice::VoiceFallbackStrategy::FallbackResult</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_fallback_strategy_1a04a1b31e5dc4ce67be5a76dd2958801b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref></type>
+        <definition>VoiceFallbackStrategy::FallbackResult themis::voice::VoiceFallbackStrategy::sttFallback</definition>
+        <argsstring>(const std::string &amp;error_context)</argsstring>
+        <name>sttFallback</name>
+        <qualifiedname>themis::voice::VoiceFallbackStrategy::sttFallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_context</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> <ref refid="classthemis_1_1voice_1_1_voice_fallback_strategy" kindref="compound">VoiceFallbackStrategy</ref> -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="190" column="27" bodyfile="src/voice/voice_error_handler.cpp" bodystart="218" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_fallback_strategy_1ae5b6e3d1095f2738dbd942443deba82e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref></type>
+        <definition>VoiceFallbackStrategy::FallbackResult themis::voice::VoiceFallbackStrategy::ttsFallback</definition>
+        <argsstring>(const std::string &amp;error_context)</argsstring>
+        <name>ttsFallback</name>
+        <qualifiedname>themis::voice::VoiceFallbackStrategy::ttsFallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_context</declname>
+        </param>
+        <briefdescription>
+<para>Tts Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="191" column="27" bodyfile="src/voice/voice_error_handler.cpp" bodystart="233" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_fallback_strategy_1a627fad6fb9d28a12cf67c4f6bc82ad91" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref></type>
+        <definition>VoiceFallbackStrategy::FallbackResult themis::voice::VoiceFallbackStrategy::llmFallback</definition>
+        <argsstring>(const std::string &amp;user_input)</argsstring>
+        <name>llmFallback</name>
+        <qualifiedname>themis::voice::VoiceFallbackStrategy::llmFallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_input</declname>
+        </param>
+        <briefdescription>
+<para>Llm Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="192" column="27" bodyfile="src/voice/voice_error_handler.cpp" bodystart="248" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_fallback_strategy_1ac032c2d1bad8e9431bc71b384357bfa3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_fallback_strategy_1_1_fallback_result" kindref="compound">FallbackResult</ref></type>
+        <definition>VoiceFallbackStrategy::FallbackResult themis::voice::VoiceFallbackStrategy::sessionFallback</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>sessionFallback</name>
+        <qualifiedname>themis::voice::VoiceFallbackStrategy::sessionFallback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Session Fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_error_handler.h" line="193" column="27" bodyfile="src/voice/voice_error_handler.cpp" bodystart="263" bodyend="271"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fallback strategy for graceful degradation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_error_handler.h" line="182" column="1" bodyfile="include/voice/voice_error_handler.h" bodystart="182" bodyend="194"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_fallback_strategy_1a627fad6fb9d28a12cf67c4f6bc82ad91" prot="public" virt="non-virtual"><scope>themis::voice::VoiceFallbackStrategy</scope><name>llmFallback</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_fallback_strategy_1ac032c2d1bad8e9431bc71b384357bfa3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceFallbackStrategy</scope><name>sessionFallback</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_fallback_strategy_1a04a1b31e5dc4ce67be5a76dd2958801b" prot="public" virt="non-virtual"><scope>themis::voice::VoiceFallbackStrategy</scope><name>sttFallback</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_fallback_strategy_1ae5b6e3d1095f2738dbd942443deba82e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceFallbackStrategy</scope><name>ttsFallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

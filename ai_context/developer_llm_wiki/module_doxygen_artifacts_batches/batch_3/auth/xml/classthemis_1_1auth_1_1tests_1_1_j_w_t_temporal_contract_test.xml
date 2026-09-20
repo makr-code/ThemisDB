@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::JWTTemporalContractTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test_1a6e849c3e40f8938aac359ddfbf6bf0a7" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_j_w_t_validator_config" kindref="compound">JWTValidatorConfig</ref></type>
+        <definition>JWTValidatorConfig themis::auth::tests::JWTTemporalContractTest::getBaseConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getBaseConfig</name>
+        <qualifiedname>themis::auth::tests::JWTTemporalContractTest::getBaseConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_jwt_validator_focused.cpp" line="117" column="24" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::JWTTemporalContractTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::tests::JWTTemporalContractTest</label>
+        <link refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/auth/test_jwt_validator_focused.cpp" line="115" column="1" bodyfile="tests/auth/test_jwt_validator_focused.cpp" bodystart="115" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_j_w_t_temporal_contract_test_1a6e849c3e40f8938aac359ddfbf6bf0a7" prot="protected" virt="non-virtual"><scope>themis::auth::tests::JWTTemporalContractTest</scope><name>getBaseConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

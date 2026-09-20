@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_i_health_check" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::updates::IHealthCheck</compoundname>
+    <derivedcompoundref refid="classthemis_1_1updates_1_1_dependency_version_checker" prot="public" virt="non-virtual">themis::updates::DependencyVersionChecker</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1updates_1_1_disk_space_checker" prot="public" virt="non-virtual">themis::updates::DiskSpaceChecker</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1updates_1_1_memory_headroom_checker" prot="public" virt="non-virtual">themis::updates::MemoryHeadroomChecker</derivedcompoundref>
+    <includes refid="preflight__health__check_8h" local="no">preflight_health_check.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_health_check_1a099710a634eeca5235ee0f6cfb8a5f5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::updates::IHealthCheck::~IHealthCheck</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHealthCheck</name>
+        <qualifiedname>themis::updates::IHealthCheck::~IHealthCheck</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="76" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_health_check_1a3cdfa5ffe02af2a8ebe9c4014fde0d85" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::updates::IHealthCheck::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::updates::IHealthCheck::name</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_dependency_version_checker_1a176af8a351237dfe2091812fdd75ecd6">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_disk_space_checker_1a3509f4f8c4d39b4f914e8caac4872b84">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_memory_headroom_checker_1a3ced90bd70ea9be8c3b0206e855a33a5">name</reimplementedby>
+        <briefdescription>
+<para>Human-readable name used in <ref refid="structthemis_1_1updates_1_1_health_check_result_1a92222b89d163f57cccfa777c0b0c1e6e" kindref="member">HealthCheckResult::check_name</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Stable name string (e.g. &quot;disk_space&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="82" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_i_health_check_1a63104fb9b0cf3fb19684d3221e1112b7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref></type>
+        <definition>virtual HealthCheckResult themis::updates::IHealthCheck::run</definition>
+        <argsstring>()=0</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::updates::IHealthCheck::run</qualifiedname>
+        <reimplementedby refid="classthemis_1_1updates_1_1_dependency_version_checker_1a098ec37277f07eb6ce47b3b22f312713">run</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_disk_space_checker_1a6767ed595d6fc4c58e5b197ff7e174a5">run</reimplementedby>
+        <reimplementedby refid="classthemis_1_1updates_1_1_memory_headroom_checker_1a7f0a11832c2201ee128acb92c6ee00f3">run</reimplementedby>
+        <briefdescription>
+<para>Execute the check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1updates_1_1_health_check_result" kindref="compound">HealthCheckResult</ref> with <computeroutput>passed</computeroutput> set accordingly. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/preflight_health_check.h" line="88" column="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract interface for a single pre-flight health check. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this to add custom checks to <ref refid="classthemis_1_1updates_1_1_preflight_health_checker" kindref="compound">PreflightHealthChecker</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::updates::DependencyVersionChecker</label>
+        <link refid="classthemis_1_1updates_1_1_dependency_version_checker"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::updates::DiskSpaceChecker</label>
+        <link refid="classthemis_1_1updates_1_1_disk_space_checker"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::updates::IHealthCheck</label>
+        <link refid="classthemis_1_1updates_1_1_i_health_check"/>
+      </node>
+      <node id="4">
+        <label>themis::updates::MemoryHeadroomChecker</label>
+        <link refid="classthemis_1_1updates_1_1_memory_headroom_checker"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/updates/preflight_health_check.h" line="74" column="1" bodyfile="include/updates/preflight_health_check.h" bodystart="74" bodyend="89"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_i_health_check_1a3cdfa5ffe02af2a8ebe9c4014fde0d85" prot="public" virt="pure-virtual"><scope>themis::updates::IHealthCheck</scope><name>name</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_health_check_1a63104fb9b0cf3fb19684d3221e1112b7" prot="public" virt="pure-virtual"><scope>themis::updates::IHealthCheck</scope><name>run</name></member>
+      <member refid="classthemis_1_1updates_1_1_i_health_check_1a099710a634eeca5235ee0f6cfb8a5f5d" prot="public" virt="virtual"><scope>themis::updates::IHealthCheck</scope><name>~IHealthCheck</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

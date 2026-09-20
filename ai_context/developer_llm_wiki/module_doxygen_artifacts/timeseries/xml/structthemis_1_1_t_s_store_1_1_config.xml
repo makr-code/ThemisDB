@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_store_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TSStore::Config</compoundname>
+    <includes refid="tsstore_8h" local="no">tsstore.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_config_1a1aee4e77ab89239bc3c285eb5bb1445b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0f" kindref="member">CompressionType</ref></type>
+        <definition>CompressionType themis::TSStore::Config::compression</definition>
+        <argsstring></argsstring>
+        <name>compression</name>
+        <qualifiedname>themis::TSStore::Config::compression</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1_t_s_store_1a25e525e98bdb6510de47c43549158d0fa95f9c2f146f04d4ce9fed7eea8c703de" kindref="member">CompressionType::Gorilla</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="140" column="25" bodyfile="include/timeseries/tsstore.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_config_1a327df524607399dfa0b9480e612939dd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::TSStore::Config::chunk_size_hours</definition>
+        <argsstring></argsstring>
+        <name>chunk_size_hours</name>
+        <qualifiedname>themis::TSStore::Config::chunk_size_hours</qualifiedname>
+        <initializer>= 24</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="141" column="13" bodyfile="include/timeseries/tsstore.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_store_1_1_config_1ae89577ada501bb48cacf9b7377770410" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::TSStore::Config::late_arrival_window_ms</definition>
+        <argsstring></argsstring>
+        <name>late_arrival_window_ms</name>
+        <qualifiedname>themis::TSStore::Config::late_arrival_window_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/tsstore.h" line="147" column="17" bodyfile="include/timeseries/tsstore.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/tsstore.h" line="138" column="5" bodyfile="include/timeseries/tsstore.h" bodystart="138" bodyend="148"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_store_1_1_config_1a327df524607399dfa0b9480e612939dd" prot="public" virt="non-virtual"><scope>themis::TSStore::Config</scope><name>chunk_size_hours</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_config_1a1aee4e77ab89239bc3c285eb5bb1445b" prot="public" virt="non-virtual"><scope>themis::TSStore::Config</scope><name>compression</name></member>
+      <member refid="structthemis_1_1_t_s_store_1_1_config_1ae89577ada501bb48cacf9b7377770410" prot="public" virt="non-virtual"><scope>themis::TSStore::Config</scope><name>late_arrival_window_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_wiki_eval_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::WikiEvalStats</compoundname>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_eval_stats_1a77e5dbcc3bcf72369ea7a4b0f8c7a2f2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiEvalStats::recall_at_k1</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k1</name>
+        <qualifiedname>themis::llm::WikiEvalStats::recall_at_k1</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean Recall@1 over eval query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="71" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_eval_stats_1ac668fc0412cd4c41bcad2ef579eabfe8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiEvalStats::recall_at_k3</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k3</name>
+        <qualifiedname>themis::llm::WikiEvalStats::recall_at_k3</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean Recall@3 over eval query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="72" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_eval_stats_1a77ea5d888f01d3d6fb50956abd4fdfb4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiEvalStats::recall_at_k5</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k5</name>
+        <qualifiedname>themis::llm::WikiEvalStats::recall_at_k5</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean Recall@5 over eval query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="73" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_eval_stats_1a24f87ab7a66c74f56e79f703ae95a2eb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiEvalStats::recall_at_k10</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k10</name>
+        <qualifiedname>themis::llm::WikiEvalStats::recall_at_k10</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean Recall@10 over eval query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="74" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_eval_stats_1afd4a7bae1086065f2beb32709c7da067" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiEvalStats::mrr</definition>
+        <argsstring></argsstring>
+        <name>mrr</name>
+        <qualifiedname>themis::llm::WikiEvalStats::mrr</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean Reciprocal Rank over eval query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="75" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_eval_stats_1acb3f12d44828a3dc12b7b1c67d98c57a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::WikiEvalStats::p95_query_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_query_latency_ms</name>
+        <qualifiedname>themis::llm::WikiEvalStats::p95_query_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>p95 query latency (all queries, ms) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="76" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiEvalStats::query_count</definition>
+        <argsstring></argsstring>
+        <name>query_count</name>
+        <qualifiedname>themis::llm::WikiEvalStats::query_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of eval queries contributing to metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="77" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_eval_stats_1ab4ee5c07f5ef8392d7d8d301fe4bc728" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiEvalStats::total_query_count</definition>
+        <argsstring></argsstring>
+        <name>total_query_count</name>
+        <qualifiedname>themis::llm::WikiEvalStats::total_query_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total queries (eval + non-eval). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="78" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/wiki_index_store.h" line="70" column="1" bodyfile="include/llm/wiki_index_store.h" bodystart="70" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_wiki_eval_stats_1afd4a7bae1086065f2beb32709c7da067" prot="public" virt="non-virtual"><scope>themis::llm::WikiEvalStats</scope><name>mrr</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_eval_stats_1acb3f12d44828a3dc12b7b1c67d98c57a" prot="public" virt="non-virtual"><scope>themis::llm::WikiEvalStats</scope><name>p95_query_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a8c2f1fafeaa83377f2e359b708131e0e" prot="public" virt="non-virtual"><scope>themis::llm::WikiEvalStats</scope><name>query_count</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77e5dbcc3bcf72369ea7a4b0f8c7a2f2" prot="public" virt="non-virtual"><scope>themis::llm::WikiEvalStats</scope><name>recall_at_k1</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a24f87ab7a66c74f56e79f703ae95a2eb" prot="public" virt="non-virtual"><scope>themis::llm::WikiEvalStats</scope><name>recall_at_k10</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ac668fc0412cd4c41bcad2ef579eabfe8" prot="public" virt="non-virtual"><scope>themis::llm::WikiEvalStats</scope><name>recall_at_k3</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_eval_stats_1a77ea5d888f01d3d6fb50956abd4fdfb4" prot="public" virt="non-virtual"><scope>themis::llm::WikiEvalStats</scope><name>recall_at_k5</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_eval_stats_1ab4ee5c07f5ef8392d7d8d301fe4bc728" prot="public" virt="non-virtual"><scope>themis::llm::WikiEvalStats</scope><name>total_query_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

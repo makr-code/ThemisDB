@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_single_algo_test" kind="class" language="C++" prot="public">
+    <compoundname>SingleAlgoTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::TestWithParam&lt; AlgoTestParam &gt;</basecompoundref>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SingleAlgoTest</label>
+        <link refid="class_single_algo_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::TestWithParam&lt; AlgoTestParam &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SingleAlgoTest</label>
+        <link refid="class_single_algo_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::TestWithParam&lt; AlgoTestParam &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_automl.cpp" line="496" column="1" bodyfile="tests/analytics/test_automl.cpp" bodystart="496" bodyend="496"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_e6fb7598b02f58c214b4cce324db4e39" kind="dir">
+    <compoundname>benchmarks/transaction</compoundname>
+    <innerfile refid="bench__branch__manager_8cpp">bench_branch_manager.cpp</innerfile>
+    <innerfile refid="bench__transaction__dedicated__gates_8cpp">bench_transaction_dedicated_gates.cpp</innerfile>
+    <innerfile refid="bench__transaction__phase4_8cpp">bench_transaction_phase4.cpp</innerfile>
+    <innerfile refid="bench__transaction__throughput_8cpp">bench_transaction_throughput.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/transaction/"/>
+  </compounddef>
+</doxygen>

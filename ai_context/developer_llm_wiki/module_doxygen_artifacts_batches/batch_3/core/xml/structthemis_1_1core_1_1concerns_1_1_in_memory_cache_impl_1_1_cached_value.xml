@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_in_memory_cache_impl_1_1_cached_value" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::InMemoryCacheImpl::CachedValue</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_in_memory_cache_impl_1_1_cached_value_1a327511cc3ad8e9195ae598dd6498b653" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_cache_entry" kindref="compound">CacheEntry</ref></type>
+        <definition>CacheEntry themis::core::concerns::InMemoryCacheImpl::CachedValue::entry</definition>
+        <argsstring></argsstring>
+        <name>entry</name>
+        <qualifiedname>themis::core::concerns::InMemoryCacheImpl::CachedValue::entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/inmemory_cache_impl.h" line="183" column="20" bodyfile="include/core/concerns/inmemory_cache_impl.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_in_memory_cache_impl_1_1_cached_value_1a1dba92fc157b7fe5380bf2cb876c21fc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::core::concerns::InMemoryCacheImpl::CachedValue::ttl_ms</definition>
+        <argsstring></argsstring>
+        <name>ttl_ms</name>
+        <qualifiedname>themis::core::concerns::InMemoryCacheImpl::CachedValue::ttl_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/inmemory_cache_impl.h" line="184" column="18" bodyfile="include/core/concerns/inmemory_cache_impl.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::CacheEntry</label>
+        <link refid="structthemis_1_1core_1_1concerns_1_1_cache_entry"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::InMemoryCacheImpl::CachedValue</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entry</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/inmemory_cache_impl.h" line="182" column="5" bodyfile="include/core/concerns/inmemory_cache_impl.h" bodystart="182" bodyend="185"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_in_memory_cache_impl_1_1_cached_value_1a327511cc3ad8e9195ae598dd6498b653" prot="public" virt="non-virtual"><scope>themis::core::concerns::InMemoryCacheImpl::CachedValue</scope><name>entry</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_in_memory_cache_impl_1_1_cached_value_1a1dba92fc157b7fe5380bf2cb876c21fc" prot="public" virt="non-virtual"><scope>themis::core::concerns::InMemoryCacheImpl::CachedValue</scope><name>ttl_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_server_stub" kind="class" language="C++" prot="public">
+    <compoundname>ServerStub</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_server_stub_1ad7023ced5a96a33b6ca19959e3c0b81f" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_server_config" kindref="compound">ServerConfig</ref></type>
+        <definition>ServerConfig ServerStub::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>ServerStub::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="402" column="45" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_stub_1a7ecd0f1c8a2d394038cf0444a271bcf9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="test__server__phase5__hardening_8cpp_1a57688e7d6a33b6d55549f70d898b91f5" kindref="member">ServerState</ref> &gt;</type>
+        <definition>std::atomic&lt;ServerState&gt; ServerStub::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>ServerStub::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="403" column="32" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_stub_1a6046ecce183b75dba973b0cb64767dcf" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; ServerStub::in_flight_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_</name>
+        <qualifiedname>ServerStub::in_flight_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="404" column="40" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="404" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_stub_1a47c2a7dfe57d785bdcfe20ea6d248b3f" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex ServerStub::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>ServerStub::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="405" column="45" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_stub_1a726dba257a27ba054aa1958895d3a352" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable ServerStub::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>ServerStub::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="406" column="45" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_stub_1a575a796a80e6daafbade6e7c6a54de69" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point ServerStub::shutdown_start_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_start_</name>
+        <qualifiedname>ServerStub::shutdown_start_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="407" column="45" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="407" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_server_stub_1a950f31ad81658e8ba118f6e3e336b1d8" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point ServerStub::shutdown_end_</definition>
+        <argsstring></argsstring>
+        <name>shutdown_end_</name>
+        <qualifiedname>ServerStub::shutdown_end_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="408" column="45" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="408" bodyend="408"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_server_stub_1a8ff09d6cf23ceae6c02ffffff5a91742" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>ServerStub::ServerStub</definition>
+        <argsstring>(ServerConfig cfg)</argsstring>
+        <name>ServerStub</name>
+        <qualifiedname>ServerStub::ServerStub</qualifiedname>
+        <param>
+          <type><ref refid="struct_server_config" kindref="compound">ServerConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Construct a stub with the supplied configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Server policy parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="261" column="14" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="261" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1a07fa67c07d096ace416e5ee416ed9d7f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_request_result" kindref="compound">RequestResult</ref></type>
+        <definition>RequestResult ServerStub::dispatch</definition>
+        <argsstring>(std::chrono::milliseconds processing_time, std::string headers={}, std::string body={}) noexcept</argsstring>
+        <name>dispatch</name>
+        <qualifiedname>ServerStub::dispatch</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>processing_time</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>body</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Dispatch a request with a simulated processing duration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>kTimedOut</computeroutput> when <computeroutput>processing_time &gt; request_timeout</computeroutput>. Returns <computeroutput>kFatal</computeroutput> when the server is in <computeroutput>kDraining</computeroutput> or <computeroutput>kStopped</computeroutput> state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>processing_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Simulated work duration for this request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional request headers (preserved across retries). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional request body (preserved across retries). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_request_result" kindref="compound">RequestResult</ref> describing the outcome. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="275" column="20" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="275" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1a6810a085017bd0c3c20ebcd341a15537" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_request_result" kindref="compound">RequestResult</ref></type>
+        <definition>RequestResult ServerStub::dispatchWithKeepalive</definition>
+        <argsstring>(std::chrono::milliseconds processing_time, std::chrono::milliseconds inactivity_duration) noexcept</argsstring>
+        <name>dispatchWithKeepalive</name>
+        <qualifiedname>ServerStub::dispatchWithKeepalive</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>processing_time</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>inactivity_duration</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch a request that uses keepalive and idle timeout recycling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The connection is recycled once <computeroutput>inactivity_duration</computeroutput> exceeds the stricter of <computeroutput>idle_timeout</computeroutput> and <computeroutput>keepalive_timeout</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inactivity_duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How long the connection sat idle after the request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="struct_request_result" kindref="compound">RequestResult</ref> with <computeroutput>connection_recycled</computeroutput> set appropriately. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="314" column="20" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="314" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1a3bb3906948c9527a0a9211d308f32e82" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool ServerStub::initiateShutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>initiateShutdown</name>
+        <qualifiedname>ServerStub::initiateShutdown</qualifiedname>
+        <briefdescription>
+<para>Initiate a graceful shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transitions to <computeroutput>kDraining</computeroutput>, waits for in-flight requests to finish (up to <computeroutput>max_shutdown_duration</computeroutput>), then moves to <computeroutput>kStopped</computeroutput>.</para>
+<para><simplesect kind="return"><para><computeroutput>true</computeroutput> if shutdown completed within the configured window. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="333" column="10" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="333" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1a5cca3a631a9cb75faba290b9df126e99" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="test__server__phase5__hardening_8cpp_1a57688e7d6a33b6d55549f70d898b91f5" kindref="member">ServerState</ref></type>
+        <definition>ServerState ServerStub::state</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>state</name>
+        <qualifiedname>ServerStub::state</qualifiedname>
+        <briefdescription>
+<para>Return current server lifecycle state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="test__server__phase5__hardening_8cpp_1a57688e7d6a33b6d55549f70d898b91f5" kindref="member">ServerState</ref> enum value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="350" column="18" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="350" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1a89d9f522e0f215464b9b0de7db8ded21" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int ServerStub::inFlight</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>inFlight</name>
+        <qualifiedname>ServerStub::inFlight</qualifiedname>
+        <briefdescription>
+<para>Return the number of currently in-flight requests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>In-flight request count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="358" column="10" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="358" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1a65590f64863850ac54b1df58d60982e5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds ServerStub::shutdownDuration</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>shutdownDuration</name>
+        <qualifiedname>ServerStub::shutdownDuration</qualifiedname>
+        <briefdescription>
+<para>Return the actual shutdown duration from <ref refid="class_server_stub_1a3bb3906948c9527a0a9211d308f32e82" kindref="member">initiateShutdown()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns zero duration if shutdown has not been called.</para>
+<para><simplesect kind="return"><para>Elapsed shutdown duration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="369" column="32" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="369" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1aa9d6cbe88e417df923e3570c569cdf9c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds ServerStub::requestTimeout</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>requestTimeout</name>
+        <qualifiedname>ServerStub::requestTimeout</qualifiedname>
+        <briefdescription>
+<para>Return the configured request timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Request timeout as chrono duration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="381" column="32" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="381" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1a57fcbd9b3c00567003d9667ad43abc68" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds ServerStub::idleTimeout</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>idleTimeout</name>
+        <qualifiedname>ServerStub::idleTimeout</qualifiedname>
+        <briefdescription>
+<para>Return the configured idle timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Idle timeout as chrono duration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="389" column="32" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="389" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="class_server_stub_1ac6dcc6af9a4115aa61f4292cda4bed45" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds ServerStub::keepaliveTimeout</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>keepaliveTimeout</name>
+        <qualifiedname>ServerStub::keepaliveTimeout</qualifiedname>
+        <briefdescription>
+<para>Return the configured keepalive timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Keepalive timeout as chrono duration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase5_hardening.cpp" line="397" column="32" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="397" bodyend="399"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight in-process server stub for Phase 5 timeout/shutdown tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Simulates accept/reject/drain semantics without opening TCP ports. All operations are driven by <computeroutput>std::chrono::steady_clock</computeroutput> and protected by a <computeroutput>std::mutex</computeroutput> + <computeroutput>std::condition_variable</computeroutput>. </para>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase5_hardening.cpp" line="255" column="1" bodyfile="tests/server/test_server_phase5_hardening.cpp" bodystart="255" bodyend="409"/>
+    <listofallmembers>
+      <member refid="class_server_stub_1ad7023ced5a96a33b6ca19959e3c0b81f" prot="private" virt="non-virtual"><scope>ServerStub</scope><name>cfg_</name></member>
+      <member refid="class_server_stub_1a726dba257a27ba054aa1958895d3a352" prot="private" virt="non-virtual"><scope>ServerStub</scope><name>cv_</name></member>
+      <member refid="class_server_stub_1a07fa67c07d096ace416e5ee416ed9d7f" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>dispatch</name></member>
+      <member refid="class_server_stub_1a6810a085017bd0c3c20ebcd341a15537" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>dispatchWithKeepalive</name></member>
+      <member refid="class_server_stub_1a57fcbd9b3c00567003d9667ad43abc68" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>idleTimeout</name></member>
+      <member refid="class_server_stub_1a6046ecce183b75dba973b0cb64767dcf" prot="private" virt="non-virtual"><scope>ServerStub</scope><name>in_flight_</name></member>
+      <member refid="class_server_stub_1a89d9f522e0f215464b9b0de7db8ded21" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>inFlight</name></member>
+      <member refid="class_server_stub_1a3bb3906948c9527a0a9211d308f32e82" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>initiateShutdown</name></member>
+      <member refid="class_server_stub_1ac6dcc6af9a4115aa61f4292cda4bed45" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>keepaliveTimeout</name></member>
+      <member refid="class_server_stub_1a47c2a7dfe57d785bdcfe20ea6d248b3f" prot="private" virt="non-virtual"><scope>ServerStub</scope><name>mu_</name></member>
+      <member refid="class_server_stub_1aa9d6cbe88e417df923e3570c569cdf9c" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>requestTimeout</name></member>
+      <member refid="class_server_stub_1a8ff09d6cf23ceae6c02ffffff5a91742" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>ServerStub</name></member>
+      <member refid="class_server_stub_1a950f31ad81658e8ba118f6e3e336b1d8" prot="private" virt="non-virtual"><scope>ServerStub</scope><name>shutdown_end_</name></member>
+      <member refid="class_server_stub_1a575a796a80e6daafbade6e7c6a54de69" prot="private" virt="non-virtual"><scope>ServerStub</scope><name>shutdown_start_</name></member>
+      <member refid="class_server_stub_1a65590f64863850ac54b1df58d60982e5" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>shutdownDuration</name></member>
+      <member refid="class_server_stub_1a5cca3a631a9cb75faba290b9df126e99" prot="public" virt="non-virtual"><scope>ServerStub</scope><name>state</name></member>
+      <member refid="class_server_stub_1a7ecd0f1c8a2d394038cf0444a271bcf9" prot="private" virt="non-virtual"><scope>ServerStub</scope><name>state_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

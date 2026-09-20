@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::test::CudaWrapperPerformanceTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1a4100e63c981b62e298a6775f2443a344" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::CudaWrapperPerformanceTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperPerformanceTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="191" column="8" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="191" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1ac5ec23c25c85718cea58f9d09bf59d43" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::CudaWrapperPerformanceTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperPerformanceTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="195" column="8" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="195" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1ac532548131c67e8e002678d06f18ac8f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::gpu::test::CudaWrapperPerformanceTest::MeasureGuardOverheadNs</definition>
+        <argsstring>(int iterations=1000)</argsstring>
+        <name>MeasureGuardOverheadNs</name>
+        <qualifiedname>themis::gpu::test::CudaWrapperPerformanceTest::MeasureGuardOverheadNs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>iterations</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="200" column="10" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="200" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::CudaWrapperPerformanceTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::CudaWrapperPerformanceTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="189" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="189" bodyend="205"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1ac532548131c67e8e002678d06f18ac8f" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperPerformanceTest</scope><name>MeasureGuardOverheadNs</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1a4100e63c981b62e298a6775f2443a344" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperPerformanceTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_wrapper_performance_test_1ac5ec23c25c85718cea58f9d09bf59d43" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaWrapperPerformanceTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

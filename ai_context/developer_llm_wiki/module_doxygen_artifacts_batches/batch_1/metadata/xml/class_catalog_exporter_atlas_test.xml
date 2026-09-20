@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_catalog_exporter_atlas_test" kind="class" language="C++" prot="public">
+    <compoundname>CatalogExporterAtlasTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="struct_catalog_exporter_atlas_test_1_1_capture" prot="protected">CatalogExporterAtlasTest::Capture</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_catalog_exporter_atlas_test_1a44682806eaff515fe50cc5899f429c48" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_catalog_exporter" kindref="compound">CatalogExporter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CatalogExporter&gt; CatalogExporterAtlasTest::exporter_</definition>
+        <argsstring></argsstring>
+        <name>exporter_</name>
+        <qualifiedname>CatalogExporterAtlasTest::exporter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_catalog_exporter.cpp" line="98" column="21" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_catalog_exporter_atlas_test_1a2a24996b8db49f842d6969220e6365fc" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_catalog_exporter_atlas_test_1_1_capture" kindref="compound">Capture</ref> &gt;</type>
+        <definition>std::vector&lt;Capture&gt; CatalogExporterAtlasTest::captured_</definition>
+        <argsstring></argsstring>
+        <name>captured_</name>
+        <qualifiedname>CatalogExporterAtlasTest::captured_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_catalog_exporter.cpp" line="99" column="29" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_catalog_exporter_atlas_test_1aca68625279a9296b7a82d73ae012a4e0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CatalogExporterAtlasTest::setHttpMock</definition>
+        <argsstring>(int status_code, const std::string &amp;response_body=&quot;{}&quot;)</argsstring>
+        <name>setHttpMock</name>
+        <qualifiedname>CatalogExporterAtlasTest::setHttpMock</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response_body</declname>
+          <defval>&quot;{}&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Install a test-double that records calls and returns the configured response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_catalog_exporter.cpp" line="81" column="10" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="81" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_catalog_exporter_atlas_test_1a17d407fbeaa750ea1db8ae6f54e4bdb8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CatalogExporterAtlasTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CatalogExporterAtlasTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_catalog_exporter.cpp" line="94" column="10" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="94" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CatalogExporterAtlasTest</label>
+        <link refid="class_catalog_exporter_atlas_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CatalogExporterAtlasTest</label>
+        <link refid="class_catalog_exporter_atlas_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_catalog_exporter.cpp" line="72" column="1" bodyfile="tests/metadata/test_catalog_exporter.cpp" bodystart="72" bodyend="100"/>
+    <listofallmembers>
+      <member refid="class_catalog_exporter_atlas_test_1a2a24996b8db49f842d6969220e6365fc" prot="protected" virt="non-virtual"><scope>CatalogExporterAtlasTest</scope><name>captured_</name></member>
+      <member refid="class_catalog_exporter_atlas_test_1a44682806eaff515fe50cc5899f429c48" prot="protected" virt="non-virtual"><scope>CatalogExporterAtlasTest</scope><name>exporter_</name></member>
+      <member refid="class_catalog_exporter_atlas_test_1aca68625279a9296b7a82d73ae012a4e0" prot="protected" virt="non-virtual"><scope>CatalogExporterAtlasTest</scope><name>setHttpMock</name></member>
+      <member refid="class_catalog_exporter_atlas_test_1a17d407fbeaa750ea1db8ae6f54e4bdb8" prot="protected" virt="non-virtual"><scope>CatalogExporterAtlasTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,584 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_schema_migration_tester" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::SchemaMigrationTester</compoundname>
+    <includes refid="schema__migration__tester_8h" local="no">schema_migration_tester.h</includes>
+    <innerclass refid="structthemis_1_1updates_1_1_schema_migration_tester_1_1_config" prot="public">themis::updates::SchemaMigrationTester::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_schema_migration_tester_1aaeccb4484ae5f15c71e131899828e006" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_schema_migration_tester_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::updates::SchemaMigrationTester::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="187" column="12" bodyfile="include/updates/schema_migration_tester.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_schema_migration_tester_1a6bed8b05f60bc6962dc11f6287628092" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_migration_test_case" kindref="compound">MigrationTestCase</ref> &gt;</type>
+        <definition>std::vector&lt;MigrationTestCase&gt; themis::updates::SchemaMigrationTester::user_test_cases_</definition>
+        <argsstring></argsstring>
+        <name>user_test_cases_</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::user_test_cases_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="188" column="17" bodyfile="include/updates/schema_migration_tester.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1a1992ae195bf77fb72f1c2dc16f2c465a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::SchemaMigrationTester::SchemaMigrationTester</definition>
+        <argsstring>()</argsstring>
+        <name>SchemaMigrationTester</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::SchemaMigrationTester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="121" column="5" bodyfile="src/updates/schema_migration_tester.cpp" bodystart="53" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1a66777bce5656b0febdaf834845d1bdf3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::SchemaMigrationTester::SchemaMigrationTester</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>SchemaMigrationTester</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::SchemaMigrationTester</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_schema_migration_tester_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="122" column="14" bodyfile="src/updates/schema_migration_tester.cpp" bodystart="56" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1a02033f8030db1ca28039087b7752198a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::SchemaMigrationTester::~SchemaMigrationTester</definition>
+        <argsstring>()=default</argsstring>
+        <name>~SchemaMigrationTester</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::~SchemaMigrationTester</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1aa97e2d8c154f4f41fcddd933dfcfc723" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::SchemaMigrationTester::SchemaMigrationTester</definition>
+        <argsstring>(const SchemaMigrationTester &amp;)=delete</argsstring>
+        <name>SchemaMigrationTester</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::SchemaMigrationTester</qualifiedname>
+        <param>
+          <type>const SchemaMigrationTester &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="126" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1a08745d7c30f68210de058fda15270de7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_schema_migration_tester_1a1992ae195bf77fb72f1c2dc16f2c465a" kindref="member">SchemaMigrationTester</ref> &amp;</type>
+        <definition>SchemaMigrationTester &amp; themis::updates::SchemaMigrationTester::operator=</definition>
+        <argsstring>(const SchemaMigrationTester &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1updates_1_1_schema_migration_tester_1a1992ae195bf77fb72f1c2dc16f2c465a" kindref="member">SchemaMigrationTester</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="127" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1a4f7f56983635b7f4ae43af57823c9da2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::SchemaMigrationTester::addTestCase</definition>
+        <argsstring>(MigrationTestCase tc)</argsstring>
+        <name>addTestCase</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::addTestCase</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1updates_1_1_migration_test_case" kindref="compound">MigrationTestCase</ref></type>
+          <declname>tc</declname>
+        </param>
+        <briefdescription>
+<para>Register an additional test case to run against the staged migration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Test Case.</para>
+<para>Test cases are executed in registration order after the built-in validations have passed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test case descriptor (name + callback).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="137" column="10" bodyfile="src/updates/schema_migration_tester.cpp" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1a19213accc3fbcab48ff6832ce04c7a7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_migration_test_result" kindref="compound">MigrationTestResult</ref></type>
+        <definition>MigrationTestResult themis::updates::SchemaMigrationTester::testMigration</definition>
+        <argsstring>(const std::string &amp;table_name, const SchemaManager::TableSchema &amp;from_schema, const SchemaManager::TableSchema &amp;to_schema)</argsstring>
+        <name>testMigration</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::testMigration</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>from_schema</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>to_schema</declname>
+        </param>
+        <briefdescription>
+<para>Apply <computeroutput>to_schema</computeroutput> on an isolated staging DB and run all tests. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test Migration.</para>
+<para>Built-in validations performed:<orderedlist>
+<listitem><para>No duplicate column names in <computeroutput>to_schema</computeroutput>.</para>
+</listitem><listitem><para>validateMigration() reports no errors.</para>
+</listitem><listitem><para><computeroutput>to_schema</computeroutput> is registered with the staging SchemaManager.</para>
+</listitem><listitem><para>A schema version snapshot can be created.</para>
+</listitem><listitem><para>generateMigrationScript() produces a non-empty DDL string when <computeroutput>from_schema</computeroutput> differs from <computeroutput>to_schema</computeroutput>.</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table being migrated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current (production) schema. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Proposed new schema. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detailed test result including per-test pass/fail.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeStagingPath(), fs::create_directories(), std::string(), what(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, open(), fs::remove_all(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="155" column="25" bodyfile="src/updates/schema_migration_tester.cpp" bodystart="87" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1aa12cdb7b2e8f7f604a9452c2708233fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::SchemaMigrationTester::promoteToProduction</definition>
+        <argsstring>(const MigrationTestResult &amp;result, RocksDBWrapper &amp;production_db, SchemaManager &amp;production_schema, SchemaVersionManager &amp;production_version, const std::string &amp;table_name, const SchemaManager::TableSchema &amp;to_schema, const std::string &amp;author=&quot;migration-tester&quot;)</argsstring>
+        <name>promoteToProduction</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::promoteToProduction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_migration_test_result" kindref="compound">MigrationTestResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>RocksDBWrapper &amp;</type>
+          <declname>production_db</declname>
+        </param>
+        <param>
+          <type>SchemaManager &amp;</type>
+          <declname>production_schema</declname>
+        </param>
+        <param>
+          <type>SchemaVersionManager &amp;</type>
+          <declname>production_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>to_schema</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>author</declname>
+          <defval>&quot;migration-tester&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Apply <computeroutput>to_schema</computeroutput> to the production database. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Promote To Production.</para>
+<para>May only be called after <ref refid="classthemis_1_1updates_1_1_schema_migration_tester_1a19213accc3fbcab48ff6832ce04c7a7a" kindref="member">testMigration()</ref> returned a successful result. Records the change with SchemaVersionManager and updates SchemaManager.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Successful result from <ref refid="classthemis_1_1updates_1_1_schema_migration_tester_1a19213accc3fbcab48ff6832ce04c7a7a" kindref="member">testMigration()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>production_db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper for the production database. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>production_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SchemaManager for the production database. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>production_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SchemaVersionManager for the production database. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table being migrated. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New schema to apply. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identity of the person performing the migration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the migration was applied successfully.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">production_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">production_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">author</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, setTableSchema(), createSchemaVersion(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="176" column="10" bodyfile="src/updates/schema_migration_tester.cpp" bodystart="275" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1a5ae9d50d4733ca414b646bc424a4bb62" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::SchemaMigrationTester::makeStagingPath</definition>
+        <argsstring>() const</argsstring>
+        <name>makeStagingPath</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::makeStagingPath</qualifiedname>
+        <briefdescription>
+<para>Generate a unique staging DB path (timestamp-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="191" column="17" bodyfile="src/updates/schema_migration_tester.cpp" bodystart="68" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_schema_migration_tester_1a61882bb71bb5b1ed79c630ddaedda3d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::SchemaMigrationTester::runBuiltinTests</definition>
+        <argsstring>(const std::string &amp;table_name, const SchemaManager::TableSchema &amp;from_schema, const SchemaManager::TableSchema &amp;to_schema, SchemaManager &amp;staged_schema, SchemaVersionManager &amp;staged_version, std::vector&lt; MigrationTestCaseResult &gt; &amp;results, std::string &amp;migration_script_out)</argsstring>
+        <name>runBuiltinTests</name>
+        <qualifiedname>themis::updates::SchemaMigrationTester::runBuiltinTests</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>from_schema</declname>
+        </param>
+        <param>
+          <type>const SchemaManager::TableSchema &amp;</type>
+          <declname>to_schema</declname>
+        </param>
+        <param>
+          <type>SchemaManager &amp;</type>
+          <declname>staged_schema</declname>
+        </param>
+        <param>
+          <type>SchemaVersionManager &amp;</type>
+          <declname>staged_version</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_migration_test_case_result" kindref="compound">MigrationTestCaseResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>migration_script_out</declname>
+        </param>
+        <briefdescription>
+<para>Run built-in validations; appends to <computeroutput>results</computeroutput>, returns false on first fatal error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Run Builtin Tests.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">staged_schema</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">staged_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">migration_script_out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: push_back(), insert(), empty(), addResult(), validateMigration(), setTableSchema(), createSchemaVersion(), generateMigrationScript(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration_tester.h" line="194" column="10" bodyfile="src/updates/schema_migration_tester.cpp" bodystart="196" bodyend="257"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Framework for testing schema migrations on an isolated staging environment before applying them to production. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Workflow</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1updates_1_1_schema_migration_tester_1a1992ae195bf77fb72f1c2dc16f2c465a" kindref="member">SchemaMigrationTester</ref><sp/>tester;</highlight></codeline>
+<codeline><highlight class="normal">tester.addTestCase({</highlight><highlight class="stringliteral">&quot;check_column_exists&quot;</highlight><highlight class="normal">,<sp/>[](</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>sm,<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;,<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>err)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>sm.getTable(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!t)<sp/>{<sp/>err<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;table<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>t-&gt;properties)</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(p.name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>err<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;column<sp/>&apos;email&apos;<sp/>missing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>tester.testMigration(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>from_schema,<sp/>to_schema);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>tester.promoteToProduction(result,<sp/>prod_db,<sp/>prod_schema,<sp/>prod_version,<sp/></highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>to_schema);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para><heading level="3">Thread-safety</heading>
+</para>
+<para>Not thread-safe. Use a single <ref refid="classthemis_1_1updates_1_1_schema_migration_tester" kindref="compound">SchemaMigrationTester</ref> per migration sequence.</para>
+<para><heading level="3">Constraints</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Each <ref refid="classthemis_1_1updates_1_1_schema_migration_tester_1a19213accc3fbcab48ff6832ce04c7a7a" kindref="member">testMigration()</ref> call opens a fresh staging RocksDB instance under <computeroutput><ref refid="structthemis_1_1updates_1_1_schema_migration_tester_1_1_config_1a54646e80109deba735da551da4f8cde3" kindref="member">Config::staging_directory</ref></computeroutput>.</para>
+</listitem><listitem><para>The staging directory is created automatically if it does not exist.</para>
+</listitem><listitem><para>The staging DB is cleaned up according to Config::cleanup_* flags. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/schema_migration_tester.h" line="105" column="1" bodyfile="include/updates/schema_migration_tester.h" bodystart="105" bodyend="203"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a4f7f56983635b7f4ae43af57823c9da2" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>addTestCase</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1aaeccb4484ae5f15c71e131899828e006" prot="private" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>config_</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a5ae9d50d4733ca414b646bc424a4bb62" prot="private" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>makeStagingPath</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a08745d7c30f68210de058fda15270de7" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1aa12cdb7b2e8f7f604a9452c2708233fe" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>promoteToProduction</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a61882bb71bb5b1ed79c630ddaedda3d7" prot="private" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>runBuiltinTests</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a1992ae195bf77fb72f1c2dc16f2c465a" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>SchemaMigrationTester</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a66777bce5656b0febdaf834845d1bdf3" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>SchemaMigrationTester</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1aa97e2d8c154f4f41fcddd933dfcfc723" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>SchemaMigrationTester</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a19213accc3fbcab48ff6832ce04c7a7a" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>testMigration</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a6bed8b05f60bc6962dc11f6287628092" prot="private" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>user_test_cases_</name></member>
+      <member refid="classthemis_1_1updates_1_1_schema_migration_tester_1a02033f8030db1ca28039087b7752198a" prot="public" virt="non-virtual"><scope>themis::updates::SchemaMigrationTester</scope><name>~SchemaMigrationTester</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

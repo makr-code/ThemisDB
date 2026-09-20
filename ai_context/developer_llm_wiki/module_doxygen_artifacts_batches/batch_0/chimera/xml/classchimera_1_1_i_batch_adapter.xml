@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classchimera_1_1_i_batch_adapter" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>chimera::IBatchAdapter</compoundname>
+    <derivedcompoundref refid="classchimera_1_1_mongo_d_b_adapter" prot="public" virt="non-virtual">chimera::MongoDBAdapter</derivedcompoundref>
+    <derivedcompoundref refid="classchimera_1_1_qdrant_adapter" prot="public" virt="non-virtual">chimera::QdrantAdapter</derivedcompoundref>
+    <includes refid="batch__executor_8hpp" local="no">batch_executor.hpp</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1a3b13094d4f2875c5682d37ad891c1a0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual chimera::IBatchAdapter::~IBatchAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IBatchAdapter</name>
+        <qualifiedname>chimera::IBatchAdapter::~IBatchAdapter</qualifiedname>
+        <briefdescription>
+<para>IBatch Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="53" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1a06a669ff9a00cbaf7add1d0b8675b497" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IBatchAdapter::queue_insert</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row)=0</argsstring>
+        <name>queue_insert</name>
+        <qualifiedname>chimera::IBatchAdapter::queue_insert</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_mongo_d_b_adapter_1afbf7499f841c78d6ff7f32f5c672bd86">queue_insert</reimplementedby>
+        <reimplementedby refid="classchimera_1_1_qdrant_adapter_1a8b06c5af4406c8bc43412b9004ea0473">queue_insert</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <briefdescription>
+<para>Queue insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="61" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1ac8c18ce7b1b88be91f753c76909a9891" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IBatchAdapter::queue_insert_batch</definition>
+        <argsstring>(const std::string &amp;table_name, const std::vector&lt; RelationalRow &gt; &amp;rows)=0</argsstring>
+        <name>queue_insert_batch</name>
+        <qualifiedname>chimera::IBatchAdapter::queue_insert_batch</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_mongo_d_b_adapter_1a610cfb4f858d2d87822c59280677eef8">queue_insert_batch</reimplementedby>
+        <reimplementedby refid="classchimera_1_1_qdrant_adapter_1af84f053fb8fd412def3cb6642b000412">queue_insert_batch</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &gt; &amp;</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Queue insert batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rows</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="72" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1a51edda8e8032b7cc1736da4b6a913347" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IBatchAdapter::queue_update</definition>
+        <argsstring>(const std::string &amp;table_name, const RelationalRow &amp;row, const std::string &amp;where_clause)=0</argsstring>
+        <name>queue_update</name>
+        <qualifiedname>chimera::IBatchAdapter::queue_update</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_mongo_d_b_adapter_1ac1096953a282f1f2d39282e77c86266a">queue_update</reimplementedby>
+        <reimplementedby refid="classchimera_1_1_qdrant_adapter_1a4f6ec4093f345845e869fe5c2cd39665">queue_update</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structchimera_1_1_relational_row" kindref="compound">RelationalRow</ref> &amp;</type>
+          <declname>row</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>where_clause</declname>
+        </param>
+        <briefdescription>
+<para>Queue update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">row</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">where_clause</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="84" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1a1e5db3984d63b99cda6c27af6869a936" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IBatchAdapter::queue_delete</definition>
+        <argsstring>(const std::string &amp;table_name, const std::string &amp;where_clause)=0</argsstring>
+        <name>queue_delete</name>
+        <qualifiedname>chimera::IBatchAdapter::queue_delete</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_mongo_d_b_adapter_1a9a397d3ab21cfb05df9d59eaa1b544a3">queue_delete</reimplementedby>
+        <reimplementedby refid="classchimera_1_1_qdrant_adapter_1a921cdd70656c8efe25debc1d32178fe0">queue_delete</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>where_clause</declname>
+        </param>
+        <briefdescription>
+<para>Queue delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">where_clause</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="96" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1af9886ab465bca45b2a1e9b167fce345e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; <ref refid="structchimera_1_1_batch_statistics" kindref="compound">BatchStatistics</ref> &gt;</type>
+        <definition>virtual Result&lt; BatchStatistics &gt; chimera::IBatchAdapter::flush</definition>
+        <argsstring>()=0</argsstring>
+        <name>flush</name>
+        <qualifiedname>chimera::IBatchAdapter::flush</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_mongo_d_b_adapter_1a1f3a558e6b14f92f83ae024f93ae5ef4">flush</reimplementedby>
+        <reimplementedby refid="classchimera_1_1_qdrant_adapter_1a6b536d3d3e3c736f936f6186a2cf6520">flush</reimplementedby>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="105" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1afe84ae9ea2d76d718cf9f469323f51c3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>size_t</type>
+        <definition>virtual size_t chimera::IBatchAdapter::get_pending_count</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_pending_count</name>
+        <qualifiedname>chimera::IBatchAdapter::get_pending_count</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_mongo_d_b_adapter_1a6d97adad6412b3961a68e81f7f27d6a0">get_pending_count</reimplementedby>
+        <reimplementedby refid="classchimera_1_1_qdrant_adapter_1a3da7f1e194581f555fa8ef8ac80bc4c9">get_pending_count</reimplementedby>
+        <briefdescription>
+<para>Get pending count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="111" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1abf33b0d9e45a4b4d96d4caa463e2f920" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structchimera_1_1_result" kindref="compound">Result</ref>&lt; bool &gt;</type>
+        <definition>virtual Result&lt; bool &gt; chimera::IBatchAdapter::set_batch_config</definition>
+        <argsstring>(const BatchConfig &amp;config)=0</argsstring>
+        <name>set_batch_config</name>
+        <qualifiedname>chimera::IBatchAdapter::set_batch_config</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_mongo_d_b_adapter_1a4c503811fd0345771b22bc9546004768">set_batch_config</reimplementedby>
+        <reimplementedby refid="classchimera_1_1_qdrant_adapter_1a1db2b0416f384fc442fbda29483e236f">set_batch_config</reimplementedby>
+        <param>
+          <type>const <ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set batch config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="118" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classchimera_1_1_i_batch_adapter_1a4072a7f9d05047ad5da5bf06d6e40599" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>const <ref refid="structchimera_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+        <definition>virtual const BatchConfig &amp; chimera::IBatchAdapter::get_batch_config</definition>
+        <argsstring>() const =0</argsstring>
+        <name>get_batch_config</name>
+        <qualifiedname>chimera::IBatchAdapter::get_batch_config</qualifiedname>
+        <reimplementedby refid="classchimera_1_1_mongo_d_b_adapter_1acd37b234bfcfbb7d3428cdcc033a09be">get_batch_config</reimplementedby>
+        <reimplementedby refid="classchimera_1_1_qdrant_adapter_1a6796f65799ab94a18f5ccc47f74b5b3b">get_batch_config</reimplementedby>
+        <briefdescription>
+<para>Get batch config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chimera/batch_executor.hpp" line="124" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>chimera::IBatchAdapter</label>
+        <link refid="classchimera_1_1_i_batch_adapter"/>
+      </node>
+      <node id="2">
+        <label>chimera::MongoDBAdapter</label>
+        <link refid="classchimera_1_1_mongo_d_b_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chimera::QdrantAdapter</label>
+        <link refid="classchimera_1_1_qdrant_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/chimera/batch_executor.hpp" line="47" column="1" bodyfile="include/chimera/batch_executor.hpp" bodystart="47" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classchimera_1_1_i_batch_adapter_1af9886ab465bca45b2a1e9b167fce345e" prot="public" virt="pure-virtual"><scope>chimera::IBatchAdapter</scope><name>flush</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1a4072a7f9d05047ad5da5bf06d6e40599" prot="public" virt="pure-virtual"><scope>chimera::IBatchAdapter</scope><name>get_batch_config</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1afe84ae9ea2d76d718cf9f469323f51c3" prot="public" virt="pure-virtual"><scope>chimera::IBatchAdapter</scope><name>get_pending_count</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1a1e5db3984d63b99cda6c27af6869a936" prot="public" virt="pure-virtual"><scope>chimera::IBatchAdapter</scope><name>queue_delete</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1a06a669ff9a00cbaf7add1d0b8675b497" prot="public" virt="pure-virtual"><scope>chimera::IBatchAdapter</scope><name>queue_insert</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1ac8c18ce7b1b88be91f753c76909a9891" prot="public" virt="pure-virtual"><scope>chimera::IBatchAdapter</scope><name>queue_insert_batch</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1a51edda8e8032b7cc1736da4b6a913347" prot="public" virt="pure-virtual"><scope>chimera::IBatchAdapter</scope><name>queue_update</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1abf33b0d9e45a4b4d96d4caa463e2f920" prot="public" virt="pure-virtual"><scope>chimera::IBatchAdapter</scope><name>set_batch_config</name></member>
+      <member refid="classchimera_1_1_i_batch_adapter_1a3b13094d4f2875c5682d37ad891c1a0d" prot="public" virt="virtual"><scope>chimera::IBatchAdapter</scope><name>~IBatchAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

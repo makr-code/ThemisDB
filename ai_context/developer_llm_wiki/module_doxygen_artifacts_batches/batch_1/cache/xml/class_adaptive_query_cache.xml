@@ -1,0 +1,2872 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_adaptive_query_cache" kind="class" language="C++" prot="public">
+    <compoundname>AdaptiveQueryCache</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_cache_backend" prot="public" virt="non-virtual">themis::cache::ICacheBackend&lt; std::string, nlohmann::json &gt;</basecompoundref>
+    <includes refid="adaptive__query__cache_8h" local="no">adaptive_query_cache.h</includes>
+    <innerclass refid="struct_adaptive_query_cache_1_1_config" prot="public">AdaptiveQueryCache::Config</innerclass>
+    <innerclass refid="struct_adaptive_query_cache_1_1_cache_entry" prot="public">AdaptiveQueryCache::CacheEntry</innerclass>
+    <innerclass refid="struct_adaptive_query_cache_1_1_cache_stats" prot="public">AdaptiveQueryCache::CacheStats</innerclass>
+    <innerclass refid="struct_adaptive_query_cache_1_1_warmup_result" prot="public">AdaptiveQueryCache::WarmupResult</innerclass>
+    <innerclass refid="struct_adaptive_query_cache_1_1_l1_entry" prot="private">AdaptiveQueryCache::L1Entry</innerclass>
+    <innerclass refid="struct_adaptive_query_cache_1_1_l2_entry" prot="private">AdaptiveQueryCache::L2Entry</innerclass>
+    <innerclass refid="struct_adaptive_query_cache_1_1_alive_guard" prot="private">AdaptiveQueryCache::AliveGuard</innerclass>
+    <innerclass refid="struct_adaptive_query_cache_1_1_tenant_metrics" prot="private">AdaptiveQueryCache::TenantMetrics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_adaptive_query_cache_1a76eb0ab3cc21e5b0f58e140b4ff9394f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CacheLevel</name>
+        <qualifiedname>AdaptiveQueryCache::CacheLevel</qualifiedname>
+        <enumvalue id="class_adaptive_query_cache_1a76eb0ab3cc21e5b0f58e140b4ff9394fac429fde8b1b986d42f84ba63dbfef6ac" prot="public">
+          <name>HOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_adaptive_query_cache_1a76eb0ab3cc21e5b0f58e140b4ff9394fa11523c55fca0d056eda7dbbe810490ca" prot="public">
+          <name>WARM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_adaptive_query_cache_1a76eb0ab3cc21e5b0f58e140b4ff9394fa3f7ff4daa99912d1b0c8c64340edb9fb" prot="public">
+          <name>COLD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="43" column="5" bodyfile="include/cache/adaptive_query_cache.h" bodystart="43" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a8890381137a001ea87e5ca6805326d90" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_adaptive_query_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::AdaptiveQueryCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>AdaptiveQueryCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="428" column="12" bodyfile="include/cache/adaptive_query_cache.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a91a0886a0b486c36b69452bc51f3243d" prot="private" static="no" mutable="yes">
+        <type>cache::CacheMetrics</type>
+        <definition>cache::CacheMetrics themis::AdaptiveQueryCache::enhanced_metrics_</definition>
+        <argsstring></argsstring>
+        <name>enhanced_metrics_</name>
+        <qualifiedname>AdaptiveQueryCache::enhanced_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="429" column="33" bodyfile="include/cache/adaptive_query_cache.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1ab401e7540db589f46661226948217ab6" prot="private" static="no" mutable="yes">
+        <type><ref refid="struct_adaptive_query_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats themis::AdaptiveQueryCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>AdaptiveQueryCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="430" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a48a2b6f49117226577c1ddc038288627" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; cache::CircuitBreaker &gt;</type>
+        <definition>std::unique_ptr&lt;cache::CircuitBreaker&gt; themis::AdaptiveQueryCache::l3_circuit_breaker_</definition>
+        <argsstring></argsstring>
+        <name>l3_circuit_breaker_</name>
+        <qualifiedname>AdaptiveQueryCache::l3_circuit_breaker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="433" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="433" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a45d807366e4dc724e16231d800604caa" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; cache::RateLimiter &gt;</type>
+        <definition>std::unique_ptr&lt;cache::RateLimiter&gt; themis::AdaptiveQueryCache::rate_limiter_</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter_</name>
+        <qualifiedname>AdaptiveQueryCache::rate_limiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="436" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="436" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a6e1ce3bbea2fd29da629e1318dd1af81" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; cache::ICacheCoordinator &gt;</type>
+        <definition>std::shared_ptr&lt;cache::ICacheCoordinator&gt; themis::AdaptiveQueryCache::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>AdaptiveQueryCache::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="439" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a954829d0d445424265861a5fafc29fbe" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveQueryCache::coordinator_mutex_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::coordinator_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="440" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1aec556095fde571eb3809506645b4eb73" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; themis::AdaptiveQueryCache::callback_alive_</definition>
+        <argsstring></argsstring>
+        <name>callback_alive_</name>
+        <qualifiedname>AdaptiveQueryCache::callback_alive_</qualifiedname>
+        <initializer>{ std::make_shared&lt;std::atomic&lt;bool&gt;&gt;(true) }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="445" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="445" bodyend="445"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a4a76151ae7f75cae10fe5965e361dec7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; AliveGuard &gt;</type>
+        <definition>std::shared_ptr&lt;AliveGuard&gt; themis::AdaptiveQueryCache::alive_guard_</definition>
+        <argsstring></argsstring>
+        <name>alive_guard_</name>
+        <qualifiedname>AdaptiveQueryCache::alive_guard_</qualifiedname>
+        <initializer>{std::make_shared&lt;AliveGuard&gt;()}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="455" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="455" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a0139a9592b8f7ffb7776f2ef0faeec26" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, TenantMetrics &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TenantMetrics&gt; themis::AdaptiveQueryCache::tenant_metrics_</definition>
+        <argsstring></argsstring>
+        <name>tenant_metrics_</name>
+        <qualifiedname>AdaptiveQueryCache::tenant_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="477" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="477" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a7f50dcca24636bbb2f54f07fe15ef904" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::AdaptiveQueryCache::tenant_quota_overrides_</definition>
+        <argsstring></argsstring>
+        <name>tenant_quota_overrides_</name>
+        <qualifiedname>AdaptiveQueryCache::tenant_quota_overrides_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="479" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a92a6dbe392c62c073bb81ed00a4a8754" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveQueryCache::tenant_mutex_</definition>
+        <argsstring></argsstring>
+        <name>tenant_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::tenant_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="480" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a92f9890fe01c2f4508b7be53b2725a7c" prot="private" static="no" mutable="no">
+        <type>access_model::EvictionListener *</type>
+        <definition>access_model::EvictionListener* themis::AdaptiveQueryCache::eviction_listener_</definition>
+        <argsstring></argsstring>
+        <name>eviction_listener_</name>
+        <qualifiedname>AdaptiveQueryCache::eviction_listener_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="484" column="36" bodyfile="include/cache/adaptive_query_cache.h" bodystart="484" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1ae521dd855f911f91e44a99ce4fc178da" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveQueryCache::eviction_listener_mutex_</definition>
+        <argsstring></argsstring>
+        <name>eviction_listener_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::eviction_listener_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="485" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1af55dafd360fb6478a00a3844c0432745" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_set&lt;std::string&gt; &gt; themis::AdaptiveQueryCache::pii_key_index_</definition>
+        <argsstring></argsstring>
+        <name>pii_key_index_</name>
+        <qualifiedname>AdaptiveQueryCache::pii_key_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="491" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1aa45757034295a1f4871bd86b0b93abfc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveQueryCache::pii_index_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pii_index_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::pii_index_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="492" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a96a6f2366b762a101b0a6620f61959cd" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unique_ptr&lt; L1Entry &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unique_ptr&lt;L1Entry&gt; &gt; themis::AdaptiveQueryCache::l1_cache_</definition>
+        <argsstring></argsstring>
+        <name>l1_cache_</name>
+        <qualifiedname>AdaptiveQueryCache::l1_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="495" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a6e73692613d47abf54dd14af9c6a04a0" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::AdaptiveQueryCache::l1_mutex_</definition>
+        <argsstring></argsstring>
+        <name>l1_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::l1_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="496" column="31" bodyfile="include/cache/adaptive_query_cache.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a9d60426f00e47f14e799b2a6d8e848b0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveQueryCache::l1_eviction_mutex_</definition>
+        <argsstring></argsstring>
+        <name>l1_eviction_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::l1_eviction_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="497" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="497" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a007b7d248bb8f69ff2bb6e619a0d81db" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, L2Entry &gt;</type>
+        <definition>std::unordered_map&lt;std::string, L2Entry&gt; themis::AdaptiveQueryCache::l2_cache_</definition>
+        <argsstring></argsstring>
+        <name>l2_cache_</name>
+        <qualifiedname>AdaptiveQueryCache::l2_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="500" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="500" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a7a4804e6e82e2b31ceef63be311c8f13" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveQueryCache::l2_mutex_</definition>
+        <argsstring></argsstring>
+        <name>l2_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::l2_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="501" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="501" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1abbc3c7388fcc56a7f42813349f3d672f" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; core::concerns::IEvictionStrategy &gt;</type>
+        <definition>std::unique_ptr&lt;core::concerns::IEvictionStrategy&gt; themis::AdaptiveQueryCache::l1_eviction_strategy_</definition>
+        <argsstring></argsstring>
+        <name>l1_eviction_strategy_</name>
+        <qualifiedname>AdaptiveQueryCache::l1_eviction_strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="504" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="504" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1ac6af5dccebd3e692d0458dfb82b5a7b9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; core::concerns::IEvictionStrategy &gt;</type>
+        <definition>std::unique_ptr&lt;core::concerns::IEvictionStrategy&gt; themis::AdaptiveQueryCache::l2_eviction_strategy_</definition>
+        <argsstring></argsstring>
+        <name>l2_eviction_strategy_</name>
+        <qualifiedname>AdaptiveQueryCache::l2_eviction_strategy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="505" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="505" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a048d82a6d886aae22725ddd0d4fd5ca7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::AdaptiveQueryCache::l3_db_</definition>
+        <argsstring></argsstring>
+        <name>l3_db_</name>
+        <qualifiedname>AdaptiveQueryCache::l3_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="508" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a88d21914acf064d81d1e894d18fe6302" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themis::AdaptiveQueryCache::l3_mutex_</definition>
+        <argsstring></argsstring>
+        <name>l3_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::l3_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="509" column="30" bodyfile="include/cache/adaptive_query_cache.h" bodystart="509" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a16024a5375d211ef45197dc249fd11b9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; cache::PredictivePrefetcher &gt;</type>
+        <definition>std::unique_ptr&lt;cache::PredictivePrefetcher&gt; themis::AdaptiveQueryCache::prefetcher_</definition>
+        <argsstring></argsstring>
+        <name>prefetcher_</name>
+        <qualifiedname>AdaptiveQueryCache::prefetcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="512" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="512" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a5ab5e2a75ef970d639ff61a17f2fcf26" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; cache::ICacheReplicationListener &gt;</type>
+        <definition>std::shared_ptr&lt;cache::ICacheReplicationListener&gt; themis::AdaptiveQueryCache::replication_listener_</definition>
+        <argsstring></argsstring>
+        <name>replication_listener_</name>
+        <qualifiedname>AdaptiveQueryCache::replication_listener_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="514" column="21" bodyfile="include/cache/adaptive_query_cache.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_adaptive_query_cache_1a91c8838a31b1ac6e561df2d873a47333" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::AdaptiveQueryCache::replication_mutex_</definition>
+        <argsstring></argsstring>
+        <name>replication_mutex_</name>
+        <qualifiedname>AdaptiveQueryCache::replication_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="515" column="24" bodyfile="include/cache/adaptive_query_cache.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_adaptive_query_cache_1a5f937d8633d372384e9a8e28a7e6f299" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveQueryCache::AdaptiveQueryCache</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>AdaptiveQueryCache</name>
+        <qualifiedname>AdaptiveQueryCache::AdaptiveQueryCache</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_adaptive_query_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Adaptive Query Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="170" column="14" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="58" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a5b25de1942834a77f9670e17182abe0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveQueryCache::AdaptiveQueryCache</definition>
+        <argsstring>(const AdaptiveQueryCache &amp;)=delete</argsstring>
+        <name>AdaptiveQueryCache</name>
+        <qualifiedname>AdaptiveQueryCache::AdaptiveQueryCache</qualifiedname>
+        <param>
+          <type>const <ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="174" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1abdd5ea129ef119e7bebabdb974da3e4d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveQueryCache::AdaptiveQueryCache</definition>
+        <argsstring>(AdaptiveQueryCache &amp;&amp;) noexcept=default</argsstring>
+        <name>AdaptiveQueryCache</name>
+        <qualifiedname>AdaptiveQueryCache::AdaptiveQueryCache</qualifiedname>
+        <param>
+          <type><ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="176" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a664033f3bac213a5a5cb2bf54377ee7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AdaptiveQueryCache::~AdaptiveQueryCache</definition>
+        <argsstring>()</argsstring>
+        <name>~AdaptiveQueryCache</name>
+        <qualifiedname>AdaptiveQueryCache::~AdaptiveQueryCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="171" column="5" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="161" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a042062980311e9e84c5b0cb3fc11ffa8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> &amp;</type>
+        <definition>AdaptiveQueryCache &amp; themis::AdaptiveQueryCache::operator=</definition>
+        <argsstring>(const AdaptiveQueryCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AdaptiveQueryCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="175" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1afffb4510f25e46494032df99e58abf3e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> &amp;</type>
+        <definition>AdaptiveQueryCache &amp; themis::AdaptiveQueryCache::operator=</definition>
+        <argsstring>(AdaptiveQueryCache &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AdaptiveQueryCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="177" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a5333b764c5860c102e23abe8117fce14" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::AdaptiveQueryCache::generateFingerprint</definition>
+        <argsstring>(const std::string &amp;query, const nlohmann::json &amp;params={}, const std::string &amp;tenant_id=&quot;&quot;) const</argsstring>
+        <name>generateFingerprint</name>
+        <qualifiedname>AdaptiveQueryCache::generateFingerprint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>params</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="179" column="17" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="179" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ac6b9b096c549ecfcaba12f58e7ec23b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="struct_adaptive_query_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::optional&lt; AdaptiveQueryCache::CacheEntry &gt; themis::AdaptiveQueryCache::get</definition>
+        <argsstring>(const std::string &amp;fingerprint, const std::string &amp;tenant_id)</argsstring>
+        <name>get</name>
+        <qualifiedname>AdaptiveQueryCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), makeTenantKey(), tryAcquire(), THEMIS_DEBUG(), substr(), getCurrentTimeMs(), lock(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="189" column="19" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="213" bodyend="590"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a9ef7ff91179a1dfe457fc717b4754ef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::AdaptiveQueryCache::get</definition>
+        <argsstring>(const std::string &amp;fingerprint) override</argsstring>
+        <name>get</name>
+        <qualifiedname>AdaptiveQueryCache::get</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1a685c75dea3805213ead4f7b6012fac76">get</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="218" column="19" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2737" bodyend="2743"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a6c1a12b6f43de8ccfb761f35bdebbc81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::put</definition>
+        <argsstring>(const std::string &amp;fingerprint, const nlohmann::json &amp;query_params, const nlohmann::json &amp;result, const std::string &amp;tenant_id=&quot;&quot;, const std::vector&lt; std::string &gt; &amp;pii_uuids={})</argsstring>
+        <name>put</name>
+        <qualifiedname>AdaptiveQueryCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>query_params</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>pii_uuids</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pii_uuids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: tryAcquire(), THEMIS_DEBUG(), substr(), rep_lock(), getCurrentTimeMs(), dump(), <ref refid="class_adaptive_query_cache_1aea95192c29147395ecb0bb0faba645ea" kindref="member">size()</ref>, checkTenantQuota(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="192" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="602" bodyend="976"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ab43211cfaacb6a1c24ee80439709659f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::put</definition>
+        <argsstring>(const std::string &amp;fingerprint, nlohmann::json result, uint32_t ttl_seconds=0) override</argsstring>
+        <name>put</name>
+        <qualifiedname>AdaptiveQueryCache::put</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1a6bacc96db167f50ab2c671cb1d6a84fc">put</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">uint32_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="220" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2752" bodyend="2757"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a192549dd1499b38a2ded3ba10a27d77c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::invalidate</definition>
+        <argsstring>(const std::string &amp;pattern)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>AdaptiveQueryCache::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="class_adaptive_query_cache_1aea95192c29147395ecb0bb0faba645ea" kindref="member">size()</ref>, THEMIS_WARN(), std::regex(), what(), lock(), begin(), end(), std::regex_search(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="203" column="12" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="984" bodyend="1142"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ac3df549dc11eb65a88cd2b86a80ded43" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>AdaptiveQueryCache::clear</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1ad729e3356e2407a80272cf0ba7e146e7">clear</reimplements>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), evict_lock(), plock(), scanPrefix(), emplace_back(), del(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="205" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1148" bodyend="1200"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a375b5f8e60df0187e7cfda02693a9d72" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::remove</definition>
+        <argsstring>(const std::string &amp;fingerprint) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>AdaptiveQueryCache::remove</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1ae4896e628aafae2aea8e540648b1e7fe">remove</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), evict_lock(), onRemove(), erase(), <ref refid="class_adaptive_query_cache_1ac6b9b096c549ecfcaba12f58e7ec23b6" kindref="member">get()</ref>, has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="223" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2765" bodyend="2812"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a3b602ba8d994a6a24b856d1c47ef818a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::contains</definition>
+        <argsstring>(const std::string &amp;fingerprint) const override</argsstring>
+        <name>contains</name>
+        <qualifiedname>AdaptiveQueryCache::contains</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1a77508b5c3ca52edaeffad4a703baa83d">contains</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Contains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l2_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l3_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="225" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2814" bodyend="2866"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1aea95192c29147395ecb0bb0faba645ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::AdaptiveQueryCache::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>AdaptiveQueryCache::size</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1a710034ab39cd48a815d173b189c6eee8">size</reimplements>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l2_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="227" column="17" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2868" bodyend="2892"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a9fa4571a5b95b4bd8f1d29e1c93b4fc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::AdaptiveQueryCache::clearExpired</definition>
+        <argsstring>()</argsstring>
+        <name>clearExpired</name>
+        <qualifiedname>AdaptiveQueryCache::clearExpired</qualifiedname>
+        <briefdescription>
+<para>Clear Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), begin(), end(), isExpired(), load(), onRemove(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="233" column="14" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1207" bodyend="1245"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a0e182595bc3f2638e46737463e108dcc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_adaptive_query_cache_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>AdaptiveQueryCache::CacheStats themis::AdaptiveQueryCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>AdaptiveQueryCache::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="239" column="16" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1247" bodyend="1249"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1aa9c05395b53aaac6fe8a1a6541af524f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const cache::CacheMetrics &amp;</type>
+        <definition>const cache::CacheMetrics &amp; themis::AdaptiveQueryCache::getEnhancedMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getEnhancedMetrics</name>
+        <qualifiedname>AdaptiveQueryCache::getEnhancedMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="241" column="31" bodyfile="include/cache/adaptive_query_cache.h" bodystart="241" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a51047e880ab70dbb93b1c977be6d0dec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::getDetailedInfo</definition>
+        <argsstring>() const</argsstring>
+        <name>getDetailedInfo</name>
+        <qualifiedname>AdaptiveQueryCache::getDetailedInfo</qualifiedname>
+        <briefdescription>
+<para>Get Detailed Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Evl. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_eviction_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l2_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="249" column="20" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1251" bodyend="1316"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a001d3a151f4cd47b6b56b2c9df7df69a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::getStatsByTier</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatsByTier</name>
+        <qualifiedname>AdaptiveQueryCache::getStatsByTier</qualifiedname>
+        <briefdescription>
+<para>======================================================================== Phase 3: Admin API &amp; Operational Tooling ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Evl. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_eviction_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l2_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="256" column="20" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1795" bodyend="1853"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a508a5231f83d177015114e15676c7664" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::getHealthStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealthStatus</name>
+        <qualifiedname>AdaptiveQueryCache::getHealthStatus</qualifiedname>
+        <briefdescription>
+<para>Get Health Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l2_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="262" column="20" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1855" bodyend="1961"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1afd4ff3e1edd2e5a17c96b2241192ba6f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::AdaptiveQueryCache::exportKeys</definition>
+        <argsstring>(size_t max_keys=100) const</argsstring>
+        <name>exportKeys</name>
+        <qualifiedname>AdaptiveQueryCache::exportKeys</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_keys</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l2_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="264" column="17" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1963" bodyend="2000"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a46b6b703cad58db3dc0cb6762d1b135d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::getTenantStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getTenantStats</name>
+        <qualifiedname>AdaptiveQueryCache::getTenantStats</qualifiedname>
+        <briefdescription>
+<para>Get Tenant Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="270" column="20" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2002" bodyend="2035"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a28b5f9b443c777129af03c4fa3828b3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::getTenantStatsForTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getTenantStatsForTenant</name>
+        <qualifiedname>AdaptiveQueryCache::getTenantStatsForTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Tenant Stats For Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="277" column="20" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2037" bodyend="2072"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ac89a430f8df5a1d965679b82e68f9d56" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::bulkPut</definition>
+        <argsstring>(const std::vector&lt; std::tuple&lt; std::string, nlohmann::json, nlohmann::json, std::string &gt; &gt; &amp;entries)</argsstring>
+        <name>bulkPut</name>
+        <qualifiedname>AdaptiveQueryCache::bulkPut</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::tuple&lt; std::string, nlohmann::json, nlohmann::json, std::string &gt; &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="279" column="12" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2074" bodyend="2086"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1af3c849e05091bcefefeda9b6160fb1c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::invalidateTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id)</argsstring>
+        <name>invalidateTenant</name>
+        <qualifiedname>AdaptiveQueryCache::invalidateTenant</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), lock(), begin(), end(), find(), evict_lock(), onRemove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="286" column="12" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2094" bodyend="2227"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ae5d388c97bd79d0084f7fa7e58b0bb8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::invalidatePII</definition>
+        <argsstring>(const std::string &amp;pii_uuid)</argsstring>
+        <name>invalidatePII</name>
+        <qualifiedname>AdaptiveQueryCache::invalidatePII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pii_uuid</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate PII. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pii_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pii_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(), plock(), find(), end(), std::move(), erase(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="293" column="12" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2235" bodyend="2366"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ac5cf0d9dcad73a15b4eda591958598b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::updateTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id, size_t quota_bytes)</argsstring>
+        <name>updateTenantQuota</name>
+        <qualifiedname>AdaptiveQueryCache::updateTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>quota_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Update Tenant Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quota_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">quota_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="301" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2375" bodyend="2389"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ab579435e2519f27b9f28aef4456e8b60" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::getCircuitBreakerStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getCircuitBreakerStatus</name>
+        <qualifiedname>AdaptiveQueryCache::getCircuitBreakerStatus</qualifiedname>
+        <briefdescription>
+<para>Get Circuit Breaker Status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="307" column="20" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2400" bodyend="2425"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a476dcb386325fd54674d4b5c21ea6fdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::resetCircuitBreaker</definition>
+        <argsstring>()</argsstring>
+        <name>resetCircuitBreaker</name>
+        <qualifiedname>AdaptiveQueryCache::resetCircuitBreaker</qualifiedname>
+        <briefdescription>
+<para>Reset Circuit Breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="312" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2431" bodyend="2438"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a3a496d91d99920f37f0b56d826b17813" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::setCoordinator</definition>
+        <argsstring>(std::shared_ptr&lt; cache::ICacheCoordinator &gt; coordinator)</argsstring>
+        <name>setCoordinator</name>
+        <qualifiedname>AdaptiveQueryCache::setCoordinator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; cache::ICacheCoordinator &gt;</type>
+          <declname>coordinator</declname>
+        </param>
+        <briefdescription>
+<para>======================================================================== Phase 4: Cache Replication for High-Availability Multi-Node Deployments ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 4: Cache Replication for High-Availability Multi-Node Deployments ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), THEMIS_INFO(), subscribeEntries(), alive_lock(), applyReplicatedEntry(), subscribeInvalidations(), applyReplicatedInvalidation(), name(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="319" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2518" bodyend="2550"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a54d6ee9c755c2d87d8908b6815f94f94" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::getReplicationStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getReplicationStats</name>
+        <qualifiedname>AdaptiveQueryCache::getReplicationStats</qualifiedname>
+        <briefdescription>
+<para>Get Replication Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coordinator_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="325" column="20" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2552" bodyend="2565"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a9654b312f5544a1278d1187b97f4349b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_adaptive_query_cache_1_1_warmup_result" kindref="compound">WarmupResult</ref></type>
+        <definition>AdaptiveQueryCache::WarmupResult themis::AdaptiveQueryCache::warmupFromLog</definition>
+        <argsstring>(const std::string &amp;log_path, size_t max_entries=0)</argsstring>
+        <name>warmupFromLog</name>
+        <qualifiedname>AdaptiveQueryCache::warmupFromLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_path</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> <ref refid="class_adaptive_query_cache_1a9654b312f5544a1278d1187b97f4349b" kindref="member">AdaptiveQueryCache::warmupFromLog</ref> ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the log. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), file(), is_open(), THEMIS_WARN(), std::getline(), push_back(), std::move(), close(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="342" column="18" bodyfile="src/cache/warmup.cpp" bodystart="170" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ad1d495121fdbc3a03fabe95c40d5cf68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_adaptive_query_cache_1_1_warmup_result" kindref="compound">WarmupResult</ref></type>
+        <definition>AdaptiveQueryCache::WarmupResult themis::AdaptiveQueryCache::exportSnapshot</definition>
+        <argsstring>(const std::string &amp;out_path) const</argsstring>
+        <name>exportSnapshot</name>
+        <qualifiedname>AdaptiveQueryCache::exportSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>out_path</declname>
+        </param>
+        <briefdescription>
+<para>Export Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">out_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the out. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>File. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">out_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the out. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l1_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">l2_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="349" column="18" bodyfile="src/cache/warmup.cpp" bodystart="482" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a24357da6cee2ab0769e05be31a9ae513" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::recordQueryAccess</definition>
+        <argsstring>(const std::string &amp;fingerprint, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordQueryAccess</name>
+        <qualifiedname>AdaptiveQueryCache::recordQueryAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Phase 4: Predictive Pre-Fetching ------------------------------------------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordQueryAccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="355" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2447" bodyend="2451"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1abccf1e7f001cd151ec7a47b807066844" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::AdaptiveQueryCache::getPrefetchCandidates</definition>
+        <argsstring>(const std::string &amp;fingerprint, const std::string &amp;tenant_id=&quot;&quot;) const</argsstring>
+        <name>getPrefetchCandidates</name>
+        <qualifiedname>AdaptiveQueryCache::getPrefetchCandidates</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="358" column="17" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2453" bodyend="2468"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1aff203a3938a0fca3c84aab700f619d9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::AdaptiveQueryCache::getPrefetchStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrefetchStats</name>
+        <qualifiedname>AdaptiveQueryCache::getPrefetchStats</qualifiedname>
+        <briefdescription>
+<para>Get Prefetch Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="366" column="20" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2470" bodyend="2479"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ac23a5107682172290aecb92469ea6cb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::recordPrefetchOverheadBytes</definition>
+        <argsstring>(uint64_t bytes)</argsstring>
+        <name>recordPrefetchOverheadBytes</name>
+        <qualifiedname>AdaptiveQueryCache::recordPrefetchOverheadBytes</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Prefetch Overhead Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: recordOverheadBytes(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="372" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2486" bodyend="2490"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a81d4f59611ceb168a07af3356f8fa4ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::savePrefetchModel</definition>
+        <argsstring>()</argsstring>
+        <name>savePrefetchModel</name>
+        <qualifiedname>AdaptiveQueryCache::savePrefetchModel</qualifiedname>
+        <briefdescription>
+<para>Save Prefetch Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: saveModel(), <ref refid="class_adaptive_query_cache_1ac6b9b096c549ecfcaba12f58e7ec23b6" kindref="member">get()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="377" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2496" bodyend="2500"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a410faac73c4fcac55c4511dedb262323" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::loadPrefetchModel</definition>
+        <argsstring>()</argsstring>
+        <name>loadPrefetchModel</name>
+        <qualifiedname>AdaptiveQueryCache::loadPrefetchModel</qualifiedname>
+        <briefdescription>
+<para>Load Prefetch Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: loadModel(), <ref refid="class_adaptive_query_cache_1ac6b9b096c549ecfcaba12f58e7ec23b6" kindref="member">get()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="382" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2506" bodyend="2510"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a73ce65b9b15b8359256bd52bc6900b15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::setReplicationListener</definition>
+        <argsstring>(std::shared_ptr&lt; cache::ICacheReplicationListener &gt; listener)</argsstring>
+        <name>setReplicationListener</name>
+        <qualifiedname>AdaptiveQueryCache::setReplicationListener</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; cache::ICacheReplicationListener &gt;</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Phase 4: Cache Replication for High-Availability ========================================================================. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 4: Cache Replication for High-Availability ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), THEMIS_INFO(), replicaId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="388" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2694" bodyend="2702"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1acc65c79a8d02dadaa724c9f7f989bd64" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::setEvictionListener</definition>
+        <argsstring>(access_model::EvictionListener *listener) noexcept</argsstring>
+        <name>setEvictionListener</name>
+        <qualifiedname>AdaptiveQueryCache::setEvictionListener</qualifiedname>
+        <param>
+          <type>access_model::EvictionListener *</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>======================================================================== Phase 5: AccessCoordinator Integration (BLOCK 2: Cache Integration) ======================================================================== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">eviction_listener_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="397" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2708" bodyend="2721"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_adaptive_query_cache_1aede828e3c0487738fa681997ef7773ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::applyReplicatedEntry</definition>
+        <argsstring>(const cache::ReplicationMessage &amp;msg)</argsstring>
+        <name>applyReplicatedEntry</name>
+        <qualifiedname>AdaptiveQueryCache::applyReplicatedEntry</qualifiedname>
+        <param>
+          <type>const cache::ReplicationMessage &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Internal: apply a replicated entry received from a peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Replicated Entry.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: is_null(), is_object(), getCurrentTimeMs(), dump(), <ref refid="class_adaptive_query_cache_1aea95192c29147395ecb0bb0faba645ea" kindref="member">size()</ref>, isWithinSizeLimit(), checkTenantQuota(), lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="461" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2572" bodyend="2639"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a7aaf7ccc54afd0246383cf68121fbd88" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::applyReplicatedInvalidation</definition>
+        <argsstring>(const cache::ReplicationMessage &amp;msg)</argsstring>
+        <name>applyReplicatedInvalidation</name>
+        <qualifiedname>AdaptiveQueryCache::applyReplicatedInvalidation</qualifiedname>
+        <param>
+          <type>const cache::ReplicationMessage &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Internal: apply a replicated invalidation received from a peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Replicated Invalidation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), re(), lock(), begin(), end(), std::regex_search(), evict_lock(), onRemove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="466" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2646" bodyend="2686"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a371a3eac221a4c7f977daacad5a915de" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::AdaptiveQueryCache::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>AdaptiveQueryCache::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="522" column="13" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1320" bodyend="1323"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a85712cced6074a76d62c34022166ef34" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::isExpired</definition>
+        <argsstring>(int64_t created_at_ms, int ttl_seconds) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>AdaptiveQueryCache::isExpired</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>created_at_ms</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ttl_seconds</declname>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">created_at_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="529" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1325" bodyend="1329"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1aef70f4e126d01d4ead6a071744cd6688" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::AdaptiveQueryCache::calculateAdaptiveTTL</definition>
+        <argsstring>(int64_t access_count) const</argsstring>
+        <name>calculateAdaptiveTTL</name>
+        <qualifiedname>AdaptiveQueryCache::calculateAdaptiveTTL</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Adaptive TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="535" column="9" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1331" bodyend="1350"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a0cba70dc7463d32d25800fd6e0034738" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_adaptive_query_cache_1a76eb0ab3cc21e5b0f58e140b4ff9394f" kindref="member">CacheLevel</ref></type>
+        <definition>AdaptiveQueryCache::CacheLevel themis::AdaptiveQueryCache::selectCacheLevel</definition>
+        <argsstring>(size_t result_size) const</argsstring>
+        <name>selectCacheLevel</name>
+        <qualifiedname>AdaptiveQueryCache::selectCacheLevel</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>result_size</declname>
+        </param>
+        <briefdescription>
+<para>Select Cache Level. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="541" column="16" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1352" bodyend="1360"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a5d2d4717acc3ca1692d998df320802d2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::promoteEntry</definition>
+        <argsstring>(const std::string &amp;fingerprint, const CacheEntry &amp;entry)</argsstring>
+        <name>promoteEntry</name>
+        <qualifiedname>AdaptiveQueryCache::promoteEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_adaptive_query_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Promote Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="547" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1adb7b5ab01f44e3d419dad26a1f5ec306" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::evictLRU</definition>
+        <argsstring>(CacheLevel level)</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>AdaptiveQueryCache::evictLRU</qualifiedname>
+        <param>
+          <type><ref refid="class_adaptive_query_cache_1a76eb0ab3cc21e5b0f58e140b4ff9394f" kindref="member">CacheLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Evict LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: begin(), end(), load(), evict_lock(), onRemove(), dump(), <ref refid="class_adaptive_query_cache_1aea95192c29147395ecb0bb0faba645ea" kindref="member">size()</ref>, emitEvictionEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="552" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1367" bodyend="1497"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a9716b64138744604f420db5c11efd639" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::AdaptiveQueryCache::calculateLRUScore</definition>
+        <argsstring>(int64_t last_accessed_ms, int64_t access_count) const</argsstring>
+        <name>calculateLRUScore</name>
+        <qualifiedname>AdaptiveQueryCache::calculateLRUScore</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>last_accessed_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <briefdescription>
+<para>Calculate LRUScore. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">last_accessed_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="559" column="12" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1534" bodyend="1543"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a300873df583c58c989f80cc750560020" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::AdaptiveQueryCache::emitEvictionEvent</definition>
+        <argsstring>(const std::string &amp;key, access_model::TierLevel tier, std::size_t size_bytes, uint64_t access_count, int64_t last_access_ms, std::string_view reason)</argsstring>
+        <name>emitEvictionEvent</name>
+        <qualifiedname>AdaptiveQueryCache::emitEvictionEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>access_model::TierLevel</type>
+          <declname>tier</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>last_access_ms</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Phase 5: BLOCK 2 Cache Integration — Emit eviction events to coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 5: BLOCK 2 Cache Integration — Eviction Event Emission ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_access_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_access_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getCurrentTimeMs(), std::chrono::seconds(), onCacheEvicted(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="570" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1510" bodyend="1532"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1aea4cd3dc32f11d7724db08f94d1180bf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::validateEntrySize</definition>
+        <argsstring>(size_t size, CacheLevel level) const</argsstring>
+        <name>validateEntrySize</name>
+        <qualifiedname>AdaptiveQueryCache::validateEntrySize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="class_adaptive_query_cache_1a76eb0ab3cc21e5b0f58e140b4ff9394f" kindref="member">CacheLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Phase 1: Size validation and security. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="580" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1550" bodyend="1561"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a59ba2f24ca9215e4d1173c1c082f9fe7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::isWithinSizeLimit</definition>
+        <argsstring>(size_t size) const</argsstring>
+        <name>isWithinSizeLimit</name>
+        <qualifiedname>AdaptiveQueryCache::isWithinSizeLimit</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Is Within Size Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="586" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1546" bodyend="1548"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1a5b7c0b75576a37cd3902527b5d68bd73" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::AdaptiveQueryCache::makeTenantKey</definition>
+        <argsstring>(const std::string &amp;fingerprint, const std::string &amp;tenant_id) const</argsstring>
+        <name>makeTenantKey</name>
+        <qualifiedname>AdaptiveQueryCache::makeTenantKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Phase 2: Tenant isolation helpers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="594" column="17" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1692" bodyend="1697"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1acb39451b853e88683a3426ffa6e88ec8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::checkTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id, size_t additional_bytes)</argsstring>
+        <name>checkTenantQuota</name>
+        <qualifiedname>AdaptiveQueryCache::checkTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>additional_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Check Tenant Quota. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">additional_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">additional_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), getEffectiveTenantQuota(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="601" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1706" bodyend="1726"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1aa65e43373ac14fb8113db4dd7a62932c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::AdaptiveQueryCache::getEffectiveTenantQuota</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>getEffectiveTenantQuota</name>
+        <qualifiedname>AdaptiveQueryCache::getEffectiveTenantQuota</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Returns the effective quota for a tenant (override if set, else global default). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="607" column="12" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="2391" bodyend="2398"/>
+      </memberdef>
+      <memberdef kind="function" id="class_adaptive_query_cache_1ae3673e35edf001755c5d56e0c64080b5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AdaptiveQueryCache::writeThroughToL3</definition>
+        <argsstring>(const std::string &amp;fingerprint, const nlohmann::json &amp;query_params, const nlohmann::json &amp;result, int64_t now_ms, int ttl_seconds)</argsstring>
+        <name>writeThroughToL3</name>
+        <qualifiedname>AdaptiveQueryCache::writeThroughToL3</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>query_params</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>now_ms</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>ttl_seconds</declname>
+        </param>
+        <briefdescription>
+<para>Phase 4: Write-through helper - persist a result to L3 without modifying L1/L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 4: Write-Through Cache Mode ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">now_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: allowRequest(), THEMIS_WARN(), substr(), lock(), <ref refid="class_adaptive_query_cache_1a6c1a12b6f43de8ccfb761f35bdebbc81" kindref="member">put()</ref>, dump(), recordSuccess(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_query_cache.h" line="618" column="10" bodyfile="src/cache/adaptive_query_cache.cpp" bodystart="1739" bodyend="1789"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AdaptiveQueryCache</label>
+        <link refid="class_adaptive_query_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheBackend&lt; std::string, nlohmann::json &gt;</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AdaptiveQueryCache</label>
+        <link refid="class_adaptive_query_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheBackend&lt; std::string, nlohmann::json &gt;</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cache/adaptive_query_cache.h" line="41" column="1" bodyfile="include/cache/adaptive_query_cache.h" bodystart="41" bodyend="623"/>
+    <listofallmembers>
+      <member refid="class_adaptive_query_cache_1a5f937d8633d372384e9a8e28a7e6f299" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>AdaptiveQueryCache</name></member>
+      <member refid="class_adaptive_query_cache_1a5b25de1942834a77f9670e17182abe0e" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>AdaptiveQueryCache</name></member>
+      <member refid="class_adaptive_query_cache_1abdd5ea129ef119e7bebabdb974da3e4d" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>AdaptiveQueryCache</name></member>
+      <member refid="class_adaptive_query_cache_1a4a76151ae7f75cae10fe5965e361dec7" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>alive_guard_</name></member>
+      <member refid="class_adaptive_query_cache_1aede828e3c0487738fa681997ef7773ee" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>applyReplicatedEntry</name></member>
+      <member refid="class_adaptive_query_cache_1a7aaf7ccc54afd0246383cf68121fbd88" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>applyReplicatedInvalidation</name></member>
+      <member refid="class_adaptive_query_cache_1ac89a430f8df5a1d965679b82e68f9d56" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>bulkPut</name></member>
+      <member refid="class_adaptive_query_cache_1a76eb0ab3cc21e5b0f58e140b4ff9394f" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>CacheLevel</name></member>
+      <member refid="class_adaptive_query_cache_1aef70f4e126d01d4ead6a071744cd6688" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>calculateAdaptiveTTL</name></member>
+      <member refid="class_adaptive_query_cache_1a9716b64138744604f420db5c11efd639" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>calculateLRUScore</name></member>
+      <member refid="class_adaptive_query_cache_1aec556095fde571eb3809506645b4eb73" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>callback_alive_</name></member>
+      <member refid="class_adaptive_query_cache_1acb39451b853e88683a3426ffa6e88ec8" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>checkTenantQuota</name></member>
+      <member refid="class_adaptive_query_cache_1ac3df549dc11eb65a88cd2b86a80ded43" prot="public" virt="virtual"><scope>AdaptiveQueryCache</scope><name>clear</name></member>
+      <member refid="class_adaptive_query_cache_1a9fa4571a5b95b4bd8f1d29e1c93b4fc7" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>clearExpired</name></member>
+      <member refid="class_adaptive_query_cache_1a8890381137a001ea87e5ca6805326d90" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>config_</name></member>
+      <member refid="class_adaptive_query_cache_1a3b602ba8d994a6a24b856d1c47ef818a" prot="public" virt="virtual"><scope>AdaptiveQueryCache</scope><name>contains</name></member>
+      <member refid="class_adaptive_query_cache_1a6e1ce3bbea2fd29da629e1318dd1af81" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>coordinator_</name></member>
+      <member refid="class_adaptive_query_cache_1a954829d0d445424265861a5fafc29fbe" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>coordinator_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1a300873df583c58c989f80cc750560020" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>emitEvictionEvent</name></member>
+      <member refid="class_adaptive_query_cache_1a91a0886a0b486c36b69452bc51f3243d" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>enhanced_metrics_</name></member>
+      <member refid="class_adaptive_query_cache_1a92f9890fe01c2f4508b7be53b2725a7c" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>eviction_listener_</name></member>
+      <member refid="class_adaptive_query_cache_1ae521dd855f911f91e44a99ce4fc178da" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>eviction_listener_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1adb7b5ab01f44e3d419dad26a1f5ec306" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>evictLRU</name></member>
+      <member refid="class_adaptive_query_cache_1afd4ff3e1edd2e5a17c96b2241192ba6f" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>exportKeys</name></member>
+      <member refid="class_adaptive_query_cache_1ad1d495121fdbc3a03fabe95c40d5cf68" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>exportSnapshot</name></member>
+      <member refid="class_adaptive_query_cache_1a5333b764c5860c102e23abe8117fce14" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>generateFingerprint</name></member>
+      <member refid="class_adaptive_query_cache_1ac6b9b096c549ecfcaba12f58e7ec23b6" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>get</name></member>
+      <member refid="class_adaptive_query_cache_1a9ef7ff91179a1dfe457fc717b4754ef3" prot="public" virt="virtual"><scope>AdaptiveQueryCache</scope><name>get</name></member>
+      <member refid="class_adaptive_query_cache_1ab579435e2519f27b9f28aef4456e8b60" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getCircuitBreakerStatus</name></member>
+      <member refid="class_adaptive_query_cache_1a371a3eac221a4c7f977daacad5a915de" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getCurrentTimeMs</name></member>
+      <member refid="class_adaptive_query_cache_1a51047e880ab70dbb93b1c977be6d0dec" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getDetailedInfo</name></member>
+      <member refid="class_adaptive_query_cache_1aa65e43373ac14fb8113db4dd7a62932c" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getEffectiveTenantQuota</name></member>
+      <member refid="class_adaptive_query_cache_1aa9c05395b53aaac6fe8a1a6541af524f" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getEnhancedMetrics</name></member>
+      <member refid="class_adaptive_query_cache_1a508a5231f83d177015114e15676c7664" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getHealthStatus</name></member>
+      <member refid="class_adaptive_query_cache_1abccf1e7f001cd151ec7a47b807066844" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getPrefetchCandidates</name></member>
+      <member refid="class_adaptive_query_cache_1aff203a3938a0fca3c84aab700f619d9e" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getPrefetchStats</name></member>
+      <member refid="class_adaptive_query_cache_1a54d6ee9c755c2d87d8908b6815f94f94" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getReplicationStats</name></member>
+      <member refid="class_adaptive_query_cache_1a0e182595bc3f2638e46737463e108dcc" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getStats</name></member>
+      <member refid="class_adaptive_query_cache_1a001d3a151f4cd47b6b56b2c9df7df69a" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getStatsByTier</name></member>
+      <member refid="class_adaptive_query_cache_1a46b6b703cad58db3dc0cb6762d1b135d" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getTenantStats</name></member>
+      <member refid="class_adaptive_query_cache_1a28b5f9b443c777129af03c4fa3828b3e" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>getTenantStatsForTenant</name></member>
+      <member refid="class_adaptive_query_cache_1a192549dd1499b38a2ded3ba10a27d77c" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>invalidate</name></member>
+      <member refid="class_adaptive_query_cache_1ae5d388c97bd79d0084f7fa7e58b0bb8f" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>invalidatePII</name></member>
+      <member refid="class_adaptive_query_cache_1af3c849e05091bcefefeda9b6160fb1c0" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>invalidateTenant</name></member>
+      <member refid="class_adaptive_query_cache_1a85712cced6074a76d62c34022166ef34" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>isExpired</name></member>
+      <member refid="class_adaptive_query_cache_1a59ba2f24ca9215e4d1173c1c082f9fe7" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>isWithinSizeLimit</name></member>
+      <member refid="class_adaptive_query_cache_1a96a6f2366b762a101b0a6620f61959cd" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l1_cache_</name></member>
+      <member refid="class_adaptive_query_cache_1a9d60426f00e47f14e799b2a6d8e848b0" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l1_eviction_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1abbc3c7388fcc56a7f42813349f3d672f" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l1_eviction_strategy_</name></member>
+      <member refid="class_adaptive_query_cache_1a6e73692613d47abf54dd14af9c6a04a0" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l1_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1a007b7d248bb8f69ff2bb6e619a0d81db" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l2_cache_</name></member>
+      <member refid="class_adaptive_query_cache_1ac6af5dccebd3e692d0458dfb82b5a7b9" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l2_eviction_strategy_</name></member>
+      <member refid="class_adaptive_query_cache_1a7a4804e6e82e2b31ceef63be311c8f13" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l2_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1a48a2b6f49117226577c1ddc038288627" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l3_circuit_breaker_</name></member>
+      <member refid="class_adaptive_query_cache_1a048d82a6d886aae22725ddd0d4fd5ca7" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l3_db_</name></member>
+      <member refid="class_adaptive_query_cache_1a88d21914acf064d81d1e894d18fe6302" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>l3_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1a410faac73c4fcac55c4511dedb262323" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>loadPrefetchModel</name></member>
+      <member refid="class_adaptive_query_cache_1a5b7c0b75576a37cd3902527b5d68bd73" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>makeTenantKey</name></member>
+      <member refid="class_adaptive_query_cache_1a042062980311e9e84c5b0cb3fc11ffa8" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>operator=</name></member>
+      <member refid="class_adaptive_query_cache_1afffb4510f25e46494032df99e58abf3e" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>operator=</name></member>
+      <member refid="class_adaptive_query_cache_1aa45757034295a1f4871bd86b0b93abfc" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>pii_index_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1af55dafd360fb6478a00a3844c0432745" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>pii_key_index_</name></member>
+      <member refid="class_adaptive_query_cache_1a16024a5375d211ef45197dc249fd11b9" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>prefetcher_</name></member>
+      <member refid="class_adaptive_query_cache_1a5d2d4717acc3ca1692d998df320802d2" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>promoteEntry</name></member>
+      <member refid="class_adaptive_query_cache_1a6c1a12b6f43de8ccfb761f35bdebbc81" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>put</name></member>
+      <member refid="class_adaptive_query_cache_1ab43211cfaacb6a1c24ee80439709659f" prot="public" virt="virtual"><scope>AdaptiveQueryCache</scope><name>put</name></member>
+      <member refid="class_adaptive_query_cache_1a45d807366e4dc724e16231d800604caa" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>rate_limiter_</name></member>
+      <member refid="class_adaptive_query_cache_1ac23a5107682172290aecb92469ea6cb8" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>recordPrefetchOverheadBytes</name></member>
+      <member refid="class_adaptive_query_cache_1a24357da6cee2ab0769e05be31a9ae513" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>recordQueryAccess</name></member>
+      <member refid="class_adaptive_query_cache_1a375b5f8e60df0187e7cfda02693a9d72" prot="public" virt="virtual"><scope>AdaptiveQueryCache</scope><name>remove</name></member>
+      <member refid="class_adaptive_query_cache_1a5ab5e2a75ef970d639ff61a17f2fcf26" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>replication_listener_</name></member>
+      <member refid="class_adaptive_query_cache_1a91c8838a31b1ac6e561df2d873a47333" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>replication_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1a476dcb386325fd54674d4b5c21ea6fdd" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>resetCircuitBreaker</name></member>
+      <member refid="class_adaptive_query_cache_1a81d4f59611ceb168a07af3356f8fa4ef" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>savePrefetchModel</name></member>
+      <member refid="class_adaptive_query_cache_1a0cba70dc7463d32d25800fd6e0034738" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>selectCacheLevel</name></member>
+      <member refid="class_adaptive_query_cache_1a3a496d91d99920f37f0b56d826b17813" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>setCoordinator</name></member>
+      <member refid="class_adaptive_query_cache_1acc65c79a8d02dadaa724c9f7f989bd64" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>setEvictionListener</name></member>
+      <member refid="class_adaptive_query_cache_1a73ce65b9b15b8359256bd52bc6900b15" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>setReplicationListener</name></member>
+      <member refid="class_adaptive_query_cache_1aea95192c29147395ecb0bb0faba645ea" prot="public" virt="virtual"><scope>AdaptiveQueryCache</scope><name>size</name></member>
+      <member refid="class_adaptive_query_cache_1ab401e7540db589f46661226948217ab6" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>stats_</name></member>
+      <member refid="class_adaptive_query_cache_1a0139a9592b8f7ffb7776f2ef0faeec26" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>tenant_metrics_</name></member>
+      <member refid="class_adaptive_query_cache_1a92a6dbe392c62c073bb81ed00a4a8754" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>tenant_mutex_</name></member>
+      <member refid="class_adaptive_query_cache_1a7f50dcca24636bbb2f54f07fe15ef904" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>tenant_quota_overrides_</name></member>
+      <member refid="class_adaptive_query_cache_1ac5cf0d9dcad73a15b4eda591958598b1" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>updateTenantQuota</name></member>
+      <member refid="class_adaptive_query_cache_1aea4cd3dc32f11d7724db08f94d1180bf" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>validateEntrySize</name></member>
+      <member refid="class_adaptive_query_cache_1a9654b312f5544a1278d1187b97f4349b" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>warmupFromLog</name></member>
+      <member refid="class_adaptive_query_cache_1ae3673e35edf001755c5d56e0c64080b5" prot="private" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>writeThroughToL3</name></member>
+      <member refid="class_adaptive_query_cache_1a664033f3bac213a5a5cb2bf54377ee7a" prot="public" virt="non-virtual"><scope>AdaptiveQueryCache</scope><name>~AdaptiveQueryCache</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1a57aad9805255276152e57cbe1316433f" prot="public" virt="virtual"><scope>AdaptiveQueryCache</scope><name>~ICacheBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

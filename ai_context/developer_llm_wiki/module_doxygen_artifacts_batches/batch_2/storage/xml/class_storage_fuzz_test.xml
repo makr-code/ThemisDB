@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_storage_fuzz_test" kind="class" language="C++" prot="public">
+    <compoundname>StorageFuzzTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_storage_fuzz_test_1a691b78e740865539c8398d377793184f" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StorageFuzzTest::wal_dir_</definition>
+        <argsstring></argsstring>
+        <name>wal_dir_</name>
+        <qualifiedname>StorageFuzzTest::wal_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_fuzz.cpp" line="52" column="17" bodyfile="tests/storage/test_storage_fuzz.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_storage_fuzz_test_1a2e35ab8507198ed824e18ee80616b3c2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageFuzzTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StorageFuzzTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_fuzz.cpp" line="33" column="10" bodyfile="tests/storage/test_storage_fuzz.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_storage_fuzz_test_1aea63084078e07c66728b425d8bfed2ad" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageFuzzTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StorageFuzzTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_fuzz.cpp" line="40" column="10" bodyfile="tests/storage/test_storage_fuzz.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_storage_fuzz_test_1a8e8d5f52f0a684d701c8f157bc494f96" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_w_a_l_storage_1_1_config" kindref="compound">WALStorage::Config</ref></type>
+        <definition>WALStorage::Config StorageFuzzTest::makeCfg</definition>
+        <argsstring>(uint64_t rotate_bytes=4096)</argsstring>
+        <name>makeCfg</name>
+        <qualifiedname>StorageFuzzTest::makeCfg</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>rotate_bytes</declname>
+          <defval>4096</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_fuzz.cpp" line="44" column="24" bodyfile="tests/storage/test_storage_fuzz.cpp" bodystart="44" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StorageFuzzTest</label>
+        <link refid="class_storage_fuzz_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StorageFuzzTest</label>
+        <link refid="class_storage_fuzz_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_storage_fuzz.cpp" line="31" column="1" bodyfile="tests/storage/test_storage_fuzz.cpp" bodystart="31" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_storage_fuzz_test_1a8e8d5f52f0a684d701c8f157bc494f96" prot="protected" virt="non-virtual"><scope>StorageFuzzTest</scope><name>makeCfg</name></member>
+      <member refid="class_storage_fuzz_test_1a2e35ab8507198ed824e18ee80616b3c2" prot="protected" virt="non-virtual"><scope>StorageFuzzTest</scope><name>SetUp</name></member>
+      <member refid="class_storage_fuzz_test_1aea63084078e07c66728b425d8bfed2ad" prot="protected" virt="non-virtual"><scope>StorageFuzzTest</scope><name>TearDown</name></member>
+      <member refid="class_storage_fuzz_test_1a691b78e740865539c8398d377793184f" prot="protected" virt="non-virtual"><scope>StorageFuzzTest</scope><name>wal_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_quality_check_timeout_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QualityCheckTimeoutConfig</compoundname>
+    <includes refid="resource__monitor_8h" local="no">resource_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a9dbaeb0bf2b881bb330d360ef7fefe0f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ingestion::QualityCheckTimeoutConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::ingestion::QualityCheckTimeoutConfig::timeout_ms</qualifiedname>
+        <initializer>= std::chrono::seconds(5)</initializer>
+        <briefdescription>
+<para>Timeout for individual quality checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If a quality check does not complete within this time, it is canceled and the escape valve strategy is invoked. Default: 5 seconds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="85" column="31" bodyfile="include/ingestion/resource_monitor.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a33215093dcad300dd558aad787757b1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QualityCheckTimeoutConfig::escape_valve</definition>
+        <argsstring></argsstring>
+        <name>escape_valve</name>
+        <qualifiedname>themis::ingestion::QualityCheckTimeoutConfig::escape_valve</qualifiedname>
+        <initializer>= &quot;fail_closed&quot;</initializer>
+        <briefdescription>
+<para>Escape valve strategy when quality check times out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Determines what action to take when a quality check times out:<itemizedlist>
+<listitem><para>&quot;fail_closed&quot;: Reject the document (fail-safe behavior)</para>
+</listitem><listitem><para>&quot;fail_open&quot;: Accept the document anyway</para>
+</listitem><listitem><para>&quot;defer&quot;: Defer quality check to a later batch (accumulate and retry) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="95" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a9b184f77dd6160d2130b2352c0b95178" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::QualityCheckTimeoutConfig::max_deferred_checks</definition>
+        <argsstring></argsstring>
+        <name>max_deferred_checks</name>
+        <qualifiedname>themis::ingestion::QualityCheckTimeoutConfig::max_deferred_checks</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Maximum number of deferred quality checks to accumulate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If escape_valve is &quot;defer&quot; and deferred checks exceed this count, fall back to &quot;fail_closed&quot;. Default: 1000. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="103" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1aa2adabfa3405973d937f539089a4e733" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::QualityCheckTimeoutConfig::enable_parallel_checks</definition>
+        <argsstring></argsstring>
+        <name>enable_parallel_checks</name>
+        <qualifiedname>themis::ingestion::QualityCheckTimeoutConfig::enable_parallel_checks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable parallel quality checks for throughput. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, multiple documents can be quality-checked in parallel (up to parallel_check_limit). Default: true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="111" column="10" bodyfile="include/ingestion/resource_monitor.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a3fde09f3baad56a93b63cd8fa3fb512a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::QualityCheckTimeoutConfig::parallel_check_limit</definition>
+        <argsstring></argsstring>
+        <name>parallel_check_limit</name>
+        <qualifiedname>themis::ingestion::QualityCheckTimeoutConfig::parallel_check_limit</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>Maximum number of parallel quality check tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If enable_parallel_checks is true, at most this many documents can be checked concurrently. Default: 4. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="119" column="9" bodyfile="include/ingestion/resource_monitor.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for quality check operations with timeout. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Prevents quality checks from blocking indefinitely and provides escape valve behavior when quality checks time out. </para>
+    </detaileddescription>
+    <location file="include/ingestion/resource_monitor.h" line="77" column="1" bodyfile="include/ingestion/resource_monitor.h" bodystart="77" bodyend="120"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1aa2adabfa3405973d937f539089a4e733" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityCheckTimeoutConfig</scope><name>enable_parallel_checks</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a33215093dcad300dd558aad787757b1a" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityCheckTimeoutConfig</scope><name>escape_valve</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a9b184f77dd6160d2130b2352c0b95178" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityCheckTimeoutConfig</scope><name>max_deferred_checks</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a3fde09f3baad56a93b63cd8fa3fb512a" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityCheckTimeoutConfig</scope><name>parallel_check_limit</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_check_timeout_config_1a9dbaeb0bf2b881bb330d360ef7fefe0f" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityCheckTimeoutConfig</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

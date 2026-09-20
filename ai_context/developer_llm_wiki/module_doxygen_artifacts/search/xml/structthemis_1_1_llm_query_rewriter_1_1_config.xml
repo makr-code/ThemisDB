@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_llm_query_rewriter_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LlmQueryRewriter::Config</compoundname>
+    <includes refid="llm__query__rewriter_8h" local="no">llm_query_rewriter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_llm_query_rewriter_1_1_config_1a2f330c0dbf0c85f7c34b546a03568e59" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LlmQueryRewriter::Config::num_rewrites</definition>
+        <argsstring></argsstring>
+        <name>num_rewrites</name>
+        <qualifiedname>themis::LlmQueryRewriter::Config::num_rewrites</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Number of alternative rewrites to request from the LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="96" column="16" bodyfile="include/search/llm_query_rewriter.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_query_rewriter_1_1_config_1af1f29112f478cb9b7387c0d970ea769e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::LlmQueryRewriter::Config::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::LlmQueryRewriter::Config::max_tokens</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recommended maximum tokens for the LLM backend to generate per call. This value is embedded in the prompt and passed to the backend via the prompt text; the actual enforcement is the backend&apos;s responsibility. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="100" column="13" bodyfile="include/search/llm_query_rewriter.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_query_rewriter_1_1_config_1a08ec293267a38756762d3e6e7450a865" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::LlmQueryRewriter::Config::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::LlmQueryRewriter::Config::temperature</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Recommended sampling temperature for the LLM backend. Passed as a hint in the prompt; actual enforcement is backend-specific. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="103" column="15" bodyfile="include/search/llm_query_rewriter.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_query_rewriter_1_1_config_1acee374bc7fa6b2f0c0a5dce7cc97888c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::LlmQueryRewriter::Config::fallback_to_original</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_original</name>
+        <qualifiedname>themis::LlmQueryRewriter::Config::fallback_to_original</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, the original query is appended to rewrites if the LLM produces no usable output. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="106" column="14" bodyfile="include/search/llm_query_rewriter.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_query_rewriter_1_1_config_1a375fbfcc4b02e524b5b9431bb3dbf481" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LlmQueryRewriter::Config::max_rewrite_length</definition>
+        <argsstring></argsstring>
+        <name>max_rewrite_length</name>
+        <qualifiedname>themis::LlmQueryRewriter::Config::max_rewrite_length</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Character budget per individual rewrite; longer strings are dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="108" column="16" bodyfile="include/search/llm_query_rewriter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_llm_query_rewriter_1_1_config_1a5d552549979e6eed07cc7c430bf16888" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::LlmQueryRewriter::Config::min_token_overlap_ratio</definition>
+        <argsstring></argsstring>
+        <name>min_token_overlap_ratio</name>
+        <qualifiedname>themis::LlmQueryRewriter::Config::min_token_overlap_ratio</qualifiedname>
+        <initializer>= 0.2f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum Jaccard token-overlap ratio between a rewrite and the original query. Rewrites whose overlap falls below this threshold are discarded (semantically nonsensical output filter). Set to 0.0 to disable. Source: AI_ML_IMPACT_ASSESSMENT.md §7, Gap 2 / search/FUTURE_ENHANCEMENTS.md. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="113" column="15" bodyfile="include/search/llm_query_rewriter.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_llm_query_rewriter_1_1_config_1ab280fb5179b15b95d16b9f8953ffec3b" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_llm_query_rewriter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::LlmQueryRewriter::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::LlmQueryRewriter::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/llm_query_rewriter.h" line="114" column="23" bodyfile="include/search/llm_query_rewriter.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/llm_query_rewriter.h" line="94" column="5" bodyfile="include/search/llm_query_rewriter.h" bodystart="94" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1ab280fb5179b15b95d16b9f8953ffec3b" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1acee374bc7fa6b2f0c0a5dce7cc97888c" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter::Config</scope><name>fallback_to_original</name></member>
+      <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a375fbfcc4b02e524b5b9431bb3dbf481" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter::Config</scope><name>max_rewrite_length</name></member>
+      <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1af1f29112f478cb9b7387c0d970ea769e" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter::Config</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a5d552549979e6eed07cc7c430bf16888" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter::Config</scope><name>min_token_overlap_ratio</name></member>
+      <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a2f330c0dbf0c85f7c34b546a03568e59" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter::Config</scope><name>num_rewrites</name></member>
+      <member refid="structthemis_1_1_llm_query_rewriter_1_1_config_1a08ec293267a38756762d3e6e7450a865" prot="public" virt="non-virtual"><scope>themis::LlmQueryRewriter::Config</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,781 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__authentication__attack__vectors_8cpp" kind="file" language="C++">
+    <compoundname>test_authentication_attack_vectors.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="rbac_8h" local="yes">security/rbac.h</includes>
+    <includes local="yes">themis/runtime_license_gate.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>security/rbac.h</label>
+        <link refid="rbac_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp</label>
+        <link refid="test__authentication__attack__vectors_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>themis/runtime_license_gate.h</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_auth_attack_vector_test" prot="public">AuthAttackVectorTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a5f46b60662a3c0bc096cdeb81dc01be8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; RBAC &gt; build_test_rbac</definition>
+        <argsstring>()</argsstring>
+        <name>build_test_rbac</name>
+        <briefdescription>
+<para>Build a minimal <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> instance with a &quot;readonly&quot; role and an &quot;admin&quot; role for use in multiple tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="50" column="24" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="50" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Positive_AdminCanDoEverything)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Positive_AdminCanDoEverything</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="100" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="100" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a4a783b2319d3e069d8ad5d643630f2cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Positive_ReadonlyCanReadData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Positive_ReadonlyCanReadData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="116" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="116" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a865d1f2a49eebdd6ca7d2dbce6b4f07f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Positive_OperatorCanReadAndWriteData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Positive_OperatorCanReadAndWriteData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="124" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="124" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a83e3df9c8f62e3955dc837e67697f0ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_PrivilegeEscalation_ReadonlyClaimsAdmin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_PrivilegeEscalation_ReadonlyClaimsAdmin</type>
+        </param>
+        <briefdescription>
+<para>The readonly role must not grant write access to data — even when an attacker claims to have admin privileges in their request. The <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref> check uses the authoritative role list, not a user-supplied one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="144" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="144" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a56bc963521b192e4da8bef373fa09c7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_DenyByDefault_EmptyRoleList)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_DenyByDefault_EmptyRoleList</type>
+        </param>
+        <briefdescription>
+<para>A user with no roles must be denied access to all resources (deny-by-default, zero-trust principle). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="160" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="160" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a2a7256158094d0a2b6201b6186cf306f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_PermissionBoundary_ReadonlyCannotWrite)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_PermissionBoundary_ReadonlyCannotWrite</type>
+        </param>
+        <briefdescription>
+<para>readonly can read &quot;data&quot; but must NOT be able to write it or access any other resource type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="178" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="178" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1ae33e4fcc9db36b3f7a7b36421fca10aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_PermissionBoundary_ReadonlyCannotDeleteData)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_PermissionBoundary_ReadonlyCannotDeleteData</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="183" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="183" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1abe5303cd1cdf848d1bb8460bcdd58f67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_PermissionBoundary_OperatorCannotRotateKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_PermissionBoundary_OperatorCannotRotateKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="188" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="188" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1adfdd589e71bffe551301a9fde9d42c8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_PermissionBoundary_OperatorCannotAccessAudit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_PermissionBoundary_OperatorCannotAccessAudit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="193" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="193" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a4813c05c63387824f8febdb77ac1d45d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_LateralMovement_ReadonlyCannotReadKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_LateralMovement_ReadonlyCannotReadKeys</type>
+        </param>
+        <briefdescription>
+<para>The &quot;readonly&quot; role grants access to &quot;data&quot; but must NOT grant access to &quot;keys&quot;, &quot;config&quot;, or &quot;audit&quot; resources even for &quot;read&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="207" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="207" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a57d3e1a02ffc465268f26c2684edfe5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_LateralMovement_ReadonlyCannotReadConfig)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_LateralMovement_ReadonlyCannotReadConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="212" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="212" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1ad4bc2862f2d9475c1ba0e87f7128a71b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_DeletedRole_AccessRevoked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_DeletedRole_AccessRevoked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="222" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="222" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1ad7d412602828bda7aa839d5a3f8a2edd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_NonExistentRole_DeniedAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_NonExistentRole_DeniedAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="243" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="243" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a4a134f93b2798b4bdc81a68eb6199bfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_RoleInjection_SemicolonInRoleName)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_RoleInjection_SemicolonInRoleName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="257" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="257" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1adbc8f3e1f458ed66d1e8d6ae9711a335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_RoleInjection_NullByteInRoleName)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_RoleInjection_NullByteInRoleName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="262" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="262" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a1fbce509707ce8a6edbe6b8fb2ae3043" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_RoleInjection_WildcardRoleName)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_RoleInjection_WildcardRoleName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="268" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="268" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1ace337450225cefa6b287920c47167b1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_MultiRole_CombinedRolesNoEscalation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_MultiRole_CombinedRolesNoEscalation</type>
+        </param>
+        <briefdescription>
+<para>Two non-admin roles combined must not exceed the union of their individual permissions. Neither &quot;readonly&quot; nor &quot;operator&quot; has key-rotation rights; having both must not grant it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="282" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="282" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1a9862f6b6f782ed56f11ca7aab9646376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Attack_MultiRole_NonExistentRoleNoEscalation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Attack_MultiRole_NonExistentRoleNoEscalation</type>
+        </param>
+        <briefdescription>
+<para>Combining a valid role with a non-existent role must not elevate permissions beyond the valid role. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="291" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="291" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1aef5fdb2bd15e91c82b0a8835dfd49371" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Integrity_RoleExistsAfterAdd)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Integrity_RoleExistsAfterAdd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="307" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="307" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="test__authentication__attack__vectors_8cpp_1ad69bbb478ba8820082f53f6247837eba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AuthAttackVectorTest, Integrity_RoleAbsentAfterRemove)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref></type>
+        </param>
+        <param>
+          <type>Integrity_RoleAbsentAfterRemove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" line="322" column="1" bodyfile="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp" bodystart="322" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Authentication and authorization attack vector tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Systematically validates that the <ref refid="classthemis_1_1security_1_1_r_b_a_c" kindref="compound">RBAC</ref>, zero-trust, and access-control subsystems correctly reject unauthorized access attempts.</para>
+<para>Attack categories covered:<itemizedlist>
+<listitem><para>Privilege escalation (unprivileged user claiming admin roles)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1security_1_1_permission" kindref="compound">Permission</ref> boundary violations (role with limited scope exceeds it)</para>
+</listitem><listitem><para>Deny-by-default verification (no roles → all resources denied)</para>
+</listitem><listitem><para>Wildcard role abuse (role with &quot;*:read&quot; must not allow &quot;*:write&quot;)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> confusion: deleted role must not grant access</para>
+</listitem><listitem><para>Lateral movement: valid role on wrong resource must deny</para>
+</listitem><listitem><para>Empty / null identity must be denied</para>
+</listitem><listitem><para><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref> inheritance abuse: inherited role must not exceed parent permissions</para>
+</listitem></itemizedlist>
+</para>
+<para>CWE mapping: CWE-269 – Improper Privilege Management CWE-284 – Improper Access Control CWE-285 – Improper Authorization CWE-286 – Incorrect <ref refid="structthemis_1_1security_1_1_user" kindref="compound">User</ref> Management</para>
+<para>OWASP ASVS: V4.1 – General Access Control Design V4.2 – Operation Level Access Control V4.3 – Other Access Control Considerations</para>
+<para>Compliance: NIST SP 800-53 AC-3 – Access Enforcement NIST SP 800-53 AC-6 – Least Privilege </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rbac_8h" kindref="compound">security/rbac.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/runtime_license_gate.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Helpers<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;RBAC&gt;<sp/>build_test_rbac()<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_r_b_a_c_config" kindref="compound">RBACConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1acdca2c9ae1aff2b9e3d61dc33d771561" kindref="member">config_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>file;<sp/>use<sp/>programmatic<sp/>roles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1security_1_1_r_b_a_c_config_1aefc324a870ac0915359d1b594a6ce773" kindref="member">use_builtin_roles</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rbac<sp/>=<sp/>std::make_unique&lt;RBAC&gt;(cfg);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>readonly:<sp/>can<sp/>only<sp/>read<sp/>&quot;data&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>readonly_role;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>readonly_role.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>readonly_role.<ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Read-only<sp/>access<sp/>to<sp/>data<sp/>collection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>readonly_role.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac-&gt;addRole(readonly_role);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>operator:<sp/>can<sp/>read+write<sp/>&quot;data&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>operator_role;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>operator_role.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>operator_role.<ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Operator<sp/>—<sp/>read/write<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>operator_role.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac-&gt;addRole(operator_role);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>admin:<sp/>all<sp/>permissions<sp/>via<sp/>wildcard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>admin_role;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>admin_role.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>admin_role.<ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Administrator&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>admin_role.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac-&gt;addRole(admin_role);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rbac;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>───<sp/>Test<sp/>Fixture<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="class_auth_attack_vector_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_auth_attack_vector_test_1ac5886744cb0491100a60a1d369516c8c" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>license_error<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_auth_attack_vector_test_1a90c71313cbc05d25b06ed4d046920b9e" kindref="member">rbac_feature_available_</ref><sp/>=</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::license::RuntimeLicenseGate::instance().isFeatureAllowed(</highlight><highlight class="stringliteral">&quot;rbac&quot;</highlight><highlight class="normal">,<sp/>license_error);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_auth_attack_vector_test_1a67d1fda14f4518b2dfccc81df06f31ca" kindref="member">rbac_</ref><sp/>=<sp/>build_test_rbac();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RBAC&gt;<sp/><ref refid="class_auth_attack_vector_test_1a67d1fda14f4518b2dfccc81df06f31ca" kindref="member">rbac_</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_auth_attack_vector_test_1a90c71313cbc05d25b06ed4d046920b9e" kindref="member">rbac_feature_available_</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Positive<sp/>tests:<sp/>legitimate<sp/>access<sp/>must<sp/>be<sp/>granted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Positive_AdminCanDoEverything)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rbac_feature_available_)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Positive_ReadonlyCanReadData)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rbac_feature_available_)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Positive_OperatorCanReadAndWriteData)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rbac_feature_available_)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attack<sp/>Vector:<sp/>Privilege<sp/>Escalation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>user<sp/>claims<sp/>roles<sp/>they<sp/>do<sp/>not<sp/>actually<sp/>hold.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_PrivilegeEscalation_ReadonlyClaimsAdmin)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulates<sp/>an<sp/>attacker<sp/>submitting<sp/>a<sp/>token<sp/>with<sp/>role=[&quot;admin&quot;]<sp/>while</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>authoritative<sp/>store<sp/>only<sp/>grants<sp/>them<sp/>&quot;readonly&quot;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>test<sp/>verifies<sp/>that<sp/>&quot;readonly&quot;<sp/>alone<sp/>must<sp/>not<sp/>pass<sp/>admin-level<sp/>checks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;readonly<sp/>role<sp/>must<sp/>not<sp/>rotate<sp/>keys<sp/>(admin-only<sp/>operation)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;readonly<sp/>role<sp/>must<sp/>not<sp/>write<sp/>config&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;readonly<sp/>role<sp/>must<sp/>not<sp/>delete<sp/>audit<sp/>logs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_DenyByDefault_EmptyRoleList)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;User<sp/>with<sp/>no<sp/>roles<sp/>must<sp/>be<sp/>denied<sp/>read<sp/>on<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;User<sp/>with<sp/>no<sp/>roles<sp/>must<sp/>be<sp/>denied<sp/>write<sp/>on<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({},<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;User<sp/>with<sp/>no<sp/>roles<sp/>must<sp/>be<sp/>denied<sp/>read<sp/>on<sp/>config&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attack<sp/>Vector:<sp/>Permission<sp/>Boundary<sp/>Violation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>role<sp/>with<sp/>limited<sp/>scope<sp/>attempts<sp/>to<sp/>exceed<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_PermissionBoundary_ReadonlyCannotWrite)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;readonly<sp/>role<sp/>must<sp/>not<sp/>be<sp/>able<sp/>to<sp/>write<sp/>to<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_PermissionBoundary_ReadonlyCannotDeleteData)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;readonly<sp/>role<sp/>must<sp/>not<sp/>be<sp/>able<sp/>to<sp/>delete<sp/>data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_PermissionBoundary_OperatorCannotRotateKeys)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;operator<sp/>role<sp/>must<sp/>not<sp/>rotate<sp/>encryption<sp/>keys<sp/>(requires<sp/>admin)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_PermissionBoundary_OperatorCannotAccessAudit)<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;delete&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;operator<sp/>role<sp/>must<sp/>not<sp/>delete<sp/>audit<sp/>logs&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attack<sp/>Vector:<sp/>Lateral<sp/>Movement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>valid<sp/>role<sp/>for<sp/>resource<sp/>A<sp/>is<sp/>used<sp/>to<sp/>access<sp/>resource<sp/>B.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_LateralMovement_ReadonlyCannotReadKeys)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;readonly<sp/>role<sp/>must<sp/>not<sp/>read<sp/>encryption<sp/>keys<sp/>(lateral<sp/>movement<sp/>to<sp/>key<sp/>store)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_LateralMovement_ReadonlyCannotReadConfig)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;config&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;readonly<sp/>role<sp/>must<sp/>not<sp/>read<sp/>system<sp/>config<sp/>(lateral<sp/>movement)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attack<sp/>Vector:<sp/>Deleted<sp/>Role<sp/>Must<sp/>Not<sp/>Grant<sp/>Access</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Removing<sp/>a<sp/>role<sp/>from<sp/>the<sp/>registry<sp/>must<sp/>immediately<sp/>revoke<sp/>its<sp/>permissions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_DeletedRole_AccessRevoked)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>confirm<sp/>operator<sp/>has<sp/>access.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rbac_feature_available_)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>the<sp/>&quot;operator&quot;<sp/>role.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;removeRole(</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>removal,<sp/>checkPermission<sp/>with<sp/>a<sp/>removed<sp/>role<sp/>name<sp/>must<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Deleted<sp/>role<sp/>must<sp/>no<sp/>longer<sp/>grant<sp/>permissions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attack<sp/>Vector:<sp/>Non-Existent<sp/>Role</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>role<sp/>name<sp/>that<sp/>was<sp/>never<sp/>registered<sp/>must<sp/>deny<sp/>all<sp/>access.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_NonExistentRole_DeniedAll)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;phantom_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>role<sp/>must<sp/>be<sp/>denied<sp/>all<sp/>access<sp/>(deny<sp/>by<sp/>default)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;phantom_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>role<sp/>must<sp/>be<sp/>denied<sp/>write<sp/>access&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;phantom_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>role<sp/>must<sp/>not<sp/>grant<sp/>wildcard<sp/>access&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attack<sp/>Vector:<sp/>Role<sp/>Injection<sp/>via<sp/>Special<sp/>Characters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attackers<sp/>embed<sp/>special<sp/>characters<sp/>in<sp/>role<sp/>names<sp/>to<sp/>confuse<sp/>matching.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_RoleInjection_SemicolonInRoleName)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;admin;readonly&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Semicolon-separated<sp/>role<sp/>string<sp/>must<sp/>not<sp/>be<sp/>treated<sp/>as<sp/>two<sp/>roles&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_RoleInjection_NullByteInRoleName)<sp/>{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>null_role<sp/>=<sp/>std::string(</highlight><highlight class="stringliteral">&quot;admin\0readonly&quot;</highlight><highlight class="normal">,<sp/>14);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({null_role},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Null-byte<sp/>injection<sp/>in<sp/>role<sp/>name<sp/>must<sp/>not<sp/>grant<sp/>admin<sp/>access&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_RoleInjection_WildcardRoleName)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;*&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Wildcard<sp/>&apos;*&apos;<sp/>as<sp/>a<sp/>role<sp/>name<sp/>must<sp/>not<sp/>match<sp/>all<sp/>registered<sp/>roles&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attack<sp/>Vector:<sp/>Multiple-Role<sp/>Combinations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_MultiRole_CombinedRolesNoEscalation)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;operator&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;keys&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;rotate&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;readonly<sp/>+<sp/>operator<sp/>combined<sp/>must<sp/>not<sp/>escalate<sp/>to<sp/>key-rotation<sp/>privilege&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Attack_MultiRole_NonExistentRoleNoEscalation)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;readonly&quot;<sp/>can<sp/>read<sp/>data;<sp/>adding<sp/>&quot;ghost_role&quot;<sp/>must<sp/>not<sp/>add<sp/>write<sp/>rights.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rbac_feature_available_)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ghost_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Valid<sp/>role<sp/>right<sp/>must<sp/>still<sp/>be<sp/>granted<sp/>when<sp/>combined<sp/>with<sp/>unknown<sp/>role&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ghost_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;checkPermission({</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ghost_role&quot;</highlight><highlight class="normal">},<sp/></highlight><highlight class="stringliteral">&quot;data&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;write&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>role<sp/>must<sp/>not<sp/>escalate<sp/>permissions<sp/>beyond<sp/>the<sp/>valid<sp/>role&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Attack<sp/>Vector:<sp/>Role<sp/>Lookup<sp/>Integrity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Integrity_RoleExistsAfterAdd)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_role" kindref="compound">Role</ref><sp/>custom;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1af64da13e5c62a796d63c4305dbf7728a" kindref="member">name</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;auditor&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1a7ac910f821ada74bb0148b2c768574a2" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Audit<sp/>log<sp/>reader&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>custom.<ref refid="structthemis_1_1security_1_1_role_1a6438c85dce9a488afbeb5bc3677a6c8a" kindref="member">permissions</ref><sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;addRole(custom);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>rbac_-&gt;getRole(</highlight><highlight class="stringliteral">&quot;auditor&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(found.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Newly<sp/>added<sp/>role<sp/>must<sp/>be<sp/>retrievable&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found-&gt;name,<sp/></highlight><highlight class="stringliteral">&quot;auditor&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found-&gt;permissions.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found-&gt;permissions[0].resource,<sp/></highlight><highlight class="stringliteral">&quot;audit&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found-&gt;permissions[0].action,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;read&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="test__authentication__attack__vectors_8cpp_1ad83b1d7cfc77f138eb0b4b80fa55c0f4" kindref="member">TEST_F</ref>(<ref refid="class_auth_attack_vector_test" kindref="compound">AuthAttackVectorTest</ref>,<sp/>Integrity_RoleAbsentAfterRemove)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>rbac_-&gt;removeRole(</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(rbac_-&gt;getRole(</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">).has_value())</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Removed<sp/>role<sp/>must<sp/>not<sp/>be<sp/>found<sp/>in<sp/>the<sp/>role<sp/>registry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/attack-vectors/authentication/test_authentication_attack_vectors.cpp"/>
+  </compounddef>
+</doxygen>

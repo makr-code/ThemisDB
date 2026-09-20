@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__validation__pipeline_8h" kind="file" language="C++">
+    <compoundname>llm_validation_pipeline.h</compoundname>
+    <includes local="yes">query/aql_parser_service.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="llm__aql__handler_8h" local="yes">include/aql/llm_aql_handler.h</includedby>
+    <includedby refid="llm__validation__pipeline_8cpp" local="yes">src/aql/llm_validation_pipeline.cpp</includedby>
+    <includedby refid="test__aql__llm__validation__pipeline_8cpp" local="yes">tests/aql/test_aql_llm_validation_pipeline.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/llm_validation_pipeline.h</label>
+        <link refid="llm__validation__pipeline_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>query/aql_parser_service.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/aql/aql_agent.h</label>
+        <link refid="aql__agent_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/aql/aql_conversation_context.h</label>
+        <link refid="aql__conversation__context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/aql/llm_aql_handler.h</label>
+        <link refid="llm__aql__handler_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/aql/llm_extractive_compressor.h</label>
+        <link refid="llm__extractive__compressor_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/llm_validation_pipeline.h</label>
+        <link refid="llm__validation__pipeline_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/aql/aql_agent.cpp</label>
+        <link refid="aql__agent_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/aql/aql_conversation_context.cpp</label>
+        <link refid="aql__conversation__context_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/aql/aql_query_builder.cpp</label>
+        <link refid="aql__query__builder_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/aql/llm_aql_embedding_bridge.cpp</label>
+        <link refid="llm__aql__embedding__bridge_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/aql/llm_aql_handler.cpp</label>
+        <link refid="llm__aql__handler_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/aql/llm_extractive_compressor.cpp</label>
+        <link refid="llm__extractive__compressor_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/aql/llm_validation_pipeline.cpp</label>
+        <link refid="llm__validation__pipeline_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/aql/test_aql_agent.cpp</label>
+        <link refid="test__aql__agent_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/aql/test_aql_api_stability.cpp</label>
+        <link refid="test__aql__api__stability_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/aql/test_aql_conversation_context.cpp</label>
+        <link refid="test__aql__conversation__context_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/aql/test_aql_llm_validation_pipeline.cpp</label>
+        <link refid="test__aql__llm__validation__pipeline_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/aql/test_aql_llm_validation_pipeline_phase04.cpp</label>
+        <link refid="test__aql__llm__validation__pipeline__phase04_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/aql/test_aql_query_builder.cpp</label>
+        <link refid="test__aql__query__builder_8cpp"/>
+      </node>
+      <node id="20">
+        <label>tests/aql/test_aql_query_validator.cpp</label>
+        <link refid="test__aql__query__validator_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/aql/test_aql_schema_aware.cpp</label>
+        <link refid="test__aql__schema__aware_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/aql/test_episodic_compaction.cpp</label>
+        <link refid="test__episodic__compaction_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/aql/test_llm_aql_handler_phase03.cpp</label>
+        <link refid="test__llm__aql__handler__phase03_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/aql/test_p2_d05_runtime_integration.cpp</label>
+        <link refid="test__p2__d05__runtime__integration_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/aql/test_p2_d06_benchmarks.cpp</label>
+        <link refid="test__p2__d06__benchmarks_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1aql_1_1_l_l_m_validation_result" prot="public">themis::aql::LLMValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" prot="public">themis::aql::LLMValidationPipelineConfig</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline" prot="public">themis::aql::LLMValidationPipeline</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory" prot="public">themis::aql::LLMValidationPipelineFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>LLM → Parser → Retry validation pipeline for AQL generation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Encapsulates the complete NL-to-validated-AQL workflow with automatic retry logic.</para>
+<para>WORKFLOW:<orderedlist>
+<listitem><para>NL query arrives → LLM generates AQL</para>
+</listitem><listitem><para>AQL sent to parser for validation</para>
+</listitem><listitem><para>If parser succeeds: return validated AQL</para>
+</listitem><listitem><para>If parser fails: format error as feedback → retry LLM with corrective prompt</para>
+</listitem><listitem><para>Repeat until: success OR max_retries exhausted</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="author"><para>ThemisDB Team </para>
+</simplesect>
+<simplesect kind="date"><para>2026-06-18 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_parser_service.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">LLMClient;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610" kindref="member">LLMValidationStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610ad0749aaba8b833466dfcbb0428e4f89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610a551530ec1af53eaa77c1bde0ca457b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610a551530ec1af53eaa77c1bde0ca457b4b" kindref="member">PARSE_ERROR</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610a5466429cc420f75feda6b3a019f40fd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610a5466429cc420f75feda6b3a019f40fd7" kindref="member">RETRYABLE</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610ac81f392c23a6364fa108e884d6f1bc2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610ac81f392c23a6364fa108e884d6f1bc2d" kindref="member">EXHAUSTED_RETRIES</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610a9cc8ad3d99798c6726d4af0bd14e49d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610a9cc8ad3d99798c6726d4af0bd14e49d2" kindref="member">REJECTED</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610a779a8b72166d1e912b74910aa656330d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610a779a8b72166d1e912b74910aa656330d" kindref="member">LLM_GENERATION_FAILED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1aql_1_1_l_l_m_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_result" kindref="compound">LLMValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1abde0dd99e2995adca9a7b6eb13ab5247" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610" kindref="member">LLMValidationStatus</ref><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1abde0dd99e2995adca9a7b6eb13ab5247" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">LLMValidationStatus::SUCCESS</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1af0cdda7c0867909ab1496aa378e2ecef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1af0cdda7c0867909ab1496aa378e2ecef" kindref="member">validated_aql</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a7329a4283d8dd9f69012114c9b2bda29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>query::ParserDiagnostics<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a7329a4283d8dd9f69012114c9b2bda29" kindref="member">parser_diagnostics</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a77e150b6e614cc569a5dba790025ce68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a77e150b6e614cc569a5dba790025ce68" kindref="member">retry_feedback</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a389d6a0dbafb71a54a63f0e8dc4ddffe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a389d6a0dbafb71a54a63f0e8dc4ddffe" kindref="member">attempts_made</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1ac83102d72ff57a9f0cee05915b23c1ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1ac83102d72ff57a9f0cee05915b23c1ec" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a9ebfbc41667dda3ac5f6e92f1c657a47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a9ebfbc41667dda3ac5f6e92f1c657a47" kindref="member">max_retries</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a40ed004b5eb01f8f741b96ce78988049" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a40ed004b5eb01f8f741b96ce78988049" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a51c338bbebe441b86e84c402587a0f80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a51c338bbebe441b86e84c402587a0f80" kindref="member">reject_on_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a44591a1dce365b880fc45918835844f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config_1a44591a1dce365b880fc45918835844f0" kindref="member">log_level</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;info&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1aql_1a73c45bd9c6132715cd9bee98b6a986e9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a73c45bd9c6132715cd9bee98b6a986e9" kindref="member">FeedbackGenerator</ref><sp/>=<sp/>std::function&lt;std::string(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ParserDiagnostics&amp;<sp/>diagnostics</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1aql_1a655dd6b1fdbe0f3204739a182ee877e0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a655dd6b1fdbe0f3204739a182ee877e0" kindref="member">RetryabilityCheck</ref><sp/>=<sp/>std::function&lt;bool(</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ParserDiagnostics&amp;<sp/>diagnostics</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">)&gt;;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1a0baf7df37ba124988943df6926f1b1b3" kindref="member">LLMValidationPipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1a0baf7df37ba124988943df6926f1b1b3" kindref="member">LLMValidationPipeline</ref>(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;query::AQLParserService&gt;<sp/>parser_service,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::LLMClient&gt;<sp/>llm_client,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref>&amp;<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1ade4f1d32d9b4eed239e3b2343b1188e0" kindref="member">config</ref><sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1aac155a1b677fe3bbd971725b888a9bd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1aac155a1b677fe3bbd971725b888a9bd2" kindref="member">~LLMValidationPipeline</ref>();</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_result" kindref="compound">LLMValidationResult</ref><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1a0b236cea76e5068126ded8f57644b124" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>nl_query,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>schema_context</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1aa2bc34c85dbbcd03e183f4ffbad148c6" kindref="member">setFeedbackGenerator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a73c45bd9c6132715cd9bee98b6a986e9" kindref="member">FeedbackGenerator</ref>&amp;<sp/>gen);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1ae8b070beddbfc723d9cd2c6f10cebfc4" kindref="member">setRetryabilityCheck</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1aql_1a655dd6b1fdbe0f3204739a182ee877e0" kindref="member">RetryabilityCheck</ref>&amp;<sp/>check);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref>&amp;<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1ade4f1d32d9b4eed239e3b2343b1188e0" kindref="member">config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1a392097159eb4439915ccc603fe8c1b01" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref>&amp;<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1ade4f1d32d9b4eed239e3b2343b1188e0" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Private<sp/>methods<sp/>for<sp/>internal<sp/>workflow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateAQL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>nl_query,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>schema_context,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>retry_feedback<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatRetryFeedback(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ParserDiagnostics&amp;<sp/>diagnostics)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldRetry(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>query::ParserDiagnostics&amp;<sp/>diagnostics)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory" kindref="compound">LLMValidationPipelineFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;LLMValidationPipeline&gt;<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory_1a25871a8744c0397e2d1bd64c413494c4" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;query::AQLParserService&gt;<sp/>parser_service,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::LLMClient&gt;<sp/>llm_client</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;LLMValidationPipeline&gt;<sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_validation_pipeline_factory_1a1e89856927f24cb16c1e94d8ea00fb2b" kindref="member">createWithConfig</ref>(</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;query::AQLParserService&gt;<sp/>parser_service,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::LLMClient&gt;<sp/>llm_client,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_validation_pipeline_config" kindref="compound">LLMValidationPipelineConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::aql</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/llm_validation_pipeline.h"/>
+  </compounddef>
+</doxygen>

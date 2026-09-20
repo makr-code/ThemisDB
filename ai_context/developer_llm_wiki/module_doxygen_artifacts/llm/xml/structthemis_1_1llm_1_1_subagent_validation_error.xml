@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_validation_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentValidationError</compoundname>
+    <includes refid="subagent__factory_8h" local="no">subagent_factory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_validation_error_1a6fcfb7bc9fc79b63275983b969df222a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentValidationError::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::llm::SubagentValidationError::field</qualifiedname>
+        <briefdescription>
+<para>Configuration field that failed (e.g., &quot;model_id&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="74" column="17" bodyfile="include/llm/subagent_factory.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_validation_error_1a720541d002454512dfd36ea885067dda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentValidationError::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::SubagentValidationError::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable error (e.g., &quot;model not found&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="75" column="17" bodyfile="include/llm/subagent_factory.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_validation_error_1a4f48229711d688fb206bde17967cc0d7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentValidationError::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::llm::SubagentValidationError::detail</qualifiedname>
+        <briefdescription>
+<para>Additional context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_factory.h" line="76" column="17" bodyfile="include/llm/subagent_factory.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_factory.h" line="73" column="1" bodyfile="include/llm/subagent_factory.h" bodystart="73" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_validation_error_1a4f48229711d688fb206bde17967cc0d7" prot="public" virt="non-virtual"><scope>themis::llm::SubagentValidationError</scope><name>detail</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_validation_error_1a6fcfb7bc9fc79b63275983b969df222a" prot="public" virt="non-virtual"><scope>themis::llm::SubagentValidationError</scope><name>field</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_validation_error_1a720541d002454512dfd36ea885067dda" prot="public" virt="non-virtual"><scope>themis::llm::SubagentValidationError</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation</compoundname>
+    <includes refid="workload__fingerprint__engine_8h" local="no">workload_fingerprint_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation_1af3a220f8d55e11a6237f0b2c30f2ed6a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation::max_connections</definition>
+        <argsstring></argsstring>
+        <name>max_connections</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation::max_connections</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="66" column="25" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation_1ad45fe90d301f0358cd58c887ea24e606" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation::memory_limit</definition>
+        <argsstring></argsstring>
+        <name>memory_limit</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation::memory_limit</qualifiedname>
+        <initializer>= &quot;2GB&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="67" column="25" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation_1a1310a3f25990e5364a51ad564f8aa8e0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation::priority</qualifiedname>
+        <initializer>= &quot;MEDIUM&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="68" column="25" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation_1aec613dd9591965bf91ecab3d6b7038e1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation::suggest_read_replica</definition>
+        <argsstring></argsstring>
+        <name>suggest_read_replica</name>
+        <qualifiedname>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation::suggest_read_replica</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/workload_fingerprint_engine.h" line="69" column="25" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/workload_fingerprint_engine.h" line="65" column="9" bodyfile="include/server/workload_fingerprint_engine.h" bodystart="65" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation_1af3a220f8d55e11a6237f0b2c30f2ed6a" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation</scope><name>max_connections</name></member>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation_1ad45fe90d301f0358cd58c887ea24e606" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation</scope><name>memory_limit</name></member>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation_1a1310a3f25990e5364a51ad564f8aa8e0" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation</scope><name>priority</name></member>
+      <member refid="structthemis_1_1server_1_1_workload_fingerprint_engine_1_1_workload_fingerprint_1_1_policy_recommendation_1aec613dd9591965bf91ecab3d6b7038e1" prot="public" virt="non-virtual"><scope>themis::server::WorkloadFingerprintEngine::WorkloadFingerprint::PolicyRecommendation</scope><name>suggest_read_replica</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="byzantine__detector_8h" kind="file" language="C++">
+    <compoundname>byzantine_detector.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="distributed__training__coordinator_8h" local="yes">include/llm/distributed_training_coordinator.h</includedby>
+    <includedby refid="byzantine__detector_8cpp" local="yes">src/llm/byzantine_detector.cpp</includedby>
+    <includedby refid="distributed__training__coordinator_8cpp" local="yes">src/llm/distributed_training_coordinator.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/byzantine_detector.h</label>
+        <link refid="byzantine__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/byzantine_detector.h</label>
+        <link refid="byzantine__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/distributed_training_coordinator.h</label>
+        <link refid="distributed__training__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/llm/byzantine_detector.cpp</label>
+        <link refid="byzantine__detector_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/distributed_training_coordinator.cpp</label>
+        <link refid="distributed__training__coordinator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/lora_framework/lora_training_service.cpp</label>
+        <link refid="lora__training__service_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_gradient_statistics" prot="public">themis::llm::GradientStatistics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_detection_result" prot="public">themis::llm::DetectionResult</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_byzantine_detector" prot="public">themis::llm::ByzantineDetector</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_median_detector" prot="public">themis::llm::MedianDetector</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_krum_detector" prot="public">themis::llm::KrumDetector</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_bulyan_detector" prot="public">themis::llm::BulyanDetector</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_ensemble_detector" prot="public">themis::llm::EnsembleDetector</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_byzantine_detector_factory" prot="public">themis::llm::ByzantineDetectorFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_gradient_tensor" kindref="compound">GradientTensor</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Byzantine<sp/>Detection<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47" kindref="member">ByzantineDetectionMethod</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47a8ab0c3a037e882577dec378985477074" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47a8ab0c3a037e882577dec378985477074" kindref="member">MEDIAN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Median<sp/>+<sp/>MAD<sp/>(Median<sp/>Absolute<sp/>Deviation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47a20bef48175b372db112f2e80e2755daa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47a20bef48175b372db112f2e80e2755daa" kindref="member">KRUM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Krum<sp/>algorithm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47ae5c7d345f395cf13843652c00532a1a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47ae5c7d345f395cf13843652c00532a1a5" kindref="member">BULYAN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bulyan<sp/>algorithm<sp/><sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47a6ed80ac51c01c67befa758cf79ff1c99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47a6ed80ac51c01c67befa758cf79ff1c99" kindref="member">ENSEMBLE</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Combine<sp/>multiple<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90b" kindref="member">ByzantineAction</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90ba32bd8a1db2275458673903bdb84cb277" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90ba32bd8a1db2275458673903bdb84cb277" kindref="member">WARN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Log<sp/>warning,<sp/>continue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90ba4f34e973c167c2296f66c7986cb558f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90ba4f34e973c167c2296f66c7986cb558f8" kindref="member">EXCLUDE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exclude<sp/>suspected<sp/>shards<sp/>from<sp/>aggregation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90ba960f0b6c4711bd0a42965edec68192d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90ba960f0b6c4711bd0a42965edec68192d8" kindref="member">CLIP</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clip<sp/>gradients<sp/>to<sp/>median<sp/>±<sp/>k*MAD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90bab9984206799a7f9fe4bd1b6c18db8112" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a9cc1a7008d9d0bddf832253ee262b90bab9984206799a7f9fe4bd1b6c18db8112" kindref="member">SHUTDOWN</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gradient<sp/>Statistics<sp/>(Per-Shard<sp/>Analysis)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1_gradient_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_gradient_statistics_1a1ddcb176f6c5c1905b730da57001883d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics_1a1ddcb176f6c5c1905b730da57001883d" kindref="member">gradient_norms</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>L2<sp/>norm<sp/>per<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_gradient_statistics_1a2ac2cd7b651a9dad412bdebf500816cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics_1a2ac2cd7b651a9dad412bdebf500816cd" kindref="member">gradient_means</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mean<sp/>per<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_gradient_statistics_1a82721e896f0db6f4a7545c99b3c2ef92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics_1a82721e896f0db6f4a7545c99b3c2ef92" kindref="member">gradient_variances</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Variance<sp/>per<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1_gradient_statistics_1a4314f92b9a7459b8c3331c6e45aba0f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics_1a4314f92b9a7459b8c3331c6e45aba0f7" kindref="member">global_median_norm</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_gradient_statistics_1a9d58448e5e3823f9def139be10cf84a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics_1a9d58448e5e3823f9def139be10cf84a2" kindref="member">global_mad</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Median<sp/>Absolute<sp/>Deviation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Shard<sp/>IDs<sp/>corresponding<sp/>to<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_gradient_statistics_1ad7b71963e85e96bd4a557b8c065f79f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics_1ad7b71963e85e96bd4a557b8c065f79f9" kindref="member">shard_ids</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics_1abdc04b9ca51f4bbc342764d5ab7af366" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics_1ab8030ab45d674254392eda1b8dd71d41" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Detection<sp/>Result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_detection_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_detection_result_1a5a3b139a7cdcaace1f57d8adddb582a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_detection_result_1a5a3b139a7cdcaace1f57d8adddb582a6" kindref="member">suspected_shards</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_detection_result_1ad2f732ff08d2fed2dafaa52b399247a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>float&gt;<sp/><ref refid="structthemis_1_1llm_1_1_detection_result_1ad2f732ff08d2fed2dafaa52b399247a9" kindref="member">anomaly_scores</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>0.0<sp/>=<sp/>normal,<sp/>1.0<sp/>=<sp/>highly<sp/>anomalous</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1_detection_result_1a2fad4869fd102990f5b371807456796e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_detection_result_1a2fad4869fd102990f5b371807456796e" kindref="member">detection_method</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1llm_1_1_detection_result_1a6a4977f8c502ff98723f8fc5936d82a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_detection_result_1a6a4977f8c502ff98723f8fc5936d82a2" kindref="member">requires_action</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_detection_result_1aa177b70ceee38938e39baa1d91917dfb" kindref="member">toJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/><ref refid="structthemis_1_1llm_1_1_detection_result_1a232310b6ac9ac65a98bef2ebcac959c0" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Byzantine<sp/>Detector<sp/>Interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1llm_1_1_byzantine_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_byzantine_detector" kindref="compound">ByzantineDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1llm_1_1_byzantine_detector_1a4cc09740318777bbda9c4e689de03ad8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector_1a4cc09740318777bbda9c4e689de03ad8" kindref="member">~ByzantineDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Analyze<sp/>gradients<sp/>from<sp/>all<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1llm_1_1_byzantine_detector_1ac1f15db263cd4bbcab509b329551918c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector_1ac1f15db263cd4bbcab509b329551918c" kindref="member">detectByzantineShards</ref>(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compute<sp/>statistics<sp/>for<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1llm_1_1_byzantine_detector_1a6a8bc0a1f7052f77f9cd5840c927e830" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector_1a6a8bc0a1f7052f77f9cd5840c927e830" kindref="member">computeStatistics</ref>(</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>detector<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1llm_1_1_byzantine_detector_1a530eac2670dbff83051ce034e092037d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector_1a530eac2670dbff83051ce034e092037d" kindref="member">getName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Median-based<sp/>Detector<sp/>(MAD<sp/>Threshold)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1llm_1_1_median_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_median_detector_1a5dc454641177aa2911492e7235dcedea" kindref="member">MedianDetector</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector" kindref="compound">ByzantineDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_median_detector_1a5dc454641177aa2911492e7235dcedea" kindref="member">MedianDetector</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>3.0f);</highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1llm_1_1_median_detector_1a3c0dfb2d32c1714729f3a785ba4c294b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_median_detector_1a3c0dfb2d32c1714729f3a785ba4c294b" kindref="member">~MedianDetector</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_median_detector_1a446cbb9ed8bcf47bbd192d321b99bb83" kindref="member">detectByzantineShards</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_median_detector_1a56614f4c678ea2c3be1f63a0d61546de" kindref="member">computeStatistics</ref>(</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1llm_1_1_median_detector_1ab61a3ac3f5a14135967639f95709374d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_median_detector_1ab61a3ac3f5a14135967639f95709374d" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MEDIAN&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1llm_1_1_median_detector_1af4b1c176fbcf6cb52bcd9dda02d3af3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_median_detector_1af4b1c176fbcf6cb52bcd9dda02d3af3b" kindref="member">setThreshold</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>threshold)<sp/>{<sp/>threshold_<sp/>=<sp/>threshold;<sp/>}</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1llm_1_1_median_detector_1ad47f4c92a84fd0d9b138c54f9584cac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_median_detector_1ad47f4c92a84fd0d9b138c54f9584cac0" kindref="member">getThreshold</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>threshold_;<sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>threshold_<sp/>=<sp/>0.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>MAD<sp/>for<sp/>outlier<sp/>detection<sp/>(typically<sp/>2.5-3.5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeL2Norm(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GradientTensor&gt;&amp;<sp/>gradients)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeMean(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>values)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeMedian(std::vector&lt;float&gt;<sp/>values)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeMAD(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>values,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>median)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Krum<sp/>Algorithm<sp/>Detector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1llm_1_1_krum_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_krum_detector_1ac8f7bc4e1f9f72d61ddca7042de0d9d9" kindref="member">KrumDetector</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector" kindref="compound">ByzantineDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_krum_detector_1ac8f7bc4e1f9f72d61ddca7042de0d9d9" kindref="member">KrumDetector</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_byzantine_shards<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="191" refid="classthemis_1_1llm_1_1_krum_detector_1ab19847cbeafda17888305a714935fbce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_krum_detector_1ab19847cbeafda17888305a714935fbce" kindref="member">~KrumDetector</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_krum_detector_1a5dc57c8b5327f31c27236178c91f15c1" kindref="member">detectByzantineShards</ref>(</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_krum_detector_1af09ab1ab945e4e4ee55f3dc535452d19" kindref="member">computeStatistics</ref>(</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1llm_1_1_krum_detector_1a215d882b44a07ce50cf6827bf429df64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_krum_detector_1a215d882b44a07ce50cf6827bf429df64" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;KRUM&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208" refid="classthemis_1_1llm_1_1_krum_detector_1adf05c73fe994ff39950352b1727d25bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_krum_detector_1adf05c73fe994ff39950352b1727d25bf" kindref="member">setMaxByzantineShards</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>f)<sp/>{<sp/>max_byzantine_shards_<sp/>=<sp/>f;<sp/>}</highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1llm_1_1_krum_detector_1a84577172d379839aeb55361f08b40933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_krum_detector_1a84577172d379839aeb55361f08b40933" kindref="member">getMaxByzantineShards</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>max_byzantine_shards_;<sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Public<sp/>for<sp/>use<sp/>by<sp/>BulyanDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1llm_1_1_krum_detector_1a44bea8a6f748e7e4925c9677557002de" kindref="member">selectKrumGradients</ref>(</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_to_select</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_byzantine_shards_<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>f<sp/>parameter:<sp/>max<sp/>number<sp/>of<sp/>Byzantine<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeDistance(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GradientTensor&gt;&amp;<sp/>grad1,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GradientTensor&gt;&amp;<sp/>grad2</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Bulyan<sp/>Algorithm<sp/>Detector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1llm_1_1_bulyan_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1a06555edc176a16086cf84c254518a3f4" kindref="member">BulyanDetector</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector" kindref="compound">ByzantineDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1a06555edc176a16086cf84c254518a3f4" kindref="member">BulyanDetector</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_byzantine_shards<sp/>=<sp/>1);</highlight></codeline>
+<codeline lineno="240" refid="classthemis_1_1llm_1_1_bulyan_detector_1aafef7992633f13f7962e5fabe0cbbb4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1aafef7992633f13f7962e5fabe0cbbb4e" kindref="member">~BulyanDetector</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1a36e37c578193aef05c5775d4c385724b" kindref="member">detectByzantineShards</ref>(</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1ac26d60aeae920b84cc2f4a12d3a6c323" kindref="member">computeStatistics</ref>(</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1llm_1_1_bulyan_detector_1ad29a35df63d2160810697e8ba9215c02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1ad29a35df63d2160810697e8ba9215c02" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;BULYAN&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1llm_1_1_bulyan_detector_1a3f8ffc4c7f3b454f016155ee85274999" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1a3f8ffc4c7f3b454f016155ee85274999" kindref="member">setMaxByzantineShards</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>f)<sp/>{<sp/>max_byzantine_shards_<sp/>=<sp/>f;<sp/>}</highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1llm_1_1_bulyan_detector_1ad9c02538a19f34f021e2a6884437b27c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1ad9c02538a19f34f021e2a6884437b27c" kindref="member">getMaxByzantineShards</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>max_byzantine_shards_;<sp/>}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>with<sp/>Byzantine<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GradientTensor&gt;<sp/><ref refid="classthemis_1_1llm_1_1_bulyan_detector_1ab9667cdfb9ff23cb2a41bd5cf41ecc9b" kindref="member">aggregateRobust</ref>(</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_byzantine_shards_<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>f<sp/>parameter:<sp/>max<sp/>number<sp/>of<sp/>Byzantine<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_krum_detector" kindref="compound">KrumDetector</ref><sp/>krum_detector_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>Krum<sp/>for<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GradientTensor&gt;<sp/>computeTrimmedMean(</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>selected_gradients,</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>trim_count</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ensemble<sp/>Detector<sp/>(Combine<sp/>Multiple<sp/>Methods)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286" refid="classthemis_1_1llm_1_1_ensemble_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_ensemble_detector_1a9cfd086635e9afc82deab1cf44b9af8c" kindref="member">EnsembleDetector</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector" kindref="compound">ByzantineDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_ensemble_detector_1a9cfd086635e9afc82deab1cf44b9af8c" kindref="member">EnsembleDetector</ref>(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>median_threshold<sp/>=<sp/>3.0f,</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_byzantine_shards<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1llm_1_1_ensemble_detector_1a6cb5a34ec99826553388e6cb7ebececb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_ensemble_detector_1a6cb5a34ec99826553388e6cb7ebececb" kindref="member">~EnsembleDetector</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_ensemble_detector_1a62eaaefa258b0f2cec657701680cad85" kindref="member">detectByzantineShards</ref>(</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_gradient_statistics" kindref="compound">GradientStatistics</ref><sp/><ref refid="classthemis_1_1llm_1_1_ensemble_detector_1a5b2b650b5ceea87409fc22008a82eac3" kindref="member">computeStatistics</ref>(</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::vector&lt;GradientTensor&gt;&gt;&amp;<sp/>shard_gradients</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="302" refid="classthemis_1_1llm_1_1_ensemble_detector_1a46afbd56a0f1525c64c7013ef9c623b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_ensemble_detector_1a46afbd56a0f1525c64c7013ef9c623b2" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ENSEMBLE&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_median_detector" kindref="compound">MedianDetector</ref><sp/>median_detector_;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_krum_detector" kindref="compound">KrumDetector</ref><sp/>krum_detector_;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/>combineResults(</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref>&amp;<sp/>median_result,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_detection_result" kindref="compound">DetectionResult</ref>&amp;<sp/>krum_result</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Byzantine<sp/>Detector<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324" refid="classthemis_1_1llm_1_1_byzantine_detector_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_byzantine_detector_factory" kindref="compound">ByzantineDetectorFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;ByzantineDetector&gt;<sp/><ref refid="classthemis_1_1llm_1_1_byzantine_detector_factory_1a259f3f15a133506a5dfb1e5163c6b459" kindref="member">create</ref>(</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47" kindref="member">ByzantineDetectionMethod</ref><sp/>method,</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>3.0f,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max_byzantine_shards<sp/>=<sp/>1</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/byzantine_detector.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_async_job_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::AsyncJobRecord</compoundname>
+    <includes refid="async__job__api__handler_8h" local="no">async_job_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1aec0331d61a5c619ba61e7611b01622bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AsyncJobRecord::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::server::AsyncJobRecord::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="64" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1a8ab71d488e05d49373008eb9b37a9117" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AsyncJobRecord::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::server::AsyncJobRecord::query</qualifiedname>
+        <briefdescription>
+<para>original AQL string </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="65" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1add22aa336f3e926fcb6057cdb4a7615e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AsyncJobRecord::auth_header</definition>
+        <argsstring></argsstring>
+        <name>auth_header</name>
+        <qualifiedname>themis::server::AsyncJobRecord::auth_header</qualifiedname>
+        <briefdescription>
+<para>captured Authorization header </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="66" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1ab60365b95e8b08dead1a05e7ba060cae" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::server::AsyncJobRecord::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::server::AsyncJobRecord::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="67" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1a06dce9170cbe8fd7c5b1dc281f9bdd2e" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::AsyncJobRecord::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>themis::server::AsyncJobRecord::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="70" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1a5dd61a4e7775ab90f58e7150fc08eaf5" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6c" kindref="member">AsyncJobStatus</ref></type>
+        <definition>AsyncJobStatus themis::server::AsyncJobRecord::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::server::AsyncJobRecord::status</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1server_1a42c75eabac43c70aad496f3acb4a9d6cac69f06e1a9b016d133907b4e5f5864d2" kindref="member">AsyncJobStatus::PENDING</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="71" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1a36b295254518a8cce0a6b21e4f83f8b7" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::AsyncJobRecord::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::server::AsyncJobRecord::result</qualifiedname>
+        <briefdescription>
+<para>populated on COMPLETED </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="72" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1aa57599f62cebb357c041ac9840cc2300" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AsyncJobRecord::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::server::AsyncJobRecord::error</qualifiedname>
+        <briefdescription>
+<para>populated on FAILED </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="73" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1a82de5356870f260962065c831133f329" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::server::AsyncJobRecord::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::server::AsyncJobRecord::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="74" column="45" bodyfile="include/server/async_job_api_handler.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_async_job_record_1a8ccfd512af3e3d4cfdc9d25f4fc1d029" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::server::AsyncJobRecord::cancel_requested</definition>
+        <argsstring></argsstring>
+        <name>cancel_requested</name>
+        <qualifiedname>themis::server::AsyncJobRecord::cancel_requested</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="76" column="39" bodyfile="include/server/async_job_api_handler.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_async_job_record_1a624ed20fc86ff8e239b92585f38b8684" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AsyncJobRecord::AsyncJobRecord</definition>
+        <argsstring>()=default</argsstring>
+        <name>AsyncJobRecord</name>
+        <qualifiedname>themis::server::AsyncJobRecord::AsyncJobRecord</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="79" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_async_job_record_1ab822aea5289a828d39443fdba6ab95d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AsyncJobRecord::AsyncJobRecord</definition>
+        <argsstring>(const AsyncJobRecord &amp;)=delete</argsstring>
+        <name>AsyncJobRecord</name>
+        <qualifiedname>themis::server::AsyncJobRecord::AsyncJobRecord</qualifiedname>
+        <param>
+          <type>const AsyncJobRecord &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_async_job_record_1afa1d07d9edd84fd3bc5c9a82352ff74e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_async_job_record_1a624ed20fc86ff8e239b92585f38b8684" kindref="member">AsyncJobRecord</ref> &amp;</type>
+        <definition>AsyncJobRecord &amp; themis::server::AsyncJobRecord::operator=</definition>
+        <argsstring>(const AsyncJobRecord &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::AsyncJobRecord::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_async_job_record_1a624ed20fc86ff8e239b92585f38b8684" kindref="member">AsyncJobRecord</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="81" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1server_1_1_async_job_record_1a4c862dfe10fff267cf8480f974dc4275" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::AsyncJobRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::server::AsyncJobRecord::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/async_job_api_handler.h" line="87" column="20" bodyfile="src/server/async_job_api_handler.cpp" bodystart="145" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/async_job_api_handler.h" line="63" column="1" bodyfile="include/server/async_job_api_handler.h" bodystart="63" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1a624ed20fc86ff8e239b92585f38b8684" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>AsyncJobRecord</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1ab822aea5289a828d39443fdba6ab95d3" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>AsyncJobRecord</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1add22aa336f3e926fcb6057cdb4a7615e" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>auth_header</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1a8ccfd512af3e3d4cfdc9d25f4fc1d029" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>cancel_requested</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1ab60365b95e8b08dead1a05e7ba060cae" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1aa57599f62cebb357c041ac9840cc2300" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>error</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1aec0331d61a5c619ba61e7611b01622bc" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>id</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1a06dce9170cbe8fd7c5b1dc281f9bdd2e" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>mu</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1afa1d07d9edd84fd3bc5c9a82352ff74e" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1a8ab71d488e05d49373008eb9b37a9117" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>query</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1a36b295254518a8cce0a6b21e4f83f8b7" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>result</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1a5dd61a4e7775ab90f58e7150fc08eaf5" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>status</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1a4c862dfe10fff267cf8480f974dc4275" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1server_1_1_async_job_record_1a82de5356870f260962065c831133f329" prot="public" virt="non-virtual"><scope>themis::server::AsyncJobRecord</scope><name>updated_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

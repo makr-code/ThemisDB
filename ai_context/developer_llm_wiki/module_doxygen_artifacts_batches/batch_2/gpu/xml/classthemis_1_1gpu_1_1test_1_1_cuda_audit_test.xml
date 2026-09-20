@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::test::CudaAuditTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report" prot="protected">themis::gpu::test::CudaAuditTest::AuditReport</innerclass>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1a2e3e733d76af67896629f8244b5d9069" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::test::CudaAuditTest::audit_report_path_</definition>
+        <argsstring></argsstring>
+        <name>audit_report_path_</name>
+        <qualifiedname>themis::gpu::test::CudaAuditTest::audit_report_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="224" column="15" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="224" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1a07349d909059f27ad70b49149f21198a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::CudaAuditTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::gpu::test::CudaAuditTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="226" column="8" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="226" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1aff1f3c3e4a797f7354e641da24a40bb5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1_1_audit_report" kindref="compound">AuditReport</ref></type>
+        <definition>AuditReport themis::gpu::test::CudaAuditTest::ParseAuditReport</definition>
+        <argsstring>()</argsstring>
+        <name>ParseAuditReport</name>
+        <qualifiedname>themis::gpu::test::CudaAuditTest::ParseAuditReport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="238" column="15" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="238" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::CudaAuditTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::CudaAuditTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_cuda_wrapper_integration.cpp" line="222" column="1" bodyfile="tests/gpu/test_cuda_wrapper_integration.cpp" bodystart="222" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1a2e3e733d76af67896629f8244b5d9069" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaAuditTest</scope><name>audit_report_path_</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1aff1f3c3e4a797f7354e641da24a40bb5" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaAuditTest</scope><name>ParseAuditReport</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_cuda_audit_test_1a07349d909059f27ad70b49149f21198a" prot="protected" virt="non-virtual"><scope>themis::gpu::test::CudaAuditTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

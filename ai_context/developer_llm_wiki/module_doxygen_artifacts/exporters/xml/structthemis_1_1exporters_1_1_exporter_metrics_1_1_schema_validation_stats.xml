@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::ExporterMetrics::SchemaValidationStats</compoundname>
+    <includes refid="exporter__metrics_8h" local="no">exporter_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1ad26642e94d3ba1c73e77ba0ad372dbf3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::SchemaValidationStats::total_validated</definition>
+        <argsstring></argsstring>
+        <name>total_validated</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::SchemaValidationStats::total_validated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="117" column="16" bodyfile="include/exporters/exporter_metrics.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1ae3a44404058374f252efbd8ebc75c19d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::SchemaValidationStats::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::SchemaValidationStats::passed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="118" column="16" bodyfile="include/exporters/exporter_metrics.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1a642bec8ccbeecbb669d8ff3fbad9edee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::SchemaValidationStats::failed</definition>
+        <argsstring></argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::SchemaValidationStats::failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="119" column="16" bodyfile="include/exporters/exporter_metrics.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1a751f3f8ea894c30e74c0d8c5aac26ff6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::SchemaValidationStats::pass_rate</definition>
+        <argsstring></argsstring>
+        <name>pass_rate</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::SchemaValidationStats::pass_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="120" column="16" bodyfile="include/exporters/exporter_metrics.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/exporter_metrics.h" line="116" column="5" bodyfile="include/exporters/exporter_metrics.h" bodystart="116" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1a642bec8ccbeecbb669d8ff3fbad9edee" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics::SchemaValidationStats</scope><name>failed</name></member>
+      <member refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1a751f3f8ea894c30e74c0d8c5aac26ff6" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics::SchemaValidationStats</scope><name>pass_rate</name></member>
+      <member refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1ae3a44404058374f252efbd8ebc75c19d" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics::SchemaValidationStats</scope><name>passed</name></member>
+      <member refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats_1ad26642e94d3ba1c73e77ba0ad372dbf3" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics::SchemaValidationStats</scope><name>total_validated</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

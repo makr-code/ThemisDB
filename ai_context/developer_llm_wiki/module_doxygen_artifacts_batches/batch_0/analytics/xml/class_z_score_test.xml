@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_z_score_test" kind="class" language="C++" prot="public">
+    <compoundname>ZScoreTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_z_score_test_1a4acd209930a52887cddaa0066c3c1998" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_anomaly_detector" kindref="compound">AnomalyDetector</ref></type>
+        <definition>AnomalyDetector ZScoreTest::det_</definition>
+        <argsstring></argsstring>
+        <name>det_</name>
+        <qualifiedname>ZScoreTest::det_</qualifiedname>
+        <initializer>{AnomalyMethod::Z_SCORE}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_anomaly_detection.cpp" line="178" column="21" bodyfile="tests/analytics/test_anomaly_detection.cpp" bodystart="178" bodyend="178"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_z_score_test_1ad0a22850856df9c7f0b59186aad30811" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ZScoreTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ZScoreTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_anomaly_detection.cpp" line="174" column="10" bodyfile="tests/analytics/test_anomaly_detection.cpp" bodystart="174" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ZScoreTest</label>
+        <link refid="class_z_score_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ZScoreTest</label>
+        <link refid="class_z_score_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>det_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+      <node id="3">
+        <label>themisdb::analytics::AnomalyDetector</label>
+        <link refid="classthemisdb_1_1analytics_1_1_anomaly_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_anomaly_detection.cpp" line="172" column="1" bodyfile="tests/analytics/test_anomaly_detection.cpp" bodystart="172" bodyend="179"/>
+    <listofallmembers>
+      <member refid="class_z_score_test_1a4acd209930a52887cddaa0066c3c1998" prot="protected" virt="non-virtual"><scope>ZScoreTest</scope><name>det_</name></member>
+      <member refid="class_z_score_test_1ad0a22850856df9c7f0b59186aad30811" prot="protected" virt="non-virtual"><scope>ZScoreTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>ZScoreTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

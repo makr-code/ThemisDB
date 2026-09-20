@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4cc68d6eae4e00982321ac175f69e749" kind="dir">
+    <compoundname>tests/api</compoundname>
+    <innerfile refid="test__api__auth__config_8cpp">test_api_auth_config.cpp</innerfile>
+    <innerfile refid="test__api__contracts_8cpp">test_api_contracts.cpp</innerfile>
+    <innerfile refid="test__api__degraded__mode_8cpp">test_api_degraded_mode.cpp</innerfile>
+    <innerfile refid="test__api__error__handling_8cpp">test_api_error_handling.cpp</innerfile>
+    <innerfile refid="test__api__grpc__server_8cpp">test_api_grpc_server.cpp</innerfile>
+    <innerfile refid="test__api__interfaces_8cpp">test_api_interfaces.cpp</innerfile>
+    <innerfile refid="test__api__key__authenticator_8cpp">test_api_key_authenticator.cpp</innerfile>
+    <innerfile refid="test__api__key__mgmt__handler_8cpp">test_api_key_mgmt_handler.cpp</innerfile>
+    <innerfile refid="test__api__llm__grpc__focused_8cpp">test_api_llm_grpc_focused.cpp</innerfile>
+    <innerfile refid="test__api__observability_8cpp">test_api_observability.cpp</innerfile>
+    <innerfile refid="test__api__phase4__concurrency_8cpp">test_api_phase4_concurrency.cpp</innerfile>
+    <innerfile refid="test__api__routing_8cpp">test_api_routing.cpp</innerfile>
+    <innerfile refid="test__api__security__audit_8cpp">test_api_security_audit.cpp</innerfile>
+    <innerfile refid="test__api__transport__hardening_8cpp">test_api_transport_hardening.cpp</innerfile>
+    <innerfile refid="test__api__version_8cpp">test_api_version.cpp</innerfile>
+    <innerfile refid="test__api__wave__d__stress_8cpp">test_api_wave_d_stress.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/api/"/>
+  </compounddef>
+</doxygen>

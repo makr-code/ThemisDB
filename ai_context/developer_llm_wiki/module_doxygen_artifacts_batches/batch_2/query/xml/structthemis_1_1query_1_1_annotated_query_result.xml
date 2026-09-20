@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_annotated_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::AnnotatedQueryResult</compoundname>
+    <includes refid="result__type__annotation_8h" local="no">result_type_annotation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_annotated_query_result_1ab39bfa937db066caef05b4929a840fdf" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::AnnotatedQueryResult::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::query::AnnotatedQueryResult::result</qualifiedname>
+        <briefdescription>
+<para>The raw query result JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_type_annotation.h" line="77" column="23" bodyfile="include/query/result_type_annotation.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_annotated_query_result_1aef013487a6f9af9273818c36917820c3" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_result_schema" kindref="compound">QueryResultSchema</ref></type>
+        <definition>QueryResultSchema themis::query::AnnotatedQueryResult::schema</definition>
+        <argsstring></argsstring>
+        <name>schema</name>
+        <qualifiedname>themis::query::AnnotatedQueryResult::schema</qualifiedname>
+        <briefdescription>
+<para>Inferred type schema. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_type_annotation.h" line="78" column="23" bodyfile="include/query/result_type_annotation.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::AnnotatedQueryResult</label>
+        <link refid="structthemis_1_1query_1_1_annotated_query_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>schema</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::QueryResultSchema</label>
+        <link refid="structthemis_1_1query_1_1_query_result_schema"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/result_type_annotation.h" line="76" column="1" bodyfile="include/query/result_type_annotation.h" bodystart="76" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_annotated_query_result_1ab39bfa937db066caef05b4929a840fdf" prot="public" virt="non-virtual"><scope>themis::query::AnnotatedQueryResult</scope><name>result</name></member>
+      <member refid="structthemis_1_1query_1_1_annotated_query_result_1aef013487a6f9af9273818c36917820c3" prot="public" virt="non-virtual"><scope>themis::query::AnnotatedQueryResult</scope><name>schema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

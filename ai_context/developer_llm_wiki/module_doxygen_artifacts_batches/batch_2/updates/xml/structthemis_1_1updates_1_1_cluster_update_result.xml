@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_cluster_update_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::ClusterUpdateResult</compoundname>
+    <includes refid="cluster__update__manager_8h" local="no">cluster_update_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_result_1a5c50fba3187ad6ad19831c0f5aa7652a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::ClusterUpdateResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::ClusterUpdateResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="131" column="10" bodyfile="include/updates/cluster_update_manager.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_result_1a495dd825606ab42d402a230b59b85699" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::ClusterUpdateResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::ClusterUpdateResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable description on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="134" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_result_1a3566605d039dda9ffda98eefd54510bb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_cluster_node_status" kindref="compound">ClusterNodeStatus</ref> &gt;</type>
+        <definition>std::vector&lt;ClusterNodeStatus&gt; themis::updates::ClusterUpdateResult::node_statuses</definition>
+        <argsstring></argsstring>
+        <name>node_statuses</name>
+        <qualifiedname>themis::updates::ClusterUpdateResult::node_statuses</qualifiedname>
+        <briefdescription>
+<para>Per-node outcome. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="137" column="17" bodyfile="include/updates/cluster_update_manager.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_result_1a854e5fb9b1060484aebbfd8edba4cc72" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ClusterUpdateResult::nodes_updated</definition>
+        <argsstring></argsstring>
+        <name>nodes_updated</name>
+        <qualifiedname>themis::updates::ClusterUpdateResult::nodes_updated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of nodes that reached COMPLETED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="140" column="12" bodyfile="include/updates/cluster_update_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_result_1a0e7336a40a22d28760e11dcdeabdc2bc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ClusterUpdateResult::nodes_failed</definition>
+        <argsstring></argsstring>
+        <name>nodes_failed</name>
+        <qualifiedname>themis::updates::ClusterUpdateResult::nodes_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of nodes that reached FAILED. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="143" column="12" bodyfile="include/updates/cluster_update_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_cluster_update_result_1a56e59b3208b9a933eddc3cc678e3111e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::ClusterUpdateResult::nodes_rolled_back</definition>
+        <argsstring></argsstring>
+        <name>nodes_rolled_back</name>
+        <qualifiedname>themis::updates::ClusterUpdateResult::nodes_rolled_back</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of nodes that were rolled back. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="146" column="12" bodyfile="include/updates/cluster_update_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Final outcome of a cluster-wide update initiated by <ref refid="classthemis_1_1updates_1_1_cluster_update_manager_1ad300e2f371876179d27163198ee57258" kindref="member">ClusterUpdateManager::updateCluster()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/cluster_update_manager.h" line="130" column="1" bodyfile="include/updates/cluster_update_manager.h" bodystart="130" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_result_1a495dd825606ab42d402a230b59b85699" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_result_1a3566605d039dda9ffda98eefd54510bb" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateResult</scope><name>node_statuses</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_result_1a0e7336a40a22d28760e11dcdeabdc2bc" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateResult</scope><name>nodes_failed</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_result_1a56e59b3208b9a933eddc3cc678e3111e" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateResult</scope><name>nodes_rolled_back</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_result_1a854e5fb9b1060484aebbfd8edba4cc72" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateResult</scope><name>nodes_updated</name></member>
+      <member refid="structthemis_1_1updates_1_1_cluster_update_result_1a5c50fba3187ad6ad19831c0f5aa7652a" prot="public" virt="non-virtual"><scope>themis::updates::ClusterUpdateResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

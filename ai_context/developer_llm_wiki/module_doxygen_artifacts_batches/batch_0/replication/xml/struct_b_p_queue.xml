@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_b_p_queue" kind="struct" language="C++" prot="public">
+    <compoundname>BPQueue</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="struct_b_p_queue_1a449f608628713c4b38cd3f5d1388e9c9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t BPQueue::kMaxDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxDepth</name>
+        <qualifiedname>BPQueue::kMaxDepth</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_dedicated_gates.cpp" line="60" column="34" bodyfile="benchmarks/replication/bench_replication_dedicated_gates.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_b_p_queue_1a59e2ed743ead24f99d076c6d23cd1ead" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex BPQueue::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>BPQueue::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_dedicated_gates.cpp" line="61" column="16" bodyfile="benchmarks/replication/bench_replication_dedicated_gates.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_b_p_queue_1ab2944860dc0b3c325c9ec4df44a4037a" prot="public" static="no" mutable="no">
+        <type>std::queue&lt; uint64_t &gt;</type>
+        <definition>std::queue&lt;uint64_t&gt; BPQueue::q</definition>
+        <argsstring></argsstring>
+        <name>q</name>
+        <qualifiedname>BPQueue::q</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_dedicated_gates.cpp" line="62" column="16" bodyfile="benchmarks/replication/bench_replication_dedicated_gates.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_b_p_queue_1a05e56e246bae125d1fe8faf1463e0271" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BPQueue::push</definition>
+        <argsstring>(uint64_t v)</argsstring>
+        <name>push</name>
+        <qualifiedname>BPQueue::push</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_dedicated_gates.cpp" line="63" column="10" bodyfile="benchmarks/replication/bench_replication_dedicated_gates.cpp" bodystart="63" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_b_p_queue_1a77bf5093e5f941c434314632eb9f4dab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool BPQueue::pop</definition>
+        <argsstring>(uint64_t &amp;v)</argsstring>
+        <name>pop</name>
+        <qualifiedname>BPQueue::pop</qualifiedname>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/replication/bench_replication_dedicated_gates.cpp" line="69" column="10" bodyfile="benchmarks/replication/bench_replication_dedicated_gates.cpp" bodystart="69" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/replication/bench_replication_dedicated_gates.cpp" line="59" column="1" bodyfile="benchmarks/replication/bench_replication_dedicated_gates.cpp" bodystart="59" bodyend="75"/>
+    <listofallmembers>
+      <member refid="struct_b_p_queue_1a449f608628713c4b38cd3f5d1388e9c9" prot="public" virt="non-virtual"><scope>BPQueue</scope><name>kMaxDepth</name></member>
+      <member refid="struct_b_p_queue_1a59e2ed743ead24f99d076c6d23cd1ead" prot="public" virt="non-virtual"><scope>BPQueue</scope><name>mu</name></member>
+      <member refid="struct_b_p_queue_1a77bf5093e5f941c434314632eb9f4dab" prot="public" virt="non-virtual"><scope>BPQueue</scope><name>pop</name></member>
+      <member refid="struct_b_p_queue_1a05e56e246bae125d1fe8faf1463e0271" prot="public" virt="non-virtual"><scope>BPQueue</scope><name>push</name></member>
+      <member refid="struct_b_p_queue_1ab2944860dc0b3c325c9ec4df44a4037a" prot="public" virt="non-virtual"><scope>BPQueue</scope><name>q</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

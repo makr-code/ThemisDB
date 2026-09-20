@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUClusterCoordinator::ClusterHealth</compoundname>
+    <includes refid="cluster__coordinator_8h" local="no">cluster_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1a5c7dc8131033a62f8eade685909e9835" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUClusterCoordinator::ClusterHealth::total_nodes</definition>
+        <argsstring></argsstring>
+        <name>total_nodes</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::ClusterHealth::total_nodes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="98" column="14" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1ab8ad4b8da64c6ff8cb458288d8fe2dc8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUClusterCoordinator::ClusterHealth::healthy_nodes</definition>
+        <argsstring></argsstring>
+        <name>healthy_nodes</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::ClusterHealth::healthy_nodes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="99" column="14" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1ab1c325cd4cf85ede98df6cb43407439b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUClusterCoordinator::ClusterHealth::total_gpus</definition>
+        <argsstring></argsstring>
+        <name>total_gpus</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::ClusterHealth::total_gpus</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="100" column="14" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1aab171e9f8cb01bb9b3d00cb8f3b7bf4e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUClusterCoordinator::ClusterHealth::nvlink_available</definition>
+        <argsstring></argsstring>
+        <name>nvlink_available</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::ClusterHealth::nvlink_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="101" column="14" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1add7c1589524ab607d49a7c8ebbcab5a0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUClusterCoordinator::ClusterHealth::infiniband_available</definition>
+        <argsstring></argsstring>
+        <name>infiniband_available</name>
+        <qualifiedname>themis::gpu::GPUClusterCoordinator::ClusterHealth::infiniband_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_coordinator.h" line="102" column="14" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/cluster_coordinator.h" line="97" column="5" bodyfile="include/themis/gpu/cluster_coordinator.h" bodystart="97" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1ab8ad4b8da64c6ff8cb458288d8fe2dc8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::ClusterHealth</scope><name>healthy_nodes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1add7c1589524ab607d49a7c8ebbcab5a0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::ClusterHealth</scope><name>infiniband_available</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1aab171e9f8cb01bb9b3d00cb8f3b7bf4e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::ClusterHealth</scope><name>nvlink_available</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1ab1c325cd4cf85ede98df6cb43407439b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::ClusterHealth</scope><name>total_gpus</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_cluster_coordinator_1_1_cluster_health_1a5c7dc8131033a62f8eade685909e9835" prot="public" virt="non-virtual"><scope>themis::gpu::GPUClusterCoordinator::ClusterHealth</scope><name>total_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

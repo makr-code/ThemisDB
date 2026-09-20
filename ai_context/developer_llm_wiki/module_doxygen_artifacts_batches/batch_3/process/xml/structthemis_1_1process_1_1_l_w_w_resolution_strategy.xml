@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_l_w_w_resolution_strategy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::LWWResolutionStrategy</compoundname>
+    <includes refid="conflict__resolution__plugin_8h" local="no">conflict_resolution_plugin.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_l_w_w_resolution_strategy_1a94ad5085deeff844658ccfc4e3fa9e6c" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_conflict_resolution_result" kindref="compound">ConflictResolutionResult</ref></type>
+        <definition>static ConflictResolutionResult themis::process::LWWResolutionStrategy::resolve</definition>
+        <argsstring>(const ModelVersion &amp;local, const ModelVersion &amp;remote) noexcept</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::process::LWWResolutionStrategy::resolve</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &amp;</type>
+          <declname>local</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &amp;</type>
+          <declname>remote</declname>
+        </param>
+        <briefdescription>
+<para>Resolve conflict using Last-Write-Wins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local model version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote model version </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result with LOCAL_WINS or REMOTE_WINS </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="245" column="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Built-in conflict resolution strategy: Last-Write-Wins (LWW). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Applies LWW using monotonic version clocks with deterministic shard_id tiebreaker. This is the default and fallback strategy. </para>
+    </detaileddescription>
+    <location file="include/process/conflict_resolution_plugin.h" line="238" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="238" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_l_w_w_resolution_strategy_1a94ad5085deeff844658ccfc4e3fa9e6c" prot="public" virt="non-virtual"><scope>themis::process::LWWResolutionStrategy</scope><name>resolve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

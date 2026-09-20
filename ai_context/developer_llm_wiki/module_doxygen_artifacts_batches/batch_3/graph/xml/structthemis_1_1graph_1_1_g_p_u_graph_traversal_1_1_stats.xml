@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GPUGraphTraversal::Stats</compoundname>
+    <includes refid="gpu__traversal_8h" local="no">gpu_traversal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats_1ab27964f4728609fa6d6cf29e62c4b677" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GPUGraphTraversal::Stats::vertex_count</definition>
+        <argsstring></argsstring>
+        <name>vertex_count</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Stats::vertex_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="131" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats_1a998e279f248af8b2d32e240bf6d6bec8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GPUGraphTraversal::Stats::edge_count</definition>
+        <argsstring></argsstring>
+        <name>edge_count</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Stats::edge_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="132" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats_1a8cad0e8151ff5b52dc7d9a84ceece106" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GPUGraphTraversal::Stats::gpu_available</definition>
+        <argsstring></argsstring>
+        <name>gpu_available</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Stats::gpu_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="133" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats_1a297432df97e55e92768e4cdc07d69ee7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::GPUGraphTraversal::Stats::gpu_device_used</definition>
+        <argsstring></argsstring>
+        <name>gpu_device_used</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Stats::gpu_device_used</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="134" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/gpu_traversal.h" line="130" column="5" bodyfile="include/graph/gpu_traversal.h" bodystart="130" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats_1a998e279f248af8b2d32e240bf6d6bec8" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Stats</scope><name>edge_count</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats_1a8cad0e8151ff5b52dc7d9a84ceece106" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Stats</scope><name>gpu_available</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats_1a297432df97e55e92768e4cdc07d69ee7" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Stats</scope><name>gpu_device_used</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_stats_1ab27964f4728609fa6d6cf29e62c4b677" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Stats</scope><name>vertex_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

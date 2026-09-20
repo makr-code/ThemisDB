@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1engine" kind="namespace" language="C++">
+    <compoundname>themis::engine</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2b" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ThemisError</name>
+        <qualifiedname>themis::engine::ThemisError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba4c5751fc04ccb88a2c947fde6f379e15" prot="public">
+          <name>kEditionMismatch</name>
+          <initializer>= 7800</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1engine_1a7efc63efe150e982bee383db02784b2ba146d42c893284d42f9a45c946b20662c" prot="public">
+          <name>kFeatureUnknown</name>
+          <initializer>= 7801</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/themis_api_contract.h" line="45" column="1" bodyfile="include/themis/themis_api_contract.h" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759b" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>Edition</name>
+        <qualifiedname>themis::engine::Edition</qualifiedname>
+        <enumvalue id="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba8b1164c65f88adb0ab22378f0fde15af" prot="public">
+          <name>kMinimal</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba1340469a0e6e43f921f39d93cc07e7c6" prot="public">
+          <name>kCommunity</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba77d728aed98d968f1d0ea34605b29658" prot="public">
+          <name>kEnterprise</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759ba4e1143da893ab3a7eb2deb79e17eb7aa" prot="public">
+          <name>kHyperscaler</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1engine_1a10f900a234cf4bdce17cc0808d07759bab3241d1b28aff893dc96bfe66f7edb27" prot="public">
+          <name>kMilitary</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/themis_api_contract.h" line="50" column="1" bodyfile="include/themis/themis_api_contract.h" bodystart="50" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/themis_api_contract.h" line="43" column="1"/>
+  </compounddef>
+</doxygen>

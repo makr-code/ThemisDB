@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_sharding_metrics_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ShardingMetricsHandler</compoundname>
+    <includes refid="sharding__metrics__handler_8h" local="no">sharding_metrics_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a2287b65b3d2b1b1ca859ce2c62641890" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::PrometheusMetrics &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::PrometheusMetrics&gt; themis::server::ShardingMetricsHandler::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="71" column="21" bodyfile="include/server/sharding_metrics_handler.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a9d09b3a41b5288f9945cced95a3f5fb8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::SLOMonitor &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::SLOMonitor&gt; themis::server::ShardingMetricsHandler::slo_monitor_</definition>
+        <argsstring></argsstring>
+        <name>slo_monitor_</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::slo_monitor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="72" column="21" bodyfile="include/server/sharding_metrics_handler.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a429cd245cfabe166d910564befd93b45" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ShardRepairEngine &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ShardRepairEngine&gt; themis::server::ShardingMetricsHandler::repair_engine_</definition>
+        <argsstring></argsstring>
+        <name>repair_engine_</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::repair_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="73" column="21" bodyfile="include/server/sharding_metrics_handler.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a5e08e30bef18c411ef7f08e8d836308a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ShardingMetricsHandler::ShardingMetricsHandler</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::PrometheusMetrics &gt; metrics, std::shared_ptr&lt; sharding::SLOMonitor &gt; slo_monitor=nullptr)</argsstring>
+        <name>ShardingMetricsHandler</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::ShardingMetricsHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::PrometheusMetrics &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; sharding::SLOMonitor &gt;</type>
+          <declname>slo_monitor</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="29" column="14" bodyfile="src/server/sharding_metrics_handler.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a09d5f2f7b8975aca4b0976fcfe9b7434" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ShardingMetricsHandler::setRepairEngine</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::ShardRepairEngine &gt; repair_engine)</argsstring>
+        <name>setRepairEngine</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::setRepairEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRepairEngine &gt;</type>
+          <declname>repair_engine</declname>
+        </param>
+        <briefdescription>
+<para>Set Repair Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">repair_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">repair_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="38" column="10" bodyfile="src/server/sharding_metrics_handler.cpp" bodystart="34" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a0383b0ba9e08aab3618bce1ad2e2d5f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ShardingMetricsHandler::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="44" column="17" bodyfile="src/server/sharding_metrics_handler.cpp" bodystart="39" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a4e8251f9b943a61a0e4e40514737a5fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ShardingMetricsHandler::getMetricsPlain</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsPlain</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::getMetricsPlain</qualifiedname>
+        <briefdescription>
+<para>Get Metrics Plain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="50" column="17" bodyfile="src/server/sharding_metrics_handler.cpp" bodystart="56" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a080f6568d8436332336e1625015f8c0f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ShardingMetricsHandler::getSLOStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getSLOStatus</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::getSLOStatus</qualifiedname>
+        <briefdescription>
+<para>Get SLOStatus. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="56" column="17" bodyfile="src/server/sharding_metrics_handler.cpp" bodystart="65" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a20b51dac4e4243bcbfd73123dc4cbacf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ShardingMetricsHandler::getSLOMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getSLOMetrics</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::getSLOMetrics</qualifiedname>
+        <briefdescription>
+<para>Get SLOMetrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="62" column="17" bodyfile="src/server/sharding_metrics_handler.cpp" bodystart="74" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_sharding_metrics_handler_1a2a05dd8ca1c6d105acb3a51752031a21" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::ShardingMetricsHandler::getRepairMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getRepairMetrics</name>
+        <qualifiedname>themis::server::ShardingMetricsHandler::getRepairMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Repair Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/sharding_metrics_handler.h" line="68" column="17" bodyfile="src/server/sharding_metrics_handler.cpp" bodystart="116" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/sharding_metrics_handler.h" line="27" column="1" bodyfile="include/server/sharding_metrics_handler.h" bodystart="27" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a0383b0ba9e08aab3618bce1ad2e2d5f8" prot="public" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a4e8251f9b943a61a0e4e40514737a5fb" prot="public" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>getMetricsPlain</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a2a05dd8ca1c6d105acb3a51752031a21" prot="public" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>getRepairMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a20b51dac4e4243bcbfd73123dc4cbacf" prot="public" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>getSLOMetrics</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a080f6568d8436332336e1625015f8c0f" prot="public" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>getSLOStatus</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a2287b65b3d2b1b1ca859ce2c62641890" prot="private" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a429cd245cfabe166d910564befd93b45" prot="private" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>repair_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a09d5f2f7b8975aca4b0976fcfe9b7434" prot="public" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>setRepairEngine</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a5e08e30bef18c411ef7f08e8d836308a" prot="public" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>ShardingMetricsHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_sharding_metrics_handler_1a9d09b3a41b5288f9945cced95a3f5fb8" prot="private" virt="non-virtual"><scope>themis::server::ShardingMetricsHandler</scope><name>slo_monitor_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gremlin__parser_8h" kind="file" language="C++">
+    <compoundname>gremlin_parser.h</compoundname>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="gremlin__parser_8cpp" local="yes">src/query/gremlin_parser.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/gremlin_parser.h</label>
+        <link refid="gremlin__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="4">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/gremlin_parser.h</label>
+        <link refid="gremlin__parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/gremlin_parser.cpp</label>
+        <link refid="gremlin__parser_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1_gremlin_predicate" prot="public">themis::query::GremlinPredicate</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_gremlin_step" prot="public">themis::query::GremlinStep</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_gremlin_a_s_t_node" prot="public">themis::query::GremlinASTNode</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_gremlin_parse_error" prot="public">themis::query::GremlinParseError</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_gremlin_parser" prot="public">themis::query::GremlinParser</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1_gremlin_to_a_q_l_transpiler" prot="public">themis::query::GremlinToAQLTranspiler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gremlin<sp/>compatibility<sp/>layer<sp/>–<sp/>graph<sp/>traversal<sp/>query<sp/>parsing<sp/>and<sp/>AQL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>transpilation.<sp/><sp/>The<sp/>generated<sp/>AQL<sp/>can<sp/>be<sp/>fed<sp/>directly<sp/>into<sp/>executeAql().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety<sp/>note:<sp/>GremlinParser<sp/>instances<sp/>are<sp/>NOT<sp/>thread-safe.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Create<sp/>one<sp/>instance<sp/>per<sp/>thread<sp/>or<sp/>protect<sp/>shared<sp/>instances<sp/>with<sp/>a<sp/>mutex.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gremlin<sp/>value<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1query_1a2d5d4167ca04545899c6c8b57ece117c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1a2d5d4167ca04545899c6c8b57ece117c" kindref="member">GremlinValue</ref><sp/>=<sp/>std::variant&lt;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::nullptr_t,<sp/><sp/></highlight><highlight class="comment">//<sp/>null</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>bool,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>double,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gremlin<sp/>predicate<sp/>(P.eq,<sp/>P.gt,<sp/>P.within,<sp/>…)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1query_1ad1d36576fad0c37dc7d12cb5e47b76ce" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1ad1d36576fad0c37dc7d12cb5e47b76ce" kindref="member">GremlinPredOp</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1query_1ad1d36576fad0c37dc7d12cb5e47b76cea3718b5ecf60aa0dba49e150e96cb1fc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10a3718b5ecf60aa0dba49e150e96cb1fc3" kindref="member">Eq</ref>,<sp/><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10ae4ecc5da3c6dbb4448f25990dc609727" kindref="member">Neq</ref>,<sp/><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10a50033c15af7795cd6617f117b29d6922" kindref="member">Lt</ref>,<sp/><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10aab3a1c916736c18e2083a72a34db90a5" kindref="member">Lte</ref>,<sp/><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10a086cb8308e5a36e7c4ed1f8873ad801f" kindref="member">Gt</ref>,<sp/><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10aaf3936de15119538b076c9fc45d99831" kindref="member">Gte</ref>,</highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1query_1ad1d36576fad0c37dc7d12cb5e47b76cea37bac6dce4f46277d89bfa3003e2e39b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ad1d36576fad0c37dc7d12cb5e47b76cea37bac6dce4f46277d89bfa3003e2e39b" kindref="member">Within</ref>,<sp/><ref refid="namespacethemis_1_1query_1ad1d36576fad0c37dc7d12cb5e47b76cea0586e7e1f27bc4035f1f33c73f80f984" kindref="member">Without</ref></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1query_1_1_gremlin_predicate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_gremlin_predicate" kindref="compound">GremlinPredicate</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1query_1_1_gremlin_predicate_1a1d7bb0146797aa5c6a8545313810b3eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1ad1d36576fad0c37dc7d12cb5e47b76ce" kindref="member">GremlinPredOp</ref><sp/><ref refid="structthemis_1_1query_1_1_gremlin_predicate_1a1d7bb0146797aa5c6a8545313810b3eb" kindref="member">op</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1query_1_1_gremlin_predicate_1ab7beff5077851e45f802e67d6f3b50cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GremlinValue&gt;<sp/><ref refid="structthemis_1_1query_1_1_gremlin_predicate_1ab7beff5077851e45f802e67d6f3b50cb" kindref="member">values</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gremlin<sp/>step<sp/>kinds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefda" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefda" kindref="member">GremlinStepKind</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa3a3ea00cfc35332cedf6e5e9a32e94da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa5206560a306a2e085a437fd258eb57ce" kindref="member">V</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa3a3ea00cfc35332cedf6e5e9a32e94da" kindref="member">E</ref>,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filter<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa9f9913233699a4b67524eaac55a5f973" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa9f9913233699a4b67524eaac55a5f973" kindref="member">Has</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaae63eccd2647ecf175b074761f4541fb9" kindref="member">HasLabel</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaad5393c3196ca7d83f17f870f2a9a6da3" kindref="member">HasNot</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaacabc780a079b59c42fa102e4a6a95818" kindref="member">HasId</ref>,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Traversal<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa130c5b3473c57faa76e2a1c54e26f88e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aa7c147cda9e49590f6abe83d118b7353b" kindref="member">Out</ref>,<sp/><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10aefeb369cccbd560588a756610865664c" kindref="member">In</ref>,<sp/><ref refid="namespacethemis_1_1query_1aaf9bc00eb5cacc2ccd3b8fe478e39f4aa130c5b3473c57faa76e2a1c54e26f88e" kindref="member">Both</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa32d28695578759df12bfb428d1726242" kindref="member">OutE</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaaba4e36733174b8199d009438c03d6ac3" kindref="member">InE</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaab222393e0536b15c1d3e737d1afa5408" kindref="member">BothE</ref>,</highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa247e8892c02710b2e5413c374cb070d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaaf726ce8d513508183f3c82f397499432" kindref="member">OutV</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa9d4c54956cb2f68d4b9b4cc1f2ffe4c6" kindref="member">InV</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa247e8892c02710b2e5413c374cb070d6" kindref="member">BothV</ref>,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Terminal<sp/>/<sp/>aggregation<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa490aa6e856ccf208a054389e47ce0d06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaac82a6100dace2b41087ba6cf99a5976a" kindref="member">Values</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaac14e0cf458413c0fddc21c52d79b9224" kindref="member">ValueMap</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa490aa6e856ccf208a054389e47ce0d06" kindref="member">Id</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaab021df6aac4654c454f46c77646e745f" kindref="member">Label</ref>,</highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaae93f994f01c537c4e2f7d8528c3eb5e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaae93f994f01c537c4e2f7d8528c3eb5e9" kindref="member">Count</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa89dc61d1432281ada067be2a96cc596c" kindref="member">Dedup</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa80d2677cf518f4d04320042f4ea6c146" kindref="member">Limit</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa87ba2ecc8b6915e8bd6f5089918229fd" kindref="member">Range</ref>,</highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa27baf79af932bd1592a6f4d5d61e96a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa27baf79af932bd1592a6f4d5d61e96a9" kindref="member">As</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaae0626222614bdee31951d84c64e5e9ff" kindref="member">Select</ref>,</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa53e5aa2c97fef1555d2511de8218c544" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaaa240fa27925a635b08dc28c9e4f9216d" kindref="member">Order</ref>,<sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefdaa53e5aa2c97fef1555d2511de8218c544" kindref="member">By</ref></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>single<sp/>Gremlin<sp/>traversal<sp/>step</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1query_1_1_gremlin_step" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_gremlin_step" kindref="compound">GremlinStep</ref><sp/>{</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1query_1_1_gremlin_step_1aa5b0b335840d0b73ef09d79a2b03095a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefda" kindref="member">GremlinStepKind</ref><sp/><ref refid="structthemis_1_1query_1_1_gremlin_step_1aa5b0b335840d0b73ef09d79a2b03095a" kindref="member">kind</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>General-purpose<sp/>string<sp/>arguments<sp/>(labels,<sp/>property<sp/>keys,<sp/>aliases)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1query_1_1_gremlin_step_1a594ba7326e9dfdf681d546ede14e7fd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1query_1_1_gremlin_step_1a594ba7326e9dfdf681d546ede14e7fd4" kindref="member">strings</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>General-purpose<sp/>value<sp/>arguments<sp/>(IDs,<sp/>literal<sp/>values)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1query_1_1_gremlin_step_1a3400d114d17dc90af05508dbd00a1a39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GremlinValue&gt;<sp/><ref refid="structthemis_1_1query_1_1_gremlin_step_1a3400d114d17dc90af05508dbd00a1a39" kindref="member">values</ref>;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Predicate<sp/>(for<sp/>has()<sp/>with<sp/>P.xxx)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1query_1_1_gremlin_step_1a4f83926f63e6c1d82f9cf1a6cd6cdfee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;GremlinPredicate&gt;<sp/><ref refid="structthemis_1_1query_1_1_gremlin_step_1a4f83926f63e6c1d82f9cf1a6cd6cdfee" kindref="member">predicate</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Count<sp/>arguments<sp/>for<sp/>limit()<sp/>/<sp/>range()<sp/>/<sp/>repeat()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1query_1_1_gremlin_step_1af68ba3ed15beb7dda5125cc91806e234" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_gremlin_step_1af68ba3ed15beb7dda5125cc91806e234" kindref="member">count</ref>;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1query_1_1_gremlin_step_1a87b7220529b3de491299b4786a7ffe43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1query_1_1_gremlin_step_1a87b7220529b3de491299b4786a7ffe43" kindref="member">count2</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>upper<sp/>bound<sp/>for<sp/>range()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sort<sp/>direction<sp/>for<sp/>by()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1query_1_1_gremlin_step_1ad9fe0ed2a03f66b0bcdf132feb6a9626" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_gremlin_step_1ad9fe0ed2a03f66b0bcdf132feb6a9626" kindref="member">ascending</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Gremlin<sp/>traversal<sp/>AST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1query_1_1_gremlin_a_s_t_node" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_gremlin_a_s_t_node" kindref="compound">GremlinASTNode</ref><sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ordered<sp/>list<sp/>of<sp/>traversal<sp/>steps<sp/>(first<sp/>step<sp/>should<sp/>be<sp/>V<sp/>or<sp/>E)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1query_1_1_gremlin_a_s_t_node_1af6255aab42f18f93354cd67b39da892f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GremlinStep&gt;<sp/><ref refid="structthemis_1_1query_1_1_gremlin_a_s_t_node_1af6255aab42f18f93354cd67b39da892f" kindref="member">steps</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parse<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1query_1_1_gremlin_parse_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_gremlin_parse_error" kindref="compound">GremlinParseError</ref><sp/>{</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1query_1_1_gremlin_parse_error_1adfdf2d3d4297db0460c564018f0ca65d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_gremlin_parse_error_1adfdf2d3d4297db0460c564018f0ca65d" kindref="member">message</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1query_1_1_gremlin_parse_error_1a07903ca72de0be685f2eb7401b6bbf1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_gremlin_parse_error_1a07903ca72de0be685f2eb7401b6bbf1f" kindref="member">position</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1query_1_1_gremlin_parse_error_1a1182054e28ab21517ae87afdc0c65d26" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1_gremlin_parse_error_1a1182054e28ab21517ae87afdc0c65d26" kindref="member">toString</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;Gremlin<sp/>parse<sp/>error<sp/>at<sp/>position<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(<ref refid="structthemis_1_1query_1_1_gremlin_parse_error_1a07903ca72de0be685f2eb7401b6bbf1f" kindref="member">position</ref>)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="structthemis_1_1query_1_1_gremlin_parse_error_1adfdf2d3d4297db0460c564018f0ca65d" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GremlinParser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parses<sp/>a<sp/>subset<sp/>of<sp/>the<sp/>Apache<sp/>TinkerPop<sp/>Gremlin<sp/>traversal<sp/>language<sp/>into<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GremlinASTNode.<sp/><sp/>Supports:<sp/>g.V(),<sp/>g.E(),<sp/>hasLabel(),<sp/>has(),<sp/>hasNot(),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>out()/in()/both(),<sp/>values(),<sp/>valueMap(),<sp/>id(),<sp/>label(),<sp/>count(),<sp/>dedup(),</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>limit(),<sp/>range(),<sp/>as(),<sp/>select(),<sp/>order().by().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safety:<sp/>NOT<sp/>thread-safe;<sp/>create<sp/>one<sp/>instance<sp/>per<sp/>thread<sp/>or<sp/>protect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>with<sp/>a<sp/>mutex.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1query_1_1_gremlin_parser" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_gremlin_parser_1a2128b37e6ea77cf0c2ec407d33104132" kindref="member">GremlinParser</ref><sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1query_1_1_gremlin_parser_1a2128b37e6ea77cf0c2ec407d33104132" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_gremlin_parser_1a2128b37e6ea77cf0c2ec407d33104132" kindref="member">GremlinParser</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;GremlinASTNode&gt;<sp/><ref refid="classthemis_1_1query_1_1_gremlin_parser_1ac45869ecc5f75d2be78ae75342e64ac0" kindref="member">parse</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>gremlin);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_token" kindref="compound">Token</ref>;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_lexer" kindref="compound">Lexer</ref>;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1_gremlin_parser_1_1_parser" kindref="compound">Parser</ref>;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GremlinToAQLTranspiler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Translates<sp/>a<sp/>GremlinASTNode<sp/>into<sp/>an<sp/>AQL<sp/>query<sp/>string<sp/>suitable<sp/>for<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>through<sp/>the<sp/>existing<sp/>AQL<sp/>pipeline<sp/>(executeAql<sp/>/<sp/>AQLParser<sp/>/<sp/>AQLTranslator).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1query_1_1_gremlin_to_a_q_l_transpiler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1_gremlin_to_a_q_l_transpiler_1a8802655d1b657e395d3847fd637d947f" kindref="member">GremlinToAQLTranspiler</ref><sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1query_1_1_gremlin_to_a_q_l_transpiler_1a8802655d1b657e395d3847fd637d947f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_gremlin_to_a_q_l_transpiler_1a8802655d1b657e395d3847fd637d947f" kindref="member">GremlinToAQLTranspiler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="classthemis_1_1query_1_1_gremlin_to_a_q_l_transpiler_1ae704ca265a1da0a2d1a46da61e5c0f8c" kindref="member">transpile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_gremlin_a_s_t_node" kindref="compound">GremlinASTNode</ref>&amp;<sp/>ast);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>valueToAQL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1a2d5d4167ca04545899c6c8b57ece117c" kindref="member">GremlinValue</ref>&amp;<sp/>val);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>predicateToAQL(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_gremlin_predicate" kindref="compound">GremlinPredicate</ref>&amp;<sp/>pred,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>lhs);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/gremlin_parser.h"/>
+  </compounddef>
+</doxygen>

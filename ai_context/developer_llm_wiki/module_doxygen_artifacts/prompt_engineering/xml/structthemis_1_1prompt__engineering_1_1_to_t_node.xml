@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_to_t_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ToTNode</compoundname>
+    <includes refid="tree__of__thoughts_8h" local="no">tree_of_thoughts.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_node_1a2a274955be1359b7077bc4d48771ea15" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ToTNode::thought</definition>
+        <argsstring></argsstring>
+        <name>thought</name>
+        <qualifiedname>themis::prompt_engineering::ToTNode::thought</qualifiedname>
+        <briefdescription>
+<para>The reasoning step text at this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="53" column="30" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_node_1a79d3535bea03cf5854db27b6f9d5cc07" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ToTNode::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::prompt_engineering::ToTNode::score</qualifiedname>
+        <briefdescription>
+<para>Numeric quality score assigned by the evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="54" column="30" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_node_1a269e6b127be21ee98019e002e9f9059f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a00b067daf3c39b120137faa40ec9ff61" kindref="member">ToTVerdict</ref></type>
+        <definition>ToTVerdict themis::prompt_engineering::ToTNode::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::prompt_engineering::ToTNode::verdict</qualifiedname>
+        <briefdescription>
+<para>Categorical verdict for pruning decisions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="55" column="30" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_node_1a74c93e4f58774b438d7a13bcdd60da17" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ToTNode::depth</definition>
+        <argsstring></argsstring>
+        <name>depth</name>
+        <qualifiedname>themis::prompt_engineering::ToTNode::depth</qualifiedname>
+        <briefdescription>
+<para>Depth in the tree (root = 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="56" column="30" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_to_t_node_1a39903951ac1dff7a8372748296167336" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::ToTNode::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themis::prompt_engineering::ToTNode::path</qualifiedname>
+        <briefdescription>
+<para>Ordered thoughts from root to this node. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="57" column="17" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single node in the thought tree. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/tree_of_thoughts.h" line="52" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="52" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_node_1a74c93e4f58774b438d7a13bcdd60da17" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTNode</scope><name>depth</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_node_1a39903951ac1dff7a8372748296167336" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTNode</scope><name>path</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_node_1a79d3535bea03cf5854db27b6f9d5cc07" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTNode</scope><name>score</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_node_1a2a274955be1359b7077bc4d48771ea15" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTNode</scope><name>thought</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_to_t_node_1a269e6b127be21ee98019e002e9f9059f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ToTNode</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

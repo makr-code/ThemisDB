@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_token_blacklist_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::TokenBlacklist::Config</compoundname>
+    <includes refid="token__blacklist_8h" local="no">token_blacklist.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_config_1a3b278bc196931e0dc1fc5c0024b0e84e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::TokenBlacklist::Config::cleanup_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>cleanup_interval_seconds</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Config::cleanup_interval_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="68" column="18" bodyfile="include/auth/token_blacklist.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_config_1af376a5d5d1ced00184dfa001de582f05" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TokenBlacklist::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Config::max_entries</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="69" column="16" bodyfile="include/auth/token_blacklist.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_token_blacklist_1_1_config_1a12d3fe20baebeb7003052ed551d9c0c9" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_token_blacklist_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::auth::TokenBlacklist::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::auth::TokenBlacklist::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="75" column="23" bodyfile="include/auth/token_blacklist.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/token_blacklist.h" line="67" column="5" bodyfile="include/auth/token_blacklist.h" bodystart="67" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_config_1a3b278bc196931e0dc1fc5c0024b0e84e" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Config</scope><name>cleanup_interval_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_config_1a12d3fe20baebeb7003052ed551d9c0c9" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_config_1af376a5d5d1ced00184dfa001de582f05" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::Config</scope><name>max_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_versioned_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::VersionedEntry</compoundname>
+    <includes refid="replica__consistency_8h" local="no">replica_consistency.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_versioned_entry_1a21ab05ea59de72e7b69fcdb0f8bd3bfc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::VersionedEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::sharding::VersionedEntry::data</qualifiedname>
+        <briefdescription>
+<para>Value payload for the key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="76" column="17" bodyfile="include/sharding/replica_consistency.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_versioned_entry_1a64da596c8ccf22e930bb4001a55c5500" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_vector_clock" kindref="compound">VectorClock</ref></type>
+        <definition>VectorClock themisdb::sharding::VersionedEntry::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themisdb::sharding::VersionedEntry::version</qualifiedname>
+        <briefdescription>
+<para>Vector-clock version associated with the value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="78" column="17" bodyfile="include/sharding/replica_consistency.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_versioned_entry_1ac4b171dae5d68f46863d3e444aeeace9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::VersionedEntry::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::sharding::VersionedEntry::node_id</qualifiedname>
+        <briefdescription>
+<para>Origin node that created this version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="80" column="17" bodyfile="include/sharding/replica_consistency.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_versioned_entry_1afb983a6b0903653f4caad8d8cc430abe" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::sharding::VersionedEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::VersionedEntry::timestamp</qualifiedname>
+        <briefdescription>
+<para>Wall-clock timestamp used by LWW fallback policies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="82" column="43" bodyfile="include/sharding/replica_consistency.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_versioned_entry_1a0bbba93358262d5a1008b55c63401a13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::VersionedEntry::serialize</definition>
+        <argsstring>() const</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themisdb::sharding::VersionedEntry::serialize</qualifiedname>
+        <briefdescription>
+<para>Serialize versioned entry for transport/storage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="85" column="17" bodyfile="src/sharding/replica_consistency.cpp" bodystart="143" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_versioned_entry_1ad5e1f05478af2be3c3d768b3128ce8c2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref> &gt;</type>
+        <definition>std::optional&lt; VersionedEntry &gt; themisdb::sharding::VersionedEntry::deserialize</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themisdb::sharding::VersionedEntry::deserialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Parse versioned entry from serialized representation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), substr(), std::stoull(), std::chrono::system_clock::time_point(), std::chrono::system_clock::duration(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="87" column="26" bodyfile="src/sharding/replica_consistency.cpp" bodystart="156" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Versioned value annotated with vector clock and origin metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::VectorClock</label>
+        <link refid="classthemis_1_1sharding_1_1_vector_clock"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::VersionedEntry</label>
+        <link refid="structthemisdb_1_1sharding_1_1_versioned_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/replica_consistency.h" line="74" column="1" bodyfile="include/sharding/replica_consistency.h" bodystart="74" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_versioned_entry_1a21ab05ea59de72e7b69fcdb0f8bd3bfc" prot="public" virt="non-virtual"><scope>themisdb::sharding::VersionedEntry</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_versioned_entry_1ad5e1f05478af2be3c3d768b3128ce8c2" prot="public" virt="non-virtual"><scope>themisdb::sharding::VersionedEntry</scope><name>deserialize</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_versioned_entry_1ac4b171dae5d68f46863d3e444aeeace9" prot="public" virt="non-virtual"><scope>themisdb::sharding::VersionedEntry</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_versioned_entry_1a0bbba93358262d5a1008b55c63401a13" prot="public" virt="non-virtual"><scope>themisdb::sharding::VersionedEntry</scope><name>serialize</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_versioned_entry_1afb983a6b0903653f4caad8d8cc430abe" prot="public" virt="non-virtual"><scope>themisdb::sharding::VersionedEntry</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_versioned_entry_1a64da596c8ccf22e930bb4001a55c5500" prot="public" virt="non-virtual"><scope>themisdb::sharding::VersionedEntry</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

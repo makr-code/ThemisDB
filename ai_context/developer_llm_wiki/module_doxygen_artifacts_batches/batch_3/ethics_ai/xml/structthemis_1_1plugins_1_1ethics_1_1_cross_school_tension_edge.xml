@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::CrossSchoolTensionEdge</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a4140e0b97d4a7f3771b6fd23b89cd5a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::CrossSchoolTensionEdge::school_a</definition>
+        <argsstring></argsstring>
+        <name>school_a</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionEdge::school_a</qualifiedname>
+        <briefdescription>
+<para>Source school identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="517" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a9acca582a5237285c173ec0bbc14dda0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::CrossSchoolTensionEdge::school_b</definition>
+        <argsstring></argsstring>
+        <name>school_b</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionEdge::school_b</qualifiedname>
+        <briefdescription>
+<para>Target school identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="518" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a5145a719e69e8699118de1e967e92bcb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ethics::CrossSchoolTensionEdge::tension_score</definition>
+        <argsstring></argsstring>
+        <name>tension_score</name>
+        <qualifiedname>themis::plugins::ethics::CrossSchoolTensionEdge::tension_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="519" column="12" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="519" bodyend="519"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="516" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="516" bodyend="520"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a4140e0b97d4a7f3771b6fd23b89cd5a7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionEdge</scope><name>school_a</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a9acca582a5237285c173ec0bbc14dda0" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionEdge</scope><name>school_b</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_edge_1a5145a719e69e8699118de1e967e92bcb" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::CrossSchoolTensionEdge</scope><name>tension_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

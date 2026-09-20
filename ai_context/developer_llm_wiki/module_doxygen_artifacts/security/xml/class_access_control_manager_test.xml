@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_access_control_manager_test" kind="class" language="C++" prot="public">
+    <compoundname>AccessControlManagerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_access_control_manager_test_1af76dfe8a209b177ac730345a2d8bb294" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path AccessControlManagerTest::temp_dir_</definition>
+        <argsstring></argsstring>
+        <name>temp_dir_</name>
+        <qualifiedname>AccessControlManagerTest::temp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_access_control_manager.cpp" line="56" column="27" bodyfile="tests/security/test_access_control_manager.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_access_control_manager_test_1a25d424d1c63b081077fe2fec7663d07b" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path AccessControlManagerTest::rbac_config_path_</definition>
+        <argsstring></argsstring>
+        <name>rbac_config_path_</name>
+        <qualifiedname>AccessControlManagerTest::rbac_config_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_access_control_manager.cpp" line="57" column="27" bodyfile="tests/security/test_access_control_manager.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_access_control_manager_test_1aa4397996d5f12de3d5d2e4e741331498" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path AccessControlManagerTest::user_roles_path_</definition>
+        <argsstring></argsstring>
+        <name>user_roles_path_</name>
+        <qualifiedname>AccessControlManagerTest::user_roles_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_access_control_manager.cpp" line="58" column="27" bodyfile="tests/security/test_access_control_manager.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_access_control_manager_test_1aea9919a38a5d15215df90158a4ad5ace" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AccessControlManagerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AccessControlManagerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_access_control_manager.cpp" line="14" column="10" bodyfile="tests/security/test_access_control_manager.cpp" bodystart="14" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_access_control_manager_test_1a0cae539d38a5952909b1fb384a86dce9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AccessControlManagerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AccessControlManagerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_access_control_manager.cpp" line="51" column="10" bodyfile="tests/security/test_access_control_manager.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AccessControlManagerTest</label>
+        <link refid="class_access_control_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AccessControlManagerTest</label>
+        <link refid="class_access_control_manager_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_access_control_manager.cpp" line="12" column="1" bodyfile="tests/security/test_access_control_manager.cpp" bodystart="12" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_access_control_manager_test_1a25d424d1c63b081077fe2fec7663d07b" prot="protected" virt="non-virtual"><scope>AccessControlManagerTest</scope><name>rbac_config_path_</name></member>
+      <member refid="class_access_control_manager_test_1aea9919a38a5d15215df90158a4ad5ace" prot="protected" virt="non-virtual"><scope>AccessControlManagerTest</scope><name>SetUp</name></member>
+      <member refid="class_access_control_manager_test_1a0cae539d38a5952909b1fb384a86dce9" prot="protected" virt="non-virtual"><scope>AccessControlManagerTest</scope><name>TearDown</name></member>
+      <member refid="class_access_control_manager_test_1af76dfe8a209b177ac730345a2d8bb294" prot="protected" virt="non-virtual"><scope>AccessControlManagerTest</scope><name>temp_dir_</name></member>
+      <member refid="class_access_control_manager_test_1aa4397996d5f12de3d5d2e4e741331498" prot="protected" virt="non-virtual"><scope>AccessControlManagerTest</scope><name>user_roles_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

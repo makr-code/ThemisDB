@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_legal_quality_gates" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::LegalQualityGates</compoundname>
+    <includes refid="semantic__validator_8h" local="no">semantic_validator.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0ce0fa53b16fe90478da9cfe969fca1d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::LegalQualityGates::kMinConfidence</definition>
+        <argsstring></argsstring>
+        <name>kMinConfidence</name>
+        <qualifiedname>themis::ingestion::LegalQualityGates::kMinConfidence</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="55" column="29" bodyfile="include/ingestion/semantic_validator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_quality_gates_1a3d7692adcf526eab95a6419c6c5a79e6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::LegalQualityGates::kDeonticConfidence</definition>
+        <argsstring></argsstring>
+        <name>kDeonticConfidence</name>
+        <qualifiedname>themis::ingestion::LegalQualityGates::kDeonticConfidence</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="56" column="29" bodyfile="include/ingestion/semantic_validator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_quality_gates_1a4e1cab7c13c7773db175ef29d3a9869e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref></type>
+        <definition>QualityGateConfig themis::ingestion::LegalQualityGates::min_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_confidence</name>
+        <qualifiedname>themis::ingestion::LegalQualityGates::min_confidence</qualifiedname>
+        <initializer>{
+        &quot;min_confidence&quot;,
+        &quot;Overall extraction confidence must meet threshold&quot;,
+        <ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0ce0fa53b16fe90478da9cfe969fca1d" kindref="member">kMinConfidence</ref>, false
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="58" column="23" bodyfile="include/ingestion/semantic_validator.h" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0d323710b89c2ff337a38cc76bdc4fa5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref></type>
+        <definition>QualityGateConfig themis::ingestion::LegalQualityGates::deontic_confidence</definition>
+        <argsstring></argsstring>
+        <name>deontic_confidence</name>
+        <qualifiedname>themis::ingestion::LegalQualityGates::deontic_confidence</qualifiedname>
+        <initializer>{
+        &quot;deontic_confidence&quot;,
+        &quot;Deontic extraction confidence must meet threshold&quot;,
+        <ref refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a3d7692adcf526eab95a6419c6c5a79e6" kindref="member">kDeonticConfidence</ref>, false
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="63" column="23" bodyfile="include/ingestion/semantic_validator.h" bodystart="63" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_quality_gates_1a58141923a2557513a22ad75c0209c63a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref></type>
+        <definition>QualityGateConfig themis::ingestion::LegalQualityGates::section_hierarchy</definition>
+        <argsstring></argsstring>
+        <name>section_hierarchy</name>
+        <qualifiedname>themis::ingestion::LegalQualityGates::section_hierarchy</qualifiedname>
+        <initializer>{
+        &quot;section_hierarchy&quot;,
+        &quot;Document must have detectable section structure&quot;,
+        0.0, true
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="68" column="23" bodyfile="include/ingestion/semantic_validator.h" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_quality_gates_1ad47df2d1ed1a665a7f9bfeb2775d7801" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref></type>
+        <definition>QualityGateConfig themis::ingestion::LegalQualityGates::temporal_present</definition>
+        <argsstring></argsstring>
+        <name>temporal_present</name>
+        <qualifiedname>themis::ingestion::LegalQualityGates::temporal_present</qualifiedname>
+        <initializer>{
+        &quot;temporal_present&quot;,
+        &quot;Document should contain at least one temporal expression&quot;,
+        0.0, false
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="73" column="23" bodyfile="include/ingestion/semantic_validator.h" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_legal_quality_gates_1adfe999fb483723d81ed8211aed0d7f73" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_quality_gate_config" kindref="compound">QualityGateConfig</ref></type>
+        <definition>QualityGateConfig themis::ingestion::LegalQualityGates::no_dangling_refs</definition>
+        <argsstring></argsstring>
+        <name>no_dangling_refs</name>
+        <qualifiedname>themis::ingestion::LegalQualityGates::no_dangling_refs</qualifiedname>
+        <initializer>{
+        &quot;no_dangling_refs&quot;,
+        &quot;All cross-references should resolve in the knowledge base&quot;,
+        0.0, false
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="78" column="23" bodyfile="include/ingestion/semantic_validator.h" bodystart="78" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Default quality gate configuration for German legal texts. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides the gate set defined in <computeroutput>legal-ingestion-schema.yaml</computeroutput>:<itemizedlist>
+<listitem><para>min_confidence (0.80, warn)</para>
+</listitem><listitem><para>deontic_confidence (0.75, warn)</para>
+</listitem><listitem><para>section_hierarchy (required) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::ingestion::LegalQualityGates</label>
+        <link refid="structthemis_1_1ingestion_1_1_legal_quality_gates"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>deontic_confidence</edgelabel>
+          <edgelabel>min_confidence</edgelabel>
+          <edgelabel>no_dangling_refs</edgelabel>
+          <edgelabel>section_hierarchy</edgelabel>
+          <edgelabel>temporal_present</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::QualityGateConfig</label>
+        <link refid="structthemis_1_1ingestion_1_1_quality_gate_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/ingestion/semantic_validator.h" line="54" column="1" bodyfile="include/ingestion/semantic_validator.h" bodystart="54" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0d323710b89c2ff337a38cc76bdc4fa5" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalQualityGates</scope><name>deontic_confidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a3d7692adcf526eab95a6419c6c5a79e6" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalQualityGates</scope><name>kDeonticConfidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a0ce0fa53b16fe90478da9cfe969fca1d" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalQualityGates</scope><name>kMinConfidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a4e1cab7c13c7773db175ef29d3a9869e" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalQualityGates</scope><name>min_confidence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1adfe999fb483723d81ed8211aed0d7f73" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalQualityGates</scope><name>no_dangling_refs</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1a58141923a2557513a22ad75c0209c63a" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalQualityGates</scope><name>section_hierarchy</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_legal_quality_gates_1ad47df2d1ed1a665a7f9bfeb2775d7801" prot="public" virt="non-virtual"><scope>themis::ingestion::LegalQualityGates</scope><name>temporal_present</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

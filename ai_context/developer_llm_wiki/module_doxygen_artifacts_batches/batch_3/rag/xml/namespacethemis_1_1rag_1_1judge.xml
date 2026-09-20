@@ -1,0 +1,1177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1judge" kind="namespace" language="C++">
+    <compoundname>themis::rag::judge</compoundname>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_async_evaluation_handle" prot="public">themis::rag::judge::AsyncEvaluationHandle</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" prot="public">themis::rag::judge::BatchEvaluationResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_batch_evaluator" prot="public">themis::rag::judge::BatchEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluator_config" prot="public">themis::rag::judge::BatchEvaluatorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_batch_progress" prot="public">themis::rag::judge::BatchProgress</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_bias_detection_result" prot="public">themis::rag::judge::BiasDetectionResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_bias_detector" prot="public">themis::rag::judge::BiasDetector</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_bias_detector_config" prot="public">themis::rag::judge::BiasDetectorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_bias_score" prot="public">themis::rag::judge::BiasScore</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_cache_config" prot="public">themis::rag::judge::CacheConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_cache_entry" prot="public">themis::rag::judge::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_cache_statistics" prot="public">themis::rag::judge::CacheStatistics</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_calibration_config" prot="public">themis::rag::judge::CalibrationConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_calibration_manager" prot="public">themis::rag::judge::CalibrationManager</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_calibration_metrics" prot="public">themis::rag::judge::CalibrationMetrics</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_citation" prot="public">themis::rag::judge::Citation</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_citation_highlighter" prot="public">themis::rag::judge::CitationHighlighter</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_claim" prot="public">themis::rag::judge::Claim</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_claim_verification" prot="public">themis::rag::judge::ClaimVerification</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_coherence_evaluator" prot="public">themis::rag::judge::CoherenceEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_coherence_result" prot="public">themis::rag::judge::CoherenceResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_comparison_result" prot="public">themis::rag::judge::ComparisonResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_completeness_evaluator" prot="public">themis::rag::judge::CompletenessEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_completeness_result" prot="public">themis::rag::judge::CompletenessResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_continuous_learning_client" prot="public">themis::rag::judge::ContinuousLearningClient</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluation_result" prot="public">themis::rag::judge::CoTEvaluationResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" prot="public">themis::rag::judge::CoTEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot" prot="public">themis::rag::judge::DashboardSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_dimension_comparison" prot="public">themis::rag::judge::DimensionComparison</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_dimension_rubric" prot="public">themis::rag::judge::DimensionRubric</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_dimension_score" prot="public">themis::rag::judge::DimensionScore</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_evaluation_cache" prot="public">themis::rag::judge::EvaluationCache</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" prot="public">themis::rag::judge::EvaluationInput</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter" prot="public">themis::rag::judge::EvaluationReportExporter</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_evaluation_report_exporter_factory" prot="public">themis::rag::judge::EvaluationReportExporterFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_evaluation_response" prot="public">themis::rag::judge::EvaluationResponse</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" prot="public">themis::rag::judge::EvaluationResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_evaluation_rubric" prot="public">themis::rag::judge::EvaluationRubric</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_faithfulness_evaluator" prot="public">themis::rag::judge::FaithfulnessEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_result" prot="public">themis::rag::judge::FaithfulnessResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_faithfulness_verification_result" prot="public">themis::rag::judge::FaithfulnessVerificationResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_few_shot_example" prot="public">themis::rag::judge::FewShotExample</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" prot="public">themis::rag::judge::GEvalEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_g_eval_result" prot="public">themis::rag::judge::GEvalResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_ground_truth_annotation" prot="public">themis::rag::judge::GroundTruthAnnotation</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" prot="public">themis::rag::judge::HallucinationAlert</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_hallucination_dashboard" prot="public">themis::rag::judge::HallucinationDashboard</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_config" prot="public">themis::rag::judge::HallucinationDashboardConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" prot="public">themis::rag::judge::HallucinationEntry</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client" prot="public">themis::rag::judge::HTTPMetricsClient</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" prot="public">themis::rag::judge::HTTPMetricsClientConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_factory" prot="public">themis::rag::judge::HTTPMetricsClientFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_response" prot="public">themis::rag::judge::HTTPResponse</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" prot="public">themis::rag::judge::ILLMInferenceEngine</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_judge_config_manager" prot="public">themis::rag::judge::JudgeConfigManager</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_judge_ensemble" prot="public">themis::rag::judge::JudgeEnsemble</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client" prot="public">themis::rag::judge::LLMJudgeClient</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" prot="public">themis::rag::judge::LLMJudgeIntegration</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" prot="public">themis::rag::judge::NLIFaithfulnessVerifier</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_model_factory" prot="public">themis::rag::judge::NLIModelFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_result" prot="public">themis::rag::judge::NLIResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info" prot="public">themis::rag::judge::ONNXModelInfo</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader" prot="public">themis::rag::judge::ONNXModelLoader</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader_config" prot="public">themis::rag::judge::ONNXModelLoaderConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_optimization_trigger" prot="public">themis::rag::judge::OptimizationTrigger</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_pairwise_comparator" prot="public">themis::rag::judge::PairwiseComparator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_pairwise_comparison_result" prot="public">themis::rag::judge::PairwiseComparisonResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" prot="public">themis::rag::judge::ParsedResponse</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_per_query_report" prot="public">themis::rag::judge::PerQueryReport</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_prompt_template_manager" prot="public">themis::rag::judge::PromptTemplateManager</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_q_c_result" prot="public">themis::rag::judge::QCResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_quality_check_result" prot="public">themis::rag::judge::QualityCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory" prot="public">themis::rag::judge::QualityControlFactory</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" prot="public">themis::rag::judge::QualityControlPipeline</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_quality_metric" prot="public">themis::rag::judge::QualityMetric</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_quality_metric_payload" prot="public">themis::rag::judge::QualityMetricPayload</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_quality_pipeline_factory" prot="public">themis::rag::judge::QualityPipelineFactory</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_query_aspect" prot="public">themis::rag::judge::QueryAspect</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge" prot="public">themis::rag::judge::RAGJudge</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_judge_config" prot="public">themis::rag::judge::RAGJudgeConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_factory" prot="public">themis::rag::judge::RAGJudgeFactory</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_r_a_g_judge_q_c_configurator" prot="public">themis::rag::judge::RAGJudgeQCConfigurator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case" prot="public">themis::rag::judge::RAGTestCase</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step" prot="public">themis::rag::judge::ReasoningStep</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator" prot="public">themis::rag::judge::RelevanceEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_relevance_result" prot="public">themis::rag::judge::RelevanceResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_response_parser" prot="public">themis::rag::judge::ResponseParser</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" prot="public">themis::rag::judge::RetrievedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result" prot="public">themis::rag::judge::RubricEvaluationResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1judge_1_1_rubric_evaluator" prot="public">themis::rag::judge::RubricEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_rubric_level" prot="public">themis::rag::judge::RubricLevel</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_source_chunk" prot="public">themis::rag::judge::SourceChunk</innerclass>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge_1_1cl__utils">themis::rag::judge::cl_utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1judge_1_1metrics">themis::rag::judge::metrics</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BiasType</name>
+        <qualifiedname>themis::rag::judge::BiasType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583aa40a2d819ddd23fd34f00eba8b99a919" prot="public">
+          <name>POSITION_BIAS</name>
+          <briefdescription>
+<para>Preference for first or last position. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583a81f455665cc0ed29781923ba15022436" prot="public">
+          <name>LENGTH_BIAS</name>
+          <briefdescription>
+<para>Preference based on answer length. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583a2d406a8236c96d14ef6276c49a04f8ad" prot="public">
+          <name>SELF_ENHANCEMENT</name>
+          <briefdescription>
+<para>Preference for own generated content. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ade54e047bde556864f566b26edb60583ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No significant bias detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of bias detected in evaluation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bias_detector.h" line="23" column="1" bodyfile="include/rag/bias_detector.h" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CalibrationMethod</name>
+        <qualifiedname>themis::rag::judge::CalibrationMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9a8c15b5925727b083c8e4ae44af62db02" prot="public">
+          <name>TEMPERATURE_SCALING</name>
+          <briefdescription>
+<para>Simple temperature scaling. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9a8e4964a80e4113529d9f9c856d427322" prot="public">
+          <name>PLATT_SCALING</name>
+          <briefdescription>
+<para>Platt scaling (logistic regression). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9aabea6691a5fa8a3c5dd9e671f12ab7bf" prot="public">
+          <name>ISOTONIC_REGRESSION</name>
+          <briefdescription>
+<para>Isotonic regression (non-parametric). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ac0616f111cb2c59957a3e2f12ce27cd9ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No calibration. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Calibration method. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/calibration_manager.h" line="24" column="1" bodyfile="include/rag/calibration_manager.h" bodystart="24" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a39c94c98e8bf51c2b32898a6ac7bd9de" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DepthLevel</name>
+        <qualifiedname>themis::rag::judge::DepthLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a39c94c98e8bf51c2b32898a6ac7bd9dea1e981c69438552cf91e979e36845cff3" prot="public">
+          <name>SHALLOW</name>
+          <briefdescription>
+<para>Surface-level, minimal details. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a39c94c98e8bf51c2b32898a6ac7bd9deac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+<para>Moderate detail with some examples. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a39c94c98e8bf51c2b32898a6ac7bd9deac7489a84585b023358dc07a421411f45" prot="public">
+          <name>DEEP</name>
+          <briefdescription>
+<para>Comprehensive with examples and evidence. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Depth level of answer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/completeness_evaluator.h" line="33" column="1" bodyfile="include/rag/completeness_evaluator.h" bodystart="33" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a38d96f528aaf65e0a83834b4af7a77fa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QCDecision</name>
+        <qualifiedname>themis::rag::judge::QCDecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a38d96f528aaf65e0a83834b4af7a77faa1fd72e016e8fbf2cf1f0c918dcd9bad3" prot="public">
+          <name>ACCEPT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a38d96f528aaf65e0a83834b4af7a77faa32bd8a1db2275458673903bdb84cb277" prot="public">
+          <name>WARN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a38d96f528aaf65e0a83834b4af7a77faa59b228d9fec9b88833bfe5d812ed8ad4" prot="public">
+          <name>REJECT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="23" column="1" bodyfile="include/rag/continuous_learning_client.h" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QCMode</name>
+        <qualifiedname>themis::rag::judge::QCMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7adca6e617f6fb54033deb311e7e7c93cc" prot="public">
+          <name>FAST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7a0cb4635d100151dcaac6f91db856c402" prot="public">
+          <name>BALANCED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7a648cb855bcd242bf927f02bd05b045a0" prot="public">
+          <name>THOROUGH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="29" column="1" bodyfile="include/rag/continuous_learning_client.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MetricType</name>
+        <qualifiedname>themis::rag::judge::MetricType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145a081870dac1c2854cfd63373007ee5be4" prot="public">
+          <name>FAITHFULNESS</name>
+          <briefdescription>
+<para>Faithfulness score. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145abaa19962dbd6b12c63759e561391fe92" prot="public">
+          <name>RELEVANCE</name>
+          <briefdescription>
+<para>Relevance score. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145a4c1fb09d6262e606a445e146ad432dd3" prot="public">
+          <name>COMPLETENESS</name>
+          <briefdescription>
+<para>Completeness score. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145a0c04c1ed486f5d2da53a2eabf34a9306" prot="public">
+          <name>COHERENCE</name>
+          <briefdescription>
+<para>Coherence score. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145a3da42f3c27c0b08bb4113e7515911837" prot="public">
+          <name>OVERALL_QUALITY</name>
+          <briefdescription>
+<para>Overall quality score. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145a501069dd75f76384ba18f133fdce99c2" prot="public">
+          <name>LATENCY</name>
+          <briefdescription>
+<para>Processing latency. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145a2a594d706fddf2bce76a40da173c7346" prot="public">
+          <name>DECISION</name>
+          <briefdescription>
+<para>Quality control decision. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145a4eef1fa9b9119b4b81621438b1f55606" prot="public">
+          <name>NLI_ACCURACY</name>
+          <briefdescription>
+<para>NLI verification accuracy. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ae46b5044db9f5802fede9907ccccd145aab6208689c86311c5bfb6846d54e2658" prot="public">
+          <name>GEVAL_VARIANCE</name>
+          <briefdescription>
+<para>G-Eval score variance. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Metric types for continuous learning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/continuous_learning_client.h" line="50" column="1" bodyfile="include/rag/continuous_learning_client.h" bodystart="50" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a66135e891a2056b780297c8839bc76ac" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>InvalidationTrigger</name>
+        <qualifiedname>themis::rag::judge::InvalidationTrigger</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66135e891a2056b780297c8839bc76acaf5c547bce15663ac2aee7a74325b6024" prot="public">
+          <name>MODEL_UPDATE</name>
+          <briefdescription>
+<para>LLM model was updated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66135e891a2056b780297c8839bc76acaba003118ab3d7676b6ce507fd14cb96c" prot="public">
+          <name>CONFIG_CHANGE</name>
+          <briefdescription>
+<para>Configuration changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66135e891a2056b780297c8839bc76acaa60a6a471c0681e5a49c4f5d00f6bc5a" prot="public">
+          <name>MANUAL</name>
+          <briefdescription>
+<para>Manual purge requested. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66135e891a2056b780297c8839bc76aca6719f326972268407121fe93dbe8a033" prot="public">
+          <name>TTL_EXPIRED</name>
+          <briefdescription>
+<para>Entry exceeded TTL. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66135e891a2056b780297c8839bc76aca40d85f3bc1b6b7cb193616f044f397ff" prot="public">
+          <name>CAPACITY_EXCEEDED</name>
+          <briefdescription>
+<para>Cache full, LRU eviction. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Cache invalidation trigger. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/evaluation_cache.h" line="35" column="1" bodyfile="include/rag/evaluation_cache.h" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SupportLevel</name>
+        <qualifiedname>themis::rag::judge::SupportLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376bae1a3c81329e3f06e91d73f9646aa951c" prot="public">
+          <name>FULLY_SUPPORTED</name>
+          <briefdescription>
+<para>Score: 1.0. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376ba267c24ca77db884f0d0cf0b266376e3d" prot="public">
+          <name>PARTIALLY_SUPPORTED</name>
+          <briefdescription>
+<para>Score: 0.5. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376ba40aa75f8e8cfdf7b660c5620e953229f" prot="public">
+          <name>UNSUPPORTED</name>
+          <briefdescription>
+<para>Score: 0.0. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376bad43587aa29f10d482c31e28a097a1fd5" prot="public">
+          <name>CONTRADICTED</name>
+          <briefdescription>
+<para>Score: -0.5. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Support level for a claim. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="23" column="1" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="23" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggregationMethod</name>
+        <qualifiedname>themis::rag::judge::AggregationMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba4ea6d1161ea24d7599365f574aff6610" prot="public">
+          <name>MEAN</name>
+          <briefdescription>
+<para>Average of samples. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba8ab0c3a037e882577dec378985477074" prot="public">
+          <name>MEDIAN</name>
+          <briefdescription>
+<para>Median of samples. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920bab742db58b16f1d7de716d5e8a8afabbb" prot="public">
+          <name>MODE</name>
+          <briefdescription>
+<para>Most frequent score. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Aggregation method for multiple samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="23" column="1" bodyfile="include/rag/geval_evaluator.h" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AlertSeverity</name>
+        <qualifiedname>themis::rag::judge::AlertSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+<para>Rate slightly above threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba059e9861e0400dfbe05c98a841f3f96b" prot="public">
+          <name>WARNING</name>
+          <briefdescription>
+<para>Rate moderately above threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a3b73a006acd5900981aec30f21f6983ba99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Rate well above threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Severity level for hallucination alerts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="41" column="1" bodyfile="include/rag/hallucination_dashboard.h" bodystart="41" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HTTPMethod</name>
+        <qualifiedname>themis::rag::judge::HTTPMethod</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a7528035a93ee69cedb1dbddb2f0bfcc8" prot="public">
+          <name>GET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092aa02439ec229d8be0e74b0c1602392310" prot="public">
+          <name>POST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a3e75383a5992a6d15fb81e872e46e256" prot="public">
+          <name>PUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a3f8682acbb2cf81b427a86957da78092a941c42b9719734fbe289f8e65d7a7574" prot="public">
+          <name>DELETE_</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>HTTP request method. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="28" column="1" bodyfile="include/rag/http_metrics_client.h" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a349d97e5e64b26a51f2cb2dc07b4c541" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>NLILabel</name>
+        <qualifiedname>themis::rag::judge::NLILabel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a349d97e5e64b26a51f2cb2dc07b4c541ac239bc87724f64d6d4e1a13a40d03639" prot="public">
+          <name>ENTAILMENT</name>
+          <briefdescription>
+<para>Hypothesis is entailed by premise. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a349d97e5e64b26a51f2cb2dc07b4c541a31ba17aa58cdb681423f07ca21a6efc7" prot="public">
+          <name>NEUTRAL</name>
+          <briefdescription>
+<para>Hypothesis is neither entailed nor contradicted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a349d97e5e64b26a51f2cb2dc07b4c541a2b5cfe8f933f275fc636d94391e2eacd" prot="public">
+          <name>CONTRADICTION</name>
+          <briefdescription>
+<para>Hypothesis contradicts premise. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>NLI label for entailment checking. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/nli_faithfulness_verifier.h" line="25" column="1" bodyfile="include/rag/nli_faithfulness_verifier.h" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4b" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ComparisonWinner</name>
+        <qualifiedname>themis::rag::judge::ComparisonWinner</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba3dc48fa0f11923466f634303cca7dc88" prot="public">
+          <name>ANSWER_A</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba27dfb553d196448243dfda23951ab396" prot="public">
+          <name>ANSWER_B</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1ad65ac84db6d0ad139ac9f675e48b5a4ba8eb6c56ba51924a4cf185ec29e22be22" prot="public">
+          <name>TIE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Comparison winner. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="23" column="1" bodyfile="include/rag/pairwise_comparator.h" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9bea" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BiasMitigationStrategy</name>
+        <qualifiedname>themis::rag::judge::BiasMitigationStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No bias mitigation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaa2e7af4c081bbc8a6965081708bad1c67" prot="public">
+          <name>RANDOMIZE_ORDER</name>
+          <briefdescription>
+<para>Random presentation order. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaafc28fd295778079207f3286c341f3628" prot="public">
+          <name>FLIP_AND_AVERAGE</name>
+          <briefdescription>
+<para>Evaluate both orders and average. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a539dcf7dc7a802c1e7efe049d4af9beaa8e70de061a6eb0d9488e0edf09774dec" prot="public">
+          <name>MULTI_SAMPLE</name>
+          <briefdescription>
+<para>Multiple evaluations with different orders. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Bias mitigation strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/pairwise_comparator.h" line="32" column="1" bodyfile="include/rag/pairwise_comparator.h" bodystart="32" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a85ae081e2faa0c55b396ce69872f1be9" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QualityStage</name>
+        <qualifiedname>themis::rag::judge::QualityStage</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a85ae081e2faa0c55b396ce69872f1be9ac7adcc91bd5d61bd79296ecccd551281" prot="public">
+          <name>FAST_SCREENING</name>
+          <briefdescription>
+<para>Quick initial check (&lt;50ms). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a85ae081e2faa0c55b396ce69872f1be9a723ffa4f5fc9605b1ebd9d0cc49f73c3" prot="public">
+          <name>BALANCED_EVAL</name>
+          <briefdescription>
+<para>Multi-dimension evaluation (&lt;500ms). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a85ae081e2faa0c55b396ce69872f1be9a47f3772c4520d3ca3a6f5246e574bf5d" prot="public">
+          <name>THOROUGH_VERIFY</name>
+          <briefdescription>
+<para>Full verification with NLI (&lt;2s). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a85ae081e2faa0c55b396ce69872f1be9a8a3f34d20ed3128a628b5ef6c204b79e" prot="public">
+          <name>CONTINUOUS_LEARN</name>
+          <briefdescription>
+<para>Feedback to learning system. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Quality control stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="28" column="1" bodyfile="include/rag/quality_control_pipeline.h" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a9309ca773636352d9ad81044c03e364f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QualityGateStatus</name>
+        <qualifiedname>themis::rag::judge::QualityGateStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a9309ca773636352d9ad81044c03e364fa269f3d1562cbd15624e7d2c4b10122e3" prot="public">
+          <name>PASSED</name>
+          <briefdescription>
+<para>Meets all thresholds. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a9309ca773636352d9ad81044c03e364fab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Failed quality checks. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a9309ca773636352d9ad81044c03e364fa31c73891cb1e8783a51305773e93dec6" prot="public">
+          <name>RETRY_NEEDED</name>
+          <briefdescription>
+<para>Should retry generation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a9309ca773636352d9ad81044c03e364fa1d7cc3c25718e1c79b62ec078cb49a7c" prot="public">
+          <name>ESCALATE</name>
+          <briefdescription>
+<para>Needs human review. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Quality gate result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="38" column="1" bodyfile="include/rag/quality_control_pipeline.h" bodystart="38" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EvaluationDimension</name>
+        <qualifiedname>themis::rag::judge::EvaluationDimension</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aa081870dac1c2854cfd63373007ee5be4" prot="public">
+          <name>FAITHFULNESS</name>
+          <briefdescription>
+<para>Answer supported by retrieved documents. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aabaa19962dbd6b12c63759e561391fe92" prot="public">
+          <name>RELEVANCE</name>
+          <briefdescription>
+<para>Answer addresses the query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aa4c1fb09d6262e606a445e146ad432dd3" prot="public">
+          <name>COMPLETENESS</name>
+          <briefdescription>
+<para>All query aspects covered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aa0c04c1ed486f5d2da53a2eabf34a9306" prot="public">
+          <name>COHERENCE</name>
+          <briefdescription>
+<para>Logical and well-structured. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aaf52d8847a9e6386827b28bd8b73e364f" prot="public">
+          <name>ETHICAL_COMPLIANCE</name>
+          <briefdescription>
+<para>Respects ethical guidelines and human autonomy. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6aa7905c9b3eda793da18fade6e791b2183" prot="public">
+          <name>OVERALL</name>
+          <briefdescription>
+<para>Weighted combination. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Evaluation dimension for scoring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="27" column="1" bodyfile="include/rag/rag_judge.h" bodystart="27" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>VotingStrategy</name>
+        <qualifiedname>themis::rag::judge::VotingStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677ae228895a1ed873c8a427c17d4bead255" prot="public">
+          <name>MAJORITY_VOTING</name>
+          <briefdescription>
+<para>Simple majority. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677a4f51d375a57ade6658e035f335229505" prot="public">
+          <name>WEIGHTED_AVERAGE</name>
+          <briefdescription>
+<para>Weight by judge confidence. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677adec2e006ab3503a51c0c36bce518c432" prot="public">
+          <name>CONFIDENCE_WEIGHTED</name>
+          <briefdescription>
+<para>Weight by calibrated confidence. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1abc8941a936d0cfdbee22e72c65594677ac9a84bf9c046eac95f0c6764dcfaaaf3" prot="public">
+          <name>HIERARCHICAL</name>
+          <briefdescription>
+<para>Cascading with disagreement resolution. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Voting strategy for ensemble judges. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="39" column="1" bodyfile="include/rag/rag_judge.h" bodystart="39" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EvaluationMode</name>
+        <qualifiedname>themis::rag::judge::EvaluationMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516adca6e617f6fb54033deb311e7e7c93cc" prot="public">
+          <name>FAST</name>
+          <briefdescription>
+<para>Quick single-dimension check (~100ms). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516a0cb4635d100151dcaac6f91db856c402" prot="public">
+          <name>BALANCED</name>
+          <briefdescription>
+<para>Multi-dimension evaluation (~500ms). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1afc4d225c351fcea1a873afba717c2516a648cb855bcd242bf927f02bd05b045a0" prot="public">
+          <name>THOROUGH</name>
+          <briefdescription>
+<para>Full evaluation with CoT and verification (~2s). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Evaluation mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="49" column="1" bodyfile="include/rag/rag_judge.h" bodystart="49" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1judge_1a66b11213e2afc6e84b97662e01d700b7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QueryIntent</name>
+        <qualifiedname>themis::rag::judge::QueryIntent</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66b11213e2afc6e84b97662e01d700b7ad32528aaa543f441670938e1f8bb2b68" prot="public">
+          <name>INFORMATIONAL</name>
+          <briefdescription>
+<para>Seeking information/knowledge. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66b11213e2afc6e84b97662e01d700b7a41008891949ea1d2708e026c4f7e3db4" prot="public">
+          <name>NAVIGATIONAL</name>
+          <briefdescription>
+<para>Looking for specific resource. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66b11213e2afc6e84b97662e01d700b7a00aefb10acc61ac4f2c6d5908fe459ae" prot="public">
+          <name>TRANSACTIONAL</name>
+          <briefdescription>
+<para>Wanting to perform action. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66b11213e2afc6e84b97662e01d700b7aa56b8aeab5f9f7553869284d084b0455" prot="public">
+          <name>CONVERSATIONAL</name>
+          <briefdescription>
+<para>Follow-up or clarification. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1judge_1a66b11213e2afc6e84b97662e01d700b7a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Query intent type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="22" column="1" bodyfile="include/rag/relevance_evaluator.h" bodystart="22" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1judge_1a78ce2595f8327088512253e53badf04c" prot="public" static="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" kindref="compound">ILLMInferenceEngine</ref></type>
+        <definition>using themis::rag::judge::ILLMBackend = ILLMInferenceEngine</definition>
+        <argsstring></argsstring>
+        <name>ILLMBackend</name>
+        <qualifiedname>themis::rag::judge::ILLMBackend</qualifiedname>
+        <briefdescription>
+<para>Alias used by roadmap/acceptance wording for the judge backend adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="51" column="1" bodyfile="include/rag/llm_judge_integration.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1judge_1aaa5376fee3cc3530cff9bb4a862651ad" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::rag::judge::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::rag::judge::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/calibration_manager.cpp" line="26" column="1" bodyfile="src/rag/calibration_manager.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1rag_1_1judge_1a08128850f7671923ede57944f715727e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::judge::kNumScoreLevels</definition>
+        <argsstring></argsstring>
+        <name>kNumScoreLevels</name>
+        <qualifiedname>themis::rag::judge::kNumScoreLevels</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Number of discrete score levels used in G-Eval (1 through kNumScoreLevels). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/geval_evaluator.h" line="30" column="30" bodyfile="include/rag/geval_evaluator.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1rag_1_1judge_1ab46ae4f7cf6c795782970ea07c5ea78a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::kMinClaimLength</definition>
+        <argsstring></argsstring>
+        <name>kMinClaimLength</name>
+        <qualifiedname>themis::rag::judge::kMinClaimLength</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="1398" column="25" bodyfile="src/rag/rag_judge.cpp" bodystart="1398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1rag_1_1judge_1a2d059f32a4d65a59f683bee448f1ffbf" prot="public" static="yes" mutable="no">
+        <type>const char *const</type>
+        <definition>const char* const themis::rag::judge::kOpinionPhrases[]</definition>
+        <argsstring>[]</argsstring>
+        <name>kOpinionPhrases</name>
+        <qualifiedname>themis::rag::judge::kOpinionPhrases</qualifiedname>
+        <initializer>= {&quot;I think&quot;, &quot;I believe&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="1400" column="25" bodyfile="src/rag/rag_judge.cpp" bodystart="1400" bodyend="1400"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1rag_1_1judge_1a4f39c602b2db2d11894c8bbe1db86eee" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::kNLIEntailmentThreshold</definition>
+        <argsstring></argsstring>
+        <name>kNLIEntailmentThreshold</name>
+        <qualifiedname>themis::rag::judge::kNLIEntailmentThreshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="1402" column="25" bodyfile="src/rag/rag_judge.cpp" bodystart="1402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1rag_1_1judge_1a72104de40b27f48503c863704619e6ad" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::kSemanticOverlapThreshold</definition>
+        <argsstring></argsstring>
+        <name>kSemanticOverlapThreshold</name>
+        <qualifiedname>themis::rag::judge::kSemanticOverlapThreshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="1404" column="25" bodyfile="src/rag/rag_judge.cpp" bodystart="1404" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1judge_1a15426a08381560b32fd2e6be81b0afac" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>static size_t themis::rag::judge::write_data</definition>
+        <argsstring>(void *ptr, size_t size, size_t nmemb, FILE *stream)</argsstring>
+        <name>write_data</name>
+        <qualifiedname>themis::rag::judge::write_data</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>nmemb</declname>
+        </param>
+        <param>
+          <type>FILE *</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Write data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nmemb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fwrite(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/onnx_model_loader.cpp" line="284" column="15" bodyfile="src/rag/onnx_model_loader.cpp" bodystart="284" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/batch_evaluator.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

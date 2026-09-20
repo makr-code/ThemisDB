@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="otlp__exporter_8h" kind="file" language="C++">
+    <compoundname>otlp_exporter.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">curl/curl.h</includes>
+    <includedby refid="otlp__exporter_8cpp" local="yes">src/api/otlp_exporter.cpp</includedby>
+    <includedby refid="tracing__middleware_8cpp" local="yes">src/api/tracing_middleware.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/api/otlp_exporter.h</label>
+        <link refid="otlp__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>curl/curl.h</label>
+      </node>
+      <node id="4">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/api/otlp_exporter.h</label>
+        <link refid="otlp__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/api/otlp_exporter.cpp</label>
+        <link refid="otlp__exporter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/api/tracing_middleware.cpp</label>
+        <link refid="tracing__middleware_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1api_1_1_otlp_exporter_config" prot="public">themis::api::OtlpExporterConfig</innerclass>
+    <innerclass refid="structthemis_1_1api_1_1_span_data" prot="public">themis::api::SpanData</innerclass>
+    <innerclass refid="classthemis_1_1api_1_1_otlp_exporter" prot="public">themis::api::OtlpExporter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1api">themis::api</innernamespace>
+    <briefdescription>
+<para>Asynchronous OpenTelemetry Protocol (OTLP/HTTP) span export. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a background-threaded span exporter that batches and sends request traces to an OpenTelemetry-compatible collector via HTTP POST, following the OTLP JSON trace format.</para>
+<para>Core components:<itemizedlist>
+<listitem><para><computeroutput>OtlpExporterConfig</computeroutput>: Configuration for endpoint, retry logic, batch sizes</para>
+</listitem><listitem><para><computeroutput>SpanData</computeroutput>: Lightweight span descriptor (trace ID, span ID, name, timestamps, attributes)</para>
+</listitem><listitem><para><computeroutput>OtlpExporter</computeroutput>: Producer/consumer pipeline with dedicated background flush thread</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety and lifecycle:<itemizedlist>
+<listitem><para><computeroutput>enqueue(SpanData)</computeroutput> is called from HTTP-handling threads (fast, mostly lock-free)</para>
+</listitem><listitem><para>Background thread wakes periodically (flush_interval_ms) or when queue size exceeds batch_size</para>
+</listitem><listitem><para>Batches are serialized to OTLP JSON and POSTed to the configured collector</para>
+</listitem><listitem><para>On transient failures (HTTP 429/503, network errors), exponential backoff retries occur before the batch is dropped</para>
+</listitem><listitem><para><computeroutput>start()</computeroutput> launches the background thread; <computeroutput>stop()</computeroutput> flushes remaining spans and joins</para>
+</listitem></itemizedlist>
+</para>
+<para>Observability guarantees:<itemizedlist>
+<listitem><para>Span export is bounded: max_queue_size prevents runaway memory accumulation</para>
+</listitem><listitem><para>Export overhead is isolated to background thread (no critical-path latency)</para>
+</listitem><listitem><para>Failed batches are logged but do not block ongoing span collection</para>
+</listitem><listitem><para>Compatible with any OpenTelemetry collector that accepts OTLP/JSON (Jaeger, Zipkin, etc.)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">OtlpExporterConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.endpoint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://jaeger:4318/v1/traces&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.batch_size<sp/>=<sp/>128;</highlight></codeline>
+<codeline><highlight class="normal">config.flush_interval_ms<sp/>=<sp/>5000;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">OtlpExporter<sp/>exporter(config);</highlight></codeline>
+<codeline><highlight class="normal">exporter.start();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>From<sp/>HTTP<sp/>handler<sp/>threads:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">SpanData<sp/>span;</highlight></codeline>
+<codeline><highlight class="normal">span.trace_id<sp/>=<sp/>correlation_id;</highlight></codeline>
+<codeline><highlight class="normal">span.name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP<sp/>GET<sp/>/v1/entity&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">span.start_time_unix_nano<sp/>=<sp/>start_ns;</highlight></codeline>
+<codeline><highlight class="normal">span.end_time_unix_nano<sp/>=<sp/>end_ns;</highlight></codeline>
+<codeline><highlight class="normal">span.status_code<sp/>=<sp/>1;<sp/></highlight><highlight class="comment">//<sp/>OK</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">exporter.enqueue(span);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>At<sp/>shutdown:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">exporter.stop();<sp/></highlight><highlight class="comment">//<sp/>flushes<sp/>and<sp/>joins<sp/>background<sp/>thread</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;winsock2.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ws2tcpip.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;curl/curl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_PROMETHEUS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;prometheus/counter.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;prometheus/registry.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">api</ref><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1api_1_1_otlp_exporter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_otlp_exporter_config" kindref="compound">OtlpExporterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a2130b040095f3fd0f726d533e328224c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a2130b040095f3fd0f726d533e328224c" kindref="member">enabled</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1api_1_1_otlp_exporter_config_1abc3749c19a4e030f6d9143e003969819" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1abc3749c19a4e030f6d9143e003969819" kindref="member">endpoint</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost:4318/v1/traces&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1api_1_1_otlp_exporter_config_1afbe4610f84f36caebbc5bc0da73b71be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1afbe4610f84f36caebbc5bc0da73b71be" kindref="member">service_name</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a038722d9a707db652fe6bb7a742996a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a038722d9a707db652fe6bb7a742996a6" kindref="member">service_version</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a969098c4baccbec16b32e4e32c3dc993" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a969098c4baccbec16b32e4e32c3dc993" kindref="member">timeout_ms</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1api_1_1_otlp_exporter_config_1aafe189c0f5dc5183579489a72eaf9a9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1aafe189c0f5dc5183579489a72eaf9a9a" kindref="member">max_queue_size</ref><sp/>=<sp/>8192;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a386aedd7d5de47dd8d15890ead3ae444" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a386aedd7d5de47dd8d15890ead3ae444" kindref="member">batch_size</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a54025853487e6e797f84ed604e50ad98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a54025853487e6e797f84ed604e50ad98" kindref="member">flush_interval_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TLS<sp/>(leave<sp/>empty<sp/>to<sp/>use<sp/>plain<sp/>HTTP)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1api_1_1_otlp_exporter_config_1aab5bdf6a9e8b6bed7692ccadd9443763" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1aab5bdf6a9e8b6bed7692ccadd9443763" kindref="member">tls_ca_cert</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a0d1a852153a3abd2d8bd3368bdd7c2de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a0d1a852153a3abd2d8bd3368bdd7c2de" kindref="member">tls_client_cert</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a4d4c43161975d47535d15e5a4b653763" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a4d4c43161975d47535d15e5a4b653763" kindref="member">tls_client_key</ref>;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>Bearer<sp/>token;<sp/>placed<sp/>in<sp/>`Authorization:<sp/>Bearer<sp/>&lt;token&gt;`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a6919985f3960bb5854910932d680feda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a6919985f3960bb5854910932d680feda" kindref="member">auth_header</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extra<sp/>static<sp/>HTTP<sp/>headers<sp/>sent<sp/>with<sp/>every<sp/>export<sp/>request.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a56b3df8d20d412bc8bcef21865f8b284" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a56b3df8d20d412bc8bcef21865f8b284" kindref="member">extra_headers</ref>;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Retry<sp/>configuration<sp/>for<sp/>transient<sp/>export<sp/>failures.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>On<sp/>a<sp/>retriable<sp/>error<sp/>(HTTP<sp/>429/503<sp/>or<sp/>a<sp/>curl<sp/>transport<sp/>error),<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>exporter<sp/>retries<sp/>up<sp/>to<sp/>`max_export_retries`<sp/>times<sp/>before<sp/>dropping<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>batch.<sp/><sp/>The<sp/>wait<sp/>before<sp/>retry<sp/>i<sp/>(1-based)<sp/>is:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/>delay<sp/>=<sp/>retry_initial_delay_ms<sp/>*<sp/>2^(i-1)<sp/><sp/><sp/>(100<sp/>ms,<sp/>200<sp/>ms,<sp/>400<sp/>ms<sp/>…)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1api_1_1_otlp_exporter_config_1acf38e5a39764655f97470fd4dd00eaec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1acf38e5a39764655f97470fd4dd00eaec" kindref="member">max_export_retries</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1api_1_1_otlp_exporter_config_1a4916c7f02ef9779232d9d1cd6dd26993" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config_1a4916c7f02ef9779232d9d1cd6dd26993" kindref="member">retry_initial_delay_ms</ref><sp/>=<sp/>100;<sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1api_1_1_span_data" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1api_1_1_span_data" kindref="compound">SpanData</ref><sp/>{</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1api_1_1_span_data_1aa84de767aeb415e69e64cdfa21dbf1fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1api_1_1_span_data_1aa84de767aeb415e69e64cdfa21dbf1fc" kindref="member">trace_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1api_1_1_span_data_1a91b5663f289f374f7f9ac9ac0e95fb29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1api_1_1_span_data_1a91b5663f289f374f7f9ac9ac0e95fb29" kindref="member">span_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1api_1_1_span_data_1a60b0aba89a118b6e307818b3b104da4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1api_1_1_span_data_1a60b0aba89a118b6e307818b3b104da4d" kindref="member">parent_span_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1api_1_1_span_data_1af1708276a2e64196250eb70ac6d9cff3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1api_1_1_span_data_1af1708276a2e64196250eb70ac6d9cff3" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1api_1_1_span_data_1a8314b622c6e3f2912086add8b8fb30c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_span_data_1a8314b622c6e3f2912086add8b8fb30c3" kindref="member">start_time_unix_nano</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1api_1_1_span_data_1a2cb97833e281e7cbd67180b8f3900226" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_span_data_1a2cb97833e281e7cbd67180b8f3900226" kindref="member">end_time_unix_nano</ref><sp/><sp/><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1api_1_1_span_data_1a3720836b9e428639e774e18321b9142a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_span_data_1a3720836b9e428639e774e18321b9142a" kindref="member">status_code</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1api_1_1_span_data_1afad036445344dcac766cc2350dbf5793" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1api_1_1_span_data_1afad036445344dcac766cc2350dbf5793" kindref="member">status_message</ref>;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1api_1_1_span_data_1a72841f8e6058d77c4da05c5215e8cb6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1api_1_1_span_data_1a72841f8e6058d77c4da05c5215e8cb6a" kindref="member">attributes</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1api_1_1_otlp_exporter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kindref="member">OtlpExporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kindref="member">OtlpExporter</ref>(<ref refid="structthemis_1_1api_1_1_otlp_exporter_config" kindref="compound">OtlpExporterConfig</ref><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a8f05e7fca41943ed2b568c97ce7ad4cd" kindref="member">config</ref><sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a6e43bbc630f0a06fd3ab8a60591893e2" kindref="member">~OtlpExporter</ref>();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1api_1_1_otlp_exporter_1aecc79249476ac0e6b3ea504bde01d9ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1aecc79249476ac0e6b3ea504bde01d9ce" kindref="member">OtlpExporter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kindref="member">OtlpExporter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1api_1_1_otlp_exporter_1ac26fc16a5918495e248ef70adc36865b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kindref="member">OtlpExporter</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac26fc16a5918495e248ef70adc36865b" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kindref="member">OtlpExporter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1api_1_1_otlp_exporter_1a8b38a4fe2144eb5ff5ce19b6a10a1cc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a8b38a4fe2144eb5ff5ce19b6a10a1cc0" kindref="member">OtlpExporter</ref>(<ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kindref="member">OtlpExporter</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1api_1_1_otlp_exporter_1a57efab6837c4ec7a2013de5a8d73be02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kindref="member">OtlpExporter</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a57efab6837c4ec7a2013de5a8d73be02" kindref="member">operator=</ref>(<ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac3ea74b87b45e85161121adc832aa390" kindref="member">OtlpExporter</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a9fa8fdd660bb5bac387bc75e19118699" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1ac817c82970a96034031ce63408ae1544" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a77e94b194c8703da082004487c9839e3" kindref="member">enqueue</ref>(<ref refid="structthemis_1_1api_1_1_span_data" kindref="compound">SpanData</ref><sp/>span);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a69cc9eb89e4e573864f40a571e70b459" kindref="member">exportedSpanCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a67bd140505509733c17d4a402553887b" kindref="member">droppedSpanCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1api_1_1_otlp_exporter_1a8f05e7fca41943ed2b568c97ce7ad4cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config" kindref="compound">OtlpExporterConfig</ref>&amp;<sp/><ref refid="classthemis_1_1api_1_1_otlp_exporter_1a8f05e7fca41943ed2b568c97ce7ad4cd" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_PROMETHEUS</highlight><highlight class="preprocessor"></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setPrometheusRegistry(std::shared_ptr&lt;prometheus::Registry&gt;<sp/>registry);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>flushLoop();</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>flushBatch(std::vector&lt;SpanData&gt;&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>buildOtlpJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config" kindref="compound">OtlpExporterConfig</ref>&amp;<sp/>cfg,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SpanData&gt;&amp;<sp/>spans);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_otlp_exporter_config" kindref="compound">OtlpExporterConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;SpanData&gt;<sp/><sp/><sp/><sp/>queue_;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/>queue_mutex_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>queue_cv_;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>flush_thread_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>stop_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/>exported_count_{0};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/>dropped_count_{0};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persistent<sp/>libcurl<sp/>handle<sp/>—<sp/>created<sp/>once<sp/>in<sp/>start(),<sp/>reused<sp/>per<sp/>flush<sp/>batch.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>CURL*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>curl_handle_<sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">curl_slist*<sp/>curl_headers_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_HAS_PROMETHEUS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;prometheus::Registry&gt;<sp/>prom_registry_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>prometheus::Counter*<sp/>prom_exported_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>prometheus::Counter*<sp/>prom_dropped_{</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>api</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/api/otlp_exporter.h"/>
+  </compounddef>
+</doxygen>

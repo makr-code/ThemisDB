@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_module_dependency_resolver" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleDependencyResolver</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <innerclass refid="structthemis_1_1modules_1_1_module_dependency_resolver_1_1_registered_module_info" prot="public">themis::modules::ModuleDependencyResolver::RegisteredModuleInfo</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_module_dependency_resolver_1_1_module_entry" prot="private">themis::modules::ModuleDependencyResolver::ModuleEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_dependency_resolver_1a4485c9130d795c79968a82547c8cbf8b" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, ModuleEntry &gt;</type>
+        <definition>std::map&lt;std::string, ModuleEntry&gt; themis::modules::ModuleDependencyResolver::modules_</definition>
+        <argsstring></argsstring>
+        <name>modules_</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::modules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="977" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="977" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_dependency_resolver_1a86ee675c142c77c770a15841666725a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleDependencyResolver::registerModule</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;version, const std::vector&lt; ModuleDependency &gt; &amp;deps)</argsstring>
+        <name>registerModule</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::registerModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1modules_1_1_module_dependency" kindref="compound">ModuleDependency</ref> &gt; &amp;</type>
+          <declname>deps</declname>
+        </param>
+        <briefdescription>
+<para>Register a module together with its dependency declarations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Module.</para>
+<para>Registering a module a second time replaces the previous registration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique module name (e.g., &quot;themis_base&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Semantic version of this module (e.g., &quot;1.2.3&quot;). May be &quot;&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>deps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency list; may be empty.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="893" column="10" bodyfile="src/themis/module_dependency_resolver.cpp" bodystart="85" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_dependency_resolver_1ad9aec0e0ac85695b7d97da505afd158a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleDependencyResolver::registerModule</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; ModuleDependency &gt; &amp;deps)</argsstring>
+        <name>registerModule</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::registerModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1modules_1_1_module_dependency" kindref="compound">ModuleDependency</ref> &gt; &amp;</type>
+          <declname>deps</declname>
+        </param>
+        <briefdescription>
+<para>Convenience overload — registers a module with no version string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Module.</para>
+<para>Version constraints declared by other modules against this module will only be satisfied if they are unconstrained (both minVersion and maxVersion are empty).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique module name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>deps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dependency list; may be empty.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="907" column="10" bodyfile="src/themis/module_dependency_resolver.cpp" bodystart="98" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_dependency_resolver_1ab8911d4b3ab1377692f18019b4f61f07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_dependency_resolution_result" kindref="compound">DependencyResolutionResult</ref></type>
+        <definition>DependencyResolutionResult themis::modules::ModuleDependencyResolver::resolve</definition>
+        <argsstring>() const</argsstring>
+        <name>resolve</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::resolve</qualifiedname>
+        <briefdescription>
+<para>Resolve load order for all registered modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Resolution result with load order or error information. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="915" column="32" bodyfile="src/themis/module_dependency_resolver.cpp" bodystart="130" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_dependency_resolver_1ad41be89c29f7f7766b3c28d188b298fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_dependency_resolution_result" kindref="compound">DependencyResolutionResult</ref></type>
+        <definition>DependencyResolutionResult themis::modules::ModuleDependencyResolver::resolveFor</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;moduleNames) const</argsstring>
+        <name>resolveFor</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::resolveFor</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>moduleNames</declname>
+        </param>
+        <briefdescription>
+<para>Resolve load order for a specific subset of modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transitive dependencies that are registered but not in <computeroutput>moduleNames</computeroutput> are included in the resolution automatically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleNames</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Modules to resolve (by name). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resolution result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="926" column="32" bodyfile="src/themis/module_dependency_resolver.cpp" bodystart="141" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_dependency_resolver_1a53d99d168b5c28237317e8cd51c06a54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleDependencyResolver::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all registered module entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="932" column="10" bodyfile="src/themis/module_dependency_resolver.cpp" bodystart="108" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_dependency_resolver_1af3eb99a2d001c944f0ed5849a0d888d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_module_dependency_resolver_1_1_registered_module_info" kindref="compound">RegisteredModuleInfo</ref> &gt;</type>
+        <definition>std::vector&lt; ModuleDependencyResolver::RegisteredModuleInfo &gt; themis::modules::ModuleDependencyResolver::getRegisteredModules</definition>
+        <argsstring>() const</argsstring>
+        <name>getRegisteredModules</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::getRegisteredModules</qualifiedname>
+        <briefdescription>
+<para>Return all registered modules and their dependency declarations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Intended for read-only inspection (e.g., dependency graph visualisation). The returned snapshot is sorted by module name.</para>
+<para><simplesect kind="return"><para>Sorted vector of registered module information. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="954" column="17" bodyfile="src/themis/module_dependency_resolver.cpp" bodystart="114" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_dependency_resolver_1ac7535729ea8ec6b8ac5f7000149d2638" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleDependencyResolver::isVersionCompatible</definition>
+        <argsstring>(const std::string &amp;version, const std::string &amp;minVersion, const std::string &amp;maxVersion)</argsstring>
+        <name>isVersionCompatible</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::isVersionCompatible</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>minVersion</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>maxVersion</declname>
+        </param>
+        <briefdescription>
+<para>Check if a version string satisfies the given constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Supports semantic version strings of the form &quot;major.minor.patch&quot;. An empty constraint string is treated as unconstrained (always passes). An empty <computeroutput>version</computeroutput> satisfies only fully unconstrained dependencies.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version to test. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>minVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Lower bound (inclusive). &quot;&quot; = no lower bound. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>maxVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Upper bound (inclusive). &quot;&quot; = no upper bound. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if <computeroutput>version</computeroutput> satisfies both constraints. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="968" column="17" bodyfile="src/themis/module_dependency_resolver.cpp" bodystart="54" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_dependency_resolver_1a594745862f6ab880330fe208ad38a075" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_dependency_resolution_result" kindref="compound">DependencyResolutionResult</ref></type>
+        <definition>DependencyResolutionResult themis::modules::ModuleDependencyResolver::topologicalSort</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;nodes) const</argsstring>
+        <name>topologicalSort</name>
+        <qualifiedname>themis::modules::ModuleDependencyResolver::topologicalSort</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <briefdescription>
+<para>Topological sort (Kahn&apos;s algorithm) over the supplied node set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="980" column="32" bodyfile="src/themis/module_dependency_resolver.cpp" bodystart="209" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resolves module dependencies and computes a safe load order. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Modules register themselves together with their dependency declarations. Calling <ref refid="classthemis_1_1modules_1_1_module_dependency_resolver_1ab8911d4b3ab1377692f18019b4f61f07" kindref="member">resolve()</ref> returns a topological ordering that guarantees every dependency is loaded before the module that depends on it. Circular dependencies and missing required dependencies are reported as errors.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">ModuleDependencyResolver<sp/>resolver;</highlight></codeline>
+<codeline><highlight class="normal">resolver.registerModule(</highlight><highlight class="stringliteral">&quot;themis_base&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/>{});</highlight></codeline>
+<codeline><highlight class="normal">resolver.registerModule(</highlight><highlight class="stringliteral">&quot;themis_storage&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;themis_base&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal">resolver.registerModule(</highlight><highlight class="stringliteral">&quot;themis_query&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;themis_storage&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;themis_base&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>resolver.resolve();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mod<sp/>:<sp/>result.loadOrder)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="882" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="882" bodyend="982"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1a53d99d168b5c28237317e8cd51c06a54" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>clear</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1af3eb99a2d001c944f0ed5849a0d888d6" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>getRegisteredModules</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1ac7535729ea8ec6b8ac5f7000149d2638" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>isVersionCompatible</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1a4485c9130d795c79968a82547c8cbf8b" prot="private" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>modules_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1a86ee675c142c77c770a15841666725a6" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>registerModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1ad9aec0e0ac85695b7d97da505afd158a" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>registerModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1ab8911d4b3ab1377692f18019b4f61f07" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>resolve</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1ad41be89c29f7f7766b3c28d188b298fc" prot="public" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>resolveFor</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_dependency_resolver_1a594745862f6ab880330fe208ad38a075" prot="private" virt="non-virtual"><scope>themis::modules::ModuleDependencyResolver</scope><name>topologicalSort</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::DPRVectorizer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a7470e6f1a642b906aac1f6991a9360a2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref></type>
+        <definition>DPRVectorizerConfig themis::rag::DPRVectorizer::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="44" column="25" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a95504c47c1b45fa542ca335da8acd20e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::DPRVectorizer::Impl::query_encoder_loaded</definition>
+        <argsstring></argsstring>
+        <name>query_encoder_loaded</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::query_encoder_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="45" column="10" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a00dfc28ea7f979e21e772158f8abb53e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::DPRVectorizer::Impl::passage_encoder_loaded</definition>
+        <argsstring></argsstring>
+        <name>passage_encoder_loaded</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::passage_encoder_loaded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="46" column="10" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a27537c4518efd3544b02b5236bac8daf" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_loader" kindref="compound">themis::rag::judge::ONNXModelLoader</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::rag::judge::ONNXModelLoader&gt; themis::rag::DPRVectorizer::Impl::model_loader</definition>
+        <argsstring></argsstring>
+        <name>model_loader</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::model_loader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="49" column="21" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1ae5ea65d0f2a2b7750cd2114fc44b20a1" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info" kindref="compound">themis::rag::judge::ONNXModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt;themis::rag::judge::ONNXModelInfo&gt; themis::rag::DPRVectorizer::Impl::query_model_info</definition>
+        <argsstring></argsstring>
+        <name>query_model_info</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::query_model_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="50" column="19" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1ab255a3d5682443951b353fbf66605f95" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_o_n_n_x_model_info" kindref="compound">themis::rag::judge::ONNXModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt;themis::rag::judge::ONNXModelInfo&gt; themis::rag::DPRVectorizer::Impl::passage_model_info</definition>
+        <argsstring></argsstring>
+        <name>passage_model_info</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::passage_model_info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="51" column="19" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a7032bf6da44ac53711336f66829e4682" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::llm::lora::LlamaTokenizer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::llm::lora::LlamaTokenizer&gt; themis::rag::DPRVectorizer::Impl::query_tokenizer</definition>
+        <argsstring></argsstring>
+        <name>query_tokenizer</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::query_tokenizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="54" column="21" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1ab71e7e6c4d58351f46c434d5763b7897" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::llm::lora::LlamaTokenizer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::llm::lora::LlamaTokenizer&gt; themis::rag::DPRVectorizer::Impl::passage_tokenizer</definition>
+        <argsstring></argsstring>
+        <name>passage_tokenizer</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::passage_tokenizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="55" column="21" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1af52e1835009b9b896bc9da97ea86c33e" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::DPRVectorizer::Impl::state_mutex</definition>
+        <argsstring></argsstring>
+        <name>state_mutex</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::state_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="65" column="24" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a940167df8bedccf68ea0787f537f21a6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::DPRVectorizer::Impl::Impl</definition>
+        <argsstring>(const DPRVectorizerConfig &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config" kindref="compound">DPRVectorizerConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="42" column="5" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1afdae53e8bc9739d2fba2edf0be138630" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::rag::DPRVectorizer::Impl::tokenizeText</definition>
+        <argsstring>(const std::string &amp;text, themis::llm::lora::LlamaTokenizer *tokenizer)</argsstring>
+        <name>tokenizeText</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::tokenizeText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>themis::llm::lora::LlamaTokenizer *</type>
+          <declname>tokenizer</declname>
+        </param>
+        <briefdescription>
+<para>Tokenize Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">tokenizer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_WARN(), encode(), size(), resize(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="91" column="17" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="91" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1ac75f1159eb006128726b2734d3163732" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::rag::DPRVectorizer::Impl::deterministicFallbackEmbedding</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;tokens, bool use_cosine_phase) const</argsstring>
+        <name>deterministicFallbackEmbedding</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::deterministicFallbackEmbedding</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_cosine_phase</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="113" column="17" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="113" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1af6d920a3e28c44453e7ff5983b545c36" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::rag::DPRVectorizer::Impl::normalizeL2</definition>
+        <argsstring>(std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>normalizeL2</name>
+        <qualifiedname>themis::rag::DPRVectorizer::Impl::normalizeL2</qualifiedname>
+        <param>
+          <type>std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Normalize L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/dpr_vectorizer.cpp" line="71" column="17" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="71" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::DPRVectorizer::Impl</label>
+        <link refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::DPRVectorizerConfig</label>
+        <link refid="structthemis_1_1rag_1_1_d_p_r_vectorizer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/rag/dpr_vectorizer.cpp" line="40" column="1" bodyfile="src/rag/dpr_vectorizer.cpp" bodystart="40" bodyend="234"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a7470e6f1a642b906aac1f6991a9360a2" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1ac75f1159eb006128726b2734d3163732" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>deterministicFallbackEmbedding</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a940167df8bedccf68ea0787f537f21a6" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a27537c4518efd3544b02b5236bac8daf" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>model_loader</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1af6d920a3e28c44453e7ff5983b545c36" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>normalizeL2</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a00dfc28ea7f979e21e772158f8abb53e" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>passage_encoder_loaded</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1ab255a3d5682443951b353fbf66605f95" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>passage_model_info</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1ab71e7e6c4d58351f46c434d5763b7897" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>passage_tokenizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a95504c47c1b45fa542ca335da8acd20e" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>query_encoder_loaded</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1ae5ea65d0f2a2b7750cd2114fc44b20a1" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>query_model_info</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1a7032bf6da44ac53711336f66829e4682" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>query_tokenizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1af52e1835009b9b896bc9da97ea86c33e" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>state_mutex</name></member>
+      <member refid="classthemis_1_1rag_1_1_d_p_r_vectorizer_1_1_impl_1afdae53e8bc9739d2fba2edf0be138630" prot="public" virt="non-virtual"><scope>themis::rag::DPRVectorizer::Impl</scope><name>tokenizeText</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

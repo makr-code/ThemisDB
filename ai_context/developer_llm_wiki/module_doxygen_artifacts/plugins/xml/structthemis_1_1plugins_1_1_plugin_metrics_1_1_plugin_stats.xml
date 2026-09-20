@@ -1,0 +1,244 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::PluginMetrics::PluginStats</compoundname>
+    <includes refid="plugin__metrics_8h" local="no">plugin_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1aef13094edd92e913bab13e2519755e1b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::plugins::PluginMetrics::PluginStats::load_time</definition>
+        <argsstring></argsstring>
+        <name>load_time</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::load_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="46" column="35" bodyfile="include/plugins/plugin_metrics.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a513c7fde34c6e7069398cd8e9f680c65" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::plugins::PluginMetrics::PluginStats::last_reload_time</definition>
+        <argsstring></argsstring>
+        <name>last_reload_time</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::last_reload_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="47" column="35" bodyfile="include/plugins/plugin_metrics.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a699f209be88990703139f63bae9835fb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::plugins::PluginMetrics::PluginStats::loaded_at</definition>
+        <argsstring></argsstring>
+        <name>loaded_at</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::loaded_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="48" column="47" bodyfile="include/plugins/plugin_metrics.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a36e472d24954728077530647abcfe767" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginMetrics::PluginStats::reload_count</definition>
+        <argsstring></argsstring>
+        <name>reload_count</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::reload_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="51" column="18" bodyfile="include/plugins/plugin_metrics.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a88d5cbfc2dd367aa5de7e0ec7312ef2a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginMetrics::PluginStats::function_calls</definition>
+        <argsstring></argsstring>
+        <name>function_calls</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::function_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="52" column="18" bodyfile="include/plugins/plugin_metrics.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1ad372f9a6a8597dcd3c33930c8e8b43be" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::plugins::PluginMetrics::PluginStats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="53" column="18" bodyfile="include/plugins/plugin_metrics.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a63b67dd2e5d97beb8694ed7200a4e384" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::PluginMetrics::PluginStats::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="56" column="16" bodyfile="include/plugins/plugin_metrics.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a515b98dc32ec6eec3a8777f0958527e8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::PluginMetrics::PluginStats::avg_call_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_call_latency_ms</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::avg_call_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="59" column="16" bodyfile="include/plugins/plugin_metrics.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1aec22af54ea336fda32b271cccd44667f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::PluginMetrics::PluginStats::p95_call_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_call_latency_ms</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::p95_call_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="60" column="16" bodyfile="include/plugins/plugin_metrics.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a947a1861b8be41671b9be0fe8557b0dc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::PluginMetrics::PluginStats::p99_call_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_call_latency_ms</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::p99_call_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="61" column="16" bodyfile="include/plugins/plugin_metrics.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1ac9a1b75d233ce3e007c639b57c113ed6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::PluginMetrics::PluginStats::sum_call_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>sum_call_latency_ms</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::sum_call_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="62" column="16" bodyfile="include/plugins/plugin_metrics.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a39b357bca94f9770fab3b628469d210c" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::plugins::PluginMetrics::PluginStats::latency_samples</definition>
+        <argsstring></argsstring>
+        <name>latency_samples</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::latency_samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="66" column="20" bodyfile="include/plugins/plugin_metrics.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a6ba6282dbf2ef1dc1deb1daf83e48c2e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::plugins::PluginMetrics::PluginStats::MAX_SAMPLES</definition>
+        <argsstring></argsstring>
+        <name>MAX_SAMPLES</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::MAX_SAMPLES</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="67" column="33" bodyfile="include/plugins/plugin_metrics.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a903ec7685580ae799eb9c9f5d5c521c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::PluginMetrics::PluginStats::updatePercentiles</definition>
+        <argsstring>()</argsstring>
+        <name>updatePercentiles</name>
+        <qualifiedname>themis::plugins::PluginMetrics::PluginStats::updatePercentiles</qualifiedname>
+        <briefdescription>
+<para>Update Percentiles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), std::accumulate(), begin(), end(), size(), sorted(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_metrics.h" line="69" column="14" bodyfile="src/plugins/plugin_metrics.cpp" bodystart="27" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics for a single plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/plugin_metrics.h" line="44" column="5" bodyfile="include/plugins/plugin_metrics.h" bodystart="44" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a515b98dc32ec6eec3a8777f0958527e8" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>avg_call_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1ad372f9a6a8597dcd3c33930c8e8b43be" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a88d5cbfc2dd367aa5de7e0ec7312ef2a" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>function_calls</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a513c7fde34c6e7069398cd8e9f680c65" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>last_reload_time</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a39b357bca94f9770fab3b628469d210c" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>latency_samples</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1aef13094edd92e913bab13e2519755e1b" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>load_time</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a699f209be88990703139f63bae9835fb" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>loaded_at</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a6ba6282dbf2ef1dc1deb1daf83e48c2e" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>MAX_SAMPLES</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a63b67dd2e5d97beb8694ed7200a4e384" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1aec22af54ea336fda32b271cccd44667f" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>p95_call_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a947a1861b8be41671b9be0fe8557b0dc" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>p99_call_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a36e472d24954728077530647abcfe767" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>reload_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1ac9a1b75d233ce3e007c639b57c113ed6" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>sum_call_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_metrics_1_1_plugin_stats_1a903ec7685580ae799eb9c9f5d5c521c0" prot="public" virt="non-virtual"><scope>themis::plugins::PluginMetrics::PluginStats</scope><name>updatePercentiles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

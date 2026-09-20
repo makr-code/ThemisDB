@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="schema__cdc_8h" kind="file" language="C++">
+    <compoundname>schema_cdc.h</compoundname>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <includes local="yes">cdc/schema_registry.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="schema__cdc_8cpp" local="yes">src/replication/schema_cdc.cpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/replication/schema_cdc.h</label>
+        <link refid="schema__cdc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="20">
+        <label>cdc/schema_registry.h</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="21">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>queue</label>
+      </node>
+      <node id="17">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/replication/schema_cdc.h</label>
+        <link refid="schema__cdc_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/replication/schema_cdc.cpp</label>
+        <link refid="schema__cdc_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1replication_1_1_schema_encoded_event" prot="public">themisdb::replication::SchemaEncodedEvent</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge" prot="public">themisdb::replication::SchemaAwareCDCBridge</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats" prot="public">themisdb::replication::SchemaAwareCDCBridge::Stats</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_subscription" prot="private">themisdb::replication::SchemaAwareCDCBridge::Subscription</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cdc/schema_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SchemaEncodedEvent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemisdb_1_1replication_1_1_schema_encoded_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event" kindref="compound">SchemaEncodedEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1ae2c94d777c5f3aff09ff0bd37fcbd0ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1ae2c94d777c5f3aff09ff0bd37fcbd0ea" kindref="member">collection</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1ac9613457cb145f0d9002e5983b560240" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1ac9613457cb145f0d9002e5983b560240" kindref="member">operation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a243ce1de3d2470add09b767fa23c7b1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a243ce1de3d2470add09b767fa23c7b1a" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a4c7ff2d24a4ac1650f4be56e79fced60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a4c7ff2d24a4ac1650f4be56e79fced60" kindref="member">sequence</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a35df818ffc1137112005b1ba81c1bb2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1a35df818ffc1137112005b1ba81c1bb2c" kindref="member">schema_id</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1aacc779d92955b2d6dadc33d49ddf83a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event_1aacc779d92955b2d6dadc33d49ddf83a9" kindref="member">payload</ref>;<sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SchemaAwareCDCBridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab194bd53c486832c3a6a19b408c1d949" kindref="member">SchemaAwareCDCBridge</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::enable_shared_from_this&lt;SchemaAwareCDCBridge&gt;<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4f59dd9232289b5f2aa7550e8ce04111" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4f59dd9232289b5f2aa7550e8ce04111" kindref="member">EncodedCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_schema_encoded_event" kindref="compound">SchemaEncodedEvent</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab194bd53c486832c3a6a19b408c1d949" kindref="member">SchemaAwareCDCBridge</ref>(</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ReplicationManager&gt;<sp/>repl_mgr,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::cdc::SchemaRegistryConfig&amp;<sp/>reg_cfg);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a8ce2a7692aae725d06bd36a2c6ffe2a9" kindref="member">~SchemaAwareCDCBridge</ref>();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Collection<sp/>registration<sp/>─────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a2f7d38151cad1ae4cfc29be54b7371fd" kindref="member">registerCollection</ref>(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>schema_def<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1aa191d4bd54abee1bfa20fb6568bc243f" kindref="member">deregisterCollection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Subscription<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9d303bba3730f83abea917146663b564" kindref="member">subscribe</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4f59dd9232289b5f2aa7550e8ce04111" kindref="member">EncodedCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ab7eda7b2efe050d45799ab7d08da966b" kindref="member">unsubscribe</ref>(uint64_t<sp/>subscription_id);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ac46ba425bf89153f330e16f00aa91c36" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a1b361c5e133a7209033bc83dfa0201aa" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Statistics<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="132" refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a95d9092f06d8066c55a660c1ca23e254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a95d9092f06d8066c55a660c1ca23e254" kindref="member">events_encoded</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a7c3a8cceda4c7c817af3e749882c25e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a7c3a8cceda4c7c817af3e749882c25e2" kindref="member">events_skipped</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a468fa9af0f784b19f7de2bd9d07a0a73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1_1_stats_1a468fa9af0f784b19f7de2bd9d07a0a73" kindref="member">encoding_errors</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1acde9280743cc71dda791120bc73b9cf9" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>IReplicationListener<sp/>(only<sp/>WAL<sp/>entries<sp/>matter)<sp/>──────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ac55fd6725f3fb18770313165c59d57fd" kindref="member">onWALEntryApplied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;<sp/>entry)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a35b8a85783973f0bb8950da818c589e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a35b8a85783973f0bb8950da818c589e8" kindref="member">onRoleChange</ref>(<ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref>,<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref>)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="143" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a8604d559425ed3661bce06a4b128ee2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a8604d559425ed3661bce06a4b128ee2f" kindref="member">onLeaderElected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="144" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a215e68632ba9a2e669257a0dcb39c2b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a215e68632ba9a2e669257a0dcb39c2b0" kindref="member">onReplicaAdded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="145" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5ea7bc7f4757c22b2d20a5cb07b9a7eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5ea7bc7f4757c22b2d20a5cb07b9a7eb" kindref="member">onReplicaRemoved</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="146" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1aae274d6ccc7cdcc3f176982be78e520f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1aae274d6ccc7cdcc3f176982be78e520f" kindref="member">onConflictDetected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="147" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5b5e8a73cc1f6ca44f99c902d82ab9ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5b5e8a73cc1f6ca44f99c902d82ab9ed" kindref="member">onReplicationLagWarning</ref>(int64_t)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="148" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9ed8d40b7ca171bbf326f607351bc485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9ed8d40b7ca171bbf326f607351bc485" kindref="member">onReplicaHealthChanged</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref>,<sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref>)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="150" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a13e8a9b30103eceaca6eb4aa091b1d0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a13e8a9b30103eceaca6eb4aa091b1d0c" kindref="member">onFailoverStarted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="152" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9d9fc89d904a2f28a956f19afd9c98b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9d9fc89d904a2f28a956f19afd9c98b1" kindref="member">onFailoverCompleted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="153" refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ad097bfe64e1d11cf1b0dc8d51beb2e38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ad097bfe64e1d11cf1b0dc8d51beb2e38" kindref="member">onNetworkPartitionDetected</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ReplicationManager&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>repl_mgr_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::cdc::SchemaRegistryConfig<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>reg_cfg_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::cdc::SchemaRegistryClient&gt;<sp/>registry_;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Registered<sp/>collections:<sp/>collection<sp/>-&gt;<sp/>schema_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint32_t&gt;<sp/>registered_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Subscription<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/>collection;<sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>=<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a4f59dd9232289b5f2aa7550e8ce04111" kindref="member">EncodedCallback</ref><sp/>callback;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Subscription&gt;<sp/>subscriptions_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><sp/><sp/><sp/><sp/>next_sub_id_{1};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>are<sp/>maintained<sp/>with<sp/>individual<sp/>atomics<sp/>to<sp/>avoid<sp/>nested<sp/>locking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(mutex_<sp/>must<sp/>never<sp/>be<sp/>held<sp/>while<sp/>acquiring<sp/>stats_mutex_).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>skipped_events_{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>incremented<sp/>lock-free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>started_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>dispatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SchemaEncodedEvent&amp;<sp/>ev);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/replication/schema_cdc.h"/>
+  </compounddef>
+</doxygen>

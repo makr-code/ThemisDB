@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_temp_dir_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::TempDirGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_temp_dir_guard_1a5975e9f6d3bb2512d2447c9595c86c70" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TempDirGuard::path_</definition>
+        <argsstring></argsstring>
+        <name>path_</name>
+        <qualifiedname>themis::content::TempDirGuard::path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="319" column="17" bodyfile="src/content/archive_processor_enhancements.cpp" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_temp_dir_guard_1a5754539d0d637e19b248055c28ae7076" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::TempDirGuard::TempDirGuard</definition>
+        <argsstring>(std::string path)</argsstring>
+        <name>TempDirGuard</name>
+        <qualifiedname>themis::content::TempDirGuard::TempDirGuard</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="299" column="14" bodyfile="src/content/archive_processor_enhancements.cpp" bodystart="299" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_temp_dir_guard_1a3c8439fda7b9bd50d93194c20bf298c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::TempDirGuard::~TempDirGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~TempDirGuard</name>
+        <qualifiedname>themis::content::TempDirGuard::~TempDirGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="305" column="5" bodyfile="src/content/archive_processor_enhancements.cpp" bodystart="305" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_temp_dir_guard_1a1f44bc6878371c0cc030670e88fedb74" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::TempDirGuard::TempDirGuard</definition>
+        <argsstring>(const TempDirGuard &amp;)=delete</argsstring>
+        <name>TempDirGuard</name>
+        <qualifiedname>themis::content::TempDirGuard::TempDirGuard</qualifiedname>
+        <param>
+          <type>const TempDirGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="312" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_temp_dir_guard_1ae393b9979660308b883d21a572e3f5c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1content_1_1_temp_dir_guard_1a5754539d0d637e19b248055c28ae7076" kindref="member">TempDirGuard</ref> &amp;</type>
+        <definition>TempDirGuard &amp; themis::content::TempDirGuard::operator=</definition>
+        <argsstring>(const TempDirGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::content::TempDirGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_temp_dir_guard_1a5754539d0d637e19b248055c28ae7076" kindref="member">TempDirGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="313" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_temp_dir_guard_1ab9dd651ca934e41b07fd5fa43f4365c7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::TempDirGuard::TempDirGuard</definition>
+        <argsstring>(TempDirGuard &amp;&amp;other) noexcept</argsstring>
+        <name>TempDirGuard</name>
+        <qualifiedname>themis::content::TempDirGuard::TempDirGuard</qualifiedname>
+        <param>
+          <type>TempDirGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="314" column="5" bodyfile="src/content/archive_processor_enhancements.cpp" bodystart="314" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_temp_dir_guard_1ad58fb0c664af9c94030e5b3f06f3233a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::content::TempDirGuard::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::content::TempDirGuard::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/content/archive_processor_enhancements.cpp" line="316" column="23" bodyfile="src/content/archive_processor_enhancements.cpp" bodystart="316" bodyend="316"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/content/archive_processor_enhancements.cpp" line="297" column="1" bodyfile="src/content/archive_processor_enhancements.cpp" bodystart="297" bodyend="320"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_temp_dir_guard_1ad58fb0c664af9c94030e5b3f06f3233a" prot="public" virt="non-virtual"><scope>themis::content::TempDirGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1content_1_1_temp_dir_guard_1ae393b9979660308b883d21a572e3f5c7" prot="public" virt="non-virtual"><scope>themis::content::TempDirGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1content_1_1_temp_dir_guard_1a5975e9f6d3bb2512d2447c9595c86c70" prot="private" virt="non-virtual"><scope>themis::content::TempDirGuard</scope><name>path_</name></member>
+      <member refid="classthemis_1_1content_1_1_temp_dir_guard_1a5754539d0d637e19b248055c28ae7076" prot="public" virt="non-virtual"><scope>themis::content::TempDirGuard</scope><name>TempDirGuard</name></member>
+      <member refid="classthemis_1_1content_1_1_temp_dir_guard_1a1f44bc6878371c0cc030670e88fedb74" prot="public" virt="non-virtual"><scope>themis::content::TempDirGuard</scope><name>TempDirGuard</name></member>
+      <member refid="classthemis_1_1content_1_1_temp_dir_guard_1ab9dd651ca934e41b07fd5fa43f4365c7" prot="public" virt="non-virtual"><scope>themis::content::TempDirGuard</scope><name>TempDirGuard</name></member>
+      <member refid="classthemis_1_1content_1_1_temp_dir_guard_1a3c8439fda7b9bd50d93194c20bf298c9" prot="public" virt="non-virtual"><scope>themis::content::TempDirGuard</scope><name>~TempDirGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

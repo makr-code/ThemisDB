@@ -1,0 +1,349 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_empty_findings_engine" kind="class" language="C++" prot="public">
+    <compoundname>EmptyFindingsEngine</compoundname>
+    <basecompoundref refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine" prot="public" virt="non-virtual">themis::utils::IPIIDetectionEngine</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_empty_findings_engine_1a72f6a2891230d3380257304df7e0ffb8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string EmptyFindingsEngine::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>EmptyFindingsEngine::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1aba1468a3b221ee881c456281c90de284">getName</reimplements>
+        <briefdescription>
+<para>Get engine name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Engine identifier (e.g., &quot;regex&quot;, &quot;ner&quot;, &quot;embedding&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="56" column="18" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1afdf30f2e90748e7e5101a69f06f45035" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string EmptyFindingsEngine::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>EmptyFindingsEngine::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1afab9397e34d52f26b22a9817f162bc85">getVersion</reimplements>
+        <briefdescription>
+<para>Get engine version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Semantic version string (e.g., &quot;1.0.0&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="57" column="18" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1a6283d05c9e1bd82042fe8832d244576a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool EmptyFindingsEngine::isEnabled</definition>
+        <argsstring>() const override</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>EmptyFindingsEngine::isEnabled</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a65c5ebd21056e1fadcc9205d55eab38c">isEnabled</reimplements>
+        <briefdescription>
+<para>Check if engine is enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if engine is active </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="58" column="18" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1acb0c2e848baf36e37ebc0c67080793c3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_plugin_signature" kindref="compound">PluginSignature</ref></type>
+        <definition>PluginSignature EmptyFindingsEngine::getSignature</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSignature</name>
+        <qualifiedname>EmptyFindingsEngine::getSignature</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a25c15b7d10a9f91c34b70028d626c3d5">getSignature</reimplements>
+        <briefdescription>
+<para>Get engine&apos;s signature metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Plugin signature for PKI verification </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="59" column="22" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1ab13303b28415ad6b0d3a754167cf2b6d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool EmptyFindingsEngine::initialize</definition>
+        <argsstring>(const nlohmann::json &amp;) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>EmptyFindingsEngine::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a49e533d40856a5a1b410a73a0e44c777">initialize</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize engine with signed configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>SECURITY: This method should only be called after signature verification. The factory is responsible for PKI validation before initialization.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>YAML configuration node for this engine </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false on initialization failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="60" column="11" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1a282bea5c27c7b5982bdf24d77974d483" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool EmptyFindingsEngine::reload</definition>
+        <argsstring>(const nlohmann::json &amp;) override</argsstring>
+        <name>reload</name>
+        <qualifiedname>EmptyFindingsEngine::reload</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af5275b010649816fa13049ebb568eb19">reload</reimplements>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Reload engine configuration at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New YAML configuration node </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success, false if reload failed (engine retains old config) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="61" column="11" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1a2cfa774482f5913605c47e174d01440e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_p_i_i_finding" kindref="compound">PIIFinding</ref> &gt;</type>
+        <definition>std::vector&lt; PIIFinding &gt; EmptyFindingsEngine::detectInText</definition>
+        <argsstring>(const std::string &amp;) const override</argsstring>
+        <name>detectInText</name>
+        <qualifiedname>EmptyFindingsEngine::detectInText</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a1acee6e2fc58487211c005027d27e7f7">detectInText</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect PII in plain text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text to scan </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of PII findings </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="63" column="18" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1a8297c95f7b7418c523d79340a19cbcdb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+        <definition>PIIType EmptyFindingsEngine::classifyFieldName</definition>
+        <argsstring>(const std::string &amp;) const override</argsstring>
+        <name>classifyFieldName</name>
+        <qualifiedname>EmptyFindingsEngine::classifyFieldName</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1af3ba446653e7b2ab99a7a06c09346a18">classifyFieldName</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Classify field name for PII type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses engine-specific heuristics (e.g., regex uses field hints, NER uses embeddings).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field name to classify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref> if field suggests PII, PIIType::UNKNOWN otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="66" column="14" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1a53079dd42318159349d3a4ca9068feec" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string EmptyFindingsEngine::getRedactionRecommendation</definition>
+        <argsstring>(PIIType) const override</argsstring>
+        <name>getRedactionRecommendation</name>
+        <qualifiedname>EmptyFindingsEngine::getRedactionRecommendation</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a7ed6458bc59c839db088a8ced8fadb8b">getRedactionRecommendation</reimplements>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a09255502a93e3d31787596b9ce3d0bae" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get recommended redaction mode for PII type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PII type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&quot;strict&quot;, &quot;partial&quot;, or &quot;none&quot; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="69" column="18" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1a4a9d58302f16fd1f8338eb1eaaaa206d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string EmptyFindingsEngine::getLastError</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLastError</name>
+        <qualifiedname>EmptyFindingsEngine::getLastError</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a98faa15356d71eee761f734a662b27c8">getLastError</reimplements>
+        <briefdescription>
+<para>Get last error message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Error message from last failed operation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="72" column="22" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1a635faa49c9705d1e141d186e96fa4dd3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json EmptyFindingsEngine::getMetadata</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>EmptyFindingsEngine::getMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a749aab70f6baef4f92ba1cf151ac1fdd">getMetadata</reimplements>
+        <briefdescription>
+<para>Get engine-specific metadata (pattern count, model info, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with engine metadata </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="73" column="22" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_empty_findings_engine_1af2583f4d3b5ea5459bfe9bee00688d7c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t EmptyFindingsEngine::maxPatternLength</definition>
+        <argsstring>() const override</argsstring>
+        <name>maxPatternLength</name>
+        <qualifiedname>EmptyFindingsEngine::maxPatternLength</qualifiedname>
+        <reimplements refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1ade98ce1b95dea64affb40210a167e249">maxPatternLength</reimplements>
+        <briefdescription>
+<para>Return the maximum number of bytes a single entity span can occupy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <ref refid="classthemis_1_1utils_1_1_p_i_i_stream_scanner" kindref="compound">PIIStreamScanner</ref> to size its cross-chunk lookahead buffer so that entity spans straddling a chunk boundary are detected correctly. The sliding-window overlap used for cross-chunk regex matching equals this value.</para>
+<para><simplesect kind="return"><para>Maximum entity length in bytes (default: 256). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_privacy_hardening.cpp" line="74" column="12" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>EmptyFindingsEngine</label>
+        <link refid="class_empty_findings_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::utils::IPIIDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>EmptyFindingsEngine</label>
+        <link refid="class_empty_findings_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::utils::IPIIDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_utils_privacy_hardening.cpp" line="54" column="1" bodyfile="tests/utils/test_utils_privacy_hardening.cpp" bodystart="54" bodyend="75"/>
+    <listofallmembers>
+      <member refid="class_empty_findings_engine_1a8297c95f7b7418c523d79340a19cbcdb" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>classifyFieldName</name></member>
+      <member refid="class_empty_findings_engine_1a2cfa774482f5913605c47e174d01440e" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>detectInText</name></member>
+      <member refid="class_empty_findings_engine_1a4a9d58302f16fd1f8338eb1eaaaa206d" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>getLastError</name></member>
+      <member refid="class_empty_findings_engine_1a635faa49c9705d1e141d186e96fa4dd3" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>getMetadata</name></member>
+      <member refid="class_empty_findings_engine_1a72f6a2891230d3380257304df7e0ffb8" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>getName</name></member>
+      <member refid="class_empty_findings_engine_1a53079dd42318159349d3a4ca9068feec" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>getRedactionRecommendation</name></member>
+      <member refid="class_empty_findings_engine_1acb0c2e848baf36e37ebc0c67080793c3" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>getSignature</name></member>
+      <member refid="class_empty_findings_engine_1afdf30f2e90748e7e5101a69f06f45035" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>getVersion</name></member>
+      <member refid="class_empty_findings_engine_1ab13303b28415ad6b0d3a754167cf2b6d" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>initialize</name></member>
+      <member refid="class_empty_findings_engine_1a6283d05c9e1bd82042fe8832d244576a" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>isEnabled</name></member>
+      <member refid="class_empty_findings_engine_1af2583f4d3b5ea5459bfe9bee00688d7c" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>maxPatternLength</name></member>
+      <member refid="class_empty_findings_engine_1a282bea5c27c7b5982bdf24d77974d483" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>reload</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine_1a487a9425fb15d7696e0d01737e5775c0" prot="public" virt="virtual"><scope>EmptyFindingsEngine</scope><name>~IPIIDetectionEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

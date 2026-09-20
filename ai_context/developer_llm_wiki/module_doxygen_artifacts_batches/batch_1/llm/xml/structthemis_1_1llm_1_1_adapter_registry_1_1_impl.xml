@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_registry_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterRegistry::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_impl_1a714ee9b7f156b6a8ddc28b3c8cb282bd" prot="public" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::llm::AdapterRegistry::Impl::rw_mu</definition>
+        <argsstring></argsstring>
+        <name>rw_mu</name>
+        <qualifiedname>themis::llm::AdapterRegistry::Impl::rw_mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/adapter_registry.cpp" line="173" column="31" bodyfile="src/llm/adapter_registry.cpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_impl_1ab1aa7060c53628919eb5bd405e30d818" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AdapterMetadata&gt; themis::llm::AdapterRegistry::Impl::adapters</definition>
+        <argsstring></argsstring>
+        <name>adapters</name>
+        <qualifiedname>themis::llm::AdapterRegistry::Impl::adapters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/adapter_registry.cpp" line="175" column="24" bodyfile="src/llm/adapter_registry.cpp" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_impl_1a110485aa7ed8034ec616b2ee389bb985" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, AdapterSignature&gt; themis::llm::AdapterRegistry::Impl::signatures</definition>
+        <argsstring></argsstring>
+        <name>signatures</name>
+        <qualifiedname>themis::llm::AdapterRegistry::Impl::signatures</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/adapter_registry.cpp" line="177" column="24" bodyfile="src/llm/adapter_registry.cpp" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_impl_1a5ce379243adc88b8cd5b5ad9d282812b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1_adapter_registry_1a6bd6669ecd675b50bf78051271310681" kindref="member">AdapterRegistry::HotLoadCallback</ref> &gt;</type>
+        <definition>std::vector&lt;AdapterRegistry::HotLoadCallback&gt; themis::llm::AdapterRegistry::Impl::hot_load_callbacks</definition>
+        <argsstring></argsstring>
+        <name>hot_load_callbacks</name>
+        <qualifiedname>themis::llm::AdapterRegistry::Impl::hot_load_callbacks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/adapter_registry.cpp" line="179" column="17" bodyfile="src/llm/adapter_registry.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/adapter_registry.cpp" line="172" column="1" bodyfile="src/llm/adapter_registry.cpp" bodystart="172" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_impl_1ab1aa7060c53628919eb5bd405e30d818" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::Impl</scope><name>adapters</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_impl_1a5ce379243adc88b8cd5b5ad9d282812b" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::Impl</scope><name>hot_load_callbacks</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_impl_1a714ee9b7f156b6a8ddc28b3c8cb282bd" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::Impl</scope><name>rw_mu</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_impl_1a110485aa7ed8034ec616b2ee389bb985" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::Impl</scope><name>signatures</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

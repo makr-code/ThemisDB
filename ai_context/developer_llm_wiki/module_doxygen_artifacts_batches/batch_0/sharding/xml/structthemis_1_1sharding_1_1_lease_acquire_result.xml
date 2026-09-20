@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_lease_acquire_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LeaseAcquireResult</compoundname>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_acquire_result_1a272e50b5326af7ca7bc346e9645887b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::LeaseAcquireResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::LeaseAcquireResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="153" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_acquire_result_1a3357513cf89cd76b2c5e421f5e71d4a6" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_lease_record" kindref="compound">LeaseRecord</ref></type>
+        <definition>LeaseRecord themis::sharding::LeaseAcquireResult::record</definition>
+        <argsstring></argsstring>
+        <name>record</name>
+        <qualifiedname>themis::sharding::LeaseAcquireResult::record</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="154" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lease_acquire_result_1a4372f2ebcf1e5db5ece4ad0ccef4333f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LeaseAcquireResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::LeaseAcquireResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty only on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="155" column="17" bodyfile="include/sharding/epoch_fencing.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::LeaseAcquireResult</label>
+        <link refid="structthemis_1_1sharding_1_1_lease_acquire_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>record</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::LeaseRecord</label>
+        <link refid="structthemis_1_1sharding_1_1_lease_record"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/epoch_fencing.h" line="152" column="1" bodyfile="include/sharding/epoch_fencing.h" bodystart="152" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_lease_acquire_result_1a4372f2ebcf1e5db5ece4ad0ccef4333f" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseAcquireResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_acquire_result_1a3357513cf89cd76b2c5e421f5e71d4a6" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseAcquireResult</scope><name>record</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lease_acquire_result_1a272e50b5326af7ca7bc346e9645887b8" prot="public" virt="non-virtual"><scope>themis::sharding::LeaseAcquireResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

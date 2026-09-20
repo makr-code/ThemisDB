@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1replication_1_1test" kind="namespace" language="C++">
+    <compoundname>themisdb::replication::test</compoundname>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" prot="public">themisdb::replication::test::ConflictContextTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test" prot="public">themisdb::replication::test::DeterministicConflictResolutionTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test" prot="public">themisdb::replication::test::DiagnosticsConsistencyTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test" prot="public">themisdb::replication::test::EdgeCaseConflictResolutionTest</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" prot="public">themisdb::replication::test::FieldLevelMergeResolverTest</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1test_1_1_stub_w_a_l" prot="public">themisdb::replication::test::StubWAL</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" prot="public">themisdb::replication::test::ThreeWayMergeResolverTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1a06396f8fa19e970975662f05b81094c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(ThreeWayMergeResolverTest, SingleWriteReturnedUnchanged)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" kindref="compound">ThreeWayMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>SingleWriteReturnedUnchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-01.1: Single write in conflict set is returned unchanged. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="72" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1aa44bc4184fb00e23195039588dafe898" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(ThreeWayMergeResolverTest, MultipleWritesResolved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" kindref="compound">ThreeWayMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleWritesResolved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-01.2: Multiple writes are resolved to one winner. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="86" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="86" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1afb8b79bead1dc487d7e14afeb784e6e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(ThreeWayMergeResolverTest, EmptyConflictSetFailsClosed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" kindref="compound">ThreeWayMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyConflictSetFailsClosed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-01.3: Empty conflict set fails closed. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="103" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="103" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1aa36cc23eae97bffb5af99e853ad79b44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(ThreeWayMergeResolverTest, StrategyNameConsistent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_three_way_merge_resolver_test" kindref="compound">ThreeWayMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>StrategyNameConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-01.4: Strategy name is consistent. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="116" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="116" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1ad3aa023e4242bbf5272d83c9fe104016" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(FieldLevelMergeResolverTest, UnionStrategyIncludesAllFields)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kindref="compound">FieldLevelMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>UnionStrategyIncludesAllFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-02.1: UNION strategy includes all fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="166" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="166" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1ace3127d2292c7f4aa469a9c1e6f2a375" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(FieldLevelMergeResolverTest, IntersectStrategyOnlyCommonFields)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kindref="compound">FieldLevelMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>IntersectStrategyOnlyCommonFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-02.2: INTERSECT strategy includes only common fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="183" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="183" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1a472f44fc46e09d90d1d76f0d4266d011" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(FieldLevelMergeResolverTest, LeftBiasPreferFirstEntry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kindref="compound">FieldLevelMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>LeftBiasPreferFirstEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-02.3: LEFT_BIAS strategy resolves without error and returns valid winner.</para>
+<para>Note: LEFT_BIAS applies at field-value level for conflicting fields; the base winner is always the latest-HLC write. This test verifies the resolver runs cleanly and returns a valid entry, not a specific write_id. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="204" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="204" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1a4a9837f99d6e3338d1bd727b7465ae86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(FieldLevelMergeResolverTest, RightBiasPreferLastEntry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kindref="compound">FieldLevelMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>RightBiasPreferLastEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-02.4: RIGHT_BIAS strategy resolves without error and returns valid winner.</para>
+<para>Note: RIGHT_BIAS applies at field-value level for conflicting fields; the base winner is always the latest-HLC write. This test verifies the resolver runs cleanly and returns a valid entry, not a specific write_id. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="227" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="227" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1a402e374e46f9e2c574e1e7b6882ba069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(FieldLevelMergeResolverTest, StrategyNamesCorrect)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_field_level_merge_resolver_test" kindref="compound">FieldLevelMergeResolverTest</ref></type>
+        </param>
+        <param>
+          <type>StrategyNamesCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-02.5: Strategy names are correct and deterministic. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="246" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="246" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1aa9afe3dcce3f0b57eb765184d40ea27b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(ConflictContextTest, ResolutionContextRespected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" kindref="compound">ConflictContextTest</ref></type>
+        </param>
+        <param>
+          <type>ResolutionContextRespected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-03.1: Resolution context with metadata and roles is respected. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="303" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="303" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1ae29a45c0b6d692244436309b878c5ce5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(ConflictContextTest, EmptyUserRolesHandled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_conflict_context_test" kindref="compound">ConflictContextTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyUserRolesHandled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-03.2: Empty user roles are handled correctly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="326" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="326" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1ad38db0adef24c7389500fd5f1d092764" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(DeterministicConflictResolutionTest, IdempotentResolution)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test" kindref="compound">DeterministicConflictResolutionTest</ref></type>
+        </param>
+        <param>
+          <type>IdempotentResolution</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-04.1: Same input always produces same winner (idempotence). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="381" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="381" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1aefd733b97e3d4d91f6b2188f20d15dd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(DeterministicConflictResolutionTest, SequentialResolutionStateIntegrity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_deterministic_conflict_resolution_test" kindref="compound">DeterministicConflictResolutionTest</ref></type>
+        </param>
+        <param>
+          <type>SequentialResolutionStateIntegrity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-04.2: Multiple sequential calls don&apos;t corrupt resolver state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="395" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="395" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1adc7e2322e07b496290c4bc20e6379a73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(EdgeCaseConflictResolutionTest, MinimalConflictSetResolved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test" kindref="compound">EdgeCaseConflictResolutionTest</ref></type>
+        </param>
+        <param>
+          <type>MinimalConflictSetResolved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-05.1: Minimum conflict set (2 writes) resolves correctly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="454" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="454" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1ae645ddd4fd4ddc6eeed703eb8e338c38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(EdgeCaseConflictResolutionTest, LargeConflictSetDeterministic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_edge_case_conflict_resolution_test" kindref="compound">EdgeCaseConflictResolutionTest</ref></type>
+        </param>
+        <param>
+          <type>LargeConflictSetDeterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-05.2: Large conflict set resolves deterministically. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="477" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="477" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1a950c78e1b23f7dae85b9b994eda5ba11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(DiagnosticsConsistencyTest, StrategyNamesConsistent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test" kindref="compound">DiagnosticsConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>StrategyNamesConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-06.1: Strategy names are consistent and identifiable. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="539" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="539" bodyend="550"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1aea7938323268d8eac301d5b31ad0cab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST_F</definition>
+        <argsstring>(DiagnosticsConsistencyTest, DiagnosticMetadataAvailable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::replication::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1test_1_1_diagnostics_consistency_test" kindref="compound">DiagnosticsConsistencyTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticMetadataAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>RCS-06.2: Resolution diagnostics include metadata about decision path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_conflict_focused.cpp" line="555" column="1" bodyfile="tests/replication/test_replication_conflict_focused.cpp" bodystart="555" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1a13bf99c57390589e2b6abda7d19527b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST</definition>
+        <argsstring>(ReplicationFailClosedContract, RejectsWriteWhenWalAppendFails)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationFailClosedContract</type>
+        </param>
+        <param>
+          <type>RejectsWriteWhenWalAppendFails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_fail_closed_behavior.cpp" line="26" column="1" bodyfile="tests/replication/test_replication_fail_closed_behavior.cpp" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1_1test_1a1875c50ccf1e374aee660b3d3ab11cff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::test::TEST</definition>
+        <argsstring>(ReplicationFailClosedContract, AcceptsWriteWhenWalAppendSucceeds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::replication::test::TEST</qualifiedname>
+        <param>
+          <type>ReplicationFailClosedContract</type>
+        </param>
+        <param>
+          <type>AcceptsWriteWhenWalAppendSucceeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_fail_closed_behavior.cpp" line="33" column="1" bodyfile="tests/replication/test_replication_fail_closed_behavior.cpp" bodystart="33" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_conflict_focused.cpp" line="22" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_retry_engine" kind="class" language="C++" prot="public">
+    <compoundname>StubRetryEngine</compoundname>
+    <innerclass refid="struct_stub_retry_engine_1_1_config" prot="public">StubRetryEngine::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_retry_engine_1a0474d01fdc9b31d2b5842c92902291a9" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_stub_retry_engine_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config StubRetryEngine::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>StubRetryEngine::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="119" column="12" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_retry_engine_1abcf6263353e8e7a5dc58941234b18046" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StubRetryEngine::attempts_</definition>
+        <argsstring></argsstring>
+        <name>attempts_</name>
+        <qualifiedname>StubRetryEngine::attempts_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="120" column="9" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_retry_engine_1a9492de18b3895ca090a00da879171e45" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubRetryEngine::StubRetryEngine</definition>
+        <argsstring>(Config cfg={})</argsstring>
+        <name>StubRetryEngine</name>
+        <qualifiedname>StubRetryEngine::StubRetryEngine</qualifiedname>
+        <param>
+          <type><ref refid="struct_stub_retry_engine_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="91" column="14" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_retry_engine_1a2ca933e194d797363f8c77a8b0d54351" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref></type>
+        <definition>ServerErrorClass StubRetryEngine::execute</definition>
+        <argsstring>(std::function&lt; ServerErrorClass()&gt; fn)</argsstring>
+        <name>execute</name>
+        <qualifiedname>StubRetryEngine::execute</qualifiedname>
+        <param>
+          <type>std::function&lt; <ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref>()&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Returns the error class after exhausting retries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="94" column="22" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="94" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_retry_engine_1a6044e6d12a585351c41b4bd9691ca6be" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StubRetryEngine::attempts</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>attempts</name>
+        <qualifiedname>StubRetryEngine::attempts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="116" column="9" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="116" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub retry engine implementing the contract from §3. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_contract_hardening_focused.cpp" line="82" column="1" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="82" bodyend="121"/>
+    <listofallmembers>
+      <member refid="class_stub_retry_engine_1a6044e6d12a585351c41b4bd9691ca6be" prot="public" virt="non-virtual"><scope>StubRetryEngine</scope><name>attempts</name></member>
+      <member refid="class_stub_retry_engine_1abcf6263353e8e7a5dc58941234b18046" prot="private" virt="non-virtual"><scope>StubRetryEngine</scope><name>attempts_</name></member>
+      <member refid="class_stub_retry_engine_1a0474d01fdc9b31d2b5842c92902291a9" prot="private" virt="non-virtual"><scope>StubRetryEngine</scope><name>cfg_</name></member>
+      <member refid="class_stub_retry_engine_1a2ca933e194d797363f8c77a8b0d54351" prot="public" virt="non-virtual"><scope>StubRetryEngine</scope><name>execute</name></member>
+      <member refid="class_stub_retry_engine_1a9492de18b3895ca090a00da879171e45" prot="public" virt="non-virtual"><scope>StubRetryEngine</scope><name>StubRetryEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

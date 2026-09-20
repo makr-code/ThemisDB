@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001_1_1incident__management__controls" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001::incident_management_controls</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1iso27001_1_1incident__management__controls_1a3eca2c4de74b878804613f470ed14630" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::iso27001::incident_management_controls::kIncidentResponseManagement</definition>
+        <argsstring></argsstring>
+        <name>kIncidentResponseManagement</name>
+        <qualifiedname>themis::governance::iso27001::incident_management_controls::kIncidentResponseManagement</qualifiedname>
+        <initializer>= &quot;A.16.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="185" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="184" column="1"/>
+  </compounddef>
+</doxygen>

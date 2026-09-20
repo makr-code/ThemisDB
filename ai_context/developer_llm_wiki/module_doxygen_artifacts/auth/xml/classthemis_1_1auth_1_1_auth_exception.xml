@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_auth_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AuthException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="auth__error_8h" local="no">auth_error.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_auth_exception_1a29a6cd69b96e4f9a9fde31e5c5f3460c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">AuthError</ref></type>
+        <definition>AuthError themis::auth::AuthException::error_</definition>
+        <argsstring></argsstring>
+        <name>error_</name>
+        <qualifiedname>themis::auth::AuthException::error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="272" column="15" bodyfile="include/auth/auth_error.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_exception_1a0cead3385378222e181b25121926c714" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AuthException::AuthException</definition>
+        <argsstring>(const AuthError &amp;error)</argsstring>
+        <name>AuthException</name>
+        <qualifiedname>themis::auth::AuthException::AuthException</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">AuthError</ref> &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Auth Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="264" column="14" bodyfile="include/auth/auth_error.h" bodystart="264" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1auth_1_1_auth_error" kindref="compound">AuthError</ref> &amp;</type>
+        <definition>const AuthError &amp; themis::auth::AuthException::error</definition>
+        <argsstring>() const</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::auth::AuthException::error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/auth_error.h" line="269" column="21" bodyfile="include/auth/auth_error.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::AuthException</label>
+        <link refid="classthemis_1_1auth_1_1_auth_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::auth::AuthException</label>
+        <link refid="classthemis_1_1auth_1_1_auth_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/auth_error.h" line="257" column="1" bodyfile="include/auth/auth_error.h" bodystart="257" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_auth_exception_1a0cead3385378222e181b25121926c714" prot="public" virt="non-virtual"><scope>themis::auth::AuthException</scope><name>AuthException</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" prot="public" virt="non-virtual"><scope>themis::auth::AuthException</scope><name>error</name></member>
+      <member refid="classthemis_1_1auth_1_1_auth_exception_1a29a6cd69b96e4f9a9fde31e5c5f3460c" prot="private" virt="non-virtual"><scope>themis::auth::AuthException</scope><name>error_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_query_explain_test" kind="class" language="C++" prot="public">
+    <compoundname>GraphQueryExplainTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_graph_query_explain_test_1a83af28d35edc3d35069367dc2548e843" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GraphQueryExplainTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GraphQueryExplainTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="81" column="17" bodyfile="tests/graph/test_query_explain.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_explain_test_1ae65409d74add8f58fa1215e1bec68d22" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; GraphQueryExplainTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GraphQueryExplainTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="82" column="34" bodyfile="tests/graph/test_query_explain.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_explain_test_1a2728500c2b36918857ed2f7830936970" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; GraphQueryExplainTest::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>GraphQueryExplainTest::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="83" column="31" bodyfile="tests/graph/test_query_explain.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_explain_test_1a6dfa00f1c6caf6cbdebe7c83d8fdb835" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_optimizer" kindref="compound">themis::graph::GraphQueryOptimizer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::GraphQueryOptimizer&gt; GraphQueryExplainTest::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>GraphQueryExplainTest::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="84" column="22" bodyfile="tests/graph/test_query_explain.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_graph_query_explain_test_1a68d9bfe725118d3c0dac36c09a4675a7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryExplainTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GraphQueryExplainTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="37" column="10" bodyfile="tests/graph/test_query_explain.cpp" bodystart="37" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_explain_test_1abb58c244e1866da3379ebc11ebb5b24a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryExplainTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GraphQueryExplainTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="55" column="10" bodyfile="tests/graph/test_query_explain.cpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_explain_test_1a95769a06841da5fd714da4a6f6dc7466" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GraphQueryExplainTest::buildGraph</definition>
+        <argsstring>()</argsstring>
+        <name>buildGraph</name>
+        <qualifiedname>GraphQueryExplainTest::buildGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_query_explain.cpp" line="63" column="10" bodyfile="tests/graph/test_query_explain.cpp" bodystart="63" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GraphQueryExplainTest</label>
+        <link refid="class_graph_query_explain_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GraphQueryExplainTest</label>
+        <link refid="class_graph_query_explain_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/graph/test_query_explain.cpp" line="35" column="1" bodyfile="tests/graph/test_query_explain.cpp" bodystart="35" bodyend="85"/>
+    <listofallmembers>
+      <member refid="class_graph_query_explain_test_1a95769a06841da5fd714da4a6f6dc7466" prot="protected" virt="non-virtual"><scope>GraphQueryExplainTest</scope><name>buildGraph</name></member>
+      <member refid="class_graph_query_explain_test_1ae65409d74add8f58fa1215e1bec68d22" prot="protected" virt="non-virtual"><scope>GraphQueryExplainTest</scope><name>db_</name></member>
+      <member refid="class_graph_query_explain_test_1a2728500c2b36918857ed2f7830936970" prot="protected" virt="non-virtual"><scope>GraphQueryExplainTest</scope><name>graph_mgr_</name></member>
+      <member refid="class_graph_query_explain_test_1a6dfa00f1c6caf6cbdebe7c83d8fdb835" prot="protected" virt="non-virtual"><scope>GraphQueryExplainTest</scope><name>optimizer_</name></member>
+      <member refid="class_graph_query_explain_test_1a68d9bfe725118d3c0dac36c09a4675a7" prot="protected" virt="non-virtual"><scope>GraphQueryExplainTest</scope><name>SetUp</name></member>
+      <member refid="class_graph_query_explain_test_1abb58c244e1866da3379ebc11ebb5b24a" prot="protected" virt="non-virtual"><scope>GraphQueryExplainTest</scope><name>TearDown</name></member>
+      <member refid="class_graph_query_explain_test_1a83af28d35edc3d35069367dc2548e843" prot="protected" virt="non-virtual"><scope>GraphQueryExplainTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

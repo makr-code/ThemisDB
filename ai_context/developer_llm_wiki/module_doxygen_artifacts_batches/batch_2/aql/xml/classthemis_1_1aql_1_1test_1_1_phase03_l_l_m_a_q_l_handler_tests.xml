@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::test::Phase03LLMAQLHandlerTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests_1ab63f4aa01184aeb08338623780fce244" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::test::Phase03LLMAQLHandlerTests::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::aql::test::Phase03LLMAQLHandlerTests::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="57" column="10" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests_1a799f440797f44b9d324d7cee308a1938" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::test::Phase03LLMAQLHandlerTests::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::aql::test::Phase03LLMAQLHandlerTests::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="62" column="10" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test suite for Phase 0.3 parser service integration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::test::Phase03LLMAQLHandlerTests</label>
+        <link refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::test::Phase03LLMAQLHandlerTests</label>
+        <link refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="55" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="55" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests_1ab63f4aa01184aeb08338623780fce244" prot="protected" virt="non-virtual"><scope>themis::aql::test::Phase03LLMAQLHandlerTests</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests_1a799f440797f44b9d324d7cee308a1938" prot="protected" virt="non-virtual"><scope>themis::aql::test::Phase03LLMAQLHandlerTests</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

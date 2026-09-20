@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_eval_phase3_test" kind="class" language="C++" prot="public">
+    <compoundname>GEvalPhase3Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_eval_phase3_test_1af8e068d5abd93a2b1ee5b8160bafc5b0" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" kindref="compound">GEvalEvaluator::Config</ref></type>
+        <definition>GEvalEvaluator::Config GEvalPhase3Test::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>GEvalPhase3Test::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="33" column="28" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_eval_phase3_test_1a75f8e6834fb9f6b6c65a05b142360a14" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GEvalPhase3Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GEvalPhase3Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="22" column="10" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="22" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_eval_phase3_test_1af076d9964d64e49fd1ec6adbd20f92e4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GEvalPhase3Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GEvalPhase3Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="29" column="10" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_g_eval_phase3_test_1a372ea8aea1346d606b6495c7398be3f0" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>static std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; GEvalPhase3Test::testDocs</definition>
+        <argsstring>()</argsstring>
+        <name>testDocs</name>
+        <qualifiedname>GEvalPhase3Test::testDocs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="35" column="24" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="35" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GEvalPhase3Test</label>
+        <link refid="class_g_eval_phase3_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GEvalPhase3Test</label>
+        <link refid="class_g_eval_phase3_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::judge::GEvalEvaluator::Config</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_judge_phase3.cpp" line="20" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="20" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_g_eval_phase3_test_1af8e068d5abd93a2b1ee5b8160bafc5b0" prot="protected" virt="non-virtual"><scope>GEvalPhase3Test</scope><name>config_</name></member>
+      <member refid="class_g_eval_phase3_test_1a75f8e6834fb9f6b6c65a05b142360a14" prot="protected" virt="non-virtual"><scope>GEvalPhase3Test</scope><name>SetUp</name></member>
+      <member refid="class_g_eval_phase3_test_1af076d9964d64e49fd1ec6adbd20f92e4" prot="protected" virt="non-virtual"><scope>GEvalPhase3Test</scope><name>TearDown</name></member>
+      <member refid="class_g_eval_phase3_test_1a372ea8aea1346d606b6495c7398be3f0" prot="protected" virt="non-virtual"><scope>GEvalPhase3Test</scope><name>testDocs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

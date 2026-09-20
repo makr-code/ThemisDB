@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_4110af26f3c6b51a376afa4ffe7fb105" kind="dir">
+    <compoundname>include/llm/attention</compoundname>
+    <innerdir refid="dir_ae109a105915ddda8e18915407e91ffe">include/llm/attention/cuda</innerdir>
+    <innerdir refid="dir_6cb4919c55a330d329147bb7d0bab667">include/llm/attention/hip</innerdir>
+    <innerdir refid="dir_cabf3df06c8a81bffd1a256895d57417">include/llm/attention/vulkan</innerdir>
+    <innerfile refid="flash__attention_8h">flash_attention.h</innerfile>
+    <innerfile refid="flash__attention__config_8h">flash_attention_config.h</innerfile>
+    <innerfile refid="kv__cache__manager_8h">kv_cache_manager.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/attention/"/>
+  </compounddef>
+</doxygen>

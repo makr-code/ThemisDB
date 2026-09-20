@@ -1,0 +1,498 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::LLMJudgeIntegration</compoundname>
+    <includes refid="llm__judge__integration_8h" local="no">llm_judge_integration.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" prot="public">themis::rag::judge::LLMJudgeIntegration::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a8f1feb418a35d0587bcc1767f449976e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::rag::judge::LLMJudgeIntegration::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="188" column="12" bodyfile="include/rag/llm_judge_integration.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a811870c818e7652c4a8f1c457ce35247" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;)&gt; themis::rag::judge::LLMJudgeIntegration::inference_fn_</definition>
+        <argsstring></argsstring>
+        <name>inference_fn_</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::inference_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="189" column="19" bodyfile="include/rag/llm_judge_integration.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a8a8a6e3ae005323d5684f81ab01d24a0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::LLMJudgeIntegration::LLMJudgeIntegration</definition>
+        <argsstring>(ILLMInferenceEngine *engine)</argsstring>
+        <name>LLMJudgeIntegration</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::LLMJudgeIntegration</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" kindref="compound">ILLMInferenceEngine</ref> *</type>
+          <declname>engine</declname>
+        </param>
+        <briefdescription>
+<para>Construct with explicit inference engine (production path). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an <ref refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" kindref="compound">ILLMInferenceEngine</ref> implementation. Must not be nullptr. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if engine is nullptr. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="109" column="14" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1ab4995d59bd1e2834512b80f776b79458" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::LLMJudgeIntegration::LLMJudgeIntegration</definition>
+        <argsstring>(ILLMInferenceEngine *engine, const Config &amp;config)</argsstring>
+        <name>LLMJudgeIntegration</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::LLMJudgeIntegration</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" kindref="compound">ILLMInferenceEngine</ref> *</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with inference engine and configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to an <ref refid="structthemis_1_1rag_1_1judge_1_1_i_l_l_m_inference_engine" kindref="compound">ILLMInferenceEngine</ref> implementation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Integration configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if engine is nullptr. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="118" column="14" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="60" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a9ecc81ff3ef232f91cd3625bcb6681a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::LLMJudgeIntegration::LLMJudgeIntegration</definition>
+        <argsstring>()</argsstring>
+        <name>LLMJudgeIntegration</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::LLMJudgeIntegration</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No backend is configured by default. Callers must inject a backend via <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a08b8ee8310813928cabd645e9c9a6dd0" kindref="member">setInferenceFunction()</ref> before evaluation or the unavailable fail-closed path will be returned. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="127" column="5" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a1727504c76915a8e28b9c6a52e4087f5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::LLMJudgeIntegration::LLMJudgeIntegration</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LLMJudgeIntegration</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::LLMJudgeIntegration</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Integration configuration</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+No backend is configured by this constructor. Callers must inject a backend via <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a08b8ee8310813928cabd645e9c9a6dd0" kindref="member">setInferenceFunction()</ref> before evaluation or the unavailable fail-closed path will be returned. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="137" column="14" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="79" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a6e0b1f11545ad688f9832ac7879027c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_parsed_response" kindref="compound">ParsedResponse</ref></type>
+        <definition>ParsedResponse themis::rag::judge::LLMJudgeIntegration::evaluateWithLLM</definition>
+        <argsstring>(EvaluationDimension dimension, const EvaluationInput &amp;input, const PromptTemplateManager &amp;template_mgr)</argsstring>
+        <name>evaluateWithLLM</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::evaluateWithLLM</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6a" kindref="member">EvaluationDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1judge_1_1_prompt_template_manager" kindref="compound">PromptTemplateManager</ref> &amp;</type>
+          <declname>template_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate using LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate With LLM.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation dimension </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation input </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>template_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prompt template manager </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed evaluation response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">template_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeUnavailableJudgeResponse(), THEMIS_DEBUG(), generatePrompt(), empty(), THEMIS_ERROR(), themis::utils::retry_with_backoff(), callLLM(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="146" column="20" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="93" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1ac2fcf098ebc59974ac3e1d4ddce68981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::LLMJudgeIntegration::evaluateDimension</definition>
+        <argsstring>(const std::string &amp;prompt, EvaluationDimension dimension)</argsstring>
+        <name>evaluateDimension</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::evaluateDimension</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a14cdde8b476441304b4fd2f232941e6a" kindref="member">EvaluationDimension</ref></type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Directly evaluate a prompt for a dimension. Lightweight helper used by evaluator components. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Dimension.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeUnavailableJudgeJson(), THEMIS_DEBUG(), size(), themis::utils::retry_with_backoff(), callLLM(), empty(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="156" column="17" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="161" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a08b8ee8310813928cabd645e9c9a6dd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::LLMJudgeIntegration::setInferenceFunction</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;)&gt; fn)</argsstring>
+        <name>setInferenceFunction</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::setInferenceFunction</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set LLM inference function (for dependency injection/testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function that takes prompt and returns LLM response </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="165" column="10" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="201" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a610b698d3e1d7959a3c7128a9d7e9afd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::judge::LLMJudgeIntegration::setConfig</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">Config</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New configuration</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="173" column="10" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="213" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a40931a8f124e13038cb5695f89d54626" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1_1_config" kindref="compound">Config</ref></type>
+        <definition>LLMJudgeIntegration::Config themis::rag::judge::LLMJudgeIntegration::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current configuration </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="179" column="12" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a55d5e192dab8869efc9470a74e7c6c84" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::LLMJudgeIntegration::isMockMode</definition>
+        <argsstring>() const</argsstring>
+        <name>isMockMode</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::isMockMode</qualifiedname>
+        <briefdescription>
+<para>Compatibility probe for legacy callers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Always false because mock-mode fallback has been removed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="185" column="11" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="256" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a70e399f72b83baad108e4597606ac47b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::LLMJudgeIntegration::callLLM</definition>
+        <argsstring>(const std::string &amp;prompt)</argsstring>
+        <name>callLLM</name>
+        <qualifiedname>themis::rag::judge::LLMJudgeIntegration::callLLM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Call LLM inference with retries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Call LLM.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input prompt </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>LLM response</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_ERROR(), THEMIS_DEBUG(), length(), inference_fn_(), empty(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/llm_judge_integration.h" line="196" column="17" bodyfile="src/rag/llm_judge_integration.cpp" bodystart="228" bodyend="254"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LLM integration wrapper for judge evaluations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Handles communication with LLM inference engine, including:<itemizedlist>
+<listitem><para>Prompt generation and submission</para>
+</listitem><listitem><para>Response retrieval and parsing</para>
+</listitem><listitem><para>Error handling and retries</para>
+</listitem></itemizedlist>
+</para>
+<para>Usage Example (Production with injected engine): <programlisting><codeline><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MyEngine<sp/>:<sp/>ILLMInferenceEngine<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>myBackend.infer(prompt);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal">MyEngine<sp/>engine;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a8a8a6e3ae005323d5684f81ab01d24a0" kindref="member">LLMJudgeIntegration</ref><sp/>integration(&amp;engine);</highlight></codeline>
+</programlisting></para>
+<para>Usage Example (Production with setInferenceFunction): <programlisting><codeline><highlight class="normal">LLMJudgeIntegration::Config<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a8a8a6e3ae005323d5684f81ab01d24a0" kindref="member">LLMJudgeIntegration</ref><sp/>integration(config);</highlight></codeline>
+<codeline><highlight class="normal">integration.setInferenceFunction([](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>myCustomLLMBackend.infer(prompt);</highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/rag/llm_judge_integration.h" line="81" column="1" bodyfile="include/rag/llm_judge_integration.h" bodystart="81" bodyend="197"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a70e399f72b83baad108e4597606ac47b" prot="private" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>callLLM</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a8f1feb418a35d0587bcc1767f449976e" prot="private" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1ac2fcf098ebc59974ac3e1d4ddce68981" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>evaluateDimension</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a6e0b1f11545ad688f9832ac7879027c2" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>evaluateWithLLM</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a40931a8f124e13038cb5695f89d54626" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a811870c818e7652c4a8f1c457ce35247" prot="private" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>inference_fn_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a55d5e192dab8869efc9470a74e7c6c84" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>isMockMode</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a8a8a6e3ae005323d5684f81ab01d24a0" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>LLMJudgeIntegration</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1ab4995d59bd1e2834512b80f776b79458" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>LLMJudgeIntegration</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a9ecc81ff3ef232f91cd3625bcb6681a2" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>LLMJudgeIntegration</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a1727504c76915a8e28b9c6a52e4087f5" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>LLMJudgeIntegration</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a610b698d3e1d7959a3c7128a9d7e9afd" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_integration_1a08b8ee8310813928cabd645e9c9a6dd0" prot="public" virt="non-virtual"><scope>themis::rag::judge::LLMJudgeIntegration</scope><name>setInferenceFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

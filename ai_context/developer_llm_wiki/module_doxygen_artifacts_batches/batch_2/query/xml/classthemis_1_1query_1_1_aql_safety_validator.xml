@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_aql_safety_validator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::AqlSafetyValidator</compoundname>
+    <includes refid="aql__safety__validator_8h" local="no">aql_safety_validator.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation" prot="public">themis::query::AqlSafetyValidator::Violation</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ValidationMode</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::ValidationMode</qualifiedname>
+        <enumvalue id="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078a131fb182a881796e7606ed6da27f1197" prot="public">
+          <name>ReadOnly</name>
+          <briefdescription>
+<para>Default — block all mutation keywords (existing behaviour). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078aa54262cb737dfb58cc817ff3dce39150" prot="public">
+          <name>AllowMutations</name>
+          <briefdescription>
+<para>Permit DML (INSERT/UPDATE/REMOVE/REPLACE/UPSERT/DELETE). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="36" column="5" bodyfile="include/query/aql_safety_validator.h" bodystart="36" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_aql_safety_validator_1af0bab0d82e4d7a2a90e03afbb650da6c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078" kindref="member">ValidationMode</ref></type>
+        <definition>ValidationMode themis::query::AqlSafetyValidator::mode_</definition>
+        <argsstring></argsstring>
+        <name>mode_</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::mode_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078a131fb182a881796e7606ed6da27f1197" kindref="member">ValidationMode::ReadOnly</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="64" column="20" bodyfile="include/query/aql_safety_validator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AqlSafetyValidator::AqlSafetyValidator</definition>
+        <argsstring>(ValidationMode mode=ValidationMode::ReadOnly)</argsstring>
+        <name>AqlSafetyValidator</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::AqlSafetyValidator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078" kindref="member">ValidationMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078a131fb182a881796e7606ed6da27f1197" kindref="member">ValidationMode::ReadOnly</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="47" column="14" bodyfile="include/query/aql_safety_validator.h" bodystart="47" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1aa863ef37369526124cb9068b1bfdbba7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AqlSafetyValidator::~AqlSafetyValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AqlSafetyValidator</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::~AqlSafetyValidator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1a1f521fa0982fa8923e26071506021ec0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::AqlSafetyValidator::AqlSafetyValidator</definition>
+        <argsstring>(const AqlSafetyValidator &amp;)=default</argsstring>
+        <name>AqlSafetyValidator</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::AqlSafetyValidator</qualifiedname>
+        <param>
+          <type>const AqlSafetyValidator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1a24538e2ea491312af8cbfc8cac1e1e87" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" kindref="member">AqlSafetyValidator</ref> &amp;</type>
+        <definition>AqlSafetyValidator &amp; themis::query::AqlSafetyValidator::operator=</definition>
+        <argsstring>(const AqlSafetyValidator &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" kindref="member">AqlSafetyValidator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="52" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1ad8104d88ee488ad9b3a545e7dc03c74c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation" kindref="compound">Violation</ref> &gt;</type>
+        <definition>std::optional&lt; AqlSafetyValidator::Violation &gt; themis::query::AqlSafetyValidator::validate</definition>
+        <argsstring>(std::string_view aql_query) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::validate</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="54" column="20" bodyfile="src/query/aql_safety_validator.cpp" bodystart="219" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1a9224d4678779f00caa930dd827e1b188" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_aql_safety_validator_1_1_violation" kindref="compound">Violation</ref> &gt;</type>
+        <definition>std::optional&lt; AqlSafetyValidator::Violation &gt; themis::query::AqlSafetyValidator::validateMutationSafety</definition>
+        <argsstring>(std::string_view aql_query) const</argsstring>
+        <name>validateMutationSafety</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::validateMutationSafety</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> str. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">aql_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="56" column="20" bodyfile="src/query/aql_safety_validator.cpp" bodystart="84" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1ac820e0cee65de11f0b6bb6df1e49e928" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::AqlSafetyValidator::isSafe</definition>
+        <argsstring>(std::string_view aql_query) const</argsstring>
+        <name>isSafe</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::isSafe</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="59" column="11" bodyfile="include/query/aql_safety_validator.h" bodystart="59" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1afe8b782fc10bbf26c26c323b7226078e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::AqlSafetyValidator::toUpper</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>toUpper</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::toUpper</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>To Upper. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), std::toupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="71" column="24" bodyfile="src/query/aql_safety_validator.cpp" bodystart="61" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_aql_safety_validator_1ab84e2be60d443b4cb72c80ded5a833a2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::AqlSafetyValidator::findKeyword</definition>
+        <argsstring>(const std::string &amp;haystack, std::string_view needle)</argsstring>
+        <name>findKeyword</name>
+        <qualifiedname>themis::query::AqlSafetyValidator::findKeyword</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>haystack</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>needle</declname>
+        </param>
+        <briefdescription>
+<para>Find Keyword. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">haystack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">needle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">haystack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">needle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_safety_validator.h" line="79" column="24" bodyfile="src/query/aql_safety_validator.cpp" bodystart="77" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_safety_validator.h" line="34" column="1" bodyfile="include/query/aql_safety_validator.h" bodystart="34" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1a8d3f7316c4dac9e26fb2772cda40390b" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>AqlSafetyValidator</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1a1f521fa0982fa8923e26071506021ec0" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>AqlSafetyValidator</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1ab84e2be60d443b4cb72c80ded5a833a2" prot="private" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>findKeyword</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1ac820e0cee65de11f0b6bb6df1e49e928" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>isSafe</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1af0bab0d82e4d7a2a90e03afbb650da6c" prot="private" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>mode_</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1a24538e2ea491312af8cbfc8cac1e1e87" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1afe8b782fc10bbf26c26c323b7226078e" prot="private" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>toUpper</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1ad8104d88ee488ad9b3a545e7dc03c74c" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1a9224d4678779f00caa930dd827e1b188" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>validateMutationSafety</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1aff3217dc67a3ba30a8d889d3d4b4f078" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>ValidationMode</name></member>
+      <member refid="classthemis_1_1query_1_1_aql_safety_validator_1aa863ef37369526124cb9068b1bfdbba7" prot="public" virt="non-virtual"><scope>themis::query::AqlSafetyValidator</scope><name>~AqlSafetyValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

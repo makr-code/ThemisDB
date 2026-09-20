@@ -1,0 +1,714 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__image__analysis__phase1__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_image_analysis_phase1_focused.cpp</compoundname>
+    <includes local="yes">plugins/yolov8_onnx_plugin.h</includes>
+    <includes local="yes">plugins/tesseract_ocr_plugin.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/image_analysis/test_image_analysis_phase1_focused.cpp</label>
+        <link refid="test__image__analysis__phase1__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>plugins/tesseract_ocr_plugin.h</label>
+      </node>
+      <node id="2">
+        <label>plugins/yolov8_onnx_plugin.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_y_o_l_ov8_plugin_test" prot="public">YOLOv8PluginTest</innerclass>
+    <innerclass refid="class_tesseract_plugin_test" prot="public">TesseractPluginTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__image__analysis__phase1__focused_8cpp_1aada4933c9127e3877c31fe1d0b72982c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="57" column="27" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="test__image__analysis__phase1__focused_8cpp_1adadc96d748d4d729667e9dfc1f5c838b" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; uint8_t &gt;</type>
+        <definition>const std::vector&lt;uint8_t&gt; kMinimalJpegWhite8x8</definition>
+        <argsstring></argsstring>
+        <name>kMinimalJpegWhite8x8</name>
+        <initializer>                                              = {
+    0xFF, 0xD8, 0xFF, 0xE0, 0x00, 0x10, 0x4A, 0x46, 0x49, 0x46, 0x00, 0x01,
+    0x01, 0x00, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0xFF, 0xDB, 0x00, 0x43,
+    0x00, 0x08, 0x06, 0x06, 0x07, 0x06, 0x05, 0x08, 0x07, 0x07, 0x07, 0x09,
+    0x09, 0x08, 0x0A, 0x0C, 0x14, 0x0D, 0x0C, 0x0B, 0x0B, 0x0C, 0x19, 0x12,
+    0x13, 0x0F, 0x14, 0x1D, 0x1A, 0x1F, 0x1E, 0x1D, 0x1A, 0x1C, 0x1C, 0x20,
+    0x24, 0x2E, 0x27, 0x20, 0x22, 0x2C, 0x23, 0x1C, 0x1C, 0x28, 0x37, 0x29,
+    0x2C, 0x30, 0x31, 0x34, 0x34, 0x34, 0x1F, 0x27, 0x39, 0x3D, 0x38, 0x32,
+    0x3C, 0x2E, 0x33, 0x34, 0x32, 0xFF, 0xC0, 0x00, 0x0B, 0x08, 0x00, 0x08,
+    0x00, 0x08, 0x01, 0x01, 0x11, 0x00, 0xFF, 0xC4, 0x00, 0x1F, 0x00, 0x00,
+    0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
+    0x09, 0x0A, 0x0B, 0xFF, 0xC4, 0x00, 0xB5, 0x10, 0x00, 0x02, 0x01, 0x03,
+    0x03, 0x02, 0x04, 0x03, 0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7D,
+    0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12, 0x21, 0x31, 0x41, 0x06,
+    0x13, 0x51, 0x61, 0x07, 0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xA1, 0x08,
+    0x23, 0x42, 0xB1, 0xC1, 0x15, 0x52, 0xD1, 0xF0, 0x24, 0x33, 0x62, 0x72,
+    0x82, 0x09, 0x0A, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x25, 0x26, 0x27, 0x28,
+    0x29, 0x2A, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x3A, 0x43, 0x44, 0x45,
+    0x46, 0x47, 0x48, 0x49, 0x4A, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
+    0x5A, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6A, 0x73, 0x74, 0x75,
+    0x76, 0x77, 0x78, 0x79, 0x7A, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89,
+    0x8A, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9A, 0xA2, 0xA3, 0xA4,
+    0xA5, 0xA6, 0xA7, 0xA8, 0xA9, 0xAA, 0xB2, 0xB3, 0xB4, 0xB5, 0xB6, 0xB7,
+    0xB8, 0xB9, 0xBA, 0xC2, 0xC3, 0xC4, 0xC5, 0xC6, 0xC7, 0xC8, 0xC9, 0xCA,
+    0xD2, 0xD3, 0xD4, 0xD5, 0xD6, 0xD7, 0xD8, 0xD9, 0xDA, 0xE1, 0xE2, 0xE3,
+    0xE4, 0xE5, 0xE6, 0xE7, 0xE8, 0xE9, 0xEA, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5,
+    0xF6, 0xF7, 0xF8, 0xF9, 0xFA, 0xFF, 0xDA, 0x00, 0x08, 0x01, 0x01, 0x00,
+    0x00, 0x3F, 0x00, 0xFB, 0xD7, 0xFF, 0xD9
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="62" column="26" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="62" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(YOLOv8PluginTest, IMP_YOL_01_PluginInfo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_YOL_01_PluginInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="116" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="116" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1affd7aa7dc5cc8086af8cb98e31e840f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(YOLOv8PluginNoFixtureTest, IMP_YOL_02_InitStub)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>YOLOv8PluginNoFixtureTest</type>
+        </param>
+        <param>
+          <type>IMP_YOL_02_InitStub</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="127" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1a6c586f3d7d2b0ff2fd8548fa03632d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(YOLOv8PluginNoFixtureTest, IMP_YOL_03_ReadyLifecycle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>YOLOv8PluginNoFixtureTest</type>
+        </param>
+        <param>
+          <type>IMP_YOL_03_ReadyLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="135" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="135" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1abc4deac19c3fcd66c6c3ce9e21064c83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(YOLOv8PluginTest, IMP_YOL_04_DetectReturnStructure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_YOL_04_DetectReturnStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="146" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="146" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1a7e6705104ecf103dadf0d904428afed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(YOLOv8PluginTest, IMP_YOL_05_EmbeddingUnsupported)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_YOL_05_EmbeddingUnsupported</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="165" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="165" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1ac21352d942b29110af62c29ecb3106a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(YOLOv8PluginTest, IMP_YOL_06_HealthCheck)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_YOL_06_HealthCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="172" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="172" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1a90e04065c6c421477e641883405244bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(YOLOv8PluginTest, IMP_YOL_07_StatisticsKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_YOL_07_StatisticsKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="177" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="177" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1afe783c66e0a3d37b321d05759ed7cc18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(YOLOv8PluginTest, IMP_YOL_08_HighThresholdNoDetections)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_YOL_08_HighThresholdNoDetections</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="192" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="192" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1a4230b9e0c8a8eeb268bf162ad17e217f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TesseractPluginTest, IMP_OCR_01_PluginInfo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_OCR_01_PluginInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="223" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="223" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1adc3882166b9e522248f61ac82f44c5cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TesseractPluginNoFixtureTest, IMP_OCR_02_InitStub)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TesseractPluginNoFixtureTest</type>
+        </param>
+        <param>
+          <type>IMP_OCR_02_InitStub</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="234" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="234" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1ad841965a7f59d2e7ad91bc25c0dcecde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TesseractPluginNoFixtureTest, IMP_OCR_03_ReadyLifecycle)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TesseractPluginNoFixtureTest</type>
+        </param>
+        <param>
+          <type>IMP_OCR_03_ReadyLifecycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="242" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="242" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1ac9d499274b14cd5729cb669fcfd13533" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TesseractPluginTest, IMP_OCR_04_DetectReturnStructure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_OCR_04_DetectReturnStructure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="253" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="253" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1a28cd9ea7ccf162b8f6028dfb944849cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TesseractPluginTest, IMP_OCR_05_EmbeddingUnsupported)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_OCR_05_EmbeddingUnsupported</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="272" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="272" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1aa831bccf4815a1443f0e362e394cfac2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TesseractPluginTest, IMP_OCR_06_HealthCheck)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_OCR_06_HealthCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="279" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="279" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1a564fe20ec5d21173f796eb785e6794ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TesseractPluginTest, IMP_OCR_07_StatisticsKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_OCR_07_StatisticsKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="290" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="290" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__image__analysis__phase1__focused_8cpp_1a5591c64dfb41409cc508e91d2272629e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TesseractPluginTest, IMP_OCR_08_LastOcrResultConsistency)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref></type>
+        </param>
+        <param>
+          <type>IMP_OCR_08_LastOcrResultConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp" line="304" column="1" bodyfile="tests/image_analysis/test_image_analysis_phase1_focused.cpp" bodystart="304" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1 focused test suite for image analysis plugins. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers YOLOv8OnnxPlugin (IMP-YOL-01..08) and TesseractOCRPlugin (IMP-OCR-01..08). All tests use deterministic in-process fixtures – no model files, no network, kSeed = 42.</para>
+<para>Because ONNX Runtime and Tesseract are optional dependencies the real inference paths are guarded by HAVE_ONNXRUNTIME / HAVE_TESSERACT compile-time flags. Tests validate the plugin interface contract and stub-mode behaviour unconditionally; when the backends ARE present the same tests additionally validate that inference produces structurally valid output.</para>
+<sect1 id="test__image__analysis__phase1__focused_8cpp_1autotoc_md3_1s1"><sect2 id="test__image__analysis__phase1__focused_8cpp_1autotoc_md3">
+<title>Test families</title><para><heading level="3">IMP-YOL-01..08 – YOLOv8OnnxPlugin</heading>
+</para>
+<para>IMP-YOL-01 Plugin reports correct name and detection capability IMP-YOL-02 initialize() succeeds (stub path; no model file required) IMP-YOL-03 isReady() is true after initialize(), false after shutdown() IMP-YOL-04 detectObjects() on empty image returns a DetectionResult (success=false in stub mode; success=true in ONNX mode) IMP-YOL-05 generateEmbedding() always returns an error result IMP-YOL-06 healthCheck() mirrors isReady() IMP-YOL-07 getStatistics() contains required metric keys IMP-YOL-08 Confidence threshold &gt; 1.0 produces zero detections (stub / ONNX mode: effectively filters all)</para>
+<para><heading level="3">IMP-OCR-01..08 – TesseractOCRPlugin</heading>
+</para>
+<para>IMP-OCR-01 Plugin reports correct name and detection capability IMP-OCR-02 initialize() succeeds (stub path; no tessdata required) IMP-OCR-03 isReady() is true after initialize(), false after shutdown() IMP-OCR-04 detectObjects() on empty image returns a DetectionResult IMP-OCR-05 generateEmbedding() always returns an error result IMP-OCR-06 healthCheck() available after initialize() IMP-OCR-07 getStatistics() contains required metric keys IMP-OCR-08 getLastOcrResult() returns an OcrResult; success field matches detectObjects() success field </para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;plugins/yolov8_onnx_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;plugins/tesseract_ocr_plugin.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1image" kindref="compound">themis::plugins::image</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>8×8<sp/>white<sp/>JPEG<sp/>(independent<sp/>of<sp/>OpenCV<sp/>/<sp/>image<sp/>libraries)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Generated<sp/>offline<sp/>and<sp/>embedded<sp/>as<sp/>a<sp/>byte<sp/>literal<sp/>to<sp/>keep<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>self-contained<sp/>and<sp/>dependency-free.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>kMinimalJpegWhite8x8<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>0xFF,<sp/>0xD8,<sp/>0xFF,<sp/>0xE0,<sp/>0x00,<sp/>0x10,<sp/>0x4A,<sp/>0x46,<sp/>0x49,<sp/>0x46,<sp/>0x00,<sp/>0x01,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>0x01,<sp/>0x00,<sp/>0x00,<sp/>0x01,<sp/>0x00,<sp/>0x01,<sp/>0x00,<sp/>0x00,<sp/>0xFF,<sp/>0xDB,<sp/>0x00,<sp/>0x43,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>0x00,<sp/>0x08,<sp/>0x06,<sp/>0x06,<sp/>0x07,<sp/>0x06,<sp/>0x05,<sp/>0x08,<sp/>0x07,<sp/>0x07,<sp/>0x07,<sp/>0x09,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>0x09,<sp/>0x08,<sp/>0x0A,<sp/>0x0C,<sp/>0x14,<sp/>0x0D,<sp/>0x0C,<sp/>0x0B,<sp/>0x0B,<sp/>0x0C,<sp/>0x19,<sp/>0x12,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>0x13,<sp/>0x0F,<sp/>0x14,<sp/>0x1D,<sp/>0x1A,<sp/>0x1F,<sp/>0x1E,<sp/>0x1D,<sp/>0x1A,<sp/>0x1C,<sp/>0x1C,<sp/>0x20,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>0x24,<sp/>0x2E,<sp/>0x27,<sp/>0x20,<sp/>0x22,<sp/>0x2C,<sp/>0x23,<sp/>0x1C,<sp/>0x1C,<sp/>0x28,<sp/>0x37,<sp/>0x29,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>0x2C,<sp/>0x30,<sp/>0x31,<sp/>0x34,<sp/>0x34,<sp/>0x34,<sp/>0x1F,<sp/>0x27,<sp/>0x39,<sp/>0x3D,<sp/>0x38,<sp/>0x32,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>0x3C,<sp/>0x2E,<sp/>0x33,<sp/>0x34,<sp/>0x32,<sp/>0xFF,<sp/>0xC0,<sp/>0x00,<sp/>0x0B,<sp/>0x08,<sp/>0x00,<sp/>0x08,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>0x00,<sp/>0x08,<sp/>0x01,<sp/>0x01,<sp/>0x11,<sp/>0x00,<sp/>0xFF,<sp/>0xC4,<sp/>0x00,<sp/>0x1F,<sp/>0x00,<sp/>0x00,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>0x01,<sp/>0x05,<sp/>0x01,<sp/>0x01,<sp/>0x01,<sp/>0x01,<sp/>0x01,<sp/>0x01,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x00,<sp/>0x01,<sp/>0x02,<sp/>0x03,<sp/>0x04,<sp/>0x05,<sp/>0x06,<sp/>0x07,<sp/>0x08,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>0x09,<sp/>0x0A,<sp/>0x0B,<sp/>0xFF,<sp/>0xC4,<sp/>0x00,<sp/>0xB5,<sp/>0x10,<sp/>0x00,<sp/>0x02,<sp/>0x01,<sp/>0x03,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>0x03,<sp/>0x02,<sp/>0x04,<sp/>0x03,<sp/>0x05,<sp/>0x05,<sp/>0x04,<sp/>0x04,<sp/>0x00,<sp/>0x00,<sp/>0x01,<sp/>0x7D,</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>0x01,<sp/>0x02,<sp/>0x03,<sp/>0x00,<sp/>0x04,<sp/>0x11,<sp/>0x05,<sp/>0x12,<sp/>0x21,<sp/>0x31,<sp/>0x41,<sp/>0x06,</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>0x13,<sp/>0x51,<sp/>0x61,<sp/>0x07,<sp/>0x22,<sp/>0x71,<sp/>0x14,<sp/>0x32,<sp/>0x81,<sp/>0x91,<sp/>0xA1,<sp/>0x08,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>0x23,<sp/>0x42,<sp/>0xB1,<sp/>0xC1,<sp/>0x15,<sp/>0x52,<sp/>0xD1,<sp/>0xF0,<sp/>0x24,<sp/>0x33,<sp/>0x62,<sp/>0x72,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>0x82,<sp/>0x09,<sp/>0x0A,<sp/>0x16,<sp/>0x17,<sp/>0x18,<sp/>0x19,<sp/>0x1A,<sp/>0x25,<sp/>0x26,<sp/>0x27,<sp/>0x28,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>0x29,<sp/>0x2A,<sp/>0x34,<sp/>0x35,<sp/>0x36,<sp/>0x37,<sp/>0x38,<sp/>0x39,<sp/>0x3A,<sp/>0x43,<sp/>0x44,<sp/>0x45,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>0x46,<sp/>0x47,<sp/>0x48,<sp/>0x49,<sp/>0x4A,<sp/>0x53,<sp/>0x54,<sp/>0x55,<sp/>0x56,<sp/>0x57,<sp/>0x58,<sp/>0x59,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>0x5A,<sp/>0x63,<sp/>0x64,<sp/>0x65,<sp/>0x66,<sp/>0x67,<sp/>0x68,<sp/>0x69,<sp/>0x6A,<sp/>0x73,<sp/>0x74,<sp/>0x75,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>0x76,<sp/>0x77,<sp/>0x78,<sp/>0x79,<sp/>0x7A,<sp/>0x83,<sp/>0x84,<sp/>0x85,<sp/>0x86,<sp/>0x87,<sp/>0x88,<sp/>0x89,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>0x8A,<sp/>0x93,<sp/>0x94,<sp/>0x95,<sp/>0x96,<sp/>0x97,<sp/>0x98,<sp/>0x99,<sp/>0x9A,<sp/>0xA2,<sp/>0xA3,<sp/>0xA4,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>0xA5,<sp/>0xA6,<sp/>0xA7,<sp/>0xA8,<sp/>0xA9,<sp/>0xAA,<sp/>0xB2,<sp/>0xB3,<sp/>0xB4,<sp/>0xB5,<sp/>0xB6,<sp/>0xB7,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>0xB8,<sp/>0xB9,<sp/>0xBA,<sp/>0xC2,<sp/>0xC3,<sp/>0xC4,<sp/>0xC5,<sp/>0xC6,<sp/>0xC7,<sp/>0xC8,<sp/>0xC9,<sp/>0xCA,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>0xD2,<sp/>0xD3,<sp/>0xD4,<sp/>0xD5,<sp/>0xD6,<sp/>0xD7,<sp/>0xD8,<sp/>0xD9,<sp/>0xDA,<sp/>0xE1,<sp/>0xE2,<sp/>0xE3,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>0xE4,<sp/>0xE5,<sp/>0xE6,<sp/>0xE7,<sp/>0xE8,<sp/>0xE9,<sp/>0xEA,<sp/>0xF1,<sp/>0xF2,<sp/>0xF3,<sp/>0xF4,<sp/>0xF5,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>0xF6,<sp/>0xF7,<sp/>0xF8,<sp/>0xF9,<sp/>0xFA,<sp/>0xFF,<sp/>0xDA,<sp/>0x00,<sp/>0x08,<sp/>0x01,<sp/>0x01,<sp/>0x00,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>0x00,<sp/>0x3F,<sp/>0x00,<sp/>0xFB,<sp/>0xD7,<sp/>0xFF,<sp/>0xD9</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>YOLOv8<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="class_y_o_l_ov8_plugin_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_y_o_l_ov8_plugin_test_1aee920aa993e9b499793f37f2254443ac" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_y_o_l_ov8_plugin_test_1a7e91e54cd3095a6fb168639c96a8f201" kindref="member">plugin_</ref><sp/>=<sp/>std::make_unique&lt;YOLOv8OnnxPlugin&gt;();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>with<sp/>no<sp/>model_path<sp/>→<sp/>stub<sp/>mode<sp/>(no<sp/>real<sp/>ONNX<sp/>session)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PluginConfig<sp/>cfg(nlohmann::json::object());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_y_o_l_ov8_plugin_test_1a7e91e54cd3095a6fb168639c96a8f201" kindref="member">plugin_</ref>-&gt;initialize(cfg));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_y_o_l_ov8_plugin_test_1ae1fcf8243edc8a6c2b75ba7e6d8d3af9" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_y_o_l_ov8_plugin_test_1a7e91e54cd3095a6fb168639c96a8f201" kindref="member">plugin_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_y_o_l_ov8_plugin_test_1a7e91e54cd3095a6fb168639c96a8f201" kindref="member">plugin_</ref>-&gt;shutdown();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;YOLOv8OnnxPlugin&gt;<sp/><ref refid="class_y_o_l_ov8_plugin_test_1a7e91e54cd3095a6fb168639c96a8f201" kindref="member">plugin_</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-YOL-01<sp/>–<sp/>Plugin<sp/>reports<sp/>correct<sp/>name<sp/>and<sp/>detection<sp/>capability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref>,<sp/>IMP_YOL_01_PluginInfo)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginInfo<sp/>info<sp/>=<sp/>plugin_-&gt;getInfo();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info.name,<sp/></highlight><highlight class="stringliteral">&quot;YOLOv8OnnxPlugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(info.capabilities.supports_detection);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info.capabilities.supports_embedding);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info.capabilities.supports_captioning);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>list<sp/>at<sp/>least<sp/>CPU<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info.capabilities.supported_backends.empty());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-YOL-02<sp/>–<sp/>initialize()<sp/>succeeds<sp/>in<sp/>stub<sp/>mode<sp/>(no<sp/>model<sp/>file)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1affd7aa7dc5cc8086af8cb98e31e840f5" kindref="member">TEST</ref>(YOLOv8PluginNoFixtureTest,<sp/>IMP_YOL_02_InitStub)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>YOLOv8OnnxPlugin<sp/>p;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginConfig<sp/>cfg(nlohmann::json::object());</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.initialize(cfg));</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>p.shutdown();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-YOL-03<sp/>–<sp/>isReady()<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1affd7aa7dc5cc8086af8cb98e31e840f5" kindref="member">TEST</ref>(YOLOv8PluginNoFixtureTest,<sp/>IMP_YOL_03_ReadyLifecycle)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>YOLOv8OnnxPlugin<sp/>p;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.isReady());<sp/></highlight><highlight class="comment">//<sp/>before<sp/>init</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginConfig<sp/>cfg(nlohmann::json::object());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(p.initialize(cfg));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.isReady());</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>p.shutdown();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.isReady());</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-YOL-04<sp/>–<sp/>detectObjects()<sp/>returns<sp/>a<sp/>well-formed<sp/>DetectionResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref>,<sp/>IMP_YOL_04_DetectReturnStructure)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>DetectionResult<sp/>r<sp/>=<sp/>plugin_-&gt;detectObjects(kMinimalJpegWhite8x8);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>stub<sp/>mode:<sp/>success<sp/>=<sp/>false<sp/>(no<sp/>ONNX<sp/>Runtime);<sp/>in<sp/>ONNX<sp/>mode:<sp/>success<sp/>=<sp/>true.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>way,<sp/>inference_time_ms<sp/>must<sp/>be<sp/>set<sp/>and<sp/>bounding<sp/>boxes<sp/>are<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(r.inference_time_ms,<sp/>0);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bounding<sp/>boxes<sp/>–<sp/>if<sp/>any<sp/>–<sp/>must<sp/>have<sp/>normalised<sp/>coordinates<sp/>[0,1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>box<sp/>:<sp/>r.detections)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.x,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.y,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.width,<sp/><sp/>0.0f);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.height,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(box.x<sp/>+<sp/>box.width,<sp/><sp/>1.01f);<sp/></highlight><highlight class="comment">//<sp/>allow<sp/>tiny<sp/>float<sp/>rounding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(box.y<sp/>+<sp/>box.height,<sp/>1.01f);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(box.confidence,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-YOL-05<sp/>–<sp/>generateEmbedding()<sp/>is<sp/>unsupported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref>,<sp/>IMP_YOL_05_EmbeddingUnsupported)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EmbeddingResult<sp/>r<sp/>=<sp/>plugin_-&gt;generateEmbedding(kMinimalJpegWhite8x8);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.success);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.error_message.empty());</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-YOL-06<sp/>–<sp/>healthCheck()<sp/>mirrors<sp/>isReady()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref>,<sp/>IMP_YOL_06_HealthCheck)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin_-&gt;healthCheck());</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-YOL-07<sp/>–<sp/>getStatistics()<sp/>contains<sp/>required<sp/>metric<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref>,<sp/>IMP_YOL_07_StatisticsKeys)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>one<sp/>inference<sp/>to<sp/>populate<sp/>counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin_-&gt;detectObjects(kMinimalJpegWhite8x8);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>stats<sp/>=<sp/>plugin_-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;inference_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;inference_errors&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;latency_ms_avg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;detections_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>inference_total<sp/>must<sp/>be<sp/>≥<sp/>1<sp/>after<sp/>one<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats[</highlight><highlight class="stringliteral">&quot;inference_total&quot;</highlight><highlight class="normal">].get&lt;int64_t&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-YOL-08<sp/>–<sp/>Extremely<sp/>high<sp/>confidence<sp/>threshold<sp/>yields<sp/>zero<sp/>detections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_y_o_l_ov8_plugin_test" kindref="compound">YOLOv8PluginTest</ref>,<sp/>IMP_YOL_08_HighThresholdNoDetections)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>confidence<sp/>threshold<sp/>of<sp/>2.0<sp/>(&gt;<sp/>1.0)<sp/>is<sp/>outside<sp/>the<sp/>valid<sp/>range<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>must<sp/>not<sp/>produce<sp/>any<sp/>detections.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>DetectionResult<sp/>r<sp/>=<sp/>plugin_-&gt;detectObjects(kMinimalJpegWhite8x8,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>2.0f);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.detections.empty());</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TesseractOCR<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="class_tesseract_plugin_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_tesseract_plugin_test_1a32cc29d72148559516a5a2e90ecfed03" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tesseract_plugin_test_1a273dcf665004495c620792ba1e657a7e" kindref="member">plugin_</ref><sp/>=<sp/>std::make_unique&lt;TesseractOCRPlugin&gt;();</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>with<sp/>empty<sp/>config<sp/>→<sp/>stub<sp/>mode<sp/>(no<sp/>tessdata<sp/>required)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>PluginConfig<sp/>cfg(nlohmann::json::object());</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_tesseract_plugin_test_1a273dcf665004495c620792ba1e657a7e" kindref="member">plugin_</ref>-&gt;initialize(cfg));</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_tesseract_plugin_test_1abb635739035fc11522b2ef547f63ea04" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_tesseract_plugin_test_1a273dcf665004495c620792ba1e657a7e" kindref="member">plugin_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_tesseract_plugin_test_1a273dcf665004495c620792ba1e657a7e" kindref="member">plugin_</ref>-&gt;shutdown();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;TesseractOCRPlugin&gt;<sp/><ref refid="class_tesseract_plugin_test_1a273dcf665004495c620792ba1e657a7e" kindref="member">plugin_</ref>;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-OCR-01<sp/>–<sp/>Plugin<sp/>reports<sp/>correct<sp/>name<sp/>and<sp/>detection<sp/>capability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref>,<sp/>IMP_OCR_01_PluginInfo)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginInfo<sp/>info<sp/>=<sp/>plugin_-&gt;getInfo();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info.name,<sp/></highlight><highlight class="stringliteral">&quot;TesseractOCRPlugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(info.capabilities.supports_detection);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(info.capabilities.supports_embedding);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>OCR<sp/>is<sp/>always<sp/>CPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(info.capabilities.supported_backends.empty());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(info.capabilities.supported_backends.front(),<sp/>BackendType::CPU);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-OCR-02<sp/>–<sp/>initialize()<sp/>succeeds<sp/>in<sp/>stub<sp/>mode<sp/>(no<sp/>tessdata)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1affd7aa7dc5cc8086af8cb98e31e840f5" kindref="member">TEST</ref>(TesseractPluginNoFixtureTest,<sp/>IMP_OCR_02_InitStub)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>TesseractOCRPlugin<sp/>p;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginConfig<sp/>cfg(nlohmann::json::object());</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.initialize(cfg));</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>p.shutdown();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-OCR-03<sp/>–<sp/>isReady()<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1affd7aa7dc5cc8086af8cb98e31e840f5" kindref="member">TEST</ref>(TesseractPluginNoFixtureTest,<sp/>IMP_OCR_03_ReadyLifecycle)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>TesseractOCRPlugin<sp/>p;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.isReady());</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>PluginConfig<sp/>cfg(nlohmann::json::object());</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(p.initialize(cfg));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(p.isReady());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>p.shutdown();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(p.isReady());</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-OCR-04<sp/>–<sp/>detectObjects()<sp/>returns<sp/>a<sp/>well-formed<sp/>DetectionResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref>,<sp/>IMP_OCR_04_DetectReturnStructure)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>DetectionResult<sp/>r<sp/>=<sp/>plugin_-&gt;detectObjects(kMinimalJpegWhite8x8);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(r.inference_time_ms,<sp/>0);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Any<sp/>returned<sp/>bounding<sp/>boxes<sp/>must<sp/>have<sp/>normalised<sp/>coordinates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>box<sp/>:<sp/>r.detections)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.x,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.y,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.width,<sp/><sp/>0.0f);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.height,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(box.x<sp/>+<sp/>box.width,<sp/><sp/>1.01f);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(box.y<sp/>+<sp/>box.height,<sp/>1.01f);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(box.confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(box.confidence,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>label<sp/>(word<sp/>text)<sp/>must<sp/>be<sp/>non-empty<sp/>for<sp/>a<sp/>valid<sp/>word<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(box.label.empty());</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-OCR-05<sp/>–<sp/>generateEmbedding()<sp/>is<sp/>unsupported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref>,<sp/>IMP_OCR_05_EmbeddingUnsupported)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EmbeddingResult<sp/>r<sp/>=<sp/>plugin_-&gt;generateEmbedding(kMinimalJpegWhite8x8);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.success);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.error_message.empty());</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-OCR-06<sp/>–<sp/>healthCheck()<sp/>is<sp/>available<sp/>after<sp/>initialize()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref>,<sp/>IMP_OCR_06_HealthCheck)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>stub<sp/>mode:<sp/>healthCheck()<sp/>returns<sp/>true<sp/>(Tesseract<sp/>API<sp/>object<sp/>may<sp/>be</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>null<sp/>but<sp/>ready<sp/>flag<sp/>is<sp/>set).<sp/><sp/>In<sp/>real<sp/>mode:<sp/>API<sp/>must<sp/>be<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>cases<sp/>must<sp/>not<sp/>throw<sp/>or<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hc<sp/>=<sp/>plugin_-&gt;healthCheck();</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>don&apos;t<sp/>assert<sp/>the<sp/>value:<sp/>stub<sp/>vs<sp/>real<sp/>mode<sp/>differ.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)hc;<sp/></highlight><highlight class="comment">//<sp/>suppress<sp/>unused-variable<sp/>warning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-OCR-07<sp/>–<sp/>getStatistics()<sp/>contains<sp/>required<sp/>metric<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref>,<sp/>IMP_OCR_07_StatisticsKeys)<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin_-&gt;detectObjects(kMinimalJpegWhite8x8);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>stats<sp/>=<sp/>plugin_-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;inference_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;inference_errors&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;latency_ms_avg&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;words_total&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;language&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats[</highlight><highlight class="stringliteral">&quot;inference_total&quot;</highlight><highlight class="normal">].get&lt;int64_t&gt;(),<sp/>1);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IMP-OCR-08<sp/>–<sp/>getLastOcrResult()<sp/>success<sp/>mirrors<sp/>detectObjects()<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__image__analysis__phase1__focused_8cpp_1a1096ceefebd754e41b3623fcc5b05fda" kindref="member">TEST_F</ref>(<ref refid="class_tesseract_plugin_test" kindref="compound">TesseractPluginTest</ref>,<sp/>IMP_OCR_08_LastOcrResultConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>DetectionResult<sp/>det<sp/>=<sp/>plugin_-&gt;detectObjects(kMinimalJpegWhite8x8);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>OcrResult<sp/>ocr<sp/>=<sp/>plugin_-&gt;getLastOcrResult();</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Success<sp/>flag<sp/>must<sp/>match<sp/>between<sp/>the<sp/>two<sp/>views</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ocr.success,<sp/>det.success);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>OCR<sp/>succeeded,<sp/>word<sp/>count<sp/>must<sp/>match<sp/>box<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ocr.success)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ocr.words.size(),<sp/>det.detections.size());</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/image_analysis/test_image_analysis_phase1_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__simd__distance_8cpp" kind="file" language="C++">
+    <compoundname>bench_simd_distance.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="yes">utils/simd_distance.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/base/bench_simd_distance.cpp</label>
+        <link refid="bench__simd__distance_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="5">
+        <label>cmath</label>
+      </node>
+      <node id="3">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/simd_distance.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a88c666b81d672888bc22dab33f752650" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_SIMD_L2</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SIMD_L2</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="33" column="13" bodyfile="benchmarks/base/bench_simd_distance.cpp" bodystart="33" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a6e9e85eff6c1d12e877b015e2c23ecd9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Scalar_L2</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Scalar_L2</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="45" column="13" bodyfile="benchmarks/base/bench_simd_distance.cpp" bodystart="45" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1ac57ecbe913debd0795f4a576cda3190d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_SIMD_L2) -&gt; Args({64}) -&gt;Args({128}) -&gt;Args({256}) -&gt;Args({512}) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_SIMD_L2</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="57" column="1" declfile="benchmarks/base/bench_simd_distance.cpp" declline="57" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a3cd8e034f9815fb8ef2c262dc3ef0f73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Scalar_L2) -&gt; Args({64}) -&gt;Args({128}) -&gt;Args({256}) -&gt;Args({512}) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Scalar_L2</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="58" column="1" declfile="benchmarks/base/bench_simd_distance.cpp" declline="58" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a506ace2a3ba3b0018af940a0672f476c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_SIMD_InnerProduct</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SIMD_InnerProduct</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="62" column="13" bodyfile="benchmarks/base/bench_simd_distance.cpp" bodystart="62" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a6ed8edda0b01b9e73408f660606e91cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Scalar_InnerProduct</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Scalar_InnerProduct</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="74" column="13" bodyfile="benchmarks/base/bench_simd_distance.cpp" bodystart="74" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1ad2a0e61d3ca791913f11b9f122efb95f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_SIMD_InnerProduct) -&gt; Args({64}) -&gt;Args({128}) -&gt;Args({256}) -&gt;Args({512}) -&gt;Args({1536}) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_SIMD_InnerProduct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="89" column="1" declfile="benchmarks/base/bench_simd_distance.cpp" declline="89" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a0a400f8335978c7fd5ff0e6525c3ebac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Scalar_InnerProduct) -&gt; Args({64}) -&gt;Args({128}) -&gt;Args({256}) -&gt;Args({512}) -&gt;Args({1536}) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Scalar_InnerProduct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="90" column="1" declfile="benchmarks/base/bench_simd_distance.cpp" declline="90" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a53b6b6feade8f177a57d32285ef02a09" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_SIMD_CosineDistance</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SIMD_CosineDistance</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="94" column="13" bodyfile="benchmarks/base/bench_simd_distance.cpp" bodystart="94" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a634ea916b1b0b782d51477de84975b28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Scalar_CosineDistance</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Scalar_CosineDistance</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="106" column="13" bodyfile="benchmarks/base/bench_simd_distance.cpp" bodystart="106" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a1d1663b41750a671d5a29a4e7a8fda11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_SIMD_CosineDistance) -&gt; Args({64}) -&gt;Args({128}) -&gt;Args({256}) -&gt;Args({512}) -&gt;Args({1536}) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_SIMD_CosineDistance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="125" column="1" declfile="benchmarks/base/bench_simd_distance.cpp" declline="125" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__simd__distance_8cpp_1a8f09caa9005ca7b46f54e8186fd01c7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Scalar_CosineDistance) -&gt; Args({64}) -&gt;Args({128}) -&gt;Args({256}) -&gt;Args({512}) -&gt;Args({1536}) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Scalar_CosineDistance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/base/bench_simd_distance.cpp" line="126" column="1" declfile="benchmarks/base/bench_simd_distance.cpp" declline="126" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/simd_distance.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RandGen<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>gen(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,<sp/>std::mt19937&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dist(0.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>v(dim);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>dim;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v[i]<sp/>=<sp/>dist(<ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scalar_l2(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>b,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>dim;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>a[i]<sp/>-<sp/>b[i];</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>+=<sp/>d<sp/>*<sp/>d;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::sqrt(s);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark:<sp/>SIMD<sp/>vs.<sp/>Scalar<sp/>L2<sp/>(distance<sp/>only;<sp/>ordering<sp/>semantics<sp/>unchanged)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Args:<sp/>{dimension}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SIMD_L2(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>(42);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>themis::simd::l2_distance(q.data(),<sp/>v.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(d);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;dim&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dim);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Scalar_L2(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>(1337);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>scalar_l2(q.data(),<sp/>v.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(d);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;dim&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dim);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="bench__simd__distance_8cpp_1ac57ecbe913debd0795f4a576cda3190d" kindref="member">BENCHMARK</ref>(BM_SIMD_L2)-&gt;Args({64})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({128})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({256})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({512})-&gt;<ref refid="bench__edge__cases__comprehensive_8cpp_1addb7f92b39baa1ba52f6d9029a10fbf7" kindref="member">Unit</ref>(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="bench__simd__distance_8cpp_1ac57ecbe913debd0795f4a576cda3190d" kindref="member">BENCHMARK</ref>(BM_Scalar_L2)-&gt;Args({64})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({128})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({256})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({512})-&gt;<ref refid="bench__edge__cases__comprehensive_8cpp_1addb7f92b39baa1ba52f6d9029a10fbf7" kindref="member">Unit</ref>(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Inner<sp/>Product<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SIMD_InnerProduct(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>(99);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>themis::simd::inner_product(q.data(),<sp/>v.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(d);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;dim&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dim);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Scalar_InnerProduct(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>(999);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>acc<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>dim;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acc<sp/>+=<sp/>q[i]<sp/>*<sp/>v[i];</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(acc);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;dim&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dim);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="bench__simd__distance_8cpp_1ac57ecbe913debd0795f4a576cda3190d" kindref="member">BENCHMARK</ref>(BM_SIMD_InnerProduct)-&gt;Args({64})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({128})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({256})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({512})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({1536})-&gt;<ref refid="bench__edge__cases__comprehensive_8cpp_1addb7f92b39baa1ba52f6d9029a10fbf7" kindref="member">Unit</ref>(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="bench__simd__distance_8cpp_1ac57ecbe913debd0795f4a576cda3190d" kindref="member">BENCHMARK</ref>(BM_Scalar_InnerProduct)-&gt;Args({64})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({128})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({256})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({512})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({1536})-&gt;<ref refid="bench__edge__cases__comprehensive_8cpp_1addb7f92b39baa1ba52f6d9029a10fbf7" kindref="member">Unit</ref>(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Cosine<sp/>Distance<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_SIMD_CosineDistance(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>(77);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>themis::simd::cosine_distance(q.data(),<sp/>v.data(),<sp/>dim);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(d);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;dim&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dim);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Scalar_CosineDistance(benchmark::State&amp;<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.range(0));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>(777);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>q<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>=<sp/>RandGen::gen(dim,<sp/><ref refid="bench__advanced__patterns_8cpp_1abb6ce8f33d5b7e45efa39df0aab1efd5" kindref="member">rng</ref>);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>dot<sp/>=<sp/>0.0f,<sp/>na<sp/>=<sp/>0.0f,<sp/>nb<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>dim;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dot<sp/>+=<sp/>q[i]<sp/>*<sp/>v[i];</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>na<sp/><sp/>+=<sp/>q[i]<sp/>*<sp/>q[i];</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nb<sp/><sp/>+=<sp/>v[i]<sp/>*<sp/>v[i];</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>denom<sp/>=<sp/>std::sqrt(na<sp/>*<sp/>nb);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>(denom<sp/>&lt;<sp/>1e-10f)<sp/>?<sp/>1.0f<sp/>:<sp/>(1.0f<sp/>-<sp/>dot<sp/>/<sp/>denom);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(d);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="bench__advanced__patterns_8cpp_1a7ff4fc3bbf305206c6f2b97d4e6681a0" kindref="member">state</ref>.counters[</highlight><highlight class="stringliteral">&quot;dim&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dim);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="bench__simd__distance_8cpp_1ac57ecbe913debd0795f4a576cda3190d" kindref="member">BENCHMARK</ref>(BM_SIMD_CosineDistance)-&gt;Args({64})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({128})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({256})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({512})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({1536})-&gt;<ref refid="bench__edge__cases__comprehensive_8cpp_1addb7f92b39baa1ba52f6d9029a10fbf7" kindref="member">Unit</ref>(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="bench__simd__distance_8cpp_1ac57ecbe913debd0795f4a576cda3190d" kindref="member">BENCHMARK</ref>(BM_Scalar_CosineDistance)-&gt;Args({64})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({128})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({256})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({512})-&gt;<ref refid="bench__advanced__patterns_8cpp_1a7bb1229e80c242cc77f0cb1433f82c08" kindref="member">Args</ref>({1536})-&gt;<ref refid="bench__edge__cases__comprehensive_8cpp_1addb7f92b39baa1ba52f6d9029a10fbf7" kindref="member">Unit</ref>(benchmark::kMicrosecond);</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/base/bench_simd_distance.cpp"/>
+  </compounddef>
+</doxygen>

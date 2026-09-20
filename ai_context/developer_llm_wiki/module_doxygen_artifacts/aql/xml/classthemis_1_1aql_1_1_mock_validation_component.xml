@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_mock_validation_component" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::MockValidationComponent</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_mock_validation_component_1a37ab538626b4bd8fa5e6e14397462fa7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_error_context" kindref="compound">ErrorContext</ref></type>
+        <definition>ErrorContext themis::aql::MockValidationComponent::validate</definition>
+        <argsstring>(const std::string &amp;input)</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::aql::MockValidationComponent::validate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="41" column="18" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="41" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="39" column="1" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="39" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_mock_validation_component_1a37ab538626b4bd8fa5e6e14397462fa7" prot="public" virt="non-virtual"><scope>themis::aql::MockValidationComponent</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

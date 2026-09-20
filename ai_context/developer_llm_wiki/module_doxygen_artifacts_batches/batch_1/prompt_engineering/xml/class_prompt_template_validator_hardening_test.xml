@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_prompt_template_validator_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>PromptTemplateValidatorHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_prompt_template_validator_hardening_test_1ad297a0a0f635b39b663d3c737cd9051a" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator" kindref="compound">PromptTemplateValidator</ref></type>
+        <definition>PromptTemplateValidator PromptTemplateValidatorHardeningTest::validator_</definition>
+        <argsstring></argsstring>
+        <name>validator_</name>
+        <qualifiedname>PromptTemplateValidatorHardeningTest::validator_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="24" column="29" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_prompt_template_validator_hardening_test_1afbff285567fec48ef1621cea4ff41309" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json PromptTemplateValidatorHardeningTest::makeValidTemplate</definition>
+        <argsstring>(const std::string &amp;content=&quot;Hello {{name}}&quot;)</argsstring>
+        <name>makeValidTemplate</name>
+        <qualifiedname>PromptTemplateValidatorHardeningTest::makeValidTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+          <defval>&quot;Hello {{name}}&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="26" column="20" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PromptTemplateValidatorHardeningTest</label>
+        <link refid="class_prompt_template_validator_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PromptTemplateValidatorHardeningTest</label>
+        <link refid="class_prompt_template_validator_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>validator_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::prompt_engineering::PromptTemplateValidator</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_prompt_template_validator"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" line="22" column="1" bodyfile="tests/prompt_engineering/test_prompt_engineering_validation_hardening.cpp" bodystart="22" bodyend="36"/>
+    <listofallmembers>
+      <member refid="class_prompt_template_validator_hardening_test_1afbff285567fec48ef1621cea4ff41309" prot="protected" virt="non-virtual"><scope>PromptTemplateValidatorHardeningTest</scope><name>makeValidTemplate</name></member>
+      <member refid="class_prompt_template_validator_hardening_test_1ad297a0a0f635b39b663d3c737cd9051a" prot="protected" virt="non-virtual"><scope>PromptTemplateValidatorHardeningTest</scope><name>validator_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

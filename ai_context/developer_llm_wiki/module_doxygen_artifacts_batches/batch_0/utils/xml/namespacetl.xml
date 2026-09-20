@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacetl" kind="namespace" language="C++">
+    <compoundname>tl</compoundname>
+    <innerclass refid="classtl_1_1unexpected" prot="public">tl::unexpected</innerclass>
+    <innerclass refid="classtl_1_1expected" prot="public">tl::expected</innerclass>
+    <innerclass refid="classtl_1_1expected_3_01void_00_01_e_01_4" prot="public">tl::expected&lt; void, E &gt;</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacetl_1ac6ccac65811534b5ea31ce77f4d4ade1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename E</type>
+          </param>
+        </templateparamlist>
+        <type></type>
+        <definition>tl::unexpected</definition>
+        <argsstring>(E) -&gt; unexpected&lt; E &gt;</argsstring>
+        <name>unexpected</name>
+        <qualifiedname>tl::unexpected</qualifiedname>
+        <param>
+          <type>E</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="50" column="1" declfile="include/utils/expected.h" declline="50" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetl_1af235d800b79a746cd82fe68e11d4638a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename E</type>
+          </param>
+        </templateparamlist>
+        <type><ref refid="classtl_1_1unexpected" kindref="compound">unexpected</ref>&lt; std::decay_t&lt; E &gt; &gt;</type>
+        <definition>unexpected&lt; std::decay_t&lt; E &gt; &gt; tl::make_unexpected</definition>
+        <argsstring>(E &amp;&amp;e)</argsstring>
+        <name>make_unexpected</name>
+        <qualifiedname>tl::make_unexpected</qualifiedname>
+        <param>
+          <type>E &amp;&amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/expected.h" line="53" column="12" bodyfile="include/utils/expected.h" bodystart="53" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/expected.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

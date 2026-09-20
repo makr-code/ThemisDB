@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::storage::DatabaseConnectionManager::Connection</compoundname>
+    <includes refid="database__connection__manager_8h" local="no">database_connection_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1afdc3594746e886b49693171faae1ad85" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::DatabaseConnectionManager::Connection::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="120" column="47" bodyfile="include/storage/database_connection_manager.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ae41aa55de06094627e2887c2ff56612a" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::storage::DatabaseConnectionManager::Connection::last_used_at</definition>
+        <argsstring></argsstring>
+        <name>last_used_at</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::last_used_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="121" column="47" bodyfile="include/storage/database_connection_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ad2bf1e590bdd58edc99eb1ddd0693459" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::Connection::operation_count</definition>
+        <argsstring></argsstring>
+        <name>operation_count</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::operation_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="122" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ae2d7ad42d37eb1659ab7f48ae29262cb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DatabaseConnectionManager::Connection::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="123" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a42bbad7778825d10105fea1b144549db" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::storage::DatabaseConnectionManager::Connection::~Connection</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Connection</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::~Connection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="112" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a77f02148ca2d5c716caf2a12570c7dfe" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::DatabaseConnectionManager::Connection::isValid</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="114" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a8d1698b31a1eb4995e454c9eceed8eee" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::storage::DatabaseConnectionManager::Connection::ping</definition>
+        <argsstring>()=0</argsstring>
+        <name>ping</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::ping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="115" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a7af9e75e4b9a1444d10c9a4b19dac6c9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::storage::DatabaseConnectionManager::Connection::getError</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getError</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::getError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="116" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a430314bd01a54d8a498464312fbd0ea8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::storage::DatabaseConnectionManager::Connection::close</definition>
+        <argsstring>()=0</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::storage::DatabaseConnectionManager::Connection::close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="117" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection" kindref="compound">Connection</ref> handle interface. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/database_connection_manager.h" line="110" column="5" bodyfile="include/storage/database_connection_manager.h" bodystart="110" bodyend="124"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a430314bd01a54d8a498464312fbd0ea8" prot="public" virt="pure-virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>close</name></member>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1afdc3594746e886b49693171faae1ad85" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>created_at</name></member>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ae2d7ad42d37eb1659ab7f48ae29262cb" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>error_count</name></member>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a7af9e75e4b9a1444d10c9a4b19dac6c9" prot="public" virt="pure-virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>getError</name></member>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a77f02148ca2d5c716caf2a12570c7dfe" prot="public" virt="pure-virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ae41aa55de06094627e2887c2ff56612a" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>last_used_at</name></member>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1ad2bf1e590bdd58edc99eb1ddd0693459" prot="public" virt="non-virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>operation_count</name></member>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a8d1698b31a1eb4995e454c9eceed8eee" prot="public" virt="pure-virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>ping</name></member>
+      <member refid="classthemis_1_1storage_1_1_database_connection_manager_1_1_connection_1a42bbad7778825d10105fea1b144549db" prot="public" virt="virtual"><scope>themis::storage::DatabaseConnectionManager::Connection</scope><name>~Connection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

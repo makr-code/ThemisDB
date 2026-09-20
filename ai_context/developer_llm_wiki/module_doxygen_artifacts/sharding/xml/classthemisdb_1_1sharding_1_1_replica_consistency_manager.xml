@@ -1,0 +1,691 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_replica_consistency_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ReplicaConsistencyManager</compoundname>
+    <includes refid="replica__consistency_8h" local="no">replica_consistency.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config" prot="public">themisdb::sharding::ReplicaConsistencyManager::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics" prot="public">themisdb::sharding::ReplicaConsistencyManager::Statistics</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a661f5f323462dbce35b67c304d659597" prot="public" static="no">
+        <type>std::function&lt; <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref>(const <ref refid="structthemisdb_1_1sharding_1_1_version_conflict" kindref="compound">VersionConflict</ref> &amp;)&gt;</type>
+        <definition>using themisdb::sharding::ReplicaConsistencyManager::ConflictCallback = std::function&lt;VersionedEntry(const VersionConflict&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConflictCallback</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::ConflictCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type used for custom/manual conflict resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="121" column="5" bodyfile="include/sharding/replica_consistency.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1adafc1fb39ee9530d81ac93188eb08875" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::ReplicaConsistencyManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="210" column="12" bodyfile="include/sharding/replica_consistency.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a8fabbe9a164edcb834c19e383aa007fa" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::ReplicaConsistencyManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="212" column="24" bodyfile="include/sharding/replica_consistency.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a2f8bacbf3adfc4e40a51677e60f6b8fa" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="classthemis_1_1sharding_1_1_vector_clock" kindref="compound">VectorClock</ref> &gt;</type>
+        <definition>std::map&lt;std::string, VectorClock&gt; themisdb::sharding::ReplicaConsistencyManager::node_clocks_</definition>
+        <argsstring></argsstring>
+        <name>node_clocks_</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::node_clocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="213" column="14" bodyfile="include/sharding/replica_consistency.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1af9c5f9d0336e0687de48644919087f27" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;VersionedEntry&gt; &gt; themisdb::sharding::ReplicaConsistencyManager::version_history_</definition>
+        <argsstring></argsstring>
+        <name>version_history_</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::version_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="214" column="14" bodyfile="include/sharding/replica_consistency.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a535434a733bfcb6b39b06ece5da74031" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themisdb::sharding::ReplicaConsistencyManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="216" column="16" bodyfile="include/sharding/replica_consistency.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a89f4be31df3d3ad3b267efd3cb443075" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a661f5f323462dbce35b67c304d659597" kindref="member">ConflictCallback</ref></type>
+        <definition>ConflictCallback themisdb::sharding::ReplicaConsistencyManager::conflict_callback_</definition>
+        <argsstring></argsstring>
+        <name>conflict_callback_</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::conflict_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="217" column="22" bodyfile="include/sharding/replica_consistency.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1aedd29000295455440b083c010cc0c87c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ReplicaConsistencyManager::ReplicaConsistencyManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>ReplicaConsistencyManager</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::ReplicaConsistencyManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct replica consistency manager with runtime policy config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="136" column="14" bodyfile="src/sharding/replica_consistency.cpp" bodystart="192" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a84bb4bc5205c42a3c0830b23065aa6ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::ReplicaConsistencyManager::~ReplicaConsistencyManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ReplicaConsistencyManager</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::~ReplicaConsistencyManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a934c451c1d0294b82b11268ca389189b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref></type>
+        <definition>VersionedEntry themisdb::sharding::ReplicaConsistencyManager::recordWrite</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;data, const std::string &amp;node_id)</argsstring>
+        <name>recordWrite</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::recordWrite</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Record a write operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node performing the write </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Versioned entry with vector clock</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), increment(), std::chrono::system_clock::now(), push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="146" column="20" bodyfile="src/sharding/replica_consistency.cpp" bodystart="203" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1abda5217489e376e3ad914edea8cbae27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref>, <ref refid="structthemisdb_1_1sharding_1_1_version_conflict" kindref="compound">VersionConflict</ref> &gt;</type>
+        <definition>std::variant&lt; VersionedEntry, VersionConflict &gt; themisdb::sharding::ReplicaConsistencyManager::mergeReplicas</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; VersionedEntry &gt; &amp;entries)</argsstring>
+        <name>mergeReplicas</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::mergeReplicas</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Merge entries from different replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data key </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entries from different replicas </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resolved entry or conflict </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="157" column="5" bodyfile="src/sharding/replica_consistency.cpp" bodystart="234" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a7c3223019333160213ffb8e88f641c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ReplicaConsistencyManager::resolveConflict</definition>
+        <argsstring>(const VersionConflict &amp;conflict, const VersionedEntry &amp;resolved_entry)</argsstring>
+        <name>resolveConflict</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::resolveConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_version_conflict" kindref="compound">VersionConflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref> &amp;</type>
+          <declname>resolved_entry</declname>
+        </param>
+        <briefdescription>
+<para>Resolve previously detected conflict using caller-selected winner. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolve Conflict.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resolved_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="161" column="10" bodyfile="src/sharding/replica_consistency.cpp" bodystart="278" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a1c538a09df243b5924397cd82446acf9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_vector_clock" kindref="compound">VectorClock</ref></type>
+        <definition>VectorClock themisdb::sharding::ReplicaConsistencyManager::getVectorClock</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>getVectorClock</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::getVectorClock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Return current vector clock snapshot for node_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="165" column="17" bodyfile="src/sharding/replica_consistency.cpp" bodystart="294" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1aa2a6c14f1b36db1416831a82aeddf9a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ReplicaConsistencyManager::updateVectorClock</definition>
+        <argsstring>(const std::string &amp;node_id, const VectorClock &amp;clock)</argsstring>
+        <name>updateVectorClock</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::updateVectorClock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_vector_clock" kindref="compound">VectorClock</ref> &amp;</type>
+          <declname>clock</declname>
+        </param>
+        <briefdescription>
+<para>Merge node&apos;s vector clock with received remote clock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Vector Clock.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">clock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), update(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="168" column="10" bodyfile="src/sharding/replica_consistency.cpp" bodystart="311" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1ab70a536987ebcf0bfaa900c1b8671e2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::ReplicaConsistencyManager::setConflictCallback</definition>
+        <argsstring>(ConflictCallback callback)</argsstring>
+        <name>setConflictCallback</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::setConflictCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a661f5f323462dbce35b67c304d659597" kindref="member">ConflictCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set custom callback used for resolving conflicts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Conflict Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="171" column="10" bodyfile="src/sharding/replica_consistency.cpp" bodystart="322" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a5790b1460637fcde9ffab306d4685173" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedEntry &gt; themisdb::sharding::ReplicaConsistencyManager::getVersionHistory</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getVersionHistory</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::getVersionHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Return retained version history for key (possibly empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="174" column="17" bodyfile="src/sharding/replica_consistency.cpp" bodystart="329" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1ac961f02a6c33ed7083f40fef1af13f27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; LogEntry &gt; themisdb::sharding::ReplicaConsistencyManager::mergePartitionedLogs</definition>
+        <argsstring>(const std::vector&lt; LogEntry &gt; &amp;local_entries, const std::vector&lt; LogEntry &gt; &amp;remote_entries)</argsstring>
+        <name>mergePartitionedLogs</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::mergePartitionedLogs</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &gt; &amp;</type>
+          <declname>local_entries</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_log_entry" kindref="compound">LogEntry</ref> &gt; &amp;</type>
+          <declname>remote_entries</declname>
+        </param>
+        <briefdescription>
+<para>Merge log entries from partitioned replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Merge Partitioned Logs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>local_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local log entries </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote log entries </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Merged log entries</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">remote_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="182" column="17" bodyfile="src/sharding/replica_consistency.cpp" bodystart="349" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1abd9de0886ff3e670273ba0add037c393" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_statistics" kindref="compound">Statistics</ref> &amp;</type>
+        <definition>const Statistics &amp; themisdb::sharding::ReplicaConsistencyManager::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return statistics counters snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="201" column="22" bodyfile="include/sharding/replica_consistency.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a46e9bd8aab973baeeba8c2c86d2e5255" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1sharding_1_1_version_conflict" kindref="compound">VersionConflict</ref> &gt;</type>
+        <definition>std::optional&lt; VersionConflict &gt; themisdb::sharding::ReplicaConsistencyManager::detectConflict</definition>
+        <argsstring>(const std::string &amp;key, const std::vector&lt; VersionedEntry &gt; &amp;entries)</argsstring>
+        <name>detectConflict</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::detectConflict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <briefdescription>
+<para>Detect whether input entries contain concurrent conflicting versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Conflict.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), isConcurrent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="220" column="19" bodyfile="src/sharding/replica_consistency.cpp" bodystart="397" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1ad736233c28eb99f2f70f3b999d2c8a52" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref></type>
+        <definition>VersionedEntry themisdb::sharding::ReplicaConsistencyManager::autoResolveConflict</definition>
+        <argsstring>(const VersionConflict &amp;conflict)</argsstring>
+        <name>autoResolveConflict</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::autoResolveConflict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_version_conflict" kindref="compound">VersionConflict</ref> &amp;</type>
+          <declname>conflict</declname>
+        </param>
+        <briefdescription>
+<para>Resolve conflict using callback or configured strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Auto Resolve Conflict.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conflict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: conflict_callback_(), selectWinningVersion(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="225" column="20" bodyfile="src/sharding/replica_consistency.cpp" bodystart="425" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a79e5f34ff6477752b4a05b02e7dfcd7e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref></type>
+        <definition>VersionedEntry themisdb::sharding::ReplicaConsistencyManager::selectWinningVersion</definition>
+        <argsstring>(const std::vector&lt; VersionedEntry &gt; &amp;entries, ConflictResolutionStrategy strategy)</argsstring>
+        <name>selectWinningVersion</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::selectWinningVersion</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_versioned_entry" kindref="compound">VersionedEntry</ref> &gt; &amp;</type>
+          <declname>entries</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a28ff33851bedf198311696f6b839139c" kindref="member">ConflictResolutionStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Select winner from entries according to conflict strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Select Winning Version.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::max_element(), begin(), end(), happensAfter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="228" column="20" bodyfile="src/sharding/replica_consistency.cpp" bodystart="443" bodyend="491"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replica consistency manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages consistency across replicas using vector clocks and handles partition healing with conflict resolution. </para>
+    </detaileddescription>
+    <location file="include/sharding/replica_consistency.h" line="118" column="1" bodyfile="include/sharding/replica_consistency.h" bodystart="118" bodyend="231"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1ad736233c28eb99f2f70f3b999d2c8a52" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>autoResolveConflict</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1adafc1fb39ee9530d81ac93188eb08875" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a89f4be31df3d3ad3b267efd3cb443075" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>conflict_callback_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a661f5f323462dbce35b67c304d659597" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>ConflictCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a46e9bd8aab973baeeba8c2c86d2e5255" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>detectConflict</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1abd9de0886ff3e670273ba0add037c393" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>getStatistics</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a1c538a09df243b5924397cd82446acf9" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>getVectorClock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a5790b1460637fcde9ffab306d4685173" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>getVersionHistory</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1ac961f02a6c33ed7083f40fef1af13f27" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>mergePartitionedLogs</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1abda5217489e376e3ad914edea8cbae27" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>mergeReplicas</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a8fabbe9a164edcb834c19e383aa007fa" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a2f8bacbf3adfc4e40a51677e60f6b8fa" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>node_clocks_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a934c451c1d0294b82b11268ca389189b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>recordWrite</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1aedd29000295455440b083c010cc0c87c" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>ReplicaConsistencyManager</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a7c3223019333160213ffb8e88f641c8e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>resolveConflict</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a79e5f34ff6477752b4a05b02e7dfcd7e" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>selectWinningVersion</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1ab70a536987ebcf0bfaa900c1b8671e2e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>setConflictCallback</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a535434a733bfcb6b39b06ece5da74031" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1aa2a6c14f1b36db1416831a82aeddf9a0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>updateVectorClock</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1af9c5f9d0336e0687de48644919087f27" prot="private" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>version_history_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_replica_consistency_manager_1a84bb4bc5205c42a3c0830b23065aa6ac" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager</scope><name>~ReplicaConsistencyManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

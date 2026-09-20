@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::search::testing::DistributedSearchEdgeCasesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a4a96d4b06b6b5db92f6490f630af3de6" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::search::testing::DistributedSearchEdgeCasesTest::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>themis::search::testing::DistributedSearchEdgeCasesTest::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="26" column="29" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a63aaa589ba2bff18180ce01ccdbd33fd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::testing::DistributedSearchEdgeCasesTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::search::testing::DistributedSearchEdgeCasesTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_distributed.cpp" line="28" column="8" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::search::testing::DistributedSearchEdgeCasesTest</label>
+        <link refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::search::testing::DistributedSearchEdgeCasesTest</label>
+        <link refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/search/test_search_edge_cases_distributed.cpp" line="24" column="1" bodyfile="tests/search/test_search_edge_cases_distributed.cpp" bodystart="24" bodyend="31"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a4a96d4b06b6b5db92f6490f630af3de6" prot="protected" virt="non-virtual"><scope>themis::search::testing::DistributedSearchEdgeCasesTest</scope><name>kCanonicalRngSeed</name></member>
+      <member refid="classthemis_1_1search_1_1testing_1_1_distributed_search_edge_cases_test_1a63aaa589ba2bff18180ce01ccdbd33fd" prot="protected" virt="non-virtual"><scope>themis::search::testing::DistributedSearchEdgeCasesTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

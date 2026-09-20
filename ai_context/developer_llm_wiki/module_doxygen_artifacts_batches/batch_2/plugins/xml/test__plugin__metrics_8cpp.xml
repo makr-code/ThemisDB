@@ -1,0 +1,561 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__plugin__metrics_8cpp" kind="file" language="C++">
+    <compoundname>test_plugin_metrics.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="plugin__metrics_8h" local="yes">plugins/plugin_metrics.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>plugins/plugin_metrics.h</label>
+        <link refid="plugin__metrics_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/plugins/test_plugin_metrics.cpp</label>
+        <link refid="test__plugin__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>core/concerns/i_metrics.h</label>
+      </node>
+      <node id="6">
+        <label>deque</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>numeric</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_plugin_metrics_test" prot="public">PluginMetricsTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, RecordLoad)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="17" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="17" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1aad24bb7a7e32a690ac68a96aa59169bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, RecordReload)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordReload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="26" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="26" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1a2692227578c9f5c3bf11e6f9942ebfb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, RecordMultipleReloads)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordMultipleReloads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="37" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="37" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1ae54642339ad1fe513f0815d97b9b11db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, RecordCall)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="49" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1a711baffb483e0fe98dbb987ab0816de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, RecordMultipleCalls)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordMultipleCalls</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="57" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="57" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1a089c0cb632a97914ee0231514ec2de7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, PercentileCalculation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>PercentileCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="71" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="71" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1a9c283359bbc4f95919fe824ebee4df97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, RecordError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>RecordError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="90" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="90" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1a58361d0a0b40f2cfbb6826a26710c9cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, UpdateMemoryUsage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateMemoryUsage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="99" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="99" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1af154a8acb1be52dd4588d1acb91ea156" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, MultiplePlugins)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>MultiplePlugins</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="112" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="112" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1a454414e1dce239b2535eed8708c100bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, ResetStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>ResetStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="125" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="125" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1a2bc90e2c733047f6a225887a5671ddf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, ResetAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>ResetAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="141" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="141" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1aeb866e7cbf65cdf18599354b92a10696" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, ThreadSafety)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>ThreadSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="152" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="152" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1a2fe532e7113dd7fc5496d0a3004dfba7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, EmptyStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="178" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="178" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__plugin__metrics_8cpp_1ad1e4202733111ea778113a7876696f94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PluginMetricsTest, LatencySampleLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref></type>
+        </param>
+        <param>
+          <type>LatencySampleLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_metrics.cpp" line="185" column="1" bodyfile="tests/plugins/test_plugin_metrics.cpp" bodystart="185" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__metrics_8h" kindref="compound">plugins/plugin_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">themis::plugins</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8" refid="class_plugin_metrics_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1_plugin_metrics" kindref="compound">PluginMetrics</ref><sp/><ref refid="class_plugin_metrics_test_1ae17cc0bd12f086bef391529c6e57eba7" kindref="member">metrics</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_plugin_metrics_test_1a247fa63be85bb97ee79c9ad717ffca1f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_plugin_metrics_test_1ae17cc0bd12f086bef391529c6e57eba7" kindref="member">metrics</ref>.resetAll();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>RecordLoad)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::milliseconds(450);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>duration);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.load_time,<sp/>duration);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(std::chrono::system_clock::now()<sp/>-<sp/>stats.loaded_at,<sp/>std::chrono::milliseconds(0));</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>RecordReload)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>std::chrono::milliseconds(200);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordReload(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>duration);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.reload_count,<sp/>1);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.last_reload_time,<sp/>duration);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>RecordMultipleReloads)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordReload(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(150));</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordReload(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(180));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordReload(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(120));</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.reload_count,<sp/>3);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.last_reload_time,<sp/>std::chrono::milliseconds(120));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>RecordCall)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(12500));<sp/></highlight><highlight class="comment">//<sp/>12.5ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.function_calls,<sp/>1);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(stats.avg_call_latency_ms,<sp/>12.5,<sp/>0.1);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>RecordMultipleCalls)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>multiple<sp/>calls<sp/>with<sp/>different<sp/>latencies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(10000));<sp/><sp/></highlight><highlight class="comment">//<sp/>10ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(20000));<sp/><sp/></highlight><highlight class="comment">//<sp/>20ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(30000));<sp/><sp/></highlight><highlight class="comment">//<sp/>30ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(15000));<sp/><sp/></highlight><highlight class="comment">//<sp/>15ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.function_calls,<sp/>4);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Average<sp/>should<sp/>be<sp/>(10<sp/>+<sp/>20<sp/>+<sp/>30<sp/>+<sp/>15)<sp/>/<sp/>4<sp/>=<sp/>18.75</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(stats.avg_call_latency_ms,<sp/>18.75,<sp/>0.1);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>PercentileCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>100<sp/>samples<sp/>with<sp/>known<sp/>distribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>1;<sp/>i<sp/>&lt;=<sp/>100;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(i<sp/>*<sp/>1000));<sp/></highlight><highlight class="comment">//<sp/>1ms<sp/>to<sp/>100ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.function_calls,<sp/>100);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P95<sp/>should<sp/>be<sp/>around<sp/>95ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(stats.p95_call_latency_ms,<sp/>95.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P99<sp/>should<sp/>be<sp/>around<sp/>99ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(stats.p99_call_latency_ms,<sp/>99.0,<sp/>2.0);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Average<sp/>should<sp/>be<sp/>around<sp/>50.5ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(stats.avg_call_latency_ms,<sp/>50.5,<sp/>1.0);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>RecordError)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordError(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordError(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordError(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.errors,<sp/>3);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>UpdateMemoryUsage)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.updateMemoryUsage(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>1024<sp/>*<sp/>1024);<sp/></highlight><highlight class="comment">//<sp/>1MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.memory_bytes,<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>to<sp/>different<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.updateMemoryUsage(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>2<sp/>*<sp/>1024<sp/>*<sp/>1024);<sp/></highlight><highlight class="comment">//<sp/>2MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.memory_bytes,<sp/>2<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>MultiplePlugins)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;plugin1&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;plugin2&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(200));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;plugin3&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(300));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>all_stats<sp/>=<sp/>metrics.getAllStats();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all_stats.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all_stats[</highlight><highlight class="stringliteral">&quot;plugin1&quot;</highlight><highlight class="normal">].load_time,<sp/>std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all_stats[</highlight><highlight class="stringliteral">&quot;plugin2&quot;</highlight><highlight class="normal">].load_time,<sp/>std::chrono::milliseconds(200));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(all_stats[</highlight><highlight class="stringliteral">&quot;plugin3&quot;</highlight><highlight class="normal">].load_time,<sp/>std::chrono::milliseconds(300));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>ResetStats)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(10000));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordError(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.load_time.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.resetStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.load_time.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.function_calls,<sp/>0);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.errors,<sp/>0);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>ResetAll)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;plugin1&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.recordLoad(</highlight><highlight class="stringliteral">&quot;plugin2&quot;</highlight><highlight class="normal">,<sp/>std::chrono::milliseconds(200));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getAllStats().size(),<sp/>2);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.resetAll();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metrics.getAllStats().size(),<sp/>0);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>ThreadSafety)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>concurrent<sp/>access<sp/>from<sp/>multiple<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_threads<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>calls_per_thread<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>num_threads;<sp/>t++)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>calls_per_thread]()<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>calls_per_thread;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(10000));</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.recordError(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.updateMemoryUsage(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>1024<sp/>*<sp/>(i<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.function_calls,<sp/>num_threads<sp/>*<sp/>calls_per_thread);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.errors,<sp/>num_threads<sp/>*<sp/>calls_per_thread);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>EmptyStats)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;nonexistent_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.load_time.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.function_calls,<sp/>0);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.errors,<sp/>0);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__plugin__metrics_8cpp_1aa5cb373b6b31bc9f32fb138110b26f71" kindref="member">TEST_F</ref>(<ref refid="class_plugin_metrics_test" kindref="compound">PluginMetricsTest</ref>,<sp/>LatencySampleLimit)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>more<sp/>than<sp/>MAX_SAMPLES<sp/>(1000)<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1500;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metrics.recordCall(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">,<sp/>std::chrono::microseconds(i<sp/>*<sp/>100));</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>metrics.getStats(</highlight><highlight class="stringliteral">&quot;test_plugin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.function_calls,<sp/>1500);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Percentiles<sp/>should<sp/>still<sp/>be<sp/>calculated<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(based<sp/>on<sp/>the<sp/>most<sp/>recent<sp/>1000<sp/>samples)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.p95_call_latency_ms,<sp/>0);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.p99_call_latency_ms,<sp/>0);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.p99_call_latency_ms,<sp/>stats.p95_call_latency_ms);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/plugins/test_plugin_metrics.cpp"/>
+  </compounddef>
+</doxygen>

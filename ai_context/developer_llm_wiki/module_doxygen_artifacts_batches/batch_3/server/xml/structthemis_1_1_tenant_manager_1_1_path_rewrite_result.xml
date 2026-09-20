@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_tenant_manager_1_1_path_rewrite_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TenantManager::PathRewriteResult</compoundname>
+    <includes refid="tenant__manager_8h" local="no">tenant_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_path_rewrite_result_1a7f603485d3e7ad7d66b31404d6cac165" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::PathRewriteResult::effective_path</definition>
+        <argsstring></argsstring>
+        <name>effective_path</name>
+        <qualifiedname>themis::TenantManager::PathRewriteResult::effective_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="273" column="21" bodyfile="include/server/tenant_manager.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_path_rewrite_result_1ae67e066bb336ee23a9a6e6f71a60bcbf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantManager::PathRewriteResult::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::TenantManager::PathRewriteResult::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="274" column="21" bodyfile="include/server/tenant_manager.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_manager_1_1_path_rewrite_result_1a5914236692574b97137fb2a0b08af14d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TenantManager::PathRewriteResult::rewritten</definition>
+        <argsstring></argsstring>
+        <name>rewritten</name>
+        <qualifiedname>themis::TenantManager::PathRewriteResult::rewritten</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="275" column="14" bodyfile="include/server/tenant_manager.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/tenant_manager.h" line="272" column="5" bodyfile="include/server/tenant_manager.h" bodystart="272" bodyend="276"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_tenant_manager_1_1_path_rewrite_result_1a7f603485d3e7ad7d66b31404d6cac165" prot="public" virt="non-virtual"><scope>themis::TenantManager::PathRewriteResult</scope><name>effective_path</name></member>
+      <member refid="structthemis_1_1_tenant_manager_1_1_path_rewrite_result_1a5914236692574b97137fb2a0b08af14d" prot="public" virt="non-virtual"><scope>themis::TenantManager::PathRewriteResult</scope><name>rewritten</name></member>
+      <member refid="structthemis_1_1_tenant_manager_1_1_path_rewrite_result_1ae67e066bb336ee23a9a6e6f71a60bcbf" prot="public" virt="non-virtual"><scope>themis::TenantManager::PathRewriteResult</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

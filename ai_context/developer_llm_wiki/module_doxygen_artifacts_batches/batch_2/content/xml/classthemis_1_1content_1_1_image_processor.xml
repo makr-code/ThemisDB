@@ -1,0 +1,845 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_image_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::ImageProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor_plugin" prot="public" virt="non-virtual">themis::content::IContentProcessorPlugin</basecompoundref>
+    <includes refid="image__processor_8h" local="no">image_processor.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a6c7f2dbdca3900f17b4aa4f634aca13a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ImageProcessor::thumbnail_max_width_</definition>
+        <argsstring></argsstring>
+        <name>thumbnail_max_width_</name>
+        <qualifiedname>themis::content::ImageProcessor::thumbnail_max_width_</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="57" column="9" bodyfile="include/content/image_processor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a89d9da7fb9a72148b1451808b25c06d8" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ImageProcessor::thumbnail_max_height_</definition>
+        <argsstring></argsstring>
+        <name>thumbnail_max_height_</name>
+        <qualifiedname>themis::content::ImageProcessor::thumbnail_max_height_</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="58" column="9" bodyfile="include/content/image_processor.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1aacd0447b5bb5ddea021df5b544cb2d45" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ImageProcessor::enable_ocr_</definition>
+        <argsstring></argsstring>
+        <name>enable_ocr_</name>
+        <qualifiedname>themis::content::ImageProcessor::enable_ocr_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="59" column="10" bodyfile="include/content/image_processor.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a9577e6a19e81f92d842749ce32afa3c8" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ImageProcessor::ocr_language_</definition>
+        <argsstring></argsstring>
+        <name>ocr_language_</name>
+        <qualifiedname>themis::content::ImageProcessor::ocr_language_</qualifiedname>
+        <initializer>= &quot;eng&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="60" column="17" bodyfile="include/content/image_processor.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a1c2c22441506a9834e21e3fb6ba0526d" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ImageProcessor::enable_color_analysis_</definition>
+        <argsstring></argsstring>
+        <name>enable_color_analysis_</name>
+        <qualifiedname>themis::content::ImageProcessor::enable_color_analysis_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="61" column="10" bodyfile="include/content/image_processor.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a57c447ccd3cb7ff96674f841c2ae7aad" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ImageProcessor::dominant_colors_count_</definition>
+        <argsstring></argsstring>
+        <name>dominant_colors_count_</name>
+        <qualifiedname>themis::content::ImageProcessor::dominant_colors_count_</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="62" column="9" bodyfile="include/content/image_processor.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1ae2832def83433d21c5fc584a987ced5e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ImageProcessor::enable_face_detection_</definition>
+        <argsstring></argsstring>
+        <name>enable_face_detection_</name>
+        <qualifiedname>themis::content::ImageProcessor::enable_face_detection_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="63" column="10" bodyfile="include/content/image_processor.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a385ac67346ff678ca0eb9c1b9a5f269c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ImageProcessor::enable_object_detection_</definition>
+        <argsstring></argsstring>
+        <name>enable_object_detection_</name>
+        <qualifiedname>themis::content::ImageProcessor::enable_object_detection_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="64" column="10" bodyfile="include/content/image_processor.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a40190627dc1faeb886aa2e0f332d23e0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::ImageProcessor::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::content::ImageProcessor::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="67" column="24" bodyfile="include/content/image_processor.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a2d02b9c115d3b656911af7af78d8f4a5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ImageProcessor::images_processed_</definition>
+        <argsstring></argsstring>
+        <name>images_processed_</name>
+        <qualifiedname>themis::content::ImageProcessor::images_processed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="68" column="17" bodyfile="include/content/image_processor.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1ac05a8b4f5e52d7f4a66839a688dbe9a7" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ImageProcessor::ocr_performed_</definition>
+        <argsstring></argsstring>
+        <name>ocr_performed_</name>
+        <qualifiedname>themis::content::ImageProcessor::ocr_performed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="69" column="17" bodyfile="include/content/image_processor.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a22aceb35a0ee406ec318a2c9e80da759" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ImageProcessor::faces_detected_</definition>
+        <argsstring></argsstring>
+        <name>faces_detected_</name>
+        <qualifiedname>themis::content::ImageProcessor::faces_detected_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="70" column="17" bodyfile="include/content/image_processor.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1a4d93eaf3c469cdf720b8a1c1c842078d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::ImageProcessor::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::content::ImageProcessor::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="71" column="17" bodyfile="include/content/image_processor.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_image_processor_1ad470664d32b85833ac72ed16288dd91c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ImageProcessor::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::content::ImageProcessor::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="73" column="10" bodyfile="include/content/image_processor.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1ab3811531374320c91dd8442ab4622321" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ImageProcessor::ImageProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>ImageProcessor</name>
+        <qualifiedname>themis::content::ImageProcessor::ImageProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="24" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a9766c75a3c6162b91c3e6584fe422dbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ImageProcessor::~ImageProcessor</definition>
+        <argsstring>() override</argsstring>
+        <name>~ImageProcessor</name>
+        <qualifiedname>themis::content::ImageProcessor::~ImageProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="25" column="5" bodyfile="src/content/image_processor.cpp" bodystart="49" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a121de393632fc54171adb05a6ee39dee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::content::ImageProcessor::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::content::ImageProcessor::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4">getInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="28" column="16" bodyfile="src/content/image_processor.cpp" bodystart="55" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a3b92f67133fad06776181f411a710590" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ImageProcessor::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::content::ImageProcessor::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="29" column="10" bodyfile="src/content/image_processor.cpp" bodystart="96" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1ab869a12720ebc463611d86b53b43812d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::content::ImageProcessor::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::content::ImageProcessor::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="30" column="10" bodyfile="src/content/image_processor.cpp" bodystart="122" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a2476fe2fe68b085ed26875d50cdd2090" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ImageProcessor::canProcess</definition>
+        <argsstring>(const std::string &amp;mime_type) const override</argsstring>
+        <name>canProcess</name>
+        <qualifiedname>themis::content::ImageProcessor::canProcess</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099">canProcess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="31" column="10" bodyfile="src/content/image_processor.cpp" bodystart="133" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1ab85862c3892a62ab20d9b9a1f3b0355f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref></type>
+        <definition>ContentExtractionResult themis::content::ImageProcessor::extract</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, const ExtractionOptions &amp;options={}) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::ImageProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d">extract</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), size(), empty(), extractExifMetadata(), extractXmpMetadata(), detectImageDimensions(), extractDominantColors(), json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="33" column="29" bodyfile="src/content/image_processor.cpp" bodystart="158" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a59b65c175dbb3d0f620ab5c94f38212d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_chunk" kindref="compound">ContentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunk &gt; themis::content::ImageProcessor::chunk</definition>
+        <argsstring>(const ContentExtractionResult &amp;result, int max_tokens, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::ImageProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="namespacethemis_1_1content_1a2b7a37dea4bc189fe2bbd96a0ee5c3d7" kindref="member">splitSentences()</ref>, <ref refid="namespacethemis_1_1content_1af5b4c2d5e4f47a70645a225a95de29f8" kindref="member">countTokens()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="39" column="17" bodyfile="src/content/image_processor.cpp" bodystart="274" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a3dce053777a41cb6c846bfabcbc4b54a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::ImageProcessor::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::content::ImageProcessor::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529">healthCheck</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="45" column="10" bodyfile="src/content/image_processor.cpp" bodystart="321" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a5be4fbe0de0ec749c159ce0601a124b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ImageProcessor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::ImageProcessor::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46">getStatistics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="46" column="10" bodyfile="src/content/image_processor.cpp" bodystart="325" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a29afde9088750ca1476307d4945821ae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ImageProcessor::computePHash</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>computePHash</name>
+        <qualifiedname>themis::content::ImageProcessor::computePHash</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Compute PHash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="53" column="24" bodyfile="src/content/image_processor.cpp" bodystart="609" bodyend="644"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1aaf16a33a502c5f5537909f446dc17fc9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ImageProcessor::extractExifMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractExifMetadata</name>
+        <qualifiedname>themis::content::ImageProcessor::extractExifMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Exif Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="81" column="10" bodyfile="src/content/image_processor.cpp" bodystart="406" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a0a3e96198e5669c1361742ccdc8c9ada" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ImageProcessor::extractXmpMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractXmpMetadata</name>
+        <qualifiedname>themis::content::ImageProcessor::extractXmpMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Extract Xmp Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements extractXmpMetadata without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="87" column="10" bodyfile="src/content/image_processor.cpp" bodystart="426" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a19fa8373b4c0c4e56c14030bd28468f3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::ImageProcessor::generateThumbnail</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>generateThumbnail</name>
+        <qualifiedname>themis::content::ImageProcessor::generateThumbnail</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Generate Thumbnail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements generateThumbnail without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="93" column="17" bodyfile="src/content/image_processor.cpp" bodystart="441" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1aa557be4fcaf1b526dc19fe5ffa0925dd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::ImageProcessor::performOCR</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>performOCR</name>
+        <qualifiedname>themis::content::ImageProcessor::performOCR</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Perform OCR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1content_1_1_ocr_processor_1acd3724f31ad97444ec21780163f5cda6" kindref="member">OcrProcessor::performOcr()</ref>, else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="99" column="17" bodyfile="src/content/image_processor.cpp" bodystart="456" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1ab66688b2f9917676d551becfe047c792" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::array&lt; uint8_t, 3 &gt; &gt;</type>
+        <definition>std::vector&lt; std::array&lt; uint8_t, 3 &gt; &gt; themis::content::ImageProcessor::extractDominantColors</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>extractDominantColors</name>
+        <qualifiedname>themis::content::ImageProcessor::extractDominantColors</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="100" column="17" bodyfile="src/content/image_processor.cpp" bodystart="465" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1a2820d9ba92a8d1bdfd5946cc5d4ae1db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ImageProcessor::detectFaces</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>detectFaces</name>
+        <qualifiedname>themis::content::ImageProcessor::detectFaces</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Detect Faces. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="106" column="10" bodyfile="src/content/image_processor.cpp" bodystart="483" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_image_processor_1acc0ce00aeb8dfe6af73ed1a8540ba7e4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ImageProcessor::detectObjects</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob)</argsstring>
+        <name>detectObjects</name>
+        <qualifiedname>themis::content::ImageProcessor::detectObjects</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Detect Objects. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/image_processor.h" line="112" column="10" bodyfile="src/content/image_processor.cpp" bodystart="498" bodyend="505"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::content::ImageProcessor</label>
+        <link refid="classthemis_1_1content_1_1_image_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::content::ImageProcessor</label>
+        <link refid="classthemis_1_1content_1_1_image_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/image_processor.h" line="22" column="1" bodyfile="include/content/image_processor.h" bodystart="22" bodyend="113"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a2476fe2fe68b085ed26875d50cdd2090" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>canProcess</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a59b65c175dbb3d0f620ab5c94f38212d" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a29afde9088750ca1476307d4945821ae" prot="public" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>computePHash</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a2820d9ba92a8d1bdfd5946cc5d4ae1db" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>detectFaces</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1acc0ce00aeb8dfe6af73ed1a8540ba7e4" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>detectObjects</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a57c447ccd3cb7ff96674f841c2ae7aad" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>dominant_colors_count_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a1c2c22441506a9834e21e3fb6ba0526d" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>enable_color_analysis_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1ae2832def83433d21c5fc584a987ced5e" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>enable_face_detection_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a385ac67346ff678ca0eb9c1b9a5f269c" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>enable_object_detection_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1aacd0447b5bb5ddea021df5b544cb2d45" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>enable_ocr_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a4d93eaf3c469cdf720b8a1c1c842078d" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1ab85862c3892a62ab20d9b9a1f3b0355f" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1ab66688b2f9917676d551becfe047c792" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>extractDominantColors</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1aaf16a33a502c5f5537909f446dc17fc9" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>extractExifMetadata</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a0a3e96198e5669c1361742ccdc8c9ada" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>extractXmpMetadata</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a22aceb35a0ee406ec318a2c9e80da759" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>faces_detected_</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a19fa8373b4c0c4e56c14030bd28468f3" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>generateThumbnail</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a121de393632fc54171adb05a6ee39dee" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a5be4fbe0de0ec749c159ce0601a124b3" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a3dce053777a41cb6c846bfabcbc4b54a" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1ab3811531374320c91dd8442ab4622321" prot="public" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>ImageProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a2d02b9c115d3b656911af7af78d8f4a5" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>images_processed_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a3b92f67133fad06776181f411a710590" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1ad470664d32b85833ac72ed16288dd91c" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a9577e6a19e81f92d842749ce32afa3c8" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>ocr_language_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1ac05a8b4f5e52d7f4a66839a688dbe9a7" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>ocr_performed_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1aa557be4fcaf1b526dc19fe5ffa0925dd" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>performOCR</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1ab869a12720ebc463611d86b53b43812d" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a40190627dc1faeb886aa2e0f332d23e0" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a89d9da7fb9a72148b1451808b25c06d8" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>thumbnail_max_height_</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a6c7f2dbdca3900f17b4aa4f634aca13a" prot="private" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>thumbnail_max_width_</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" virt="virtual"><scope>themis::content::ImageProcessor</scope><name>~IContentProcessorPlugin</name></member>
+      <member refid="classthemis_1_1content_1_1_image_processor_1a9766c75a3c6162b91c3e6584fe422dbe" prot="public" virt="non-virtual"><scope>themis::content::ImageProcessor</scope><name>~ImageProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

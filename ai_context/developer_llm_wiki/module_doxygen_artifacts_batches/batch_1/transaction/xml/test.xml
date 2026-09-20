@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a2215408b6c0ee473ef6235f1dc2e3623" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, CoordinatorProtocol_2PC_HappyPath)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>CoordinatorProtocol_2PC_HappyPath  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a3ab87b12ce4015ae58f452930cb42f80" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, CoordinatorProtocol_2PC_ParticipantAbort)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>CoordinatorProtocol_2PC_ParticipantAbort  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a1a345b963551a774267790bd2958ec8f" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, CoordinatorProtocol_2PC_ParticipantCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>CoordinatorProtocol_2PC_ParticipantCrash  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a8f8da78f2b4299924a058b1bad8ee0a9" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, CoordinatorProtocol_2PC_AbortPath)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>CoordinatorProtocol_2PC_AbortPath  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a35cd6d8fd4865e459dd521a858fd47fe" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, TimeoutDeterminism_ShortTimeoutAbortsTransaction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>TimeoutDeterminism_ShortTimeoutAbortsTransaction  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1ad6a83d4b878dcde9a270a761c847dd9a" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, TimeoutDeterminism_RepeatedRetries_ConsistentErrors)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>TimeoutDeterminism_RepeatedRetries_ConsistentErrors  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a5dc6213f9ad49004001cd6503ef66f11" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, RetryBehavior_IdempotentAbort)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>RetryBehavior_IdempotentAbort  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1ae34e1156286359f913d570c33645bff4" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, FailureRecovery_PrepareAbortFollowedByNewTransaction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>FailureRecovery_PrepareAbortFollowedByNewTransaction  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a86648b8f7b4c6135a2f7561d83171463" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, InDoubtReconciliation_CommitCountTracked)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>InDoubtReconciliation_CommitCountTracked  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a995e657e2c1bb2b6e4c3a8ec721708ca" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, InDoubtReconciliation_WalReplay)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>InDoubtReconciliation_WalReplay  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1a38f112eed8426808268fbb6d6ec390b6" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, InDoubtReconciliation_ParticipantRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>InDoubtReconciliation_ParticipantRecovery  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1af1ba43363691de59a0ec1f42a0165fc2" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, StressTest_ConcurrentDistributedTransactions)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>StressTest_ConcurrentDistributedTransactions  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__transaction__distributed__phase2_8cpp_1ab1ac2294696b9d9a9c7ee2bb7d4cad2c" kindref="member">TEST_F</ref>  (<ref refid="class_transaction_distributed_phase2_test" kindref="compound">TransactionDistributedPhase2Test</ref>, StressTest_HighContentionWithAbortingParticipants)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>StressTest_HighContentionWithAbortingParticipants  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a226d0f91d8859857d0cc3280e361af46" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, FaultInjection_PreparePhaseTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>FaultInjection_PreparePhaseTimeout  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a6dad0ad1a231f4a6437f3e8470b47c5d" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, FaultInjection_CommitPhaseTimeout)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>FaultInjection_CommitPhaseTimeout  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a41b686eed84e5ed3650e3de1ffa4d613" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, FaultInjection_CrossShardCoordination)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>FaultInjection_CrossShardCoordination  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a035484b4d1f62fecd22e5f5db8cc685a" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, FaultInjection_ParticipantNodeRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>FaultInjection_ParticipantNodeRecovery  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1ae32ee7670e7fc955f618eb90f793de28" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, ChaosEngineering_SimultaneousParticipantCrashes)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>ChaosEngineering_SimultaneousParticipantCrashes  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1affcd409620de8ccfff922d76371f9335" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, ChaosEngineering_NetworkPartitions)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>ChaosEngineering_NetworkPartitions  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a917db92c5ed3e404e35cfce45a3abd4e" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, ChaosEngineering_ByzantineBehavior)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>ChaosEngineering_ByzantineBehavior  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a8b6251bfb1db041415416d7bed61f8ce" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, CascadingFailureRecovery_ThreeLevel)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>CascadingFailureRecovery_ThreeLevel  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1ae1f7d18016069d6e1a4ebf88c81b3eab" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, CascadingFailureRecovery_MultiNodeRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>CascadingFailureRecovery_MultiNodeRecovery  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a893e2ff2b83b3996c1edc2032042b0f3" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, StressTest_HighConcurrencyWithFaultInjection)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>StressTest_HighConcurrencyWithFaultInjection  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a761092ede425e61c2bceed309d860c0a" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref>, StressTest_LongRunningDegradedConditions)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>StressTest_LongRunningDegradedConditions  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a2a9d67d809a21eb6ee76ed4ecad63e7f" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, CompensationIdempotency_SingleStepCompensation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>CompensationIdempotency_SingleStepCompensation  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a3e59b451ddc25896316fd4ce375a16f0" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, CompensationIdempotency_MultiStepChain)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>CompensationIdempotency_MultiStepChain  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a2bb1f128b18191d4667ceb848368a928" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, CompensationIdempotency_RetryStorm)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>CompensationIdempotency_RetryStorm  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1ac28d31646e4448cd59b440985fd007c3" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, SAGAOrchestration_PartialRemoteFailure)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>SAGAOrchestration_PartialRemoteFailure  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1af9654b8b4fc65ff3065764295be6e8a9" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, SAGAOrchestration_NetworkDegradation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>SAGAOrchestration_NetworkDegradation  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1ae132373703cde0bcb8d6ef13cd23203d" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, SAGAOrchestration_CascadingFailure)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>SAGAOrchestration_CascadingFailure  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a2f442fbf343ce011ea9252eb353aeee5" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, RetryStormHandling_BoundedRetries)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>RetryStormHandling_BoundedRetries  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a140bbe242d846e8ab15b26adba16dc92" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, RetryStormHandling_CircuitBreaker)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>RetryStormHandling_CircuitBreaker  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a65439aac1c5fa32b8bca39e6f6442b75" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, RecoveryPath_ManualIntervention)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>RecoveryPath_ManualIntervention  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a961d3b5fbc31b1b13cdd37cbf8934321" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, StressTest_ConcurrentSAGAFlows)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>StressTest_ConcurrentSAGAFlows  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1test_1a9a345e82fed3b8e21ee487022ebd7ad1" kindref="member">themis::test::TEST_F</ref>  (<ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref>, StressTest_SAGAWithIntermittentFailures)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>StressTest_SAGAWithIntermittentFailures  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a38e5cf98877f0a26af0ec31e5fc8c150" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test" kindref="compound">TransactionWaveARecoveryTest</ref>, TxnRecovery01_CleanRestart)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>TXN-RECOVERY-01: Clean coordinator restart resolves all in-doubt entries. WAL contains 100 in-flight transactions. After replay all must be resolved.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1aebc19f60aa3d0a89658e2b7937f203cc" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test" kindref="compound">TransactionWaveARecoveryTest</ref>, TxnRecovery02_CrashDuring2PCPrepare)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>TXN-RECOVERY-02: Coordinator crash during 2PC prepare resolves via abort. All in-doubt transactions must be aborted (conservative policy).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1abcd73f5c0cf242c7b6b984e126caf976" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test" kindref="compound">TransactionWaveARecoveryTest</ref>, TxnRecovery03_IdempotentReplay)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>TXN-RECOVERY-03: Crash during 3PC pre-commit — WAL replay is idempotent. Calling replay twice must not change the outcome (no double-abort).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a0aafa046f6a56096f998a492ce5c58ee" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_recovery_test" kindref="compound">TransactionWaveARecoveryTest</ref>, TxnRecovery04_CascadingCrash)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>TXN-RECOVERY-04: Cascading coordinator+participant crash resolved without data loss — all records end in a terminal state, none lost.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a5d5c96125a1861860979083afea84cd5" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_s_a_g_a_test" kindref="compound">TransactionWaveASAGATest</ref>, TxnSagaHardening01_CircuitBreakerTrip)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>TXN-SAGA-HARDENING-01: Circuit breaker opens after 5 consecutive failures. After the threshold, canAttempt() must return false.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1ab8441c453fc6e704181ca42e8ebe23b5" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_s_a_g_a_test" kindref="compound">TransactionWaveASAGATest</ref>, TxnSagaHardening02_IdempotentCompensation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>TXN-SAGA-HARDENING-02: Idempotent compensation under concurrent retry storm. 10 concurrent threads each call compensate() for the same step; only one must succeed.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a9bd4fcd4c674a83432da42cc1d082b4a" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_s_a_g_a_test" kindref="compound">TransactionWaveASAGATest</ref>, TxnSagaHardening03_PartialFailureOrdering)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>TXN-SAGA-HARDENING-03: Partial failure ordering — steps compensated in reverse order (last-executed first).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a67b9b69fa91208298daa14f48e63b4af" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_s_a_g_a_test" kindref="compound">TransactionWaveASAGATest</ref>, TxnSagaHardening04_RetryStormBoundedBackoff)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>TXN-SAGA-HARDENING-04: Retry storm with bounded backoff stays within max retries and does not attempt after circuit opens.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a68e3fef00f551a87b2dbfbb3305f9bea" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_timeout_test" kindref="compound">TransactionWaveATimeoutTest</ref>, TxnTimeout01_BackoffSchedule)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>TXN-TIMEOUT-01: Backoff schedule validation — base 100ms, factor 2×. First delay ≈ 100ms, second ≈ 200ms, third ≈ 400ms (within jitter tolerance).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a84bae11dabf8153100c0bd8da5b8c6ee" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_timeout_test" kindref="compound">TransactionWaveATimeoutTest</ref>, TxnTimeout02_MonotonicExpectedValues)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>TXN-TIMEOUT-02: Delays must increase monotonically in expected-value terms (stochastic; seed 42 provides deterministic outcome).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a044340a2033a8a2abe90843c0a8d8a92" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_timeout_test" kindref="compound">TransactionWaveATimeoutTest</ref>, TxnTimeout03_JitterBoundsStatistical)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>TXN-TIMEOUT-03: Jitter bounds stay within ±20% of nominal for all retries. Runs 100 seeds to confirm statistical invariant.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1ac97a1a2bda12c58c73d60d7ca939e87a" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_byzantine_test" kindref="compound">TransactionWaveAByzantineTest</ref>, TxnByzantine01_ConflictingVotesForceAbort)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>TXN-BYZANTINE-01: Any BYZANTINE_CONFLICT vote forces coordinator to ABORT. 4 participants; 2 send conflicting votes → outcome must be ABORTED.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a81fc5a977b43722005c88b5d68c4c77e" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_byzantine_test" kindref="compound">TransactionWaveAByzantineTest</ref>, TxnByzantine02_AllCommitVotesYieldCommit)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000048"/>TXN-BYZANTINE-02: All COMMIT votes (no conflicts) yield COMMITTED outcome. Validates the normal path is preserved after Byzantine safeguard.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a95b08964e9b13c88230329f94154aabf" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_cross_shard_test" kindref="compound">TransactionWaveACrossShardTest</ref>, TxnXShard01_CrashAtPrepare)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000049"/>TXN-XSHARD-01: Coordinator crash at prepare phase → all shards see ABORTED.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1transaction_1_1test_1a3a9d710bbf175beb1196c4785a5880a5" kindref="member">themis::transaction::test::TEST_F</ref>  (<ref refid="classthemis_1_1transaction_1_1test_1_1_transaction_wave_a_cross_shard_test" kindref="compound">TransactionWaveACrossShardTest</ref>, TxnXShard02_NetworkPartition2PC)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000050"/>TXN-XSHARD-02: Network partition during 2PC → TIMEOUT, no inconsistency. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::kg::KnowledgeGraphRetrieverFactory</compoundname>
+    <includes refid="knowledge__graph__retriever_8h" local="no">knowledge_graph_retriever.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1aca01744dc06d9158c80b6385a05e638f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGraphRetriever &gt; themis::rag::kg::KnowledgeGraphRetrieverFactory::createShallow</definition>
+        <argsstring>(const KnowledgeGraph &amp;graph)</argsstring>
+        <name>createShallow</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetrieverFactory::createShallow</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Shallow retriever: 1-hop traversal, low KG weight (0.2). Best for: quick augmentation with minimal latency overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="474" column="28" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="817" bodyend="822"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1a88c71f1049c9860cf6e073516a66a1fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGraphRetriever &gt; themis::rag::kg::KnowledgeGraphRetrieverFactory::createBalanced</definition>
+        <argsstring>(const KnowledgeGraph &amp;graph)</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetrieverFactory::createBalanced</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Balanced retriever: 2-hop traversal, moderate KG weight (0.3). Best for: general-purpose knowledge-graph augmented RAG. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="481" column="28" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="833" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1a1e7ecc509994213d1d40cdc69d8b1b11" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGraphRetriever &gt; themis::rag::kg::KnowledgeGraphRetrieverFactory::createShallow</definition>
+        <argsstring>(std::shared_ptr&lt; IKnowledgeGraph &gt; graph)</argsstring>
+        <name>createShallow</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetrieverFactory::createShallow</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; IKnowledgeGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="484" column="28" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="825" bodyend="830"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1ac33cceb492ec224528e7cc5045a4b522" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGraphRetriever &gt; themis::rag::kg::KnowledgeGraphRetrieverFactory::createBalanced</definition>
+        <argsstring>(std::shared_ptr&lt; IKnowledgeGraph &gt; graph)</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetrieverFactory::createBalanced</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; IKnowledgeGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="487" column="28" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="841" bodyend="846"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1ab38722ec2807bf4941b345596d6f4e9d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGraphRetriever &gt; themis::rag::kg::KnowledgeGraphRetrieverFactory::createDeep</definition>
+        <argsstring>(std::shared_ptr&lt; IKnowledgeGraph &gt; graph)</argsstring>
+        <name>createDeep</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetrieverFactory::createDeep</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; IKnowledgeGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="490" column="28" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="857" bodyend="862"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1aba3a5ccc42acef75afce064e2531d5b0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">KnowledgeGraphRetriever</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; KnowledgeGraphRetriever &gt; themis::rag::kg::KnowledgeGraphRetrieverFactory::createDeep</definition>
+        <argsstring>(const KnowledgeGraph &amp;graph)</argsstring>
+        <name>createDeep</name>
+        <qualifiedname>themis::rag::kg::KnowledgeGraphRetrieverFactory::createDeep</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">KnowledgeGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+<para>Deep retriever: 3-hop traversal, higher KG weight (0.45). Best for: entity-rich corpora where graph signal is highly informative. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/knowledge_graph_retriever.h" line="497" column="28" bodyfile="src/rag/knowledge_graph_retriever.cpp" bodystart="849" bodyend="854"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common KG retriever configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/knowledge_graph_retriever.h" line="468" column="1" bodyfile="include/rag/knowledge_graph_retriever.h" bodystart="468" bodyend="499"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1a88c71f1049c9860cf6e073516a66a1fc" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetrieverFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1ac33cceb492ec224528e7cc5045a4b522" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetrieverFactory</scope><name>createBalanced</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1ab38722ec2807bf4941b345596d6f4e9d" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetrieverFactory</scope><name>createDeep</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1aba3a5ccc42acef75afce064e2531d5b0" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetrieverFactory</scope><name>createDeep</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1aca01744dc06d9158c80b6385a05e638f" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetrieverFactory</scope><name>createShallow</name></member>
+      <member refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever_factory_1a1e7ecc509994213d1d40cdc69d8b1b11" prot="public" virt="non-virtual"><scope>themis::rag::kg::KnowledgeGraphRetrieverFactory</scope><name>createShallow</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

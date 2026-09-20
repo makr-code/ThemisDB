@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dmn__evaluator_8h" kind="file" language="C++">
+    <compoundname>dmn_evaluator.h</compoundname>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="dmn__evaluator_8cpp" local="yes">src/process/dmn_evaluator.cpp</includedby>
+    <includedby refid="test__critical__batch1__fixes_8cpp" local="yes">tests/process/test_critical_batch1_fixes.cpp</includedby>
+    <includedby refid="test__process__module_8cpp" local="yes">tests/process/test_process_module.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/dmn_evaluator.h</label>
+        <link refid="dmn__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/dmn_evaluator.h</label>
+        <link refid="dmn__evaluator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/dmn_evaluator.cpp</label>
+        <link refid="dmn__evaluator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/process/test_critical_batch1_fixes.cpp</label>
+        <link refid="test__critical__batch1__fixes_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/process/test_process_module.cpp</label>
+        <link refid="test__process__module_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_dmn_rule" prot="public">themis::process::DmnRule</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_decision_table" prot="public">themis::process::DecisionTable</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_dmn_evaluator" prot="public">themis::process::DmnEvaluator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.3 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>–<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>dmn_evaluator.h</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>include/process/</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>DMN<sp/>1.5<sp/>decision<sp/>table<sp/>evaluator.</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/>Supports:</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>-<sp/>Decision<sp/>tables<sp/>in<sp/>JSON<sp/>or<sp/>XML<sp/>format</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>-<sp/>FEEL<sp/>subset:<sp/>numeric<sp/>comparisons,<sp/>string<sp/>equality,<sp/>range<sp/>[a..b],</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/><sp/><sp/>boolean<sp/>and/or,<sp/>null<sp/>checks</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>-<sp/>Hit<sp/>policies:<sp/>UNIQUE,<sp/>FIRST,<sp/>COLLECT</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/>-<sp/>Integration<sp/>with<sp/>ProcessGraphRag::checkCompliance()<sp/>via<sp/>node</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*<sp/><sp/><sp/>metadata[&quot;dmn_ref&quot;]<sp/>references</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/>*<sp/>Scientific<sp/>basis:<sp/>OMG<sp/>(2023).<sp/>*Decision<sp/>Model<sp/>and<sp/>Notation<sp/>(DMN)<sp/>1.5.*</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/>*<sp/>Object<sp/>Management<sp/>Group<sp/>Specification.</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DmnRule</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1process_1_1_dmn_rule" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_dmn_rule" kindref="compound">DmnRule</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1process_1_1_dmn_rule_1ab26063f81448b3f550a029e34c878767" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_dmn_rule_1ab26063f81448b3f550a029e34c878767" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1process_1_1_dmn_rule_1a4ec4a5a7bb4defe6c0e3c47fd1412b22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_dmn_rule_1a4ec4a5a7bb4defe6c0e3c47fd1412b22" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1process_1_1_dmn_rule_1a347120aad0002cb9b11e6b129ccb0778" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_dmn_rule_1a347120aad0002cb9b11e6b129ccb0778" kindref="member">input_expressions</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1process_1_1_dmn_rule_1a21c27178829a3ed2092bc145e75f4ed3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_dmn_rule_1a21c27178829a3ed2092bc145e75f4ed3" kindref="member">output_values</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DecisionTable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1process_1_1_decision_table" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_decision_table" kindref="compound">DecisionTable</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1process_1_1_decision_table_1a5d0a5f1f9a662604e6629a71576c7230" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_decision_table_1a5d0a5f1f9a662604e6629a71576c7230" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1process_1_1_decision_table_1a18e303b97c942dd45bac921f14327d83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_decision_table_1a18e303b97c942dd45bac921f14327d83" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1process_1_1_decision_table_1a8c6032b3d4c872a3824e908852ca9b97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_decision_table_1a8c6032b3d4c872a3824e908852ca9b97" kindref="member">input_columns</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1process_1_1_decision_table_1adfc10b4f98b28bd43ab7fe82582865e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_decision_table_1adfc10b4f98b28bd43ab7fe82582865e0" kindref="member">output_columns</ref>;<sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1process_1_1_decision_table_1a68309f71bffc57da3b58cafd0942933a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DmnRule&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_decision_table_1a68309f71bffc57da3b58cafd0942933a" kindref="member">rules</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1process_1_1_decision_table_1aae68a69244ba11da73cd16341859ee16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_decision_table_1aae68a69244ba11da73cd16341859ee16" kindref="member">hit_policy</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DmnEvaluator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1process_1_1_dmn_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1a508dd7d73ab5d4548246b8eaad86fa4e" kindref="member">DmnEvaluator</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1process_1_1_dmn_evaluator_1a508dd7d73ab5d4548246b8eaad86fa4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1a508dd7d73ab5d4548246b8eaad86fa4e" kindref="member">DmnEvaluator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Loading<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1aa8c5a39b8b2751eaedb52f9b65c332ad" kindref="member">loadFromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>dmn_json);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1a9467bba8ff95bfe05da29f64eaf64ad4" kindref="member">loadFromXml</ref>(std::string_view<sp/>dmn_xml);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Evaluation<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1a65adc1be34f23799cb1c815c437e861a" kindref="member">evaluate</ref>(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision_id,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/><sp/><sp/><sp/>input_context</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1a53b6f0db494d0c3b042a782f55e1869a" kindref="member">evaluateFeel</ref>(</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/><sp/>feel_expr,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>value</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Inspection<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1a6007eb268994e75fbc1db67730e24640" kindref="member">listDecisions</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::optional&lt;DecisionTable&gt;<sp/><ref refid="classthemis_1_1process_1_1_dmn_evaluator_1aecead7e537fbfa9e2b7067252ae8ab6f" kindref="member">getDecision</ref>(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>decision_id</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>tables_mutex_;<sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>DecisionTable&gt;<sp/>tables_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>matchRule_(</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_dmn_rule" kindref="compound">DmnRule</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rule,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>input_columns,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>input_context</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/dmn_evaluator.h"/>
+  </compounddef>
+</doxygen>

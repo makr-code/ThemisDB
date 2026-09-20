@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptMetrics</compoundname>
+    <includes refid="prompt__performance__tracker_8h" local="no">prompt_performance_tracker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1afdebdead9424cd623a50d6d7605b6738" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::PromptMetrics::prompt_id</definition>
+        <argsstring></argsstring>
+        <name>prompt_id</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::prompt_id</qualifiedname>
+        <briefdescription>
+<para>Prompt template ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="32" column="17" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1ae35e5aa3b96859a1541fcc3b00881d8d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptMetrics::success_rate</definition>
+        <argsstring></argsstring>
+        <name>success_rate</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Success rate (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="33" column="12" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a35f28c0df1059cf31903edc4cb714db3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptMetrics::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average latency in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="34" column="12" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a9a8004908b71998349fc4f833a8b265c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::PromptMetrics::user_satisfaction</definition>
+        <argsstring></argsstring>
+        <name>user_satisfaction</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::user_satisfaction</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>User feedback score (0.0-1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="35" column="12" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a5a2d485dea9b61d01e23d60c35f6f0a2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptMetrics::total_executions</definition>
+        <argsstring></argsstring>
+        <name>total_executions</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::total_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total number of executions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="36" column="12" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1ab01b7b1a6c2be196ab83be33c83e772e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptMetrics::failed_executions</definition>
+        <argsstring></argsstring>
+        <name>failed_executions</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::failed_executions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of failed executions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="37" column="12" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1ab44dd40fdc689e55e02582d6d6f79466" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::PromptMetrics::feedback_count</definition>
+        <argsstring></argsstring>
+        <name>feedback_count</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::feedback_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of feedback entries received. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="38" column="12" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1adf21af89efec468711e0b56796841ee8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::PromptMetrics::last_updated</definition>
+        <argsstring></argsstring>
+        <name>last_updated</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::last_updated</qualifiedname>
+        <briefdescription>
+<para>Last update timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="39" column="43" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a54bdbb321c3c1022323431de0dc97d47" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::prompt_engineering::PromptMetrics::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::created_at</qualifiedname>
+        <briefdescription>
+<para>Creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="40" column="43" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1ad66afd3c24c33e5a007a3f859992bcec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::PromptMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>Convert metrics to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="45" column="20" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="25" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a2a1594c212c3ca98a79bf35feb23d1ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics" kindref="compound">PromptMetrics</ref></type>
+        <definition>PromptMetrics themis::prompt_engineering::PromptMetrics::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::prompt_engineering::PromptMetrics::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse metrics from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), std::chrono::system_clock::from_time_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_performance_tracker.h" line="50" column="26" bodyfile="src/prompt_engineering/prompt_performance_tracker.cpp" bodystart="50" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metrics for a single prompt template. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_performance_tracker.h" line="31" column="1" bodyfile="include/prompt_engineering/prompt_performance_tracker.h" bodystart="31" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a35f28c0df1059cf31903edc4cb714db3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a54bdbb321c3c1022323431de0dc97d47" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1ab01b7b1a6c2be196ab83be33c83e772e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>failed_executions</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1ab44dd40fdc689e55e02582d6d6f79466" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>feedback_count</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a2a1594c212c3ca98a79bf35feb23d1ec" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1adf21af89efec468711e0b56796841ee8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>last_updated</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1afdebdead9424cd623a50d6d7605b6738" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>prompt_id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1ae35e5aa3b96859a1541fcc3b00881d8d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>success_rate</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1ad66afd3c24c33e5a007a3f859992bcec" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a5a2d485dea9b61d01e23d60c35f6f0a2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>total_executions</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_metrics_1a9a8004908b71998349fc4f833a8b265c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptMetrics</scope><name>user_satisfaction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

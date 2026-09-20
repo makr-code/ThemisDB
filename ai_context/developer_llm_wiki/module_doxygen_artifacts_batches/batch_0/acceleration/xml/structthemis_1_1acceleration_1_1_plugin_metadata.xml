@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_plugin_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::PluginMetadata</compoundname>
+    <includes refid="plugin__security_8h" local="no">plugin_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1aed5dfe8cc64e91811a2529820e0318bb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginMetadata::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::name</qualifiedname>
+        <briefdescription>
+<para>Unique plugin name identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="38" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1ae384b78b12276fc17d3599a7936b39ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginMetadata::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string (e.g., &quot;1.0.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="39" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1ad71d1705cdbd144b5c5a295a51d2864f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginMetadata::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::author</qualifiedname>
+        <briefdescription>
+<para>Plugin author or organization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="40" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1ae582fec27e9253d0779d1dfd6882f651" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginMetadata::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="41" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1a8be8eca39ca5bdafeb86ba17a1b473d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginMetadata::license</definition>
+        <argsstring></argsstring>
+        <name>license</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::license</qualifiedname>
+        <briefdescription>
+<para>License identifier (SPDX format). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="42" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1a2c4249c375d1d0726042ab2fba5a9eef" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1acceleration_1_1_plugin_signature" kindref="compound">PluginSignature</ref></type>
+        <definition>PluginSignature themis::acceleration::PluginMetadata::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::signature</qualifiedname>
+        <briefdescription>
+<para>Signature and certificate information. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="44" column="21" bodyfile="include/acceleration/plugin_security.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1aeecc14dea42934a026b243443ff58630" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::acceleration::PluginMetadata::requiredCapabilities</definition>
+        <argsstring></argsstring>
+        <name>requiredCapabilities</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::requiredCapabilities</qualifiedname>
+        <briefdescription>
+<para>Minimum required capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="45" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1afd2327035be9f14a464c97d939cb9e81" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::acceleration::PluginMetadata::permissions</definition>
+        <argsstring></argsstring>
+        <name>permissions</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::permissions</qualifiedname>
+        <briefdescription>
+<para>Requested permissions (e.g., &quot;gpu_access&quot;, &quot;network&quot;, &quot;filesystem&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="46" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1aae54408e14af82821ad24d23a7c870bf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginMetadata::buildDate</definition>
+        <argsstring></argsstring>
+        <name>buildDate</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::buildDate</qualifiedname>
+        <briefdescription>
+<para>Build timestamp (ISO 8601 format). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="48" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1ae9fa79c0b4522f64bce48583eba9877e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginMetadata::buildCommit</definition>
+        <argsstring></argsstring>
+        <name>buildCommit</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::buildCommit</qualifiedname>
+        <briefdescription>
+<para>Git commit hash or identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="49" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_metadata_1ad20034c671ef2d2a87951f4082103a57" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginMetadata::compilerVersion</definition>
+        <argsstring></argsstring>
+        <name>compilerVersion</name>
+        <qualifiedname>themis::acceleration::PluginMetadata::compilerVersion</qualifiedname>
+        <briefdescription>
+<para>Compiler version used for compilation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="50" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::PluginMetadata</label>
+        <link refid="structthemis_1_1acceleration_1_1_plugin_metadata"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>signature</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::PluginSignature</label>
+        <link refid="structthemis_1_1acceleration_1_1_plugin_signature"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/plugin_security.h" line="37" column="1" bodyfile="include/acceleration/plugin_security.h" bodystart="37" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1ad71d1705cdbd144b5c5a295a51d2864f" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>author</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1ae9fa79c0b4522f64bce48583eba9877e" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>buildCommit</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1aae54408e14af82821ad24d23a7c870bf" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>buildDate</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1ad20034c671ef2d2a87951f4082103a57" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>compilerVersion</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1ae582fec27e9253d0779d1dfd6882f651" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>description</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1a8be8eca39ca5bdafeb86ba17a1b473d2" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>license</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1aed5dfe8cc64e91811a2529820e0318bb" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1afd2327035be9f14a464c97d939cb9e81" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>permissions</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1aeecc14dea42934a026b243443ff58630" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>requiredCapabilities</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1a2c4249c375d1d0726042ab2fba5a9eef" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>signature</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_metadata_1ae384b78b12276fc17d3599a7936b39ba" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginMetadata</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

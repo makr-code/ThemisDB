@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_c9fe695c0e959c1da5129125b3a93ab2" kind="dir">
+    <compoundname>include/security</compoundname>
+    <innerdir refid="dir_c725b6fca9869d529ab08f663215c502">include/security/examples</innerdir>
+    <innerfile refid="access__control_8h">access_control.h</innerfile>
+    <innerfile refid="access__control__manager_8h">access_control_manager.h</innerfile>
+    <innerfile refid="ai__operation__guard_8h">ai_operation_guard.h</innerfile>
+    <innerfile refid="ai__snapshot__cleanup_8h">ai_snapshot_cleanup.h</innerfile>
+    <innerfile refid="aql__injection__detector_8h">aql_injection_detector.h</innerfile>
+    <innerfile refid="arrow__user__registration__plugin_8h">arrow_user_registration_plugin.h</innerfile>
+    <innerfile refid="behavioral__anomaly__detector_8h">behavioral_anomaly_detector.h</innerfile>
+    <innerfile refid="binary__manifest_8h">binary_manifest.h</innerfile>
+    <innerfile refid="cms__signing_8h">cms_signing.h</innerfile>
+    <innerfile refid="confidential__computing_8h">confidential_computing.h</innerfile>
+    <innerfile refid="crypto__capabilities_8h">crypto_capabilities.h</innerfile>
+    <innerfile refid="include_2security_2encryption_8h">encryption.h</innerfile>
+    <innerfile refid="fips__crypto__mode_8h">fips_crypto_mode.h</innerfile>
+    <innerfile refid="hsm__key__provider__adapter_8h">hsm_key_provider_adapter.h</innerfile>
+    <innerfile refid="hsm__provider_8h">hsm_provider.h</innerfile>
+    <innerfile refid="hsm__security__checker_8h">hsm_security_checker.h</innerfile>
+    <innerfile refid="hsm__security__metrics_8h">hsm_security_metrics.h</innerfile>
+    <innerfile refid="hsm__startup__policy_8h">hsm_startup_policy.h</innerfile>
+    <innerfile refid="input__validation_8h">input_validation.h</innerfile>
+    <innerfile refid="input__validator_8hpp">input_validator.hpp</innerfile>
+    <innerfile refid="intent__classifier_8h">intent_classifier.h</innerfile>
+    <innerfile refid="include_2security_2key__provider_8h">key_provider.h</innerfile>
+    <innerfile refid="malware__scanner_8h">malware_scanner.h</innerfile>
+    <innerfile refid="manifest__signer_8h">manifest_signer.h</innerfile>
+    <innerfile refid="mock__key__provider_8h">mock_key_provider.h</innerfile>
+    <innerfile refid="move__safety__helpers_8h">move_safety_helpers.h</innerfile>
+    <innerfile refid="output__encoding_8h">output_encoding.h</innerfile>
+    <innerfile refid="pii__redaction__policy_8h">pii_redaction_policy.h</innerfile>
+    <innerfile refid="pkcs11__minimal_8h">pkcs11_minimal.h</innerfile>
+    <innerfile refid="pkcs11__wrapper_8h">pkcs11_wrapper.h</innerfile>
+    <innerfile refid="pki__key__provider_8h">pki_key_provider.h</innerfile>
+    <innerfile refid="post__quantum__crypto_8h">post_quantum_crypto.h</innerfile>
+    <innerfile refid="prompt__injection__pattern__registry_8h">prompt_injection_pattern_registry.h</innerfile>
+    <innerfile refid="query__masking__policy_8h">query_masking_policy.h</innerfile>
+    <innerfile refid="rbac_8h">rbac.h</innerfile>
+    <innerfile refid="row__level__security_8h">row_level_security.h</innerfile>
+    <innerfile refid="safe__iterator_8h">safe_iterator.h</innerfile>
+    <innerfile refid="safe__move_8h">safe_move.h</innerfile>
+    <innerfile refid="secret__manager_8h">secret_manager.h</innerfile>
+    <innerfile refid="security__api__contract_8h">security_api_contract.h</innerfile>
+    <innerfile refid="security__evidence__collector_8h">security_evidence_collector.h</innerfile>
+    <innerfile refid="signing_8h">signing.h</innerfile>
+    <innerfile refid="signing__provider_8h">signing_provider.h</innerfile>
+    <innerfile refid="timestamp__authority_8h">timestamp_authority.h</innerfile>
+    <innerfile refid="transport__security__checker_8h">transport_security_checker.h</innerfile>
+    <innerfile refid="tsa__api_8h">tsa_api.h</innerfile>
+    <innerfile refid="usb__admin__authenticator_8h">usb_admin_authenticator.h</innerfile>
+    <innerfile refid="usb__volume__hardening_8h">usb_volume_hardening.h</innerfile>
+    <innerfile refid="user__registration__plugin_8h">user_registration_plugin.h</innerfile>
+    <innerfile refid="vault__key__provider_8h">vault_key_provider.h</innerfile>
+    <innerfile refid="vault__signing__provider_8h">vault_signing_provider.h</innerfile>
+    <innerfile refid="vcc__pki__client_8h">vcc_pki_client.h</innerfile>
+    <innerfile refid="vram__secure__clear_8h">vram_secure_clear.h</innerfile>
+    <innerfile refid="xxe__safe__xml__parser_8h">xxe_safe_xml_parser.h</innerfile>
+    <innerfile refid="zero__trust__policy__enforcer_8h">zero_trust_policy_enforcer.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/"/>
+  </compounddef>
+</doxygen>

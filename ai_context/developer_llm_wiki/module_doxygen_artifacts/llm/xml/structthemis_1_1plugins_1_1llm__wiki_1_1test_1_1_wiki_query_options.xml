@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::test::WikiQueryOptions</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_options_1a406db9d9f77fab4a8e0f68e30c7659fb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::test::WikiQueryOptions::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiQueryOptions::top_k</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="67" column="9" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_options_1aa993024630f58db867948374c516a35f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::llm_wiki::test::WikiQueryOptions::min_score</definition>
+        <argsstring></argsstring>
+        <name>min_score</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiQueryOptions::min_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="68" column="11" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="66" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="66" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_options_1aa993024630f58db867948374c516a35f" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiQueryOptions</scope><name>min_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_query_options_1a406db9d9f77fab4a8e0f68e30c7659fb" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiQueryOptions</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

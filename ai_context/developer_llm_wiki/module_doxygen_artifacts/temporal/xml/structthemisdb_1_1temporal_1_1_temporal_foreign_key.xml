@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_temporal_foreign_key" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalForeignKey</compoundname>
+    <includes refid="bi__temporal_8h" local="no">bi_temporal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_temporal_foreign_key_1abcbec8b1771043c7b8f958096025976c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalForeignKey::parent_table_name</definition>
+        <argsstring></argsstring>
+        <name>parent_table_name</name>
+        <qualifiedname>themisdb::temporal::TemporalForeignKey::parent_table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Name of the referenced (parent) table. Must match <computeroutput>parent_table.tableName()</computeroutput> when <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_temporal_foreign_key_1a6238c23e7a8eac4abd2e34d6b05c683c" kindref="member">validate()</ref></computeroutput> is called. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="59" column="17" bodyfile="include/temporal/bi_temporal.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_temporal_foreign_key_1a6238c23e7a8eac4abd2e34d6b05c683c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalForeignKey::validate</definition>
+        <argsstring>(const BiTemporalTable &amp;parent_table, const std::string &amp;parent_key, const TimeRange &amp;child_period) const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themisdb::temporal::TemporalForeignKey::validate</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> &amp;</type>
+          <declname>parent_table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>parent_key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>child_period</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate that <computeroutput>parent_table</computeroutput> is the expected table and that it has at least one <emphasis>current</emphasis> row for <computeroutput>parent_key</computeroutput> whose valid-time period <bold>contains</bold> <computeroutput>child_period</computeroutput>.</para>
+<para>Returns true → referential integrity satisfied. Returns false → constraint violation: either <computeroutput>parent_table</computeroutput> is the wrong table (name mismatch), or no parent row covers the period. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/bi_temporal.h" line="71" column="10" bodyfile="src/temporal/bi_temporal.cpp" bodystart="39" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="structthemisdb_1_1temporal_1_1_temporal_foreign_key" kindref="compound">TemporalForeignKey</ref></para>
+<para>Describes a period-aware referential integrity constraint between two bi-temporal tables. A child row is valid only when the referenced parent table contains a current row for the same key whose valid-time period <emphasis>contains</emphasis> the child row&apos;s valid-time period.</para>
+<para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_temporal_foreign_key_1abcbec8b1771043c7b8f958096025976c" kindref="member">parent_table_name</ref></computeroutput> is compared against <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table_1ac5b7e2c5e824bd1a6f440287c606fe0e" kindref="member">BiTemporalTable::tableName()</ref></computeroutput> in <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_temporal_foreign_key_1a6238c23e7a8eac4abd2e34d6b05c683c" kindref="member">validate()</ref></computeroutput> to prevent accidentally passing the wrong table instance.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">TemporalForeignKey<sp/>fk{</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>fk.validate(emp_table,<sp/></highlight><highlight class="stringliteral">&quot;emp_42&quot;</highlight><highlight class="normal">,<sp/>{1000,<sp/>2000});</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/temporal/bi_temporal.h" line="56" column="1" bodyfile="include/temporal/bi_temporal.h" bodystart="56" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_foreign_key_1abcbec8b1771043c7b8f958096025976c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalForeignKey</scope><name>parent_table_name</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_temporal_foreign_key_1a6238c23e7a8eac4abd2e34d6b05c683c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalForeignKey</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

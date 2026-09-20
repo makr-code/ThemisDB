@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_dilithium_signer_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::DilithiumSigner::Impl</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/post_quantum_crypto.cpp" line="645" column="1" bodyfile="src/security/post_quantum_crypto.cpp" bodystart="645" bodyend="647"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

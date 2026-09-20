@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_manager" kind="class" language="C++" prot="public">
+    <compoundname>PluginManager</compoundname>
+    <innerclass refid="struct_plugin_manager_1_1_plugin_info" prot="public">PluginManager::PluginInfo</innerclass>
+    <innerclass refid="struct_plugin_manager_1_1_plugin_metadata" prot="public">PluginManager::PluginMetadata</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PluginState</name>
+        <qualifiedname>PluginManager::PluginState</qualifiedname>
+        <enumvalue id="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a795b8a51556d0b2cf4fbc11a896f6269" prot="public">
+          <name>UNLOADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24af9f6955ebca09a484157c05f80acd65e" prot="public">
+          <name>LOADING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab638272ceeff54912f043465e9a28c9b" prot="public">
+          <name>LOADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24a43491564ebcfd38568918efbd6e840fd" prot="public">
+          <name>RUNNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24af6cdb3c6710b50ec65ee07f740847e10" prot="public">
+          <name>STOPPING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="14" column="5" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="14" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_plugin_manager_1aed444b3e0cb56ec0557ec52c2359046e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="struct_plugin_manager_1_1_plugin_info" kindref="compound">PluginInfo</ref> &gt;</type>
+        <definition>std::map&lt;std::string, PluginInfo&gt; PluginManager::plugins_</definition>
+        <argsstring></argsstring>
+        <name>plugins_</name>
+        <qualifiedname>PluginManager::plugins_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="151" column="14" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_manager_1a9eec6fb5d463de241fce662350068934" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; PluginManager::load_order_</definition>
+        <argsstring></argsstring>
+        <name>load_order_</name>
+        <qualifiedname>PluginManager::load_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="152" column="17" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_manager_1a267224ab56daff31b7e71ad6a660608a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; PluginManager::plugin_states_</definition>
+        <argsstring></argsstring>
+        <name>plugin_states_</name>
+        <qualifiedname>PluginManager::plugin_states_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="153" column="14" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_manager_1a8e6e238c2c078b49db8a13886fd2e52e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginManager::current_api_version_</definition>
+        <argsstring></argsstring>
+        <name>current_api_version_</name>
+        <qualifiedname>PluginManager::current_api_version_</qualifiedname>
+        <initializer>= &quot;1.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="154" column="17" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::load_plugin</definition>
+        <argsstring>(const std::string &amp;name, const PluginMetadata &amp;metadata)</argsstring>
+        <name>load_plugin</name>
+        <qualifiedname>PluginManager::load_plugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_plugin_manager_1_1_plugin_metadata" kindref="compound">PluginMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="38" column="10" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="38" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_1a14899bc1a55c2a9783b09b56e595df19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::unload_plugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>unload_plugin</name>
+        <qualifiedname>PluginManager::unload_plugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="74" column="10" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="74" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_1a2dabddb5e456f39ffeaef0f8e6b8a328" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::hot_reload_plugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>hot_reload_plugin</name>
+        <qualifiedname>PluginManager::hot_reload_plugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="103" column="10" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="103" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_1ab027a2784e9ee0b2fe1a20732e2734d8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24" kindref="member">PluginState</ref></type>
+        <definition>PluginState PluginManager::get_plugin_state</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>get_plugin_state</name>
+        <qualifiedname>PluginManager::get_plugin_state</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="125" column="17" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="125" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_1ab39e6430b04b70b59b740320cfcf3616" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; PluginManager::get_load_order</definition>
+        <argsstring>() const</argsstring>
+        <name>get_load_order</name>
+        <qualifiedname>PluginManager::get_load_order</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="133" column="17" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_1a9d8525a5adaea016b45cfa856248d0d4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::save_plugin_state</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;state_data)</argsstring>
+        <name>save_plugin_state</name>
+        <qualifiedname>PluginManager::save_plugin_state</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state_data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="137" column="10" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="137" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_1a3b001f792fd7e95a672269c513929ebf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PluginManager::load_plugin_state</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>load_plugin_state</name>
+        <qualifiedname>PluginManager::load_plugin_state</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="142" column="17" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="142" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_plugin_manager_1a6444f99b4be1f74cf1e93620c28a0977" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::has_circular_dependency</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; std::string &gt; &amp;deps)</argsstring>
+        <name>has_circular_dependency</name>
+        <qualifiedname>PluginManager::has_circular_dependency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>deps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="156" column="10" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="156" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_manager_1a7909df9238d6e00745fb8a82fff4dc15" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool PluginManager::is_api_compatible</definition>
+        <argsstring>(const std::string &amp;plugin_api_version)</argsstring>
+        <name>is_api_compatible</name>
+        <qualifiedname>PluginManager::is_api_compatible</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_api_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_lifecycle.cpp" line="175" column="10" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="175" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/plugins/test_plugin_lifecycle.cpp" line="12" column="1" bodyfile="tests/plugins/test_plugin_lifecycle.cpp" bodystart="12" bodyend="189"/>
+    <listofallmembers>
+      <member refid="class_plugin_manager_1a8e6e238c2c078b49db8a13886fd2e52e" prot="private" virt="non-virtual"><scope>PluginManager</scope><name>current_api_version_</name></member>
+      <member refid="class_plugin_manager_1ab39e6430b04b70b59b740320cfcf3616" prot="public" virt="non-virtual"><scope>PluginManager</scope><name>get_load_order</name></member>
+      <member refid="class_plugin_manager_1ab027a2784e9ee0b2fe1a20732e2734d8" prot="public" virt="non-virtual"><scope>PluginManager</scope><name>get_plugin_state</name></member>
+      <member refid="class_plugin_manager_1a6444f99b4be1f74cf1e93620c28a0977" prot="private" virt="non-virtual"><scope>PluginManager</scope><name>has_circular_dependency</name></member>
+      <member refid="class_plugin_manager_1a2dabddb5e456f39ffeaef0f8e6b8a328" prot="public" virt="non-virtual"><scope>PluginManager</scope><name>hot_reload_plugin</name></member>
+      <member refid="class_plugin_manager_1a7909df9238d6e00745fb8a82fff4dc15" prot="private" virt="non-virtual"><scope>PluginManager</scope><name>is_api_compatible</name></member>
+      <member refid="class_plugin_manager_1a9eec6fb5d463de241fce662350068934" prot="private" virt="non-virtual"><scope>PluginManager</scope><name>load_order_</name></member>
+      <member refid="class_plugin_manager_1a8ed30116569ac98faba1eb9b93cf1e74" prot="public" virt="non-virtual"><scope>PluginManager</scope><name>load_plugin</name></member>
+      <member refid="class_plugin_manager_1a3b001f792fd7e95a672269c513929ebf" prot="public" virt="non-virtual"><scope>PluginManager</scope><name>load_plugin_state</name></member>
+      <member refid="class_plugin_manager_1a267224ab56daff31b7e71ad6a660608a" prot="private" virt="non-virtual"><scope>PluginManager</scope><name>plugin_states_</name></member>
+      <member refid="class_plugin_manager_1aed444b3e0cb56ec0557ec52c2359046e" prot="private" virt="non-virtual"><scope>PluginManager</scope><name>plugins_</name></member>
+      <member refid="class_plugin_manager_1ab956fb341b0313852874b0743a01ee24" prot="public" virt="non-virtual"><scope>PluginManager</scope><name>PluginState</name></member>
+      <member refid="class_plugin_manager_1a9d8525a5adaea016b45cfa856248d0d4" prot="public" virt="non-virtual"><scope>PluginManager</scope><name>save_plugin_state</name></member>
+      <member refid="class_plugin_manager_1a14899bc1a55c2a9783b09b56e595df19" prot="public" virt="non-virtual"><scope>PluginManager</scope><name>unload_plugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

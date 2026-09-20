@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__query__context_8h" kind="file" language="C++">
+    <compoundname>llm_query_context.h</compoundname>
+    <includes local="yes">storage/hlc.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/aql/llm_query_context.h</label>
+        <link refid="llm__query__context_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>storage/hlc.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1aql_1_1_l_l_m_query_context" prot="public">themis::aql::LLMQueryContext</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>LLMQueryContext — MVCC-consistent snapshot carrier for LLM inference requests within the ThemisDB query pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="llm__query__context_8h_1autotoc_md1_1s1"><sect2 id="llm__query__context_8h_1autotoc_md1">
+<title>Design (P1.1)</title><para>Every DB retrieval that contributes to an LLM prompt must be anchored to the same HLC read-timestamp so that the assembled context is internally consistent (no phantom reads, no partial writes). <computeroutput>LLMQueryContext</computeroutput> captures that snapshot at context-assembly time and threads it through the retrieval → prompt-build → inference pipeline.</para>
+<para><heading level="3">Threading model</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Context assembly (DB reads) is bound to the snapshot timestamp and runs synchronously before inference is dispatched.</para>
+</listitem><listitem><para>Inference itself is asynchronous and independent of MVCC state (see <computeroutput>async_inference_engine.cpp</computeroutput>). The snapshot is NOT held during inference; it only governs the retrieval phase.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Lifecycle</heading>
+</para>
+<para><orderedlist>
+<listitem><para>Caller creates <computeroutput>LLMQueryContext</computeroutput> with the HLC clock&apos;s current timestamp.</para>
+</listitem><listitem><para>All DB reads (vector, graph, relational) use <computeroutput>snapshot_ts</computeroutput> as their consistent read point.</para>
+</listitem><listitem><para>Context is passed into <computeroutput>LLMAQLHandler::buildContextWithSnapshot()</computeroutput>.</para>
+</listitem><listitem><para>The resulting <computeroutput>InferenceRequest</computeroutput> carries <computeroutput>trace_id</computeroutput> / <computeroutput>span_id</computeroutput> but no longer depends on the DB snapshot (inference is snapshot-independent).</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="llm__aql__handler_8cpp" kindref="compound">src/aql/llm_aql_handler.cpp</ref> — <computeroutput>buildContextWithSnapshot()</computeroutput> </para>
+</simplesect>
+<simplesect kind="see"><para>src/storage/mvcc_store.h — MVCCStore versioned reads </para>
+</simplesect>
+<simplesect kind="see"><para>src/storage/hlc.h — HLCTimestamp </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/hlc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1aql_1_1_l_l_m_query_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context" kindref="compound">LLMQueryContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a1c8c34622086e27a7bcbcc6af2fc1ae1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>HLCTimestamp<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a1c8c34622086e27a7bcbcc6af2fc1ae1" kindref="member">snapshot_ts</ref>;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a19defcc81afa7fc3e5d897fa569ff91e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a19defcc81afa7fc3e5d897fa569ff91e" kindref="member">isolation_mode</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;no-snapshot&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1aql_1_1_l_l_m_query_context_1ab5713dff0d2599ddd9762fce936ab621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1ab5713dff0d2599ddd9762fce936ab621" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a41c5e065667e167cc76de8933fa569fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a41c5e065667e167cc76de8933fa569fc" kindref="member">span_id</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1aql_1_1_l_l_m_query_context_1afa7a413a49196bcea4ad7ca2eef05b06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1afa7a413a49196bcea4ad7ca2eef05b06" kindref="member">request_seq</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Factory<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1aql_1_1_l_l_m_query_context_1aa3553639ad7c54abf73ed388c2863bfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context" kindref="compound">LLMQueryContext</ref><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1aa3553639ad7c54abf73ed388c2863bfc" kindref="member">fromSnapshot</ref>(</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HLCTimestamp<sp/>ts,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1ab5713dff0d2599ddd9762fce936ab621" kindref="member">trace_id</ref><sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a41c5e065667e167cc76de8933fa569fc" kindref="member">span_id</ref><sp/><sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LLMQueryContext<sp/>ctx;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.snapshot_ts<sp/><sp/><sp/><sp/><sp/>=<sp/>ts;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.isolation_mode<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;snapshot-isolated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.trace_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::move(<ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1ab5713dff0d2599ddd9762fce936ab621" kindref="member">trace_id</ref>);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.span_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::move(<ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a41c5e065667e167cc76de8933fa569fc" kindref="member">span_id</ref>);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ctx;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a2c3d05da8343f2212ee2c203a80f626b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context" kindref="compound">LLMQueryContext</ref><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a2c3d05da8343f2212ee2c203a80f626b" kindref="member">withoutSnapshot</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1ab5713dff0d2599ddd9762fce936ab621" kindref="member">trace_id</ref><sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a41c5e065667e167cc76de8933fa569fc" kindref="member">span_id</ref><sp/><sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LLMQueryContext<sp/>ctx;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.snapshot_ts<sp/><sp/><sp/><sp/>=<sp/>HLCTimestamp{};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>zero<sp/>=<sp/>&quot;latest&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.isolation_mode<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;no-snapshot&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.trace_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::move(<ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1ab5713dff0d2599ddd9762fce936ab621" kindref="member">trace_id</ref>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.span_id<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::move(<ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a41c5e065667e167cc76de8933fa569fc" kindref="member">span_id</ref>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ctx;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Accessors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a09d2c3d37d86b2e40a6016b8935fea5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a09d2c3d37d86b2e40a6016b8935fea5b" kindref="member">hasSnapshot</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1_l_l_m_query_context_1a1c8c34622086e27a7bcbcc6af2fc1ae1" kindref="member">snapshot_ts</ref>.value<sp/>!=<sp/>0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/llm_query_context.h"/>
+  </compounddef>
+</doxygen>

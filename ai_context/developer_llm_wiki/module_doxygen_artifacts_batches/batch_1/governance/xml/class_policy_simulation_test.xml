@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_policy_simulation_test" kind="class" language="C++" prot="public">
+    <compoundname>PolicySimulationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_policy_simulation_test_1acbfde24f6df3d61e7e23bea7ee3196ef" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path PolicySimulationTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>PolicySimulationTest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="73" column="17" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_policy_simulation_test_1a62edd59c507d7471589f5f8658b2b74f" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PolicySimulationTest::yaml_path_</definition>
+        <argsstring></argsstring>
+        <name>yaml_path_</name>
+        <qualifiedname>PolicySimulationTest::yaml_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="74" column="17" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_policy_simulation_test_1a5baa04a3fe04d1d321af82494125686c" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref></type>
+        <definition>PolicyEngine PolicySimulationTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>PolicySimulationTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="75" column="18" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_policy_simulation_test_1a5350d01b5dd8fed93dd8a12c4086e1e8" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PolicySimulationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PolicySimulationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="57" column="10" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="57" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_policy_simulation_test_1adeb9750e374721e4cea032bd5b51b93e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PolicySimulationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PolicySimulationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="69" column="10" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PolicySimulationTest</label>
+        <link refid="class_policy_simulation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PolicySimulationTest</label>
+        <link refid="class_policy_simulation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>engine_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::governance::PolicyEngine</label>
+        <link refid="classthemis_1_1governance_1_1_policy_engine"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/governance/test_governance_policy_simulation.cpp" line="55" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="55" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_policy_simulation_test_1a5baa04a3fe04d1d321af82494125686c" prot="protected" virt="non-virtual"><scope>PolicySimulationTest</scope><name>engine_</name></member>
+      <member refid="class_policy_simulation_test_1a5350d01b5dd8fed93dd8a12c4086e1e8" prot="protected" virt="non-virtual"><scope>PolicySimulationTest</scope><name>SetUp</name></member>
+      <member refid="class_policy_simulation_test_1adeb9750e374721e4cea032bd5b51b93e" prot="protected" virt="non-virtual"><scope>PolicySimulationTest</scope><name>TearDown</name></member>
+      <member refid="class_policy_simulation_test_1acbfde24f6df3d61e7e23bea7ee3196ef" prot="protected" virt="non-virtual"><scope>PolicySimulationTest</scope><name>tmp_dir_</name></member>
+      <member refid="class_policy_simulation_test_1a62edd59c507d7471589f5f8658b2b74f" prot="protected" virt="non-virtual"><scope>PolicySimulationTest</scope><name>yaml_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="socket__timeout__manager_8h" kind="file" language="C++">
+    <compoundname>socket_timeout_manager.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">sys/socket.h</includes>
+    <includes local="no">sys/select.h</includes>
+    <includes local="no">poll.h</includes>
+    <includes local="no">unistd.h</includes>
+    <includes local="no">fcntl.h</includes>
+    <includes local="no">netinet/in.h</includes>
+    <includes local="no">netinet/tcp.h</includes>
+    <includedby refid="socket__timeout__manager_8cpp" local="yes">src/network/socket_timeout_manager.cpp</includedby>
+    <includedby refid="test__network__timeout_8cpp" local="yes">tests/network/test_network_timeout.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/socket_timeout_manager.h</label>
+        <link refid="socket__timeout__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>fcntl.h</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="13">
+        <label>netinet/tcp.h</label>
+      </node>
+      <node id="9">
+        <label>poll.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>sys/select.h</label>
+      </node>
+      <node id="7">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="10">
+        <label>unistd.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/socket_timeout_manager.h</label>
+        <link refid="socket__timeout__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/socket_timeout_manager.cpp</label>
+        <link refid="socket__timeout__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/network/test_network_timeout.cpp</label>
+        <link refid="test__network__timeout_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1network_1_1_socket_timeout_config" prot="public">themis::network::SocketTimeoutConfig</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_socket_timeout_stats" prot="public">themis::network::SocketTimeoutStats</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_socket_timeout_manager" prot="public">themis::network::SocketTimeoutManager</innerclass>
+    <innerclass refid="classthemis_1_1network_1_1_socket_timeout_guard" prot="public">themis::network::SocketTimeoutGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="socket__timeout__manager_8h_1a6cc212aac6c92c042202f0a1180f4cbf" prot="public" static="no">
+        <name>INVALID_SOCKET_VALUE</name>
+        <initializer>-1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="35" column="13" bodyfile="include/network/socket_timeout_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" prot="public" static="no">
+        <type>int</type>
+        <definition>typedef int socket_t</definition>
+        <argsstring></argsstring>
+        <name>socket_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/socket_timeout_manager.h" line="34" column="17" bodyfile="include/network/socket_timeout_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;winsock2.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;ws2tcpip.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>SOCKET<sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/>SSIZE_T<sp/>ssize_t;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>INVALID_SOCKET_VALUE<sp/>INVALID_SOCKET</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;sys/socket.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;sys/select.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;poll.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;fcntl.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;netinet/in.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#include<sp/>&lt;netinet/tcp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref>;</highlight></codeline>
+<codeline lineno="35" refid="socket__timeout__manager_8h_1a6cc212aac6c92c042202f0a1180f4cbf" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>INVALID_SOCKET_VALUE<sp/>-1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">network<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1network_1_1_socket_timeout_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1network_1_1_socket_timeout_config_1a58dc39bcb2e5fba9ebc681206f8ad956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a58dc39bcb2e5fba9ebc681206f8ad956" kindref="member">accept_timeout</ref>{5000};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>5s<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1network_1_1_socket_timeout_config_1ac599fa0517f9a5ff22b614defd27fb23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1ac599fa0517f9a5ff22b614defd27fb23" kindref="member">read_timeout</ref>{30000};<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30s<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1network_1_1_socket_timeout_config_1a11a3c4ea1075a6fb551d623c979ae917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a11a3c4ea1075a6fb551d623c979ae917" kindref="member">write_timeout</ref>{30000};<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>30s<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1network_1_1_socket_timeout_config_1a95e1ade40f9a58dd62fc025c9b17ac31" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a95e1ade40f9a58dd62fc025c9b17ac31" kindref="member">keepalive_interval</ref>{60000};<sp/></highlight><highlight class="comment">//<sp/>60s<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1network_1_1_socket_timeout_config_1a50923924c2b2db3dcc3eca64b8c98f06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a50923924c2b2db3dcc3eca64b8c98f06" kindref="member">enable_tcp_keepalive</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1network_1_1_socket_timeout_config_1a95a5cc91bb4e4c61565a3b6685bf8392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a95a5cc91bb4e4c61565a3b6685bf8392" kindref="member">enable_tcp_nodelay</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>Nagle&apos;s<sp/>algorithm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1network_1_1_socket_timeout_config_1a89394aa08ac509454bff5aaae2fdd44e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a89394aa08ac509454bff5aaae2fdd44e" kindref="member">max_retry_attempts</ref>{3};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Timeout<sp/>thresholds<sp/>for<sp/>circuit<sp/>breaker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1network_1_1_socket_timeout_config_1a64372bed53dc4649c2b169d5d1d796b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a64372bed53dc4649c2b169d5d1d796b0" kindref="member">timeout_threshold</ref>{10};<sp/><sp/></highlight><highlight class="comment">//<sp/>Open<sp/>circuit<sp/>after<sp/>10<sp/>timeouts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1network_1_1_socket_timeout_config_1a3f15bf40924148ccbfb769e922cd0779" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config_1a3f15bf40924148ccbfb769e922cd0779" kindref="member">reset_timeout</ref>{60};<sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>again<sp/>after<sp/>60s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1network_1_1_socket_timeout_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_socket_timeout_stats" kindref="compound">SocketTimeoutStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1network_1_1_socket_timeout_stats_1a269c4d329e1fcfe04c49a90eddcc010b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a269c4d329e1fcfe04c49a90eddcc010b" kindref="member">accept_timeouts</ref>{0};</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1network_1_1_socket_timeout_stats_1a5eeaeb3f63c759dade417eacc9c630e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a5eeaeb3f63c759dade417eacc9c630e3" kindref="member">read_timeouts</ref>{0};</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1network_1_1_socket_timeout_stats_1a74ac2ecb5c821631f7b919fee6f4a07c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a74ac2ecb5c821631f7b919fee6f4a07c" kindref="member">write_timeouts</ref>{0};</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1network_1_1_socket_timeout_stats_1a4b9666855f150cc212556e86876c2ad5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a4b9666855f150cc212556e86876c2ad5" kindref="member">successful_operations</ref>{0};</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1network_1_1_socket_timeout_stats_1a6c73779fdee9029d4142f42508181e88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a6c73779fdee9029d4142f42508181e88" kindref="member">failed_operations</ref>{0};</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1network_1_1_socket_timeout_stats_1a748151bbeae21dd82694c9d31aec1e60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a748151bbeae21dd82694c9d31aec1e60" kindref="member">total_bytes_read</ref>{0};</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1network_1_1_socket_timeout_stats_1a0b46dc1b7879879c422e82731133cd3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a0b46dc1b7879879c422e82731133cd3e" kindref="member">total_bytes_written</ref>{0};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1network_1_1_socket_timeout_stats_1aba0fc81dbda8a25b8ae281479b433105" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1aba0fc81dbda8a25b8ae281479b433105" kindref="member">reset</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a269c4d329e1fcfe04c49a90eddcc010b" kindref="member">accept_timeouts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a5eeaeb3f63c759dade417eacc9c630e3" kindref="member">read_timeouts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a74ac2ecb5c821631f7b919fee6f4a07c" kindref="member">write_timeouts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a4b9666855f150cc212556e86876c2ad5" kindref="member">successful_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a6c73779fdee9029d4142f42508181e88" kindref="member">failed_operations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a748151bbeae21dd82694c9d31aec1e60" kindref="member">total_bytes_read</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a0b46dc1b7879879c422e82731133cd3e" kindref="member">total_bytes_written</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1network_1_1_socket_timeout_stats_1a187499978be6135a340accba6df5f13f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a187499978be6135a340accba6df5f13f" kindref="member">getTimeoutRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total<sp/>=<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a269c4d329e1fcfe04c49a90eddcc010b" kindref="member">accept_timeouts</ref><sp/>+<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a5eeaeb3f63c759dade417eacc9c630e3" kindref="member">read_timeouts</ref><sp/>+<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a74ac2ecb5c821631f7b919fee6f4a07c" kindref="member">write_timeouts</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>all_ops<sp/>=<sp/>total<sp/>+<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats_1a4b9666855f150cc212556e86876c2ad5" kindref="member">successful_operations</ref>;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>all_ops<sp/>&gt;<sp/>0<sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(total)<sp/>/<sp/>all_ops<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normal<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Experiencing<sp/>timeouts<sp/>but<sp/>still<sp/>operational</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa130389aec25aa182cd466b2a2a7890e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9fa130389aec25aa182cd466b2a2a7890e0" kindref="member">CIRCUIT_OPEN</ref><sp/><sp/></highlight><highlight class="comment">//<sp/>Too<sp/>many<sp/>timeouts,<sp/>refuse<sp/>new<sp/>connections<sp/>temporarily</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1network_1_1_socket_timeout_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref>());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1ac6b9489d02612ea78ce863fc458fc891" kindref="member">~SocketTimeoutManager</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1network_1_1_socket_timeout_manager_1ad2c119a9c838f18196fcf20d62b2f4e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1ad2c119a9c838f18196fcf20d62b2f4e2" kindref="member">SocketTimeoutManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1network_1_1_socket_timeout_manager_1a799e50debad7627a15421d767ae13e91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a799e50debad7627a15421d767ae13e91" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1network_1_1_socket_timeout_manager_1ae3e1b9c3ecfd7525a267aa99b8f1b653" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1ae3e1b9c3ecfd7525a267aa99b8f1b653" kindref="member">SocketTimeoutManager</ref>(<ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1network_1_1_socket_timeout_manager_1a7ff8909e889be6665bf38896e3832b0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a31b8d3245ff8b8878384627636409e51" kindref="member">SocketTimeoutManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a1c77d79060788a386d224259d81d3d70" kindref="member">configureSocket</ref>(<ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1abc05e4f0549e3044f42a8df11d959df3" kindref="member">acceptWithTimeout</ref>(<ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>server_socket,<sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout_ms<sp/>=<sp/>std::chrono::milliseconds(0));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>ssize_t<sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1aa7893acd2e4907b948561caf6b28fe59" kindref="member">readWithTimeout</ref>(<ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buffer,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout_ms<sp/>=<sp/>std::chrono::milliseconds(0));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>ssize_t<sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a848802ebdc38222fe47ffa59520e5013" kindref="member">writeWithTimeout</ref>(<ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket,<sp/>const<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>buffer,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size,</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout_ms<sp/>=<sp/>std::chrono::milliseconds(0));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a3a9906f05fdfdeab49a1bf59f174e5fd" kindref="member">closeSocket</ref>(<ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a6d5189e8c4ec85bd987d0f12799371d9" kindref="member">shouldAcceptConnection</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a6cbd1cf8eb5f389fbdf2b7f865948ea0" kindref="member">recordTimeout</ref>();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a83d41d352a8658a74b4e68769b8518af" kindref="member">recordSuccess</ref>();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1network_1_1_socket_timeout_manager_1ac065c4b93e72d4aad1a45bacf65d7059" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1ac065c4b93e72d4aad1a45bacf65d7059" kindref="member">getHealthState</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>health_state_;<sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1network_1_1_socket_timeout_manager_1ade25dcc662f9068808cb58cd46e99203" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats" kindref="compound">SocketTimeoutStats</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1ade25dcc662f9068808cb58cd46e99203" kindref="member">getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1network_1_1_socket_timeout_manager_1aa6a4232d128a430d23514f7b1f5acb28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1aa6a4232d128a430d23514f7b1f5acb28" kindref="member">resetStats</ref>()<sp/>{<sp/>stats_.reset();<sp/>consecutive_timeouts_<sp/>=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1network_1_1_socket_timeout_manager_1a34ba261f746b33cd5eb32a124622d6e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a34ba261f746b33cd5eb32a124622d6e7" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1network_1_1_socket_timeout_manager_1a7a4fbd07cbc930bafd53eb66a9214e54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_manager_1a7a4fbd07cbc930bafd53eb66a9214e54" kindref="member">setAlertCallback</ref>(std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>callback)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>alert_callback_<sp/>=<sp/>std::move(callback);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>setNonBlocking(<ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>configureTCPKeepalive(<ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>configureTCPNoDelay(<ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateHealthState();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>triggerAlert(<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref><sp/>new_state,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_config" kindref="compound">SocketTimeoutConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_socket_timeout_stats" kindref="compound">SocketTimeoutStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref><sp/>health_state_{<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9faf068ebe4133e3e6563080836268ea979" kindref="member">SocketHealthState::HEALTHY</ref>};</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>consecutive_timeouts_{0};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_circuit_open_time_;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(<ref refid="namespacethemis_1_1network_1aaa7872f4c711e887427d15f6074c3b9f" kindref="member">SocketHealthState</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/>alert_callback_;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="classthemis_1_1network_1_1_socket_timeout_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="287" refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref>(std::shared_ptr&lt;SocketTimeoutManager&gt;<sp/>manager,<sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket)</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>manager_(manager),<sp/>socket_(socket),<sp/>owns_(true)<sp/>{}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290" refid="classthemis_1_1network_1_1_socket_timeout_guard_1aa0c221d6a980f554ab5e73c150b80d2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1aa0c221d6a980f554ab5e73c150b80d2b" kindref="member">~SocketTimeoutGuard</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(owns_<sp/>&amp;&amp;<sp/>socket_<sp/>!=<sp/><ref refid="socket__timeout__manager_8h_1a6cc212aac6c92c042202f0a1180f4cbf" kindref="member">INVALID_SOCKET_VALUE</ref><sp/>&amp;&amp;<sp/>manager_)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>manager_-&gt;closeSocket(socket_);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Suppress<sp/>exceptions<sp/>in<sp/>destructor;<sp/>socket<sp/>close<sp/>failure<sp/>is<sp/>non-critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="classthemis_1_1network_1_1_socket_timeout_guard_1ab86ac292632d5ba2e638b5ef89e591ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1ab86ac292632d5ba2e638b5ef89e591ae" kindref="member">SocketTimeoutGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302" refid="classthemis_1_1network_1_1_socket_timeout_guard_1af260f45a6bf24f3bff81083ad8a1b0b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref>&amp;<sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1af260f45a6bf24f3bff81083ad8a1b0b9" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="304" refid="classthemis_1_1network_1_1_socket_timeout_guard_1ab77a2821661d3bbab50a651b62a5fca2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1ab77a2821661d3bbab50a651b62a5fca2" kindref="member">SocketTimeoutGuard</ref>(<ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1afba454de8e1ec1605d3f829228e1d6fe" kindref="member">SocketTimeoutGuard</ref>&amp;&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>manager_(std::move(other.manager_)),<sp/>socket_(other.socket_),<sp/>owns_(other.owns_)<sp/>{</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.owns_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309" refid="classthemis_1_1network_1_1_socket_timeout_guard_1af0aa35317ec81c69192198252f15246b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1af0aa35317ec81c69192198252f15246b" kindref="member">get</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>socket_;<sp/>}</highlight></codeline>
+<codeline lineno="310" refid="classthemis_1_1network_1_1_socket_timeout_guard_1aa3ac74060805b8a833f18bfa7c6843c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1aa3ac74060805b8a833f18bfa7c6843c2" kindref="member">release</ref>()<sp/>{<sp/>owns_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>socket_;<sp/>}</highlight></codeline>
+<codeline lineno="311" refid="classthemis_1_1network_1_1_socket_timeout_guard_1a97d59f64b801f7e6ab31e5febb3380c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_socket_timeout_guard_1a97d59f64b801f7e6ab31e5febb3380c0" kindref="member">valid</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>socket_<sp/>!=<sp/><ref refid="socket__timeout__manager_8h_1a6cc212aac6c92c042202f0a1180f4cbf" kindref="member">INVALID_SOCKET_VALUE</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SocketTimeoutManager&gt;<sp/>manager_;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="socket__timeout__manager_8h_1a30353f381f5fccbb956eea1f3a110b6c" kindref="member">socket_t</ref><sp/>socket_;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>owns_;</highlight></codeline>
+<codeline lineno="317"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/socket_timeout_manager.h"/>
+  </compounddef>
+</doxygen>

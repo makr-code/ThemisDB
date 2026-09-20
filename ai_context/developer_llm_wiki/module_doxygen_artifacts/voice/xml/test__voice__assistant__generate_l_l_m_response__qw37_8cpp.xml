@@ -1,0 +1,443 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__voice__assistant__generate_l_l_m_response__qw37_8cpp" kind="file" language="C++">
+    <compoundname>test_voice_assistant_generateLLMResponse_qw37.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">memory</includes>
+    <includes refid="voice__assistant_8h" local="yes">voice/voice_assistant.h</includes>
+    <includes local="yes">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>voice/voice_assistant.h</label>
+        <link refid="voice__assistant_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>voice/voice_audio_storage.h</label>
+        <link refid="voice__audio__storage_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>voice/voice_auth.h</label>
+        <link refid="voice__auth_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>voice/voice_macro.h</label>
+        <link refid="voice__macro_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>voice/voice_security.h</label>
+        <link refid="voice__security_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>voice/wake_word_detector.h</label>
+        <link refid="wake__word__detector_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp</label>
+        <link refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>content/stt_processor.h</label>
+      </node>
+      <node id="6">
+        <label>content/tts_processor.h</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>llm/llama_wrapper.h</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="14">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="17">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="21">
+        <label>unordered_map</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_voice_assistant_generate_l_l_m_response_test" prot="public">VoiceAssistantGenerateLLMResponseTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(VoiceAssistantGenerateLLMResponseTest, GenerateLLMResponseFailsClosedForEmptyInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref></type>
+        </param>
+        <param>
+          <type>GenerateLLMResponseFailsClosedForEmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>GenerateLLMResponseFailsClosedForEmptyInput</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that generateLLMResponse rejects empty user_input via fail-closed guard. Expected: spdlog::error logged, safe fallback returned </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" line="51" column="1" bodyfile="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" bodystart="51" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1af602aabe40af1df2ef8f825ccaaaeabc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(VoiceAssistantGenerateLLMResponseTest, GenerateLLMResponseAcceptsValidInput)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref></type>
+        </param>
+        <param>
+          <type>GenerateLLMResponseAcceptsValidInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>GenerateLLMResponseAcceptsValidInput</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that generateLLMResponse accepts non-empty valid input. Expected: Sanitization applied, LLM response generated or fallback returned </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" line="70" column="1" bodyfile="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" bodystart="70" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a7e8f06c64f7ee0618ae1de318e140eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(VoiceAssistantGenerateLLMResponseTest, GenerateLLMResponseWithSingleCharacter)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref></type>
+        </param>
+        <param>
+          <type>GenerateLLMResponseWithSingleCharacter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>GenerateLLMResponseWithSingleCharacter</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that single-character input (boundary case) is accepted. Expected: Processed without triggering empty-input guard </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" line="87" column="1" bodyfile="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" bodystart="87" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a213e95e4d67a3a96a76263a51db47902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(VoiceAssistantGenerateLLMResponseTest, GenerateLLMResponseWithWhitespaceOnly)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref></type>
+        </param>
+        <param>
+          <type>GenerateLLMResponseWithWhitespaceOnly</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>GenerateLLMResponseWithWhitespaceOnly</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies behavior with whitespace-only input (not technically empty string). Expected: Guard passes (not empty), sanitization evaluates, may block on policy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" line="104" column="1" bodyfile="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" bodystart="104" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a2f75526adbbec4fe70c00e6c330ad0b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(VoiceAssistantGenerateLLMResponseTest, FailClosedGuardsAreIndependent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref></type>
+        </param>
+        <param>
+          <type>FailClosedGuardsAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>FailClosedGuardsAreIndependent</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that empty-input guard acts independently from sanitization policy. Expected: Empty input rejected before sanitization logic runs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" line="121" column="1" bodyfile="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" bodystart="121" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a010d198a5c193e51b4e55ca477e49c2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(VoiceAssistantGenerateLLMResponseTest, SessionNotCorruptedByEmptyInputAttempt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref></type>
+        </param>
+        <param>
+          <type>SessionNotCorruptedByEmptyInputAttempt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>SessionNotCorruptedByEmptyInputAttempt</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that session state remains valid after empty-input rejection. Expected: Session accessible and usable for subsequent calls </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" line="142" column="1" bodyfile="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp" bodystart="142" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>QW-37: Fail-Closed Guard Tests for VoiceAssistant::generateLLMResponse. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests the empty-input fail-closed guard implemented in generateLLMResponse. Pattern: Guard empty user_input → spdlog::error + safe fallback return </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__assistant_8h" kindref="compound">voice/voice_assistant.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;nlohmann/json.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_voice_assistant_generate_l_l_m_response_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1a6ea4f873d84399dbf81e44048c1dfec6" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>minimal<sp/>config<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config" kindref="compound">themis::voice::VoiceAssistant::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1ab5440cd67d35fcf26194c03c81184fc9" kindref="member">storage_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/voice_assistant_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1voice_1_1_voice_assistant_1_1_config_1a31da0a8ed72c54f813586131c190b1a4" kindref="member">enable_voice_auth</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1a35d00e52d9a4ef248b78e0295c5a1d83" kindref="member">assistant_</ref><sp/>=<sp/>std::make_unique&lt;themis::voice::VoiceAssistant&gt;(config);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>test<sp/>session</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1aafbc5021fea80a5ac79c30817a51df7c" kindref="member">test_session_</ref>.session_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_session_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1aafbc5021fea80a5ac79c30817a51df7c" kindref="member">test_session_</ref>.user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_user_001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1aafbc5021fea80a5ac79c30817a51df7c" kindref="member">test_session_</ref>.created_at<sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1aafbc5021fea80a5ac79c30817a51df7c" kindref="member">test_session_</ref>.last_activity<sp/>=<sp/>1000000;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1aafbc5021fea80a5ac79c30817a51df7c" kindref="member">test_session_</ref>.preferred_language<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1ab193deb7cd2d5e0808190a0bc8d3d1ba" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1a35d00e52d9a4ef248b78e0295c5a1d83" kindref="member">assistant_</ref>.reset();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::voice::VoiceAssistant&gt;<sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1a35d00e52d9a4ef248b78e0295c5a1d83" kindref="member">assistant_</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1voice_1_1_voice_session" kindref="compound">themis::voice::VoiceSession</ref><sp/><ref refid="class_voice_assistant_generate_l_l_m_response_test_1aafbc5021fea80a5ac79c30817a51df7c" kindref="member">test_session_</ref>;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>,<sp/>GenerateLLMResponseFailsClosedForEmptyInput)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>user<sp/>input<sp/>(fail-closed<sp/>guard<sp/>target)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>empty_input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>generateLLMResponse<sp/>(indirectly<sp/>via<sp/>public<sp/>API<sp/>that<sp/>uses<sp/>it<sp/>internally)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>generateLLMResponse<sp/>is<sp/>private,<sp/>so<sp/>we<sp/>test<sp/>through<sp/>processTextCommand</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/>assistant_-&gt;processTextCommand(empty_input,<sp/>test_session_.session_id);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>fail-closed<sp/>behavior:<sp/>returns<sp/>safe<sp/>fallback,<sp/>not<sp/>crash<sp/>or<sp/>undefined<sp/>behavior</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.empty());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;I<sp/>need<sp/>a<sp/>prompt&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);<sp/><sp/></highlight><highlight class="comment">//<sp/>Contains<sp/>safe<sp/>fallback<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>,<sp/>GenerateLLMResponseAcceptsValidInput)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid,<sp/>non-empty<sp/>input</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>valid_input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>via<sp/>public<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/>assistant_-&gt;processTextCommand(valid_input,<sp/>test_session_.session_id);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>non-empty<sp/>response<sp/>(either<sp/>LLM<sp/>generated<sp/>or<sp/>error<sp/>message)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.empty());</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>,<sp/>GenerateLLMResponseWithSingleCharacter)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Boundary<sp/>case:<sp/>single<sp/>non-empty<sp/>character</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>single_char_input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>via<sp/>public<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/>assistant_-&gt;processTextCommand(single_char_input,<sp/>test_session_.session_id);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>non-empty<sp/>response<sp/>(should<sp/>process,<sp/>not<sp/>reject<sp/>as<sp/>empty)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.empty());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>,<sp/>GenerateLLMResponseWithWhitespaceOnly)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whitespace-only<sp/>input<sp/>(not<sp/>empty<sp/>according<sp/>to<sp/>std::string::empty())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>whitespace_input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/><sp/>\t\n<sp/><sp/>&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Call<sp/>via<sp/>public<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/>assistant_-&gt;processTextCommand(whitespace_input,<sp/>test_session_.session_id);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>response<sp/>generated<sp/>(guard<sp/>passes,<sp/>sanitization/LLM<sp/>handles<sp/>whitespace)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.empty());</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>,<sp/>FailClosedGuardsAreIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>1:<sp/>Empty<sp/>input<sp/>always<sp/>fails<sp/>closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>empty<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result1<sp/>=<sp/>assistant_-&gt;processTextCommand(empty,<sp/>test_session_.session_id);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result1.find(</highlight><highlight class="stringliteral">&quot;I<sp/>need<sp/>a<sp/>prompt&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>2:<sp/>Valid<sp/>input<sp/>processes<sp/>(may<sp/>pass<sp/>or<sp/>fail<sp/>sanitization<sp/>policy<sp/>independently)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>valid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result2<sp/>=<sp/>assistant_-&gt;processTextCommand(valid,<sp/>test_session_.session_id);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result2.empty());</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>guard<sp/>is<sp/>independent:<sp/>results<sp/>differ<sp/>based<sp/>on<sp/>input,<sp/>not<sp/>other<sp/>factors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result1,<sp/>result2);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp_1a80a4fb4b8973f87cf6483296644f9b79" kindref="member">TEST_F</ref>(<ref refid="class_voice_assistant_generate_l_l_m_response_test" kindref="compound">VoiceAssistantGenerateLLMResponseTest</ref>,<sp/>SessionNotCorruptedByEmptyInputAttempt)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>call<sp/>with<sp/>empty<sp/>input<sp/>(triggers<sp/>guard,<sp/>should<sp/>not<sp/>corrupt<sp/>session)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>empty<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result1<sp/>=<sp/>assistant_-&gt;processTextCommand(empty,<sp/>test_session_.session_id);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result1.find(</highlight><highlight class="stringliteral">&quot;I<sp/>need<sp/>a<sp/>prompt&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>call<sp/>with<sp/>valid<sp/>input<sp/>(should<sp/>succeed<sp/>if<sp/>session<sp/>is<sp/>still<sp/>valid)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>valid<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>query&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result2<sp/>=<sp/>assistant_-&gt;processTextCommand(valid,<sp/>test_session_.session_id);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result2.empty());</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>calls<sp/>completed<sp/>without<sp/>exception<sp/>(session<sp/>integrity<sp/>maintained)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/voice/test_voice_assistant_generateLLMResponse_qw37.cpp"/>
+  </compounddef>
+</doxygen>

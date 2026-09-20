@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_48b9032521a340f2a85ded752a51f850" kind="dir">
+    <compoundname>include/utils/geo</compoundname>
+    <innerfile refid="ewkb_8h">ewkb.h</innerfile>
+    <innerfile refid="validator_8h">validator.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/geo/"/>
+  </compounddef>
+</doxygen>

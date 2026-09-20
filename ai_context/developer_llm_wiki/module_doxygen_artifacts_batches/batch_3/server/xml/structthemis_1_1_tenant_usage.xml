@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_tenant_usage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TenantUsage</compoundname>
+    <includes refid="tenant__manager_8h" local="no">tenant_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1a9df8db502dbcad619b7468ed9e1c0a1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TenantUsage::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::TenantUsage::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="104" column="17" bodyfile="include/server/tenant_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1a4e5ac505cb7c189e303e127e694431c0" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TenantUsage::storage_bytes_used</definition>
+        <argsstring></argsstring>
+        <name>storage_bytes_used</name>
+        <qualifiedname>themis::TenantUsage::storage_bytes_used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="107" column="17" bodyfile="include/server/tenant_manager.h" bodystart="107" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1aa91e907148c3316613fe4bbde0cb34d7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TenantUsage::document_count</definition>
+        <argsstring></argsstring>
+        <name>document_count</name>
+        <qualifiedname>themis::TenantUsage::document_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="108" column="17" bodyfile="include/server/tenant_manager.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1ae7aac3ddbbc77e398532a758a4374a23" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TenantUsage::collection_count</definition>
+        <argsstring></argsstring>
+        <name>collection_count</name>
+        <qualifiedname>themis::TenantUsage::collection_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="109" column="17" bodyfile="include/server/tenant_manager.h" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1aeab73ff6092125b0894ab548f842b5d0" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::TenantUsage::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::TenantUsage::active_connections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="110" column="17" bodyfile="include/server/tenant_manager.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1aa19f1cc519f6e306eca6a22bc362160e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::TenantUsage::active_queries</definition>
+        <argsstring></argsstring>
+        <name>active_queries</name>
+        <qualifiedname>themis::TenantUsage::active_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="111" column="17" bodyfile="include/server/tenant_manager.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1affb64611eff3335c7561eb7ce28a69de" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TenantUsage::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::TenantUsage::total_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="114" column="17" bodyfile="include/server/tenant_manager.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1aa8166e224043e71bf7bd01e825753011" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TenantUsage::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::TenantUsage::total_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="115" column="17" bodyfile="include/server/tenant_manager.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1a57485191931968b729a8e33c9e11f8fa" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TenantUsage::total_bytes_read</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_read</name>
+        <qualifiedname>themis::TenantUsage::total_bytes_read</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="116" column="17" bodyfile="include/server/tenant_manager.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1a8f04da8bcf9974f4691a11b077b6dad6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TenantUsage::total_bytes_written</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_written</name>
+        <qualifiedname>themis::TenantUsage::total_bytes_written</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="117" column="17" bodyfile="include/server/tenant_manager.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1aade223dbea90df180cc10bf75489167b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TenantUsage::rate_limited_requests</definition>
+        <argsstring></argsstring>
+        <name>rate_limited_requests</name>
+        <qualifiedname>themis::TenantUsage::rate_limited_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="118" column="17" bodyfile="include/server/tenant_manager.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_tenant_usage_1a434b0235dfd2c36f12302db24189528b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int64_t &gt;</type>
+        <definition>std::atomic&lt;int64_t&gt; themis::TenantUsage::last_activity_epoch</definition>
+        <argsstring></argsstring>
+        <name>last_activity_epoch</name>
+        <qualifiedname>themis::TenantUsage::last_activity_epoch</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/tenant_manager.h" line="121" column="17" bodyfile="include/server/tenant_manager.h" bodystart="121" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/tenant_manager.h" line="103" column="1" bodyfile="include/server/tenant_manager.h" bodystart="103" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_tenant_usage_1aeab73ff6092125b0894ab548f842b5d0" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1aa19f1cc519f6e306eca6a22bc362160e" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>active_queries</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1ae7aac3ddbbc77e398532a758a4374a23" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>collection_count</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1aa91e907148c3316613fe4bbde0cb34d7" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>document_count</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1a434b0235dfd2c36f12302db24189528b" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>last_activity_epoch</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1aade223dbea90df180cc10bf75489167b" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>rate_limited_requests</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1a4e5ac505cb7c189e303e127e694431c0" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>storage_bytes_used</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1a9df8db502dbcad619b7468ed9e1c0a1a" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1a57485191931968b729a8e33c9e11f8fa" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>total_bytes_read</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1a8f04da8bcf9974f4691a11b077b6dad6" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>total_bytes_written</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1aa8166e224043e71bf7bd01e825753011" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>total_queries</name></member>
+      <member refid="structthemis_1_1_tenant_usage_1affb64611eff3335c7561eb7ce28a69de" prot="public" virt="non-virtual"><scope>themis::TenantUsage</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

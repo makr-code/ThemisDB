@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::search::testing::AnalyticsEdgeCasesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test_1a9926d3b3bf6069417dcf7cda601cd591" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::search::testing::AnalyticsEdgeCasesTest::kCanonicalRngSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalRngSeed</name>
+        <qualifiedname>themis::search::testing::AnalyticsEdgeCasesTest::kCanonicalRngSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="38" column="29" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test_1acdfaec20a3ab38478bd8930b92dfb4ff" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::search::testing::AnalyticsEdgeCasesTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::search::testing::AnalyticsEdgeCasesTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_edge_cases_analytics.cpp" line="40" column="8" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::search::testing::AnalyticsEdgeCasesTest</label>
+        <link refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::search::testing::AnalyticsEdgeCasesTest</label>
+        <link refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/search/test_search_edge_cases_analytics.cpp" line="36" column="1" bodyfile="tests/search/test_search_edge_cases_analytics.cpp" bodystart="36" bodyend="43"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test_1a9926d3b3bf6069417dcf7cda601cd591" prot="protected" virt="non-virtual"><scope>themis::search::testing::AnalyticsEdgeCasesTest</scope><name>kCanonicalRngSeed</name></member>
+      <member refid="classthemis_1_1search_1_1testing_1_1_analytics_edge_cases_test_1acdfaec20a3ab38478bd8930b92dfb4ff" prot="protected" virt="non-virtual"><scope>themis::search::testing::AnalyticsEdgeCasesTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

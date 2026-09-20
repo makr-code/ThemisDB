@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_decomposition_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DecompositionStats</compoundname>
+    <includes refid="tensor__train__decomposer_8h" local="no">tensor_train_decomposer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_decomposition_stats_1a23df62fa5c17a143dd84cd91d5dd0c98" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::DecompositionStats::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::storage::DecompositionStats::elapsed_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock time in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="154" column="12" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_decomposition_stats_1af6997adf7c958d39e3c7a29b4e332eac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::DecompositionStats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::storage::DecompositionStats::compression_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>dense_elements / tt_parameters </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="155" column="12" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_decomposition_stats_1ac22b9338a0f6b577df72578b928e462a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::DecompositionStats::achieved_eps</definition>
+        <argsstring></argsstring>
+        <name>achieved_eps</name>
+        <qualifiedname>themis::storage::DecompositionStats::achieved_eps</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Actual ‖T-T_approx‖_F / ‖T‖_F. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="156" column="12" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_decomposition_stats_1a63d26ee1c7449c2817d2bab0ef8fa686" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::DecompositionStats::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::storage::DecompositionStats::max_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum bond dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="157" column="17" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_decomposition_stats_1a2100388991bef45b5719d2cb62d00394" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::DecompositionStats::total_params</definition>
+        <argsstring></argsstring>
+        <name>total_params</name>
+        <qualifiedname>themis::storage::DecompositionStats::total_params</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total TT-core parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="158" column="17" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_decomposition_stats_1a88b502e2601b8677c73c1ebb1247784d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::DecompositionStats::dense_elements</definition>
+        <argsstring></argsstring>
+        <name>dense_elements</name>
+        <qualifiedname>themis::storage::DecompositionStats::dense_elements</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Product of all mode sizes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_train_decomposer.h" line="159" column="17" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Post-decomposition statistics returned alongside the <ref refid="structthemis_1_1storage_1_1_t_t_train" kindref="compound">TTTrain</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tensor_train_decomposer.h" line="153" column="1" bodyfile="include/storage/tensor_train_decomposer.h" bodystart="153" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_decomposition_stats_1ac22b9338a0f6b577df72578b928e462a" prot="public" virt="non-virtual"><scope>themis::storage::DecompositionStats</scope><name>achieved_eps</name></member>
+      <member refid="structthemis_1_1storage_1_1_decomposition_stats_1af6997adf7c958d39e3c7a29b4e332eac" prot="public" virt="non-virtual"><scope>themis::storage::DecompositionStats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_decomposition_stats_1a88b502e2601b8677c73c1ebb1247784d" prot="public" virt="non-virtual"><scope>themis::storage::DecompositionStats</scope><name>dense_elements</name></member>
+      <member refid="structthemis_1_1storage_1_1_decomposition_stats_1a23df62fa5c17a143dd84cd91d5dd0c98" prot="public" virt="non-virtual"><scope>themis::storage::DecompositionStats</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1storage_1_1_decomposition_stats_1a63d26ee1c7449c2817d2bab0ef8fa686" prot="public" virt="non-virtual"><scope>themis::storage::DecompositionStats</scope><name>max_rank</name></member>
+      <member refid="structthemis_1_1storage_1_1_decomposition_stats_1a2100388991bef45b5719d2cb62d00394" prot="public" virt="non-virtual"><scope>themis::storage::DecompositionStats</scope><name>total_params</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

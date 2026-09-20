@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_i_q_r_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::IQRDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1_i_anomaly_detector" prot="public" virt="non-virtual">themis::IAnomalyDetector</basecompoundref>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_i_q_r_detector_1a3e0d5c2484c0c2fa9faf30f7c4c0b5f9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_anomaly_point" kindref="compound">AnomalyPoint</ref> &gt;</type>
+        <definition>std::vector&lt; AnomalyPoint &gt; themis::IQRDetector::detect</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points, const AnomalyConfig &amp;cfg) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::IQRDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1_i_anomaly_detector_1a2c826bc2b6c5184e9bcd5d2c9399f33a">detect</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_anomaly_config" kindref="compound">AnomalyConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Detect anomalous data points in <computeroutput>points</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input series (order is preserved; sorting not required). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detection configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Subset of <computeroutput>points</computeroutput> that are considered anomalous, annotated with the detection score and method name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/anomaly_detection.h" line="134" column="17" bodyfile="src/timeseries/anomaly_detection.cpp" bodystart="95" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Anomaly detector based on interquartile range (Tukey fences). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Lower fence = Q1 − k·IQR, upper fence = Q3 + k·IQR (k = iqr_multiplier). A point is flagged when it falls outside [lower_fence, upper_fence].</para>
+<para>The score field in <ref refid="structthemis_1_1_anomaly_point" kindref="compound">AnomalyPoint</ref> is set to:<itemizedlist>
+<listitem><para>(value − upper_fence) when value &gt; upper_fence (positive)</para>
+</listitem><listitem><para>(value − lower_fence) when value &lt; lower_fence (negative) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::IAnomalyDetector</label>
+        <link refid="classthemis_1_1_i_anomaly_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::IQRDetector</label>
+        <link refid="classthemis_1_1_i_q_r_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::IAnomalyDetector</label>
+        <link refid="classthemis_1_1_i_anomaly_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::IQRDetector</label>
+        <link refid="classthemis_1_1_i_q_r_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/anomaly_detection.h" line="132" column="1" bodyfile="include/timeseries/anomaly_detection.h" bodystart="132" bodyend="137"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_i_q_r_detector_1a3e0d5c2484c0c2fa9faf30f7c4c0b5f9" prot="public" virt="virtual"><scope>themis::IQRDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1_i_anomaly_detector_1ad81c6af8e83d4c6bbd46f9afa8cf7203" prot="public" virt="virtual"><scope>themis::IQRDetector</scope><name>~IAnomalyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_tracing_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::TracingIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_tracing_integration_test_1a5a482096ed586d0b2c5614deb99a6851" prot="protected" static="no" mutable="no">
+        <type>HotReloadManager</type>
+        <definition>HotReloadManager themis::modules::TracingIntegrationTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::modules::TracingIntegrationTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="93" column="22" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_tracing_integration_test_1aa5b069864de8ba574e22fc1a79bc0230" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_span_collector" kindref="compound">SpanCollector</ref></type>
+        <definition>SpanCollector themis::modules::TracingIntegrationTest::collector_</definition>
+        <argsstring></argsstring>
+        <name>collector_</name>
+        <qualifiedname>themis::modules::TracingIntegrationTest::collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="94" column="22" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_tracing_integration_test_1a042435f4ff9ba3e17f3bb9387b5e7e29" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::TracingIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::modules::TracingIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="96" column="10" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::TracingIntegrationTest</label>
+        <link refid="classthemis_1_1modules_1_1_tracing_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::modules::SpanCollector</label>
+        <link refid="structthemis_1_1modules_1_1_span_collector"/>
+      </node>
+      <node id="1">
+        <label>themis::modules::TracingIntegrationTest</label>
+        <link refid="classthemis_1_1modules_1_1_tracing_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>collector_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/base/test_base_wave_d_tracing.cpp" line="91" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="91" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_tracing_integration_test_1aa5b069864de8ba574e22fc1a79bc0230" prot="protected" virt="non-virtual"><scope>themis::modules::TracingIntegrationTest</scope><name>collector_</name></member>
+      <member refid="classthemis_1_1modules_1_1_tracing_integration_test_1a5a482096ed586d0b2c5614deb99a6851" prot="protected" virt="non-virtual"><scope>themis::modules::TracingIntegrationTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1modules_1_1_tracing_integration_test_1a042435f4ff9ba3e17f3bb9387b5e7e29" prot="protected" virt="non-virtual"><scope>themis::modules::TracingIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

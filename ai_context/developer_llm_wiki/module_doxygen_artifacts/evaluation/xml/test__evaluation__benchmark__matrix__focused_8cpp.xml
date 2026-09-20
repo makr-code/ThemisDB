@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__evaluation__benchmark__matrix__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_evaluation_benchmark_matrix_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="benchmark__matrix_8h" local="yes">benchmark_matrix.h</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>benchmark_matrix.h</label>
+        <link refid="benchmark__matrix_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp</label>
+        <link refid="test__evaluation__benchmark__matrix__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>algorithm</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1ae961c22638c4153e519fd92acba3be84" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref></type>
+        <definition>static BenchmarkResult make_result</definition>
+        <argsstring>(double value, uint32_t samples=1)</argsstring>
+        <name>make_result</name>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>samples</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="14" column="24" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="14" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM1_RecordAndLookup_Roundtrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM1_RecordAndLookup_Roundtrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="25" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="25" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1a25a86b6490f2504c8cb683492044e30f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM2_Lookup_Missing_ReturnsNullopt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM2_Lookup_Missing_ReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="36" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1a96771af86c8d36d8b42619ce0e633b95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM3_RecordZeroSamples_ThrowsInvalidArgument)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM3_RecordZeroSamples_ThrowsInvalidArgument</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="43" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1adcefd573b59e37660880052e3bd27041" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM4_Overwrite_ReplacesOldResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM4_Overwrite_ReplacesOldResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="55" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="55" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1a0fac297d0671998bd19ea3d2fb02b9dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM5_InvalidateScenario_RemovesEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM5_InvalidateScenario_RemovesEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="67" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="67" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1a5ba4a8d99d5ab591b0b43b58d57d1f9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM6_InvalidateDimension_RemovesEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM6_InvalidateDimension_RemovesEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="86" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="86" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1a048c6303810bf698a05ad398dabd07df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM7_MultipleEntries_Coexist)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM7_MultipleEntries_Coexist</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="106" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="106" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1a21cd4738da71289121f1cfbc5318154d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM8_Size_ReflectsRecordedEntries)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM8_Size_ReflectsRecordedEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="121" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="121" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__evaluation__benchmark__matrix__focused_8cpp_1abe9adb1802cdbe9b2404a8cbaf75033b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EvaluationBenchmarkMatrixFocusedTests, BM9_Clear_EmptiesMatrix)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EvaluationBenchmarkMatrixFocusedTests</type>
+        </param>
+        <param>
+          <type>BM9_Clear_EmptiesMatrix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" line="130" column="1" bodyfile="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp" bodystart="130" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group BM — Unit tests for <ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref> record, query, and comparison. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="benchmark__matrix_8h" kindref="compound">benchmark_matrix.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1evaluation" kindref="compound">themis::evaluation</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>helpers<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref><sp/>make_result(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value,<sp/>uint32_t<sp/>samples<sp/>=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1evaluation_1_1_benchmark_result_1a10c3cd95cc8512ca17f448c1f149d645" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1evaluation_1_1_benchmark_result_1aff56be99af3ad2324177c64a4d4acb5c" kindref="member">sample_count</ref><sp/>=<sp/>samples;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1evaluation_1_1_benchmark_result_1ab3904addb890763d7ca682f24b8d35db" kindref="member">edge_flags</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298ab50339a10e1de285ac99d4c3990b8693" kindref="member">BenchmarkEdgeCase::NONE</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Group<sp/>BM<sp/>—<sp/>Benchmark<sp/>Matrix<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM1:<sp/>Record<sp/>and<sp/>lookup<sp/>return<sp/>the<sp/>same<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM1_RecordAndLookup_Roundtrip)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>make_result(10.0,<sp/>1);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,<sp/>r);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(found.has_value());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(found-&gt;value,<sp/>10.0);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found-&gt;sample_count,<sp/>1u);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM2:<sp/>lookup<sp/>returns<sp/>nullopt<sp/>for<sp/>a<sp/>missing<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM2_Lookup_Missing_ReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kindref="member">BenchmarkScenario::DISKANN_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(found.has_value());</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM3:<sp/>Record<sp/>with<sp/>sample_count<sp/>==<sp/>0<sp/>and<sp/>no<sp/>edge<sp/>flags<sp/>is<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM3_RecordZeroSamples_ThrowsInvalidArgument)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1evaluation_1_1_benchmark_result" kindref="compound">BenchmarkResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1evaluation_1_1_benchmark_result_1aff56be99af3ad2324177c64a4d4acb5c" kindref="member">sample_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1evaluation_1_1_benchmark_result_1ab3904addb890763d7ca682f24b8d35db" kindref="member">edge_flags</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298ab50339a10e1de285ac99d4c3990b8693" kindref="member">BenchmarkEdgeCase::NONE</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,<sp/>r),</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM4:<sp/>Overwriting<sp/>an<sp/>entry<sp/>with<sp/>record()<sp/>replaces<sp/>the<sp/>previous<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM4_Overwrite_ReplacesOldResult)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea496f63b968ae8e46cb0d4d28a1e07209" kindref="member">BenchmarkScenario::ANN_TENSOR</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(5.0,<sp/>1));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea496f63b968ae8e46cb0d4d28a1e07209" kindref="member">BenchmarkScenario::ANN_TENSOR</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(6.0,<sp/>1));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea496f63b968ae8e46cb0d4d28a1e07209" kindref="member">BenchmarkScenario::ANN_TENSOR</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(found.has_value());</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(found-&gt;value,<sp/>6.0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM5:<sp/>invalidateScenario<sp/>removes<sp/>all<sp/>entries<sp/>for<sp/>that<sp/>scenario</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM5_InvalidateScenario_RemovesEntries)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(10.0));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(10.0));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>a<sp/>different<sp/>scenario<sp/>that<sp/>must<sp/>survive<sp/>invalidation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kindref="member">BenchmarkScenario::DISKANN_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(8.0));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a8a2c9a3e412b4f5ab93be8c61e45e8d2" kindref="member">invalidateScenario</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>).has_value());</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kindref="member">BenchmarkScenario::DISKANN_ANN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>).has_value());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM6:<sp/>invalidateDimension<sp/>removes<sp/>all<sp/>entries<sp/>for<sp/>that<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM6_InvalidateDimension_RemovesEntries)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(10.0));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kindref="member">BenchmarkScenario::DISKANN_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(8.0));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(10.0));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a330ba0c9d1177be725d511ac177702bb" kindref="member">invalidateDimension</ref>(<ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>).has_value());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kindref="member">BenchmarkScenario::DISKANN_ANN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>).has_value());</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>).has_value());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM7:<sp/>Multiple<sp/>distinct<sp/>scenarios<sp/>and<sp/>dimensions<sp/>co-exist</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM7_MultipleEntries_Coexist)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,<sp/><sp/>make_result(10.0));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kindref="member">BenchmarkScenario::DISKANN_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,<sp/><sp/>make_result(8.0,<sp/><sp/>1));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea496f63b968ae8e46cb0d4d28a1e07209" kindref="member">BenchmarkScenario::ANN_TENSOR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>,<sp/>make_result(12.0));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>).has_value());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kindref="member">BenchmarkScenario::DISKANN_ANN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>).has_value());</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea496f63b968ae8e46cb0d4d28a1e07209" kindref="member">BenchmarkScenario::ANN_TENSOR</ref>,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>).has_value());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM8:<sp/>size()<sp/>reflects<sp/>number<sp/>of<sp/>recorded<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM8_Size_ReflectsRecordedEntries)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae1dfbeb2eee2675267f35af0bda22e33" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,<sp/><sp/>make_result(10.0,<sp/>5));</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" kindref="member">BenchmarkScenario::DISKANN_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" kindref="member">BenchmarkDimension::RECALL_AT_K</ref>,<sp/>make_result(8.0,<sp/>3));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae1dfbeb2eee2675267f35af0bda22e33" kindref="member">size</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM9:<sp/>clear()<sp/>empties<sp/>the<sp/>matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__evaluation__benchmark__matrix__focused_8cpp_1a2aee50d03bd2868af6abf2f752b0250d" kindref="member">TEST</ref>(EvaluationBenchmarkMatrixFocusedTests,<sp/>BM9_Clear_EmptiesMatrix)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix" kindref="compound">BenchmarkMatrix</ref><sp/>m;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1afb769d4585734df948195d859b110bb6" kindref="member">record</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,<sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>make_result(10.0,<sp/>5));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae1dfbeb2eee2675267f35af0bda22e33" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a1711b61178df924673fa0b9e3202d3ac" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1ae1dfbeb2eee2675267f35af0bda22e33" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(m.<ref refid="classthemis_1_1evaluation_1_1_benchmark_matrix_1a5e82253eca89d81f762c57eb0c0ae0ef" kindref="member">lookup</ref>(<ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" kindref="member">BenchmarkScenario::HNSW_ANN_ONLY</ref>,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" kindref="member">BenchmarkDimension::QUERY_LATENCY_MS</ref>).has_value());</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/evaluation/test_evaluation_benchmark_matrix_focused.cpp"/>
+  </compounddef>
+</doxygen>

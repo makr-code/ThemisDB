@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_c_1_2_projects_2_themis_d_b_2include_2utils_2file_utils_8h-example" kind="example">
+    <compoundname>C:/Projects/ThemisDB/include/utils/file_utils.h</compoundname>
+    <briefdescription>
+<para>Read the entire contents of a file into a string. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Read the entire contents of a file into a string This function reads a file in binary mode and returns its contents as a string. Commonly used for reading certificate files, configuration files, etc.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file to read </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>String containing the file contents </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the file cannot be opened</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<programlisting filename=".cpp"><codeline><highlight class="normal">std::string<sp/>cert<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a3a98fe45cb071e258184cabd8acda210" kindref="member">readFileContents</ref>(</highlight><highlight class="stringliteral">&quot;/path/to/certificate.pem&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/>config<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a3a98fe45cb071e258184cabd8acda210" kindref="member">readFileContents</ref>(</highlight><highlight class="stringliteral">&quot;/etc/config.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting> <programlisting filename="C:/Projects/ThemisDB/include/utils/file_utils.h"><codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1utils_1a3a98fe45cb071e258184cabd8acda210" kindref="member">readFileContents</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/utils/file_utils.h"/>
+  </compounddef>
+</doxygen>

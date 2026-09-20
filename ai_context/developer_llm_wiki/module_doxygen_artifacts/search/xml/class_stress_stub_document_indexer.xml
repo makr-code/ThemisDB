@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_stub_document_indexer" kind="class" language="C++" prot="public">
+    <compoundname>StressStubDocumentIndexer</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_stub_document_indexer_1ab90f77072cc41a98f3e4557984558c10" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressStubDocumentIndexer::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>StressStubDocumentIndexer::count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="51" column="17" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_stub_document_indexer_1aad8952d79a9e83403b6adeec15036b72" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StressStubDocumentIndexer::index</definition>
+        <argsstring>(uint64_t doc_id, const std::string &amp;)</argsstring>
+        <name>index</name>
+        <qualifiedname>StressStubDocumentIndexer::index</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>doc_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="45" column="10" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="45" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_stub_document_indexer_1a7d483e6043b0c25f28f6d92026a9edeb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressStubDocumentIndexer::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>StressStubDocumentIndexer::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="49" column="14" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/search/test_search_highcardinality_stress.cpp" line="43" column="1" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="43" bodyend="52"/>
+    <listofallmembers>
+      <member refid="class_stress_stub_document_indexer_1a7d483e6043b0c25f28f6d92026a9edeb" prot="public" virt="non-virtual"><scope>StressStubDocumentIndexer</scope><name>count</name></member>
+      <member refid="class_stress_stub_document_indexer_1ab90f77072cc41a98f3e4557984558c10" prot="private" virt="non-virtual"><scope>StressStubDocumentIndexer</scope><name>count_</name></member>
+      <member refid="class_stress_stub_document_indexer_1aad8952d79a9e83403b6adeec15036b72" prot="public" virt="non-virtual"><scope>StressStubDocumentIndexer</scope><name>index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

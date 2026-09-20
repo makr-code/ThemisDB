@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_recover_model_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::RecoverModelResult</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_result_1a983d8aaa7f45562be5c7580ee66c6aab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::RecoverModelResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::process::RecoverModelResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether recovery succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="410" column="10" bodyfile="include/process/model_history_contract.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_result_1a6fb318da874de53dcd2568cce2567d6a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RecoverModelResult::recovered_model_content</definition>
+        <argsstring></argsstring>
+        <name>recovered_model_content</name>
+        <qualifiedname>themis::process::RecoverModelResult::recovered_model_content</qualifiedname>
+        <briefdescription>
+<para>Model state at target timestamp (if success=true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="413" column="17" bodyfile="include/process/model_history_contract.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_result_1a1194589e7bb59c39e7f7d53599668396" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::RecoverModelResult::actual_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>actual_timestamp_ns</name>
+        <qualifiedname>themis::process::RecoverModelResult::actual_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of recovered model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="416" column="13" bodyfile="include/process/model_history_contract.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_result_1a5b90d176134dca9f2380d9d2df7fd39d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::process::RecoverModelResult::backup_model_id</definition>
+        <argsstring></argsstring>
+        <name>backup_model_id</name>
+        <qualifiedname>themis::process::RecoverModelResult::backup_model_id</qualifiedname>
+        <briefdescription>
+<para>Backup model ID (if create_backup=true); used to restore if recovery was wrong. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="419" column="19" bodyfile="include/process/model_history_contract.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_result_1afe243f8af0e2df4bdfb230783e6a9913" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RecoverModelResult::audit_record_id</definition>
+        <argsstring></argsstring>
+        <name>audit_record_id</name>
+        <qualifiedname>themis::process::RecoverModelResult::audit_record_id</qualifiedname>
+        <briefdescription>
+<para>Audit record ID created for this recovery operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="422" column="17" bodyfile="include/process/model_history_contract.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_result_1aea58e4d24f36ba269ad67d1a32c8a7fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::RecoverModelResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::process::RecoverModelResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Reason for failure (if success=false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="425" column="17" bodyfile="include/process/model_history_contract.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_recover_model_result_1a205c2d5e3e32d0497e7926099f575df2" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::process::RecoverModelResult::recovery_time_ms</definition>
+        <argsstring></argsstring>
+        <name>recovery_time_ms</name>
+        <qualifiedname>themis::process::RecoverModelResult::recovery_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Time to recover (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="428" column="14" bodyfile="include/process/model_history_contract.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of recovery operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="408" column="1" bodyfile="include/process/model_history_contract.h" bodystart="408" bodyend="429"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_recover_model_result_1a1194589e7bb59c39e7f7d53599668396" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelResult</scope><name>actual_timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_result_1afe243f8af0e2df4bdfb230783e6a9913" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelResult</scope><name>audit_record_id</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_result_1a5b90d176134dca9f2380d9d2df7fd39d" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelResult</scope><name>backup_model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_result_1aea58e4d24f36ba269ad67d1a32c8a7fd" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_result_1a6fb318da874de53dcd2568cce2567d6a" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelResult</scope><name>recovered_model_content</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_result_1a205c2d5e3e32d0497e7926099f575df2" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelResult</scope><name>recovery_time_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_recover_model_result_1a983d8aaa7f45562be5c7580ee66c6aab" prot="public" virt="non-virtual"><scope>themis::process::RecoverModelResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

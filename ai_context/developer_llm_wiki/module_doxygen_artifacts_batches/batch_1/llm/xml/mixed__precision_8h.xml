@@ -1,0 +1,278 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="mixed__precision_8h" kind="file" language="C++">
+    <compoundname>mixed_precision.h</compoundname>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="lora__layers_8h" local="yes">lora_layers.h</includes>
+    <includedby refid="gpu__training__loop_8h" local="yes">include/llm/lora_framework/gpu_training_loop.h</includedby>
+    <includedby refid="lora__training__service_8h" local="yes">include/llm/lora_framework/lora_training_service.h</includedby>
+    <includedby refid="lora__training__service_8cpp" local="yes">src/llm/lora_framework/lora_training_service.cpp</includedby>
+    <includedby refid="mixed__precision_8cpp" local="yes">src/llm/lora_framework/mixed_precision.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/mixed_precision.h</label>
+        <link refid="mixed__precision_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>benchmarks/llm/bench_lora_framework.cpp</label>
+        <link refid="bench__lora__framework_8cpp"/>
+      </node>
+      <node id="6">
+        <label>include/llm/applications/themis_help_lora.h</label>
+        <link refid="themis__help__lora_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/llm/lora_framework/lora_orchestrator.h</label>
+        <link refid="lora__orchestrator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/lora_framework/lora_training_service.h</label>
+        <link refid="lora__training__service_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/mixed_precision.h</label>
+        <link refid="mixed__precision_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/llm/api/themis_help_lora_adapter.cpp</label>
+        <link refid="themis__help__lora__adapter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/applications/themis_help_lora.cpp</label>
+        <link refid="themis__help__lora_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/lora_framework/lora_orchestrator.cpp</label>
+        <link refid="lora__orchestrator_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/lora_framework/lora_training_service.cpp</label>
+        <link refid="lora__training__service_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/llm/lora_framework/mixed_precision.cpp</label>
+        <link refid="mixed__precision_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" prot="public">themis::llm::lora::MixedPrecisionConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" prot="public">themis::llm::lora::MixedPrecisionTrainer</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope" prot="public">themis::llm::lora::MixedPrecisionScope</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__layers_8h" kindref="compound">lora_layers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09" kindref="member">PrecisionMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a693aa0bef84c25fe81c7e62e72f9313d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a693aa0bef84c25fe81c7e62e72f9313d" kindref="member">FP32</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>precision<sp/>(32-bit<sp/>float)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09aa4bf99d6945c25077fd6660d536af8a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09aa4bf99d6945c25077fd6660d536af8a0" kindref="member">FP16</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Half<sp/>precision<sp/>(16-bit<sp/>float)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09af656bbf613964dcf710b771b0918ab30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09af656bbf613964dcf710b771b0918ab30" kindref="member">BF16</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Brain<sp/>Float<sp/>16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a9c37cba6d8907746452b1fb10c11ab1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a9c37cba6d8907746452b1fb10c11ab1b" kindref="member">AMP</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Automatic<sp/>Mixed<sp/>Precision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" kindref="compound">MixedPrecisionConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6c99b5ce3c05d1882b3fa7f736b47092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09" kindref="member">PrecisionMode</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6c99b5ce3c05d1882b3fa7f736b47092" kindref="member">mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a693aa0bef84c25fe81c7e62e72f9313d" kindref="member">PrecisionMode::FP32</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1ac69a08aff97a121985ac641ccf6bf8d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1ac69a08aff97a121985ac641ccf6bf8d9" kindref="member">loss_scale</ref><sp/>=<sp/>1024.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initial<sp/>loss<sp/>scaling<sp/>factor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a593c257bb24d23d49293fb27aa1cb783" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a593c257bb24d23d49293fb27aa1cb783" kindref="member">loss_scale_factor</ref><sp/>=<sp/>2.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Factor<sp/>for<sp/>dynamic<sp/>loss<sp/>scaling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1acaf33cd4d55df993ada1993ec0e01a27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1acaf33cd4d55df993ada1993ec0e01a27" kindref="member">loss_scale_window</ref><sp/>=<sp/>2000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Steps<sp/>before<sp/>increasing<sp/>loss<sp/>scale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6bb6957343b3d12a3d372268ee2f812f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6bb6957343b3d12a3d372268ee2f812f" kindref="member">max_loss_scale</ref><sp/>=<sp/>65536.0f;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>loss<sp/>scale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a9995d435731c32387e8929d1eec4e9fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a9995d435731c32387e8929d1eec4e9fb" kindref="member">min_loss_scale</ref><sp/>=<sp/>1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>loss<sp/>scale</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a0e8a397da193cca9dd7570f61a9bd927" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a0e8a397da193cca9dd7570f61a9bd927" kindref="member">dynamic_loss_scaling</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>dynamic<sp/>loss<sp/>scaling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a40bdeef2bbc4c3024c13601d5ad7ab5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a40bdeef2bbc4c3024c13601d5ad7ab5f" kindref="member">overflow_check_interval</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>for<sp/>overflow<sp/>every<sp/>N<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Convert<sp/>to<sp/>JSON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a4af0b7a878f7f3ca06ec7231990c2ba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a4af0b7a878f7f3ca06ec7231990c2ba2" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;mode&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6c99b5ce3c05d1882b3fa7f736b47092" kindref="member">mode</ref>)},</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;loss_scale&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1ac69a08aff97a121985ac641ccf6bf8d9" kindref="member">loss_scale</ref>},</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;loss_scale_factor&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a593c257bb24d23d49293fb27aa1cb783" kindref="member">loss_scale_factor</ref>},</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;loss_scale_window&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1acaf33cd4d55df993ada1993ec0e01a27" kindref="member">loss_scale_window</ref>},</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_loss_scale&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a6bb6957343b3d12a3d372268ee2f812f" kindref="member">max_loss_scale</ref>},</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;min_loss_scale&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a9995d435731c32387e8929d1eec4e9fb" kindref="member">min_loss_scale</ref>},</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;dynamic_loss_scaling&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a0e8a397da193cca9dd7570f61a9bd927" kindref="member">dynamic_loss_scaling</ref>},</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;overflow_check_interval&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config_1a40bdeef2bbc4c3024c13601d5ad7ab5f" kindref="member">overflow_check_interval</ref>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a2d0ce49fa5589a407f7e3117eef58559" kindref="member">MixedPrecisionTrainer</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a2d0ce49fa5589a407f7e3117eef58559" kindref="member">MixedPrecisionTrainer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" kindref="compound">MixedPrecisionConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" kindref="compound">MixedPrecisionConfig</ref>{});</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1ad36a465b2f53d583ade97fa6fff1173c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1ad36a465b2f53d583ade97fa6fff1173c" kindref="member">~MixedPrecisionTrainer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a166312cf5ac2fb3d43230ee554bb582d" kindref="member">to_lower_precision</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>input)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a526d6cd9714bf6ebb8b2a66d0fe500bf" kindref="member">to_fp32</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref>&amp;<sp/>input)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1af5baeeb592847b687443b97ca47b5326" kindref="member">scale_loss</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>loss);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a48bff3c059e0a5f8e8ad103140a57120" kindref="member">unscale_gradients</ref>(std::vector&lt;Tensor*&gt;&amp;<sp/>gradients);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1adf755d6128efd2c8dde5dce6c435de87" kindref="member">has_overflow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Tensor*&gt;&amp;<sp/>gradients);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a484fd4b571459bb1613fb60f0df508f9" kindref="member">update_loss_scale</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>had_overflow);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a4448c665982aca617bffcb286c4c7b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a4448c665982aca617bffcb286c4c7b18" kindref="member">get_loss_scale</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_loss_scale_;<sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a378478120dc14d2323f1b8e906c9dc4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09" kindref="member">PrecisionMode</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a378478120dc14d2323f1b8e906c9dc4f" kindref="member">get_precision_mode</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.mode;<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1af5251fea8cbc62d22188e91483296d70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1af5251fea8cbc62d22188e91483296d70" kindref="member">is_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.mode<sp/>!=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ab6391a7042f777c1a3c4cf38779f3f09a693aa0bef84c25fe81c7e62e72f9313d" kindref="member">PrecisionMode::FP32</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1aae7b6e93f734a136898263ec1bed5918" kindref="member">get_stats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer_1a5cfc4d508ec8a12559566067f821e6fe" kindref="member">reset_stats</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_mixed_precision_config" kindref="compound">MixedPrecisionConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>current_loss_scale_<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>steps_since_overflow_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_overflows_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_steps_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fp32_to_fp16(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>fp16_to_fp32(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a48985b8c25b56a4982a9523e8844b66c" kindref="member">MixedPrecisionScope</ref><sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a48985b8c25b56a4982a9523e8844b66c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a48985b8c25b56a4982a9523e8844b66c" kindref="member">MixedPrecisionScope</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref>*<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a59fb3c248b8fd1d4e7f3eac8451547e9" kindref="member">trainer</ref>)</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>trainer_(<ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a59fb3c248b8fd1d4e7f3eac8451547e9" kindref="member">trainer</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1ad008246294dfdf54ea0967207a952130" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1ad008246294dfdf54ea0967207a952130" kindref="member">~MixedPrecisionScope</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a59fb3c248b8fd1d4e7f3eac8451547e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref>*<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_scope_1a59fb3c248b8fd1d4e7f3eac8451547e9" kindref="member">trainer</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>trainer_;<sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref>*<sp/>trainer_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/mixed_precision.h"/>
+  </compounddef>
+</doxygen>

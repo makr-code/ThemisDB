@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_plugin_security_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::PluginSecurityPolicy</compoundname>
+    <includes refid="plugin__security_8h" local="no">plugin_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1a976e5ff33f4d35608aa40f2dc7b1bc8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::PluginSecurityPolicy::requireSignature</definition>
+        <argsstring></argsstring>
+        <name>requireSignature</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::requireSignature</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="60" column="10" bodyfile="include/acceleration/plugin_security.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1ad3a3b654840c0980846b700d82986ed9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::acceleration::PluginSecurityPolicy::trustedIssuers</definition>
+        <argsstring></argsstring>
+        <name>trustedIssuers</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::trustedIssuers</qualifiedname>
+        <initializer>                           = {
+    &quot;CN=ThemisDB Official Plugins, O=ThemisDB, C=DE&quot;
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="62" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1a75d6b2a6eaec579a1baa75f4b4ba30c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::PluginSecurityPolicy::allowUnsigned</definition>
+        <argsstring></argsstring>
+        <name>allowUnsigned</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::allowUnsigned</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="66" column="10" bodyfile="include/acceleration/plugin_security.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1a06fe468d9ac9d167da62785a9bc1d6c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::PluginSecurityPolicy::verifyFileHash</definition>
+        <argsstring></argsstring>
+        <name>verifyFileHash</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::verifyFileHash</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="68" column="10" bodyfile="include/acceleration/plugin_security.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1a1d6377a5f8a257e4d7c14fabf78c9e36" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::PluginSecurityPolicy::checkRevocation</definition>
+        <argsstring></argsstring>
+        <name>checkRevocation</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::checkRevocation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="70" column="10" bodyfile="include/acceleration/plugin_security.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1a4e5bef58ae136cdb9c18b345dfba3df4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::PluginSecurityPolicy::revocation_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>revocation_timeout_seconds</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::revocation_timeout_seconds</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="72" column="9" bodyfile="include/acceleration/plugin_security.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1a7cc65d99728019b18f4c377d82a45626" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a4a800e886cfbccefce6cbc6b0c86116a" kindref="member">PluginTrustLevel</ref></type>
+        <definition>PluginTrustLevel themis::acceleration::PluginSecurityPolicy::minTrustLevel</definition>
+        <argsstring></argsstring>
+        <name>minTrustLevel</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::minTrustLevel</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a4a800e886cfbccefce6cbc6b0c86116aae832adef915418a62df152b813f48316" kindref="member">PluginTrustLevel::TRUSTED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="74" column="22" bodyfile="include/acceleration/plugin_security.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1a07a63591d2f7427db121305f04c5dc1d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::acceleration::PluginSecurityPolicy::blacklistedHashes</definition>
+        <argsstring></argsstring>
+        <name>blacklistedHashes</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::blacklistedHashes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="76" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_security_policy_1a53ce6a4fecdee3ac6fc09cd1c5f5ac70" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::acceleration::PluginSecurityPolicy::whitelistedHashes</definition>
+        <argsstring></argsstring>
+        <name>whitelistedHashes</name>
+        <qualifiedname>themis::acceleration::PluginSecurityPolicy::whitelistedHashes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="78" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/plugin_security.h" line="59" column="1" bodyfile="include/acceleration/plugin_security.h" bodystart="59" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1a75d6b2a6eaec579a1baa75f4b4ba30c1" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>allowUnsigned</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1a07a63591d2f7427db121305f04c5dc1d" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>blacklistedHashes</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1a1d6377a5f8a257e4d7c14fabf78c9e36" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>checkRevocation</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1a7cc65d99728019b18f4c377d82a45626" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>minTrustLevel</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1a976e5ff33f4d35608aa40f2dc7b1bc8c" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>requireSignature</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1a4e5bef58ae136cdb9c18b345dfba3df4" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>revocation_timeout_seconds</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1ad3a3b654840c0980846b700d82986ed9" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>trustedIssuers</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1a06fe468d9ac9d167da62785a9bc1d6c1" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>verifyFileHash</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_security_policy_1a53ce6a4fecdee3ac6fc09cd1c5f5ac70" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSecurityPolicy</scope><name>whitelistedHashes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

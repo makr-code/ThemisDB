@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__stability_8h" kind="file" language="C++">
+    <compoundname>test_stability.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/utils/test_stability.h</label>
+        <link refid="test__stability_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1test">themis::test</innernamespace>
+    <briefdescription>
+<para>Determinism and stability helpers for ThemisDB test suites. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides lightweight utilities that eliminate blind sleeps (flaky timing races) from test code:</para>
+<para><itemizedlist>
+<listitem><para><ref refid="namespacethemis_1_1test_1a0ff5e4430b75ef7484b1e5bc5039a958" kindref="member">themis::test::wait_for_clock_advance_ms()</ref> Spins with yield() until the system_clock millisecond value has advanced by at least one unit. Replaces blind sleep_for() calls that exist solely to ensure wall-clock timestamps differ between consecutive operations. No artificial delay is added; the spin terminates as soon as the OS scheduler reports a new millisecond.</para>
+</listitem><listitem><para><ref refid="namespacethemis_1_1test_1a27ffc405806d5b2eb729d7b28c13405a" kindref="member">themis::test::poll_until()</ref> Deadline-bounded busy-poll over an arbitrary predicate. Replaces fixed-duration sleeps that guard asynchronous side-effects (e.g. waiting for background file writes to appear on disk). The caller provides the predicate and a timeout; the function returns true if the predicate became true before the deadline.</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="test__stability_8h_1autotoc_md19_1s1"><sect2 id="test__stability_8h_1autotoc_md19">
+<title>Design Notes</title><para>Both helpers use <computeroutput>std::this_thread::yield()</computeroutput> rather than <computeroutput>std::this_thread::sleep_for()</computeroutput> during the spin. <computeroutput>yield()</computeroutput> relinquishes the current time-slice but does not insert a hard lower-bound delay, keeping test runtimes fast on lightly loaded machines while remaining correct on heavily loaded CI agents.</para>
+<para>Neither helper introduces new sleeps as synchronisation. They are purely condition-based waits that happen to use the wall clock as the condition.</para>
+</sect2></sect1>
+<sect1 id="test__stability_8h_1autotoc_md20_1s1"><sect2 id="test__stability_8h_1autotoc_md20">
+<title>Usage</title><para><programlisting><codeline><highlight class="preprocessor">#include<sp/>&quot;<ref refid="test__stability_8h" kindref="compound">utils/test_stability.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ensure<sp/>successive<sp/>snapshot<sp/>IDs<sp/>(millisecond-based)<sp/>are<sp/>distinct:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacethemis_1_1test_1a0ff5e4430b75ef7484b1e5bc5039a958" kindref="member">themis::test::wait_for_clock_advance_ms</ref>();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>snapshot_mgr.createSnapshot(...);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>an<sp/>async<sp/>background<sp/>write<sp/>(bounded<sp/>at<sp/>5<sp/>s):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>appeared<sp/>=<sp/><ref refid="namespacethemis_1_1test_1a27ffc405806d5b2eb729d7b28c13405a" kindref="member">themis::test::poll_until</ref>(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[]{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::filesystem::exists(</highlight><highlight class="stringliteral">&quot;/tmp/result.dat&quot;</highlight><highlight class="normal">);<sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds(5));</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_TRUE(appeared)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Background<sp/>write<sp/>did<sp/>not<sp/>complete<sp/>within<sp/>5<sp/>s&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: These are free functions with no shared state. They are safe to call from multiple threads simultaneously. </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1test_1a0ff5e4430b75ef7484b1e5bc5039a958" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1test_1a0ff5e4430b75ef7484b1e5bc5039a958" kindref="member">wait_for_clock_advance_ms</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Clock<sp/>=<sp/>std::chrono::system_clock;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">Ms<sp/>=<sp/>std::chrono::milliseconds;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0_ms<sp/>=<sp/>std::chrono::duration_cast&lt;Ms&gt;(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>safety_deadline<sp/>=<sp/>std::chrono::steady_clock::now()</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>std::chrono::milliseconds(500);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::chrono::duration_cast&lt;Ms&gt;(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Clock::now().time_since_epoch()).count()<sp/>==<sp/>t0_ms</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>std::chrono::steady_clock::now()<sp/>&lt;<sp/>safety_deadline)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1test_1a27ffc405806d5b2eb729d7b28c13405a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1test_1a27ffc405806d5b2eb729d7b28c13405a" kindref="member">poll_until</ref>(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::function&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">()&gt;&amp;<sp/>predicate,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::duration<sp/>timeout<sp/>=<sp/>std::chrono::seconds(5))</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>deadline<sp/>=<sp/>std::chrono::steady_clock::now()<sp/>+<sp/>timeout;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(predicate())<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>&gt;=<sp/>deadline)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/test_stability.h"/>
+  </compounddef>
+</doxygen>

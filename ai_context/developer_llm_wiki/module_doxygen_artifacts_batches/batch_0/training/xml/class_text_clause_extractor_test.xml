@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_text_clause_extractor_test" kind="class" language="C++" prot="public">
+    <compoundname>TextClauseExtractorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_text_clause_extractor_test_1a17c94d6251c3c5202f6d42ef92d00b7e" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref></type>
+        <definition>ModalityParserConfig TextClauseExtractorTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>TextClauseExtractorTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_convergence.cpp" line="214" column="26" bodyfile="tests/training/test_training_convergence.cpp" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_text_clause_extractor_test_1a8574fbaa392ee0bfe4c904b6e4d45269" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TextClauseExtractorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TextClauseExtractorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_convergence.cpp" line="215" column="10" bodyfile="tests/training/test_training_convergence.cpp" bodystart="215" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TextClauseExtractorTest</label>
+        <link refid="class_text_clause_extractor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TextClauseExtractorTest</label>
+        <link refid="class_text_clause_extractor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>cfg_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::training::ModalityParserConfig</label>
+        <link refid="structthemis_1_1training_1_1_modality_parser_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_training_convergence.cpp" line="212" column="1" bodyfile="tests/training/test_training_convergence.cpp" bodystart="212" bodyend="219"/>
+    <listofallmembers>
+      <member refid="class_text_clause_extractor_test_1a17c94d6251c3c5202f6d42ef92d00b7e" prot="protected" virt="non-virtual"><scope>TextClauseExtractorTest</scope><name>cfg_</name></member>
+      <member refid="class_text_clause_extractor_test_1a8574fbaa392ee0bfe4c904b6e4d45269" prot="protected" virt="non-virtual"><scope>TextClauseExtractorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

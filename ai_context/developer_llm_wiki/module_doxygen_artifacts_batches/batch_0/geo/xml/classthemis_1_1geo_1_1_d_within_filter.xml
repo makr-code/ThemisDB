@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_d_within_filter" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::DWithinFilter</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_spatial_join_filter" prot="public" virt="non-virtual">themis::geo::ISpatialJoinFilter</basecompoundref>
+    <includes refid="spatial__join__filter_8h" local="no">spatial_join_filter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_d_within_filter_1ae6524158378961865dd71d325697f74d" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::DWithinFilter::radius_m_</definition>
+        <argsstring></argsstring>
+        <name>radius_m_</name>
+        <qualifiedname>themis::geo::DWithinFilter::radius_m_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="79" column="12" bodyfile="include/geo/spatial_join_filter.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_d_within_filter_1af7d4e4dbef0165fb432ec65922a62f17" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::DWithinFilter::DWithinFilter</definition>
+        <argsstring>(double radius_m)</argsstring>
+        <name>DWithinFilter</name>
+        <qualifiedname>themis::geo::DWithinFilter::DWithinFilter</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>radius_m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="67" column="14" bodyfile="include/geo/spatial_join_filter.h" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_d_within_filter_1ab62842a471b8f0d8ddf001d21bd982ab" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::geo::DWithinFilter::radiusM</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>radiusM</name>
+        <qualifiedname>themis::geo::DWithinFilter::radiusM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="73" column="13" bodyfile="include/geo/spatial_join_filter.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_d_within_filter_1ac11076415ef1c8f23b2357cd5ba70a38" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::DWithinFilter::matches</definition>
+        <argsstring>(const IGeoJSONGeometry &amp;a, const IGeoJSONGeometry &amp;b) const override</argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::geo::DWithinFilter::matches</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_spatial_join_filter_1a5bf70906dfdc5934ea6377aa01e9758c">matches</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/spatial_join_filter.h" line="75" column="11" bodyfile="src/geo/spatial_join_filter.cpp" bodystart="108" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::geo::DWithinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_d_within_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::ISpatialJoinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_join_filter"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::geo::DWithinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_d_within_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::ISpatialJoinFilter</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_join_filter"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/geo/spatial_join_filter.h" line="65" column="1" bodyfile="include/geo/spatial_join_filter.h" bodystart="65" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_d_within_filter_1af7d4e4dbef0165fb432ec65922a62f17" prot="public" virt="non-virtual"><scope>themis::geo::DWithinFilter</scope><name>DWithinFilter</name></member>
+      <member refid="classthemis_1_1geo_1_1_d_within_filter_1ac11076415ef1c8f23b2357cd5ba70a38" prot="public" virt="virtual"><scope>themis::geo::DWithinFilter</scope><name>matches</name></member>
+      <member refid="classthemis_1_1geo_1_1_d_within_filter_1ae6524158378961865dd71d325697f74d" prot="private" virt="non-virtual"><scope>themis::geo::DWithinFilter</scope><name>radius_m_</name></member>
+      <member refid="classthemis_1_1geo_1_1_d_within_filter_1ab62842a471b8f0d8ddf001d21bd982ab" prot="public" virt="non-virtual"><scope>themis::geo::DWithinFilter</scope><name>radiusM</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_spatial_join_filter_1ada2b261151f8bd9dc7d82edb21f9c41b" prot="public" virt="virtual"><scope>themis::geo::DWithinFilter</scope><name>~ISpatialJoinFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

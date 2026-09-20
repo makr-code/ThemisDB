@@ -1,0 +1,464 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="document__manager_8h" kind="file" language="C++">
+    <compoundname>document_manager.h</compoundname>
+    <includes refid="document__lifecycle_8h" local="yes">document/document_lifecycle.h</includes>
+    <includes refid="document__store_8h" local="yes">document/document_store.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="test__document__store_8cpp" local="yes">tests/document/test_document_store.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>document/document_lifecycle.h</label>
+        <link refid="document__lifecycle_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/document/document_manager.h</label>
+        <link refid="document__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>document/document_store.h</label>
+        <link refid="document__store_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>algorithm</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>shared_mutex</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/document/document_manager.h</label>
+        <link refid="document__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/document/test_document_store.cpp</label>
+        <link refid="test__document__store_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1document_1_1_key_rotation_descriptor" prot="public">themis::document::KeyRotationDescriptor</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_encrypted_document_entity" prot="public">themis::document::IEncryptedDocumentEntity</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_document_manager" prot="public">themis::document::IDocumentManager</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_in_memory_encrypted_entity" prot="public">themis::document::InMemoryEncryptedEntity</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_in_memory_document_manager" prot="public">themis::document::InMemoryDocumentManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1document">themis::document</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.3 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>—<sp/>Document<sp/>Module</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>document_manager.h</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>include/document/</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>IDocumentManager<sp/>—<sp/>primary<sp/>document<sp/>CRUD<sp/>interface<sp/>with</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Result&lt;T&gt;-based<sp/>error<sp/>propagation,<sp/>lifecycle-hook<sp/>support,<sp/>and</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>encrypted-entity<sp/>factory.<sp/><sp/>Includes<sp/>InMemoryDocumentManager</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>as<sp/>a<sp/>thread-safe<sp/>reference<sp/>implementation.</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>Version:<sp/>1.3.0</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__lifecycle_8h" kindref="compound">document/document_lifecycle.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__store_8h" kindref="compound">document/document_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document" kindref="compound">document</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>KeyRotationDescriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1document_1_1_key_rotation_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1document_1_1_key_rotation_descriptor" kindref="compound">KeyRotationDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a0ea3fcd85b3d5063f9d6c458433bed7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a0ea3fcd85b3d5063f9d6c458433bed7b" kindref="member">old_key_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a9d74ee5f19d9c896a4b72e62c1ba723c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a9d74ee5f19d9c896a4b72e62c1ba723c" kindref="member">new_key_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a94e8d3b45762beeef0c0ef5016047546" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a94e8d3b45762beeef0c0ef5016047546" kindref="member">rotation_timestamp_ms</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IEncryptedDocumentEntity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1document_1_1_i_encrypted_document_entity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1document_1_1_i_encrypted_document_entity" kindref="compound">IEncryptedDocumentEntity</ref><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a0376bc43d3c5ad6060f1ac3539a1f0db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a0376bc43d3c5ad6060f1ac3539a1f0db" kindref="member">~IEncryptedDocumentEntity</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a4facf8ff8b6d4e2ff54863c232c154c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a4facf8ff8b6d4e2ff54863c232c154c6" kindref="member">documentId</ref>()<sp/><sp/><sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1ab59fb690ea360c1da5eb42c56eb989c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>const<sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/><ref refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1ab59fb690ea360c1da5eb42c56eb989c2" kindref="member">collectionId</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a6d0b810024f1f169074c42f87de947b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>Result&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_encrypted_document_entity_1a6d0b810024f1f169074c42f87de947b0" kindref="member">reencrypt</ref>(const<sp/><ref refid="structthemis_1_1document_1_1_key_rotation_descriptor" kindref="compound">KeyRotationDescriptor</ref>&amp;<sp/>desc)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IDocumentManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1document_1_1_i_document_manager" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1document_1_1_i_document_manager" kindref="compound">IDocumentManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1document_1_1_i_document_manager_1a6c0c56e0f803a5090e1844a48a0d6a7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1a6c0c56e0f803a5090e1844a48a0d6a7f" kindref="member">~IDocumentManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>CRUD<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1document_1_1_i_document_manager_1a128bcd0bf62b7b6e628b1cd1c1ef896f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;DocumentId&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1a128bcd0bf62b7b6e628b1cd1c1ef896f" kindref="member">create</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/><sp/><sp/>collection,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1document_1_1_i_document_manager_1acfb83cdd12dc948f7a3789518f3cf5f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;std::optional&lt;nlohmann::json&gt;&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1acfb83cdd12dc948f7a3789518f3cf5f6" kindref="member">get</ref>(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1document_1_1_i_document_manager_1a351d1e6fb141dba40ffcbc8200926286" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1a351d1e6fb141dba40ffcbc8200926286" kindref="member">update</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/><sp/><sp/>collection,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1document_1_1_i_document_manager_1abedbfd1d410a83b99345331024d7ac67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1abedbfd1d410a83b99345331024d7ac67" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1document_1_1_i_document_manager_1abb540cd60b388fea3bd98f6deef13865" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;std::vector&lt;DocumentId&gt;&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1abb540cd60b388fea3bd98f6deef13865" kindref="member">list</ref>(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/>collection)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Encrypted<sp/>entity<sp/>factory<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1document_1_1_i_document_manager_1af0e19877715a1a3ca0119c7d4f60cf62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;std::unique_ptr&lt;IEncryptedDocumentEntity&gt;&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1af0e19877715a1a3ca0119c7d4f60cf62" kindref="member">createEncrypted</ref>(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/><sp/><sp/>collection,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1document_1_1_i_document_manager_1a322c6369abf4d190e873bd226ff2da9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1a322c6369abf4d190e873bd226ff2da9a" kindref="member">registerLifecycleHook</ref>(<ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" kindref="compound">IDocumentLifecycleHook</ref>&amp;<sp/>hook)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1document_1_1_i_document_manager_1a927af3921af9ece48da746cfbec3b85c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_manager_1a927af3921af9ece48da746cfbec3b85c" kindref="member">unregisterLifecycleHook</ref>(<ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" kindref="compound">IDocumentLifecycleHook</ref>&amp;<sp/>hook)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryEncryptedEntity<sp/><sp/>(package-private<sp/>implementation<sp/>detail)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1document_1_1_in_memory_encrypted_entity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a50cfb726a8e6b32a291f2ddd13a4f5d7" kindref="member">InMemoryEncryptedEntity</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_encrypted_document_entity" kindref="compound">IEncryptedDocumentEntity</ref><sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a50cfb726a8e6b32a291f2ddd13a4f5d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1a50cfb726a8e6b32a291f2ddd13a4f5d7" kindref="member">InMemoryEncryptedEntity</ref>(<ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref><sp/>doc_id,<sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref><sp/>col_id)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>doc_id_(<ref refid="namespacestd" kindref="compound">std</ref>::move(doc_id)),<sp/>col_id_(<ref refid="namespacestd" kindref="compound">std</ref>::move(col_id))<sp/>{}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1abb3b625360c0351ae2ad71515542c31e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1abb3b625360c0351ae2ad71515542c31e" kindref="member">documentId</ref>()<sp/><sp/><sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>doc_id_;<sp/>}</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1aaa4909d4f43b75db943d5ce1ce6142c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1aaa4909d4f43b75db943d5ce1ce6142c5" kindref="member">collectionId</ref>()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>col_id_;<sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1ac5734b7dc53803dae5f0ffaae2b8aa41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1ac5734b7dc53803dae5f0ffaae2b8aa41" kindref="member">reencrypt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_key_rotation_descriptor" kindref="compound">KeyRotationDescriptor</ref>&amp;<sp/>desc)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(desc.<ref refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a9d74ee5f19d9c896a4b72e62c1ba723c" kindref="member">new_key_id</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;new_key_id<sp/>must<sp/>not<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>the<sp/>key<sp/>rotation<sp/>so<sp/>callers<sp/>can<sp/>verify<sp/>key-id<sp/>progression.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>actual<sp/>data<sp/>re-ciphering<sp/>is<sp/>performed;<sp/>this<sp/>entity<sp/>holds<sp/>no</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>encrypted<sp/>bytes.<sp/><sp/>Valid<sp/>for<sp/>unit<sp/>tests<sp/>and<sp/>in-memory<sp/>development.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_key_id_<sp/>=<sp/>desc.<ref refid="structthemis_1_1document_1_1_key_rotation_descriptor_1a9d74ee5f19d9c896a4b72e62c1ba723c" kindref="member">new_key_id</ref>;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;void&gt;{};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1adbf5e88f2f4079aa861c416d76c3a4fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_encrypted_entity_1adbf5e88f2f4079aa861c416d76c3a4fc" kindref="member">currentKeyId</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_key_id_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref><sp/><sp/><sp/>doc_id_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref><sp/>col_id_;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/>current_key_id_;<sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InMemoryDocumentManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1document_1_1_in_memory_document_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1document_1_1_in_memory_document_manager" kindref="compound">InMemoryDocumentManager</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_document_manager" kindref="compound">IDocumentManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>CRUD<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="classthemis_1_1document_1_1_in_memory_document_manager_1a2cb1c183a502060139b4252a29c0d883" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;DocumentId&gt;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_manager_1a2cb1c183a502060139b4252a29c0d883" kindref="member">create</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/><sp/><sp/>collection,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body)</highlight><highlight class="keyword"><sp/>override</highlight></codeline>
+<codeline lineno="173"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty())<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors::ErrorCode::ERR_DOC_INVALID_ID,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;document<sp/>id<sp/>must<sp/>not<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref><sp/>evt{id,<sp/>collection,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea3d9ed096df2b22cfcc9b49daf5022de6" kindref="member">DocumentEventType::BEFORE_CREATE</ref>,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nowMs(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dispatchHooks(evt);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1document_1_1_document_record_1af4cd1d2dc09218050e968ff354534f78" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1document_1_1_document_record_1ada290ea198510d414ad8836370a987ab" kindref="member">collection_id</ref><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1document_1_1_document_record_1a887b750687445d46f0d8388035282493" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>store_.put(rec);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(result.error());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evt.<ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8f393756ab1d269591e902c2dfb0e151" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abeaf9f0c567941ff6968e99dcbfbd84e468" kindref="member">DocumentEventType::AFTER_CREATE</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dispatchHooks(evt);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1document_1_1_in_memory_document_manager_1a4862a5ed30d5aac4023deea9a1943ec2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::optional&lt;nlohmann::json&gt;&gt;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_manager_1a4862a5ed30d5aac4023deea9a1943ec2" kindref="member">get</ref>(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override</highlight></codeline>
+<codeline lineno="202"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>store_.get(collection,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(result.error());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>opt<sp/>=<sp/>*result;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!opt.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::optional&lt;nlohmann::json&gt;{std::nullopt};</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::optional&lt;nlohmann::json&gt;{opt.value().body};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classthemis_1_1document_1_1_in_memory_document_manager_1afcb978345abb854d317bfbbc4296a577" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_manager_1afcb978345abb854d317bfbbc4296a577" kindref="member">update</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/><sp/><sp/>collection,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body)</highlight><highlight class="keyword"><sp/>override</highlight></codeline>
+<codeline lineno="217"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref><sp/>evt{id,<sp/>collection,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea27a387fe7ad532f190dac2b2f42b3e1c" kindref="member">DocumentEventType::BEFORE_UPDATE</ref>,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nowMs(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dispatchHooks(evt);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>store_.update(collection,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>body);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(result.error());</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evt.<ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8f393756ab1d269591e902c2dfb0e151" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea8ff09e86ed0c93f96b69e957e962c766" kindref="member">DocumentEventType::AFTER_UPDATE</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dispatchHooks(evt);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Result&lt;void&gt;{};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1document_1_1_in_memory_document_manager_1a7567013a74c0996e00c550a051adb971" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_manager_1a7567013a74c0996e00c550a051adb971" kindref="member">remove</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override</highlight></codeline>
+<codeline lineno="235"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref><sp/>evt{id,<sp/>collection,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea4b63d18d59849ea96b1cdeef41db3b4e" kindref="member">DocumentEventType::BEFORE_DELETE</ref>,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nowMs(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dispatchHooks(evt);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>store_.remove(collection,<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>afterDelete<sp/>is<sp/>guaranteed<sp/>to<sp/>fire<sp/>even<sp/>on<sp/>storage<sp/>failure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>evt.<ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8f393756ab1d269591e902c2dfb0e151" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea18c0172c3dd99fd4827ff996f7f4e120" kindref="member">DocumentEventType::AFTER_DELETE</ref>;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dispatchHooks(evt);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1document_1_1_in_memory_document_manager_1ad36efba0c84d2bde85273aadeb668f0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::vector&lt;DocumentId&gt;&gt;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_manager_1ad36efba0c84d2bde85273aadeb668f0d" kindref="member">list</ref>(</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/>collection)</highlight><highlight class="keyword"><sp/>const<sp/>override</highlight></codeline>
+<codeline lineno="252"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>store_.list(collection);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Encrypted<sp/>entity<sp/>factory<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1document_1_1_in_memory_document_manager_1a61c21e674e7592772711327cf2fed559" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::unique_ptr&lt;IEncryptedDocumentEntity&gt;&gt;<sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_manager_1a61c21e674e7592772711327cf2fed559" kindref="member">createEncrypted</ref>(</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref>&amp;<sp/><sp/><sp/>collection,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a3c6c1b6d9d76b5429342187edefbc1f5" kindref="member">DocumentId</ref>&amp;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>body)</highlight><highlight class="keyword"><sp/>override</highlight></codeline>
+<codeline lineno="262"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">.empty())<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(Error(</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors::ErrorCode::ERR_DOC_INVALID_ID,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;document<sp/>id<sp/>must<sp/>not<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1document_1_1_document_record" kindref="compound">DocumentRecord</ref><sp/>rec;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1document_1_1_document_record_1af4cd1d2dc09218050e968ff354534f78" kindref="member">id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1document_1_1_document_record_1ada290ea198510d414ad8836370a987ab" kindref="member">collection_id</ref><sp/>=<sp/>collection;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rec.<ref refid="structthemis_1_1document_1_1_document_record_1a887b750687445d46f0d8388035282493" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>store_.put(rec);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(result.error());</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;IEncryptedDocumentEntity&gt;<sp/>entity<sp/>=</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;InMemoryEncryptedEntity&gt;(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>collection);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entity;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>hooks<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284" refid="classthemis_1_1document_1_1_in_memory_document_manager_1a2a3af5ad70f9b104fd1f910223198ff0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_manager_1a2a3af5ad70f9b104fd1f910223198ff0" kindref="member">registerLifecycleHook</ref>(<ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" kindref="compound">IDocumentLifecycleHook</ref>&amp;<sp/>hook)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::shared_mutex&gt;<sp/>lk(hooks_mu_);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>&amp;hook;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::find(hooks_.begin(),<sp/>hooks_.end(),<sp/>ptr)<sp/>==<sp/>hooks_.end())<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hooks_.push_back(ptr);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="classthemis_1_1document_1_1_in_memory_document_manager_1ada2826f5fb303ab569e37266e8f72188" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_in_memory_document_manager_1ada2826f5fb303ab569e37266e8f72188" kindref="member">unregisterLifecycleHook</ref>(<ref refid="classthemis_1_1document_1_1_i_document_lifecycle_hook" kindref="compound">IDocumentLifecycleHook</ref>&amp;<sp/>hook)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::shared_mutex&gt;<sp/>lk(hooks_mu_);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ptr<sp/>=<sp/>&amp;hook;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hooks_.erase(std::remove(hooks_.begin(),<sp/>hooks_.end(),<sp/>ptr),</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hooks_.end());</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>dispatchHooks(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1document_1_1_document_lifecycle_event" kindref="compound">DocumentLifecycleEvent</ref>&amp;<sp/>evt)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_lock&lt;std::shared_mutex&gt;<sp/>lk(hooks_mu_);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>h<sp/>:<sp/>hooks_)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(evt.<ref refid="structthemis_1_1document_1_1_document_lifecycle_event_1a8f393756ab1d269591e902c2dfb0e151" kindref="member">type</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea3d9ed096df2b22cfcc9b49daf5022de6" kindref="member">DocumentEventType::BEFORE_CREATE</ref>:<sp/>h-&gt;beforeCreate(evt);<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abeaf9f0c567941ff6968e99dcbfbd84e468" kindref="member">DocumentEventType::AFTER_CREATE</ref>:<sp/><sp/>h-&gt;afterCreate(evt);<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea27a387fe7ad532f190dac2b2f42b3e1c" kindref="member">DocumentEventType::BEFORE_UPDATE</ref>:<sp/>h-&gt;beforeUpdate(evt);<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea8ff09e86ed0c93f96b69e957e962c766" kindref="member">DocumentEventType::AFTER_UPDATE</ref>:<sp/><sp/>h-&gt;afterUpdate(evt);<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea4b63d18d59849ea96b1cdeef41db3b4e" kindref="member">DocumentEventType::BEFORE_DELETE</ref>:<sp/>h-&gt;beforeDelete(evt);<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1a39e1a431790cd431158fe58c45562abea18c0172c3dd99fd4827ff996f7f4e120" kindref="member">DocumentEventType::AFTER_DELETE</ref>:<sp/><sp/>h-&gt;afterDelete(evt);<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>int64_t<sp/>nowMs()<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>duration_cast&lt;milliseconds&gt;(</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>system_clock::now().time_since_epoch()).count();</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>InMemoryDocumentStore<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>store_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hooks_mu_;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IDocumentLifecycleHook*&gt;<sp/><sp/><sp/><sp/>hooks_;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/document/document_manager.h"/>
+  </compounddef>
+</doxygen>

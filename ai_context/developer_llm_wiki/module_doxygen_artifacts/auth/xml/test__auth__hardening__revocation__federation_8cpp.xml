@@ -1,0 +1,1211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__auth__hardening__revocation__federation_8cpp" kind="file" language="C++">
+    <compoundname>test_auth_hardening_revocation_federation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="distributed__token__blacklist_8h" local="yes">auth/distributed_token_blacklist.h</includes>
+    <includes refid="federated__identity__manager_8h" local="yes">auth/federated_identity_manager.h</includes>
+    <includes refid="session__manager_8h" local="yes">auth/session_manager.h</includes>
+    <includes refid="auth__error_8h" local="yes">auth/auth_error.h</includes>
+    <includes refid="auth__principal__contract_8h" local="yes">auth/auth_principal_contract.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">future</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="35">
+        <label>auth/auth_audit_logger.h</label>
+        <link refid="auth__audit__logger_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>auth/auth_error.h</label>
+        <link refid="auth__error_8h"/>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>auth/auth_principal_contract.h</label>
+        <link refid="auth__principal__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>auth/auth_worker_thread_pool.h</label>
+        <link refid="auth__worker__thread__pool_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>auth/distributed_token_blacklist.h</label>
+        <link refid="distributed__token__blacklist_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>auth/federated_identity_manager.h</label>
+        <link refid="federated__identity__manager_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>auth/jwt_validator.h</label>
+        <link refid="jwt__validator_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>auth/oauth_device_flow.h</label>
+        <link refid="oauth__device__flow_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>auth/oidc_provider.h</label>
+        <link refid="oidc__provider_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>auth/session_manager.h</label>
+        <link refid="session__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>auth/token_blacklist.h</label>
+        <link refid="token__blacklist_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/auth/test_auth_hardening_revocation_federation.cpp</label>
+        <link refid="test__auth__hardening__revocation__federation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>algorithm</label>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>condition_variable</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="40">
+        <label>filesystem</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="18">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="37">
+        <label>list</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="23">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="24">
+        <label>optional</label>
+      </node>
+      <node id="28">
+        <label>queue</label>
+      </node>
+      <node id="19">
+        <label>rocksdb/db.h</label>
+      </node>
+      <node id="25">
+        <label>shared_mutex</label>
+      </node>
+      <node id="29">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="30">
+        <label>tuple</label>
+      </node>
+      <node id="31">
+        <label>type_traits</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>unordered_set</label>
+      </node>
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="36">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="34">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_revocation_hardening_test" prot="public">RevocationHardeningTest</innerclass>
+    <innerclass refid="class_federation_hardening_test" prot="public">FederationHardeningTest</innerclass>
+    <innerclass refid="class_session_hardening_test" prot="public">SessionHardeningTest</innerclass>
+    <innernamespace refid="namespacestd_1_1chrono__literals">std::chrono_literals</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RevocationHardeningTest, RFP01_AddIsRevokedRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RFP01_AddIsRevokedRoundTrip</type>
+        </param>
+        <briefdescription>
+<para>RFP-01: Basic add / isRevoked round-trip after Phase 2/3 hardening. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="107" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="107" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a869fa75dbd2bda30bad2653320900b07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RevocationHardeningTest, RFP02_EmptyJtiRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RFP02_EmptyJtiRejected</type>
+        </param>
+        <briefdescription>
+<para>RFP-02: Empty JTI is rejected with REVOCATION_ENTRY_INVALID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>An empty JTI cannot meaningfully identify a token; accepting it would allow silent revocation of every token that lacks a jti claim. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="120" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="120" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a85c08a2dee65a2061cea42965238f7f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RevocationHardeningTest, RFP03_OversizedJtiRejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RFP03_OversizedJtiRejected</type>
+        </param>
+        <briefdescription>
+<para>RFP-03: JTI exceeding kMaxJtiBytes (1024) is rejected with REVOCATION_ENTRY_INVALID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="138" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="138" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1aa5ed5f4a5312c6dc358b36afc4e1297b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RevocationHardeningTest, RFP04_PurgeExpiredSelectiveRemoval)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RFP04_PurgeExpiredSelectiveRemoval</type>
+        </param>
+        <briefdescription>
+<para>RFP-04: purgeExpired removes expired entries; non-expired entries survive. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="152" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a3189d6300244f6933b783ac63f939f10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RevocationHardeningTest, RFP05_ConcurrentAddIsRevoked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RFP05_ConcurrentAddIsRevoked</type>
+        </param>
+        <briefdescription>
+<para>RFP-05: Concurrent add() and isRevoked() are thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="164" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="164" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a5dfaa72ef533e7a0cea94db1aff157e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RevocationHardeningTest, RFP06_IdempotentReAdd)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RFP06_IdempotentReAdd</type>
+        </param>
+        <briefdescription>
+<para>RFP-06: Re-adding the same JTI is idempotent (no exception, LWW semantics). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="194" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="194" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1aaa8df0885cb7d0431a27552a0e07b994" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RevocationHardeningTest, RFP07_UnknownJtiIsNotRevoked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RFP07_UnknownJtiIsNotRevoked</type>
+        </param>
+        <briefdescription>
+<para>RFP-07: isRevoked() returns false for a JTI that was never added. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="204" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="204" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1afeca21c2c74ab087c759cbc8bf860264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(RevocationHardeningTest, RFP08_ExpiredEntryNotRevoked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>RFP08_ExpiredEntryNotRevoked</type>
+        </param>
+        <briefdescription>
+<para>RFP-08: After an entry expires and purgeExpired runs, isRevoked() returns false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="212" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="212" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a1a9978a70549fc2957a02e62ffcea16c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationHardeningTest, FED01_UnknownRealmThrowsFederationCode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>FED01_UnknownRealmThrowsFederationCode</type>
+        </param>
+        <briefdescription>
+<para>FED-01: validateToken for a token with an unknown issuer throws FEDERATION_UNKNOWN_REALM (not JWT_ISSUER_MISMATCH). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Phase 2/3 hardened the error classification: callers can now distinguish &quot;no such realm&quot; from &quot;realm exists but token is invalid&quot;. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="235" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="235" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1af873e9df84054c9ea48a77888feab1b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationHardeningTest, FED02_DuplicateRealmThrowsConfigError)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>FED02_DuplicateRealmThrowsConfigError</type>
+        </param>
+        <briefdescription>
+<para>FED-02: Registering the same issuer URL twice throws AUTH_CONFIG_INVALID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="258" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="258" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a5f285da38b4ee1eb15ea7bfe5e645b43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationHardeningTest, FED03_MalformedTokenThrowsInvalidFormat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>FED03_MalformedTokenThrowsInvalidFormat</type>
+        </param>
+        <briefdescription>
+<para>FED-03: A token that is not a valid JWT (no dot separators) throws JWT_INVALID_FORMAT before any realm lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="276" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="276" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1aced9747760f46672c2f4db8bcbd035b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationHardeningTest, FED06_RealmProviderUnknownThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>FED06_RealmProviderUnknownThrows</type>
+        </param>
+        <briefdescription>
+<para>FED-06: realmProvider for an unknown issuer throws FEDERATION_UNKNOWN_REALM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="288" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="288" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a4af9f682ce415827f785ed38b7505b8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationHardeningTest, FED07_MultipleRealmsCoexist)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>FED07_MultipleRealmsCoexist</type>
+        </param>
+        <briefdescription>
+<para>FED-07: Multiple realms coexist; realmCount() reflects additions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="300" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="300" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a3371e6194a197aaeddf54a22d33cef02" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationHardeningTest, FED08_RealmCountIncrements)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>FED08_RealmCountIncrements</type>
+        </param>
+        <briefdescription>
+<para>FED-08: realmCount() starts at 0 and increments correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="318" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="318" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a22194ae6086299f4e3d5ed49d54df77a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SessionHardeningTest, ASY01_EmptyUserIdThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ASY01_EmptyUserIdThrows</type>
+        </param>
+        <briefdescription>
+<para>ASY-01: createSession with empty user_id throws std::invalid_argument. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The contract requires user_id to be non-empty; an empty subject would produce an anonymous session with no deterministic ownership. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="347" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="347" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1ac37fa6f896391c294c0bfc8b6979dabc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SessionHardeningTest, ASY02_UnknownSessionReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ASY02_UnknownSessionReturnsFalse</type>
+        </param>
+        <briefdescription>
+<para>ASY-02: validateSession for a completely unknown session ID returns valid=false without throwing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="359" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="359" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a897e6a087188985e417fd32b2f1a79d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SessionHardeningTest, ASY03_ExpiredSessionReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ASY03_ExpiredSessionReturnsFalse</type>
+        </param>
+        <briefdescription>
+<para>ASY-03: validateSession for a session with an expired absolute timeout returns valid=false with a populated reason string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="370" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="370" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a592af0e2d35fc68f4195b528def2598b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SessionHardeningTest, ASY04_TerminateUnknownIsIdempotent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ASY04_TerminateUnknownIsIdempotent</type>
+        </param>
+        <briefdescription>
+<para>ASY-04: terminateSession for a non-existent session ID is idempotent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="388" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="388" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a1562bad46775bd740e19dad928e7999b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SessionHardeningTest, ASY05_TerminateAllOtherSessions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ASY05_TerminateAllOtherSessions</type>
+        </param>
+        <briefdescription>
+<para>ASY-05: terminateAllOtherSessions removes non-kept sessions and preserves the specified keep session. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="398" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="398" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a06f430d864083b6bae5f495e4068f41d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SessionHardeningTest, ASY06_SessionIdPrefixInvariant)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ASY06_SessionIdPrefixInvariant</type>
+        </param>
+        <briefdescription>
+<para>ASY-06: All session IDs created by createSession() start with &quot;sess_&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The &quot;sess_&quot; prefix is part of the public contract: downstream components that route or filter session tokens rely on this prefix. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="422" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="422" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1a47ad85d68f65a056c57e5dbd6604cf1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SessionHardeningTest, ASY07_PruneExpiredSelectiveRemoval)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ASY07_PruneExpiredSelectiveRemoval</type>
+        </param>
+        <briefdescription>
+<para>ASY-07: pruneExpired removes expired sessions; active sessions are unaffected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="434" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="434" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="test__auth__hardening__revocation__federation_8cpp_1ab206d8a107859479ded9981adb003292" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SessionHardeningTest, ASY08_PerUserSessionLimitEnforced)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ASY08_PerUserSessionLimitEnforced</type>
+        </param>
+        <briefdescription>
+<para>ASY-08: Per-user session limit is enforced; creating a session beyond the limit evicts the oldest session for that user. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_auth_hardening_revocation_federation.cpp" line="466" column="1" bodyfile="tests/auth/test_auth_hardening_revocation_federation.cpp" bodystart="466" bodyend="486"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 focused regression tests for auth hardening delivery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers three test families mapped to the three roadmap items:</para>
+<para><heading level="3">RFP — Distributed Revocation / Federation / Policy-Edge</heading>
+</para>
+<para>RFP-01 Add + isRevoked round-trip (baseline sanity after Phase 2/3 hardening) RFP-02 Empty JTI rejected by add() with REVOCATION_ENTRY_INVALID RFP-03 JTI exceeding kMaxJtiBytes (1024) rejected by add() with REVOCATION_ENTRY_INVALID RFP-04 purgeExpired removes expired entries; valid entries survive RFP-05 Concurrent add() and isRevoked() are thread-safe (no crash, no data race) RFP-06 Re-adding the same JTI is idempotent (LWW semantics, no exception) RFP-07 isRevoked() returns false for an unknown JTI (not revoked by default) RFP-08 Expired JTI reports false after expiry passes purgeExpired</para>
+<para><heading level="3">FED — Federation Manager Failure Classification</heading>
+</para>
+<para>FED-01 Unknown realm throws FEDERATION_UNKNOWN_REALM (not JWT_ISSUER_MISMATCH) FED-02 Duplicate realm registration throws AUTH_CONFIG_INVALID FED-03 Token that is not a valid JWT (no dot separators) throws JWT_INVALID_FORMAT FED-06 realmProvider for unknown issuer throws FEDERATION_UNKNOWN_REALM FED-07 Multiple realms coexist; correct realm selected by issuer FED-08 realmCount() reflects realm additions correctly</para>
+<para><heading level="3">ASY — Async / Provider-Integration Consistency</heading>
+</para>
+<para>ASY-01 <ref refid="classthemis_1_1auth_1_1_session_manager_1a27bda1b15396f09af311e9c3282b5459" kindref="member">SessionManager::createSession</ref> with empty user_id throws std::invalid_argument ASY-02 validateSession for unknown session_id returns valid=false (no throw) ASY-03 validateSession for expired session returns valid=false with reason ASY-04 terminateSession for unknown session_id is idempotent (no throw) ASY-05 terminateAllOtherSessions terminates only the non-kept sessions ASY-06 Session ID prefix invariant: all created sessions start with &quot;sess_&quot; ASY-07 pruneExpired removes expired sessions; active sessions survive ASY-08 Per-user session limit enforced: oldest session evicted when limit exceeded </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__token__blacklist_8h" kindref="compound">auth/distributed_token_blacklist.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="federated__identity__manager_8h" kindref="compound">auth/federated_identity_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="session__manager_8h" kindref="compound">auth/session_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__error_8h" kindref="compound">auth/auth_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__principal__contract_8h" kindref="compound">auth/auth_principal_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1auth" kindref="compound">themis::auth</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal">fs::path<sp/>makeTempDir(std::string_view<sp/>tag)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fs::temp_directory_path()</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>/<sp/>(std::string(</highlight><highlight class="stringliteral">&quot;themis_auth_harden_&quot;</highlight><highlight class="normal">)<sp/>+<sp/>std::string(tag)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">DistributedBlacklistConfig<sp/>singleNodeCfg(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>fs::path<sp/>&amp;db_path)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>DistributedBlacklistConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a28e01a16e09fa4c2d504e3a0538929ed" kindref="member">db_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>db_path.string();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a89fc0b5c77264ea966889a8d2e59a99a" kindref="member">enable_cluster_sync</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a796a0070940f563db75a56a16fa37993" kindref="member">purge_interval_seconds</ref><sp/><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a3754cb291f7b981e3ec5504d797173b9" kindref="member">sync_interval_seconds</ref><sp/><sp/><sp/>=<sp/>3600;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_distributed_blacklist_config_1a5851bb96127aa6ce74aec2892334898c" kindref="member">local_node</ref>.<ref refid="structthemis_1_1auth_1_1_cluster_node_1aa034a883c60f5365549658fe2f41100d" kindref="member">node_id</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-harden&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">std::chrono::system_clock::time_point<sp/>future(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>secs)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::system_clock::now()<sp/>+<sp/>std::chrono::seconds(secs);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">std::chrono::system_clock::time_point<sp/>past(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>secs)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::system_clock::now()<sp/>-<sp/>std::chrono::seconds(secs);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RFP<sp/>—<sp/>Distributed<sp/>Revocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="class_revocation_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_revocation_hardening_test_1aa86c5c290d47589bb3652f046a937b02" kindref="member">db_path_</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_revocation_hardening_test_1ab683df5fe469163efc2beb92edefb14e" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="class_revocation_hardening_test_1aa86c5c290d47589bb3652f046a937b02" kindref="member">db_path_</ref><sp/>=<sp/>makeTempDir(</highlight><highlight class="stringliteral">&quot;rfp&quot;</highlight><highlight class="normal">);<sp/>fs::create_directories(<ref refid="class_revocation_hardening_test_1aa86c5c290d47589bb3652f046a937b02" kindref="member">db_path_</ref>);<sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_revocation_hardening_test_1a2133b43baff148b4fde71f3c731af723" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/>fs::remove_all(<ref refid="class_revocation_hardening_test_1aa86c5c290d47589bb3652f046a937b02" kindref="member">db_path_</ref>);<sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref>,<sp/>RFP01_AddIsRevokedRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref><sp/>bl(singleNodeCfg(db_path_));</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>bl.add(</highlight><highlight class="stringliteral">&quot;jti-rfp01&quot;</highlight><highlight class="normal">,<sp/>future(300));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bl.isRevoked(</highlight><highlight class="stringliteral">&quot;jti-rfp01&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bl.isRevoked(</highlight><highlight class="stringliteral">&quot;jti-unknown&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref>,<sp/>RFP02_EmptyJtiRejected)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref><sp/>bl(singleNodeCfg(db_path_));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>bl.add(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>future(300));<sp/>},</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>thrown<sp/>code<sp/>is<sp/>REVOCATION_ENTRY_INVALID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bl.add(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>future(300));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref><sp/>&amp;ex)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>(),<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1626f546cd308ab699a5744695c7d944" kindref="member">AuthErrorCode::REVOCATION_ENTRY_INVALID</ref>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref>,<sp/>RFP03_OversizedJtiRejected)<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref><sp/>bl(singleNodeCfg(db_path_));</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>big_jti(<ref refid="namespacethemis_1_1auth_1a2665488c2971b37a3a0c4016fe6db043" kindref="member">kMaxJtiBytes</ref><sp/>+<sp/>1,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bl.add(big_jti,<sp/>future(300));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException<sp/>for<sp/>oversized<sp/>JTI&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref><sp/>&amp;ex)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>(),<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a1626f546cd308ab699a5744695c7d944" kindref="member">AuthErrorCode::REVOCATION_ENTRY_INVALID</ref>);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref>,<sp/>RFP04_PurgeExpiredSelectiveRemoval)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref><sp/>bl(singleNodeCfg(db_path_));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>bl.add(</highlight><highlight class="stringliteral">&quot;jti-alive&quot;</highlight><highlight class="normal">,<sp/>future(300));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>bl.add(</highlight><highlight class="stringliteral">&quot;jti-dead&quot;</highlight><highlight class="normal">,<sp/><sp/>past(1));<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>already<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>bl.purgeExpired();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bl.isRevoked(</highlight><highlight class="stringliteral">&quot;jti-alive&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bl.isRevoked(</highlight><highlight class="stringliteral">&quot;jti-dead&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref>,<sp/>RFP05_ConcurrentAddIsRevoked)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref><sp/>bl(singleNodeCfg(db_path_));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kOpsPerThread<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>errors{0};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;bl,<sp/>t,<sp/>&amp;errors]()<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kOpsPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>jti<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;jti-conc-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(t)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bl.add(jti,<sp/>future(300));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)bl.isRevoked(jti);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++errors;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(errors.load(),<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Concurrent<sp/>operations<sp/>produced<sp/>unexpected<sp/>exceptions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref>,<sp/>RFP06_IdempotentReAdd)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref><sp/>bl(singleNodeCfg(db_path_));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(bl.add(</highlight><highlight class="stringliteral">&quot;jti-idem&quot;</highlight><highlight class="normal">,<sp/>future(300)));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(bl.add(</highlight><highlight class="stringliteral">&quot;jti-idem&quot;</highlight><highlight class="normal">,<sp/>future(600)));<sp/><sp/></highlight><highlight class="comment">//<sp/>second<sp/>add<sp/>with<sp/>later<sp/>expiry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bl.isRevoked(</highlight><highlight class="stringliteral">&quot;jti-idem&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref>,<sp/>RFP07_UnknownJtiIsNotRevoked)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref><sp/>bl(singleNodeCfg(db_path_));</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bl.isRevoked(</highlight><highlight class="stringliteral">&quot;jti-never-added&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_revocation_hardening_test" kindref="compound">RevocationHardeningTest</ref>,<sp/>RFP08_ExpiredEntryNotRevoked)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref><sp/>bl(singleNodeCfg(db_path_));</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>bl.add(</highlight><highlight class="stringliteral">&quot;jti-expiring&quot;</highlight><highlight class="normal">,<sp/>past(1));<sp/><sp/></highlight><highlight class="comment">//<sp/>immediately<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>bl.purgeExpired();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(bl.isRevoked(</highlight><highlight class="stringliteral">&quot;jti-expiring&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED<sp/>—<sp/>Federation<sp/>Manager<sp/>Failure<sp/>Classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="class_federation_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_federated_identity_manager" kindref="compound">FederatedIdentityManager</ref><sp/><ref refid="class_federation_hardening_test_1a9e9643f2c51f537a6080d395c194e392" kindref="member">fed_</ref>;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref>,<sp/>FED01_UnknownRealmThrowsFederationCode)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>minimal<sp/>JWT-shaped<sp/>token<sp/>with<sp/>iss<sp/>claim<sp/>&quot;https://unknown.example.com&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Header:<sp/>{&quot;alg&quot;:&quot;RS256&quot;,&quot;typ&quot;:&quot;JWT&quot;}<sp/><sp/>→<sp/>base64url</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Payload:<sp/>{&quot;iss&quot;:&quot;https://unknown.example.com&quot;,&quot;sub&quot;:&quot;u1&quot;,&quot;exp&quot;:9999999999}<sp/><sp/>→<sp/>base64url</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Signature:<sp/>dummy<sp/>bytes<sp/>(won&apos;t<sp/>be<sp/>validated<sp/>—<sp/>realm<sp/>lookup<sp/>fails<sp/>first)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>header<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;******&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>payload<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;eyJpc3MiOiJodHRwczovL3Vua25vd24uZXhhbXBsZS5jb20iLCJzdWIiOiJ1MSIsImV4cCI6OTk5OTk5OTk5OX0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sig<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;dummysig&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>token<sp/><sp/><sp/>=<sp/>header<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>payload<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.&quot;</highlight><highlight class="normal"><sp/>+<sp/>sig;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fed_.validateToken(token);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref><sp/>&amp;ex)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>(),<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa37b236ed70a972921b55401bb8c2ca6" kindref="member">AuthErrorCode::FEDERATION_UNKNOWN_REALM</ref>)</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>FEDERATION_UNKNOWN_REALM,<sp/>got:<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().code());</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref>,<sp/>FED02_DuplicateRealmThrowsConfigError)<sp/>{</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" kindref="member">issuer_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp.example.com/realm/test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" kindref="member">client_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>fed_.addRealm(cfg);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fed_.addRealm(cfg);<sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>issuer<sp/>again</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException<sp/>for<sp/>duplicate<sp/>realm&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref><sp/>&amp;ex)<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>(),<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874ab7460b141feee0480ca16d210d79ac91" kindref="member">AuthErrorCode::AUTH_CONFIG_INVALID</ref>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref>,<sp/>FED03_MalformedTokenThrowsInvalidFormat)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fed_.validateToken(</highlight><highlight class="stringliteral">&quot;not-a-jwt&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref><sp/>&amp;ex)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>(),<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874a91eeb8641c503cfad8b4ba642246e1cd" kindref="member">AuthErrorCode::JWT_INVALID_FORMAT</ref>);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref>,<sp/>FED06_RealmProviderUnknownThrows)<sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)fed_.realmProvider(</highlight><highlight class="stringliteral">&quot;https://nobody.example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FAIL()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>AuthException&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1auth_1_1_auth_exception" kindref="compound">AuthException</ref><sp/>&amp;ex)<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ex.<ref refid="classthemis_1_1auth_1_1_auth_exception_1a188c3bad2f59e28076041c087cdb1600" kindref="member">error</ref>().<ref refid="classthemis_1_1auth_1_1_auth_error_1ace672acfe3a53363a804f405fb680ec4" kindref="member">code</ref>(),<sp/><ref refid="namespacethemis_1_1auth_1adf8149499ecb817052540ece26d61874aa37b236ed70a972921b55401bb8c2ca6" kindref="member">AuthErrorCode::FEDERATION_UNKNOWN_REALM</ref>);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref>,<sp/>FED07_MultipleRealmsCoexist)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref><sp/>cfg1;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg1.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" kindref="member">issuer_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp1.example.com/realm/a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg1.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" kindref="member">client_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref><sp/>cfg2;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg2.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" kindref="member">issuer_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp2.example.com/realm/b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg2.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" kindref="member">client_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fed_.realmCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>fed_.addRealm(cfg1);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fed_.realmCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>fed_.addRealm(cfg2);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fed_.realmCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_federation_hardening_test" kindref="compound">FederationHardeningTest</ref>,<sp/>FED08_RealmCountIncrements)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fed_.realmCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1a08ab5fea9538bd44066eebfcb0074bb8" kindref="member">issuer_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://idp-fed08.example.com/realm/x&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config_1ab043cb4e8d3d2fd8e761fdbc0e18d155" kindref="member">client_id</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>fed_.addRealm(cfg);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fed_.realmCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ASY<sp/>—<sp/>Session<sp/>/<sp/>Async-Provider<sp/>Consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331" refid="class_session_hardening_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionManager::SessionLimits</ref><sp/><ref refid="class_session_hardening_test_1abde6488c62f1cad0c9ddf6f226ef5d4c" kindref="member">limits_</ref>;</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_session_hardening_test_1a40c777658f604f4da3bcda0bc90119b2" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_session_hardening_test_1abde6488c62f1cad0c9ddf6f226ef5d4c" kindref="member">limits_</ref>.max_sessions_per_user<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_session_hardening_test_1abde6488c62f1cad0c9ddf6f226ef5d4c" kindref="member">limits_</ref>.idle_timeout<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(0);<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>idle<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_session_hardening_test_1abde6488c62f1cad0c9ddf6f226ef5d4c" kindref="member">limits_</ref>.absolute_timeout<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref>,<sp/>ASY01_EmptyUserIdThrows)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm(limits_);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">)sm.createSession(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref>,<sp/>ASY02_UnknownSessionReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm(limits_);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sm.validateSession(</highlight><highlight class="stringliteral">&quot;sess_doesnotexist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.reason.empty());</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref>,<sp/>ASY03_ExpiredSessionReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionManager::SessionLimits</ref><sp/>tiny;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>tiny.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" kindref="member">max_sessions_per_user</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>tiny.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" kindref="member">absolute_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(1);<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>ms<sp/>—<sp/>essentially<sp/>instant<sp/>expiry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>tiny.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" kindref="member">idle_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(0);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm(tiny);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sid<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;user-asy03&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sleep<sp/>briefly<sp/>to<sp/>guarantee<sp/>the<sp/>1<sp/>ms<sp/>absolute<sp/>timeout<sp/>has<sp/>elapsed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sm.validateSession(sid);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.valid);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.reason.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expiry<sp/>reason<sp/>should<sp/>be<sp/>populated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref>,<sp/>ASY04_TerminateUnknownIsIdempotent)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm(limits_);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(sm.terminateSession(</highlight><highlight class="stringliteral">&quot;sess_ghost_session&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NO_THROW(sm.terminateSession(</highlight><highlight class="stringliteral">&quot;sess_ghost_session&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref>,<sp/>ASY05_TerminateAllOtherSessions)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm(limits_);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s1<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;user-asy05&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s2<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;user-asy05&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s3<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;user-asy05&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>sm.terminateAllOtherSessions(</highlight><highlight class="stringliteral">&quot;user-asy05&quot;</highlight><highlight class="normal">,<sp/>s1);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(removed,<sp/>1);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>s1<sp/>must<sp/>still<sp/>be<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>sm.validateSession(s1);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r1.valid)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Kept<sp/>session<sp/>should<sp/>still<sp/>be<sp/>valid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>s2<sp/>and<sp/>s3<sp/>must<sp/>now<sp/>be<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.validateSession(s2).valid)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;s2<sp/>should<sp/>have<sp/>been<sp/>terminated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.validateSession(s3).valid)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;s3<sp/>should<sp/>have<sp/>been<sp/>terminated&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="414"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref>,<sp/>ASY06_SessionIdPrefixInvariant)<sp/>{</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm(limits_);</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sid<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;user-asy06&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(sid.substr(0,<sp/>5),<sp/></highlight><highlight class="stringliteral">&quot;sess_&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Session<sp/>ID<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>sid<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>does<sp/>not<sp/>start<sp/>with<sp/>&apos;sess_&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="429"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref>,<sp/>ASY07_PruneExpiredSelectiveRemoval)<sp/>{</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionManager::SessionLimits</ref><sp/>mix;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/>mix.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" kindref="member">max_sessions_per_user</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>mix.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" kindref="member">absolute_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(1);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>instant<sp/>expiry<sp/>for<sp/>these</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>mix.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" kindref="member">idle_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(0);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm_short(mix);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>short_sid<sp/>=<sp/>sm_short.createSession(</highlight><highlight class="stringliteral">&quot;user-asy07&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>separate<sp/>manager<sp/>with<sp/>a<sp/>long<sp/>timeout<sp/>for<sp/>the<sp/>&quot;survivor&quot;<sp/>session.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionManager::SessionLimits</ref><sp/>long_lim;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>long_lim.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" kindref="member">max_sessions_per_user</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>long_lim.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" kindref="member">absolute_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>long_lim.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" kindref="member">idle_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(0);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm_long(long_lim);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>live_sid<sp/>=<sp/>sm_long.createSession(</highlight><highlight class="stringliteral">&quot;user-asy07-long&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>short-timeout<sp/>manager<sp/>should<sp/>see<sp/>the<sp/>session<sp/>as<sp/>expired<sp/>after<sp/>pruning.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pruned<sp/>=<sp/>sm_short.pruneExpired();</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)pruned;<sp/><sp/></highlight><highlight class="comment">//<sp/>number<sp/>of<sp/>pruned<sp/>entries<sp/>depends<sp/>on<sp/>internal<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm_short.validateSession(short_sid).valid)</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expired<sp/>session<sp/>should<sp/>be<sp/>invalid<sp/>after<sp/>pruning&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>long-timeout<sp/>manager&apos;s<sp/>session<sp/>must<sp/>remain<sp/>valid.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm_long.validateSession(live_sid).valid)</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Active<sp/>session<sp/>must<sp/>survive<sp/>prune&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="460"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><ref refid="test__auth__hardening__revocation__federation_8cpp_1a18a8a2d24ce714b914c6781cdeeec9d2" kindref="member">TEST_F</ref>(<ref refid="class_session_hardening_test" kindref="compound">SessionHardeningTest</ref>,<sp/>ASY08_PerUserSessionLimitEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits" kindref="compound">SessionManager::SessionLimits</ref><sp/>lim;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>lim.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a79263ab42c54b513b1f38982ec6391bf" kindref="member">max_sessions_per_user</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/>lim.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1ac17d92ad8bbd98c970960bd2e836061b" kindref="member">absolute_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>lim.<ref refid="structthemis_1_1auth_1_1_session_manager_1_1_session_limits_1a163c57c41f9a0cead451d28bb371785c" kindref="member">idle_timeout</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds(0);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1auth_1_1_session_manager" kindref="compound">SessionManager</ref><sp/>sm(lim);</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s1<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;user-asy08&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>slot<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s2<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;user-asy08&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>slot<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>s3<sp/>=<sp/>sm.createSession(</highlight><highlight class="stringliteral">&quot;user-asy08&quot;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>slot<sp/>3<sp/>—<sp/>s1<sp/>must<sp/>be<sp/>evicted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>s3<sp/>must<sp/>be<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sm.validateSession(s3).valid)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Newly<sp/>created<sp/>session<sp/>must<sp/>be<sp/>valid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>s1<sp/>(oldest)<sp/>must<sp/>have<sp/>been<sp/>evicted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(sm.validateSession(s1).valid)</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Oldest<sp/>session<sp/>must<sp/>be<sp/>evicted<sp/>when<sp/>per-user<sp/>limit<sp/>is<sp/>exceeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>s2<sp/>may<sp/>or<sp/>may<sp/>not<sp/>survive<sp/>depending<sp/>on<sp/>implementation<sp/>(oldest-first<sp/>eviction)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>—<sp/>we<sp/>only<sp/>assert<sp/>s1<sp/>is<sp/>gone<sp/>and<sp/>s3<sp/>is<sp/>present;<sp/>s2<sp/>behaviour<sp/>is<sp/>implementation-defined.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/auth/test_auth_hardening_revocation_federation.cpp"/>
+  </compounddef>
+</doxygen>

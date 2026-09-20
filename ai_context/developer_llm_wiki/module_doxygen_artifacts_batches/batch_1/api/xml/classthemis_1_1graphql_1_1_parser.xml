@@ -1,0 +1,917 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::Parser</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <innerclass refid="structthemis_1_1graphql_1_1_parser_1_1_result" prot="public">themis::graphql::Parser::Result</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1abca5e617cdfa67fd64f2caa26f896cf3" prot="private" static="no" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::graphql::Parser::source_</definition>
+        <argsstring></argsstring>
+        <name>source_</name>
+        <qualifiedname>themis::graphql::Parser::source_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="479" column="22" bodyfile="include/api/graphql.h" bodystart="479" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1a70deeddd16a1d29d7b17df561c172f6d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graphql_1_1_query_limits" kindref="compound">QueryLimits</ref></type>
+        <definition>QueryLimits themis::graphql::Parser::limits_</definition>
+        <argsstring></argsstring>
+        <name>limits_</name>
+        <qualifiedname>themis::graphql::Parser::limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="480" column="17" bodyfile="include/api/graphql.h" bodystart="480" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1a56c6762a98e261a6672223d415bded73" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::Parser::pos_</definition>
+        <argsstring></argsstring>
+        <name>pos_</name>
+        <qualifiedname>themis::graphql::Parser::pos_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="481" column="12" bodyfile="include/api/graphql.h" bodystart="481" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1a181f473a60f4a7e66fea8fb556b84e5e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::Parser::line_</definition>
+        <argsstring></argsstring>
+        <name>line_</name>
+        <qualifiedname>themis::graphql::Parser::line_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="482" column="12" bodyfile="include/api/graphql.h" bodystart="482" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1a7b595569651fefe9960f4144405f6dfd" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::Parser::column_</definition>
+        <argsstring></argsstring>
+        <name>column_</name>
+        <qualifiedname>themis::graphql::Parser::column_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="483" column="12" bodyfile="include/api/graphql.h" bodystart="483" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1a022dbb84a2d9e260f2382b95a5332937" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::Parser::field_count_</definition>
+        <argsstring></argsstring>
+        <name>field_count_</name>
+        <qualifiedname>themis::graphql::Parser::field_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="484" column="12" bodyfile="include/api/graphql.h" bodystart="484" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1a097851881857ceadcf6b34c7f55ac7bc" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::Parser::ast_node_count_</definition>
+        <argsstring></argsstring>
+        <name>ast_node_count_</name>
+        <qualifiedname>themis::graphql::Parser::ast_node_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="485" column="12" bodyfile="include/api/graphql.h" bodystart="485" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1a439273ed2d6af208c9210e9e37bf79c8" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::Parser::max_depth_reached_</definition>
+        <argsstring></argsstring>
+        <name>max_depth_reached_</name>
+        <qualifiedname>themis::graphql::Parser::max_depth_reached_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="486" column="12" bodyfile="include/api/graphql.h" bodystart="486" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graphql_1_1_parser_1ac431003e0c6784c4cbe98cf6edcd4e03" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graphql_1_1_parse_error" kindref="compound">ParseError</ref> &gt;</type>
+        <definition>std::vector&lt;ParseError&gt; themis::graphql::Parser::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::graphql::Parser::errors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="487" column="17" bodyfile="include/api/graphql.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a59bae9bdb3b7aa26480cbe02962b768d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_parser_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Parser::Result themis::graphql::Parser::parse</definition>
+        <argsstring>(std::string_view query)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::graphql::Parser::parse</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: query_str(), <ref refid="classthemis_1_1graphql_1_1_query_plan_cache_1a52ff5aad3d86bcdd9d37cf61b82feecf" kindref="member">QueryPlanCache::instance()</ref>, get(), <ref refid="structthemis_1_1graphql_1_1_query_limits_1ac121768cfaf48c82f4ec5384291fba1f" kindref="member">QueryLimits::defaults()</ref>, parser(), parseDocument(), put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="337" column="19" bodyfile="src/api/graphql.cpp" bodystart="35" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1ae5a8537bd01423bec4803ee92599d4e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_parser_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Parser::Result themis::graphql::Parser::parse</definition>
+        <argsstring>(std::string_view query, const QueryLimits &amp;limits)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::graphql::Parser::parse</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_query_limits" kindref="compound">QueryLimits</ref> &amp;</type>
+          <declname>limits</declname>
+        </param>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parser(), parseDocument(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="345" column="19" bodyfile="src/api/graphql.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a233598c3fe1cee694ce83c34ed8a6c1d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::Parser::Parser</definition>
+        <argsstring>(std::string_view query, const QueryLimits &amp;limits)</argsstring>
+        <name>Parser</name>
+        <qualifiedname>themis::graphql::Parser::Parser</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_query_limits" kindref="compound">QueryLimits</ref> &amp;</type>
+          <declname>limits</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="348" column="5" bodyfile="src/api/graphql.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a5640e760443dfce21c7379fb102cc7fb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_parser_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Parser::Result themis::graphql::Parser::parseDocument</definition>
+        <argsstring>()</argsstring>
+        <name>parseDocument</name>
+        <qualifiedname>themis::graphql::Parser::parseDocument</qualifiedname>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkQuerySize(), skipWhitespace(), size(), push_back(), parseOperation(), std::move(), convertToParseError(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="354" column="12" bodyfile="src/api/graphql.cpp" bodystart="146" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a2e0614f8312fd1a2ea918f55a097b297" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; <ref refid="structthemis_1_1graphql_1_1_operation" kindref="compound">Operation</ref> &gt;</type>
+        <definition>themis::Result&lt; Operation &gt; themis::graphql::Parser::parseOperation</definition>
+        <argsstring>()</argsstring>
+        <name>parseOperation</name>
+        <qualifiedname>themis::graphql::Parser::parseOperation</qualifiedname>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1graphql_1_1_operation" kindref="compound">Operation</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: incrementASTNodeCount(), checkASTNodeLimit(), skipWhitespace(), match(), peek(), getLocationContext(), parseName(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="359" column="20" bodyfile="src/api/graphql.cpp" bodystart="193" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a354e9730ed99363665b9fa2f984a1d62" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> &gt;</type>
+        <definition>themis::Result&lt; Field &gt; themis::graphql::Parser::parseField</definition>
+        <argsstring>(size_t depth=0)</argsstring>
+        <name>parseField</name>
+        <qualifiedname>themis::graphql::Parser::parseField</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>depth</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: incrementFieldCount(), incrementASTNodeCount(), checkDepthLimit(), checkFieldLimit(), checkASTNodeLimit(), skipWhitespace(), match(), parseName(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="360" column="20" bodyfile="src/api/graphql.cpp" bodystart="285" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1ad6ac664252d09c656288c26561ae9093" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref> &gt; &gt;</type>
+        <definition>themis::Result&lt; std::shared_ptr&lt; Value &gt; &gt; themis::graphql::Parser::parseValue</definition>
+        <argsstring>()</argsstring>
+        <name>parseValue</name>
+        <qualifiedname>themis::graphql::Parser::parseValue</qualifiedname>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1graphql_1_1_value" kindref="compound">Value</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: skipWhitespace(), match(), themis::Ok(), <ref refid="structthemis_1_1graphql_1_1_value_1a310d9dd8825f23b2546227479eeb88e5" kindref="member">Value::null()</ref>, <ref refid="structthemis_1_1graphql_1_1_value_1a24be87faa42bded3541ec1d46b18013e" kindref="member">Value::boolean()</ref>, peek(), parseString(), error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="365" column="20" bodyfile="src/api/graphql.cpp" bodystart="399" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a6cc46722dea58a3272d5f39a8dbaadb3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; <ref refid="structthemis_1_1graphql_1_1_variable_definition" kindref="compound">VariableDefinition</ref> &gt;</type>
+        <definition>themis::Result&lt; VariableDefinition &gt; themis::graphql::Parser::parseVariableDefinition</definition>
+        <argsstring>()</argsstring>
+        <name>parseVariableDefinition</name>
+        <qualifiedname>themis::graphql::Parser::parseVariableDefinition</qualifiedname>
+        <briefdescription>
+<para>Parse Variable Definition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: match(), getLocationContext(), parseName(), error(), code(), context(), skipWhitespace(), parseValue(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="370" column="20" bodyfile="src/api/graphql.cpp" bodystart="548" bodyend="612"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1aa64400cdd4955f2652ca56cf2069fe2a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::checkQuerySize</definition>
+        <argsstring>()</argsstring>
+        <name>checkQuerySize</name>
+        <qualifiedname>themis::graphql::Parser::checkQuerySize</qualifiedname>
+        <briefdescription>
+<para>Check Query Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), error(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="377" column="10" bodyfile="src/api/graphql.cpp" bodystart="85" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1aeb69d43646aabfe35260641a012dec99" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::checkDepthLimit</definition>
+        <argsstring>(size_t depth)</argsstring>
+        <name>checkDepthLimit</name>
+        <qualifiedname>themis::graphql::Parser::checkDepthLimit</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Check Depth Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: error(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="383" column="10" bodyfile="src/api/graphql.cpp" bodystart="99" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a305072b48bd43682f05081c44753900b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::checkFieldLimit</definition>
+        <argsstring>()</argsstring>
+        <name>checkFieldLimit</name>
+        <qualifiedname>themis::graphql::Parser::checkFieldLimit</qualifiedname>
+        <briefdescription>
+<para>Check <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: error(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="388" column="10" bodyfile="src/api/graphql.cpp" bodystart="115" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a5fc52b47e28308067b2ee0db5786043d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::checkASTNodeLimit</definition>
+        <argsstring>()</argsstring>
+        <name>checkASTNodeLimit</name>
+        <qualifiedname>themis::graphql::Parser::checkASTNodeLimit</qualifiedname>
+        <briefdescription>
+<para>Check ASTNode Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: error(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="393" column="10" bodyfile="src/api/graphql.cpp" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a083649a36fc7be517299273a9017d10e" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Parser::incrementFieldCount</definition>
+        <argsstring>()</argsstring>
+        <name>incrementFieldCount</name>
+        <qualifiedname>themis::graphql::Parser::incrementFieldCount</qualifiedname>
+        <briefdescription>
+<para>Increment <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements incrementFieldCount without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="405" column="10" bodyfile="include/api/graphql.h" bodystart="405" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a1876d7f265010ea0a122324fb58c5a5c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Parser::incrementASTNodeCount</definition>
+        <argsstring>()</argsstring>
+        <name>incrementASTNodeCount</name>
+        <qualifiedname>themis::graphql::Parser::incrementASTNodeCount</qualifiedname>
+        <briefdescription>
+<para>Increment ASTNode Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements incrementASTNodeCount without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="410" column="10" bodyfile="include/api/graphql.h" bodystart="410" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1aeb84ce4177bd221e58b745385ea0b38b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Parser::skipWhitespace</definition>
+        <argsstring>()</argsstring>
+        <name>skipWhitespace</name>
+        <qualifiedname>themis::graphql::Parser::skipWhitespace</qualifiedname>
+        <briefdescription>
+<para>Skip Whitespace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(), skipComment(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="416" column="10" bodyfile="src/api/graphql.cpp" bodystart="618" bodyend="634"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1ac8ce28da525091272cc0096562404d61" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Parser::skipComment</definition>
+        <argsstring>()</argsstring>
+        <name>skipComment</name>
+        <qualifiedname>themis::graphql::Parser::skipComment</qualifiedname>
+        <briefdescription>
+<para>Skip Comment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="420" column="10" bodyfile="src/api/graphql.cpp" bodystart="640" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1ad942b285db636da1fd28f92b456b77df" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::match</definition>
+        <argsstring>(char c)</argsstring>
+        <name>match</name>
+        <qualifiedname>themis::graphql::Parser::match</qualifiedname>
+        <param>
+          <type>char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="426" column="10" bodyfile="src/api/graphql.cpp" bodystart="654" bodyend="661"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a60ef8d4dd54bb834b725ab1d460469b3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::match</definition>
+        <argsstring>(std::string_view s)</argsstring>
+        <name>match</name>
+        <qualifiedname>themis::graphql::Parser::match</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), substr(), std::isalnum(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="432" column="10" bodyfile="src/api/graphql.cpp" bodystart="669" bodyend="685"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1ac298b6d00cc62ec9f4b05d4b13283297" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::peek</definition>
+        <argsstring>(char c) const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themis::graphql::Parser::peek</qualifiedname>
+        <param>
+          <type>char</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Peek. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="438" column="10" bodyfile="src/api/graphql.cpp" bodystart="687" bodyend="689"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1ad336243200f3ebee2c5487e7bc184e7a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; std::string &gt;</type>
+        <definition>themis::Result&lt; std::string &gt; themis::graphql::Parser::parseName</definition>
+        <argsstring>()</argsstring>
+        <name>parseName</name>
+        <qualifiedname>themis::graphql::Parser::parseName</qualifiedname>
+        <briefdescription>
+<para>Parse Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::isalpha(), std::isalnum(), themis::Ok(), std::string(), substr(), getLocationContext(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="443" column="20" bodyfile="src/api/graphql.cpp" bodystart="696" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a990ecf4b77ec7380e1f0fd9089d3a1d3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; std::string &gt;</type>
+        <definition>themis::Result&lt; std::string &gt; themis::graphql::Parser::parseString</definition>
+        <argsstring>()</argsstring>
+        <name>parseString</name>
+        <qualifiedname>themis::graphql::Parser::parseString</qualifiedname>
+        <briefdescription>
+<para>Parse String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: match(), getLocationContext(), size(), themis::Ok(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="448" column="20" bodyfile="src/api/graphql.cpp" bodystart="717" bodyend="768"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a36d0bb6c0902505552db753650882ea6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; int64_t &gt;</type>
+        <definition>themis::Result&lt; int64_t &gt; themis::graphql::Parser::parseInt</definition>
+        <argsstring>()</argsstring>
+        <name>parseInt</name>
+        <qualifiedname>themis::graphql::Parser::parseInt</qualifiedname>
+        <briefdescription>
+<para>Parse Int. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="453" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a0b873ca29159ddb6ac282aff904a6168" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::Result&lt; double &gt;</type>
+        <definition>themis::Result&lt; double &gt; themis::graphql::Parser::parseFloat</definition>
+        <argsstring>()</argsstring>
+        <name>parseFloat</name>
+        <qualifiedname>themis::graphql::Parser::parseFloat</qualifiedname>
+        <briefdescription>
+<para>Parse Float. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="458" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a304763b1506fcd5be2cb59214e5d46a6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::Parser::getLocationContext</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocationContext</name>
+        <qualifiedname>themis::graphql::Parser::getLocationContext</qualifiedname>
+        <briefdescription>
+<para>Get Location Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="465" column="17" bodyfile="src/api/graphql.cpp" bodystart="783" bodyend="785"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a12746774f398fce4f7eade75eae2f0cd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_parse_error" kindref="compound">ParseError</ref></type>
+        <definition>ParseError themis::graphql::Parser::convertToParseError</definition>
+        <argsstring>(const themis::Error &amp;error)</argsstring>
+        <name>convertToParseError</name>
+        <qualifiedname>themis::graphql::Parser::convertToParseError</qualifiedname>
+        <param>
+          <type>const themis::Error &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Convert To Parse Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="471" column="16" bodyfile="src/api/graphql.cpp" bodystart="793" bodyend="802"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1ae34dcb397a8dbd2995e7198ef390864f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graphql::Parser::error</definition>
+        <argsstring>(std::string message)</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::graphql::Parser::error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Deprecated: Use <ref refid="structthemis_1_1graphql_1_1_parser_1_1_result" kindref="compound">Result&lt;T&gt;</ref> return types instead of error() method. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="477" column="10" bodyfile="src/api/graphql.cpp" bodystart="775" bodyend="781"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_parser_1a02b0b5b262108fb662ecbd35c8316a05" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graphql::Parser::isIntrospectionFieldName</definition>
+        <argsstring>(std::string_view field_name) noexcept</argsstring>
+        <name>isIntrospectionFieldName</name>
+        <qualifiedname>themis::graphql::Parser::isIntrospectionFieldName</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Introspection <ref refid="structthemis_1_1graphql_1_1_field" kindref="compound">Field</ref> Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">field_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the field. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="400" column="17" bodyfile="src/api/graphql.cpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="324" column="1" bodyfile="include/api/graphql.h" bodystart="324" bodyend="488"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a097851881857ceadcf6b34c7f55ac7bc" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>ast_node_count_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a5fc52b47e28308067b2ee0db5786043d" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>checkASTNodeLimit</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1aeb69d43646aabfe35260641a012dec99" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>checkDepthLimit</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a305072b48bd43682f05081c44753900b" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>checkFieldLimit</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1aa64400cdd4955f2652ca56cf2069fe2a" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>checkQuerySize</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a7b595569651fefe9960f4144405f6dfd" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>column_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a12746774f398fce4f7eade75eae2f0cd" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>convertToParseError</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1ae34dcb397a8dbd2995e7198ef390864f" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>error</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1ac431003e0c6784c4cbe98cf6edcd4e03" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a022dbb84a2d9e260f2382b95a5332937" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>field_count_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a304763b1506fcd5be2cb59214e5d46a6" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>getLocationContext</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a1876d7f265010ea0a122324fb58c5a5c" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>incrementASTNodeCount</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a083649a36fc7be517299273a9017d10e" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>incrementFieldCount</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a02b0b5b262108fb662ecbd35c8316a05" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>isIntrospectionFieldName</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a70deeddd16a1d29d7b17df561c172f6d" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>limits_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a181f473a60f4a7e66fea8fb556b84e5e" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>line_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1ad942b285db636da1fd28f92b456b77df" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>match</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a60ef8d4dd54bb834b725ab1d460469b3" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>match</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a439273ed2d6af208c9210e9e37bf79c8" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>max_depth_reached_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a59bae9bdb3b7aa26480cbe02962b768d" prot="public" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parse</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1ae5a8537bd01423bec4803ee92599d4e4" prot="public" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parse</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a5640e760443dfce21c7379fb102cc7fb" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseDocument</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a354e9730ed99363665b9fa2f984a1d62" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseField</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a0b873ca29159ddb6ac282aff904a6168" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseFloat</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a36d0bb6c0902505552db753650882ea6" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseInt</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1ad336243200f3ebee2c5487e7bc184e7a" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseName</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a2e0614f8312fd1a2ea918f55a097b297" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseOperation</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a233598c3fe1cee694ce83c34ed8a6c1d" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>Parser</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a990ecf4b77ec7380e1f0fd9089d3a1d3" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseString</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1ad6ac664252d09c656288c26561ae9093" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseValue</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a6cc46722dea58a3272d5f39a8dbaadb3" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>parseVariableDefinition</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1ac298b6d00cc62ec9f4b05d4b13283297" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>peek</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1a56c6762a98e261a6672223d415bded73" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>pos_</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1ac8ce28da525091272cc0096562404d61" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>skipComment</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1aeb84ce4177bd221e58b745385ea0b38b" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>skipWhitespace</name></member>
+      <member refid="classthemis_1_1graphql_1_1_parser_1abca5e617cdfa67fd64f2caa26f896cf3" prot="private" virt="non-virtual"><scope>themis::graphql::Parser</scope><name>source_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

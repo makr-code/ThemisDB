@@ -1,0 +1,658 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__rag__judge__phase3_8cpp" kind="file" language="C++">
+    <compoundname>test_rag_judge_phase3.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="geval__evaluator_8h" local="yes">rag/geval_evaluator.h</includes>
+    <includes refid="nli__faithfulness__verifier_8h" local="yes">rag/nli_faithfulness_verifier.h</includes>
+    <includes refid="llm__integration_8h" local="yes">rag/llm_integration.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>rag/geval_evaluator.h</label>
+        <link refid="geval__evaluator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>rag/llm_integration.h</label>
+        <link refid="llm__integration_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>rag/nli_faithfulness_verifier.h</label>
+        <link refid="nli__faithfulness__verifier_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/rag/test_rag_judge_phase3.cpp</label>
+        <link refid="test__rag__judge__phase3_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_g_eval_phase3_test" prot="public">GEvalPhase3Test</innerclass>
+    <innerclass refid="class_n_l_i_phase3_test" prot="public">NLIPhase3Test</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, EvaluateScoreRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>EvaluateScoreRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="44" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="44" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a4c05a9ee75b97b450e3825ec5fd169bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, EvaluateConfidenceRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>EvaluateConfidenceRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="56" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="56" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1aba714d653e4a0e9054f47349e0b97f55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, ProbabilitiesSumToOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ProbabilitiesSumToOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="68" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="68" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a6e7b7c30616067ab3224c1b6589facb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, DimensionProducesResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>DimensionProducesResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="84" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="84" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a1ddf5c193998a4cd4ca93194eb133ac8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, SampleScoresCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>SampleScoresCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="94" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="94" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a8a2427471de17afcb5fad462ba776520" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, ComputeGEvalScorePerfect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ComputeGEvalScorePerfect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="102" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="102" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a924819c7c807698d7ee51d0ea8348753" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, ComputeGEvalScoreWorst)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ComputeGEvalScoreWorst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="109" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="109" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1ac739f2b9ece7ef1d306fe23d6725744a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, ComputeGEvalScoreWrongSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ComputeGEvalScoreWrongSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="116" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="116" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a44822a582a4a91732560d353f942b034" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, ComputeConfidencePeaked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ComputeConfidencePeaked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="123" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="123" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a9ac461222cd01785335072fd3735af78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GEvalPhase3Test, ComputeConfidenceUniform)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ComputeConfidenceUniform</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="130" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="130" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a0af16187dbd380485909ce3b77f83212" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(NLIPhase3Test, NotOnlyIsNotContradiction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_n_l_i_phase3_test" kindref="compound">NLIPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>NotOnlyIsNotContradiction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="150" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="150" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a20826a37be48726f65718b3baaf03392" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(NLIPhase3Test, NeverBeforeIsNotContradiction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_n_l_i_phase3_test" kindref="compound">NLIPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>NeverBeforeIsNotContradiction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="160" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="160" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1ae3d953672ef3938143162d8fe9c819cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(NLIPhase3Test, GenuineNegationIsContradiction)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_n_l_i_phase3_test" kindref="compound">NLIPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>GenuineNegationIsContradiction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="169" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="169" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a5d628d237a086b4d4a8453a813f3a119" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMIntegrationPhase3Test, TokenCallbackNotInvokedWithoutEngine)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMIntegrationPhase3Test</type>
+        </param>
+        <param>
+          <type>TokenCallbackNotInvokedWithoutEngine</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="182" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="182" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a401cb765e50b9099b04a8a74534f90bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMIntegrationPhase3Test, PerplexityEmptyInput)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMIntegrationPhase3Test</type>
+        </param>
+        <param>
+          <type>PerplexityEmptyInput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="198" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="198" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1afeda1d88abfff2ad4f06b627037ed995" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMIntegrationPhase3Test, PerplexityPerfectProbs)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMIntegrationPhase3Test</type>
+        </param>
+        <param>
+          <type>PerplexityPerfectProbs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="203" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="203" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1a46782e8ac891129df2821713eeec142f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMIntegrationPhase3Test, SemanticSimilarityIdentical)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMIntegrationPhase3Test</type>
+        </param>
+        <param>
+          <type>SemanticSimilarityIdentical</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="210" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="210" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="test__rag__judge__phase3_8cpp_1aa50a28fcb2c2fc11cb90c0de006ad12d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMIntegrationPhase3Test, SemanticSimilarityEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMIntegrationPhase3Test</type>
+        </param>
+        <param>
+          <type>SemanticSimilarityEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_judge_phase3.cpp" line="215" column="1" bodyfile="tests/rag/test_rag_judge_phase3.cpp" bodystart="215" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" kindref="compound">NLIFaithfulnessVerifier</ref>, and <ref refid="classthemis_1_1rag_1_1_l_l_m_integration" kindref="compound">LLMIntegration</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers the evaluator components added in Phase 3 of the RAG judge module. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geval__evaluator_8h" kindref="compound">rag/geval_evaluator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="nli__faithfulness__verifier_8h" kindref="compound">rag/nli_faithfulness_verifier.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__integration_8h" kindref="compound">rag/llm_integration.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1judge" kindref="compound">themis::rag::judge</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GEvalEvaluator<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20" refid="class_g_eval_phase3_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_eval_phase3_test_1a75f8e6834fb9f6b6c65a05b142360a14" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>LLM<sp/>engine<sp/>–<sp/>exercise<sp/>heuristic<sp/>fallback<sp/>path<sp/>deterministically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2db171ce7e6b6723ff39a94ed737f043" kindref="member">LLMIntegration::setInferenceEngine</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_eval_phase3_test_1af8e068d5abd93a2b1ee5b8160bafc5b0" kindref="member">config_</ref>.num_samples<sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_eval_phase3_test_1af8e068d5abd93a2b1ee5b8160bafc5b0" kindref="member">config_</ref>.aggregation<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1ad553e4e2f49eda32bd9acd795725920ba4ea6d1161ea24d7599365f574aff6610" kindref="member">AggregationMethod::MEAN</ref>;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_g_eval_phase3_test_1af8e068d5abd93a2b1ee5b8160bafc5b0" kindref="member">config_</ref>.temperature<sp/><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_eval_phase3_test_1af076d9964d64e49fd1ec6adbd20f92e4" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2db171ce7e6b6723ff39a94ed737f043" kindref="member">LLMIntegration::setInferenceEngine</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1_1_config" kindref="compound">GEvalEvaluator::Config</ref><sp/><ref refid="class_g_eval_phase3_test_1af8e068d5abd93a2b1ee5b8160bafc5b0" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="class_g_eval_phase3_test_1a372ea8aea1346d606b6495c7398be3f0" kindref="member">testDocs</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France,<sp/>located<sp/>in<sp/>Western<sp/>Europe.&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>stands<sp/>in<sp/>Paris<sp/>and<sp/>was<sp/>built<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Score<sp/>is<sp/>in<sp/>[0,<sp/>1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>EvaluateScoreRange)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config_);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>testDocs(),</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.geval_score,<sp/>0.0);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.geval_score,<sp/>1.0);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Confidence<sp/>is<sp/>in<sp/>[0,<sp/>1]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>EvaluateConfidenceRange)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config_);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France?&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>testDocs(),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;relevance&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.confidence,<sp/>0.0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.confidence,<sp/>1.0);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Probability<sp/>distribution<sp/>sums<sp/>to<sp/>~1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>ProbabilitiesSumToOne)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config_);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;When<sp/>was<sp/>the<sp/>Eiffel<sp/>Tower<sp/>built?&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>was<sp/>built<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>testDocs(),</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;completeness&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.token_probabilities.size(),<sp/>kNumScoreLevels);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sum<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p<sp/>:<sp/>result.token_probabilities)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>p;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sum,<sp/>1.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Each<sp/>dimension<sp/>name<sp/>produces<sp/>a<sp/>distinct<sp/>default<sp/>score</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>DimensionProducesResult)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config_);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>dim<sp/>:<sp/>{</highlight><highlight class="stringliteral">&quot;faithfulness&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;relevance&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;completeness&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;coherence&quot;</highlight><highlight class="normal">})<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(</highlight><highlight class="stringliteral">&quot;Query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Answer&quot;</highlight><highlight class="normal">,<sp/>testDocs(),<sp/>dim);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(result.geval_score,<sp/>0.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;dim=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dim;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(result.geval_score,<sp/>1.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;dim=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>dim;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sample<sp/>scores<sp/>vector<sp/>has<sp/>expected<sp/>length</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>SampleScoresCount)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref><sp/>evaluator(config_);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>evaluator.evaluate(</highlight><highlight class="stringliteral">&quot;Q&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/>testDocs(),<sp/></highlight><highlight class="stringliteral">&quot;coherence&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sample_scores.size(),</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(config_.num_samples));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>computeGEvalScore:<sp/>perfect<sp/>level-5<sp/>→<sp/>score<sp/>≈<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>ComputeGEvalScorePerfect)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>probs<sp/>=<sp/>{0.0,<sp/>0.0,<sp/>0.0,<sp/>0.0,<sp/>1.0};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad0b0a62583ee019dc02c617cc3607f5a" kindref="member">GEvalEvaluator::computeGEvalScore</ref>(probs);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(score,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>computeGEvalScore:<sp/>perfect<sp/>level-1<sp/>→<sp/>score<sp/>≈<sp/>0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>ComputeGEvalScoreWorst)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>probs<sp/>=<sp/>{1.0,<sp/>0.0,<sp/>0.0,<sp/>0.0,<sp/>0.0};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad0b0a62583ee019dc02c617cc3607f5a" kindref="member">GEvalEvaluator::computeGEvalScore</ref>(probs);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(score,<sp/>0.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>computeGEvalScore:<sp/>wrong<sp/>size<sp/>→<sp/>returns<sp/>default<sp/>0.5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>ComputeGEvalScoreWrongSize)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>probs<sp/>=<sp/>{0.5,<sp/>0.5};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>score<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1ad0b0a62583ee019dc02c617cc3607f5a" kindref="member">GEvalEvaluator::computeGEvalScore</ref>(probs);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(score,<sp/>0.5);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>computeConfidence:<sp/>peaked<sp/>distribution<sp/>→<sp/>high<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>ComputeConfidencePeaked)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>probs<sp/>=<sp/>{0.0,<sp/>0.0,<sp/>0.0,<sp/>0.0,<sp/>1.0};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>conf<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1afde1f63e37442d1b815cd65d31e115b4" kindref="member">GEvalEvaluator::computeConfidence</ref>(probs);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(conf,<sp/>0.9);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>computeConfidence:<sp/>uniform<sp/>distribution<sp/>→<sp/>low<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_g_eval_phase3_test" kindref="compound">GEvalPhase3Test</ref>,<sp/>ComputeConfidenceUniform)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>probs<sp/>=<sp/>{0.2,<sp/>0.2,<sp/>0.2,<sp/>0.2,<sp/>0.2};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>conf<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator_1afde1f63e37442d1b815cd65d31e115b4" kindref="member">GEvalEvaluator::computeConfidence</ref>(probs);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(conf,<sp/>0.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NLIFaithfulnessVerifier<sp/>–<sp/>negation<sp/>false-positive<sp/>fix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="class_n_l_i_phase3_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_n_l_i_phase3_test" kindref="compound">NLIPhase3Test</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier_1_1_config" kindref="compound">NLIFaithfulnessVerifier::Config</ref><sp/><ref refid="class_n_l_i_phase3_test_1a8717b7c05f325d016614c84d889560d4" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_n_l_i_phase3_test_1a7efbdd1930d009eab5d4781e509fcb2f" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_n_l_i_phase3_test_1a8717b7c05f325d016614c84d889560d4" kindref="member">config_</ref>.entailment_threshold<sp/><sp/><sp/><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_n_l_i_phase3_test_1a8717b7c05f325d016614c84d889560d4" kindref="member">config_</ref>.contradiction_threshold<sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;not<sp/>only&quot;<sp/>should<sp/>NOT<sp/>be<sp/>detected<sp/>as<sp/>a<sp/>contradiction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_n_l_i_phase3_test" kindref="compound">NLIPhase3Test</ref>,<sp/>NotOnlyIsNotContradiction)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" kindref="compound">NLIFaithfulnessVerifier</ref><sp/>verifier(config_);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>premise<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>and<sp/>also<sp/>a<sp/>major<sp/>tourist<sp/>destination.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>hypothesis<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Paris<sp/>is<sp/>not<sp/>only<sp/>the<sp/>capital<sp/>of<sp/>France<sp/>but<sp/>also<sp/>attracts<sp/>many<sp/>tourists.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.checkEntailment(premise,<sp/>hypothesis);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>not<sp/>be<sp/>labelled<sp/>CONTRADICTION<sp/>for<sp/>a<sp/>positive<sp/>complement<sp/>phrase</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.label,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a349d97e5e64b26a51f2cb2dc07b4c541a2b5cfe8f933f275fc636d94391e2eacd" kindref="member">NLILabel::CONTRADICTION</ref>);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>&quot;never<sp/>before&quot;<sp/>should<sp/>NOT<sp/>trigger<sp/>contradiction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_n_l_i_phase3_test" kindref="compound">NLIPhase3Test</ref>,<sp/>NeverBeforeIsNotContradiction)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" kindref="compound">NLIFaithfulnessVerifier</ref><sp/>verifier(config_);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>premise<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>was<sp/>completed<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>hypothesis<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>Eiffel<sp/>Tower<sp/>achieved<sp/>something<sp/>never<sp/>before<sp/>seen<sp/>in<sp/>1889.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.checkEntailment(premise,<sp/>hypothesis);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.label,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a349d97e5e64b26a51f2cb2dc07b4c541a2b5cfe8f933f275fc636d94391e2eacd" kindref="member">NLILabel::CONTRADICTION</ref>);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Genuine<sp/>negation<sp/>(&quot;Paris<sp/>is<sp/>not&quot;)<sp/>should<sp/>still<sp/>be<sp/>detected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1aca03614b1b129fcdbd5bf91436a5b3cd" kindref="member">TEST_F</ref>(<ref refid="class_n_l_i_phase3_test" kindref="compound">NLIPhase3Test</ref>,<sp/>GenuineNegationIsContradiction)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" kindref="compound">NLIFaithfulnessVerifier</ref><sp/>verifier(config_);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>premise<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Berlin<sp/>is<sp/>the<sp/>capital<sp/>of<sp/>Germany.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>hypothesis<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Berlin<sp/>is<sp/>not<sp/>the<sp/>capital<sp/>of<sp/>Germany.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.checkEntailment(premise,<sp/>hypothesis);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>High<sp/>overlap<sp/>but<sp/>genuine<sp/>negation<sp/>→<sp/>CONTRADICTION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.label,<sp/><ref refid="namespacethemis_1_1rag_1_1judge_1a349d97e5e64b26a51f2cb2dc07b4c541a2b5cfe8f933f275fc636d94391e2eacd" kindref="member">NLILabel::CONTRADICTION</ref>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMIntegration<sp/>–<sp/>token<sp/>probability<sp/>callback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1a5d628d237a086b4d4a8453a813f3a119" kindref="member">TEST</ref>(LLMIntegrationPhase3Test,<sp/>TokenCallbackNotInvokedWithoutEngine)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a2db171ce7e6b6723ff39a94ed737f043" kindref="member">LLMIntegration::setInferenceEngine</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>callback_called<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_l_l_m_generation_options" kindref="compound">LLMGenerationOptions</ref><sp/>opts;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1a50c7c0166005fe8016d8136c359ae0ab" kindref="member">include_token_probabilities</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>opts.<ref refid="structthemis_1_1rag_1_1_l_l_m_generation_options_1ab521d3945c5a6338c399271fa3718f25" kindref="member">token_callback</ref><sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_token_probability" kindref="compound">TokenProbability</ref>&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>callback_called<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>engine<sp/>configured<sp/>the<sp/>stub<sp/>path<sp/>returns<sp/>immediately<sp/>without</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>calling<sp/>the<sp/>token<sp/>callback<sp/>(since<sp/>no<sp/>response<sp/>tokens<sp/>are<sp/>generated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a76bf439c2811dd578ce9714a5a305456" kindref="member">LLMIntegration::generate</ref>(</highlight><highlight class="stringliteral">&quot;Test<sp/>prompt&quot;</highlight><highlight class="normal">,<sp/>opts);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(callback_called);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1a5d628d237a086b4d4a8453a813f3a119" kindref="member">TEST</ref>(LLMIntegrationPhase3Test,<sp/>PerplexityEmptyInput)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a1ef0e99e5ef689f2cc47a1fb384a9cdc" kindref="member">LLMIntegration::calculatePerplexity</ref>({});</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(p,<sp/>0.0);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1a5d628d237a086b4d4a8453a813f3a119" kindref="member">TEST</ref>(LLMIntegrationPhase3Test,<sp/>PerplexityPerfectProbs)<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>probabilities<sp/>=<sp/>1.0<sp/>→<sp/>log(1)<sp/>=<sp/>0<sp/>→<sp/>perplexity<sp/>=<sp/>exp(0)<sp/>=<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>probs(5,<sp/>1.0);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a1ef0e99e5ef689f2cc47a1fb384a9cdc" kindref="member">LLMIntegration::calculatePerplexity</ref>(probs);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(p,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1a5d628d237a086b4d4a8453a813f3a119" kindref="member">TEST</ref>(LLMIntegrationPhase3Test,<sp/>SemanticSimilarityIdentical)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a006bf9ab8dfca8de8336b655641eda65" kindref="member">LLMIntegration::calculateSemanticSimilarity</ref>(</highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(sim,<sp/>1.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__rag__judge__phase3_8cpp_1a5d628d237a086b4d4a8453a813f3a119" kindref="member">TEST</ref>(LLMIntegrationPhase3Test,<sp/>SemanticSimilarityEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>sim<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_l_l_m_integration_1a006bf9ab8dfca8de8336b655641eda65" kindref="member">LLMIntegration::calculateSemanticSimilarity</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(sim,<sp/>0.0);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/rag/test_rag_judge_phase3.cpp"/>
+  </compounddef>
+</doxygen>

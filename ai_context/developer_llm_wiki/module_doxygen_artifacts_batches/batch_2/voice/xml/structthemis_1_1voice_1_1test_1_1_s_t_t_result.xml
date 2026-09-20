@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1test_1_1_s_t_t_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::test::STTResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1test_1_1_s_t_t_result_1af0d9373ca5e431c7c3ebd62a1a52667c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::test::STTResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::voice::test::STTResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="49" column="17" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1test_1_1_s_t_t_result_1add0389c41636f8a4bf05bb6c7a134dc5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::test::STTResult::full_text</definition>
+        <argsstring></argsstring>
+        <name>full_text</name>
+        <qualifiedname>themis::voice::test::STTResult::full_text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="50" column="17" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1test_1_1_s_t_t_result_1ad5b07b8cf785417745c0c0b8a39a86c1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::test::STTResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::voice::test::STTResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="51" column="17" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" line="48" column="1" bodyfile="tests/voice/test_voice_wave_a_noisy_wakeword.cpp" bodystart="48" bodyend="52"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1test_1_1_s_t_t_result_1ad5b07b8cf785417745c0c0b8a39a86c1" prot="public" virt="non-virtual"><scope>themis::voice::test::STTResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1voice_1_1test_1_1_s_t_t_result_1add0389c41636f8a4bf05bb6c7a134dc5" prot="public" virt="non-virtual"><scope>themis::voice::test::STTResult</scope><name>full_text</name></member>
+      <member refid="structthemis_1_1voice_1_1test_1_1_s_t_t_result_1af0d9373ca5e431c7c3ebd62a1a52667c" prot="public" virt="non-virtual"><scope>themis::voice::test::STTResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

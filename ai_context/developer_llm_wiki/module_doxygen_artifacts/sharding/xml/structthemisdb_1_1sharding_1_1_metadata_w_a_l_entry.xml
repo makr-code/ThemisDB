@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::MetadataWALEntry</compoundname>
+    <includes refid="metadata__wal_8h" local="no">metadata_wal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ad719f528b2e63f2a50d857cc20affbf9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themisdb::sharding::MetadataWALEntry::lsn</definition>
+        <argsstring></argsstring>
+        <name>lsn</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::lsn</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> assigned by underlying WAL manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="44" column="9" bodyfile="include/sharding/metadata_wal.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a07476ddc613f1a3811f3888a13a27d6d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5" kindref="member">MetadataWALEntryType</ref></type>
+        <definition>MetadataWALEntryType themisdb::sharding::MetadataWALEntry::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::type</qualifiedname>
+        <briefdescription>
+<para>Metadata operation kind (PUT/DELETE/UPDATE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="46" column="26" bodyfile="include/sharding/metadata_wal.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ab4a49fef8f721624bb0b6ff4073d9dcd" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::MetadataWALEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::timestamp</qualifiedname>
+        <briefdescription>
+<para>Operation timestamp in milliseconds since epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="48" column="14" bodyfile="include/sharding/metadata_wal.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1adb0f4a2337ff96491dfeabcab3fa0982" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></type>
+        <definition>MetadataPartitionKey themisdb::sharding::MetadataWALEntry::partition</definition>
+        <argsstring></argsstring>
+        <name>partition</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::partition</qualifiedname>
+        <briefdescription>
+<para>Metadata partition owning the key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="50" column="26" bodyfile="include/sharding/metadata_wal.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1abf29402b16a23dc765a9eddf5758a917" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataWALEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::key</qualifiedname>
+        <briefdescription>
+<para>Metadata key affected by the operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="52" column="17" bodyfile="include/sharding/metadata_wal.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aba98dac0d85726b088d40b0a62aa9f4b" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::MetadataWALEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::value</qualifiedname>
+        <briefdescription>
+<para>JSON payload for PUT/UPDATE (null for delete). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="54" column="20" bodyfile="include/sharding/metadata_wal.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aec684bd02f0ac2477280979df8442463" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::MetadataWALEntry::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::version</qualifiedname>
+        <briefdescription>
+<para>Version carried for conflict-resolution/order checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="56" column="14" bodyfile="include/sharding/metadata_wal.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ae151c6da230bf21ce1d5143819d47a03" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref></type>
+        <definition>WALEntry themisdb::sharding::MetadataWALEntry::toWALEntry</definition>
+        <argsstring>() const</argsstring>
+        <name>toWALEntry</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::toWALEntry</qualifiedname>
+        <briefdescription>
+<para>Convert metadata entry into generic <ref refid="structthemisdb_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> for persistence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="59" column="14" bodyfile="include/sharding/metadata_wal.h" bodystart="59" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a52cfd25313c780bc09a52a5aaa8485bf" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" kindref="compound">MetadataWALEntry</ref></type>
+        <definition>static MetadataWALEntry themisdb::sharding::MetadataWALEntry::fromWALEntry</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>fromWALEntry</name>
+        <qualifiedname>themisdb::sharding::MetadataWALEntry::fromWALEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct metadata entry from generic WAL entry payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_wal.h" line="73" column="29" bodyfile="include/sharding/metadata_wal.h" bodystart="73" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata operation record stored/replayed via WAL manager. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::MetadataWALEntry</label>
+        <link refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/metadata_wal.h" line="42" column="1" bodyfile="include/sharding/metadata_wal.h" bodystart="42" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a52cfd25313c780bc09a52a5aaa8485bf" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>fromWALEntry</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1abf29402b16a23dc765a9eddf5758a917" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>key</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ad719f528b2e63f2a50d857cc20affbf9" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>lsn</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1adb0f4a2337ff96491dfeabcab3fa0982" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>partition</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ab4a49fef8f721624bb0b6ff4073d9dcd" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ae151c6da230bf21ce1d5143819d47a03" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>toWALEntry</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a07476ddc613f1a3811f3888a13a27d6d" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aba98dac0d85726b088d40b0a62aa9f4b" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>value</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aec684bd02f0ac2477280979df8442463" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataWALEntry</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

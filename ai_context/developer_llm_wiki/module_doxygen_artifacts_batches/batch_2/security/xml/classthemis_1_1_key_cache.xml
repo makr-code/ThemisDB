@@ -1,0 +1,516 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_key_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::KeyCache</compoundname>
+    <includes refid="include_2security_2key__provider_8h" local="no">key_provider.h</includes>
+    <innerclass refid="structthemis_1_1_key_cache_1_1_cache_entry" prot="public">themis::KeyCache::CacheEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_key_cache_1a6d2b4acdb884a1b1101a1618c3e1837c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_key_cache_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CacheEntry&gt; themis::KeyCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::KeyCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="237" column="14" bodyfile="include/security/key_provider.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_key_cache_1a5e29e3716999db2c53e01d4d46d15761" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::KeyCache::max_size_</definition>
+        <argsstring></argsstring>
+        <name>max_size_</name>
+        <qualifiedname>themis::KeyCache::max_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="238" column="12" bodyfile="include/security/key_provider.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_key_cache_1af7824864cfd8d623cdfe8e9b899f58aa" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::KeyCache::ttl_ms_</definition>
+        <argsstring></argsstring>
+        <name>ttl_ms_</name>
+        <qualifiedname>themis::KeyCache::ttl_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="239" column="13" bodyfile="include/security/key_provider.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_key_cache_1a5692dd1a6480987123810b648097bca1" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::KeyCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::KeyCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="241" column="24" bodyfile="include/security/key_provider.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_key_cache_1a7fa24cbdc2e0982cbd616e23ba05b19c" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::KeyCache::total_requests_</definition>
+        <argsstring></argsstring>
+        <name>total_requests_</name>
+        <qualifiedname>themis::KeyCache::total_requests_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="242" column="14" bodyfile="include/security/key_provider.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_key_cache_1a5a5389def87457831ca92a468132f076" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::KeyCache::cache_hits_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_</name>
+        <qualifiedname>themis::KeyCache::cache_hits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="243" column="14" bodyfile="include/security/key_provider.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1ae31647eb162adf3c3d02991cf9928036" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyCache::KeyCache</definition>
+        <argsstring>(size_t max_size=1000, int64_t ttl_ms=3600000)</argsstring>
+        <name>KeyCache</name>
+        <qualifiedname>themis::KeyCache::KeyCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_size</declname>
+          <defval>1000</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>ttl_ms</declname>
+          <defval>3600000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="198" column="14" bodyfile="src/security/key_cache.cpp" bodystart="18" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1aa9e1479f44b7b8e24739f1398cd6c335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::KeyCache::get</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version, std::vector&lt; uint8_t &gt; &amp;out_key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::KeyCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>out_key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), makeCacheKey(), find(), end(), getCurrentTimeMs(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="207" column="10" bodyfile="src/security/key_cache.cpp" bodystart="33" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a2fe779715cfced51c5430d02885c035f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::KeyCache::put</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version, const std::vector&lt; uint8_t &gt; &amp;key)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::KeyCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), evictExpired(), <ref refid="classthemis_1_1_key_cache_1a9355fd3af4e04d38426ad6c67b1ffe61" kindref="member">size()</ref>, evictLRU(), makeCacheKey(), getCurrentTimeMs(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="215" column="10" bodyfile="src/security/key_cache.cpp" bodystart="68" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a7f0e3b6d229d62ae0f3386c78985bdd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::KeyCache::evict</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0)</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::KeyCache::evict</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Evict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), begin(), end(), find(), erase(), makeCacheKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="217" column="10" bodyfile="src/security/key_cache.cpp" bodystart="96" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a8a16716777ce3d6089f0543688e71c9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::KeyCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::KeyCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="222" column="10" bodyfile="src/security/key_cache.cpp" bodystart="120" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a8f00e0965be6b08b1caf30e53d676123" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::KeyCache::getHitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getHitRate</name>
+        <qualifiedname>themis::KeyCache::getHitRate</qualifiedname>
+        <briefdescription>
+<para>Get Hit Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="228" column="12" bodyfile="src/security/key_cache.cpp" bodystart="127" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a9355fd3af4e04d38426ad6c67b1ffe61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::KeyCache::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::KeyCache::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="234" column="12" bodyfile="src/security/key_cache.cpp" bodystart="142" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a0abcbe271ce3f3706527b44add2b108e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::KeyCache::makeCacheKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) const</argsstring>
+        <name>makeCacheKey</name>
+        <qualifiedname>themis::KeyCache::makeCacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Make Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="251" column="17" bodyfile="src/security/key_cache.cpp" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a873d1d12f277fb7972720a8d5c3d81e2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::KeyCache::evictExpired</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpired</name>
+        <qualifiedname>themis::KeyCache::evictExpired</qualifiedname>
+        <briefdescription>
+<para>Evict Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: getCurrentTimeMs(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="255" column="10" bodyfile="src/security/key_cache.cpp" bodystart="160" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a324be10a8d1b862f7b6512912a8b5a63" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::KeyCache::evictLRU</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::KeyCache::evictLRU</qualifiedname>
+        <briefdescription>
+<para>Evict LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="259" column="10" bodyfile="src/security/key_cache.cpp" bodystart="177" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_cache_1a3714454a3675a6b8e8ba5324fbc76fde" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::KeyCache::getCurrentTimeMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTimeMs</name>
+        <qualifiedname>themis::KeyCache::getCurrentTimeMs</qualifiedname>
+        <briefdescription>
+<para>Get Current Time Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="264" column="13" bodyfile="src/security/key_cache.cpp" bodystart="196" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/key_provider.h" line="189" column="1" bodyfile="include/security/key_provider.h" bodystart="189" bodyend="265"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_key_cache_1a6d2b4acdb884a1b1101a1618c3e1837c" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1_key_cache_1a5a5389def87457831ca92a468132f076" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>cache_hits_</name></member>
+      <member refid="classthemis_1_1_key_cache_1a8a16716777ce3d6089f0543688e71c9e" prot="public" virt="non-virtual"><scope>themis::KeyCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_key_cache_1a7f0e3b6d229d62ae0f3386c78985bdd4" prot="public" virt="non-virtual"><scope>themis::KeyCache</scope><name>evict</name></member>
+      <member refid="classthemis_1_1_key_cache_1a873d1d12f277fb7972720a8d5c3d81e2" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>evictExpired</name></member>
+      <member refid="classthemis_1_1_key_cache_1a324be10a8d1b862f7b6512912a8b5a63" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1_key_cache_1aa9e1479f44b7b8e24739f1398cd6c335" prot="public" virt="non-virtual"><scope>themis::KeyCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1_key_cache_1a3714454a3675a6b8e8ba5324fbc76fde" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>getCurrentTimeMs</name></member>
+      <member refid="classthemis_1_1_key_cache_1a8f00e0965be6b08b1caf30e53d676123" prot="public" virt="non-virtual"><scope>themis::KeyCache</scope><name>getHitRate</name></member>
+      <member refid="classthemis_1_1_key_cache_1ae31647eb162adf3c3d02991cf9928036" prot="public" virt="non-virtual"><scope>themis::KeyCache</scope><name>KeyCache</name></member>
+      <member refid="classthemis_1_1_key_cache_1a0abcbe271ce3f3706527b44add2b108e" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>makeCacheKey</name></member>
+      <member refid="classthemis_1_1_key_cache_1a5e29e3716999db2c53e01d4d46d15761" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>max_size_</name></member>
+      <member refid="classthemis_1_1_key_cache_1a5692dd1a6480987123810b648097bca1" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_key_cache_1a2fe779715cfced51c5430d02885c035f" prot="public" virt="non-virtual"><scope>themis::KeyCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1_key_cache_1a9355fd3af4e04d38426ad6c67b1ffe61" prot="public" virt="non-virtual"><scope>themis::KeyCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1_key_cache_1a7fa24cbdc2e0982cbd616e23ba05b19c" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>total_requests_</name></member>
+      <member refid="classthemis_1_1_key_cache_1af7824864cfd8d623cdfe8e9b899f58aa" prot="private" virt="non-virtual"><scope>themis::KeyCache</scope><name>ttl_ms_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

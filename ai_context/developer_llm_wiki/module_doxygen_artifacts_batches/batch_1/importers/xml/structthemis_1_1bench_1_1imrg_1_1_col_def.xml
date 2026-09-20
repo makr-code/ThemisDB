@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1imrg_1_1_col_def" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::imrg::ColDef</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_col_def_1af4fe2a5f99569dfd797d3ae16adc0576" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::bench::imrg::ColDef::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::bench::imrg::ColDef::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="182" column="24" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_col_def_1ac7ca315d1ec69f81916dc339f92e1868" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::imrg::ColDef::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::bench::imrg::ColDef::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="182" column="33" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1imrg_1_1_col_def_1a5789483290d21fd6a5cb23368a65c94a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::imrg::ColDef::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::bench::imrg::ColDef::required</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="182" column="43" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importers_release_gates.cpp" line="182" column="1" bodyfile="benchmarks/importers/bench_importers_release_gates.cpp" bodystart="182" bodyend="182"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_col_def_1af4fe2a5f99569dfd797d3ae16adc0576" prot="public" virt="non-virtual"><scope>themis::bench::imrg::ColDef</scope><name>name</name></member>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_col_def_1a5789483290d21fd6a5cb23368a65c94a" prot="public" virt="non-virtual"><scope>themis::bench::imrg::ColDef</scope><name>required</name></member>
+      <member refid="structthemis_1_1bench_1_1imrg_1_1_col_def_1ac7ca315d1ec69f81916dc339f92e1868" prot="public" virt="non-virtual"><scope>themis::bench::imrg::ColDef</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

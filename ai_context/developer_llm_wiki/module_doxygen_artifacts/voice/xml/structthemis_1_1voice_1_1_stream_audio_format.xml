@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_stream_audio_format" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::StreamAudioFormat</compoundname>
+    <includes refid="voice__browser__streaming_8h" local="no">voice_browser_streaming.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Encoding</name>
+        <qualifiedname>themis::voice::StreamAudioFormat::Encoding</qualifiedname>
+        <enumvalue id="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2aa1674e5751ee747c73262d1479e828d15" prot="public">
+          <name>PCM16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2aa4c2223596711a6a941bc19e8067ceef9" prot="public">
+          <name>OPUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2aa4e63f282e55c25ab589e0a10c4fba649" prot="public">
+          <name>WEBM_OPUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="113" column="5" bodyfile="include/voice/voice_browser_streaming.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_stream_audio_format_1aa2f75f01763968a615856f2203c40a28" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2a" kindref="member">Encoding</ref></type>
+        <definition>Encoding themis::voice::StreamAudioFormat::encoding</definition>
+        <argsstring></argsstring>
+        <name>encoding</name>
+        <qualifiedname>themis::voice::StreamAudioFormat::encoding</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2aa1674e5751ee747c73262d1479e828d15" kindref="member">Encoding::PCM16</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="114" column="14" bodyfile="include/voice/voice_browser_streaming.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_stream_audio_format_1a08b790bc1182025f3b2d5f5d84abe8d3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::StreamAudioFormat::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::voice::StreamAudioFormat::sample_rate</qualifiedname>
+        <initializer>= 16000</initializer>
+        <briefdescription>
+<para>Hz. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="115" column="14" bodyfile="include/voice/voice_browser_streaming.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_stream_audio_format_1ad49e0b9e3f74c37641f9780473c377ca" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::voice::StreamAudioFormat::channels</definition>
+        <argsstring></argsstring>
+        <name>channels</name>
+        <qualifiedname>themis::voice::StreamAudioFormat::channels</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="116" column="14" bodyfile="include/voice/voice_browser_streaming.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_stream_audio_format_1a2c6cd268ede91b32d99cb23529415ecd" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::voice::StreamAudioFormat::bits_per_sample</definition>
+        <argsstring></argsstring>
+        <name>bits_per_sample</name>
+        <qualifiedname>themis::voice::StreamAudioFormat::bits_per_sample</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Only for PCM16. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="117" column="14" bodyfile="include/voice/voice_browser_streaming.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Audio format description for incoming browser audio. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Kept distinct from the storage-layer <ref refid="structthemis_1_1voice_1_1_audio_format" kindref="compound">AudioFormat</ref> to avoid namespace-level collisions between streaming transport metadata and persisted audio inventory metadata. </para>
+    </detaileddescription>
+    <location file="include/voice/voice_browser_streaming.h" line="112" column="1" bodyfile="include/voice/voice_browser_streaming.h" bodystart="112" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_stream_audio_format_1a2c6cd268ede91b32d99cb23529415ecd" prot="public" virt="non-virtual"><scope>themis::voice::StreamAudioFormat</scope><name>bits_per_sample</name></member>
+      <member refid="structthemis_1_1voice_1_1_stream_audio_format_1ad49e0b9e3f74c37641f9780473c377ca" prot="public" virt="non-virtual"><scope>themis::voice::StreamAudioFormat</scope><name>channels</name></member>
+      <member refid="structthemis_1_1voice_1_1_stream_audio_format_1af638343fb210acdf6afe88fdfd6bef2a" prot="public" virt="non-virtual"><scope>themis::voice::StreamAudioFormat</scope><name>Encoding</name></member>
+      <member refid="structthemis_1_1voice_1_1_stream_audio_format_1aa2f75f01763968a615856f2203c40a28" prot="public" virt="non-virtual"><scope>themis::voice::StreamAudioFormat</scope><name>encoding</name></member>
+      <member refid="structthemis_1_1voice_1_1_stream_audio_format_1a08b790bc1182025f3b2d5f5d84abe8d3" prot="public" virt="non-virtual"><scope>themis::voice::StreamAudioFormat</scope><name>sample_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_partial_transcript" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::PartialTranscript</compoundname>
+    <includes refid="voice__browser__streaming_8h" local="no">voice_browser_streaming.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_partial_transcript_1a48fd89b639f64c81538ae1fbc60b0b2a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a2d4d9868e74312f16c1dd5e78f0c0e89" kindref="member">StreamID</ref></type>
+        <definition>StreamID themis::voice::PartialTranscript::stream_id</definition>
+        <argsstring></argsstring>
+        <name>stream_id</name>
+        <qualifiedname>themis::voice::PartialTranscript::stream_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="84" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_partial_transcript_1af914885354c30b914d869a73e9e50763" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::PartialTranscript::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::voice::PartialTranscript::text</qualifiedname>
+        <briefdescription>
+<para>Text recognised so far (may change). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="85" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_partial_transcript_1a971eeaeb0b45e94abd35540b66461af6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::PartialTranscript::is_final</definition>
+        <argsstring></argsstring>
+        <name>is_final</name>
+        <qualifiedname>themis::voice::PartialTranscript::is_final</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True iff this is the conclusive result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="86" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_partial_transcript_1aaf64b641b8c1200fafeec20bea91cbab" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::PartialTranscript::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::PartialTranscript::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="87" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_partial_transcript_1ad70325e43f3450ea042e8467814cba01" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_word" kindref="compound">Word</ref> &gt;</type>
+        <definition>std::vector&lt;Word&gt; themis::voice::PartialTranscript::words</definition>
+        <argsstring></argsstring>
+        <name>words</name>
+        <qualifiedname>themis::voice::PartialTranscript::words</qualifiedname>
+        <briefdescription>
+<para>Word-level timing (if available). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="88" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_partial_transcript_1a1b1643dcce08b88a8ca14eecf87a5da9" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::PartialTranscript::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::PartialTranscript::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time of this update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_browser_streaming.h" line="89" column="17" bodyfile="include/voice/voice_browser_streaming.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Incremental STT result returned while audio is still flowing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_browser_streaming.h" line="83" column="1" bodyfile="include/voice/voice_browser_streaming.h" bodystart="83" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_partial_transcript_1aaf64b641b8c1200fafeec20bea91cbab" prot="public" virt="non-virtual"><scope>themis::voice::PartialTranscript</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_partial_transcript_1a971eeaeb0b45e94abd35540b66461af6" prot="public" virt="non-virtual"><scope>themis::voice::PartialTranscript</scope><name>is_final</name></member>
+      <member refid="structthemis_1_1voice_1_1_partial_transcript_1a48fd89b639f64c81538ae1fbc60b0b2a" prot="public" virt="non-virtual"><scope>themis::voice::PartialTranscript</scope><name>stream_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_partial_transcript_1af914885354c30b914d869a73e9e50763" prot="public" virt="non-virtual"><scope>themis::voice::PartialTranscript</scope><name>text</name></member>
+      <member refid="structthemis_1_1voice_1_1_partial_transcript_1a1b1643dcce08b88a8ca14eecf87a5da9" prot="public" virt="non-virtual"><scope>themis::voice::PartialTranscript</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_partial_transcript_1ad70325e43f3450ea042e8467814cba01" prot="public" virt="non-virtual"><scope>themis::voice::PartialTranscript</scope><name>words</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

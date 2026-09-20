@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_rule_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::process::ProcessGraphRag::SlaRuleEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_rule_entry_1ab830a2aa888cd31f28d217d92b55d1ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::SlaRuleEntry::at_risk_rule_id</definition>
+        <argsstring></argsstring>
+        <name>at_risk_rule_id</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SlaRuleEntry::at_risk_rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="417" column="26" bodyfile="include/process/process_graph_rag.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_rule_entry_1a0c890890c71abea0113f718ca8ec690e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessGraphRag::SlaRuleEntry::overdue_rule_id</definition>
+        <argsstring></argsstring>
+        <name>overdue_rule_id</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SlaRuleEntry::overdue_rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="418" column="26" bodyfile="include/process/process_graph_rag.h" bodystart="418" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_rule_entry_1adeddb44d3dba6340e9fa340ff12013d1" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1process_1_1_process_graph_rag_1aa7cd440891b6d0fbc155c3a996254311" kindref="member">SlaAlertCallback</ref></type>
+        <definition>SlaAlertCallback themis::process::ProcessGraphRag::SlaRuleEntry::callback</definition>
+        <argsstring></argsstring>
+        <name>callback</name>
+        <qualifiedname>themis::process::ProcessGraphRag::SlaRuleEntry::callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="419" column="26" bodyfile="include/process/process_graph_rag.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Active SLA rules: instance_id → {at_risk_rule_id, overdue_rule_id, callback}. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_graph_rag.h" line="416" column="5" bodyfile="include/process/process_graph_rag.h" bodystart="416" bodyend="420"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_rule_entry_1ab830a2aa888cd31f28d217d92b55d1ca" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SlaRuleEntry</scope><name>at_risk_rule_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_rule_entry_1adeddb44d3dba6340e9fa340ff12013d1" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SlaRuleEntry</scope><name>callback</name></member>
+      <member refid="structthemis_1_1process_1_1_process_graph_rag_1_1_sla_rule_entry_1a0c890890c71abea0113f718ca8ec690e" prot="public" virt="non-virtual"><scope>themis::process::ProcessGraphRag::SlaRuleEntry</scope><name>overdue_rule_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

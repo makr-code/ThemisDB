@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1training_1_1aql__templates" kind="namespace" language="C++">
+    <compoundname>themis::training::aql_templates</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1aql__templates_1a8f1ade6c79c02e810087095c2d73fbcd" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::aql_templates::FETCH_ALL_DOCUMENTS</definition>
+        <argsstring></argsstring>
+        <name>FETCH_ALL_DOCUMENTS</name>
+        <qualifiedname>themis::training::aql_templates::FETCH_ALL_DOCUMENTS</qualifiedname>
+        <initializer>                                     =
+&quot;FOR doc IN @@source_collection &quot;
+&quot;FILTER doc.text != null AND doc.text != &apos;&apos; &quot;
+&quot;RETURN doc._key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="38" column="26" bodyfile="src/training/auto_labeler.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1aql__templates_1aa8b07ce6d6d6e0cb0bcc0b6305bbca3e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::aql_templates::FETCH_DOCUMENT_BY_ID</definition>
+        <argsstring></argsstring>
+        <name>FETCH_DOCUMENT_BY_ID</name>
+        <qualifiedname>themis::training::aql_templates::FETCH_DOCUMENT_BY_ID</qualifiedname>
+        <initializer>                                      =
+&quot;FOR doc IN @@collection &quot;
+&quot;FILTER doc._key == @document_id &quot;
+&quot;RETURN doc&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="44" column="26" bodyfile="src/training/auto_labeler.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1aql__templates_1a53323983f60670e57efab14c4b4ce854" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::aql_templates::BATCH_INSERT_SAMPLES</definition>
+        <argsstring></argsstring>
+        <name>BATCH_INSERT_SAMPLES</name>
+        <qualifiedname>themis::training::aql_templates::BATCH_INSERT_SAMPLES</qualifiedname>
+        <initializer>                                      =
+&quot;FOR sample IN @samples &quot;
+&quot;INSERT sample INTO @@target_collection &quot;
+&quot;OPTIONS { ignoreErrors: false }&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="50" column="26" bodyfile="src/training/auto_labeler.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1aql__templates_1a02ddba23f4cc0a2385a71ad387ea89b6" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::aql_templates::FETCH_LOW_CONFIDENCE</definition>
+        <argsstring></argsstring>
+        <name>FETCH_LOW_CONFIDENCE</name>
+        <qualifiedname>themis::training::aql_templates::FETCH_LOW_CONFIDENCE</qualifiedname>
+        <initializer>                                      =
+&quot;FOR sample IN @@collection &quot;
+&quot;FILTER sample.confidence &lt; @min_confidence &quot;
+&quot;AND (sample.needs_review == null OR sample.needs_review == true) &quot;
+&quot;SORT sample.confidence ASC &quot;
+&quot;LIMIT @limit &quot;
+&quot;RETURN sample&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="56" column="26" bodyfile="src/training/auto_labeler.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1aql__templates_1a27ce73fd4d9d5b14010578c34d04a7e8" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::aql_templates::UPDATE_SAMPLE_CONFIDENCE</definition>
+        <argsstring></argsstring>
+        <name>UPDATE_SAMPLE_CONFIDENCE</name>
+        <qualifiedname>themis::training::aql_templates::UPDATE_SAMPLE_CONFIDENCE</qualifiedname>
+        <initializer>                                          =
+&quot;UPDATE @sample_id WITH { &quot;
+&quot;  confidence: @new_confidence, &quot;
+&quot;  needs_review: false, &quot;
+&quot;  reviewed_by: @reviewed_by, &quot;
+&quot;  reviewed_at: DATE_NOW() &quot;
+&quot;} IN @@collection&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="65" column="26" bodyfile="src/training/auto_labeler.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1training_1_1aql__templates_1ae5cf9ec696da5bb6f073843ed44abd58" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::training::aql_templates::FETCH_DOCUMENTS_BY_QUERY</definition>
+        <argsstring></argsstring>
+        <name>FETCH_DOCUMENTS_BY_QUERY</name>
+        <qualifiedname>themis::training::aql_templates::FETCH_DOCUMENTS_BY_QUERY</qualifiedname>
+        <initializer>                                          =
+&quot;FOR doc IN @@collection &quot;
+&quot;FILTER @filter_expr &quot;
+&quot;RETURN doc._key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/auto_labeler.cpp" line="74" column="26" bodyfile="src/training/auto_labeler.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/auto_labeler.cpp" line="36" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_session" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceSession</compoundname>
+    <includes refid="voice__assistant_8h" local="no">voice_assistant.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_1aa0cf747fbbfc195e2ae4b2e9dc2c294c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceSession::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::voice::VoiceSession::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="38" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_1ad93871ff9ba6b07a50a2896f3b106fd2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceSession::user_id</definition>
+        <argsstring></argsstring>
+        <name>user_id</name>
+        <qualifiedname>themis::voice::VoiceSession::user_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="39" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_1a6150dac8601b67f5b9d09e8bac997b2d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceSession::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::voice::VoiceSession::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="40" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_1aadcb80b7c8915a16478645a866229611" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceSession::last_activity</definition>
+        <argsstring></argsstring>
+        <name>last_activity</name>
+        <qualifiedname>themis::voice::VoiceSession::last_activity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="41" column="13" bodyfile="include/voice/voice_assistant.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_1abb893a51c57e8b0f94186179a2e8c7a6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceSession::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::voice::VoiceSession::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="42" column="10" bodyfile="include/voice/voice_assistant.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_1aa6bc997540388294b0d9101274f63b47" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::VoiceSession::history</definition>
+        <argsstring></argsstring>
+        <name>history</name>
+        <qualifiedname>themis::voice::VoiceSession::history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="43" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_session_1a56164f45c9763a4651350cabc120d43e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceSession::preferred_language</definition>
+        <argsstring></argsstring>
+        <name>preferred_language</name>
+        <qualifiedname>themis::voice::VoiceSession::preferred_language</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_assistant.h" line="44" column="17" bodyfile="include/voice/voice_assistant.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Voice interaction session. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_assistant.h" line="37" column="1" bodyfile="include/voice/voice_assistant.h" bodystart="37" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_session_1abb893a51c57e8b0f94186179a2e8c7a6" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSession</scope><name>context</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_session_1a6150dac8601b67f5b9d09e8bac997b2d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSession</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_session_1aa6bc997540388294b0d9101274f63b47" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSession</scope><name>history</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_session_1aadcb80b7c8915a16478645a866229611" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSession</scope><name>last_activity</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_session_1a56164f45c9763a4651350cabc120d43e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSession</scope><name>preferred_language</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_session_1aa0cf747fbbfc195e2ae4b2e9dc2c294c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSession</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_session_1ad93871ff9ba6b07a50a2896f3b106fd2" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSession</scope><name>user_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

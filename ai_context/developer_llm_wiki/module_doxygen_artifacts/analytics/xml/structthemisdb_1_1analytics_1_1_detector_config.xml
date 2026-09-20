@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_detector_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::DetectorConfig</compoundname>
+    <includes refid="anomaly__detection_8h" local="no">anomaly_detection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1a7bc7e5e223b0a3f74dcab47be58b80e2" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref></type>
+        <definition>AnomalyMethod themisdb::analytics::DetectorConfig::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::method</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666ea385bf2814f51e82d2c134ff90a2d76b3" kindref="member">AnomalyMethod::Z_SCORE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="185" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1a78ba56bc3b55940950689e57197b9c92" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::DetectorConfig::contamination</definition>
+        <argsstring></argsstring>
+        <name>contamination</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::contamination</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>expected fraction of anomalies in training data </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="186" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1ad3bb397a53362da7a35328ed6789b23e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::DetectorConfig::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>score ≥ threshold → is_anomaly = true </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="187" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1a4c177b1b833b0e7c0bfdd6fd86527f9c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::DetectorConfig::n_estimators</definition>
+        <argsstring></argsstring>
+        <name>n_estimators</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::n_estimators</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Isolation Forest number of trees. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="188" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1a76f27fd34c051fc81ced2fb21da10cd7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::DetectorConfig::max_samples</definition>
+        <argsstring></argsstring>
+        <name>max_samples</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::max_samples</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Isolation Forest subsampling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="189" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1a9b01f072a75b7597c1090db1c566eaa7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::DetectorConfig::k_neighbors</definition>
+        <argsstring></argsstring>
+        <name>k_neighbors</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::k_neighbors</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>LOF neighbourhood size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="190" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1a2a3f6f39bebf637bf67dd3643e516210" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::DetectorConfig::adaptive</definition>
+        <argsstring></argsstring>
+        <name>adaptive</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::adaptive</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>update model online via update() </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="191" column="19" bodyfile="include/analytics/anomaly_detection.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1adc2d37caf021694333f708f4095195b1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemisdb_1_1analytics_1aea0be8fa97bc20ccc0f7c051266a666e" kindref="member">AnomalyMethod</ref> &gt;</type>
+        <definition>std::vector&lt;AnomalyMethod&gt; themisdb::analytics::DetectorConfig::ensemble_methods</definition>
+        <argsstring></argsstring>
+        <name>ensemble_methods</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::ensemble_methods</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="192" column="17" bodyfile="include/analytics/anomaly_detection.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_detector_config_1a7f9d791e701d5bc60a7935332a2f07e7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::analytics::DetectorConfig::ensemble_weights</definition>
+        <argsstring></argsstring>
+        <name>ensemble_weights</name>
+        <qualifiedname>themisdb::analytics::DetectorConfig::ensemble_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/anomaly_detection.h" line="193" column="24" bodyfile="include/analytics/anomaly_detection.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/anomaly_detection.h" line="184" column="1" bodyfile="include/analytics/anomaly_detection.h" bodystart="184" bodyend="194"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1a2a3f6f39bebf637bf67dd3643e516210" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>adaptive</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1a78ba56bc3b55940950689e57197b9c92" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>contamination</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1adc2d37caf021694333f708f4095195b1" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>ensemble_methods</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1a7f9d791e701d5bc60a7935332a2f07e7" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>ensemble_weights</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1a9b01f072a75b7597c1090db1c566eaa7" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>k_neighbors</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1a76f27fd34c051fc81ced2fb21da10cd7" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>max_samples</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1a7bc7e5e223b0a3f74dcab47be58b80e2" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>method</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1a4c177b1b833b0e7c0bfdd6fd86527f9c" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>n_estimators</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_detector_config_1ad3bb397a53362da7a35328ed6789b23e" prot="public" virt="non-virtual"><scope>themisdb::analytics::DetectorConfig</scope><name>threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

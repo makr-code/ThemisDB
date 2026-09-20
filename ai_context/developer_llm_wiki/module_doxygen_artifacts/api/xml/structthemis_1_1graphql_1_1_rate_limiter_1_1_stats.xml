@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::RateLimiter::Stats</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a384a082bad2174531c9304bc91cfa9ec" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graphql::RateLimiter::Stats::allowed_requests</definition>
+        <argsstring></argsstring>
+        <name>allowed_requests</name>
+        <qualifiedname>themis::graphql::RateLimiter::Stats::allowed_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="230" column="21" bodyfile="include/api/rate_limiter.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1ab35f68f6e3a2809652e1616edb797ef9" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graphql::RateLimiter::Stats::rejected_requests</definition>
+        <argsstring></argsstring>
+        <name>rejected_requests</name>
+        <qualifiedname>themis::graphql::RateLimiter::Stats::rejected_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="231" column="21" bodyfile="include/api/rate_limiter.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a8509d161f9af31ffaf99c80af6ae4389" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::RateLimiter::Stats::Stats</definition>
+        <argsstring>()=default</argsstring>
+        <name>Stats</name>
+        <qualifiedname>themis::graphql::RateLimiter::Stats::Stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="233" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a521b8c5b84b99254704c66fdfd68e899" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graphql::RateLimiter::Stats::Stats</definition>
+        <argsstring>(const Stats &amp;other)</argsstring>
+        <name>Stats</name>
+        <qualifiedname>themis::graphql::RateLimiter::Stats::Stats</qualifiedname>
+        <param>
+          <type>const Stats &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="235" column="9" bodyfile="include/api/rate_limiter.h" bodystart="235" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a408ed304a97516cdd71361c3198e787e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a8509d161f9af31ffaf99c80af6ae4389" kindref="member">Stats</ref> &amp;</type>
+        <definition>Stats &amp; themis::graphql::RateLimiter::Stats::operator=</definition>
+        <argsstring>(const Stats &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graphql::RateLimiter::Stats::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a8509d161f9af31ffaf99c80af6ae4389" kindref="member">Stats</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="240" column="15" bodyfile="include/api/rate_limiter.h" bodystart="240" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a8a040d13f820204ee1278c3e60fe90ae" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graphql::RateLimiter::Stats::total</definition>
+        <argsstring>() const</argsstring>
+        <name>total</name>
+        <qualifiedname>themis::graphql::RateLimiter::Stats::total</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="248" column="18" bodyfile="include/api/rate_limiter.h" bodystart="248" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1ada54f660134cb40648666de90834d304" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::graphql::RateLimiter::Stats::rejectRate</definition>
+        <argsstring>() const</argsstring>
+        <name>rejectRate</name>
+        <qualifiedname>themis::graphql::RateLimiter::Stats::rejectRate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/rate_limiter.h" line="252" column="16" bodyfile="include/api/rate_limiter.h" bodystart="252" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/rate_limiter.h" line="229" column="5" bodyfile="include/api/rate_limiter.h" bodystart="229" bodyend="256"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a384a082bad2174531c9304bc91cfa9ec" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Stats</scope><name>allowed_requests</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a408ed304a97516cdd71361c3198e787e" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Stats</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1ab35f68f6e3a2809652e1616edb797ef9" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Stats</scope><name>rejected_requests</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1ada54f660134cb40648666de90834d304" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Stats</scope><name>rejectRate</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a8509d161f9af31ffaf99c80af6ae4389" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Stats</scope><name>Stats</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a521b8c5b84b99254704c66fdfd68e899" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Stats</scope><name>Stats</name></member>
+      <member refid="structthemis_1_1graphql_1_1_rate_limiter_1_1_stats_1a8a040d13f820204ee1278c3e60fe90ae" prot="public" virt="non-virtual"><scope>themis::graphql::RateLimiter::Stats</scope><name>total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

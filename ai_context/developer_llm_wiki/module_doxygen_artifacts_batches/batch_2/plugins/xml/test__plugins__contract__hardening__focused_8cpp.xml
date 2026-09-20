@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__plugins__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_plugins_contract_hardening_focused.cpp</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes refid="plugins__api__contract_8h" local="yes">plugins/plugins_api_contract.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">set</includes>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">utility</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>plugins/plugins_api_contract.h</label>
+        <link refid="plugins__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/plugins/test_plugins_contract_hardening_focused.cpp</label>
+        <link refid="test__plugins__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>set</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>type_traits</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1test">themis::plugins::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 focused contract-hardening tests for the plugins module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: PLG-01 through PLG-08 No file I/O, no network, deterministic only.</para>
+<para><simplesect kind="see"><para><ref refid="plugins__api__contract_8h" kindref="compound">include/plugins/plugins_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/plugins/ROADMAP.md — Phase 4 items </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugins__api__contract_8h" kindref="compound">plugins/plugins_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1plugins_1_1test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>PRNG<sp/>seed<sp/>(deterministic,<sp/>release-pinned).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-01<sp/>—<sp/>Error<sp/>code<sp/>uniqueness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginsContractHardening,<sp/>PLG01_ErrorCodeUniqueness)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;int32_t&gt;<sp/>seen<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int32_t<sp/>codes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" kindref="member">PluginsError::kPluginNotFound</ref>),</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" kindref="member">PluginsError::kManifestInvalid</ref>),</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">PluginsError::kSignatureVerifyFailed</ref>),</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" kindref="member">PluginsError::kLifecycleTransition</ref>),</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" kindref="member">PluginsError::kCapabilityDenied</ref>),</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" kindref="member">PluginsError::kRegistryConflict</ref>),</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" kindref="member">PluginsError::kHealthCheckFailed</ref>),</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">PluginsError::kInternalError</ref>),</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>codes)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(seen.insert(c).second)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Duplicate<sp/>error<sp/>code:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(seen.size(),<sp/>8u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)kSeed;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-02<sp/>—<sp/>Error<sp/>code<sp/>range<sp/>[8200,<sp/>8299]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginsContractHardening,<sp/>PLG02_ErrorCodeRange)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>int32_t<sp/>codes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" kindref="member">PluginsError::kPluginNotFound</ref>),</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" kindref="member">PluginsError::kManifestInvalid</ref>),</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">PluginsError::kSignatureVerifyFailed</ref>),</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" kindref="member">PluginsError::kLifecycleTransition</ref>),</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" kindref="member">PluginsError::kCapabilityDenied</ref>),</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" kindref="member">PluginsError::kRegistryConflict</ref>),</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" kindref="member">PluginsError::kHealthCheckFailed</ref>),</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">PluginsError::kInternalError</ref>),</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>c<sp/>:<sp/>codes)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(c,<sp/>8200)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>below<sp/>reserved<sp/>base<sp/>8200&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(c,<sp/>8299)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Code<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>c<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>above<sp/>reserved<sp/>max<sp/>8299&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-03<sp/>—<sp/>Switch<sp/>dispatch:<sp/>all<sp/>cases<sp/>must<sp/>be<sp/>handled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginsContractHardening,<sp/>PLG03_SwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>describe<sp/>=<sp/>[](<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763" kindref="member">PluginsError</ref><sp/>e)<sp/>-&gt;<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(e)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" kindref="member">PluginsError::kPluginNotFound</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;plugin_not_found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" kindref="member">PluginsError::kManifestInvalid</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;manifest_invalid&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">PluginsError::kSignatureVerifyFailed</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;signature_verify_failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" kindref="member">PluginsError::kLifecycleTransition</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;lifecycle_transition&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" kindref="member">PluginsError::kCapabilityDenied</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;capability_denied&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" kindref="member">PluginsError::kRegistryConflict</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;registry_conflict&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" kindref="member">PluginsError::kHealthCheckFailed</ref>:<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;health_check_failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">PluginsError::kInternalError</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;internal_error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(describe(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;success&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(describe(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" kindref="member">PluginsError::kPluginNotFound</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;plugin_not_found&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(describe(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">PluginsError::kSignatureVerifyFailed</ref>),<sp/></highlight><highlight class="stringliteral">&quot;signature_verify_failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(describe(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">PluginsError::kInternalError</ref>),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;internal_error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-04<sp/>—<sp/>PluginState<sp/>enum<sp/>values<sp/>are<sp/>distinct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginsContractHardening,<sp/>PLG04_PluginStateDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;int32_t&gt;<sp/>states<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bcaa5ae20aa7fda5bd38bf0dce98e65bd2d" kindref="member">PluginState::Unloaded</ref>),</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca16bfbf9c462762cf1cba4134ec53c504" kindref="member">PluginState::Loading</ref>),</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca4d3d769b812b6faa6b76e1a8abaece2d" kindref="member">PluginState::Active</ref>),</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bcaaa95669cd5732a57e8f6467705f06642" kindref="member">PluginState::Degraded</ref>),</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1plugins_1afc659d10fcf5173c9f430f9bebff73bca62168dff2fc801c4ff6ee24619bc314c" kindref="member">PluginState::Unloading</ref>),</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(states.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-05<sp/>—<sp/>PluginRegistrationDescriptor<sp/>default<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginsContractHardening,<sp/>PLG05_RegistrationDescriptorDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" kindref="compound">PluginRegistrationDescriptor</ref><sp/>desc;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" kindref="member">plugin_id</ref>.empty());</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" kindref="member">version</ref>.empty());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a48b7dc9f20e4948111cdcaba3672528e" kindref="member">manifest_path</ref>.empty());</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(desc.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a3947eb6303cc7678c1cb02b6b1659632" kindref="member">signature</ref>.empty());</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(desc.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" kindref="member">hot_plug_eligible</ref>);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-06<sp/>—<sp/>Copy<sp/>semantics<sp/>for<sp/>PluginRegistrationDescriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginsContractHardening,<sp/>PLG06_RegistrationDescriptorCopy)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" kindref="compound">PluginRegistrationDescriptor</ref><sp/>src;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" kindref="member">plugin_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin-42&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" kindref="member">version</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" kindref="member">hot_plug_eligible</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" kindref="compound">PluginRegistrationDescriptor</ref><sp/>copy<sp/>=<sp/>src;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" kindref="member">plugin_id</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" kindref="member">plugin_id</ref>);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" kindref="member">version</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" kindref="member">version</ref>);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(copy.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" kindref="member">hot_plug_eligible</ref>,<sp/>src.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1a4d141f4ca24a6a8780920a910428eeda" kindref="member">hot_plug_eligible</ref>);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-07<sp/>—<sp/>Move<sp/>semantics<sp/>for<sp/>PluginRegistrationDescriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginsContractHardening,<sp/>PLG07_RegistrationDescriptorMove)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" kindref="compound">PluginRegistrationDescriptor</ref><sp/>src;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" kindref="member">plugin_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plugin-move&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" kindref="member">version</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor" kindref="compound">PluginRegistrationDescriptor</ref><sp/>moved<sp/>=<sp/>std::move(src);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1aad4e6fa58549c6add885146642abae62" kindref="member">plugin_id</ref>,<sp/></highlight><highlight class="stringliteral">&quot;plugin-move&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.<ref refid="structthemis_1_1plugins_1_1_plugin_registration_descriptor_1ac4fc1ef5bd63eaad3641ebe066a020e7" kindref="member">version</ref>,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PLG-08<sp/>—<sp/>isPluginsFailClosed<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1test_1a0c0de7eda3c0a79f3f6ce62122d644b8" kindref="member">TEST</ref>(PluginsContractHardening,<sp/>PLG08_FailClosedPredicate)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>fail-closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84d19a0e5cdcf37ecdd50dd11bbfae24" kindref="member">PluginsError::kSignatureVerifyFailed</ref>));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763afcd417a134c251034b0d61b07c826394" kindref="member">PluginsError::kInternalError</ref>));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a84c0f992ce2f465361d388cf8c4ec778" kindref="member">PluginsError::kHealthCheckFailed</ref>));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>NOT<sp/>be<sp/>fail-closed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a8c632159fa131f09d04f94e3cbcd8782" kindref="member">PluginsError::kSuccess</ref>));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a559c87fdbb96a69c664825c6a237b6c3" kindref="member">PluginsError::kPluginNotFound</ref>));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763abf66672239b9934d0ad967723ab1f1d2" kindref="member">PluginsError::kManifestInvalid</ref>));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a99ca79d1b0d765beeb154c8adb34864d" kindref="member">PluginsError::kLifecycleTransition</ref>));</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763a0f0ea7e69e89a3b0ec9de2af653a549a" kindref="member">PluginsError::kCapabilityDenied</ref>));</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1plugins_1a72f51c6c1cafcb7a59858a28e9ee0e98" kindref="member">isPluginsFailClosed</ref>(<ref refid="namespacethemis_1_1plugins_1aaa00b95d37742ca2e866c34298997763ae75d61ab1df56cb487d4e8e77f09d737" kindref="member">PluginsError::kRegistryConflict</ref>));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/plugins/test_plugins_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

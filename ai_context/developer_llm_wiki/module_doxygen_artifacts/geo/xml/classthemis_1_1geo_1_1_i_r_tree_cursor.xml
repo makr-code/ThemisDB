@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_i_r_tree_cursor" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::geo::IRTreeCursor</compoundname>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_r_tree_k_n_n_cursor" prot="public" virt="non-virtual">themis::geo::RTreeKNNCursor</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1geo_1_1_r_tree_range_cursor" prot="public" virt="non-virtual">themis::geo::RTreeRangeCursor</derivedcompoundref>
+    <includes refid="rtree__cursor_8h" local="no">rtree_cursor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_r_tree_cursor_1a59e996785ad1fce496ed288d25a870a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::geo::IRTreeCursor::~IRTreeCursor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IRTreeCursor</name>
+        <qualifiedname>themis::geo::IRTreeCursor::~IRTreeCursor</qualifiedname>
+        <briefdescription>
+<para>IRTree Cursor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="53" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_r_tree_cursor_1abcbc562a754256a5646e3994a5412c36" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1geo_1a8dd2d118e31fdcefe80a43a869eb83b5" kindref="member">CursorStatus</ref></type>
+        <definition>virtual CursorStatus themis::geo::IRTreeCursor::next</definition>
+        <argsstring>(GeoIndexEntry &amp;entry)=0</argsstring>
+        <name>next</name>
+        <qualifiedname>themis::geo::IRTreeCursor::next</qualifiedname>
+        <reimplementedby refid="classthemis_1_1geo_1_1_r_tree_k_n_n_cursor_1a413b88f96ffb41833e4e939c07201c33">next</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_r_tree_range_cursor_1a9aab71903f34212217fa723e88e49010">next</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_geo_index_entry" kindref="compound">GeoIndexEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="55" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_i_r_tree_cursor_1a5e1134a254487ae8761267942e24d11d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::geo::IRTreeCursor::estimatedResultCount</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>estimatedResultCount</name>
+        <qualifiedname>themis::geo::IRTreeCursor::estimatedResultCount</qualifiedname>
+        <reimplementedby refid="classthemis_1_1geo_1_1_r_tree_k_n_n_cursor_1aa312f398c0927b5a043b873b054ee0aa">estimatedResultCount</reimplementedby>
+        <reimplementedby refid="classthemis_1_1geo_1_1_r_tree_range_cursor_1a63f9867e5c6442fee6ede816ddb01db9">estimatedResultCount</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/rtree_cursor.h" line="57" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::geo::IRTreeCursor</label>
+        <link refid="classthemis_1_1geo_1_1_i_r_tree_cursor"/>
+      </node>
+      <node id="2">
+        <label>themis::geo::RTreeKNNCursor</label>
+        <link refid="classthemis_1_1geo_1_1_r_tree_k_n_n_cursor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::geo::RTreeRangeCursor</label>
+        <link refid="classthemis_1_1geo_1_1_r_tree_range_cursor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/geo/rtree_cursor.h" line="47" column="1" bodyfile="include/geo/rtree_cursor.h" bodystart="47" bodyend="58"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1a5e1134a254487ae8761267942e24d11d" prot="public" virt="pure-virtual"><scope>themis::geo::IRTreeCursor</scope><name>estimatedResultCount</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1abcbc562a754256a5646e3994a5412c36" prot="public" virt="pure-virtual"><scope>themis::geo::IRTreeCursor</scope><name>next</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_r_tree_cursor_1a59e996785ad1fce496ed288d25a870a7" prot="public" virt="virtual"><scope>themis::geo::IRTreeCursor</scope><name>~IRTreeCursor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

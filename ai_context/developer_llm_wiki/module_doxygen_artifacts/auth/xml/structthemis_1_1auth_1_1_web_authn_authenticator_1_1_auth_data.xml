@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data" kind="struct" language="C++" prot="private">
+    <compoundname>themis::auth::WebAuthnAuthenticator::AuthData</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a42dfcc9ebf2e0443e51bdfbf301dd7bc" prot="public" static="no" mutable="no">
+        <type>std::array&lt; uint8_t, 32 &gt;</type>
+        <definition>std::array&lt;uint8_t, 32&gt; themis::auth::WebAuthnAuthenticator::AuthData::rp_id_hash</definition>
+        <argsstring></argsstring>
+        <name>rp_id_hash</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthData::rp_id_hash</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="254" column="20" bodyfile="include/auth/webauthn_authenticator.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a91eda901c61e3b28dea631528e0db846" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::auth::WebAuthnAuthenticator::AuthData::flags</definition>
+        <argsstring></argsstring>
+        <name>flags</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthData::flags</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="255" column="18" bodyfile="include/auth/webauthn_authenticator.h" bodystart="255" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a10479de607f5e91e4563e10c6f4faa52" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::auth::WebAuthnAuthenticator::AuthData::sign_count</definition>
+        <argsstring></argsstring>
+        <name>sign_count</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthData::sign_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="256" column="18" bodyfile="include/auth/webauthn_authenticator.h" bodystart="256" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a2876099aecc208b53238049ac1dde700" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::WebAuthnAuthenticator::AuthData::has_attested_credential</definition>
+        <argsstring></argsstring>
+        <name>has_attested_credential</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthData::has_attested_credential</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="259" column="14" bodyfile="include/auth/webauthn_authenticator.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1abe4a41aaa042db06f833fc15e457ac3c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::auth::WebAuthnAuthenticator::AuthData::aaguid</definition>
+        <argsstring></argsstring>
+        <name>aaguid</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthData::aaguid</qualifiedname>
+        <briefdescription>
+<para>16 bytes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="260" column="21" bodyfile="include/auth/webauthn_authenticator.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a0533597617a22e565ff1db9f4c9f56b6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::WebAuthnAuthenticator::AuthData::credential_id</definition>
+        <argsstring></argsstring>
+        <name>credential_id</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthData::credential_id</qualifiedname>
+        <briefdescription>
+<para>base64url </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="261" column="30" bodyfile="include/auth/webauthn_authenticator.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1aa635d2a480cb848f2f4b6db8a3867a04" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::auth::WebAuthnAuthenticator::AuthData::cose_key_bytes</definition>
+        <argsstring></argsstring>
+        <name>cose_key_bytes</name>
+        <qualifiedname>themis::auth::WebAuthnAuthenticator::AuthData::cose_key_bytes</qualifiedname>
+        <briefdescription>
+<para>raw CBOR of the credential public key </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/webauthn_authenticator.h" line="262" column="21" bodyfile="include/auth/webauthn_authenticator.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/webauthn_authenticator.h" line="253" column="5" bodyfile="include/auth/webauthn_authenticator.h" bodystart="253" bodyend="263"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1abe4a41aaa042db06f833fc15e457ac3c" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthData</scope><name>aaguid</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1aa635d2a480cb848f2f4b6db8a3867a04" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthData</scope><name>cose_key_bytes</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a0533597617a22e565ff1db9f4c9f56b6" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthData</scope><name>credential_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a91eda901c61e3b28dea631528e0db846" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthData</scope><name>flags</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a2876099aecc208b53238049ac1dde700" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthData</scope><name>has_attested_credential</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a42dfcc9ebf2e0443e51bdfbf301dd7bc" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthData</scope><name>rp_id_hash</name></member>
+      <member refid="structthemis_1_1auth_1_1_web_authn_authenticator_1_1_auth_data_1a10479de607f5e91e4563e10c6f4faa52" prot="public" virt="non-virtual"><scope>themis::auth::WebAuthnAuthenticator::AuthData</scope><name>sign_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

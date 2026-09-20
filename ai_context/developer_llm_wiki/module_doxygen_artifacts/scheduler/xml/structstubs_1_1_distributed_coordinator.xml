@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structstubs_1_1_distributed_coordinator" kind="struct" language="C++" prot="public">
+    <compoundname>stubs::DistributedCoordinator</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstubs_1_1_distributed_coordinator_1a1d7d0448b3fe9c377f6a047bb27021a8" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::DistributedCoordinator::ops</definition>
+        <argsstring></argsstring>
+        <name>ops</name>
+        <qualifiedname>stubs::DistributedCoordinator::ops</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="47" column="17" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structstubs_1_1_distributed_coordinator_1a31614fb4594afc6a5ec93de3662586cd" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; stubs::DistributedCoordinator::timeouts</definition>
+        <argsstring></argsstring>
+        <name>timeouts</name>
+        <qualifiedname>stubs::DistributedCoordinator::timeouts</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="48" column="17" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstubs_1_1_distributed_coordinator_1a4aaa9a027aa5887750cc84d203570dab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool stubs::DistributedCoordinator::coordinate</definition>
+        <argsstring>(uint64_t node_id, uint64_t task_id)</argsstring>
+        <name>coordinate</name>
+        <qualifiedname>stubs::DistributedCoordinator::coordinate</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="50" column="10" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="50" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/scheduler/test_scheduler_highcardinality_stress.cpp" line="46" column="1" bodyfile="tests/scheduler/test_scheduler_highcardinality_stress.cpp" bodystart="46" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structstubs_1_1_distributed_coordinator_1a4aaa9a027aa5887750cc84d203570dab" prot="public" virt="non-virtual"><scope>stubs::DistributedCoordinator</scope><name>coordinate</name></member>
+      <member refid="structstubs_1_1_distributed_coordinator_1a1d7d0448b3fe9c377f6a047bb27021a8" prot="public" virt="non-virtual"><scope>stubs::DistributedCoordinator</scope><name>ops</name></member>
+      <member refid="structstubs_1_1_distributed_coordinator_1a31614fb4594afc6a5ec93de3662586cd" prot="public" virt="non-virtual"><scope>stubs::DistributedCoordinator</scope><name>timeouts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

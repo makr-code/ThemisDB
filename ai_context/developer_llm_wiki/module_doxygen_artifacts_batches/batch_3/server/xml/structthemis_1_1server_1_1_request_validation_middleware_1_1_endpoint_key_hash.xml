@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_hash" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::RequestValidationMiddleware::EndpointKeyHash</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_hash_1a14c5e2b4e1ef0d47bb365a2c0e9cdb14" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::RequestValidationMiddleware::EndpointKeyHash::operator()</definition>
+        <argsstring>(const EndpointKey &amp;k) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::server::RequestValidationMiddleware::EndpointKeyHash::operator()</qualifiedname>
+        <param>
+          <type>const EndpointKey &amp;</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/request_validation_middleware.h" line="131" column="16" bodyfile="include/server/request_validation_middleware.h" bodystart="131" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/request_validation_middleware.h" line="130" column="5" bodyfile="include/server/request_validation_middleware.h" bodystart="130" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_request_validation_middleware_1_1_endpoint_key_hash_1a14c5e2b4e1ef0d47bb365a2c0e9cdb14" prot="public" virt="non-virtual"><scope>themis::server::RequestValidationMiddleware::EndpointKeyHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_pattern_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::PatternResult</compoundname>
+    <includes refid="lora__pattern__classifier_8h" local="no">lora_pattern_classifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_result_1a50ed383e6695da748acf2d0a097a04df" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::PatternResult::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themisdb::analytics::PatternResult::label</qualifiedname>
+        <briefdescription>
+<para>Classification label (e.g. &quot;fraud_sequence&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="45" column="17" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_result_1a51e06e9d8c77f3bb4ce1cb7c3ee3cbd9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::PatternResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themisdb::analytics::PatternResult::confidence</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>In [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="46" column="17" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_result_1a9f8f987b52a8b4603c167c60fe746b10" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::PatternResult::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themisdb::analytics::PatternResult::adapter_id</qualifiedname>
+        <briefdescription>
+<para>Which adapter produced this result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="47" column="17" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_pattern_result_1ac8858a669f8f367cb5fb3201e28787c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::PatternResult::used_fallback</definition>
+        <argsstring></argsstring>
+        <name>used_fallback</name>
+        <qualifiedname>themisdb::analytics::PatternResult::used_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true iff AutoML/constant fallback was used </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="48" column="17" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/lora_pattern_classifier.h" line="44" column="1" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="44" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_result_1a9f8f987b52a8b4603c167c60fe746b10" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternResult</scope><name>adapter_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_result_1a51e06e9d8c77f3bb4ce1cb7c3ee3cbd9" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternResult</scope><name>confidence</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_result_1a50ed383e6695da748acf2d0a097a04df" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternResult</scope><name>label</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_pattern_result_1ac8858a669f8f367cb5fb3201e28787c9" prot="public" virt="non-virtual"><scope>themisdb::analytics::PatternResult</scope><name>used_fallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

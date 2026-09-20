@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_throwing_listener" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>ThrowingListener</compoundname>
+    <basecompoundref refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener" prot="public" virt="non-virtual">themis::distributed_knowledge::IDKDiagnosticListener</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_throwing_listener_1ad969c6acea7aba81800e3662340dd1a1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void ThrowingListener::onEvent</definition>
+        <argsstring>(const DKDiagnosticEvent &amp;) override</argsstring>
+        <name>onEvent</name>
+        <qualifiedname>ThrowingListener::onEvent</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a3ed0805045cf701ada9c960db8859885">onEvent</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="67" column="10" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A listener that always throws. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThrowingListener</label>
+        <link refid="class_throwing_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_knowledge::IDKDiagnosticListener</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ThrowingListener</label>
+        <link refid="class_throwing_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_knowledge::IDKDiagnosticListener</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" line="65" column="1" bodyfile="tests/distributed_knowledge/test_dk_diagnostics_focused.cpp" bodystart="65" bodyend="70"/>
+    <listofallmembers>
+      <member refid="class_throwing_listener_1ad969c6acea7aba81800e3662340dd1a1" prot="public" virt="virtual"><scope>ThrowingListener</scope><name>onEvent</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a1d3c750b99891117b1aaf632f05dcc74" prot="public" virt="virtual"><scope>ThrowingListener</scope><name>~IDKDiagnosticListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

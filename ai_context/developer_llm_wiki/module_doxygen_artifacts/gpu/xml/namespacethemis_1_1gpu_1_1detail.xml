@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1gpu_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::gpu::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1detail_1a9becad7726c8e0c0e49502d9b6cc2b9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::detail::throwCudaError</definition>
+        <argsstring>(const char *call, const char *file, int line, const std::string &amp;detail)</argsstring>
+        <name>throwCudaError</name>
+        <qualifiedname>themis::gpu::detail::throwCudaError</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>call</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>detail</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_safe_raii.cpp" line="15" column="7" bodyfile="src/gpu/gpu_safe_raii.cpp" bodystart="15" bodyend="22" declfile="include/gpu/gpu_safe_raii.h" declline="67" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1detail_1a03a15085f486b7ca5da7a6fa81660299" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::detail::throwCudaUnavailable</definition>
+        <argsstring>(const char *call, const char *file, int line)</argsstring>
+        <name>throwCudaUnavailable</name>
+        <qualifiedname>themis::gpu::detail::throwCudaUnavailable</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>call</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_safe_raii.cpp" line="24" column="7" bodyfile="src/gpu/gpu_safe_raii.cpp" bodystart="24" bodyend="31" declfile="include/gpu/gpu_safe_raii.h" declline="72" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1gpu_1_1detail_1adc4bfce34497b2abbba75d863d0fd779" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::detail::destroyDeviceMemoryNoThrow</definition>
+        <argsstring>(void *ptr) noexcept</argsstring>
+        <name>destroyDeviceMemoryNoThrow</name>
+        <qualifiedname>themis::gpu::detail::destroyDeviceMemoryNoThrow</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Destroy Device Memory No Throw. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/gpu/gpu_safe_raii.cpp" line="33" column="6" bodyfile="src/gpu/gpu_safe_raii.cpp" bodystart="33" bodyend="41" declfile="include/gpu/gpu_safe_raii.h" declline="81" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_safe_raii.h" line="65" column="1"/>
+  </compounddef>
+</doxygen>

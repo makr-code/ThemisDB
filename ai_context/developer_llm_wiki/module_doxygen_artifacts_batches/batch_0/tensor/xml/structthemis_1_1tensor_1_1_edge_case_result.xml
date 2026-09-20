@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_edge_case_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::EdgeCaseResult</compoundname>
+    <includes refid="tensor__edge__case__handler_8h" local="no">tensor_edge_case_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_edge_case_result_1ade03332063a48bc8469d62356fd44e62" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::EdgeCaseResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::tensor::EdgeCaseResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the operation succeeded or failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="125" column="10" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_edge_case_result_1ac46783ec06d3fc6dac9f5a6addf6f3a2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::tensor::EdgeCaseResult::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::tensor::EdgeCaseResult::error_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>THEMIS error code (from include/utils/error_registry.h). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="128" column="9" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_edge_case_result_1a6784070fefcabd2e52450b6d500d8dce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::EdgeCaseResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::tensor::EdgeCaseResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error message for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="131" column="17" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_edge_case_result_1a91e84dcde792d1be9fb983c2aea1ecd2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::EdgeCaseResult::recovery_action</definition>
+        <argsstring></argsstring>
+        <name>recovery_action</name>
+        <qualifiedname>themis::tensor::EdgeCaseResult::recovery_action</qualifiedname>
+        <initializer>= &quot;fail-closed&quot;</initializer>
+        <briefdescription>
+<para>Recommended recovery action (&quot;retry&quot;, &quot;fallback&quot;, &quot;degrade&quot;, &quot;fail-closed&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="134" column="17" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_edge_case_result_1aa001d8fac4813bdbf5b20e3131212d1e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::tensor::EdgeCaseResult::is_recoverable</definition>
+        <argsstring></argsstring>
+        <name>is_recoverable</name>
+        <qualifiedname>themis::tensor::EdgeCaseResult::is_recoverable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the error is recoverable (true) or permanent (false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="137" column="10" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_edge_case_result_1a56edf71dccc7c1d88d24f4956a3dac08" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::EdgeCaseResult::technical_details</definition>
+        <argsstring></argsstring>
+        <name>technical_details</name>
+        <qualifiedname>themis::tensor::EdgeCaseResult::technical_details</qualifiedname>
+        <briefdescription>
+<para>Technical details (stack trace, context, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="140" column="17" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_edge_case_result_1a80a8e941809a77fe0e41b4febd97d4f1" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::EdgeCaseResult::Ok</definition>
+        <argsstring>(const std::string &amp;message=&quot;&quot;) noexcept</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::tensor::EdgeCaseResult::Ok</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Success factory method. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="143" column="27" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1tensor_1_1_edge_case_result_1a6808d13eb73583ae62d3437b8d47a102" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_edge_case_result" kindref="compound">EdgeCaseResult</ref></type>
+        <definition>EdgeCaseResult themis::tensor::EdgeCaseResult::Error</definition>
+        <argsstring>(int code, const std::string &amp;message, const std::string &amp;recovery_action=&quot;fail-closed&quot;, bool recoverable=false) noexcept</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::tensor::EdgeCaseResult::Error</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recovery_action</declname>
+          <defval>&quot;fail-closed&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recoverable</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Failure factory method. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="146" column="27" bodyfile="src/tensor/tensor_edge_case_handler.cpp" bodystart="37" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result structure for edge case handling operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Contains success flag, error code, and recovery action information. </para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_edge_case_handler.h" line="123" column="1" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="123" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_edge_case_result_1a6808d13eb73583ae62d3437b8d47a102" prot="public" virt="non-virtual"><scope>themis::tensor::EdgeCaseResult</scope><name>Error</name></member>
+      <member refid="structthemis_1_1tensor_1_1_edge_case_result_1ac46783ec06d3fc6dac9f5a6addf6f3a2" prot="public" virt="non-virtual"><scope>themis::tensor::EdgeCaseResult</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1tensor_1_1_edge_case_result_1a6784070fefcabd2e52450b6d500d8dce" prot="public" virt="non-virtual"><scope>themis::tensor::EdgeCaseResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1tensor_1_1_edge_case_result_1aa001d8fac4813bdbf5b20e3131212d1e" prot="public" virt="non-virtual"><scope>themis::tensor::EdgeCaseResult</scope><name>is_recoverable</name></member>
+      <member refid="structthemis_1_1tensor_1_1_edge_case_result_1a80a8e941809a77fe0e41b4febd97d4f1" prot="public" virt="non-virtual"><scope>themis::tensor::EdgeCaseResult</scope><name>Ok</name></member>
+      <member refid="structthemis_1_1tensor_1_1_edge_case_result_1a91e84dcde792d1be9fb983c2aea1ecd2" prot="public" virt="non-virtual"><scope>themis::tensor::EdgeCaseResult</scope><name>recovery_action</name></member>
+      <member refid="structthemis_1_1tensor_1_1_edge_case_result_1ade03332063a48bc8469d62356fd44e62" prot="public" virt="non-virtual"><scope>themis::tensor::EdgeCaseResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1tensor_1_1_edge_case_result_1a56edf71dccc7c1d88d24f4956a3dac08" prot="public" virt="non-virtual"><scope>themis::tensor::EdgeCaseResult</scope><name>technical_details</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

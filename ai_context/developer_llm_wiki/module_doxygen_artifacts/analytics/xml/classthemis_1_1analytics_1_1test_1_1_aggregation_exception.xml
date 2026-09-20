@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1analytics_1_1test_1_1_aggregation_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::analytics::test::AggregationException</compoundname>
+    <basecompoundref refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception" prot="public" virt="non-virtual">themis::analytics::test::AnalyticsException</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1analytics_1_1test_1_1_aggregation_exception_1a1825c58494f2c40052764be33d4e4fc1" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::test::AggregationException::AggregationException</definition>
+        <argsstring>(const ErrorContext &amp;ctx)</argsstring>
+        <name>AggregationException</name>
+        <qualifiedname>themis::analytics::test::AggregationException::AggregationException</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1test_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="129" column="14" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="129" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Specific exception types. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::AggregationException</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::analytics::test::AnalyticsException</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::analytics::test::AggregationException</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::analytics::test::AnalyticsException</label>
+        <link refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_analytics_error_handling_focused.cpp" line="127" column="1" bodyfile="tests/analytics/test_analytics_error_handling_focused.cpp" bodystart="127" bodyend="131"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_aggregation_exception_1a1825c58494f2c40052764be33d4e4fc1" prot="public" virt="non-virtual"><scope>themis::analytics::test::AggregationException</scope><name>AggregationException</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa9e1183deceff83eaf2dfb3086ad0685" prot="public" virt="non-virtual"><scope>themis::analytics::test::AggregationException</scope><name>AnalyticsException</name></member>
+      <member refid="classthemis_1_1analytics_1_1test_1_1_analytics_exception_1aa13a0dcc8bb9249dda1fbf68fd2e0f02" prot="public" virt="non-virtual"><scope>themis::analytics::test::AggregationException</scope><name>getContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

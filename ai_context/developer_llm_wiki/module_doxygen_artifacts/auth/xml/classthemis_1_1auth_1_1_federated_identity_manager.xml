@@ -1,0 +1,1345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_federated_identity_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::FederatedIdentityManager</compoundname>
+    <includes refid="federated__identity__manager_8h" local="no">federated_identity_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1ae95f346e942d846da5415c0a004bcb17" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::FederatedIdentityManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="255" column="24" bodyfile="include/auth/federated_identity_manager.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1aa88f276870dae5b1aa0c6722c7ed0433" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider" kindref="compound">OIDCProvider</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;OIDCProvider&gt; &gt; themis::auth::FederatedIdentityManager::realms_</definition>
+        <argsstring></argsstring>
+        <name>realms_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::realms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="257" column="24" bodyfile="include/auth/federated_identity_manager.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1af4a34ef718b33e6b68d0d1903ccca0bb" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;url)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; url)&gt; themis::auth::FederatedIdentityManager::http_get_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_get_fn_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::http_get_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="259" column="19" bodyfile="include/auth/federated_identity_manager.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1a7f9e3d956e84f58aeb219f16f6c9f39e" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp; url, const std::string&amp; body)&gt; themis::auth::FederatedIdentityManager::http_post_fn_</definition>
+        <argsstring></argsstring>
+        <name>http_post_fn_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::http_post_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="262" column="2" bodyfile="include/auth/federated_identity_manager.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1a30ef02901637b1f5482517b9bb81a9dd" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> *</type>
+        <definition>AuthAuditLogger* themis::auth::FederatedIdentityManager::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="264" column="21" bodyfile="include/auth/federated_identity_manager.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1a3d9a42e1cecfb0a887596c42b3f202fd" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::FederatedIdentityManager::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="275" column="24" bodyfile="include/auth/federated_identity_manager.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1a0a57742fc08309dfadfcefe20727ace2" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1auth_1_1_cached_validation" kindref="compound">CachedValidation</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, CachedValidation&gt; themis::auth::FederatedIdentityManager::token_cache_</definition>
+        <argsstring></argsstring>
+        <name>token_cache_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::token_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="276" column="24" bodyfile="include/auth/federated_identity_manager.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1a03b980198720876b29c4b7083ac01d18" prot="private" static="no" mutable="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::auth::FederatedIdentityManager::cache_lru_order_</definition>
+        <argsstring></argsstring>
+        <name>cache_lru_order_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::cache_lru_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="277" column="15" bodyfile="include/auth/federated_identity_manager.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1a108cf1f5a4f66bc76c40f5c435bad6fe" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::FederatedIdentityManager::trust_mutex_</definition>
+        <argsstring></argsstring>
+        <name>trust_mutex_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::trust_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="283" column="24" bodyfile="include/auth/federated_identity_manager.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_federated_identity_manager_1aff11bc6d06030aabee777ff1458bf715" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_set&lt;std::string&gt; &gt; themis::auth::FederatedIdentityManager::trust_map_</definition>
+        <argsstring></argsstring>
+        <name>trust_map_</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::trust_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="284" column="24" bodyfile="include/auth/federated_identity_manager.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1afd1b9cd38588cfbe63858a6a6a7759e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::FederatedIdentityManager::FederatedIdentityManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>FederatedIdentityManager</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::FederatedIdentityManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="56" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a4e258fd84f17064b0dc95b942cdc1815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::FederatedIdentityManager::FederatedIdentityManager</definition>
+        <argsstring>(const FederatedIdentityManager &amp;)=delete</argsstring>
+        <name>FederatedIdentityManager</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::FederatedIdentityManager</qualifiedname>
+        <param>
+          <type>const FederatedIdentityManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1aaca2932a69350af46212298655ed7f64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1afd1b9cd38588cfbe63858a6a6a7759e5" kindref="member">FederatedIdentityManager</ref> &amp;</type>
+        <definition>FederatedIdentityManager &amp; themis::auth::FederatedIdentityManager::operator=</definition>
+        <argsstring>(const FederatedIdentityManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1afd1b9cd38588cfbe63858a6a6a7759e5" kindref="member">FederatedIdentityManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="60" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a643caada160aa2020968d08c031fb861" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::FederatedIdentityManager::FederatedIdentityManager</definition>
+        <argsstring>(FederatedIdentityManager &amp;&amp;) noexcept=default</argsstring>
+        <name>FederatedIdentityManager</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::FederatedIdentityManager</qualifiedname>
+        <param>
+          <type>FederatedIdentityManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="63" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1ae6dfb6f084daecfd08a8533d3a26246f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1afd1b9cd38588cfbe63858a6a6a7759e5" kindref="member">FederatedIdentityManager</ref> &amp;</type>
+        <definition>FederatedIdentityManager &amp; themis::auth::FederatedIdentityManager::operator=</definition>
+        <argsstring>(FederatedIdentityManager &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1afd1b9cd38588cfbe63858a6a6a7759e5" kindref="member">FederatedIdentityManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="64" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a6b002d8195fffd06d07581b8096d308d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::FederatedIdentityManager::addRealm</definition>
+        <argsstring>(const OIDCProviderConfig &amp;config)</argsstring>
+        <name>addRealm</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::addRealm</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_o_i_d_c_provider_config" kindref="compound">OIDCProviderConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Add Realm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: normalize(), empty(), AuthError(), <ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1a7078d1cc681fa27d0edca860e1f9a4f9" kindref="member">setHttpGetForTesting()</ref>, lock(), count(), emplace(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="74" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="214" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a5dda0ba199ad87897eec23bdfa97692b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::FederatedIdentityManager::removeRealm</definition>
+        <argsstring>(const std::string &amp;issuer_url)</argsstring>
+        <name>removeRealm</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::removeRealm</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>issuer_url</declname>
+        </param>
+        <briefdescription>
+<para>Remove Realm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: normalize(), lock(), find(), end(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="81" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="249" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1abf68d611ec0441c3d400a09f3c9010fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::FederatedIdentityManager::hasRealm</definition>
+        <argsstring>(const std::string &amp;issuer_url) const</argsstring>
+        <name>hasRealm</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::hasRealm</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>issuer_url</declname>
+        </param>
+        <briefdescription>
+<para>Has Realm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="88" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="261" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1aa1d0a2308b7d8073b09cbc9a314f7dda" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::FederatedIdentityManager::realmIssuers</definition>
+        <argsstring>() const</argsstring>
+        <name>realmIssuers</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::realmIssuers</qualifiedname>
+        <briefdescription>
+<para>Realm Issuers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="94" column="17" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="272" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1aea62ade08217c92bf27b13bfe84533b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::FederatedIdentityManager::realmCount</definition>
+        <argsstring>() const</argsstring>
+        <name>realmCount</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::realmCount</qualifiedname>
+        <briefdescription>
+<para>Realm Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="100" column="12" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="288" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1aaf5b485d011a4013a4170041088f8872" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_federated_validation_result" kindref="compound">FederatedValidationResult</ref></type>
+        <definition>FederatedValidationResult themis::auth::FederatedIdentityManager::validateToken</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>validateToken</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::validateToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Validate Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), sha256Hex(), c_lock(), find(), end(), remove(), push_front(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="111" column="31" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="309" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1aeb875bd888e3fefcb93abbf3847dd32e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_token_exchange_result" kindref="compound">TokenExchangeResult</ref></type>
+        <definition>TokenExchangeResult themis::auth::FederatedIdentityManager::exchangeToken</definition>
+        <argsstring>(const std::string &amp;subject_token, const std::string &amp;subject_token_type, const std::string &amp;requested_token_type, const std::vector&lt; std::string &gt; &amp;target_scopes={})</argsstring>
+        <name>exchangeToken</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::exchangeToken</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_token</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_token_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>requested_token_type</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>target_scopes</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Exchange Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_token_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requested_token_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_scopes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: starts_with(), substr(), extractIssuer(), normalize(), lock(), find(), end(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="117" column="25" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="784" bodyend="996"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a6fca2a29509458ebfeac1b7273b76a0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_o_i_d_c_provider" kindref="compound">OIDCProvider</ref> &amp;</type>
+        <definition>OIDCProvider &amp; themis::auth::FederatedIdentityManager::realmProvider</definition>
+        <argsstring>(const std::string &amp;issuer_url)</argsstring>
+        <name>realmProvider</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::realmProvider</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>issuer_url</declname>
+        </param>
+        <briefdescription>
+<para>Realm Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">issuer_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="128" column="18" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="433" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a28ff1dfb87907a875cf64f58f9fd62e4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::FederatedIdentityManager::setAuditLogger</definition>
+        <argsstring>(AuthAuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::setAuditLogger</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_auth_audit_logger" kindref="compound">AuthAuditLogger</ref> *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="135" column="10" bodyfile="include/auth/federated_identity_manager.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a7078d1cc681fa27d0edca860e1f9a4f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::FederatedIdentityManager::setHttpGetForTesting</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;url)&gt; fn)</argsstring>
+        <name>setHttpGetForTesting</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::setHttpGetForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;url)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="141" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="454" bodyend="456"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a67bd2f5209623d91e35aee7f0fb6fa5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::FederatedIdentityManager::setHttpPostForTesting</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt; fn)</argsstring>
+        <name>setHttpPostForTesting</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::setHttpPostForTesting</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;url, const std::string &amp;body)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="144" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="458" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a594ba8fc9914666f142072e492fcdae2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::FederatedIdentityManager::addCrossProviderTrust</definition>
+        <argsstring>(const std::string &amp;subject_issuer, const std::string &amp;trusting_issuer)</argsstring>
+        <name>addCrossProviderTrust</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::addCrossProviderTrust</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_issuer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trusting_issuer</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Cross-provider trust registry Records which issuers are trusted by which realms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Cross Provider Trust.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trusting_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Used internally by <ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aeb875bd888e3fefcb93abbf3847dd32e" kindref="member">exchangeToken()</ref> to guard cross-realm token exchange. All methods are thread-safe. --------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trusting_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: normalize(), empty(), AuthError(), lock(), insert(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="155" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="474" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1af1052295b6a1a2f70111aa43d73131a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::FederatedIdentityManager::removeCrossProviderTrust</definition>
+        <argsstring>(const std::string &amp;subject_issuer, const std::string &amp;trusting_issuer)</argsstring>
+        <name>removeCrossProviderTrust</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::removeCrossProviderTrust</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_issuer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trusting_issuer</declname>
+        </param>
+        <briefdescription>
+<para>Remove Cross Provider Trust. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trusting_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trusting_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: normalize(), lock(), find(), end(), erase(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="164" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="495" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1ab628f48e735b931c313b1f49ae00d74f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::FederatedIdentityManager::isTrustedBy</definition>
+        <argsstring>(const std::string &amp;subject_issuer, const std::string &amp;trusting_issuer) const</argsstring>
+        <name>isTrustedBy</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::isTrustedBy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>subject_issuer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trusting_issuer</declname>
+        </param>
+        <briefdescription>
+<para>Is Trusted By. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subject_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">trusting_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">trust_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="173" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="511" bodyend="530"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a4c8e56223ce0b6ecc19fc619ab6ca3e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::auth::FederatedIdentityManager::getCrossProviderTrusts</definition>
+        <argsstring>(const std::string &amp;trusting_issuer) const</argsstring>
+        <name>getCrossProviderTrusts</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::getCrossProviderTrusts</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>trusting_issuer</declname>
+        </param>
+        <briefdescription>
+<para>Get Cross Provider Trusts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">trusting_issuer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">trust_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="181" column="17" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="532" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1aebdb880e6dff52960943f962dbbf22b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::FederatedIdentityManager::syncTrustState</definition>
+        <argsstring>(const std::string &amp;peer_node_id, const std::string &amp;peer_rpc_endpoint)</argsstring>
+        <name>syncTrustState</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::syncTrustState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>peer_node_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>peer_rpc_endpoint</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> Multi-realm distributed trust-state synchronization (ROADMAP §3c) Propagates the local trust registry to a peer node via a simple TCP JSON payload using the existing TBLK/v1 retry pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> [3c] Multi-realm distributed trust-state synchronization ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the peer node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_rpc_endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+The peer node must expose a JSON-over-TCP listener on <computeroutput>peer_rpc_endpoint</computeroutput>. Wire format: {&quot;op&quot;:&quot;sync_trust&quot;,&quot;entries&quot;:[{&quot;subject&quot;:&quot;&lt;issuer&gt;&quot;,&quot;trusting&quot;:&quot;&lt;issuer&gt;&quot;},…]} This push throws AuthException(AUTH_INTERNAL_ERROR) if the connect or send fails after all retry attempts; individual attempt failures within the retry budget are logged but swallowed. --------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the peer node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">peer_rpc_endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::array(), lock(), push_back(), dump(), rfind(), AuthError(), substr(), std::stoi(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="191" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="1007" bodyend="1166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a53c9f5e3d5751bf7057acd034fddd825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::FederatedIdentityManager::cacheValidationResult</definition>
+        <argsstring>(const std::string &amp;token, const FederatedValidationResult &amp;result)</argsstring>
+        <name>cacheValidationResult</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::cacheValidationResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_federated_validation_result" kindref="compound">FederatedValidationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>--------------------------------------------------------------------<mdash/> In-memory token validation cache <ref refid="classthemis_1_1auth_1_1_federated_identity_manager_1aaf5b485d011a4013a4170041088f8872" kindref="member">validateToken()</ref> populates the cache automatically after each successful validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> In-memory token validation cache ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Callers may also query and manage the cache directly. All entries are keyed by the raw bearer token string. --------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: sha256Hex(), lock(), size(), count(), empty(), erase(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="201" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="555" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a6dace64bd8856bd623f7817cd8bf0871" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1auth_1_1_federated_validation_result" kindref="compound">FederatedValidationResult</ref> &gt;</type>
+        <definition>std::optional&lt; FederatedValidationResult &gt; themis::auth::FederatedIdentityManager::getCachedResult</definition>
+        <argsstring>(const std::string &amp;token) const</argsstring>
+        <name>getCachedResult</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::getCachedResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+<para>Get Cached Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="209" column="19" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="575" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1ab1302dcff46aaeb6ca410df0bbf64da8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::FederatedIdentityManager::evictExpiredCacheEntries</definition>
+        <argsstring>()</argsstring>
+        <name>evictExpiredCacheEntries</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::evictExpiredCacheEntries</qualifiedname>
+        <briefdescription>
+<para>Evict Expired Cache Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), lock(), begin(), end(), remove(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="216" column="12" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="600" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a0a154dadc35a19338281f32c70149fac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::FederatedIdentityManager::clearTokenCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearTokenCache</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::clearTokenCache</qualifiedname>
+        <briefdescription>
+<para>Clear Token Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="221" column="10" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="625" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1aa07c3c5a5be5baa629ecfe74910d4d1d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::FederatedIdentityManager::tokenCacheSize</definition>
+        <argsstring>() const</argsstring>
+        <name>tokenCacheSize</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::tokenCacheSize</qualifiedname>
+        <briefdescription>
+<para>Token Cache Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="227" column="12" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="631" bodyend="639"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a40bdb5859028b59b2b074258637090f9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::FederatedIdentityManager::normalize</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>normalize</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::normalize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Normalize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="235" column="24" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="106" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a0bd2551e4dde26362e098267f1a39ddb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::FederatedIdentityManager::extractIssuer</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>extractIssuer</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::extractIssuer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+          <defname>raw_token</defname>
+        </param>
+        <briefdescription>
+<para>Extract Issuer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), substr(), AuthError(), std::to_string(), find(), reserve(), push_back(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="242" column="24" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="121" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1af6f1aab23a048f73a19093e69aa9a5d5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::FederatedIdentityManager::buildFormBody</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;params)</argsstring>
+        <name>buildFormBody</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::buildFormBody</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>params</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="244" column="24" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="646" bodyend="681"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_federated_identity_manager_1a74921ed35ad9ca3df38bacf61f2879cf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::FederatedIdentityManager::httpPost</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;body) const</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>themis::auth::FederatedIdentityManager::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Http Post. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/federated_identity_manager.h" line="253" column="17" bodyfile="src/auth/federated_identity_manager.cpp" bodystart="683" bodyend="768"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/federated_identity_manager.h" line="54" column="1" bodyfile="include/auth/federated_identity_manager.h" bodystart="54" bodyend="285"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a594ba8fc9914666f142072e492fcdae2" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>addCrossProviderTrust</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a6b002d8195fffd06d07581b8096d308d" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>addRealm</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a30ef02901637b1f5482517b9bb81a9dd" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1af6f1aab23a048f73a19093e69aa9a5d5" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>buildFormBody</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a03b980198720876b29c4b7083ac01d18" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>cache_lru_order_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a3d9a42e1cecfb0a887596c42b3f202fd" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a53c9f5e3d5751bf7057acd034fddd825" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>cacheValidationResult</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a0a154dadc35a19338281f32c70149fac" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>clearTokenCache</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1ab1302dcff46aaeb6ca410df0bbf64da8" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>evictExpiredCacheEntries</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aeb875bd888e3fefcb93abbf3847dd32e" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>exchangeToken</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a0bd2551e4dde26362e098267f1a39ddb" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>extractIssuer</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1afd1b9cd38588cfbe63858a6a6a7759e5" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>FederatedIdentityManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a4e258fd84f17064b0dc95b942cdc1815" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>FederatedIdentityManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a643caada160aa2020968d08c031fb861" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>FederatedIdentityManager</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a6dace64bd8856bd623f7817cd8bf0871" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>getCachedResult</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a4c8e56223ce0b6ecc19fc619ab6ca3e5" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>getCrossProviderTrusts</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1abf68d611ec0441c3d400a09f3c9010fa" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>hasRealm</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1af4a34ef718b33e6b68d0d1903ccca0bb" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>http_get_fn_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a7f9e3d956e84f58aeb219f16f6c9f39e" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>http_post_fn_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a74921ed35ad9ca3df38bacf61f2879cf" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>httpPost</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1ab628f48e735b931c313b1f49ae00d74f" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>isTrustedBy</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1ae95f346e942d846da5415c0a004bcb17" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a40bdb5859028b59b2b074258637090f9" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>normalize</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aaca2932a69350af46212298655ed7f64" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1ae6dfb6f084daecfd08a8533d3a26246f" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aea62ade08217c92bf27b13bfe84533b8" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>realmCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aa1d0a2308b7d8073b09cbc9a314f7dda" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>realmIssuers</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a6fca2a29509458ebfeac1b7273b76a0b" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>realmProvider</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aa88f276870dae5b1aa0c6722c7ed0433" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>realms_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1af1052295b6a1a2f70111aa43d73131a0" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>removeCrossProviderTrust</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a5dda0ba199ad87897eec23bdfa97692b" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>removeRealm</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a28ff1dfb87907a875cf64f58f9fd62e4" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a7078d1cc681fa27d0edca860e1f9a4f9" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>setHttpGetForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a67bd2f5209623d91e35aee7f0fb6fa5d" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>setHttpPostForTesting</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aebdb880e6dff52960943f962dbbf22b4" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>syncTrustState</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a0a57742fc08309dfadfcefe20727ace2" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>token_cache_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aa07c3c5a5be5baa629ecfe74910d4d1d" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>tokenCacheSize</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aff11bc6d06030aabee777ff1458bf715" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>trust_map_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1a108cf1f5a4f66bc76c40f5c435bad6fe" prot="private" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>trust_mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_federated_identity_manager_1aaf5b485d011a4013a4170041088f8872" prot="public" virt="non-virtual"><scope>themis::auth::FederatedIdentityManager</scope><name>validateToken</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

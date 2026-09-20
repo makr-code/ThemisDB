@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key" kind="struct" language="C++" prot="private">
+    <compoundname>themis::evaluation::BenchmarkMatrix::Key</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a28794abe2fe4e1f87e12dc8bf55ec388" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+        <definition>BenchmarkScenario themis::evaluation::BenchmarkMatrix::Key::scenario</definition>
+        <argsstring></argsstring>
+        <name>scenario</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::Key::scenario</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="319" column="27" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a198133027086738c0faa5ba20a487761" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+        <definition>BenchmarkDimension themis::evaluation::BenchmarkMatrix::Key::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::Key::dimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="320" column="28" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a40c24b8622323d6fbd6a4239b37ee108" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::BenchmarkMatrix::Key::operator==</definition>
+        <argsstring>(const Key &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::evaluation::BenchmarkMatrix::Key::operator==</qualifiedname>
+        <param>
+          <type>const Key &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="322" column="14" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="322" bodyend="324"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/benchmark_matrix.h" line="318" column="5" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="318" bodyend="325"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a198133027086738c0faa5ba20a487761" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix::Key</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a40c24b8622323d6fbd6a4239b37ee108" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix::Key</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_matrix_1_1_key_1a28794abe2fe4e1f87e12dc8bf55ec388" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkMatrix::Key</scope><name>scenario</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

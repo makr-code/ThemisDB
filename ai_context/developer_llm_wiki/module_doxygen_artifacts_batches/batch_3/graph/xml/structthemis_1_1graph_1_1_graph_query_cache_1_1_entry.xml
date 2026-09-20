@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_cache_1_1_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::graph::GraphQueryCache::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_entry_1a09871bfac9313fb43e78bbdc630d304e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_query_cache_1ac50b1dcb593847550513f3faa8e80fe7" kindref="member">ResultSet</ref></type>
+        <definition>ResultSet themis::graph::GraphQueryCache::Entry::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Entry::result</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="126" column="22" bodyfile="include/graph/graph_query_cache.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_entry_1a173c8a846a5b0efb51d28c066bfcb330" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryCache::Entry::cost</definition>
+        <argsstring></argsstring>
+        <name>cost</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Entry::cost</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="127" column="22" bodyfile="include/graph/graph_query_cache.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_cache_1_1_entry_1a86b5e1e6b15611550a571e9ac9dde7b2" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::graph::GraphQueryCache::Entry::inserted_at</definition>
+        <argsstring></argsstring>
+        <name>inserted_at</name>
+        <qualifiedname>themis::graph::GraphQueryCache::Entry::inserted_at</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="128" column="47" bodyfile="include/graph/graph_query_cache.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_cache.h" line="125" column="5" bodyfile="include/graph/graph_query_cache.h" bodystart="125" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_entry_1a173c8a846a5b0efb51d28c066bfcb330" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Entry</scope><name>cost</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_entry_1a86b5e1e6b15611550a571e9ac9dde7b2" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Entry</scope><name>inserted_at</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_cache_1_1_entry_1a09871bfac9313fb43e78bbdc630d304e" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryCache::Entry</scope><name>result</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

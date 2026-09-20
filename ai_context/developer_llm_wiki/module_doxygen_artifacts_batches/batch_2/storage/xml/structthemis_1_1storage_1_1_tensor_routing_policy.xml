@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_tensor_routing_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::TensorRoutingPolicy</compoundname>
+    <includes refid="tensor__router_8h" local="no">tensor_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_routing_policy_1aaabd5d1b5bd28ba0934df828a773e23e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRoutingPolicy::min_lift_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>min_lift_compression_ratio</name>
+        <qualifiedname>themis::storage::TensorRoutingPolicy::min_lift_compression_ratio</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+<para>Minimum compression ratio to choose LIFT over KEEP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="111" column="12" bodyfile="include/storage/tensor_router.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_routing_policy_1ad3df1a22f0452b9214c8a57674b6c453" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::TensorRoutingPolicy::min_hybrid_compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>min_hybrid_compression_ratio</name>
+        <qualifiedname>themis::storage::TensorRoutingPolicy::min_hybrid_compression_ratio</qualifiedname>
+        <initializer>= 1.2</initializer>
+        <briefdescription>
+<para>Minimum compression ratio to choose HYBRID over KEEP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="114" column="12" bodyfile="include/storage/tensor_router.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_routing_policy_1aa641837a2093579d08f9fb5c1e514bdd" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRoutingPolicy::max_lift_rank</definition>
+        <argsstring></argsstring>
+        <name>max_lift_rank</name>
+        <qualifiedname>themis::storage::TensorRoutingPolicy::max_lift_rank</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum TT-rank for a field to qualify for LIFT. Higher-rank data is unlikely to benefit from TT-storage. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="118" column="17" bodyfile="include/storage/tensor_router.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_routing_policy_1ab978a5449c62c8a213e61b0cf6bbda91" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::TensorRoutingPolicy::probe_sample_elements</definition>
+        <argsstring></argsstring>
+        <name>probe_sample_elements</name>
+        <qualifiedname>themis::storage::TensorRoutingPolicy::probe_sample_elements</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Probe sample size (elements) used to estimate compressibility. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="121" column="17" bodyfile="include/storage/tensor_router.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_routing_policy_1a58963739e0d9b08228f84cc2a837beb0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorRoutingPolicy::force_lift_for_inference</definition>
+        <argsstring></argsstring>
+        <name>force_lift_for_inference</name>
+        <qualifiedname>themis::storage::TensorRoutingPolicy::force_lift_for_inference</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If inference_use is true and category == LLM_WEIGHTS|EMBEDDING, override decision to LIFT to enable zero-copy RAG. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="125" column="10" bodyfile="include/storage/tensor_router.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_tensor_routing_policy_1ac10ca7409d967d8b140939dab63c7ad4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorRoutingPolicy::use_ml_routing</definition>
+        <argsstring></argsstring>
+        <name>use_ml_routing</name>
+        <qualifiedname>themis::storage::TensorRoutingPolicy::use_ml_routing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If true, use ML-based routing model instead of heuristics. Requires THEMIS_ENABLE_ROUTING_ML=ON (Q2 2027). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="129" column="10" bodyfile="include/storage/tensor_router.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/tensor_router.h" line="109" column="1" bodyfile="include/storage/tensor_router.h" bodystart="109" bodyend="130"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_tensor_routing_policy_1a58963739e0d9b08228f84cc2a837beb0" prot="public" virt="non-virtual"><scope>themis::storage::TensorRoutingPolicy</scope><name>force_lift_for_inference</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_routing_policy_1aa641837a2093579d08f9fb5c1e514bdd" prot="public" virt="non-virtual"><scope>themis::storage::TensorRoutingPolicy</scope><name>max_lift_rank</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ad3df1a22f0452b9214c8a57674b6c453" prot="public" virt="non-virtual"><scope>themis::storage::TensorRoutingPolicy</scope><name>min_hybrid_compression_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_routing_policy_1aaabd5d1b5bd28ba0934df828a773e23e" prot="public" virt="non-virtual"><scope>themis::storage::TensorRoutingPolicy</scope><name>min_lift_compression_ratio</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ab978a5449c62c8a213e61b0cf6bbda91" prot="public" virt="non-virtual"><scope>themis::storage::TensorRoutingPolicy</scope><name>probe_sample_elements</name></member>
+      <member refid="structthemis_1_1storage_1_1_tensor_routing_policy_1ac10ca7409d967d8b140939dab63c7ad4" prot="public" virt="non-virtual"><scope>themis::storage::TensorRoutingPolicy</scope><name>use_ml_routing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

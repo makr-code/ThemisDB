@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::TransactionAuditor::IAuditExportTransport</compoundname>
+    <includes refid="transaction__auditor_8h" local="no">transaction_auditor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1a7be2e3ef307833ff656fb55114ca317d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::TransactionAuditor::IAuditExportTransport::~IAuditExportTransport</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAuditExportTransport</name>
+        <qualifiedname>themis::TransactionAuditor::IAuditExportTransport::~IAuditExportTransport</qualifiedname>
+        <briefdescription>
+<para>IAudit Export Transport. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="141" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1ad76c9a70e66dd9c48b4eb06b16296698" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref></type>
+        <definition>virtual Status themis::TransactionAuditor::IAuditExportTransport::sendKafka</definition>
+        <argsstring>(const std::string &amp;topic, const std::string &amp;ndjson_payload)=0</argsstring>
+        <name>sendKafka</name>
+        <qualifiedname>themis::TransactionAuditor::IAuditExportTransport::sendKafka</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ndjson_payload</declname>
+        </param>
+        <briefdescription>
+<para>Send Kafka. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ndjson_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="149" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1a766e4f55ac441fff6e41605a9ec44bbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1_transaction_auditor_1_1_status" kindref="compound">Status</ref></type>
+        <definition>virtual Status themis::TransactionAuditor::IAuditExportTransport::writeS3</definition>
+        <argsstring>(const std::string &amp;bucket, const std::string &amp;key, const std::string &amp;ndjson_payload)=0</argsstring>
+        <name>writeS3</name>
+        <qualifiedname>themis::TransactionAuditor::IAuditExportTransport::writeS3</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bucket</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ndjson_payload</declname>
+        </param>
+        <briefdescription>
+<para>Write S3. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bucket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ndjson_payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_auditor.h" line="159" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_auditor.h" line="136" column="5" bodyfile="include/transaction/transaction_auditor.h" bodystart="136" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1ad76c9a70e66dd9c48b4eb06b16296698" prot="public" virt="pure-virtual"><scope>themis::TransactionAuditor::IAuditExportTransport</scope><name>sendKafka</name></member>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1a766e4f55ac441fff6e41605a9ec44bbf" prot="public" virt="pure-virtual"><scope>themis::TransactionAuditor::IAuditExportTransport</scope><name>writeS3</name></member>
+      <member refid="structthemis_1_1_transaction_auditor_1_1_i_audit_export_transport_1a7be2e3ef307833ff656fb55114ca317d" prot="public" virt="virtual"><scope>themis::TransactionAuditor::IAuditExportTransport</scope><name>~IAuditExportTransport</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

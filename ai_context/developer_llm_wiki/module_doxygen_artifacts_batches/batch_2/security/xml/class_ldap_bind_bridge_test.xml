@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_ldap_bind_bridge_test" kind="class" language="C++" prot="public">
+    <compoundname>LdapBindBridgeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_ldap_bind_bridge_test_1a96ecd202d8e8db657b279981d55c310e" prot="protected" static="no" mutable="no">
+        <type>LDAPAuthenticator</type>
+        <definition>LDAPAuthenticator LdapBindBridgeTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>LdapBindBridgeTest::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_bind_bridge.cpp" line="44" column="23" bodyfile="tests/security/test_ldap_bind_bridge.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_ldap_bind_bridge_test_1ad5dc8e3e20c832aa4f773fb8df95339e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LdapBindBridgeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>LdapBindBridgeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_bind_bridge.cpp" line="35" column="10" bodyfile="tests/security/test_ldap_bind_bridge.cpp" bodystart="35" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_ldap_bind_bridge_test_1acb2daf08cf237032a990dac8d29d67e2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LdapBindBridgeTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>LdapBindBridgeTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_ldap_bind_bridge.cpp" line="40" column="10" bodyfile="tests/security/test_ldap_bind_bridge.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>LdapBindBridgeTest</label>
+        <link refid="class_ldap_bind_bridge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>LdapBindBridgeTest</label>
+        <link refid="class_ldap_bind_bridge_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_ldap_bind_bridge.cpp" line="33" column="1" bodyfile="tests/security/test_ldap_bind_bridge.cpp" bodystart="33" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_ldap_bind_bridge_test_1a96ecd202d8e8db657b279981d55c310e" prot="protected" virt="non-virtual"><scope>LdapBindBridgeTest</scope><name>auth_</name></member>
+      <member refid="class_ldap_bind_bridge_test_1ad5dc8e3e20c832aa4f773fb8df95339e" prot="protected" virt="non-virtual"><scope>LdapBindBridgeTest</scope><name>SetUp</name></member>
+      <member refid="class_ldap_bind_bridge_test_1acb2daf08cf237032a990dac8d29d67e2" prot="protected" virt="non-virtual"><scope>LdapBindBridgeTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

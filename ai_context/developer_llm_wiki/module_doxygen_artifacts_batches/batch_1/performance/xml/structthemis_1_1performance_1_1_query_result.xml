@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_query_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::QueryResult</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_result_1ac0c2ba12cc3f23c646141e9d3a7e36bd" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1_query_row" kindref="compound">QueryRow</ref> &gt;</type>
+        <definition>std::vector&lt;QueryRow&gt; themis::performance::QueryResult::rows</definition>
+        <argsstring></argsstring>
+        <name>rows</name>
+        <qualifiedname>themis::performance::QueryResult::rows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="92" column="17" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_result_1ae2dc9c28c004e61eadefc767b9610a26" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::QueryResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::performance::QueryResult::error</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="93" column="27" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_query_result_1af787201e8b385c9a71870250088f452c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::QueryResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::performance::QueryResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="94" column="27" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_query_result_1afb74d23906b4ef486de07f573a4856b4" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::QueryResult::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::QueryResult::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="96" column="12" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_query_result_1aa4b3d25cc9939573da644ab28fa1f18c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::QueryResult::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::performance::QueryResult::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="97" column="12" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result set produced by a query execution. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="91" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="91" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_query_result_1aa4b3d25cc9939573da644ab28fa1f18c" prot="public" virt="non-virtual"><scope>themis::performance::QueryResult</scope><name>empty</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_result_1ae2dc9c28c004e61eadefc767b9610a26" prot="public" virt="non-virtual"><scope>themis::performance::QueryResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_result_1af787201e8b385c9a71870250088f452c" prot="public" virt="non-virtual"><scope>themis::performance::QueryResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_result_1ac0c2ba12cc3f23c646141e9d3a7e36bd" prot="public" virt="non-virtual"><scope>themis::performance::QueryResult</scope><name>rows</name></member>
+      <member refid="structthemis_1_1performance_1_1_query_result_1afb74d23906b4ef486de07f573a4856b4" prot="public" virt="non-virtual"><scope>themis::performance::QueryResult</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

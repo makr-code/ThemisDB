@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::testing::ProductionValidator::ValidationConfig</compoundname>
+    <includes refid="production__validator_8h" local="no">production_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a1bff17941585e1ba884642793de11eab" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::llm::testing::ProductionValidator::ValidationConfig::stress_test_duration</definition>
+        <argsstring></argsstring>
+        <name>stress_test_duration</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::stress_test_duration</qualifiedname>
+        <initializer>{72}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="41" column="28" bodyfile="include/llm/production_validator.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1aea8b09538bc66ada3f49b543e509fec6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::ValidationConfig::concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>concurrent_requests</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::concurrent_requests</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="44" column="16" bodyfile="include/llm/production_validator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a38bcd5a9248bcc4faf023376bad33b46" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::ValidationConfig::requests_per_second</definition>
+        <argsstring></argsstring>
+        <name>requests_per_second</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::requests_per_second</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="45" column="16" bodyfile="include/llm/production_validator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ac62c1f3b8933bc3b54fa3c0053c30c35" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::ValidationConfig::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::total_requests</qualifiedname>
+        <initializer>= 100000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="46" column="16" bodyfile="include/llm/production_validator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a659ba5cc24754f8e13e47ac2b4b75f57" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::ValidationConfig::max_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>max_latency_ms</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::max_latency_ms</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="49" column="16" bodyfile="include/llm/production_validator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a4c4e66aaa5685c5c598c8cb8f7ff984b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::ValidationConfig::max_p99_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>max_p99_latency_ms</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::max_p99_latency_ms</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="50" column="16" bodyfile="include/llm/production_validator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ae0090f9dac6ae1ed685eae8c91747d59" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::ValidationConfig::min_throughput_tokens_per_sec</definition>
+        <argsstring></argsstring>
+        <name>min_throughput_tokens_per_sec</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::min_throughput_tokens_per_sec</qualifiedname>
+        <initializer>= 1000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="51" column="16" bodyfile="include/llm/production_validator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ac39896d17c3cad7f76e2d4e99a83ef43" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::ValidationConfig::max_error_rate_pct</definition>
+        <argsstring></argsstring>
+        <name>max_error_rate_pct</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::max_error_rate_pct</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="52" column="16" bodyfile="include/llm/production_validator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1afc4120ef16bb8d9155bab7a8a5ec255c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::ValidationConfig::max_memory_growth_mb_per_hour</definition>
+        <argsstring></argsstring>
+        <name>max_memory_growth_mb_per_hour</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::max_memory_growth_mb_per_hour</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="55" column="16" bodyfile="include/llm/production_validator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ada6c4129dc16ec1a97d7c923622bb6ce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::testing::ProductionValidator::ValidationConfig::max_fragmentation_pct</definition>
+        <argsstring></argsstring>
+        <name>max_fragmentation_pct</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::max_fragmentation_pct</qualifiedname>
+        <initializer>= 15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="56" column="16" bodyfile="include/llm/production_validator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ad26db6614f60300790cf099290fccf88" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::testing::ProductionValidator::ValidationConfig::max_regression_pct</definition>
+        <argsstring></argsstring>
+        <name>max_regression_pct</name>
+        <qualifiedname>themis::llm::testing::ProductionValidator::ValidationConfig::max_regression_pct</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/production_validator.h" line="59" column="16" bodyfile="include/llm/production_validator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/production_validator.h" line="39" column="5" bodyfile="include/llm/production_validator.h" bodystart="39" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1aea8b09538bc66ada3f49b543e509fec6" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>concurrent_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ac39896d17c3cad7f76e2d4e99a83ef43" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>max_error_rate_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ada6c4129dc16ec1a97d7c923622bb6ce" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>max_fragmentation_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a659ba5cc24754f8e13e47ac2b4b75f57" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>max_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1afc4120ef16bb8d9155bab7a8a5ec255c" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>max_memory_growth_mb_per_hour</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a4c4e66aaa5685c5c598c8cb8f7ff984b" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>max_p99_latency_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ad26db6614f60300790cf099290fccf88" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>max_regression_pct</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ae0090f9dac6ae1ed685eae8c91747d59" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>min_throughput_tokens_per_sec</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a38bcd5a9248bcc4faf023376bad33b46" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>requests_per_second</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1a1bff17941585e1ba884642793de11eab" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>stress_test_duration</name></member>
+      <member refid="structthemis_1_1llm_1_1testing_1_1_production_validator_1_1_validation_config_1ac62c1f3b8933bc3b54fa3c0053c30c35" prot="public" virt="non-virtual"><scope>themis::llm::testing::ProductionValidator::ValidationConfig</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

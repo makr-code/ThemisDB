@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mongo_bench_config" kind="struct" language="C++" prot="public">
+    <compoundname>MongoBenchConfig</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mongo_bench_config_1a622d5696bef9e0547b60183283e4b413" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MongoBenchConfig::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>MongoBenchConfig::label</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="536" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="536" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mongo_bench_config_1a0aafb70a2317f37c880b47a403d1a63c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t MongoBenchConfig::num_docs</definition>
+        <argsstring></argsstring>
+        <name>num_docs</name>
+        <qualifiedname>MongoBenchConfig::num_docs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="537" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="537" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mongo_bench_config_1a9e5b85b7df112ff3bcfffd8587f628c3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MongoBenchConfig::json_array</definition>
+        <argsstring></argsstring>
+        <name>json_array</name>
+        <qualifiedname>MongoBenchConfig::json_array</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true = JSON array, false = NDJSON </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="538" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mongo_bench_config_1a1cffd7241b9c5a63e0c0ab51a7c10e80" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MongoBenchConfig::bson_types</definition>
+        <argsstring></argsstring>
+        <name>bson_types</name>
+        <qualifiedname>MongoBenchConfig::bson_types</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true = include BSON extended JSON wrappers </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="539" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mongo_bench_config_1ad3ec6c2a569b4b82493b224f1b1ae883" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MongoBenchConfig::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>MongoBenchConfig::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/importers/bench_importer_throughput.cpp" line="540" column="17" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="540" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/importers/bench_importer_throughput.cpp" line="535" column="1" bodyfile="benchmarks/importers/bench_importer_throughput.cpp" bodystart="535" bodyend="541"/>
+    <listofallmembers>
+      <member refid="struct_mongo_bench_config_1a1cffd7241b9c5a63e0c0ab51a7c10e80" prot="public" virt="non-virtual"><scope>MongoBenchConfig</scope><name>bson_types</name></member>
+      <member refid="struct_mongo_bench_config_1ad3ec6c2a569b4b82493b224f1b1ae883" prot="public" virt="non-virtual"><scope>MongoBenchConfig</scope><name>dry_run</name></member>
+      <member refid="struct_mongo_bench_config_1a9e5b85b7df112ff3bcfffd8587f628c3" prot="public" virt="non-virtual"><scope>MongoBenchConfig</scope><name>json_array</name></member>
+      <member refid="struct_mongo_bench_config_1a622d5696bef9e0547b60183283e4b413" prot="public" virt="non-virtual"><scope>MongoBenchConfig</scope><name>label</name></member>
+      <member refid="struct_mongo_bench_config_1a0aafb70a2317f37c880b47a403d1a63c" prot="public" virt="non-virtual"><scope>MongoBenchConfig</scope><name>num_docs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

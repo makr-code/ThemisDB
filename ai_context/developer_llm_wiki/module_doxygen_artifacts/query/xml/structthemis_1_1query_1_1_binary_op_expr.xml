@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_binary_op_expr" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::BinaryOpExpr</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_expression" prot="public" virt="non-virtual">themis::query::Expression</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_binary_op_expr_1a41494452b83bfe9b8a653d622037732d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10" kindref="member">BinaryOperator</ref></type>
+        <definition>BinaryOperator themis::query::BinaryOpExpr::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::query::BinaryOpExpr::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="225" column="20" bodyfile="include/query/aql_parser.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_binary_op_expr_1ab83db11154d99c77c6762c2fec41ddcd" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::BinaryOpExpr::left</definition>
+        <argsstring></argsstring>
+        <name>left</name>
+        <qualifiedname>themis::query::BinaryOpExpr::left</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="226" column="21" bodyfile="include/query/aql_parser.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_binary_op_expr_1ae8cbbc55fc21dc6ec47e271bf62ab73d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::BinaryOpExpr::right</definition>
+        <argsstring></argsstring>
+        <name>right</name>
+        <qualifiedname>themis::query::BinaryOpExpr::right</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="227" column="21" bodyfile="include/query/aql_parser.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_binary_op_expr_1a6e2d8ab5e8177cc9ac1d8754dd9e335b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::BinaryOpExpr::BinaryOpExpr</definition>
+        <argsstring>(BinaryOperator o, std::shared_ptr&lt; Expression &gt; l, std::shared_ptr&lt; Expression &gt; r)</argsstring>
+        <name>BinaryOpExpr</name>
+        <qualifiedname>themis::query::BinaryOpExpr::BinaryOpExpr</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1affc80a450a05256c6310ab5a93827f10" kindref="member">BinaryOperator</ref></type>
+          <declname>o</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+          <declname>l</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="229" column="5" bodyfile="include/query/aql_parser.h" bodystart="229" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_binary_op_expr_1ae8a107602059958b5523568eae921002" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::BinaryOpExpr::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::BinaryOpExpr::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1aca4fd2bf776bf08dc9b0462450184d89">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="232" column="17" bodyfile="include/query/aql_parser.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_binary_op_expr_1a1b9972c16ae091e2d23cd856e090f186" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::BinaryOpExpr::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::BinaryOpExpr::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_expression_1a50a0c87d39931ce188c1391b61794e20">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="233" column="20" bodyfile="src/query/aql_parser_json.cpp" bodystart="54" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::query::BinaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_binary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::BinaryOpExpr</label>
+        <link refid="structthemis_1_1query_1_1_binary_op_expr"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="224" column="1" bodyfile="include/query/aql_parser.h" bodystart="224" bodyend="234"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_binary_op_expr_1a6e2d8ab5e8177cc9ac1d8754dd9e335b" prot="public" virt="non-virtual"><scope>themis::query::BinaryOpExpr</scope><name>BinaryOpExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_binary_op_expr_1ae8a107602059958b5523568eae921002" prot="public" virt="virtual"><scope>themis::query::BinaryOpExpr</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_binary_op_expr_1ab83db11154d99c77c6762c2fec41ddcd" prot="public" virt="non-virtual"><scope>themis::query::BinaryOpExpr</scope><name>left</name></member>
+      <member refid="structthemis_1_1query_1_1_binary_op_expr_1a41494452b83bfe9b8a653d622037732d" prot="public" virt="non-virtual"><scope>themis::query::BinaryOpExpr</scope><name>op</name></member>
+      <member refid="structthemis_1_1query_1_1_binary_op_expr_1ae8cbbc55fc21dc6ec47e271bf62ab73d" prot="public" virt="non-virtual"><scope>themis::query::BinaryOpExpr</scope><name>right</name></member>
+      <member refid="structthemis_1_1query_1_1_binary_op_expr_1a1b9972c16ae091e2d23cd856e090f186" prot="public" virt="virtual"><scope>themis::query::BinaryOpExpr</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>themis::query::BinaryOpExpr</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

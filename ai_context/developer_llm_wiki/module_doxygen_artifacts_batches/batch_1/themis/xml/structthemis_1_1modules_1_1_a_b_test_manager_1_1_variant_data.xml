@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_variant_data" kind="struct" language="C++" prot="private">
+    <compoundname>themis::modules::ABTestManager::VariantData</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_variant_data_1a207a9cf4496afd009bcafa13f8b5779f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_a_b_variant_metrics" kindref="compound">ABVariantMetrics</ref></type>
+        <definition>ABVariantMetrics themis::modules::ABTestManager::VariantData::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::modules::ABTestManager::VariantData::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="386" column="26" bodyfile="include/themis/base/ab_test_manager.h" bodystart="386" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_variant_data_1a289563fd3258294dfb688b9724f21d0e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABTestManager::VariantData::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>themis::modules::ABTestManager::VariantData::total_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="388" column="16" bodyfile="include/themis/base/ab_test_manager.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_a_b_test_manager_1_1_variant_data_1a3ba7d7e341f4854ef2d85db491c7555e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::modules::ABTestManager::VariantData::sum_sq_latency</definition>
+        <argsstring></argsstring>
+        <name>sum_sq_latency</name>
+        <qualifiedname>themis::modules::ABTestManager::VariantData::sum_sq_latency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Sum of squared deviations (Welford). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/ab_test_manager.h" line="389" column="16" bodyfile="include/themis/base/ab_test_manager.h" bodystart="389" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::modules::ABTestManager::VariantData</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::modules::ABVariantMetrics</label>
+        <link refid="structthemis_1_1modules_1_1_a_b_variant_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/base/ab_test_manager.h" line="385" column="5" bodyfile="include/themis/base/ab_test_manager.h" bodystart="385" bodyend="390"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_variant_data_1a207a9cf4496afd009bcafa13f8b5779f" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::VariantData</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_variant_data_1a3ba7d7e341f4854ef2d85db491c7555e" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::VariantData</scope><name>sum_sq_latency</name></member>
+      <member refid="structthemis_1_1modules_1_1_a_b_test_manager_1_1_variant_data_1a289563fd3258294dfb688b9724f21d0e" prot="public" virt="non-virtual"><scope>themis::modules::ABTestManager::VariantData</scope><name>total_latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

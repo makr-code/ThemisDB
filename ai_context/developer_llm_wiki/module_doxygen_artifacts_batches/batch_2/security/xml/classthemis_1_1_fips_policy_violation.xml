@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_fips_policy_violation" kind="class" language="C++" prot="public">
+    <compoundname>themis::FipsPolicyViolation</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="fips__crypto__mode_8h" local="no">fips_crypto_mode.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_fips_policy_violation_1ab4caca5ef1e64e6acdba7329d6fe02fb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::FipsPolicyViolation::FipsPolicyViolation</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>FipsPolicyViolation</name>
+        <qualifiedname>themis::FipsPolicyViolation::FipsPolicyViolation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Fips Policy Violation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/fips_crypto_mode.h" line="29" column="14" bodyfile="include/security/fips_crypto_mode.h" bodystart="29" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::FipsPolicyViolation</label>
+        <link refid="classthemis_1_1_fips_policy_violation"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::FipsPolicyViolation</label>
+        <link refid="classthemis_1_1_fips_policy_violation"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/fips_crypto_mode.h" line="22" column="1" bodyfile="include/security/fips_crypto_mode.h" bodystart="22" bodyend="32"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_fips_policy_violation_1ab4caca5ef1e64e6acdba7329d6fe02fb" prot="public" virt="non-virtual"><scope>themis::FipsPolicyViolation</scope><name>FipsPolicyViolation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

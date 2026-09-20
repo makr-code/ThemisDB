@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="graph__phase__gate__orchestrator_8h" kind="file" language="C++">
+    <compoundname>graph_phase_gate_orchestrator.h</compoundname>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="graph__phase__gate__orchestrator_8cpp" local="yes">src/graph/graph_phase_gate_orchestrator.cpp</includedby>
+    <includedby refid="test__graph__phase__gate__orchestration_8cpp" local="yes">tests/graph/test_graph_phase_gate_orchestration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/graph/graph_phase_gate_orchestrator.h</label>
+        <link refid="graph__phase__gate__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>unordered_set</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/graph/graph_phase_gate_orchestrator.h</label>
+        <link refid="graph__phase__gate__orchestrator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/graph/graph_phase_gate_orchestrator.cpp</label>
+        <link refid="graph__phase__gate__orchestrator_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/graph/test_graph_phase_gate_orchestration.cpp</label>
+        <link refid="test__graph__phase__gate__orchestration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1graph_1_1_gate_criterion" prot="public">themis::graph::GateCriterion</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_phase_gap_report" prot="public">themis::graph::PhaseGapReport</innerclass>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" prot="public">themis::graph::GraphPhaseGateOrchestrator</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1_1_phase_node" prot="private">themis::graph::GraphPhaseGateOrchestrator::PhaseNode</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graph">themis::graph</innernamespace>
+    <briefdescription>
+<para>Wave C C3 — Graph Phase Gate Orchestrator for ML pipeline phase tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The GraphPhaseGateOrchestrator models an ML training pipeline as a directed acyclic graph (DAG) of phases. Each node represents a named pipeline phase (e.g. &quot;data_validation&quot;, &quot;model_training&quot;, &quot;evaluation&quot;) and each directed edge encodes a prerequisite relationship. A phase may only be advanced once all its prerequisite phases have passed their gate criteria.</para>
+<para><heading level="3">Core capabilities</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Phase registration with named prerequisite edges (DAG construction).</para>
+</listitem><listitem><para>Per-phase metric attachment (key/value float pairs).</para>
+</listitem><listitem><para>Gate evaluation: a phase gate PASSES when all required metrics meet their configured thresholds and all prerequisite phases are themselves PASSED.</para>
+</listitem><listitem><para>Gap reporting: returns the set of missing metrics or failing prerequisites that block a phase from passing (&quot;gap tracking&quot;).</para>
+</listitem><listitem><para>DAG invariant enforcement: <computeroutput>registerPhase()</computeroutput> only accepts prerequisites that are already registered, and rejects duplicate or self-referential registrations to keep the phase graph acyclic.</para>
+</listitem><listitem><para>Topological ordering: <computeroutput>topologicalOrder()</computeroutput> returns a valid execution sequence for the full pipeline.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are protected by a shared mutex. Multiple threads may concurrently call <computeroutput>gateStatus()</computeroutput> / <computeroutput>gaps()</computeroutput> (shared read lock); writes (<computeroutput>registerPhase</computeroutput>, <computeroutput>attachMetric</computeroutput>, <computeroutput>setGateCriteria</computeroutput>) serialise via an exclusive lock.</para>
+<para><heading level="3">Wave C C3 reference</heading>
+</para>
+<para>Issue: #6287 | Wave C ML Strategic Planning | C3 acceptance criteria</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">graph</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GateStatus</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" kindref="member">GateStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fa7a95bf926a0333f57705aeac07a362a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fa7a95bf926a0333f57705aeac07a362a2" kindref="member">PASS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac2759effffc94bb9acc71d69fe3e8a1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">FAIL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac69f06e1a9b016d133907b4e5f5864d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10faeecba0068950a2df17c47e851e1eef14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10faeecba0068950a2df17c47e851e1eef14" kindref="member">BLOCKED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GateCriterion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1graph_1_1_gate_criterion" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_gate_criterion" kindref="compound">GateCriterion</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1graph_1_1_gate_criterion_1a9455926e0b0e9578e5135016b7db49bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_gate_criterion_1a9455926e0b0e9578e5135016b7db49bb" kindref="member">metric_key</ref>;</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1graph_1_1_gate_criterion_1ae673927758c31b23589984e2d79ab599" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1graph_1_1_gate_criterion_1ae673927758c31b23589984e2d79ab599" kindref="member">threshold</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1graph_1_1_gate_criterion_1a47196a3011fff538b485dd89ddd61474" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_gate_criterion_1a47196a3011fff538b485dd89ddd61474" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PhaseGapReport</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1graph_1_1_phase_gap_report" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1graph_1_1_phase_gap_report" kindref="compound">PhaseGapReport</ref><sp/>{</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1graph_1_1_phase_gap_report_1afd25349ae7f3326cb2ab6ec88cc65244" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report_1afd25349ae7f3326cb2ab6ec88cc65244" kindref="member">phase_name</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1graph_1_1_phase_gap_report_1a22cc13aac130b216e2739b7fcb934acd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" kindref="member">GateStatus</ref><sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report_1a22cc13aac130b216e2739b7fcb934acd" kindref="member">status</ref><sp/>=<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac69f06e1a9b016d133907b4e5f5864d2" kindref="member">GateStatus::PENDING</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1graph_1_1_phase_gap_report_1afcfb3ea91e793ff05fb4193ed2957c84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report_1afcfb3ea91e793ff05fb4193ed2957c84" kindref="member">unsatisfied_criteria</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1graph_1_1_phase_gap_report_1a183ee11757e0c8fed1bb42b82231df3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report_1a183ee11757e0c8fed1bb42b82231df3f" kindref="member">blocked_by_phases</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1graph_1_1_phase_gap_report_1a191f03a340cbde0ac962d0de712b5e8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report_1a191f03a340cbde0ac962d0de712b5e8b" kindref="member">summary</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GraphPhaseGateOrchestrator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref>()<sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1ae043c40faed4993f4893c1a8f2a0a338" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1ae043c40faed4993f4893c1a8f2a0a338" kindref="member">~GraphPhaseGateOrchestrator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable;<sp/>movable<sp/>by<sp/>transferring<sp/>the<sp/>phase<sp/>graph<sp/>while<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>instance<sp/>keeps<sp/>its<sp/>own<sp/>mutex.<sp/>Moved-from<sp/>instances<sp/>remain<sp/>valid<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>so<sp/>they<sp/>can<sp/>be<sp/>safely<sp/>reused.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1add0bccee5b212689213878f3819113c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1add0bccee5b212689213878f3819113c3" kindref="member">GraphPhaseGateOrchestrator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af7c0a412956e15f6532972b9676a8b09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref>&amp;<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af7c0a412956e15f6532972b9676a8b09" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref>(<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref>&amp;<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af7c0a412956e15f6532972b9676a8b09" kindref="member">operator=</ref>(<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aa23ded852fdcf4ed19f439229885a970" kindref="member">GraphPhaseGateOrchestrator</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>DAG<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>phase_name,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6f82721a2729e6253bb606abef685788" kindref="member">prerequisites</ref>);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>phase_name,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GateCriterion&gt;&amp;<sp/>criteria);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metric<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a05e155130a91d901492605ee0f8bac74" kindref="member">attachMetric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>phase_name,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_key,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>value);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;float&gt;<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1ae03d2e3ec044705a8851076ba44ee95c" kindref="member">getMetric</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>phase_name,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>metric_key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Gate<sp/>evaluation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" kindref="member">GateStatus</ref><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a426f1c109eb818d608ef3e63bfcf19f2" kindref="member">gateStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>phase_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report" kindref="compound">PhaseGapReport</ref><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a292fba26ab1f952a974463ad65fd171b" kindref="member">gaps</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>phase_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PhaseGapReport&gt;<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1aaef474a5b06e68ae21f395d56eac324e" kindref="member">allGaps</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graph<sp/>introspection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a54cfae286a731b83327f1c5d8bc54ecd" kindref="member">phaseNames</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6e91df9fb8f102ebced83938574586c8" kindref="member">phaseCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a2ae34d9fa0e0068ce1af43b72d7ff441" kindref="member">hasPhase</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>phase_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6f82721a2729e6253bb606abef685788" kindref="member">prerequisites</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>phase_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1acc4acb2bfb42c3f9085151762f075250" kindref="member">topologicalOrder</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a5c49012322dfd557075a7b4e50a03cc3" kindref="member">passedPhaseCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af13b733477173457034bd09c53a19244" kindref="member">completionRatio</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>phase<sp/>node</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PhaseNode<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6f82721a2729e6253bb606abef685788" kindref="member">prerequisites</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;GateCriterion&gt;<sp/><sp/><sp/><sp/><sp/>criteria;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;<sp/>metrics;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasCycleDFS(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>start,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;&amp;<sp/>visited,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;&amp;<sp/>rec_stack)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10f" kindref="member">GateStatus</ref><sp/>evaluateGate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>phase_name,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;&amp;<sp/>visiting)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report" kindref="compound">PhaseGapReport</ref><sp/>computeGaps(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>phase_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>transferFrom(<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>PhaseNode&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>phases_;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>graph</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/graph/graph_phase_gate_orchestrator.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_constitutional_reasoning_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ConstitutionalReasoningConfig</compoundname>
+    <includes refid="constitutional__reasoning__engine_8h" local="no">constitutional_reasoning_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a07d633e0ee8ae181002a2d84d2a184da" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_constitutional_principle" kindref="compound">ConstitutionalPrinciple</ref> &gt;</type>
+        <definition>std::vector&lt;ConstitutionalPrinciple&gt; themis::llm::ConstitutionalReasoningConfig::principles</definition>
+        <argsstring></argsstring>
+        <name>principles</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::principles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="73" column="17" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1abfcfea1ebc775e0b9efac30adf3fb255" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::ConstitutionalReasoningConfig::domain_constraints</definition>
+        <argsstring></argsstring>
+        <name>domain_constraints</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::domain_constraints</qualifiedname>
+        <briefdescription>
+<para>Domain-specific additions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="74" column="17" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1aa36939dec5a2451838df1646b2f3cf0d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningConfig::enable_self_critique</definition>
+        <argsstring></argsstring>
+        <name>enable_self_critique</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::enable_self_critique</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="77" column="10" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a9be7d17e278f1b6ea02602b9a9c302d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningConfig::enable_self_revision</definition>
+        <argsstring></argsstring>
+        <name>enable_self_revision</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::enable_self_revision</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="78" column="10" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a4885ca945c0f7e53078ea8b3f5c82aa0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::ConstitutionalReasoningConfig::max_iterations</definition>
+        <argsstring></argsstring>
+        <name>max_iterations</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::max_iterations</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Max critique-revision cycles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="79" column="9" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a7ea56a191029634cb2e3e89e89afe30b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConstitutionalReasoningConfig::improvement_threshold</definition>
+        <argsstring></argsstring>
+        <name>improvement_threshold</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::improvement_threshold</qualifiedname>
+        <initializer>= 0.05f</initializer>
+        <briefdescription>
+<para>Min improvement to continue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="80" column="11" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a596c049a6e4271997e2dcd3091466de7" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::ConstitutionalReasoningConfig::min_acceptable_score</definition>
+        <argsstring></argsstring>
+        <name>min_acceptable_score</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::min_acceptable_score</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="83" column="11" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a89fee524e9b01de14d0db7f8fa4b8a90" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningConfig::require_all_principles</definition>
+        <argsstring></argsstring>
+        <name>require_all_principles</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::require_all_principles</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Must satisfy all principles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="84" column="10" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a18891f2fa91d6b642f364c37a7fc80b5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningConfig::cache_critiques</definition>
+        <argsstring></argsstring>
+        <name>cache_critiques</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::cache_critiques</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="87" column="10" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a3729f99ccef97939774f4dae96844333" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ConstitutionalReasoningConfig::max_cache_size</definition>
+        <argsstring></argsstring>
+        <name>max_cache_size</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::max_cache_size</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="88" column="12" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_constitutional_reasoning_config_1acc2743b377e4e827380585a9c750f46c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ConstitutionalReasoningConfig::async_processing</definition>
+        <argsstring></argsstring>
+        <name>async_processing</name>
+        <qualifiedname>themis::llm::ConstitutionalReasoningConfig::async_processing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/constitutional_reasoning_engine.h" line="89" column="10" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/constitutional_reasoning_engine.h" line="71" column="1" bodyfile="include/llm/constitutional_reasoning_engine.h" bodystart="71" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1acc2743b377e4e827380585a9c750f46c" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>async_processing</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a18891f2fa91d6b642f364c37a7fc80b5" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>cache_critiques</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1abfcfea1ebc775e0b9efac30adf3fb255" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>domain_constraints</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1aa36939dec5a2451838df1646b2f3cf0d" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>enable_self_critique</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a9be7d17e278f1b6ea02602b9a9c302d2" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>enable_self_revision</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a7ea56a191029634cb2e3e89e89afe30b" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>improvement_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a3729f99ccef97939774f4dae96844333" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>max_cache_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a4885ca945c0f7e53078ea8b3f5c82aa0" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>max_iterations</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a596c049a6e4271997e2dcd3091466de7" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>min_acceptable_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a07d633e0ee8ae181002a2d84d2a184da" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>principles</name></member>
+      <member refid="structthemis_1_1llm_1_1_constitutional_reasoning_config_1a89fee524e9b01de14d0db7f8fa4b8a90" prot="public" virt="non-virtual"><scope>themis::llm::ConstitutionalReasoningConfig</scope><name>require_all_principles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

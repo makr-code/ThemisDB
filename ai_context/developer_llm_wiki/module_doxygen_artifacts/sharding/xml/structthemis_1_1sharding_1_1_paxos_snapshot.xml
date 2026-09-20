@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_paxos_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::PaxosSnapshot</compoundname>
+    <includes refid="paxos__snapshot_8h" local="no">paxos_snapshot.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1ac218004a0d2f721052d827978f5868d3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosSnapshot::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::snapshot_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="45" column="14" bodyfile="include/sharding/paxos_snapshot.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a6903380ae006834156e32c1aab6f5e81" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::PaxosSnapshot::last_applied_lsn</definition>
+        <argsstring></argsstring>
+        <name>last_applied_lsn</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::last_applied_lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="46" column="9" bodyfile="include/sharding/paxos_snapshot.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a47e08609955c53787a7d60676a068bb9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosSnapshot::last_committed_slot</definition>
+        <argsstring></argsstring>
+        <name>last_committed_slot</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::last_committed_slot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="47" column="14" bodyfile="include/sharding/paxos_snapshot.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1ab3f38e66e7735c89b05a42646feec903" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosSnapshot::current_round</definition>
+        <argsstring></argsstring>
+        <name>current_round</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::current_round</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="48" column="14" bodyfile="include/sharding/paxos_snapshot.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1aed5bb16e1ea4732531dde7fc0049c083" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PaxosSnapshot::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="49" column="17" bodyfile="include/sharding/paxos_snapshot.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a24c84bdb6c2719f7b91fa4d790bf4a26" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::PaxosSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="50" column="14" bodyfile="include/sharding/paxos_snapshot.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a82de978aee8d610fc3f619aef33759c2" prot="public" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, nlohmann::json &gt;</type>
+        <definition>std::map&lt;uint64_t, nlohmann::json&gt; themis::sharding::PaxosSnapshot::instances</definition>
+        <argsstring></argsstring>
+        <name>instances</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::instances</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="53" column="14" bodyfile="include/sharding/paxos_snapshot.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a2589b04309e356c66d85d7ebe94aeccb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, nlohmann::json &gt;</type>
+        <definition>std::map&lt;uint64_t, nlohmann::json&gt; themis::sharding::PaxosSnapshot::committed_log</definition>
+        <argsstring></argsstring>
+        <name>committed_log</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::committed_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="54" column="14" bodyfile="include/sharding/paxos_snapshot.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a19da605b2d7e898e5a8097fe250323b3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PaxosSnapshot::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::checksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="57" column="17" bodyfile="include/sharding/paxos_snapshot.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_snapshot_1af40d7c45dd63ff9c38e75f8e3c3a378d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::PaxosSnapshot::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Serialize snapshot to JSON </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="62" column="20" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="35" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_snapshot_1abc35fd5aa0a1892cacdebbed723d63b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::PaxosSnapshot::calculateChecksum</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateChecksum</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::calculateChecksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate checksum of snapshot data </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="72" column="17" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="82" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a33d5ef16b0da4394f01c6c66806892a1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::PaxosSnapshot::verifyChecksum</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyChecksum</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::verifyChecksum</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify checksum </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="77" column="10" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="109" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_snapshot_1ae291cff3533e7e670b068ecc1a36c9af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::sharding::PaxosSnapshot::compress</definition>
+        <argsstring>(int level=3) const</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::compress</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+<para>Compress the JSON-serialised snapshot with ZSTD (level 3). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the compressed bytes. The caller is responsible for storing the result alongside the snapshot metadata so that it can be decompressed on load.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ZSTD compression level (default 3) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Compressed bytes, or empty on failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="89" column="17" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="114" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a6537da163bb1e46ab4ce41a7f7001a63" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_paxos_snapshot" kindref="compound">PaxosSnapshot</ref></type>
+        <definition>PaxosSnapshot themis::sharding::PaxosSnapshot::fromJSON</definition>
+        <argsstring>(const nlohmann::json &amp;json)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::fromJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deserialize snapshot from JSON</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1sharding_1_1_l_s_n_1abf5d2bd022cce4532fc3f70b75c467bd" kindref="member">LSN::fromString()</ref>, contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="67" column="26" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="57" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_paxos_snapshot_1a51e5d19f687de03721548feffd998f98" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_paxos_snapshot" kindref="compound">PaxosSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt; PaxosSnapshot &gt; themis::sharding::PaxosSnapshot::decompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;compressed)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::sharding::PaxosSnapshot::decompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>compressed</declname>
+        </param>
+        <briefdescription>
+<para>Decompress a previously compressed snapshot and reconstruct it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>compressed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes produced by <ref refid="structthemis_1_1sharding_1_1_paxos_snapshot_1ae291cff3533e7e670b068ecc1a36c9af" kindref="member">compress()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed snapshot on success, nullopt on failure </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_snapshot.h" line="97" column="26" bodyfile="src/sharding/paxos_snapshot.cpp" bodystart="120" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Paxos Snapshot (Phase 2.1)</para>
+<para>Represents a point-in-time snapshot of Paxos consensus state. Used for fast recovery without replaying entire WAL. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::PaxosSnapshot</label>
+        <link refid="structthemis_1_1sharding_1_1_paxos_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>last_applied_lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/paxos_snapshot.h" line="43" column="1" bodyfile="include/sharding/paxos_snapshot.h" bodystart="43" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1abc35fd5aa0a1892cacdebbed723d63b8" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>calculateChecksum</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a19da605b2d7e898e5a8097fe250323b3" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>checksum</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a2589b04309e356c66d85d7ebe94aeccb" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>committed_log</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1ae291cff3533e7e670b068ecc1a36c9af" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>compress</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1ab3f38e66e7735c89b05a42646feec903" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>current_round</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a51e5d19f687de03721548feffd998f98" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>decompress</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a6537da163bb1e46ab4ce41a7f7001a63" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a82de978aee8d610fc3f619aef33759c2" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>instances</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a6903380ae006834156e32c1aab6f5e81" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>last_applied_lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a47e08609955c53787a7d60676a068bb9" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>last_committed_slot</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1aed5bb16e1ea4732531dde7fc0049c083" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1ac218004a0d2f721052d827978f5868d3" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>snapshot_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a24c84bdb6c2719f7b91fa4d790bf4a26" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1af40d7c45dd63ff9c38e75f8e3c3a378d" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1sharding_1_1_paxos_snapshot_1a33d5ef16b0da4394f01c6c66806892a1" prot="public" virt="non-virtual"><scope>themis::sharding::PaxosSnapshot</scope><name>verifyChecksum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

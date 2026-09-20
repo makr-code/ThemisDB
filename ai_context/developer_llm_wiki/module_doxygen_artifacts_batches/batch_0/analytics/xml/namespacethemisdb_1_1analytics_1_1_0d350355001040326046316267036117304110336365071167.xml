@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167" kind="namespace" language="C++">
+    <compoundname>themisdb::analytics::@350355001040326046316267036117304110336365071167</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TokType</name>
+        <qualifiedname>themisdb::analytics::@350355001040326046316267036117304110336365071167::TokType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51af57e263e90cbbb939b6dc6b8db7992b7" prot="public">
+          <name>IDENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a34f55eca38e0605a84f169ff61a2a396" prot="public">
+          <name>NUMBER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a7457cdd15d09bfc6c4dbb5d2b6f87390" prot="public">
+          <name>OP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a45bf4f3d35a115aaa2df577ba7861286" prot="public">
+          <name>LPAREN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51afccedc90f87593a3b31536bd658808b1" prot="public">
+          <name>RPAREN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a558ffc8f5770d8e4f95f51d822685532" prot="public">
+          <name>AND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a1d00e7dce692e8dc3f6877f035e3a616" prot="public">
+          <name>OR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a10df3d67626099df882920ba6552f16d" prot="public">
+          <name>NOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a2dcbad7477fd40561e8b8198f173bd47" prot="public">
+          <name>EQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a375b332cf2e0c6d522baf007ef7cb554" prot="public">
+          <name>NEQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51ac562607189d77eb9dfb707464c1e7b0b" prot="public">
+          <name>LT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51acd6a9bd2a175104eed40f0d33a8b4020" prot="public">
+          <name>GT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51a2a8fef531add4d7bc6e1a7dcc0f208ec" prot="public">
+          <name>LEQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51af3a19508545196b65d938817de495891" prot="public">
+          <name>GEQ</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1analytics_1_1_0d350355001040326046316267036117304110336365071167_1afb13aa685acfecf1bdd204788b26ec51ab1a326c06d88bf042f73d70f50197905" prot="public">
+          <name>END</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/cep_engine.cpp" line="202" column="1" bodyfile="src/analytics/cep_engine.cpp" bodystart="202" bodyend="202"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/analytics/cep_engine.cpp" line="58" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterRegistry::SearchCriteria</compoundname>
+    <includes refid="adapter__registry_8h" local="no">adapter_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1a0773e3da33b4fcc053dac5cf90e2f621" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::AdapterRegistry::SearchCriteria::base_model</definition>
+        <argsstring></argsstring>
+        <name>base_model</name>
+        <qualifiedname>themis::llm::AdapterRegistry::SearchCriteria::base_model</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="407" column="23" bodyfile="include/llm/adapter_registry.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1adcc25ec0cd656486b453e5dfe17b534a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::AdapterRegistry::SearchCriteria::domain</definition>
+        <argsstring></argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::llm::AdapterRegistry::SearchCriteria::domain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="408" column="23" bodyfile="include/llm/adapter_registry.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1a43a5bf9e7cde027f6ec86730b5041c41" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::AdapterRegistry::SearchCriteria::task_type</definition>
+        <argsstring></argsstring>
+        <name>task_type</name>
+        <qualifiedname>themis::llm::AdapterRegistry::SearchCriteria::task_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="409" column="23" bodyfile="include/llm/adapter_registry.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1ab9682d1ed9041b1ffa5d29f6cde8d820" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::llm::AdapterRegistry::SearchCriteria::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::llm::AdapterRegistry::SearchCriteria::language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="410" column="23" bodyfile="include/llm/adapter_registry.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1a26c1aab6fac9d72c9c1706983c2182c5" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata_1a983aa7d267d364d451971dd502f54bd2" kindref="member">AdapterMetadata::Status</ref> &gt;</type>
+        <definition>std::optional&lt;AdapterMetadata::Status&gt; themis::llm::AdapterRegistry::SearchCriteria::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::llm::AdapterRegistry::SearchCriteria::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_registry.h" line="411" column="23" bodyfile="include/llm/adapter_registry.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_registry.h" line="406" column="5" bodyfile="include/llm/adapter_registry.h" bodystart="406" bodyend="412"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1a0773e3da33b4fcc053dac5cf90e2f621" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::SearchCriteria</scope><name>base_model</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1adcc25ec0cd656486b453e5dfe17b534a" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::SearchCriteria</scope><name>domain</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1ab9682d1ed9041b1ffa5d29f6cde8d820" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::SearchCriteria</scope><name>language</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1a26c1aab6fac9d72c9c1706983c2182c5" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::SearchCriteria</scope><name>status</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_registry_1_1_search_criteria_1a43a5bf9e7cde027f6ec86730b5041c41" prot="public" virt="non-virtual"><scope>themis::llm::AdapterRegistry::SearchCriteria</scope><name>task_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

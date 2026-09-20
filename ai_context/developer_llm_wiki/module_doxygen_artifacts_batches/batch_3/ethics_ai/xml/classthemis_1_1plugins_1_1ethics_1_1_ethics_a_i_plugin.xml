@@ -1,0 +1,983 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsAIPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin" prot="public" virt="non-virtual">themis::plugins::ethics::IEthicsAIPlugin</basecompoundref>
+    <innerclass refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1_1_metrics" prot="private">themis::plugins::ethics::EthicsAIPlugin::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ae001ff60feba17ce565fccf19d30f270" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_philosophy_loader" kindref="compound">PhilosophyLoader</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PhilosophyLoader&gt; themis::plugins::ethics::EthicsAIPlugin::philosophy_loader_</definition>
+        <argsstring></argsstring>
+        <name>philosophy_loader_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::philosophy_loader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="35" column="21" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7834362ebd033061cbb5f84a3b96d649" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_argument_store" kindref="compound">ArgumentStore</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ArgumentStore&gt; themis::plugins::ethics::EthicsAIPlugin::argument_store_</definition>
+        <argsstring></argsstring>
+        <name>argument_store_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::argument_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="36" column="21" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1afdb79f6b4091ffcdc9907176b8e99c26" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_r_a_g_context_engine" kindref="compound">RAGContextEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;RAGContextEngine&gt; themis::plugins::ethics::EthicsAIPlugin::rag_engine_</definition>
+        <argsstring></argsstring>
+        <name>rag_engine_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::rag_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="37" column="21" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a52b1f7230a534867af02a43825d84b7b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethical_discourse_engine" kindref="compound">EthicalDiscourseEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;EthicalDiscourseEngine&gt; themis::plugins::ethics::EthicsAIPlugin::discourse_engine_</definition>
+        <argsstring></argsstring>
+        <name>discourse_engine_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::discourse_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="38" column="21" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a6c10e82380c91fd7790c4492482260a3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_evaluator" kindref="compound">EthicsEvaluator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;EthicsEvaluator&gt; themis::plugins::ethics::EthicsAIPlugin::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="39" column="21" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a0f9c0a38499c6a0de47684a7ca5fbbae" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::plugins::ethics::EthicsAIPlugin::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="42" column="14" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aff253ebb0b4480948cc3b9c3dbe85d2c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::EthicsAIPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::initialized_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="43" column="10" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a4e036294439c14df00365257ffe5f900" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::plugins::ethics::EthicsAIPlugin::ethical_guidelines_manager_</definition>
+        <argsstring></argsstring>
+        <name>ethical_guidelines_manager_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::ethical_guidelines_manager_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="46" column="10" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aad8ac03236f091cecea3e53a72638074" prot="private" static="no" mutable="no">
+        <type>struct themis::plugins::ethics::EthicsAIPlugin::Metrics</type>
+        <definition>struct themis::plugins::ethics::EthicsAIPlugin::Metrics themis::plugins::ethics::EthicsAIPlugin::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="55" column="14"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab027a33a0725bbbfac849ed3a2b4942d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::ethics::EthicsAIPlugin::metrics_mutex_</definition>
+        <argsstring></argsstring>
+        <name>metrics_mutex_</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::metrics_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="57" column="24" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1af10ea27f5e45a3b27b9fe3cb36bc7a36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsAIPlugin::EthicsAIPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>EthicsAIPlugin</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::EthicsAIPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="60" column="5" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aedf8c48f9587446dc52ca8e688487e48" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsAIPlugin::~EthicsAIPlugin</definition>
+        <argsstring>() override</argsstring>
+        <name>~EthicsAIPlugin</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::~EthicsAIPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="62" column="5" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a49e345486688fcd438380e40adbe334f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::ethics::EthicsAIPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="70" column="16" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a5fcb8166ec82bf9b64deeffd64ab1754" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::plugins::ethics::EthicsAIPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="74" column="16" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a46ef0f1476206f30466189bb94aa3ca9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginType</type>
+        <definition>PluginType themis::plugins::ethics::EthicsAIPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="78" column="16" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a8a9101264034ff0267cbc2ae071543ab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>PluginCapabilities</type>
+        <definition>PluginCapabilities themis::plugins::ethics::EthicsAIPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getCapabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="82" column="24" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="82" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a59fc5bdd93e2015a98b7f8a619dc0202" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::ethics::EthicsAIPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::initialize</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="92" column="10" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="92" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a1c2fbaa79958dfec709c23b007f5d3df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::EthicsAIPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::shutdown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="151" column="10" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="151" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7f5ad54c842b3b996c88ec77cb7e802d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::plugins::ethics::EthicsAIPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="169" column="10" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="169" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a384c6401639664cb4c9edf1394f821eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_debate_initialization" kindref="compound">DebateInitialization</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; DebateInitialization, Status &gt; themis::plugins::ethics::EthicsAIPlugin::initializeDebate</definition>
+        <argsstring>(const std::string &amp;dilemma_description, const std::vector&lt; std::string &gt; &amp;philosophy_schools, const std::string &amp;category) override</argsstring>
+        <name>initializeDebate</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::initializeDebate</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ad64f794651aff0f25daaf625387dba3b">initializeDebate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>philosophy_schools</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="175" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="175" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a55c62ee7b6e67306273462e74ba99220" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::EthicsAIPlugin::storeArgument</definition>
+        <argsstring>(const EthicalArgument &amp;argument, bool store_vector) override</argsstring>
+        <name>storeArgument</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::storeArgument</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1add139141afefe6e8e3f2820421f973d3">storeArgument</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &amp;</type>
+          <declname>argument</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>store_vector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="201" column="12" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="201" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a58ce30d2c84d811f887458fb192cc1e9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; EthicalArgument &gt;, Status &gt; themis::plugins::ethics::EthicsAIPlugin::getArgumentsByPhilosophy</definition>
+        <argsstring>(const std::string &amp;philosophy_school, const std::vector&lt; ArgumentType &gt; &amp;argument_types, size_t limit) override</argsstring>
+        <name>getArgumentsByPhilosophy</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getArgumentsByPhilosophy</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1af228c1139d61f742484b4923ba26d4d5">getArgumentsByPhilosophy</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy_school</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespacethemis_1_1plugins_1_1ethics_1aa2cbef29728845d02a8f2f1a415b22cb" kindref="member">ArgumentType</ref> &gt; &amp;</type>
+          <declname>argument_types</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="224" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="224" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a51dff4c7171c5d832e456ac27ce5af39" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; EthicalArgument, Status &gt; themis::plugins::ethics::EthicsAIPlugin::getArgumentById</definition>
+        <argsstring>(const std::string &amp;argument_id) override</argsstring>
+        <name>getArgumentById</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getArgumentById</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a0dc96f010ddf6d5fd12950bb55c860fb">getArgumentById</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>argument_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="238" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="238" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1afdfce6833bef358fdf410dfb26354d9f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::EthicsAIPlugin::storeArgumentChain</definition>
+        <argsstring>(const ArgumentChain &amp;chain) override</argsstring>
+        <name>storeArgumentChain</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::storeArgumentChain</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1aacbf27e8f077af653525263abf021539">storeArgumentChain</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kindref="compound">ArgumentChain</ref> &amp;</type>
+          <declname>chain</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="248" column="12" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="248" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7247793c2742ab663527a0ba77f3bc9d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kindref="compound">ArgumentChain</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; ArgumentChain, Status &gt; themis::plugins::ethics::EthicsAIPlugin::getArgumentChain</definition>
+        <argsstring>(const std::string &amp;chain_id) override</argsstring>
+        <name>getArgumentChain</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getArgumentChain</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a65ce5e869662d22de7d4679584803a05">getArgumentChain</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chain_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="256" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="256" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a078573af276082aadeffe9213da10e89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_r_a_g_context" kindref="compound">RAGContext</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; RAGContext, Status &gt; themis::plugins::ethics::EthicsAIPlugin::buildRAGContext</definition>
+        <argsstring>(const std::string &amp;dilemma_description, const std::vector&lt; std::string &gt; &amp;philosophy_schools, const std::string &amp;category) override</argsstring>
+        <name>buildRAGContext</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::buildRAGContext</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a45c71d77235952f8e51afaaed8b800f4">buildRAGContext</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>philosophy_schools</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="266" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="266" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a25fd5f72f6a229cb788601ca6ae1a62d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; std::vector&lt; std::string &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; std::string &gt;, Status &gt; themis::plugins::ethics::EthicsAIPlugin::findSimilarDilemmas</definition>
+        <argsstring>(const std::string &amp;query_text, double threshold, size_t limit) override</argsstring>
+        <name>findSimilarDilemmas</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::findSimilarDilemmas</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a83ea81c80b22cca14faf6d14e13e2087">findSimilarDilemmas</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="280" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="280" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab3c344a2b989aaac3ff111e408bc7919" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; std::vector&lt; std::string &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; std::string &gt;, Status &gt; themis::plugins::ethics::EthicsAIPlugin::getBestPractices</definition>
+        <argsstring>(const std::string &amp;category, double min_satisfaction, size_t limit) override</argsstring>
+        <name>getBestPractices</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getBestPractices</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a014437f1c7f536231dc5e3454e2539c9">getBestPractices</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>min_satisfaction</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="292" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="292" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab95f1776d4264a44ba326f74f5b0b6c6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; std::vector&lt; std::pair&lt; std::string, double &gt; &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; std::pair&lt; std::string, double &gt; &gt;, Status &gt; themis::plugins::ethics::EthicsAIPlugin::vectorSemanticSearch</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query_embedding, const std::string &amp;philosophy_school, size_t limit) override</argsstring>
+        <name>vectorSemanticSearch</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::vectorSemanticSearch</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1af5dd875568030d09cb4298170e057d02">vectorSemanticSearch</reimplements>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query_embedding</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy_school</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="305" column="5" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="305" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab8a9b089cc4a4e6c609bc84b90fa48fd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; std::vector&lt; std::string &gt;, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; std::vector&lt; std::string &gt;, Status &gt; themis::plugins::ethics::EthicsAIPlugin::traverseArgumentChain</definition>
+        <argsstring>(const std::string &amp;start_argument_id, size_t max_depth, const std::string &amp;direction) override</argsstring>
+        <name>traverseArgumentChain</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::traverseArgumentChain</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a9c7953210a2b16d280845feeae3c0a9a">traverseArgumentChain</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>start_argument_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_depth</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>direction</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="319" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="319" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab4eea0e1219d6b4a960fdb9e01974ab6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; EthicalDecision, Status &gt; themis::plugins::ethics::EthicsAIPlugin::makeDecision</definition>
+        <argsstring>(const std::string &amp;dilemma_description, const std::vector&lt; std::string &gt; &amp;philosophy_schools, const std::string &amp;category, bool use_rag) override</argsstring>
+        <name>makeDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::makeDecision</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a19ac9d4a89dbd4c2ce54656509554f01">makeDecision</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dilemma_description</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>philosophy_schools</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_rag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="333" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="333" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a8ec1f97d726e802181f88bff6978da36" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::EthicsAIPlugin::storeDecision</definition>
+        <argsstring>(const EthicalDecision &amp;decision) override</argsstring>
+        <name>storeDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::storeDecision</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a74bc3971a00c7e7edaf77a998cd131e1">storeDecision</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="360" column="12" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="360" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a32cd53c1597cb2d2d6bb20c59b0299b8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; EthicalDecision, Status &gt; themis::plugins::ethics::EthicsAIPlugin::getDecision</definition>
+        <argsstring>(const std::string &amp;decision_id) override</argsstring>
+        <name>getDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getDecision</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a3942c6642fc964b958734aac2dd1ec94">getDecision</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="368" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="368" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1adf1d889ea03667ff692eca7b668cde28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_evaluation_result" kindref="compound">EthicsEvaluationResult</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; EthicsEvaluationResult, Status &gt; themis::plugins::ethics::EthicsAIPlugin::evaluateDecision</definition>
+        <argsstring>(const EthicalDecision &amp;decision, const std::vector&lt; EthicalArgument &gt; &amp;arguments) override</argsstring>
+        <name>evaluateDecision</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::evaluateDecision</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a95574cd40355a629d2dd8f8a8233ddd7">evaluateDecision</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref> &gt; &amp;</type>
+          <declname>arguments</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="378" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="378" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aeaee13d7a76e586d5c3312a060df6bdc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; size_t, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; size_t, Status &gt; themis::plugins::ethics::EthicsAIPlugin::loadPhilosophyProfiles</definition>
+        <argsstring>(const std::string &amp;philosophy_dir) override</argsstring>
+        <name>loadPhilosophyProfiles</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::loadPhilosophyProfiles</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a33cde317d500e5656ac1f55e170746a4">loadPhilosophyProfiles</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>philosophy_dir</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="406" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="406" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aed7f178a7afbbbdcb6c5b073b8e61986" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::variant&lt; <ref refid="structthemis_1_1plugins_1_1ethics_1_1_philosophy_profile" kindref="compound">PhilosophyProfile</ref>, <ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref> &gt;</type>
+        <definition>std::variant&lt; PhilosophyProfile, Status &gt; themis::plugins::ethics::EthicsAIPlugin::getPhilosophyProfile</definition>
+        <argsstring>(const std::string &amp;school_id) override</argsstring>
+        <name>getPhilosophyProfile</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getPhilosophyProfile</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a5e100cfaf8c36b48c0510b073e2e749a">getPhilosophyProfile</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>school_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="416" column="18" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="416" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a080f806841da6537c19c06e546c904a9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::plugins::ethics::EthicsAIPlugin::listPhilosophySchools</definition>
+        <argsstring>() const override</argsstring>
+        <name>listPhilosophySchools</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::listPhilosophySchools</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1abdea9105b4b8b6f389c4dca621e043f9">listPhilosophySchools</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="426" column="17" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="426" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a300ffda8b49920825f25a5738c51430e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsAIPlugin::getPrometheusMetrics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPrometheusMetrics</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getPrometheusMetrics</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ab81b8fcfcafd2f98fa056ecab44e2714">getPrometheusMetrics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="434" column="17" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="434" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a65f6f912fc65b9af0e95cee38e2fd740" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsAIPlugin::getDashboardJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>getDashboardJSON</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getDashboardJSON</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a9cf41a22e41eec34138e8705b60987f1">getDashboardJSON</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="467" column="17" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="467" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1af277156a44644d151446ddb18c82babf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt; std::string, double &gt; themis::plugins::ethics::EthicsAIPlugin::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a214fbb0ec668bee5e281325b22faf8b4">getStatistics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="487" column="14" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="487" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a96ac9c501e223c21736966e41a3c9d1b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref></type>
+        <definition>Status themis::plugins::ethics::EthicsAIPlugin::setConfig</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value) override</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::setConfig</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a218121ae0d01874dfe22279fa0ddae12">setConfig</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="505" column="12" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="505" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a0b5cbe4937da369d0ff128e0a068653f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::plugins::ethics::EthicsAIPlugin::getConfig</definition>
+        <argsstring>(const std::string &amp;key) const override</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::getConfig</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a94b9a5265fd1f9e5f36cff8d34d7851c">getConfig</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="510" column="19" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="510" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aea72180eda87d965646ce01013534566" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::plugins::ethics::EthicsAIPlugin::setEthicalGuidelinesManager</definition>
+        <argsstring>(void *manager) override</argsstring>
+        <name>setEthicalGuidelinesManager</name>
+        <qualifiedname>themis::plugins::ethics::EthicsAIPlugin::setEthicalGuidelinesManager</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ae5c531f3b1f9050a58b224e9d6c787fb">setEthicalGuidelinesManager</reimplements>
+        <param>
+          <type>void *</type>
+          <declname>manager</declname>
+        </param>
+        <briefdescription>
+<para>Set Ethical Guidelines Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="518" column="10" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="518" bodyend="520"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::EthicsAIPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ethics::IEthicsAIPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>IThemisPlugin</label>
+      </node>
+      <node id="1">
+        <label>themis::plugins::ethics::EthicsAIPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ethics::IEthicsAIPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/ethics_ai/ethics_ai_plugin.cpp" line="32" column="1" bodyfile="src/ethics_ai/ethics_ai_plugin.cpp" bodystart="32" bodyend="521"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7834362ebd033061cbb5f84a3b96d649" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>argument_store_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a078573af276082aadeffe9213da10e89" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>buildRAGContext</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a0f9c0a38499c6a0de47684a7ca5fbbae" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>config_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a52b1f7230a534867af02a43825d84b7b" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>discourse_engine_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a4e036294439c14df00365257ffe5f900" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>ethical_guidelines_manager_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1af10ea27f5e45a3b27b9fe3cb36bc7a36" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>EthicsAIPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1adf1d889ea03667ff692eca7b668cde28" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>evaluateDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a6c10e82380c91fd7790c4492482260a3" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>evaluator_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a25fd5f72f6a229cb788601ca6ae1a62d" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>findSimilarDilemmas</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a51dff4c7171c5d832e456ac27ce5af39" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getArgumentById</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7247793c2742ab663527a0ba77f3bc9d" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getArgumentChain</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a58ce30d2c84d811f887458fb192cc1e9" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getArgumentsByPhilosophy</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab3c344a2b989aaac3ff111e408bc7919" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getBestPractices</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a8a9101264034ff0267cbc2ae071543ab" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a0b5cbe4937da369d0ff128e0a068653f" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a65f6f912fc65b9af0e95cee38e2fd740" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getDashboardJSON</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a32cd53c1597cb2d2d6bb20c59b0299b8" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a7f5ad54c842b3b996c88ec77cb7e802d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a49e345486688fcd438380e40adbe334f" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aed7f178a7afbbbdcb6c5b073b8e61986" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getPhilosophyProfile</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a300ffda8b49920825f25a5738c51430e" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1af277156a44644d151446ddb18c82babf" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a46ef0f1476206f30466189bb94aa3ca9" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a5fcb8166ec82bf9b64deeffd64ab1754" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a59fc5bdd93e2015a98b7f8a619dc0202" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aff253ebb0b4480948cc3b9c3dbe85d2c" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a384c6401639664cb4c9edf1394f821eb" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>initializeDebate</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a080f806841da6537c19c06e546c904a9" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>listPhilosophySchools</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aeaee13d7a76e586d5c3312a060df6bdc" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>loadPhilosophyProfiles</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab4eea0e1219d6b4a960fdb9e01974ab6" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>makeDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aad8ac03236f091cecea3e53a72638074" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab027a33a0725bbbfac849ed3a2b4942d" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>metrics_mutex_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ae001ff60feba17ce565fccf19d30f270" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>philosophy_loader_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1afdb79f6b4091ffcdc9907176b8e99c26" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>rag_engine_</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a96ac9c501e223c21736966e41a3c9d1b" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aea72180eda87d965646ce01013534566" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>setEthicalGuidelinesManager</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a1c2fbaa79958dfec709c23b007f5d3df" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a55c62ee7b6e67306273462e74ba99220" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>storeArgument</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1afdfce6833bef358fdf410dfb26354d9f" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>storeArgumentChain</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1a8ec1f97d726e802181f88bff6978da36" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>storeDecision</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab8a9b089cc4a4e6c609bc84b90fa48fd" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>traverseArgumentChain</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1ab95f1776d4264a44ba326f74f5b0b6c6" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>vectorSemanticSearch</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_ethics_a_i_plugin_1aedf8c48f9587446dc52ca8e688487e48" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>~EthicsAIPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ae7180b5e597d44af5948a4853c2a1cc5" prot="public" virt="virtual"><scope>themis::plugins::ethics::EthicsAIPlugin</scope><name>~IEthicsAIPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

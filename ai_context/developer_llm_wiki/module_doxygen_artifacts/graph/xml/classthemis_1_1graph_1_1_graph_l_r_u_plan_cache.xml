@@ -1,0 +1,518 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphLRUPlanCache</compoundname>
+    <includes refid="graph__plan__cache_8h" local="no">graph_plan_cache.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics" prot="public">themis::graph::GraphLRUPlanCache::Metrics</innerclass>
+    <innerclass refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_entry" prot="private">themis::graph::GraphLRUPlanCache::Entry</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+      </param>
+      <param>
+        <type>typename V</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a9d5b22abe5c4e26fdb808ece2a4c9b5c" prot="public" static="no">
+        <type>std::chrono::steady_clock</type>
+        <definition>using themis::graph::GraphLRUPlanCache&lt; K, V &gt;::Clock = std::chrono::steady_clock</definition>
+        <argsstring></argsstring>
+        <name>Clock</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::Clock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="37" column="5" bodyfile="include/graph/graph_plan_cache.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a020ce714c5ebaefd9b530b939c7c4bb0" prot="public" static="no">
+        <type>std::chrono::time_point&lt; <ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a9d5b22abe5c4e26fdb808ece2a4c9b5c" kindref="member">Clock</ref> &gt;</type>
+        <definition>using themis::graph::GraphLRUPlanCache&lt; K, V &gt;::TimePoint = std::chrono::time_point&lt;Clock&gt;</definition>
+        <argsstring></argsstring>
+        <name>TimePoint</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::TimePoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="38" column="5" bodyfile="include/graph/graph_plan_cache.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a50b5693f5c170aaf9de01697d0a02176" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::GraphLRUPlanCache&lt; K, V &gt;::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="241" column="24" bodyfile="include/graph/graph_plan_cache.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a9f10009a6baeb601216ee99c5b5937fd" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphLRUPlanCache&lt; K, V &gt;::max_size_</definition>
+        <argsstring></argsstring>
+        <name>max_size_</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::max_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="242" column="24" bodyfile="include/graph/graph_plan_cache.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a2c50a67334b5dc6b8cc9cd4e05836eec" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::graph::GraphLRUPlanCache&lt; K, V &gt;::ttl_</definition>
+        <argsstring></argsstring>
+        <name>ttl_</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::ttl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="243" column="31" bodyfile="include/graph/graph_plan_cache.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a34d2aacf012455d27531472d902cda51" prot="private" static="no" mutable="no">
+        <type>std::list&lt; K &gt;</type>
+        <definition>std::list&lt;K&gt; themis::graph::GraphLRUPlanCache&lt; K, V &gt;::lru_</definition>
+        <argsstring></argsstring>
+        <name>lru_</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::lru_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="244" column="15" bodyfile="include/graph/graph_plan_cache.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1aa697130207f336c605550c174a6586ad" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; K, Entry &gt;</type>
+        <definition>std::unordered_map&lt;K, Entry&gt; themis::graph::GraphLRUPlanCache&lt; K, V &gt;::map_</definition>
+        <argsstring></argsstring>
+        <name>map_</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="245" column="24" bodyfile="include/graph/graph_plan_cache.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a62cae5711507c5404b88b3438443fcaa" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::graph::GraphLRUPlanCache&lt; K, V &gt;::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="246" column="13" bodyfile="include/graph/graph_plan_cache.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1af4bc4128a66bf083ac5f19e3db77da6f" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphLRUPlanCache&lt; K, V &gt;::GraphLRUPlanCache</definition>
+        <argsstring>(size_t max_size=0, std::chrono::milliseconds ttl=std::chrono::milliseconds{0})</argsstring>
+        <name>GraphLRUPlanCache</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::GraphLRUPlanCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_size</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>ttl</declname>
+          <defval>std::chrono::milliseconds{0}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="52" column="14" bodyfile="include/graph/graph_plan_cache.h" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a146f6f86a57a8dc210b10fab3f646706" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphLRUPlanCache&lt; K, V &gt;::put</definition>
+        <argsstring>(const K &amp;key, V value)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::put</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), push_front(), std::move(), Clock::now(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="62" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="62" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1ac63b7160f0ff601fbda432477d2e52c2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt; V &gt; themis::graph::GraphLRUPlanCache&lt; K, V &gt;::get</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::get</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), isExpired(), evictEntry(), erase(), push_front(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="89" column="19" bodyfile="include/graph/graph_plan_cache.h" bodystart="89" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1aaf7241ffbdb62201dbcdd45d985c833a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphLRUPlanCache&lt; K, V &gt;::remove</definition>
+        <argsstring>(const K &amp;key)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::remove</qualifiedname>
+        <param>
+          <type>const K &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="116" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="116" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a58e37ea9c1f898a2a3f3b9eb5d7f8a6f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphLRUPlanCache&lt; K, V &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="131" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="131" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a2b0474c7214276a5f755450df5c2e204" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphLRUPlanCache&lt; K, V &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="137" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="137" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a19d96952a2385f4d0cc9d7c37c772db4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::graph::GraphLRUPlanCache&lt; K, V &gt;::metrics</definition>
+        <argsstring>() const</argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="147" column="13" bodyfile="include/graph/graph_plan_cache.h" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a2470d17ef98307ec370aab5ce00d16e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphLRUPlanCache&lt; K, V &gt;::purgeExpired</definition>
+        <argsstring>()</argsstring>
+        <name>purgeExpired</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::purgeExpired</qualifiedname>
+        <briefdescription>
+<para>Purge Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), begin(), end(), isExpired(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="162" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="162" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1aee03809bf39c58e5bdc2279c56f8503d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphLRUPlanCache&lt; K, V &gt;::setMaxSize</definition>
+        <argsstring>(size_t max_size)</argsstring>
+        <name>setMaxSize</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::setMaxSize</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_size</declname>
+        </param>
+        <briefdescription>
+<para>Set Max Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">max_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), <ref refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a2b0474c7214276a5f755450df5c2e204" kindref="member">size()</ref>, evictLRU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="184" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="184" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1addd6fd3a372bb2463ec0292e20424089" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphLRUPlanCache&lt; K, V &gt;::setTTL</definition>
+        <argsstring>(std::chrono::milliseconds ttl)</argsstring>
+        <name>setTTL</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::setTTL</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>ttl</declname>
+        </param>
+        <briefdescription>
+<para>Set TTL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="197" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="197" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a0c9297bb06a8e5f528b1678e346ff0a1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphLRUPlanCache&lt; K, V &gt;::maxSize</definition>
+        <argsstring>() const</argsstring>
+        <name>maxSize</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::maxSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="202" column="12" bodyfile="include/graph/graph_plan_cache.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a83e1ccba176f9e841e0468d46b84564b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::graph::GraphLRUPlanCache&lt; K, V &gt;::ttl</definition>
+        <argsstring>() const</argsstring>
+        <name>ttl</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::ttl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="204" column="31" bodyfile="include/graph/graph_plan_cache.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a9e0f208c0006b9df35ac6b6032a0a802" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphLRUPlanCache&lt; K, V &gt;::isExpired</definition>
+        <argsstring>(const Entry &amp;e) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::isExpired</qualifiedname>
+        <param>
+          <type>const Entry &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="213" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="213" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a7cc4283b6c50e786de2cce5a62105a50" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphLRUPlanCache&lt; K, V &gt;::evictLRU</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::evictLRU</qualifiedname>
+        <briefdescription>
+<para>Must be called under lock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), back(), erase(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="224" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="224" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a891917ba0f491d9abafee3beedd57d51" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphLRUPlanCache&lt; K, V &gt;::evictEntry</definition>
+        <argsstring>(typename std::unordered_map&lt; K, Entry &gt;::iterator it)</argsstring>
+        <name>evictEntry</name>
+        <qualifiedname>themis::graph::GraphLRUPlanCache::evictEntry</qualifiedname>
+        <param>
+          <type>typename std::unordered_map&lt; K, Entry &gt;::iterator</type>
+          <declname>it</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_plan_cache.h" line="235" column="10" bodyfile="include/graph/graph_plan_cache.h" bodystart="235" bodyend="239"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_plan_cache.h" line="35" column="1" bodyfile="include/graph/graph_plan_cache.h" bodystart="35" bodyend="247"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a58e37ea9c1f898a2a3f3b9eb5d7f8a6f" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a9d5b22abe5c4e26fdb808ece2a4c9b5c" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>Clock</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a891917ba0f491d9abafee3beedd57d51" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>evictEntry</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a7cc4283b6c50e786de2cce5a62105a50" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1ac63b7160f0ff601fbda432477d2e52c2" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1af4bc4128a66bf083ac5f19e3db77da6f" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>GraphLRUPlanCache</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a9e0f208c0006b9df35ac6b6032a0a802" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a34d2aacf012455d27531472d902cda51" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>lru_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1aa697130207f336c605550c174a6586ad" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>map_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a9f10009a6baeb601216ee99c5b5937fd" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>max_size_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a0c9297bb06a8e5f528b1678e346ff0a1" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>maxSize</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a19d96952a2385f4d0cc9d7c37c772db4" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>metrics</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a62cae5711507c5404b88b3438443fcaa" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a50b5693f5c170aaf9de01697d0a02176" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a2470d17ef98307ec370aab5ce00d16e7" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>purgeExpired</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a146f6f86a57a8dc210b10fab3f646706" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1aaf7241ffbdb62201dbcdd45d985c833a" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>remove</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1aee03809bf39c58e5bdc2279c56f8503d" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>setMaxSize</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1addd6fd3a372bb2463ec0292e20424089" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>setTTL</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a2b0474c7214276a5f755450df5c2e204" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a020ce714c5ebaefd9b530b939c7c4bb0" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>TimePoint</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a83e1ccba176f9e841e0468d46b84564b" prot="public" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>ttl</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_l_r_u_plan_cache_1a2c50a67334b5dc6b8cc9cd4e05836eec" prot="private" virt="non-virtual"><scope>themis::graph::GraphLRUPlanCache</scope><name>ttl_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

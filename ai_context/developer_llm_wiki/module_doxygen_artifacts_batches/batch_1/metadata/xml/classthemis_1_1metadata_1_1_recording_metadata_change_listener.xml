@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_recording_metadata_change_listener" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::RecordingMetadataChangeListener</compoundname>
+    <basecompoundref refid="classthemis_1_1metadata_1_1_i_metadata_change_listener" prot="public" virt="non-virtual">themis::metadata::IMetadataChangeListener</basecompoundref>
+    <includes refid="imetadata__change__listener_8h" local="no">imetadata_change_listener.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a981ec7e86a14eb60166b1b0ec87f7e94" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1metadata_1_1_metadata_change_event" kindref="compound">MetadataChangeEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::metadata::RecordingMetadataChangeListener::EventCallback = std::function&lt;void(const MetadataChangeEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EventCallback</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::EventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="133" column="5" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a4376029ac3febe63f4404e2dbb73221b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::metadata::RecordingMetadataChangeListener::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="198" column="38" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a654407eab2e2e980ea39fcd490543741" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_metadata_change_event" kindref="compound">MetadataChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt;MetadataChangeEvent&gt; themis::metadata::RecordingMetadataChangeListener::events_</definition>
+        <argsstring></argsstring>
+        <name>events_</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="199" column="17" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a7ffac23283e8c8a869d0eeed58f7dc2b" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a981ec7e86a14eb60166b1b0ec87f7e94" kindref="member">EventCallback</ref></type>
+        <definition>EventCallback themis::metadata::RecordingMetadataChangeListener::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="200" column="38" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1ab7505b39b7114add8c1f2de41a8e2600" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::RecordingMetadataChangeListener::RecordingMetadataChangeListener</definition>
+        <argsstring>(EventCallback cb={})</argsstring>
+        <name>RecordingMetadataChangeListener</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::RecordingMetadataChangeListener</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a981ec7e86a14eb60166b1b0ec87f7e94" kindref="member">EventCallback</ref></type>
+          <declname>cb</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="135" column="14" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="135" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a5f51a7c20eb0e9fdb73c7d0b04ad4a86" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::metadata::RecordingMetadataChangeListener::onMetadataChanged</definition>
+        <argsstring>(const MetadataChangeEvent &amp;event) override</argsstring>
+        <name>onMetadataChanged</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::onMetadataChanged</qualifiedname>
+        <reimplements refid="classthemis_1_1metadata_1_1_i_metadata_change_listener_1a38ce15acd111c2b2d01b09ccae1618da">onMetadataChanged</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1metadata_1_1_metadata_change_event" kindref="compound">MetadataChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Called when a metadata change event occurs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Details of the change.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Implementations should return quickly to avoid blocking the dispatcher. Heavy processing should be queued asynchronously. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="140" column="10" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="140" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a8898f13a3c415bdf8de01c74d142ee49" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1metadata_1_1_metadata_change_event" kindref="compound">MetadataChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; MetadataChangeEvent &gt; themis::metadata::RecordingMetadataChangeListener::events</definition>
+        <argsstring>() const</argsstring>
+        <name>events</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::events</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of all recorded events, oldest first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="155" column="17" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="155" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1af976496799eba77d497f10f1d9b73bb4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::metadata::RecordingMetadataChangeListener::eventCount</definition>
+        <argsstring>() const</argsstring>
+        <name>eventCount</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::eventCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of events recorded so far. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="163" column="17" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a4f68904972b7b51491e89b4828d4ce96" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1metadata_1_1_metadata_change_event" kindref="compound">MetadataChangeEvent</ref> &gt;</type>
+        <definition>std::optional&lt; MetadataChangeEvent &gt; themis::metadata::RecordingMetadataChangeListener::lastEvent</definition>
+        <argsstring>() const</argsstring>
+        <name>lastEvent</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::lastEvent</qualifiedname>
+        <briefdescription>
+<para>Return the most recently recorded event, or nullopt if none. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="171" column="19" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="171" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a1703d3659721d3bbd2007b153e75f67d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::RecordingMetadataChangeListener::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::clear</qualifiedname>
+        <briefdescription>
+<para>Clear all recorded events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="182" column="10" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a90ec2cbb190dd913524d2c38760d6b41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::metadata::RecordingMetadataChangeListener::setCallback</definition>
+        <argsstring>(EventCallback cb)</argsstring>
+        <name>setCallback</name>
+        <qualifiedname>themis::metadata::RecordingMetadataChangeListener::setCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a981ec7e86a14eb60166b1b0ec87f7e94" kindref="member">EventCallback</ref></type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+<para>Replace the event callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Thread-safe; the new callback takes effect for the next event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_change_listener.h" line="192" column="10" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="192" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-memory listener that records all received events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Primarily intended for unit tests and integration tests. An optional callback is invoked synchronously (under the mutex) after each event is recorded.</para>
+<para>Example: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1ab7505b39b7114add8c1f2de41a8e2600" kindref="member">RecordingMetadataChangeListener</ref><sp/>rec;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>wire<sp/>rec<sp/>into<sp/>SchemaManager<sp/>/<sp/>CatalogExporter<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">EXPECT_EQ(rec.eventCount(),<sp/>1);</highlight></codeline>
+<codeline><highlight class="normal">EXPECT_EQ(rec.lastEvent()-&gt;change_type,<sp/><ref refid="namespacethemis_1_1metadata_1afd7078e993135071573cd065ff801f2ea0af71b5d145bdefec7d0a4c3462d6d6b" kindref="member">MetadataChangeType::TABLE_CREATED</ref>);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::metadata::IMetadataChangeListener</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_change_listener"/>
+      </node>
+      <node id="1">
+        <label>themis::metadata::RecordingMetadataChangeListener</label>
+        <link refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::metadata::IMetadataChangeListener</label>
+        <link refid="classthemis_1_1metadata_1_1_i_metadata_change_listener"/>
+      </node>
+      <node id="1">
+        <label>themis::metadata::RecordingMetadataChangeListener</label>
+        <link refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/imetadata_change_listener.h" line="131" column="1" bodyfile="include/metadata/imetadata_change_listener.h" bodystart="131" bodyend="201"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a7ffac23283e8c8a869d0eeed58f7dc2b" prot="private" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a1703d3659721d3bbd2007b153e75f67d" prot="public" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>clear</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a981ec7e86a14eb60166b1b0ec87f7e94" prot="public" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>EventCallback</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1af976496799eba77d497f10f1d9b73bb4" prot="public" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>eventCount</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a8898f13a3c415bdf8de01c74d142ee49" prot="public" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>events</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a654407eab2e2e980ea39fcd490543741" prot="private" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>events_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a4f68904972b7b51491e89b4828d4ce96" prot="public" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>lastEvent</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a4376029ac3febe63f4404e2dbb73221b" prot="private" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a5f51a7c20eb0e9fdb73c7d0b04ad4a86" prot="public" virt="virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>onMetadataChanged</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1ab7505b39b7114add8c1f2de41a8e2600" prot="public" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>RecordingMetadataChangeListener</name></member>
+      <member refid="classthemis_1_1metadata_1_1_recording_metadata_change_listener_1a90ec2cbb190dd913524d2c38760d6b41" prot="public" virt="non-virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>setCallback</name></member>
+      <member refid="classthemis_1_1metadata_1_1_i_metadata_change_listener_1abf83b79cf3b5a00fead89c2b56aa1557" prot="public" virt="virtual"><scope>themis::metadata::RecordingMetadataChangeListener</scope><name>~IMetadataChangeListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

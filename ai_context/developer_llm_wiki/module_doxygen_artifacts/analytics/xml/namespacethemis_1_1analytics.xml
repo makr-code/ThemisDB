@@ -1,0 +1,775 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1analytics" kind="namespace" language="C++">
+    <compoundname>themis::analytics</compoundname>
+    <innerclass refid="structthemis_1_1analytics_1_1_aggregate_spec" prot="public">themis::analytics::AggregateSpec</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_aggregation_result" prot="public">themis::analytics::AggregationResult</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_aggregator" prot="public">themis::analytics::Aggregator</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_arrow_record_batch" prot="public">themis::analytics::ArrowRecordBatch</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_bounded_execution_policy" prot="public">themis::analytics::BoundedExecutionPolicy</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_columnar_store" prot="public">themis::analytics::ColumnarStore</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_complexity_metrics" prot="public">themis::analytics::ComplexityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_cube_cell" prot="public">themis::analytics::CubeCell</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_data_point" prot="public">themis::analytics::DataPoint</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_diff_engine" prot="public">themis::analytics::DiffEngine</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_dimension" prot="public">themis::analytics::Dimension</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_exporter_factory" prot="public">themis::analytics::ExporterFactory</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_export_options" prot="public">themis::analytics::ExportOptions</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_export_result" prot="public">themis::analytics::ExportResult</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_filter" prot="public">themis::analytics::Filter</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_grouping_set" prot="public">themis::analytics::GroupingSet</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_i_analytics_exporter" prot="public">themis::analytics::IAnalyticsExporter</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_j_s_o_n_c_s_v_exporter" prot="public">themis::analytics::JSONCSVExporter</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_keyword" prot="public">themis::analytics::Keyword</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_legal_modality" prot="public">themis::analytics::LegalModality</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_materialized_view" prot="public">themis::analytics::MaterializedView</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_measure" prot="public">themis::analytics::Measure</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_named_entity" prot="public">themis::analytics::NamedEntity</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_nlp_text_analyzer" prot="public">themis::analytics::NlpTextAnalyzer</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_o_l_a_p_engine" prot="public">themis::analytics::OLAPEngine</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_o_l_a_p_query" prot="public">themis::analytics::OLAPQuery</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_o_l_a_p_result" prot="public">themis::analytics::OLAPResult</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_rollup_row" prot="public">themis::analytics::RollupRow</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_sentiment_result" prot="public">themis::analytics::SentimentResult</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_sort" prot="public">themis::analytics::Sort</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_streaming_runtime_limits" prot="public">themis::analytics::StreamingRuntimeLimits</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_time_series" prot="public">themis::analytics::TimeSeries</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_time_series_stats" prot="public">themis::analytics::TimeSeriesStats</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_time_window" prot="public">themis::analytics::TimeWindow</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_token" prot="public">themis::analytics::Token</innerclass>
+    <innernamespace refid="namespacethemis_1_1analytics_1_1detail">themis::analytics::detail</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics_1_1test">themis::analytics::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggregateFunction</name>
+        <qualifiedname>themis::analytics::AggregateFunction</qualifiedname>
+        <enumvalue id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa1dc5fbfa16754d1e628d66381725617" prot="public">
+          <name>kSum</name>
+          <briefdescription>
+<para>Numeric sum (NULL inputs skipped). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a5a162d352f3b3603e03fc9b2f043fb40" prot="public">
+          <name>kCount</name>
+          <briefdescription>
+<para>Row count (including NULLs unless kCountNonNull is used). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93ab866b86a18b29a10638f4ec9a3f9ef9c" prot="public">
+          <name>kCountNonNull</name>
+          <briefdescription>
+<para>Count rows where value is non-NULL. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa22c1525680159c49e69ff9c43d1d01b" prot="public">
+          <name>kAvg</name>
+          <briefdescription>
+<para>Arithmetic mean. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a8fbc2f6c44a6d70550df79903eb57d48" prot="public">
+          <name>kMin</name>
+          <briefdescription>
+<para>Minimum value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa0b1ac8aae6b1cfbbe89085c642b3b4b" prot="public">
+          <name>kMax</name>
+          <briefdescription>
+<para>Maximum value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a9fda60ba14f0809e152bc08409aa2737" prot="public">
+          <name>kFirst</name>
+          <briefdescription>
+<para>First value in input order. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa9243c3d6084397b601cf95f073384a6" prot="public">
+          <name>kLast</name>
+          <briefdescription>
+<para>Last value in input order. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="52" column="1" bodyfile="include/analytics/aggregation.h" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" prot="public" static="no" strong="yes">
+        <type>int</type>
+        <name>AnalyticsErrorCode</name>
+        <qualifiedname>themis::analytics::AnalyticsErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca48b0350a6e9a4ddc48c2ee6c3baf8b55" prot="public">
+          <name>AGGREGATION_OVERFLOW</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+<para>SUM or other numeric aggregate would overflow the declared result type. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca2dc516053b5943bb7bd68253dca9887a" prot="public">
+          <name>WINDOW_EXPIRED</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+<para>Window watermark exceeded; the late event has been discarded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca1c26b81ba92ea70f693a4356fd035c94" prot="public">
+          <name>STREAM_BACKPRESSURE</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+<para>Stream producer backpressure threshold reached; event was not accepted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaaec388832358fff0270e64a369b20312" prot="public">
+          <name>FORECAST_MODEL_NOT_FOUND</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+<para>Named forecast model is not loaded or could not be found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaa8bf17466a7fbaf87ece45e7bdab4180" prot="public">
+          <name>FORECAST_INPUT_INVALID</name>
+          <initializer>= 104</initializer>
+          <briefdescription>
+<para>NaN or Inf value present in the forecast input series. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca404f8be3c07747ebc3879db18e013eee" prot="public">
+          <name>ANOMALY_THRESHOLD_INVALID</name>
+          <initializer>= 105</initializer>
+          <briefdescription>
+<para>Anomaly detection threshold value is semantically invalid (negative). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca6c759284add8841902aa1db1e26fedb9" prot="public">
+          <name>PLAN_CARDINALITY_UNSTABLE</name>
+          <initializer>= 106</initializer>
+          <briefdescription>
+<para>OLAP query plan cardinality estimate changed for identical input (bug). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca4da23deccf713b9bd0fce96a1e500e7a" prot="public">
+          <name>CEP_PATTERN_INCOMPLETE</name>
+          <initializer>= 107</initializer>
+          <briefdescription>
+<para>CEP pattern evaluation failed; required event sequence is incomplete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcae8c0c70879b5895c615677261d64a1ee" prot="public">
+          <name>INTERNAL_ERROR</name>
+          <initializer>= 199</initializer>
+          <briefdescription>
+<para>Unclassified analytics internal error; always treated as hard error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Canonical analytics error codes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Codes in range [100, 199] are analytics-specific. Reserve [200+] for future category extensions. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="161" column="1" bodyfile="include/analytics/analytics_api_contract.h" bodystart="161" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" prot="public" static="no" strong="yes">
+        <type>unsigned int</type>
+        <name>ForecastModelCapability</name>
+        <qualifiedname>themis::analytics::ForecastModelCapability</qualifiedname>
+        <enumvalue id="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 0u</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa0c42348f5e78b5831cba958452ba8296" prot="public">
+          <name>GpuInference</name>
+          <initializer>= 1u &lt;&lt; 0</initializer>
+          <briefdescription>
+<para>Model requires a GPU device for inference. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa85b963c026f9e767bd8ef5a633a510d2" prot="public">
+          <name>OnnxRuntime</name>
+          <initializer>= 1u &lt;&lt; 1</initializer>
+          <briefdescription>
+<para>Model requires the ONNX runtime. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707fa22d6da428bc4699459d55b781058e146" prot="public">
+          <name>RemoteEndpoint</name>
+          <initializer>= 1u &lt;&lt; 2</initializer>
+          <briefdescription>
+<para>Model requires network access to a remote serving endpoint. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Capability flags that a forecast model adapter may require at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="224" column="1" bodyfile="include/analytics/analytics_api_contract.h" bodystart="224" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>BackPressureMode</name>
+        <qualifiedname>themis::analytics::BackPressureMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1abf8f3be424eb6a72b21549fbb24ffb57" prot="public">
+          <name>DROP</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Discard the incoming event; increment an internal drop counter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1a4d34f53389ed7f28ca91fc31ea360a66" prot="public">
+          <name>BLOCK</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Block the producer until the engine drains below the limit. Warning: may cause the producer thread to stall indefinitely if the consumer is slower than the producer. </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a0331a1973e56e9c45da4b7d6792086a1afb12a2e8635fdd07c25989eeffa8fb42" prot="public">
+          <name>SHED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para>Shed load by discarding the oldest buffered events to make room for new arrivals. Maintains freshness at the cost of completeness. </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Action taken when a streaming limit is exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="305" column="1" bodyfile="include/analytics/analytics_api_contract.h" bodystart="305" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExportStatus</name>
+        <qualifiedname>themis::analytics::ExportStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7afba5cdfa4bcb408f641c743519a0fe19" prot="public">
+          <name>PARTIAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7a5343bcd21aad65124478a61831f6949e" prot="public">
+          <name>NOT_SUPPORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7a877d772cba43dce7b509c2f4ab139d73" prot="public">
+          <name>POLICY_REJECTED</name>
+          <briefdescription>
+<para>Export rejected because a <ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref> limit was exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="26" column="1" bodyfile="include/analytics/analytics_export.h" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ExportFormat</name>
+        <qualifiedname>themis::analytics::ExportFormat</qualifiedname>
+        <enumvalue id="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a9831a9a78157affd18960d81cac86c14" prot="public">
+          <name>FMT_ARROW_IPC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191aaff8553ddbd35cd6190a922f0ad7f0f9" prot="public">
+          <name>FMT_ARROW_PARQUET</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a9646480be165c583fe87fff640af860f" prot="public">
+          <name>FMT_ARROW_FEATHER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191acc8d68c551c4a9a6d5313e07de4deafd" prot="public">
+          <name>CSV</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a0ecd11c1d7a287401d148a23bbd7a2f8" prot="public">
+          <name>JSON</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_export.h" line="34" column="1" bodyfile="include/analytics/analytics_export.h" bodystart="34" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" prot="public" static="no">
+        <type>std::variant&lt; std::monostate, int64_t, double, std::string &gt;</type>
+        <definition>using themis::analytics::AggValue =  std::variant&lt;
+    std::monostate,
+    int64_t,
+    double,
+    std::string
+&gt;</definition>
+        <argsstring></argsstring>
+        <name>AggValue</name>
+        <qualifiedname>themis::analytics::AggValue</qualifiedname>
+        <briefdescription>
+<para>NULL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="41" column="1" bodyfile="include/analytics/aggregation.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1analytics_1a1f6f884fdbe3e5a8f8dcfb9d34b45b0c" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::analytics::GroupKey = std::string</definition>
+        <argsstring></argsstring>
+        <name>GroupKey</name>
+        <qualifiedname>themis::analytics::GroupKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="77" column="1" bodyfile="include/analytics/aggregation.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref> &gt;</type>
+        <definition>using themis::analytics::AggregationRow = std::unordered_map&lt;std::string, AggValue&gt;</definition>
+        <argsstring></argsstring>
+        <name>AggregationRow</name>
+        <qualifiedname>themis::analytics::AggregationRow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="83" column="1" bodyfile="include/analytics/aggregation.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1analytics_1ac5eba10447baabffc36afa4386db1f75" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref> &gt;</type>
+        <definition>using themis::analytics::AggregationOutputRow = std::unordered_map&lt;std::string, AggValue&gt;</definition>
+        <argsstring></argsstring>
+        <name>AggregationOutputRow</name>
+        <qualifiedname>themis::analytics::AggregationOutputRow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="85" column="1" bodyfile="include/analytics/aggregation.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1analytics_1a2985f596bddf0087262893a0d7c6c815" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::analytics::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::analytics::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="29" column="1" bodyfile="include/analytics/diff_engine.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1analytics_1afd92b54ab4dcc50b2a7f8bf02fdca406" prot="public" static="no">
+        <type>std::int64_t</type>
+        <definition>using themis::analytics::TimePoint = std::int64_t</definition>
+        <argsstring></argsstring>
+        <name>TimePoint</name>
+        <qualifiedname>themis::analytics::TimePoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/time_series.h" line="39" column="1" bodyfile="include/analytics/time_series.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1a533cbe53eb670996811a8afc0ca9f50c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::analytics::kMaxGroupByKeys</definition>
+        <argsstring></argsstring>
+        <name>kMaxGroupByKeys</name>
+        <qualifiedname>themis::analytics::kMaxGroupByKeys</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum number of GROUP BY keys accepted per query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="56" column="30" bodyfile="include/analytics/analytics_api_contract.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1a1c8783757a458daa1b67d436ed7c7c5e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::analytics::kMaxAggregationBatchRows</definition>
+        <argsstring></argsstring>
+        <name>kMaxAggregationBatchRows</name>
+        <qualifiedname>themis::analytics::kMaxAggregationBatchRows</qualifiedname>
+        <initializer>= 10&apos;000&apos;000u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum number of rows that may be buffered in a single aggregation batch before a flush is forced. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="60" column="30" bodyfile="include/analytics/analytics_api_contract.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1a547d389229207e90f7a5df568e60d556" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::analytics::kDefaultWindowSizeMs</definition>
+        <argsstring></argsstring>
+        <name>kDefaultWindowSizeMs</name>
+        <qualifiedname>themis::analytics::kDefaultWindowSizeMs</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+<para>Default tumbling/sliding window size in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="91" column="31" bodyfile="include/analytics/analytics_api_contract.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1a9e71ecc9cd48eceb058b714a0fad1170" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::analytics::kMaxOpenSessionWindows</definition>
+        <argsstring></argsstring>
+        <name>kMaxOpenSessionWindows</name>
+        <qualifiedname>themis::analytics::kMaxOpenSessionWindows</qualifiedname>
+        <initializer>= 1&apos;000&apos;000u</initializer>
+        <briefdescription>
+<para>Maximum number of concurrently open session windows per instance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="94" column="30" bodyfile="include/analytics/analytics_api_contract.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1a8bb3efe83ab4b14f5d2cbfd3298b7f7f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::analytics::kMaxWindowRecords</definition>
+        <argsstring></argsstring>
+        <name>kMaxWindowRecords</name>
+        <qualifiedname>themis::analytics::kMaxWindowRecords</qualifiedname>
+        <initializer>= 10&apos;000&apos;000u</initializer>
+        <briefdescription>
+<para>Maximum records buffered in any single window before eviction is forced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="97" column="30" bodyfile="include/analytics/analytics_api_contract.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1acdcb244ed011eb2b79ab4ef711eb61ee" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::analytics::kMaxCepPatternLength</definition>
+        <argsstring></argsstring>
+        <name>kMaxCepPatternLength</name>
+        <qualifiedname>themis::analytics::kMaxCepPatternLength</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Maximum CEP pattern sequence length (event count). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="100" column="30" bodyfile="include/analytics/analytics_api_contract.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1analytics_1a4fddd10156052135c2533c2dae1d3f2c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::kPlanCostStabilityTolerance</definition>
+        <argsstring></argsstring>
+        <name>kPlanCostStabilityTolerance</name>
+        <qualifiedname>themis::analytics::kPlanCostStabilityTolerance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum allowed relative deviation in consecutive plan cost estimates for the same query on the same data version (0 = no deviation permitted). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="114" column="25" bodyfile="include/analytics/analytics_api_contract.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1a85da03160c4f8c262eb5cd73aaa89d54" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::isHardAnalyticsError</definition>
+        <argsstring>(AnalyticsErrorCode code) noexcept</argsstring>
+        <name>isHardAnalyticsError</name>
+        <qualifiedname>themis::analytics::isHardAnalyticsError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code indicates a non-retryable hard error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Hard errors must not be silently suppressed; callers must propagate them to the operator / observability pipeline. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="196" column="24" bodyfile="include/analytics/analytics_api_contract.h" bodystart="196" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1a42fb7bf3deafa7182c5d0d79d4f7c77b" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::isBackpressureError</definition>
+        <argsstring>(AnalyticsErrorCode code) noexcept</argsstring>
+        <name>isBackpressureError</name>
+        <qualifiedname>themis::analytics::isBackpressureError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfc" kindref="member">AnalyticsErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Returns true when the error code represents a backpressure / flow control condition that the producer should handle by slowing down. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="208" column="24" bodyfile="include/analytics/analytics_api_contract.h" bodystart="208" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1a5e02d7b8e375fddadd3b0bd476bd3bd2" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref></type>
+        <definition>ForecastModelCapability themis::analytics::operator|</definition>
+        <argsstring>(ForecastModelCapability a, ForecastModelCapability b) noexcept</argsstring>
+        <name>operator|</name>
+        <qualifiedname>themis::analytics::operator|</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="234" column="43" bodyfile="include/analytics/analytics_api_contract.h" bodystart="234" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1a9f10b0c7e1f3b2d5aa95155ec930dc96" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::analytics::hasModelCapability</definition>
+        <argsstring>(ForecastModelCapability set, ForecastModelCapability flag) noexcept</argsstring>
+        <name>hasModelCapability</name>
+        <qualifiedname>themis::analytics::hasModelCapability</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref></type>
+          <declname>set</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1analytics_1a9c97a0541c927ceeb7d8a6b708e3707f" kindref="member">ForecastModelCapability</ref></type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/analytics_api_contract.h" line="240" column="24" bodyfile="include/analytics/analytics_api_contract.h" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1aa0202d0b1407ab040159ecc13df7e173" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::analytics::languageToString</definition>
+        <argsstring>(NlpTextAnalyzer::Language lang)</argsstring>
+        <name>languageToString</name>
+        <qualifiedname>themis::analytics::languageToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1analytics_1_1_nlp_text_analyzer_1a456b7622de28c754685172a2cd0fbde1" kindref="member">NlpTextAnalyzer::Language</ref></type>
+          <declname>lang</declname>
+        </param>
+        <briefdescription>
+<para>Language To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lang</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements languageToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="394" column="25" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="394" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1a9b7f02aba69606c458deb8cc5b5fdc0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::analytics::throwArrowUnavailable</definition>
+        <argsstring>(const char *format_name)</argsstring>
+        <name>throwArrowUnavailable</name>
+        <qualifiedname>themis::analytics::throwArrowUnavailable</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>format_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/analytics_export.cpp" line="981" column="14" bodyfile="src/analytics/analytics_export.cpp" bodystart="981" bodyend="986"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1analytics_1a75267add6495481612866985c75ea914" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::analytics::computeOLAPCacheKey</definition>
+        <argsstring>(const OLAPQuery &amp;query)</argsstring>
+        <name>computeOLAPCacheKey</name>
+        <qualifiedname>themis::analytics::computeOLAPCacheKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>------------------------------------------------------------------------<mdash/> Compute a normalised cache key for an <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">OLAPQuery</ref> so that semantically equivalent queries (same dimensions/measures/filters regardless of order) map to the same cache entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+------------------------------------------------------------------------<mdash/> Calls: reserve(), size(), push_back(), std::sort(), begin(), end(), std::to_string(), std::visit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/olap.cpp" line="360" column="20" bodyfile="src/analytics/olap.cpp" bodystart="360" bodyend="434"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/aggregation.h" line="35" column="1"/>
+  </compounddef>
+</doxygen>

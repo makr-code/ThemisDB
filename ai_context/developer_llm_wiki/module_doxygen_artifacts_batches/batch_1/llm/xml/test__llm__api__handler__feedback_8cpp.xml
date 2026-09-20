@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__api__handler__feedback_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_api_handler_feedback.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_api_handler_feedback.cpp</label>
+        <link refid="test__llm__api__handler__feedback_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__api__handler__feedback_8cpp_1ada0cdebb874c60e00defadaffe6ff92b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMApiHandlerFeedbackIntegration, Placeholder)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMApiHandlerFeedbackIntegration</type>
+        </param>
+        <param>
+          <type>Placeholder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_api_handler_feedback.cpp" line="334" column="1" bodyfile="tests/llm/test_llm_api_handler_feedback.cpp" bodystart="334" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integration tests for LLM API Handler feedback endpoints with FeedbackStore. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Disable<sp/>tests<sp/>for<sp/>now<sp/>-<sp/>requires<sp/>full<sp/>integration<sp/>setup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/llm_api_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__manager_8h" kindref="compound">llm/llm_plugin_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="feedback__store_8h" kindref="compound">llm/feedback_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Namespace<sp/>aliases<sp/>for<sp/>Boost.Beast<sp/>HTTP<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/>=<sp/>boost::beast::http;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">LLMApiHandlerFeedbackTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>temporary<sp/>database<sp/>directory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::system_clock::now().time_since_epoch();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ms<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(now).count();</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_path_<sp/>=<sp/>std::filesystem::temp_directory_path()<sp/>/<sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_llm_api_feedback_test_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(ms));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::create_directories(db_path_);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>RocksDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage::RocksDBWrapper::Config<sp/>config;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.db_path<sp/>=<sp/>db_path_.string();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_<sp/>=<sp/>std::make_unique&lt;storage::RocksDBWrapper&gt;(config);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>FeedbackStore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback_store_<sp/>=<sp/>std::make_shared&lt;llm::FeedbackStore&gt;(db_-&gt;db(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>LLM<sp/>Plugin<sp/>Manager<sp/>(minimal<sp/>setup)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plugin_manager_<sp/>=<sp/>std::make_shared&lt;llm::LLMPluginManager&gt;();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>LLM<sp/>API<sp/>Handler<sp/>without<sp/>JWT<sp/>validation<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>api_handler_<sp/>=<sp/>std::make_unique&lt;LLMApiHandler&gt;(plugin_manager_,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>the<sp/>FeedbackStore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>api_handler_-&gt;setFeedbackStore(feedback_store_);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TearDown()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>api_handler_.reset();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback_store_.reset();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plugin_manager_.reset();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_.reset();</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(db_path_);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>to<sp/>create<sp/>a<sp/>test<sp/>HTTP<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>createRequest(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::verb<sp/>method,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>body<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{method,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::content_type,<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::authorization,<sp/></highlight><highlight class="stringliteral">&quot;Bearer<sp/>test-token&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.body()<sp/>=<sp/>body;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.prepare_payload();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>req;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::path<sp/>db_path_;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;storage::RocksDBWrapper&gt;<sp/>db_;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::FeedbackStore&gt;<sp/>feedback_store_;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;llm::LLMPluginManager&gt;<sp/>plugin_manager_;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LLMApiHandler&gt;<sp/>api_handler_;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>CreatePositiveFeedback)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>body<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="91"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type&quot;:<sp/>&quot;positive&quot;,</highlight></codeline>
+<codeline lineno="92"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;question&quot;:<sp/>&quot;How<sp/>do<sp/>I<sp/>enable<sp/>sharding?&quot;,</highlight></codeline>
+<codeline lineno="93"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;answer&quot;:<sp/>&quot;Use<sp/>SHARD<sp/>BY<sp/>in<sp/>CREATE<sp/>COLLECTION&quot;,</highlight></codeline>
+<codeline lineno="94"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;user_id&quot;:<sp/>&quot;user123&quot;,</highlight></codeline>
+<codeline lineno="95"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;model_version&quot;:<sp/>&quot;llama-2-7b&quot;</highlight></codeline>
+<codeline lineno="96"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="97"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::post,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback&quot;</highlight><highlight class="normal">,<sp/>body);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::created);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response[http::field::content_type],<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parse<sp/>response<sp/>body</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_json.contains(</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(response_json[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().empty());</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;positive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;question&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;How<sp/>do<sp/>I<sp/>enable<sp/>sharding?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;answer&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Use<sp/>SHARD<sp/>BY<sp/>in<sp/>CREATE<sp/>COLLECTION&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;user_id&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;user123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_json.contains(</highlight><highlight class="stringliteral">&quot;validation_status&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_json.contains(</highlight><highlight class="stringliteral">&quot;message&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>CreateNegativeFeedbackWithCorrection)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>body<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type&quot;:<sp/>&quot;negative&quot;,</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;question&quot;:<sp/>&quot;What<sp/>is<sp/>the<sp/>default<sp/>replication<sp/>factor?&quot;,</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;answer&quot;:<sp/>&quot;The<sp/>default<sp/>is<sp/>1&quot;,</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;correction&quot;:<sp/>&quot;The<sp/>default<sp/>is<sp/>3<sp/>for<sp/>production&quot;,</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;comment&quot;:<sp/>&quot;Answer<sp/>was<sp/>misleading&quot;,</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;user_id&quot;:<sp/>&quot;user456&quot;</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::post,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback&quot;</highlight><highlight class="normal">,<sp/>body);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::created);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;negative&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;correction&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;The<sp/>default<sp/>is<sp/>3<sp/>for<sp/>production&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;comment&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>was<sp/>misleading&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>CreateFeedbackMissingFields)<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>body<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="146"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type&quot;:<sp/>&quot;positive&quot;</highlight></codeline>
+<codeline lineno="147"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="148"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::post,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback&quot;</highlight><highlight class="normal">,<sp/>body);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::bad_request);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_json.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>GetFeedbackById)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>create<sp/>a<sp/>feedback<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>llm::FeedbackStore::FeedbackEntry<sp/>feedback;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a51339255c1c3df85eb50bcec297a074f" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017faab6c31432785221bae58327ef5f6ea58" kindref="member">llm::FeedbackType::POSITIVE</ref>;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5643a5ae2fb0b312e6356c2b4c7636a3" kindref="member">user_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user789&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ac8501cb144c1c74179a7b4561e56a95e" kindref="member">question</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>question&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5fe73c00d629ac3ad71f7315c1e44cdf" kindref="member">answer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>answer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stored<sp/>=<sp/>feedback_store_-&gt;createFeedback(feedback);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>retrieve<sp/>it<sp/>via<sp/>API</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback/&quot;</highlight><highlight class="normal"><sp/>+<sp/>stored.id);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::ok);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">],<sp/>stored.id);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;question&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>question&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;answer&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>answer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>GetNonExistentFeedback)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback/nonexistent-id&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::not_found);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_json.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>ListFeedback)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>several<sp/>feedback<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llm::FeedbackStore::FeedbackEntry<sp/>feedback;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a51339255c1c3df85eb50bcec297a074f" kindref="member">type</ref><sp/>=<sp/>(i<sp/>%<sp/>2<sp/>==<sp/>0)<sp/>?<sp/><ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017faab6c31432785221bae58327ef5f6ea58" kindref="member">llm::FeedbackType::POSITIVE</ref><sp/>:<sp/>llm::<ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017f" kindref="member">FeedbackType</ref>::<ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017fa50546bf973283065b6ccf09faf7a580a" kindref="member">NEGATIVE</ref>;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5643a5ae2fb0b312e6356c2b4c7636a3" kindref="member">user_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ac8501cb144c1c74179a7b4561e56a95e" kindref="member">question</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Question<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5fe73c00d629ac3ad71f7315c1e44cdf" kindref="member">answer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback_store_-&gt;createFeedback(feedback);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>all<sp/>feedback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::ok);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_json.contains(</highlight><highlight class="stringliteral">&quot;feedback&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_json[</highlight><highlight class="stringliteral">&quot;feedback&quot;</highlight><highlight class="normal">].is_array());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;feedback&quot;</highlight><highlight class="normal">].size(),<sp/>5);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">],<sp/>5);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>ListFeedbackWithTypeFilter)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>feedback<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>6;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llm::FeedbackStore::FeedbackEntry<sp/>feedback;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a51339255c1c3df85eb50bcec297a074f" kindref="member">type</ref><sp/>=<sp/>(i<sp/>&lt;<sp/>4)<sp/>?<sp/><ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017faab6c31432785221bae58327ef5f6ea58" kindref="member">llm::FeedbackType::POSITIVE</ref><sp/>:<sp/>llm::<ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017f" kindref="member">FeedbackType</ref>::<ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017fa50546bf973283065b6ccf09faf7a580a" kindref="member">NEGATIVE</ref>;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5643a5ae2fb0b312e6356c2b4c7636a3" kindref="member">user_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ac8501cb144c1c74179a7b4561e56a95e" kindref="member">question</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Question<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5fe73c00d629ac3ad71f7315c1e44cdf" kindref="member">answer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback_store_-&gt;createFeedback(feedback);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>only<sp/>positive<sp/>feedback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback?type=positive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::ok);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;feedback&quot;</highlight><highlight class="normal">].size(),<sp/>4);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>are<sp/>positive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fb<sp/>:<sp/>response_json[</highlight><highlight class="stringliteral">&quot;feedback&quot;</highlight><highlight class="normal">])<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(fb[</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;positive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>ListFeedbackWithLimit)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>feedback<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llm::FeedbackStore::FeedbackEntry<sp/>feedback;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a51339255c1c3df85eb50bcec297a074f" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017faab6c31432785221bae58327ef5f6ea58" kindref="member">llm::FeedbackType::POSITIVE</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5643a5ae2fb0b312e6356c2b4c7636a3" kindref="member">user_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ac8501cb144c1c74179a7b4561e56a95e" kindref="member">question</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Question<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5fe73c00d629ac3ad71f7315c1e44cdf" kindref="member">answer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback_store_-&gt;createFeedback(feedback);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>List<sp/>with<sp/>limit=3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback?limit=3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::ok);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;feedback&quot;</highlight><highlight class="normal">].size(),<sp/>3);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;limit&quot;</highlight><highlight class="normal">],<sp/>3);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>GetFeedbackStats)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>feedback<sp/>entries<sp/>with<sp/>different<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>7;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llm::FeedbackStore::FeedbackEntry<sp/>feedback;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a51339255c1c3df85eb50bcec297a074f" kindref="member">type</ref><sp/>=<sp/>(i<sp/>&lt;<sp/>5)<sp/>?<sp/><ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017faab6c31432785221bae58327ef5f6ea58" kindref="member">llm::FeedbackType::POSITIVE</ref><sp/>:<sp/>llm::<ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017f" kindref="member">FeedbackType</ref>::<ref refid="namespacethemis_1_1llm_1a26f529cef8a9099ae576d5410713017fa50546bf973283065b6ccf09faf7a580a" kindref="member">NEGATIVE</ref>;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5643a5ae2fb0b312e6356c2b4c7636a3" kindref="member">user_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1ac8501cb144c1c74179a7b4561e56a95e" kindref="member">question</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Question<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback.<ref refid="structthemis_1_1llm_1_1_feedback_store_1_1_feedback_entry_1a5fe73c00d629ac3ad71f7315c1e44cdf" kindref="member">answer</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>feedback_store_-&gt;createFeedback(feedback);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::get,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback/stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>api_handler_-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::ok);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;total_feedback&quot;</highlight><highlight class="normal">],<sp/>7);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;positive_count&quot;</highlight><highlight class="normal">],<sp/>5);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response_json[</highlight><highlight class="stringliteral">&quot;negative_count&quot;</highlight><highlight class="normal">],<sp/>2);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(response_json[</highlight><highlight class="stringliteral">&quot;positive_ratio&quot;</highlight><highlight class="normal">].get&lt;double&gt;(),<sp/>0.7);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(response_json[</highlight><highlight class="stringliteral">&quot;positive_ratio&quot;</highlight><highlight class="normal">].get&lt;double&gt;(),<sp/>0.72);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="namespacethemis_1_1server_1_1test_1a3e3a20d7704f3bb27ba54be806b55107" kindref="member">TEST_F</ref>(LLMApiHandlerFeedbackTest,<sp/>FeedbackStoreNotConfigured)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>new<sp/>handler<sp/>without<sp/>FeedbackStore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>handler_without_store<sp/>=<sp/>std::make_unique&lt;LLMApiHandler&gt;(plugin_manager_,<sp/>std::nullopt);</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>body<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;({</highlight></codeline>
+<codeline lineno="313"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;type&quot;:<sp/>&quot;positive&quot;,</highlight></codeline>
+<codeline lineno="314"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;question&quot;:<sp/>&quot;Test&quot;,</highlight></codeline>
+<codeline lineno="315"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&quot;answer&quot;:<sp/>&quot;Test&quot;</highlight></codeline>
+<codeline lineno="316"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>})&quot;;</highlight></codeline>
+<codeline lineno="317"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="318"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>req<sp/>=<sp/>createRequest(http::verb::post,<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/llm/feedback&quot;</highlight><highlight class="normal">,<sp/>body);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response<sp/>=<sp/>handler_without_store-&gt;handleRequest(req);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(response.result(),<sp/>http::status::service_unavailable);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>response_json<sp/>=<sp/>nlohmann::json::parse(response.body());</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(response_json.contains(</highlight><highlight class="stringliteral">&quot;error&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Placeholder<sp/>test<sp/>to<sp/>keep<sp/>test<sp/>suite<sp/>happy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="test__llm__api__handler__feedback_8cpp_1ada0cdebb874c60e00defadaffe6ff92b" kindref="member">TEST</ref>(LLMApiHandlerFeedbackIntegration,<sp/>Placeholder)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LLM<sp/>API<sp/>Handler<sp/>Feedback<sp/>integration<sp/>tests<sp/>disabled<sp/>-<sp/>requires<sp/>full<sp/>setup&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_api_handler_feedback.cpp"/>
+  </compounddef>
+</doxygen>

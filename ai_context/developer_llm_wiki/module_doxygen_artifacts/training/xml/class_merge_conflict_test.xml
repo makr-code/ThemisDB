@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_merge_conflict_test" kind="class" language="C++" prot="public">
+    <compoundname>MergeConflictTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_merge_conflict_test_1a34a651233734011aad34e1fded5f0b2b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRAAdapter&gt; MergeConflictTest::adapter1_</definition>
+        <argsstring></argsstring>
+        <name>adapter1_</name>
+        <qualifiedname>MergeConflictTest::adapter1_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_merge_conflicts.cpp" line="61" column="21" bodyfile="tests/training/test_merge_conflicts.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_merge_conflict_test_1ad49e8c8754da99690fb716bd4d93149f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRAAdapter&gt; MergeConflictTest::adapter2_</definition>
+        <argsstring></argsstring>
+        <name>adapter2_</name>
+        <qualifiedname>MergeConflictTest::adapter2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_merge_conflicts.cpp" line="62" column="21" bodyfile="tests/training/test_merge_conflicts.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_merge_conflict_test_1a4774f943a04de1450c2727eea1906105" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRAAdapter&gt; MergeConflictTest::adapter3_</definition>
+        <argsstring></argsstring>
+        <name>adapter3_</name>
+        <qualifiedname>MergeConflictTest::adapter3_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_merge_conflicts.cpp" line="63" column="21" bodyfile="tests/training/test_merge_conflicts.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_merge_conflict_test_1a418c2ed024ceb2f44d3a1046d25a8120" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MergeConflictTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MergeConflictTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_merge_conflicts.cpp" line="37" column="10" bodyfile="tests/training/test_merge_conflicts.cpp" bodystart="37" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_merge_conflict_test_1a360e9a9c1bd98622744027a99c38db07" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MergeConflictTest::initializeAdapterWeights</definition>
+        <argsstring>(LoRAAdapter *adapter, float scale)</argsstring>
+        <name>initializeAdapterWeights</name>
+        <qualifiedname>MergeConflictTest::initializeAdapterWeights</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> *</type>
+          <declname>adapter</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_merge_conflicts.cpp" line="54" column="10" bodyfile="tests/training/test_merge_conflicts.cpp" bodystart="54" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MergeConflictTest</label>
+        <link refid="class_merge_conflict_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MergeConflictTest</label>
+        <link refid="class_merge_conflict_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_merge_conflicts.cpp" line="35" column="1" bodyfile="tests/training/test_merge_conflicts.cpp" bodystart="35" bodyend="64"/>
+    <listofallmembers>
+      <member refid="class_merge_conflict_test_1a34a651233734011aad34e1fded5f0b2b" prot="protected" virt="non-virtual"><scope>MergeConflictTest</scope><name>adapter1_</name></member>
+      <member refid="class_merge_conflict_test_1ad49e8c8754da99690fb716bd4d93149f" prot="protected" virt="non-virtual"><scope>MergeConflictTest</scope><name>adapter2_</name></member>
+      <member refid="class_merge_conflict_test_1a4774f943a04de1450c2727eea1906105" prot="protected" virt="non-virtual"><scope>MergeConflictTest</scope><name>adapter3_</name></member>
+      <member refid="class_merge_conflict_test_1a360e9a9c1bd98622744027a99c38db07" prot="protected" virt="non-virtual"><scope>MergeConflictTest</scope><name>initializeAdapterWeights</name></member>
+      <member refid="class_merge_conflict_test_1a418c2ed024ceb2f44d3a1046d25a8120" prot="protected" virt="non-virtual"><scope>MergeConflictTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

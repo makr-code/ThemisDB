@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::crs::UTMZone</compoundname>
+    <includes refid="crs__functions_8h" local="no">crs_functions.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1acd47fbd90d0f346785d5f0ebc8dbf906" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::functions::crs::UTMZone::zone</definition>
+        <argsstring></argsstring>
+        <name>zone</name>
+        <qualifiedname>themis::query::functions::crs::UTMZone::zone</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="57" column="9" bodyfile="include/query/functions/crs_functions.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1aa6084f16c363f0077ef269c9486c5f28" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::crs::UTMZone::isNorth</definition>
+        <argsstring></argsstring>
+        <name>isNorth</name>
+        <qualifiedname>themis::query::functions::crs::UTMZone::isNorth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="58" column="10" bodyfile="include/query/functions/crs_functions.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1a0e9db1e200509b92057a670a48bfb309" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::UTMZone::lon0</definition>
+        <argsstring></argsstring>
+        <name>lon0</name>
+        <qualifiedname>themis::query::functions::crs::UTMZone::lon0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="59" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1afdadf931cf9695689e210e36034e9566" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::UTMZone::k0</definition>
+        <argsstring></argsstring>
+        <name>k0</name>
+        <qualifiedname>themis::query::functions::crs::UTMZone::k0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="60" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1a16a50c4b9b7ecaced0bcecc494fffe65" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::UTMZone::falseE</definition>
+        <argsstring></argsstring>
+        <name>falseE</name>
+        <qualifiedname>themis::query::functions::crs::UTMZone::falseE</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="61" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1ab758b4587626594f830998b38ee6d768" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::UTMZone::falseN</definition>
+        <argsstring></argsstring>
+        <name>falseN</name>
+        <qualifiedname>themis::query::functions::crs::UTMZone::falseN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="62" column="12" bodyfile="include/query/functions/crs_functions.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1a033e5323acb1359fae57ea019407029b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::crs::UTMZone::UTMZone</definition>
+        <argsstring>(int z, bool north)</argsstring>
+        <name>UTMZone</name>
+        <qualifiedname>themis::query::functions::crs::UTMZone::UTMZone</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>north</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="64" column="5" bodyfile="include/query/functions/crs_functions.h" bodystart="64" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/crs_functions.h" line="56" column="1" bodyfile="include/query/functions/crs_functions.h" bodystart="56" bodyend="72"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1a16a50c4b9b7ecaced0bcecc494fffe65" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::UTMZone</scope><name>falseE</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1ab758b4587626594f830998b38ee6d768" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::UTMZone</scope><name>falseN</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1aa6084f16c363f0077ef269c9486c5f28" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::UTMZone</scope><name>isNorth</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1afdadf931cf9695689e210e36034e9566" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::UTMZone</scope><name>k0</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1a0e9db1e200509b92057a670a48bfb309" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::UTMZone</scope><name>lon0</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1a033e5323acb1359fae57ea019407029b" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::UTMZone</scope><name>UTMZone</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_u_t_m_zone_1acd47fbd90d0f346785d5f0ebc8dbf906" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::UTMZone</scope><name>zone</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

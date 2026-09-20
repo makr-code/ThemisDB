@@ -1,0 +1,527 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_lo_r_a_data_selection_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LoRADataSelectionConfig</compoundname>
+    <includes refid="lora__data__selection_8h" local="no">lora_data_selection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a783ce3e72fcc4d160813ba81db33a214" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRADataSelectionConfig::min_length_tokens</definition>
+        <argsstring></argsstring>
+        <name>min_length_tokens</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::min_length_tokens</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Minimum token count per sample. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="52" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1aa5bd0f96466d936d792f3132151801c9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRADataSelectionConfig::max_length_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_length_tokens</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::max_length_tokens</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Maximum token count per sample. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="53" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1acb5e198b1a839d90d15802f08949cd7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRADataSelectionConfig::required_language</definition>
+        <argsstring></argsstring>
+        <name>required_language</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::required_language</qualifiedname>
+        <initializer>= &quot;de&quot;</initializer>
+        <briefdescription>
+<para>ISO 639-1 language code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="54" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1aa42bec4e4fa178083dfe248415475ee5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LoRADataSelectionConfig::max_toxicity_score</definition>
+        <argsstring></argsstring>
+        <name>max_toxicity_score</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::max_toxicity_score</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>Max allowed toxicity (0..1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="55" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1ab3679a8a690b79b4b61563c1c4672dcd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::LoRADataSelectionConfig::enable_pii_check</definition>
+        <argsstring></argsstring>
+        <name>enable_pii_check</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::enable_pii_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Strip/reject PII samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="56" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1aa16b412baa02511d43927a9cf9b32cc5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LoRADataSelectionConfig::minhash_threshold</definition>
+        <argsstring></argsstring>
+        <name>minhash_threshold</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::minhash_threshold</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+<para>Jaccard threshold for near-duplicate removal. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="59" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a6d8bfee4f586305eff6c9a62ee83415d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRADataSelectionConfig::minhash_num_perm</definition>
+        <argsstring></argsstring>
+        <name>minhash_num_perm</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::minhash_num_perm</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+<para>Number of MinHash permutations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="60" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1aeb24ec21aaa553b7d81999e24625a2be" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRADataSelectionConfig::embedding_model</definition>
+        <argsstring></argsstring>
+        <name>embedding_model</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::embedding_model</qualifiedname>
+        <initializer>= &quot;multilingual-e5-large&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="63" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a65ae69672eb95d4b64a5234ef300ebce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRADataSelectionConfig::clustering_k_ratio</definition>
+        <argsstring></argsstring>
+        <name>clustering_k_ratio</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::clustering_k_ratio</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>k = target_samples / clustering_k_ratio </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="64" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a53747af390a6d8ff0c693d995d89bc95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRADataSelectionConfig::perplexity_model</definition>
+        <argsstring></argsstring>
+        <name>perplexity_model</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::perplexity_model</qualifiedname>
+        <initializer>= &quot;gpt2&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="67" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a0583a1067e785393c7af5d9da648b703" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LoRADataSelectionConfig::perplexity_weight</definition>
+        <argsstring></argsstring>
+        <name>perplexity_weight</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::perplexity_weight</qualifiedname>
+        <initializer>= 0.4</initializer>
+        <briefdescription>
+<para>Weight in combined quality score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="68" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a5f56c11ec22f9f47b6acc01c34494732" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LoRADataSelectionConfig::diversity_weight</definition>
+        <argsstring></argsstring>
+        <name>diversity_weight</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::diversity_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>Weight for token-type ratio (TTR). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="69" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a0be34bfcb16753526c02dee8f0a8a79d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LoRADataSelectionConfig::domain_relevance_weight</definition>
+        <argsstring></argsstring>
+        <name>domain_relevance_weight</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::domain_relevance_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>Weight for BM25 domain relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="70" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a70fff61d4fb2e88b1ebe9c7413f43786" prot="public" static="no" mutable="no">
+        <type>DomainKeywords</type>
+        <definition>DomainKeywords themis::training::LoRADataSelectionConfig::domain_keywords</definition>
+        <argsstring></argsstring>
+        <name>domain_keywords</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::domain_keywords</qualifiedname>
+        <briefdescription>
+<para>Domain → keyword list. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="71" column="20" bodyfile="include/training/lora_data_selection.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1ace042dccc9c5763a35f4a6e570f62aff" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LoRADataSelectionConfig::easy_ratio</definition>
+        <argsstring></argsstring>
+        <name>easy_ratio</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::easy_ratio</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+<para>Fraction of easy samples (low difficulty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="74" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a4971c124e47f7768682ba60bcb539bc2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LoRADataSelectionConfig::medium_ratio</definition>
+        <argsstring></argsstring>
+        <name>medium_ratio</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::medium_ratio</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Fraction of medium samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="75" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1aef6512762b331ff9d757fdfe70659962" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::LoRADataSelectionConfig::hard_ratio</definition>
+        <argsstring></argsstring>
+        <name>hard_ratio</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::hard_ratio</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+<para>Fraction of hard samples (high difficulty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="76" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1ad959a6057586a300ae290a5e91e575ce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRADataSelectionConfig::target_samples</definition>
+        <argsstring></argsstring>
+        <name>target_samples</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::target_samples</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Total samples to select. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="77" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1abcf3c3c0b5d4fad88965062c0a7400e5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::LoRADataSelectionConfig::audit</definition>
+        <argsstring></argsstring>
+        <name>audit</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::audit</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Record provenance audit entry </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="80" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_lo_r_a_data_selection_config_1a9636a7d0be6d6dedf2695cbfe3989e63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRADataSelectionConfig::audit_log_path</definition>
+        <argsstring></argsstring>
+        <name>audit_log_path</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::audit_log_path</qualifiedname>
+        <initializer>= &quot;logs/lora_data_selection_audit.jsonl&quot;</initializer>
+        <briefdescription>
+<para>Path to append JSON Lines audit records. Empty = no file persistence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="82" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_lo_r_a_data_selection_config_1a5115d5b2eb97428ef3e57cc6a82acdf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::LoRADataSelectionConfig::LoRADataSelectionConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>LoRADataSelectionConfig</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::LoRADataSelectionConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="84" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_lo_r_a_data_selection_config_1abcc84ea797099241760f02873616c7f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref></type>
+        <definition>LoRADataSelectionConfig themis::training::LoRADataSelectionConfig::loadFromYAML</definition>
+        <argsstring>(const std::string &amp;path, const std::string &amp;section=&quot;lora_data_selection&quot;)</argsstring>
+        <name>loadFromYAML</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::loadFromYAML</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>section</declname>
+          <defval>&quot;lora_data_selection&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Load configuration from a YAML file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From YAML.</para>
+<para>Reads the <computeroutput>section</computeroutput> block (default: <computeroutput>lora_data_selection</computeroutput>) from the YAML file at <computeroutput>path</computeroutput> and fills a new config object.</para>
+<para>Uses a built-in line-by-line parser – no external yaml-cpp dependency. Supports live-reload: call again at any time to obtain an updated config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the YAML configuration file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Top-level YAML key containing the data-selection block. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the file cannot be opened.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: f(), is_open(), rdbuf(), yaml_detail::parseYAMLText(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="99" column="36" bodyfile="src/training/lora_data_selection.cpp" bodystart="1156" bodyend="1165"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_lo_r_a_data_selection_config_1a49e2f3ec6b6e39dd781ce0f3ac71a674" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_lo_r_a_data_selection_config" kindref="compound">LoRADataSelectionConfig</ref></type>
+        <definition>LoRADataSelectionConfig themis::training::LoRADataSelectionConfig::fromYAMLString</definition>
+        <argsstring>(const std::string &amp;yaml_text, const std::string &amp;section=&quot;lora_data_selection&quot;)</argsstring>
+        <name>fromYAMLString</name>
+        <qualifiedname>themis::LoRADataSelectionConfig::fromYAMLString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>section</declname>
+          <defval>&quot;lora_data_selection&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Parse configuration from an in-memory YAML string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From YAMLString.</para>
+<para>Useful for unit testing or when the YAML content is already loaded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>YAML text containing the data-selection section. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Top-level key to read (default: <computeroutput>lora_data_selection</computeroutput>).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: yaml_detail::parseYAMLText(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="111" column="36" bodyfile="src/training/lora_data_selection.cpp" bodystart="1174" bodyend="1178"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete configuration for the automated LoRA data selection pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Matches the YAML schema: <programlisting><codeline><highlight class="normal">lora_data_selection:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1_lo_r_a_data_selection_config_1a783ce3e72fcc4d160813ba81db33a214" kindref="member">min_length_tokens</ref>:<sp/>50</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1_lo_r_a_data_selection_config_1aa5bd0f96466d936d792f3132151801c9" kindref="member">max_length_tokens</ref>:<sp/>10000</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1_lo_r_a_data_selection_config_1acb5e198b1a839d90d15802f08949cd7b" kindref="member">required_language</ref>:<sp/></highlight><highlight class="stringliteral">&quot;de&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1_lo_r_a_data_selection_config_1aa42bec4e4fa178083dfe248415475ee5" kindref="member">max_toxicity_score</ref>:<sp/>0.3</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1_lo_r_a_data_selection_config_1aa16b412baa02511d43927a9cf9b32cc5" kindref="member">minhash_threshold</ref>:<sp/>0.95</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>...</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/training/lora_data_selection.h" line="50" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="50" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1abcf3c3c0b5d4fad88965062c0a7400e5" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>audit</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a9636a7d0be6d6dedf2695cbfe3989e63" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>audit_log_path</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a65ae69672eb95d4b64a5234ef300ebce" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>clustering_k_ratio</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a5f56c11ec22f9f47b6acc01c34494732" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>diversity_weight</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a70fff61d4fb2e88b1ebe9c7413f43786" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>domain_keywords</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a0be34bfcb16753526c02dee8f0a8a79d" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>domain_relevance_weight</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1ace042dccc9c5763a35f4a6e570f62aff" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>easy_ratio</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1aeb24ec21aaa553b7d81999e24625a2be" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>embedding_model</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1ab3679a8a690b79b4b61563c1c4672dcd" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>enable_pii_check</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a49e2f3ec6b6e39dd781ce0f3ac71a674" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>fromYAMLString</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1aef6512762b331ff9d757fdfe70659962" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>hard_ratio</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1abcc84ea797099241760f02873616c7f4" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>loadFromYAML</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a5115d5b2eb97428ef3e57cc6a82acdf5" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>LoRADataSelectionConfig</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1aa5bd0f96466d936d792f3132151801c9" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>max_length_tokens</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1aa42bec4e4fa178083dfe248415475ee5" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>max_toxicity_score</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a4971c124e47f7768682ba60bcb539bc2" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>medium_ratio</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a783ce3e72fcc4d160813ba81db33a214" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>min_length_tokens</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a6d8bfee4f586305eff6c9a62ee83415d" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>minhash_num_perm</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1aa16b412baa02511d43927a9cf9b32cc5" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>minhash_threshold</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a53747af390a6d8ff0c693d995d89bc95" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>perplexity_model</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1a0583a1067e785393c7af5d9da648b703" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>perplexity_weight</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1acb5e198b1a839d90d15802f08949cd7b" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>required_language</name></member>
+      <member refid="structthemis_1_1_lo_r_a_data_selection_config_1ad959a6057586a300ae290a5e91e575ce" prot="public" virt="non-virtual"><scope>themis::LoRADataSelectionConfig</scope><name>target_samples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

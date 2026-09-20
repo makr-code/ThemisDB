@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_replica_topology" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ReplicaTopology</compoundname>
+    <includes refid="replica__topology_8h" local="no">replica_topology.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_replica_topology_1a41d128483cd90225cde7c35a53907d54" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ReplicaTopology::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="180" column="24" bodyfile="include/sharding/replica_topology.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_replica_topology_1a0502f8300e80425ccb31da4b1be03f11" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_replica_set" kindref="compound">ShardReplicaSet</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ShardReplicaSet&gt; themis::sharding::ReplicaTopology::replica_sets_</definition>
+        <argsstring></argsstring>
+        <name>replica_sets_</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::replica_sets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="181" column="14" bodyfile="include/sharding/replica_topology.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1a36dfe4b8c7b5217c622df454bdb0187d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ReplicaTopology::ReplicaTopology</definition>
+        <argsstring>()=default</argsstring>
+        <name>ReplicaTopology</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::ReplicaTopology</qualifiedname>
+        <briefdescription>
+<para>Construct empty replica-topology manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1a759ad92df209646e43e743ca13cbd66b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ReplicaTopology::defineReplicaSet</definition>
+        <argsstring>(const ShardReplicaSet &amp;replica_set)</argsstring>
+        <name>defineReplicaSet</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::defineReplicaSet</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_replica_set" kindref="compound">ShardReplicaSet</ref> &amp;</type>
+          <declname>replica_set</declname>
+        </param>
+        <briefdescription>
+<para>Insert or replace replica-set mapping for one shard id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="77" column="10" bodyfile="include/sharding/replica_topology.h" bodystart="77" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1a14eb7d59e7266cd165223cd6c80841a0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; const <ref refid="structthemis_1_1sharding_1_1_shard_replica_set" kindref="compound">ShardReplicaSet</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; const ShardReplicaSet &gt; themis::sharding::ReplicaTopology::getReplicaSet</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getReplicaSet</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::getReplicaSet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Return replica-set snapshot for shard id, or nullptr if unknown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="83" column="21" bodyfile="include/sharding/replica_topology.h" bodystart="83" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1afc8c38664f9fb0b574c6c50d00ee7bd9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ReplicaTopology::findShardsByReplica</definition>
+        <argsstring>(const std::string &amp;replica_id) const</argsstring>
+        <name>findShardsByReplica</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::findShardsByReplica</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <briefdescription>
+<para>Return all shard ids containing the provided replica id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="93" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="93" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1a8acc489823f3364476cba0b3b937c31b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ReplicaTopology::getAllShards</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllShards</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::getAllShards</qualifiedname>
+        <briefdescription>
+<para>Return all known shard identifiers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="106" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="106" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1a732a15d25194f254c795bf36c9e885f9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ReplicaTopology::setReplicaHealth</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;replica_id, bool is_healthy)</argsstring>
+        <name>setReplicaHealth</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::setReplicaHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replica_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_healthy</declname>
+        </param>
+        <briefdescription>
+<para>Update health state for replica membership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Current implementation marks shard health only when primary status changes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="120" column="10" bodyfile="include/sharding/replica_topology.h" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1abdaab055e8046b746d627903ee7e7af6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ReplicaTopology::getShardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardCount</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::getShardCount</qualifiedname>
+        <briefdescription>
+<para>Return number of shard mappings currently tracked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="132" column="12" bodyfile="include/sharding/replica_topology.h" bodystart="132" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1abc275123161c70983fad2b9be048c465" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_replica_set" kindref="compound">ShardReplicaSet</ref> &gt;</type>
+        <definition>std::vector&lt; ShardReplicaSet &gt; themis::sharding::ReplicaTopology::getReplicaSetsInRegion</definition>
+        <argsstring>(const std::string &amp;region) const</argsstring>
+        <name>getReplicaSetsInRegion</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::getReplicaSetsInRegion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all replica sets whose primary is in a specific region <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Region name (e.g. &quot;us-east&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of matching <ref refid="structthemis_1_1sharding_1_1_shard_replica_set" kindref="compound">ShardReplicaSet</ref> values </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="142" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="142" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1a51ccf6d6b02b90560a1bcfbc0fade81c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::sharding::ReplicaTopology::getRegions</definition>
+        <argsstring>() const</argsstring>
+        <name>getRegions</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::getRegions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get all distinct regions present in the replica topology <simplesect kind="return"><para>Sorted list of unique region names </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="158" column="17" bodyfile="include/sharding/replica_topology.h" bodystart="158" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_replica_topology_1a5559df4a53fbe61e687b293d01e63999" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReplicaTopology::loadFromJson</definition>
+        <argsstring>(const nlohmann::json &amp;config)</argsstring>
+        <name>loadFromJson</name>
+        <qualifiedname>themis::sharding::ReplicaTopology::loadFromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Load replica topology mappings from JSON array configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON array of objects containing shard_id/primary_id/replicas fields. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when at least one valid replica set was loaded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), is_array(), clear(), contains(), std::transform(), begin(), end(), std::toupper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_topology.h" line="177" column="10" bodyfile="src/sharding/replica_topology.cpp" bodystart="26" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Replica Topology Manager</para>
+<para>Manages shard-to-replica mappings for distributed writes. </para>
+    </detaileddescription>
+    <location file="include/sharding/replica_topology.h" line="71" column="1" bodyfile="include/sharding/replica_topology.h" bodystart="71" bodyend="182"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a759ad92df209646e43e743ca13cbd66b" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>defineReplicaSet</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1afc8c38664f9fb0b574c6c50d00ee7bd9" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>findShardsByReplica</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a8acc489823f3364476cba0b3b937c31b" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>getAllShards</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a51ccf6d6b02b90560a1bcfbc0fade81c" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>getRegions</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a14eb7d59e7266cd165223cd6c80841a0" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>getReplicaSet</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1abc275123161c70983fad2b9be048c465" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>getReplicaSetsInRegion</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1abdaab055e8046b746d627903ee7e7af6" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>getShardCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a5559df4a53fbe61e687b293d01e63999" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>loadFromJson</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a41d128483cd90225cde7c35a53907d54" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a0502f8300e80425ccb31da4b1be03f11" prot="private" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>replica_sets_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a36dfe4b8c7b5217c622df454bdb0187d" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>ReplicaTopology</name></member>
+      <member refid="classthemis_1_1sharding_1_1_replica_topology_1a732a15d25194f254c795bf36c9e885f9" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaTopology</scope><name>setReplicaHealth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

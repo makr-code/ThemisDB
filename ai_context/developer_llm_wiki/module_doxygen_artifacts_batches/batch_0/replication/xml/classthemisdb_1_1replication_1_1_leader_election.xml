@@ -1,0 +1,768 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_leader_election" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::LeaderElection</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1acf379ccfce2845cfae91ed7307fd2889" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LeaderElection::node_id_</definition>
+        <argsstring></argsstring>
+        <name>node_id_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::node_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="532" column="17" bodyfile="include/replication/replication_manager.h" bodystart="532" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a03085b2b0571c72805ae2d2b987d6991" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref></type>
+        <definition>ReplicationConfig themisdb::replication::LeaderElection::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="533" column="23" bodyfile="include/replication/replication_manager.h" bodystart="533" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a1f336d5adb4b1522b9a55b711e7caf00" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WALManager&gt; themisdb::replication::LeaderElection::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="534" column="21" bodyfile="include/replication/replication_manager.h" bodystart="534" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1aee5ab93a499fc637d6883c2e0a179135" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref> &gt;</type>
+        <definition>std::atomic&lt;ReplicationRole&gt; themisdb::replication::LeaderElection::role_</definition>
+        <argsstring></argsstring>
+        <name>role_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::role_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" kindref="member">ReplicationRole::FOLLOWER</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="536" column="17" bodyfile="include/replication/replication_manager.h" bodystart="536" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a19d63eb63b4b5ca1558dcced95d4e298" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::LeaderElection::current_term_</definition>
+        <argsstring></argsstring>
+        <name>current_term_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::current_term_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="537" column="17" bodyfile="include/replication/replication_manager.h" bodystart="537" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a5f7892718d7ef7472a694597df68c440" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LeaderElection::voted_for_</definition>
+        <argsstring></argsstring>
+        <name>voted_for_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::voted_for_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="538" column="17" bodyfile="include/replication/replication_manager.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a7480ef6868394cc7ce47ec7eae3cb1e1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LeaderElection::current_leader_</definition>
+        <argsstring></argsstring>
+        <name>current_leader_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::current_leader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="539" column="17" bodyfile="include/replication/replication_manager.h" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1aa74689b0b85be1af817a69bcb2d81dac" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themisdb::replication::LeaderElection::votes_received_</definition>
+        <argsstring></argsstring>
+        <name>votes_received_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::votes_received_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="540" column="17" bodyfile="include/replication/replication_manager.h" bodystart="540" bodyend="540"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a09be53950b7eef7baf30928f4c6b6bed" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themisdb::replication::LeaderElection::cluster_size_</definition>
+        <argsstring></argsstring>
+        <name>cluster_size_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::cluster_size_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="541" column="17" bodyfile="include/replication/replication_manager.h" bodystart="541" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a6c3a1c84b7b6dd5bc4b5b723b1f77358" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::LeaderElection::commit_index_</definition>
+        <argsstring></argsstring>
+        <name>commit_index_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::commit_index_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="542" column="17" bodyfile="include/replication/replication_manager.h" bodystart="542" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a773df9c1f65c16b56404349682ef5911" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::replication::LeaderElection::last_heartbeat_time_</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_time_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::last_heartbeat_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="543" column="43" bodyfile="include/replication/replication_manager.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a113797c4758e75fe7a8d75a81e1758d8" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::LeaderElection::lease_mutex_</definition>
+        <argsstring></argsstring>
+        <name>lease_mutex_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::lease_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="546" column="31" bodyfile="include/replication/replication_manager.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1aff33aa135189862a1461bd221cee44fa" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::replication::LeaderElection::lease_expires_at_</definition>
+        <argsstring></argsstring>
+        <name>lease_expires_at_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::lease_expires_at_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="547" column="43" bodyfile="include/replication/replication_manager.h" bodystart="547" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a8df20d00c702a7088d3e400dbe0329bf" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::LeaderElection::election_mutex_</definition>
+        <argsstring></argsstring>
+        <name>election_mutex_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::election_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="549" column="16" bodyfile="include/replication/replication_manager.h" bodystart="549" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a3505addac926afabebe318e04af757bc" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themisdb::replication::LeaderElection::election_cv_</definition>
+        <argsstring></argsstring>
+        <name>election_cv_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::election_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="550" column="29" bodyfile="include/replication/replication_manager.h" bodystart="550" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1a8c00807ec3ca01674fe44d23fa47951c" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themisdb::replication::LeaderElection::election_thread_</definition>
+        <argsstring></argsstring>
+        <name>election_thread_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::election_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="551" column="17" bodyfile="include/replication/replication_manager.h" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_leader_election_1ac883abf7e0ff0962af727fa53a416213" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::LeaderElection::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themisdb::replication::LeaderElection::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="552" column="17" bodyfile="include/replication/replication_manager.h" bodystart="552" bodyend="552"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1aff9aa5712c9d7ff89984695901491d48" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LeaderElection::LeaderElection</definition>
+        <argsstring>(const std::string &amp;node_id, const ReplicationConfig &amp;config, std::shared_ptr&lt; WALManager &gt; wal)</argsstring>
+        <name>LeaderElection</name>
+        <qualifiedname>themisdb::replication::LeaderElection::LeaderElection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replication_config" kindref="compound">ReplicationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="455" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="802" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1adc11ee2e98f3656122177f2027e2f778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LeaderElection::~LeaderElection</definition>
+        <argsstring>()</argsstring>
+        <name>~LeaderElection</name>
+        <qualifiedname>themisdb::replication::LeaderElection::~LeaderElection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="460" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="813" bodyend="817"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1af6abdc2d23e6beb33369975aded8bb58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::startElection</definition>
+        <argsstring>()</argsstring>
+        <name>startElection</name>
+        <qualifiedname>themisdb::replication::LeaderElection::startElection</qualifiedname>
+        <briefdescription>
+<para>Start Election. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), load(), incrementTerm(), store(), std::chrono::steady_clock::now(), THEMIS_INFO(), becomeLeader(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="463" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="886" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a7d89432d5800eac322451c581945d92c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LeaderElection::requestVote</definition>
+        <argsstring>(uint64_t term, const std::string &amp;candidate_id, uint64_t last_log_sequence, uint64_t last_log_term)</argsstring>
+        <name>requestVote</name>
+        <qualifiedname>themisdb::replication::LeaderElection::requestVote</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>candidate_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>last_log_sequence</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>last_log_term</declname>
+        </param>
+        <briefdescription>
+<para>Request Vote. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">candidate_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the candidate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_log_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">last_log_term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), store(), clear(), empty(), getCurrentSequence(), <ref refid="classthemisdb_1_1replication_1_1_leader_election_1a7609395622df383fab81335b96e2a0a9" kindref="member">getCurrentTerm()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="466" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="925" bodyend="959"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a5c45231a0625ef9361431c0f6b35868e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::receiveHeartbeat</definition>
+        <argsstring>(uint64_t term, const std::string &amp;leader_id, uint64_t leader_commit)</argsstring>
+        <name>receiveHeartbeat</name>
+        <qualifiedname>themisdb::replication::LeaderElection::receiveHeartbeat</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>leader_commit</declname>
+        </param>
+        <briefdescription>
+<para>Receive Heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the leader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_commit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), load(), std::chrono::steady_clock::now(), becomeFollower(), notify_one(), getCurrentSequence(), std::min(), compare_exchange_weak(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="474" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="968" bodyend="999"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a6a227f621bd4154554119e50ec5b14fd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        <definition>ReplicationRole themisdb::replication::LeaderElection::getRole</definition>
+        <argsstring>() const</argsstring>
+        <name>getRole</name>
+        <qualifiedname>themisdb::replication::LeaderElection::getRole</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="481" column="21" bodyfile="include/replication/replication_manager.h" bodystart="481" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a2568eaf789b74b53fd93fc8390c94344" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LeaderElection::getLeaderId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderId</name>
+        <qualifiedname>themisdb::replication::LeaderElection::getLeaderId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="484" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="1001" bodyend="1003"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a2b758837738cbc40a7a7de367b6b44dc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LeaderElection::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themisdb::replication::LeaderElection::isLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="487" column="10" bodyfile="include/replication/replication_manager.h" bodystart="487" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a5bb987a7d1f37dbf8595a94cadc2f221" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::setClusterSize</definition>
+        <argsstring>(uint32_t size)</argsstring>
+        <name>setClusterSize</name>
+        <qualifiedname>themisdb::replication::LeaderElection::setClusterSize</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="490" column="10" bodyfile="include/replication/replication_manager.h" bodystart="490" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a38cdd090704fcd19308322e8ab145409" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::grantVote</definition>
+        <argsstring>(uint64_t term)</argsstring>
+        <name>grantVote</name>
+        <qualifiedname>themisdb::replication::LeaderElection::grantVote</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <briefdescription>
+<para>Grant Vote. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), load(), THEMIS_INFO(), becomeLeader(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="494" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1034" bodyend="1052"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a4cf47364b2913947ca68e7f544c2ac96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themisdb::replication::LeaderElection::start</qualifiedname>
+        <briefdescription>
+<para>Start. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), std::chrono::steady_clock::now(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="497" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="823" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a7609395622df383fab81335b96e2a0a9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LeaderElection::getCurrentTerm</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentTerm</name>
+        <qualifiedname>themisdb::replication::LeaderElection::getCurrentTerm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="500" column="14" bodyfile="include/replication/replication_manager.h" bodystart="500" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1abdb8f29ca451db8fb2c9e4688d0b583b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::LeaderElection::getCommitIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getCommitIndex</name>
+        <qualifiedname>themisdb::replication::LeaderElection::getCommitIndex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the highest WAL sequence that this follower knows to be committed by the leader quorum. Updated by <ref refid="classthemisdb_1_1replication_1_1_leader_election_1a5c45231a0625ef9361431c0f6b35868e" kindref="member">receiveHeartbeat()</ref>. Leaders always have commit_index == their own getCurrentSequence. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="507" column="14" bodyfile="include/replication/replication_manager.h" bodystart="507" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a364f70a88d9080a3150d324034da1141" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::renewLease</definition>
+        <argsstring>(uint32_t duration_ms)</argsstring>
+        <name>renewLease</name>
+        <qualifiedname>themisdb::replication::LeaderElection::renewLease</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>duration_ms</declname>
+        </param>
+        <briefdescription>
+<para>Renew Lease. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Renew the leader lease for <computeroutput>duration_ms</computeroutput> milliseconds from now. Must only be called by the leader after successfully broadcasting a heartbeat to the quorum.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1replication_1_1_leader_election_1a2b758837738cbc40a7a7de367b6b44dc" kindref="member">isLeader()</ref>, lock(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="516" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1063" bodyend="1071"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a85de194cd78143d8e1bfae9b6468639f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LeaderElection::hasValidLease</definition>
+        <argsstring>() const</argsstring>
+        <name>hasValidLease</name>
+        <qualifiedname>themisdb::replication::LeaderElection::hasValidLease</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true if this node holds a valid (non-expired) leader lease. A valid lease guarantees that no other node can have been elected leader since the lease was last renewed. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lease_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="523" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1073" bodyend="1084"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a9b3d3bb8f6bfaa2e0677c7b81dbfc06a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::replication::LeaderElection::leaseExpiresAt</definition>
+        <argsstring>() const</argsstring>
+        <name>leaseExpiresAt</name>
+        <qualifiedname>themisdb::replication::LeaderElection::leaseExpiresAt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the absolute time at which the current lease expires. Returns a past time-point when no lease is held. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lease_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="529" column="43" bodyfile="src/replication/replication_manager.cpp" bodystart="1086" bodyend="1094"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1ac22b43fea03582254c0dbc715cfbf8d8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::electionLoop</definition>
+        <argsstring>()</argsstring>
+        <name>electionLoop</name>
+        <qualifiedname>themisdb::replication::LeaderElection::electionLoop</qualifiedname>
+        <briefdescription>
+<para>Election Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: gen(), rd(), load(), lock(), wait_for(), std::chrono::milliseconds(), std::chrono::steady_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="554" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="833" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1a13c6cf0885378d2170a517fc52af3a18" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::becomeLeader</definition>
+        <argsstring>()</argsstring>
+        <name>becomeLeader</name>
+        <qualifiedname>themisdb::replication::LeaderElection::becomeLeader</qualifiedname>
+        <briefdescription>
+<para>Become Leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: store(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="555" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1009" bodyend="1013"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_leader_election_1ad56c5edc1a764fec8ecb821d583d2c0e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LeaderElection::becomeFollower</definition>
+        <argsstring>(uint64_t term, const std::string &amp;leader_id)</argsstring>
+        <name>becomeFollower</name>
+        <qualifiedname>themisdb::replication::LeaderElection::becomeFollower</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>term</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <briefdescription>
+<para>Become Follower. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">term</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the leader.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: store(), clear(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="556" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="1021" bodyend="1027"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Leader Election using Raft-like consensus </para>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="453" column="1" bodyfile="include/replication/replication_manager.h" bodystart="453" bodyend="557"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1ad56c5edc1a764fec8ecb821d583d2c0e" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>becomeFollower</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a13c6cf0885378d2170a517fc52af3a18" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>becomeLeader</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a09be53950b7eef7baf30928f4c6b6bed" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>cluster_size_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a6c3a1c84b7b6dd5bc4b5b723b1f77358" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>commit_index_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a03085b2b0571c72805ae2d2b987d6991" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a7480ef6868394cc7ce47ec7eae3cb1e1" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>current_leader_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a19d63eb63b4b5ca1558dcced95d4e298" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>current_term_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a3505addac926afabebe318e04af757bc" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>election_cv_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a8df20d00c702a7088d3e400dbe0329bf" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>election_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a8c00807ec3ca01674fe44d23fa47951c" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>election_thread_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1ac22b43fea03582254c0dbc715cfbf8d8" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>electionLoop</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1abdb8f29ca451db8fb2c9e4688d0b583b" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>getCommitIndex</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a7609395622df383fab81335b96e2a0a9" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>getCurrentTerm</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a2568eaf789b74b53fd93fc8390c94344" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>getLeaderId</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a6a227f621bd4154554119e50ec5b14fd" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>getRole</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a38cdd090704fcd19308322e8ab145409" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>grantVote</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a85de194cd78143d8e1bfae9b6468639f" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>hasValidLease</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a2b758837738cbc40a7a7de367b6b44dc" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>isLeader</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a773df9c1f65c16b56404349682ef5911" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>last_heartbeat_time_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1aff9aa5712c9d7ff89984695901491d48" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>LeaderElection</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1aff33aa135189862a1461bd221cee44fa" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>lease_expires_at_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a113797c4758e75fe7a8d75a81e1758d8" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>lease_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a9b3d3bb8f6bfaa2e0677c7b81dbfc06a" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>leaseExpiresAt</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1acf379ccfce2845cfae91ed7307fd2889" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>node_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a5c45231a0625ef9361431c0f6b35868e" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>receiveHeartbeat</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a364f70a88d9080a3150d324034da1141" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>renewLease</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a7d89432d5800eac322451c581945d92c" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>requestVote</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1aee5ab93a499fc637d6883c2e0a179135" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>role_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1ac883abf7e0ff0962af727fa53a416213" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>running_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a5bb987a7d1f37dbf8595a94cadc2f221" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>setClusterSize</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a4cf47364b2913947ca68e7f544c2ac96" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1af6abdc2d23e6beb33369975aded8bb58" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>startElection</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a5f7892718d7ef7472a694597df68c440" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>voted_for_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1aa74689b0b85be1af817a69bcb2d81dac" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>votes_received_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1a1f336d5adb4b1522b9a55b711e7caf00" prot="private" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>wal_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_leader_election_1adc11ee2e98f3656122177f2027e2f778" prot="public" virt="non-virtual"><scope>themisdb::replication::LeaderElection</scope><name>~LeaderElection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

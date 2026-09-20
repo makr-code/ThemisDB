@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d134177327164312220257356066113105321014024030314" kind="namespace" language="C++">
+    <compoundname>@134177327164312220257356066113105321014024030314</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/lora_checkpoint_manager.cpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

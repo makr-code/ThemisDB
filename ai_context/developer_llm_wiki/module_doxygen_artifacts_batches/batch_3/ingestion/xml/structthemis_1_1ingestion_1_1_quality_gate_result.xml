@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_quality_gate_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::QualityGateResult</compoundname>
+    <includes refid="semantic__validator_8h" local="no">semantic_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_gate_result_1aa2b4ee618c74bc92f22d503440e1b2ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QualityGateResult::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::ingestion::QualityGateResult::name</qualifiedname>
+        <briefdescription>
+<para>Gate name (matches <ref refid="structthemis_1_1ingestion_1_1_quality_gate_config_1ab333e5e93ddb49e5a141beb2c9682d4e" kindref="member">QualityGateConfig::name</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="93" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_gate_result_1a6f66c38a593979074fea4d3bec5ab590" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::QualityGateResult::passed</definition>
+        <argsstring></argsstring>
+        <name>passed</name>
+        <qualifiedname>themis::ingestion::QualityGateResult::passed</qualifiedname>
+        <briefdescription>
+<para>true if the gate check passed </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="94" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_quality_gate_result_1a414bc98a2cf8aef57d7b205e8b300704" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::QualityGateResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::ingestion::QualityGateResult::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation (populated on failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="95" column="17" bodyfile="include/ingestion/semantic_validator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_quality_gate_result_1a0262f35ce15b1d3e38ae91d4866b69a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::QualityGateResult::QualityGateResult</definition>
+        <argsstring>()</argsstring>
+        <name>QualityGateResult</name>
+        <qualifiedname>themis::ingestion::QualityGateResult::QualityGateResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="97" column="5" bodyfile="include/ingestion/semantic_validator.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1ingestion_1_1_quality_gate_result_1a991370bc9dd3cadc0c22ae7784a710bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::QualityGateResult::QualityGateResult</definition>
+        <argsstring>(std::string n, bool p, std::string r=&quot;&quot;)</argsstring>
+        <name>QualityGateResult</name>
+        <qualifiedname>themis::ingestion::QualityGateResult::QualityGateResult</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>r</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/semantic_validator.h" line="98" column="5" bodyfile="include/ingestion/semantic_validator.h" bodystart="98" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of evaluating a single quality gate. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/semantic_validator.h" line="92" column="1" bodyfile="include/ingestion/semantic_validator.h" bodystart="92" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_result_1aa2b4ee618c74bc92f22d503440e1b2ae" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateResult</scope><name>name</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a6f66c38a593979074fea4d3bec5ab590" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateResult</scope><name>passed</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a0262f35ce15b1d3e38ae91d4866b69a2" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateResult</scope><name>QualityGateResult</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a991370bc9dd3cadc0c22ae7784a710bd" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateResult</scope><name>QualityGateResult</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_quality_gate_result_1a414bc98a2cf8aef57d7b205e8b300704" prot="public" virt="non-virtual"><scope>themis::ingestion::QualityGateResult</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

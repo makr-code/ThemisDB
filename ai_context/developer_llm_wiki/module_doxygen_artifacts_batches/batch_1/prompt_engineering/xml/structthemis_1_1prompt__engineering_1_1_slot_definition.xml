@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_slot_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::SlotDefinition</compoundname>
+    <includes refid="prompt__template__compiler_8h" local="no">prompt_template_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_slot_definition_1a74127c2894b37e2054a6b290aed153c4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SlotDefinition::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::SlotDefinition::name</qualifiedname>
+        <briefdescription>
+<para>Slot name as it appears in <computeroutput>{<ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a74127c2894b37e2054a6b290aed153c4" kindref="member">name</ref>}</computeroutput> tags. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="46" column="17" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_slot_definition_1a882e90f8912b17e36c730edde0a850b3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744b" kindref="member">SlotType</ref></type>
+        <definition>SlotType themis::prompt_engineering::SlotDefinition::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::prompt_engineering::SlotDefinition::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba63b588d5559f64f89a416e656880b949" kindref="member">SlotType::STRING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="47" column="17" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_slot_definition_1a84a1717ae71fad7c091bfc45951a2cc4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::SlotDefinition::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::prompt_engineering::SlotDefinition::required</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="48" column="17" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_slot_definition_1a44f10e577520ed38e4d359a74cf6cb37" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::SlotDefinition::default_value</definition>
+        <argsstring></argsstring>
+        <name>default_value</name>
+        <qualifiedname>themis::prompt_engineering::SlotDefinition::default_value</qualifiedname>
+        <briefdescription>
+<para>Used when slot is absent and not required. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="49" column="17" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_slot_definition_1aa4ec013b77f9ec6d9de78b3d409041d2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::SlotDefinition::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::SlotDefinition::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="51" column="20" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="51" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes one typed variable slot in a compiled template. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_template_compiler.h" line="45" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="45" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a44f10e577520ed38e4d359a74cf6cb37" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SlotDefinition</scope><name>default_value</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a74127c2894b37e2054a6b290aed153c4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SlotDefinition</scope><name>name</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a84a1717ae71fad7c091bfc45951a2cc4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SlotDefinition</scope><name>required</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1aa4ec013b77f9ec6d9de78b3d409041d2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SlotDefinition</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a882e90f8912b17e36c730edde0a850b3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::SlotDefinition</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

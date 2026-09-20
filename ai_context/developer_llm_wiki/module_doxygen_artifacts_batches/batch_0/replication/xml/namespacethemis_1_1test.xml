@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <innerclass refid="classthemis_1_1test_1_1_mock_replica" prot="public">themis::test::MockReplica</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_mock_replication_system" prot="public">themis::test::MockReplicationSystem</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_replication_chaos_test" prot="public">themis::test::ReplicationChaosTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1a8a157f36fb21e058cf42f0d1967bcc22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ReplicationChaosTest, LagInjectionAndFailover)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_replication_chaos_test" kindref="compound">ReplicationChaosTest</ref></type>
+        </param>
+        <param>
+          <type>LagInjectionAndFailover</type>
+        </param>
+        <briefdescription>
+<para>Test: Lag injection and failover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject high lag on replica, trigger failover, verify consistency. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="200" column="1" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="200" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab69da76f38cf5d2c86bd2b297f52c872" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ReplicationChaosTest, WALShippingUnderPacketLoss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_replication_chaos_test" kindref="compound">ReplicationChaosTest</ref></type>
+        </param>
+        <param>
+          <type>WALShippingUnderPacketLoss</type>
+        </param>
+        <briefdescription>
+<para>Test: WAL shipping under packet loss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Inject packet loss, verify WAL shipping retries and succeeds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="230" column="1" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="230" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aadf6a384f7c349688ec62b5846bcd333" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ReplicationChaosTest, GeographicPartitionRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_replication_chaos_test" kindref="compound">ReplicationChaosTest</ref></type>
+        </param>
+        <param>
+          <type>GeographicPartitionRecovery</type>
+        </param>
+        <briefdescription>
+<para>Test: Geographic partition recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Partition one region, trigger failover to local region, verify recovery. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="263" column="1" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="263" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a88f47e401fd9fd1215c7915565d2cf24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ReplicationChaosTest, ReplicaResyncAfterCrash)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_replication_chaos_test" kindref="compound">ReplicationChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ReplicaResyncAfterCrash</type>
+        </param>
+        <briefdescription>
+<para>Test: Replica resync after crash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replica crashes, reboots, catches up via resync. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="294" column="1" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="294" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aedf1ff136ab433498f9993f360ff631f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ReplicationChaosTest, QuorumRecoveryAfterPartition)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_replication_chaos_test" kindref="compound">ReplicationChaosTest</ref></type>
+        </param>
+        <param>
+          <type>QuorumRecoveryAfterPartition</type>
+        </param>
+        <briefdescription>
+<para>Test: Quorum recovery after partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Partition partitions cluster, verify quorum is lost then recovered. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="325" column="1" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="325" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ad6ebba7b3950ffdfc2ab0ec648999154" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ReplicationChaosTest, ReplicationLagAlertAndAction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_replication_chaos_test" kindref="compound">ReplicationChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ReplicationLagAlertAndAction</type>
+        </param>
+        <briefdescription>
+<para>Test: Replication lag alert and action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Monitor lag, trigger alerts at thresholds, trigger failover after prolonged lag. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_chaos.cpp" line="352" column="1" bodyfile="tests/replication/test_replication_chaos.cpp" bodystart="352" bodyend="379"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_chaos.cpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1api_1_1_i_transport_contract" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::api::ITransportContract</compoundname>
+    <derivedcompoundref refid="classthemis_1_1api_1_1_transport_policy_middleware" prot="public" virt="non-virtual">themis::api::TransportPolicyMiddleware</derivedcompoundref>
+    <includes refid="api__transport__contracts_8h" local="no">api_transport_contracts.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_transport_contract_1a9840c1492b1578552d6010fe3c1b74ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::api::ITransportContract::~ITransportContract</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITransportContract</name>
+        <qualifiedname>themis::api::ITransportContract::~ITransportContract</qualifiedname>
+        <briefdescription>
+<para>ITransport Contract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="104" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_transport_contract_1afc6afe0e7a76f61e603a309e1427dcb5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref></type>
+        <definition>virtual TransportCapability themis::api::ITransportContract::capabilities</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>capabilities</name>
+        <qualifiedname>themis::api::ITransportContract::capabilities</qualifiedname>
+        <reimplementedby refid="classthemis_1_1api_1_1_transport_policy_middleware_1a87694d0ff51bfab1998783b9a873c76f">capabilities</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="106" column="34" bodyfile="include/api/api_transport_contracts.h" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_transport_contract_1a32bf3bada220e2f644c616d16ed4a618" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>virtual std::vector&lt; std::string &gt; themis::api::ITransportContract::supportedVersions</definition>
+        <argsstring>() const</argsstring>
+        <name>supportedVersions</name>
+        <qualifiedname>themis::api::ITransportContract::supportedVersions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="110" column="26" bodyfile="include/api/api_transport_contracts.h" bodystart="110" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_transport_contract_1a70d7c4be9fda6a6f42264fc140ac9768" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref></type>
+        <definition>virtual TransportFailureClass themis::api::ITransportContract::classifyFailure</definition>
+        <argsstring>(std::string_view method, std::string_view path, std::string_view content_type, std::size_t payload_bytes, std::string_view api_version) const noexcept</argsstring>
+        <name>classifyFailure</name>
+        <qualifiedname>themis::api::ITransportContract::classifyFailure</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>content_type</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>payload_bytes</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>api_version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="119" column="36" bodyfile="include/api/api_transport_contracts.h" bodystart="119" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1api_1_1_i_transport_contract_1a84c59ece96da7bbdfc92b482ef9c12f6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::api::ITransportContract::adapterName</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>adapterName</name>
+        <qualifiedname>themis::api::ITransportContract::adapterName</qualifiedname>
+        <reimplementedby refid="classthemis_1_1api_1_1_transport_policy_middleware_1a5e3499732e2ba234db2f5606560e54fc">adapterName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/api_transport_contracts.h" line="133" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::api::ITransportContract</label>
+        <link refid="classthemis_1_1api_1_1_i_transport_contract"/>
+      </node>
+      <node id="2">
+        <label>themis::api::TransportPolicyMiddleware</label>
+        <link refid="classthemis_1_1api_1_1_transport_policy_middleware"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/api/api_transport_contracts.h" line="98" column="1" bodyfile="include/api/api_transport_contracts.h" bodystart="98" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1api_1_1_i_transport_contract_1a84c59ece96da7bbdfc92b482ef9c12f6" prot="public" virt="pure-virtual"><scope>themis::api::ITransportContract</scope><name>adapterName</name></member>
+      <member refid="classthemis_1_1api_1_1_i_transport_contract_1afc6afe0e7a76f61e603a309e1427dcb5" prot="public" virt="virtual"><scope>themis::api::ITransportContract</scope><name>capabilities</name></member>
+      <member refid="classthemis_1_1api_1_1_i_transport_contract_1a70d7c4be9fda6a6f42264fc140ac9768" prot="public" virt="virtual"><scope>themis::api::ITransportContract</scope><name>classifyFailure</name></member>
+      <member refid="classthemis_1_1api_1_1_i_transport_contract_1a32bf3bada220e2f644c616d16ed4a618" prot="public" virt="virtual"><scope>themis::api::ITransportContract</scope><name>supportedVersions</name></member>
+      <member refid="classthemis_1_1api_1_1_i_transport_contract_1a9840c1492b1578552d6010fe3c1b74ad" prot="public" virt="virtual"><scope>themis::api::ITransportContract</scope><name>~ITransportContract</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

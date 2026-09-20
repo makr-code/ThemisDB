@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1chaos_1_1_chaos_scheduler_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::chaos::ChaosSchedulerConfig</compoundname>
+    <includes refid="chaos__framework_8h" local="no">chaos_framework.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_chaos_scheduler_config_1a02066812e80a9a5b1ea75c0bd2cde95b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::chaos::ChaosSchedulerConfig::tick_interval</definition>
+        <argsstring></argsstring>
+        <name>tick_interval</name>
+        <qualifiedname>themis::chaos::ChaosSchedulerConfig::tick_interval</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="194" column="31" bodyfile="include/chaos/chaos_framework.h" bodystart="194" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1chaos_1_1_chaos_scheduler_config_1a0c404ca316c9b3f43c8ea5f095a8a32e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901d" kindref="member">WakeStrategy</ref></type>
+        <definition>WakeStrategy themis::chaos::ChaosSchedulerConfig::wake_strategy</definition>
+        <argsstring></argsstring>
+        <name>wake_strategy</name>
+        <qualifiedname>themis::chaos::ChaosSchedulerConfig::wake_strategy</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1chaos_1a4d1da370dd98a3f6b217a7d91285901daf9c565eafc13190fdd19477b12955374" kindref="member">WakeStrategy::FIXED_TICK</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/chaos/chaos_framework.h" line="195" column="18" bodyfile="include/chaos/chaos_framework.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/chaos/chaos_framework.h" line="193" column="1" bodyfile="include/chaos/chaos_framework.h" bodystart="193" bodyend="196"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1chaos_1_1_chaos_scheduler_config_1a02066812e80a9a5b1ea75c0bd2cde95b" prot="public" virt="non-virtual"><scope>themis::chaos::ChaosSchedulerConfig</scope><name>tick_interval</name></member>
+      <member refid="structthemis_1_1chaos_1_1_chaos_scheduler_config_1a0c404ca316c9b3f43c8ea5f095a8a32e" prot="public" virt="non-virtual"><scope>themis::chaos::ChaosSchedulerConfig</scope><name>wake_strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

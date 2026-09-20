@@ -1,0 +1,377 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::BatchEvaluationResult</compoundname>
+    <includes refid="batch__evaluator_8h" local="no">batch_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a53b313a9527fe8c53e380fe0633a1563" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt;</type>
+        <definition>std::vector&lt;EvaluationResult&gt; themis::rag::judge::BatchEvaluationResult::results</definition>
+        <argsstring></argsstring>
+        <name>results</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="39" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1af2f02d5e7a7b13a2341f1c63d518ce80" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_batch_progress" kindref="compound">BatchProgress</ref></type>
+        <definition>BatchProgress themis::rag::judge::BatchEvaluationResult::progress</definition>
+        <argsstring></argsstring>
+        <name>progress</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::progress</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="40" column="19" bodyfile="include/rag/batch_evaluator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae8c86508fdcb7ad157b830bd63ad6f09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::average_faithfulness</definition>
+        <argsstring></argsstring>
+        <name>average_faithfulness</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::average_faithfulness</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="43" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a2e8ef29707413194736275ce9f9a00b4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::average_relevance</definition>
+        <argsstring></argsstring>
+        <name>average_relevance</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::average_relevance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="44" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a3fc3bf60825c5351c653a34bae3903ed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::average_completeness</definition>
+        <argsstring></argsstring>
+        <name>average_completeness</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::average_completeness</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="45" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a1914857ce6c0cb5d432165c86e653801" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::average_coherence</definition>
+        <argsstring></argsstring>
+        <name>average_coherence</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::average_coherence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="46" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a0b36801737be1616bd7702e30e00a762" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::average_overall_score</definition>
+        <argsstring></argsstring>
+        <name>average_overall_score</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::average_overall_score</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="47" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a50ac5b2874ffcd95d891003fa9d8a667" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchEvaluationResult::passed_quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>passed_quality_threshold</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::passed_quality_threshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="49" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1afadd22bc19208ebcfe869fe79b2162f2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchEvaluationResult::failed_quality_threshold</definition>
+        <argsstring></argsstring>
+        <name>failed_quality_threshold</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::failed_quality_threshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="50" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a6c0a33c087d989c3633ad246aab3669f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchEvaluationResult::traceable_decisions</definition>
+        <argsstring></argsstring>
+        <name>traceable_decisions</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::traceable_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>model_version + context + guardrail decision present </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="53" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ab684dadbbe4dc538ff8f96c80af0011d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchEvaluationResult::untraceable_decisions</definition>
+        <argsstring></argsstring>
+        <name>untraceable_decisions</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::untraceable_decisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>missing decision-trace metadata </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="54" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ac791ac6b9ea99278c7d06904752b12d2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchEvaluationResult::prompt_injection_cases</definition>
+        <argsstring></argsstring>
+        <name>prompt_injection_cases</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::prompt_injection_cases</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="55" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae8512dd7d8022977eec06c2f38cc438b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::BatchEvaluationResult::prompt_injection_successes</definition>
+        <argsstring></argsstring>
+        <name>prompt_injection_successes</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::prompt_injection_successes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="56" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae6f900f83f5efed2a40ebae87a2606a9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::hallucination_rate</definition>
+        <argsstring></argsstring>
+        <name>hallucination_rate</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::hallucination_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>faithfulness &lt; threshold </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="57" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a718e39b99c08a9c2e9a958b64367560f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::groundedness_rate</definition>
+        <argsstring></argsstring>
+        <name>groundedness_rate</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::groundedness_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>verified / (verified + unverified) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="58" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1acd0e543d075e0a26dc289f0d4fe255a0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::prompt_injection_success_rate</definition>
+        <argsstring></argsstring>
+        <name>prompt_injection_success_rate</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::prompt_injection_success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="59" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a7222602db0b2d9e4821e8642ad8b4f1c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::bias_fairness_drift_rate</definition>
+        <argsstring></argsstring>
+        <name>bias_fairness_drift_rate</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::bias_fairness_drift_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>bias-related ethical drift signals </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="60" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a248c7f133146beb71a2b37891cf742a8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::cost_to_quality_efficiency</definition>
+        <argsstring></argsstring>
+        <name>cost_to_quality_efficiency</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::cost_to_quality_efficiency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>total_cost / total_quality </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="61" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a8334cadb47aa3db721b10fad35d730dd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::BatchEvaluationResult::p95_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_latency_ms</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::p95_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="62" column="12" bodyfile="include/rag/batch_evaluator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1afb205526b5c668d059700336df7767c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::BatchEvaluationResult::release_gates_passed</definition>
+        <argsstring></argsstring>
+        <name>release_gates_passed</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::release_gates_passed</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="63" column="10" bodyfile="include/rag/batch_evaluator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a521c6a0191651c3b400beb2e015d633c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::BatchEvaluationResult::failed_release_gates</definition>
+        <argsstring></argsstring>
+        <name>failed_release_gates</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::failed_release_gates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="64" column="17" bodyfile="include/rag/batch_evaluator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1abb7709f3295186fd8e7ae4874ed93bf4" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::rag::judge::BatchEvaluationResult::total_time</definition>
+        <argsstring></argsstring>
+        <name>total_time</name>
+        <qualifiedname>themis::rag::judge::BatchEvaluationResult::total_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/batch_evaluator.h" line="66" column="31" bodyfile="include/rag/batch_evaluator.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Batch evaluation result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::rag::judge::BatchEvaluationResult</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>progress</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::rag::judge::BatchProgress</label>
+        <link refid="structthemis_1_1rag_1_1judge_1_1_batch_progress"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/batch_evaluator.h" line="38" column="1" bodyfile="include/rag/batch_evaluator.h" bodystart="38" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a1914857ce6c0cb5d432165c86e653801" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>average_coherence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a3fc3bf60825c5351c653a34bae3903ed" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>average_completeness</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae8c86508fdcb7ad157b830bd63ad6f09" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>average_faithfulness</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a0b36801737be1616bd7702e30e00a762" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>average_overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a2e8ef29707413194736275ce9f9a00b4" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>average_relevance</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a7222602db0b2d9e4821e8642ad8b4f1c" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>bias_fairness_drift_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a248c7f133146beb71a2b37891cf742a8" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>cost_to_quality_efficiency</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1afadd22bc19208ebcfe869fe79b2162f2" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>failed_quality_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a521c6a0191651c3b400beb2e015d633c" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>failed_release_gates</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a718e39b99c08a9c2e9a958b64367560f" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>groundedness_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae6f900f83f5efed2a40ebae87a2606a9" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>hallucination_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a8334cadb47aa3db721b10fad35d730dd" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>p95_latency_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a50ac5b2874ffcd95d891003fa9d8a667" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>passed_quality_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1af2f02d5e7a7b13a2341f1c63d518ce80" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>progress</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ac791ac6b9ea99278c7d06904752b12d2" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>prompt_injection_cases</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1acd0e543d075e0a26dc289f0d4fe255a0" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>prompt_injection_success_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ae8512dd7d8022977eec06c2f38cc438b" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>prompt_injection_successes</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1afb205526b5c668d059700336df7767c9" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>release_gates_passed</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a53b313a9527fe8c53e380fe0633a1563" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>results</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1abb7709f3295186fd8e7ae4874ed93bf4" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>total_time</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1a6c0a33c087d989c3633ad246aab3669f" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>traceable_decisions</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_batch_evaluation_result_1ab684dadbbe4dc538ff8f96c80af0011d" prot="public" virt="non-virtual"><scope>themis::rag::judge::BatchEvaluationResult</scope><name>untraceable_decisions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

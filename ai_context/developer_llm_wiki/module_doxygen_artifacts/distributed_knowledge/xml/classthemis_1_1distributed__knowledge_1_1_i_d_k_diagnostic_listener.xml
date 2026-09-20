@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::distributed_knowledge::IDKDiagnosticListener</compoundname>
+    <derivedcompoundref refid="class_recording_listener" prot="public" virt="non-virtual">RecordingListener</derivedcompoundref>
+    <derivedcompoundref refid="class_throwing_listener" prot="public" virt="non-virtual">ThrowingListener</derivedcompoundref>
+    <includes refid="dk__diagnostic__emitter_8h" local="no">dk_diagnostic_emitter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a1d3c750b99891117b1aaf632f05dcc74" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::distributed_knowledge::IDKDiagnosticListener::~IDKDiagnosticListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDKDiagnosticListener</name>
+        <qualifiedname>themis::distributed_knowledge::IDKDiagnosticListener::~IDKDiagnosticListener</qualifiedname>
+        <briefdescription>
+<para>IDKDiagnostic Listener. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/dk_diagnostic_emitter.h" line="60" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a3ed0805045cf701ada9c960db8859885" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::distributed_knowledge::IDKDiagnosticListener::onEvent</definition>
+        <argsstring>(const DKDiagnosticEvent &amp;event)=0</argsstring>
+        <name>onEvent</name>
+        <qualifiedname>themis::distributed_knowledge::IDKDiagnosticListener::onEvent</qualifiedname>
+        <reimplementedby refid="class_recording_listener_1ac370ae257479ce2ae2e6f2c1f9c6475a">onEvent</reimplementedby>
+        <reimplementedby refid="class_throwing_listener_1ad969c6acea7aba81800e3662340dd1a1">onEvent</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_d_k_diagnostic_event" kindref="compound">DKDiagnosticEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>On Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/dk_diagnostic_emitter.h" line="66" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>RecordingListener</label>
+        <link refid="class_recording_listener"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ThrowingListener</label>
+        <link refid="class_throwing_listener"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::distributed_knowledge::IDKDiagnosticListener</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/distributed_knowledge/dk_diagnostic_emitter.h" line="54" column="1" bodyfile="include/distributed_knowledge/dk_diagnostic_emitter.h" bodystart="54" bodyend="67"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a3ed0805045cf701ada9c960db8859885" prot="public" virt="pure-virtual"><scope>themis::distributed_knowledge::IDKDiagnosticListener</scope><name>onEvent</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_i_d_k_diagnostic_listener_1a1d3c750b99891117b1aaf632f05dcc74" prot="public" virt="virtual"><scope>themis::distributed_knowledge::IDKDiagnosticListener</scope><name>~IDKDiagnosticListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

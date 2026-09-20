@@ -1,0 +1,1708 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_logical_replication_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::LogicalReplicationManager</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_i_replication_listener" prot="public" virt="non-virtual">themisdb::replication::IReplicationListener</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; LogicalReplicationManager &gt;</basecompoundref>
+    <includes refid="logical__replication_8h" local="no">logical_replication.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" prot="public">themisdb::replication::LogicalReplicationManager::ReplicationFilter</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" prot="public">themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config" prot="public">themisdb::replication::LogicalReplicationManager::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats" prot="public">themisdb::replication::LogicalReplicationManager::Stats</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime" prot="private">themisdb::replication::LogicalReplicationManager::SlotRuntime</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a0a2e3630f0676d57fe9138c98f187c05" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;WALManager&gt; themisdb::replication::LogicalReplicationManager::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::wal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="359" column="21" bodyfile="include/replication/logical_replication.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1afb8f8f132712533102eb66d4fbcb4d6f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::replication::LogicalReplicationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="360" column="12" bodyfile="include/replication/logical_replication.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3b59ce511fa3b28ebbb23ef54e0d9969" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::LogicalReplicationManager::slots_mutex_</definition>
+        <argsstring></argsstring>
+        <name>slots_mutex_</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::slots_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="362" column="31" bodyfile="include/replication/logical_replication.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1aba7ad98ac2503ec82b03565f716bb460" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::shared_ptr&lt; SlotRuntime &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::shared_ptr&lt;SlotRuntime&gt; &gt; themisdb::replication::LogicalReplicationManager::slots_</definition>
+        <argsstring></argsstring>
+        <name>slots_</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::slots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="363" column="14" bodyfile="include/replication/logical_replication.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3f98f8340dfd3ac2d74111519a3b5246" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::LogicalReplicationManager::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="365" column="24" bodyfile="include/replication/logical_replication.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a299cf95462963518dd0d0a2ed0ce1bd5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themisdb::replication::LogicalReplicationManager::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="366" column="11" bodyfile="include/replication/logical_replication.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a66335d8c3489a3e39924955717d1cc91" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::LogicalReplicationManager::missing_seq_warned_</definition>
+        <argsstring></argsstring>
+        <name>missing_seq_warned_</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::missing_seq_warned_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="367" column="25" bodyfile="include/replication/logical_replication.h" bodystart="367" bodyend="367"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1acf9b55d49a0c86105d936ffea1602846" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LogicalReplicationManager::LogicalReplicationManager</definition>
+        <argsstring>(std::shared_ptr&lt; WALManager &gt; wal)</argsstring>
+        <name>LogicalReplicationManager</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::LogicalReplicationManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a <ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager" kindref="compound">LogicalReplicationManager</ref> with default configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the WAL manager; may be nullptr (WAL-dependent operations such as restart_lsn will default to 0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="post"><para>Persisted slots are loaded from the configured wal_directory (if set). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="111" column="14" bodyfile="src/replication/logical_replication.cpp" bodystart="165" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a2496eab8109164f0256a011fd40993b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LogicalReplicationManager::LogicalReplicationManager</definition>
+        <argsstring>(std::shared_ptr&lt; WALManager &gt; wal, Config config)</argsstring>
+        <name>LogicalReplicationManager</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::LogicalReplicationManager</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_w_a_l_manager" kindref="compound">WALManager</ref> &gt;</type>
+          <declname>wal</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a <ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager" kindref="compound">LogicalReplicationManager</ref> with custom configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the WAL manager; may be nullptr. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom configuration (WAL directory, schema versions, decoding mode). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="post"><para>Persisted slots are loaded from config.wal_directory (if non-empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="120" column="5" bodyfile="src/replication/logical_replication.cpp" bodystart="168" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a608aa631775c5cf90c4ea2f428224ce3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::LogicalReplicationManager::~LogicalReplicationManager</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~LogicalReplicationManager</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::~LogicalReplicationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="121" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3c558679b106487e3c9bb6ff62a88872" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref></type>
+        <definition>LogicalReplicationManager::LogicalReplicationSlot themisdb::replication::LogicalReplicationManager::createSlot</definition>
+        <argsstring>(const std::string &amp;slot_name, const std::string &amp;output_plugin)</argsstring>
+        <name>createSlot</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::createSlot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_plugin</declname>
+        </param>
+        <briefdescription>
+<para>Create Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a logical replication slot with default filter settings.</para>
+<para>A slot represents a persistent subscription to WAL changes. Multiple slots can coexist, each with independent restart LSN and filter settings. The slot is persisted to disk for recovery after restart.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name (e.g., &quot;test_decoding&quot;, &quot;wal2json&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref> with restart_lsn set to current WAL position. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if a slot with slot_name already exists.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Default filter allows all collections and operations.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createSlot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="141" column="28" bodyfile="src/replication/logical_replication.cpp" bodystart="184" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1af110c116c564693a400a1cc0c1f55178" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref></type>
+        <definition>LogicalReplicationManager::LogicalReplicationSlot themisdb::replication::LogicalReplicationManager::createSlot</definition>
+        <argsstring>(const std::string &amp;slot_name, const std::string &amp;output_plugin, const ReplicationFilter &amp;filter)</argsstring>
+        <name>createSlot</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::createSlot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_plugin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Create Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a logical replication slot with a custom filter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name for change decoding. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filtering rules (collections, DDL/DML, row predicates). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref> configured with the given filter.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createSlot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="153" column="28" bodyfile="src/replication/logical_replication.cpp" bodystart="198" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a7bb256ca4494f7dd2e93d4b7802eed3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref></type>
+        <definition>LogicalReplicationManager::LogicalReplicationSlot themisdb::replication::LogicalReplicationManager::createSlot</definition>
+        <argsstring>(const std::string &amp;slot_name, const std::string &amp;output_plugin, const ReplicationFilter &amp;filter, bool perform_initial_sync)</argsstring>
+        <name>createSlot</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::createSlot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_plugin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>perform_initial_sync</declname>
+        </param>
+        <briefdescription>
+<para>Create Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a logical replication slot with initial sync option.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name for change decoding. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filtering rules. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>perform_initial_sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, initial SNAPSHOT changes are provided at slot creation; if false, slot starts at current WAL position. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref> with initial sync pending if requested.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">perform_initial_sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements createSlot without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="169" column="28" bodyfile="src/replication/logical_replication.cpp" bodystart="214" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a2c00f1f918aaf8db6b41bf8b08cadbff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref></type>
+        <definition>LogicalReplicationManager::LogicalReplicationSlot themisdb::replication::LogicalReplicationManager::createSlot</definition>
+        <argsstring>(const std::string &amp;slot_name, const std::string &amp;output_plugin, const ReplicationFilter &amp;filter, bool perform_initial_sync, std::vector&lt; LogicalChange &gt; initial_snapshot)</argsstring>
+        <name>createSlot</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::createSlot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_plugin</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>perform_initial_sync</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref> &gt;</type>
+          <declname>initial_snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Create Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a logical replication slot with custom initial snapshot.</para>
+<para>Used when the initial sync should include only specific data or a subset of the current snapshot.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique identifier for the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin name for change decoding. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filtering rules. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>perform_initial_sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, initial_snapshot changes are delivered first. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initial_snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref> list to deliver before starting incremental. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref> with custom snapshot enqueued.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">output_plugin</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">perform_initial_sync</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), trimCopy(), isSupportedRowFilter(), getCurrentSequence(), documentIdFromChange(), push_back(), std::move(), collectionKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="188" column="28" bodyfile="src/replication/logical_replication.cpp" bodystart="234" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1afed9b4ace17c8f526ef07eccf8377a44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::advanceSlot</definition>
+        <argsstring>(const std::string &amp;slot_name, uint64_t lsn)</argsstring>
+        <name>advanceSlot</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::advanceSlot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Advance Slot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Advance the confirmed flush LSN for a slot after processing changes.</para>
+<para>Call this after successfully processing changes from <ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a94f9d63f4d7f3dee4f08365cb35655fe" kindref="member">readChanges()</ref> to prevent redelivery on restart. LSN must monotonically increase.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the slot to advance. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New confirmed flush LSN.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Silently returns if slot does not exist or if lsn is less than the current confirmed_flush_lsn (backwards LSN is ignored).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), clear(), persistSlot(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="207" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="293" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1ae44972fd728f154d8e7c8f0c9d4720d0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref> &gt;</type>
+        <definition>std::vector&lt; LogicalReplicationManager::LogicalReplicationSlot &gt; themisdb::replication::LogicalReplicationManager::listSlots</definition>
+        <argsstring>() const</argsstring>
+        <name>listSlots</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::listSlots</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List all existing logical replication slots.</para>
+<para><simplesect kind="return"><para>Vector of <ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref> structures for all slots in the manager. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slots_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="215" column="17" bodyfile="src/replication/logical_replication.cpp" bodystart="320" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1aabd4169df3600aa0e6103ebb48271813" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LogicalReplicationManager::hasSlot</definition>
+        <argsstring>(const std::string &amp;slot_name) const</argsstring>
+        <name>hasSlot</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::hasSlot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if a slot exists by name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Slot identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if slot exists; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slots_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="223" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="336" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a94f9d63f4d7f3dee4f08365cb35655fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref> &gt;</type>
+        <definition>std::vector&lt; LogicalChange &gt; themisdb::replication::LogicalReplicationManager::readChanges</definition>
+        <argsstring>(const std::string &amp;slot_name, uint32_t max_changes=1000)</argsstring>
+        <name>readChanges</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::readChanges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>max_changes</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>Read Changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read logical changes from a specific slot.</para>
+<para>Retrieves up to max_changes changes that have not yet been confirmed flushed (i.e., changes with LSN &gt;= confirmed_flush_lsn). Changes are filtered according to the slot&apos;s <ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref> (collection, DDL/DML, row predicates).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of changes to return (default: 1000). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref> entries; empty if slot does not exist or has no buffered changes.</para>
+</simplesect>
+<simplesect kind="note"><para>Changes are removed from the in-memory buffer immediately upon return. Call <ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1afed9b4ace17c8f526ef07eccf8377a44" kindref="member">advanceSlot()</ref> after processing to persist the confirmed_flush_lsn so that changes are not re-delivered after a restart.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">slot_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the slot. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_changes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), size(), reserve(), push_back(), std::move(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="246" column="17" bodyfile="src/replication/logical_replication.cpp" bodystart="353" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1ae42437b4737cd3c7d0bb6950761b5432" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::recordDDLChange</definition>
+        <argsstring>(const std::string &amp;ddl_statement, const std::string &amp;schema_version=&quot;&quot;, uint64_t lsn=0)</argsstring>
+        <name>recordDDLChange</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::recordDDLChange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ddl_statement</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_version</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>lsn</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Record DDLChange. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record a DDL change (schema modification) into the logical stream.</para>
+<para>DDL changes are captured as DDLCHANGE_TYPE logical changes and delivered to all slots with replicate_ddl=true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ddl_statement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The DDL SQL or DDL description (e.g., &quot;ALTER TABLE ...&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>schema_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional schema version label (e.g., &quot;v1.2.3&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional specific WAL LSN to associate; if 0, uses current WAL position.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ddl_statement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">schema_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), getCurrentSequence(), std::chrono::system_clock::now(), lock(), reserve(), size(), push_back(), slog(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="258" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="384" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a8c14e2d00d68bdaa3b9fdd1f53a742a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onRoleChange</definition>
+        <argsstring>(ReplicationRole old_role, ReplicationRole new_role) override</argsstring>
+        <name>onRoleChange</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onRoleChange</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a2cdbbc2a8a075ed4a4285542d16b3c7a">onRoleChange</reimplements>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+          <declname>old_role</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+          <declname>new_role</declname>
+        </param>
+        <briefdescription>
+<para>On Role Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when this node changes replication roles. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>old_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previous role. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New role (LEADER, FOLLOWER, CANDIDATE, etc.).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ReplicationRole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ReplicationRole</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onRoleChange without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="273" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="423" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a7a7297545efb3ab4b3dcbd5d5619869f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onLeaderElected</definition>
+        <argsstring>(const std::string &amp;leader_id) override</argsstring>
+        <name>onLeaderElected</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onLeaderElected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a3fcbfce08a82f5f74f1b060a5a6d082f">onLeaderElected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <briefdescription>
+<para>On Leader Elected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when a new leader is elected. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the newly elected leader.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onLeaderElected without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="281" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="429" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a2173113451bee2d1a9bca07495b4f6a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onReplicaAdded</definition>
+        <argsstring>(const ReplicaInfo &amp;replica) override</argsstring>
+        <name>onReplicaAdded</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onReplicaAdded</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a16aa55efb52c2495bf50b719e7497b43">onReplicaAdded</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+<para>On Replica Added. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when a replica is added to the replication group. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Information about the added replica.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onReplicaAdded without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="289" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="435" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1aa6a647094eee57928eae267cc63f6d32" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onReplicaRemoved</definition>
+        <argsstring>(const std::string &amp;node_id) override</argsstring>
+        <name>onReplicaRemoved</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onReplicaRemoved</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a4303b3ab155bb1c2df41f89069b02931">onReplicaRemoved</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>On Replica Removed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when a replica is removed from the replication group. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the removed replica.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onReplicaRemoved without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="297" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="441" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1ac2045265984f37a75cac7ef6be9c6fd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onConflictDetected</definition>
+        <argsstring>(const std::string &amp;document_id) override</argsstring>
+        <name>onConflictDetected</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onConflictDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a261c025241caa1597f4ae8cb0f20947f">onConflictDetected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>On Conflict Detected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when a write conflict is detected. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document involved in the conflict.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onConflictDetected without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="305" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="447" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a33c1422fb46b3627822ca20e61f314de" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onReplicationLagWarning</definition>
+        <argsstring>(int64_t lag_ms) override</argsstring>
+        <name>onReplicationLagWarning</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onReplicationLagWarning</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a5f00cb59d9e5f4286dbee3f8418c1375">onReplicationLagWarning</reimplements>
+        <param>
+          <type>int64_t</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+<para>On Replication Lag Warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when replication lag exceeds a threshold. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lag_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replication lag in milliseconds.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int64_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onReplicationLagWarning without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="313" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="453" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a9736129c7e2ef2ce325cb388d16802da" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onReplicaHealthChanged</definition>
+        <argsstring>(const std::string &amp;node_id, HealthStatus old_status, HealthStatus new_status) override</argsstring>
+        <name>onReplicaHealthChanged</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onReplicaHealthChanged</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1ace538bfc02cb257542fb2b11d55e7139">onReplicaHealthChanged</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+          <declname>old_status</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+          <declname>new_status</declname>
+        </param>
+        <briefdescription>
+<para>On Replica Health Changed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when a replica&apos;s health status changes. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the replica. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>old_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previous health status. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New health status (HEALTHY, DEGRADED, FAILED, UNKNOWN).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">HealthStatus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">HealthStatus</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onReplicaHealthChanged without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="323" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="461" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a230d51e35802fb25c627eaa2fbbf2392" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onFailoverStarted</definition>
+        <argsstring>(const std::string &amp;failed_leader_id, const std::string &amp;new_leader_id) override</argsstring>
+        <name>onFailoverStarted</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onFailoverStarted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a03c09e34da59b2594d79810c33b2420d">onFailoverStarted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_leader_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_leader_id</declname>
+        </param>
+        <briefdescription>
+<para>On Failover Started. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when failover is initiated. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>failed_leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the current leader being failed over. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the candidate new leader.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onFailoverStarted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="334" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="468" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a37a7275118b5d0d2bc505fd34f211591" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onFailoverCompleted</definition>
+        <argsstring>(const std::string &amp;new_leader_id, bool success) override</argsstring>
+        <name>onFailoverCompleted</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onFailoverCompleted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a68c566bb34bb71967ab672e492b4024f">onFailoverCompleted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_leader_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+<para>On Failover Completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback: invoked when failover completes. (Inherited from <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>new_leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID of the newly elected leader. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if failover succeeded; false if aborted.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onFailoverCompleted without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="344" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="475" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1ad0527d252378da456c5025cff3405602" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onNetworkPartitionDetected</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;unreachable_nodes) override</argsstring>
+        <name>onNetworkPartitionDetected</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onNetworkPartitionDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a1e9909fe6f6bc69a4fd284819647ff7c">onNetworkPartitionDetected</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>unreachable_nodes</declname>
+        </param>
+        <briefdescription>
+<para>On Network Partition Detected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements onNetworkPartitionDetected without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="345" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="481" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a4fa7e9af0bc36181cea6fd239ff42df3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::onWALEntryApplied</definition>
+        <argsstring>(const WALEntry &amp;entry) override</argsstring>
+        <name>onWALEntryApplied</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::onWALEntryApplied</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1af5af59bfb9d4a5136514552f110de9c8">onWALEntryApplied</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>On <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> Applied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeLogicalChange(), lock(), push_back(), empty(), documentIdFromChange(), count(), collectionKey(), matchesFilter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="346" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="488" bodyend="601"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a72ca0a2e67ca64736f4500bd4da8d9dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>LogicalReplicationManager::Stats themisdb::replication::LogicalReplicationManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="348" column="11" bodyfile="src/replication/logical_replication.cpp" bodystart="1019" bodyend="1027"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a0c49c472f3ac25d37cc82584f6b9d8ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::loadPersistedSlots</definition>
+        <argsstring>()</argsstring>
+        <name>loadPersistedSlots</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::loadPersistedSlots</qualifiedname>
+        <briefdescription>
+<para>Load Persisted Slots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: slotStatePath(), empty(), dir(), fs::exists(), fs::create_directories(), THEMIS_WARN(), string(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="370" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="761" bodyend="867"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1aa3481dfc91f436c3abd4df88fc18fd10" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::persistSlot</definition>
+        <argsstring>(const SlotRuntime &amp;slot) const</argsstring>
+        <name>persistSlot</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::persistSlot</qualifiedname>
+        <param>
+          <type>const SlotRuntime &amp;</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="371" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="869" bodyend="996"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1ad4ce7a3f20400afe9d997bd7db764847" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalReplicationManager::slotStatePath</definition>
+        <argsstring>(const std::string &amp;slot_name) const</argsstring>
+        <name>slotStatePath</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::slotStatePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>slot_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="372" column="17" bodyfile="src/replication/logical_replication.cpp" bodystart="998" bodyend="1017"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a21f8a677aeaa79e3ed4c8419dc21ced4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LogicalReplicationManager::matchesFilter</definition>
+        <argsstring>(const LogicalChange &amp;change, const ReplicationFilter &amp;filter) const</argsstring>
+        <name>matchesFilter</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::matchesFilter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref> &amp;</type>
+          <declname>change</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="375" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="639" bodyend="677"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1aabfc94edfbd3a875324c71800d208048" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LogicalReplicationManager::evaluateRowFilter</definition>
+        <argsstring>(const std::string &amp;expression, const nlohmann::json &amp;payload) const</argsstring>
+        <name>evaluateRowFilter</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::evaluateRowFilter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expression</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="376" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="679" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a58c3fb0d8be7bbb7e2d70051ffc54124" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref></type>
+        <definition>LogicalChange themisdb::replication::LogicalReplicationManager::makeLogicalChange</definition>
+        <argsstring>(const WALEntry &amp;entry) const</argsstring>
+        <name>makeLogicalChange</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::makeLogicalChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="377" column="19" bodyfile="src/replication/logical_replication.cpp" bodystart="603" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1a1cef3d3f9dd08db23a910a6e33e972b7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::LogicalReplicationManager::applyTransform</definition>
+        <argsstring>(LogicalChange &amp;change) const</argsstring>
+        <name>applyTransform</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::applyTransform</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref> &amp;</type>
+          <declname>change</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="378" column="10" bodyfile="src/replication/logical_replication.cpp" bodystart="721" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1af615e6375b753b579ae7b4e86198be09" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalReplicationManager::documentIdFromChange</definition>
+        <argsstring>(const LogicalChange &amp;change) const</argsstring>
+        <name>documentIdFromChange</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::documentIdFromChange</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref> &amp;</type>
+          <declname>change</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="379" column="17" bodyfile="src/replication/logical_replication.cpp" bodystart="727" bodyend="755"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_logical_replication_manager_1aa2b9ec7833dfccd87419cdc6a0461bb2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::LogicalReplicationManager::collectionKey</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;document_id)</argsstring>
+        <name>collectionKey</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::collectionKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+<para>Collection Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the document. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="381" column="24" bodyfile="src/replication/logical_replication.cpp" bodystart="1036" bodyend="1047"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager" kindref="compound">LogicalReplicationManager</ref></para>
+<para>Provides schema-aware logical replication with per-slot filtering, data transformation, cross-version metadata, and conflict-free initial sync for new replicas. Implements <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref> so that it can be attached directly to <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> and receive WAL events without modifying the write path. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; LogicalReplicationManager &gt;</label>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::LogicalReplicationManager</label>
+        <link refid="classthemisdb_1_1replication_1_1_logical_replication_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::enable_shared_from_this&lt; LogicalReplicationManager &gt;</label>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::LogicalReplicationManager</label>
+        <link refid="classthemisdb_1_1replication_1_1_logical_replication_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/logical_replication.h" line="65" column="1" bodyfile="include/replication/logical_replication.h" bodystart="66" bodyend="382"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1afed9b4ace17c8f526ef07eccf8377a44" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>advanceSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a1cef3d3f9dd08db23a910a6e33e972b7" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>applyTransform</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aa2b9ec7833dfccd87419cdc6a0461bb2" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>collectionKey</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1afb8f8f132712533102eb66d4fbcb4d6f" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3c558679b106487e3c9bb6ff62a88872" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>createSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1af110c116c564693a400a1cc0c1f55178" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>createSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a7bb256ca4494f7dd2e93d4b7802eed3e" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>createSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a2c00f1f918aaf8db6b41bf8b08cadbff" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>createSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1af615e6375b753b579ae7b4e86198be09" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>documentIdFromChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aabfc94edfbd3a875324c71800d208048" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>evaluateRowFilter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a72ca0a2e67ca64736f4500bd4da8d9dd" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aabd4169df3600aa0e6103ebb48271813" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>hasSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ae44972fd728f154d8e7c8f0c9d4720d0" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>listSlots</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a0c49c472f3ac25d37cc82584f6b9d8ea" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>loadPersistedSlots</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1acf9b55d49a0c86105d936ffea1602846" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>LogicalReplicationManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a2496eab8109164f0256a011fd40993b8" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>LogicalReplicationManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a58c3fb0d8be7bbb7e2d70051ffc54124" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>makeLogicalChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a21f8a677aeaa79e3ed4c8419dc21ced4" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>matchesFilter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a66335d8c3489a3e39924955717d1cc91" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>missing_seq_warned_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ac2045265984f37a75cac7ef6be9c6fd5" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onConflictDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a37a7275118b5d0d2bc505fd34f211591" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onFailoverCompleted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a230d51e35802fb25c627eaa2fbbf2392" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onFailoverStarted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a7a7297545efb3ab4b3dcbd5d5619869f" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onLeaderElected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ad0527d252378da456c5025cff3405602" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onNetworkPartitionDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a2173113451bee2d1a9bca07495b4f6a9" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onReplicaAdded</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a9736129c7e2ef2ce325cb388d16802da" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onReplicaHealthChanged</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aa6a647094eee57928eae267cc63f6d32" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onReplicaRemoved</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a33c1422fb46b3627822ca20e61f314de" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onReplicationLagWarning</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a8c14e2d00d68bdaa3b9fdd1f53a742a5" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onRoleChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a4fa7e9af0bc36181cea6fd239ff42df3" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>onWALEntryApplied</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aa3481dfc91f436c3abd4df88fc18fd10" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>persistSlot</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a94f9d63f4d7f3dee4f08365cb35655fe" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>readChanges</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ae42437b4737cd3c7d0bb6950761b5432" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>recordDDLChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aba7ad98ac2503ec82b03565f716bb460" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>slots_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3b59ce511fa3b28ebbb23ef54e0d9969" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>slots_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ad4ce7a3f20400afe9d997bd7db764847" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>slotStatePath</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a299cf95462963518dd0d0a2ed0ce1bd5" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>stats_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3f98f8340dfd3ac2d74111519a3b5246" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a0a2e3630f0676d57fe9138c98f187c05" prot="private" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>wal_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1acb88cf6198e73097f327c58dbbe23d67" prot="public" virt="virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>~IReplicationListener</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a608aa631775c5cf90c4ea2f428224ce3" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager</scope><name>~LogicalReplicationManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

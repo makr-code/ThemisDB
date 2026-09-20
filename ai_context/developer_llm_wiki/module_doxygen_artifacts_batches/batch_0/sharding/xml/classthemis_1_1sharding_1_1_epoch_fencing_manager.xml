@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_epoch_fencing_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::EpochFencingManager</compoundname>
+    <includes refid="epoch__fencing_8h" local="no">epoch_fencing.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics" prot="public">themis::sharding::EpochFencingManager::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1adb2dc63128c09ec03881952d9f655ff6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_epoch_fencing_config" kindref="compound">EpochFencingConfig</ref></type>
+        <definition>EpochFencingConfig themis::sharding::EpochFencingManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="359" column="38" bodyfile="include/sharding/epoch_fencing.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a202635816a445da48d33bfee213f7ef8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_i_stonith_provider" kindref="compound">IStonithProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IStonithProvider&gt; themis::sharding::EpochFencingManager::stonith_</definition>
+        <argsstring></argsstring>
+        <name>stonith_</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::stonith_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="360" column="21" bodyfile="include/sharding/epoch_fencing.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1ad9338fe6e93f51a7ead821598c65387b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; <ref refid="namespacethemis_1_1sharding_1ad5d3d2b12301f99467d09da6704fb04c" kindref="member">EpochNumber</ref> &gt;</type>
+        <definition>std::atomic&lt;EpochNumber&gt; themis::sharding::EpochFencingManager::current_epoch_</definition>
+        <argsstring></argsstring>
+        <name>current_epoch_</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::current_epoch_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="361" column="26" bodyfile="include/sharding/epoch_fencing.h" bodystart="361" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a501151ee78f1c25d325960af3c8abc81" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::EpochFencingManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="363" column="24" bodyfile="include/sharding/epoch_fencing.h" bodystart="363" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a0c3332c19c729d2d187c78a1fd07ae9d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::sharding::EpochFencingManager::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="364" column="24" bodyfile="include/sharding/epoch_fencing.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1aca8bf4edeb34311cf4d6e8739657a835" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::EpochFencingManager::EpochFencingManager</definition>
+        <argsstring>(EpochFencingConfig config, std::shared_ptr&lt; IStonithProvider &gt; stonith=std::make_shared&lt; NullStonithProvider &gt;())</argsstring>
+        <name>EpochFencingManager</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::EpochFencingManager</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_epoch_fencing_config" kindref="compound">EpochFencingConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_i_stonith_provider" kindref="compound">IStonithProvider</ref> &gt;</type>
+          <declname>stonith</declname>
+          <defval>std::make_shared&lt; <ref refid="classthemis_1_1sharding_1_1_null_stonith_provider" kindref="compound">NullStonithProvider</ref> &gt;()</defval>
+        </param>
+        <briefdescription>
+<para>Construct a fencing manager for the given shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stonith</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>STONITH backend (ownership transferred). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="285" column="14" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="103" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a9fdfc8e47da9fd89671c28fbc6f36b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>themis::sharding::EpochFencingManager::~EpochFencingManager</definition>
+        <argsstring>()</argsstring>
+        <name>~EpochFencingManager</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::~EpochFencingManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="289" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1af7a53b74e2f505dac84902842037acd3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_epoch_token" kindref="compound">EpochToken</ref></type>
+        <definition>EpochToken themis::sharding::EpochFencingManager::bumpEpoch</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>bumpEpoch</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::bumpEpoch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Atomically increment the epoch and return a fresh token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Bump Epoch.</para>
+<para>Only the elected leader should call this. On epoch bump all in-flight tokens from the previous epoch become stale immediately.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Log message describing why the epoch was bumped. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>New <ref refid="structthemis_1_1sharding_1_1_epoch_token" kindref="compound">EpochToken</ref> with <computeroutput>epoch == <ref refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a3d2eef4c12f049634726a08fd9c71647" kindref="member">currentEpoch()</ref></computeroutput>. </para>
+</simplesect>
+<simplesect kind="note"><para>Virtual to enable test doubles that return controlled epoch values (e.g. epoch=0 to exercise the invalid-epoch guard in failover paths).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), lk(), spdlog::info(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="304" column="25" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="129" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a3d2eef4c12f049634726a08fd9c71647" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1ad5d3d2b12301f99467d09da6704fb04c" kindref="member">EpochNumber</ref></type>
+        <definition>EpochNumber themis::sharding::EpochFencingManager::currentEpoch</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>currentEpoch</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::currentEpoch</qualifiedname>
+        <briefdescription>
+<para>Return the current epoch without modifying it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="309" column="18" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="148" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1ace74156cb2c17f24daf8fe957817f8ba" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_epoch_token" kindref="compound">EpochToken</ref></type>
+        <definition>EpochToken themis::sharding::EpochFencingManager::makeToken</definition>
+        <argsstring>() const</argsstring>
+        <name>makeToken</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::makeToken</qualifiedname>
+        <briefdescription>
+<para>Produce a token for the current epoch (leader use only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does NOT bump the epoch — call this when the epoch is already correct and a new write just needs a fresh credential. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="317" column="17" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1af6f1f666a9b67770f7dc1e231d20fe07" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a5b4bf426d6f51ceb8a563a2ad12eec22" kindref="member">FencingResult</ref></type>
+        <definition>FencingResult themis::sharding::EpochFencingManager::checkToken</definition>
+        <argsstring>(const EpochToken &amp;token, const NodeId &amp;source_node)</argsstring>
+        <name>checkToken</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::checkToken</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_epoch_token" kindref="compound">EpochToken</ref> &amp;</type>
+          <declname>token</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> &amp;</type>
+          <declname>source_node</declname>
+        </param>
+        <briefdescription>
+<para>Check whether <computeroutput>token</computeroutput> authorises a write in the current epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Token.</para>
+<para><itemizedlist>
+<listitem><para>ALLOWED → proceed with the write</para>
+</listitem><listitem><para>STALE_EPOCH → reject; if auto_stonith the STONITH call may follow</para>
+</listitem><listitem><para>INVALID_TOKEN → reject; structurally invalid token</para>
+</listitem><listitem><para>STONITH_ISSUED → stale token AND STONITH successfully issued</para>
+</listitem><listitem><para>STONITH_FAILED → stale token AND STONITH failed</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token attached to the incoming write RPC. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node that sent the request (for STONITH targeting).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::warn(), load(), lk(), issueStonith(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="333" column="20" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="172" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a53b3fea01a3dd544154baa5d17b6e596" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_epoch_fencing_manager_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>EpochFencingManager::Metrics themis::sharding::EpochFencingManager::metrics</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="346" column="14" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="232" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a34f49ed3caba36b719a4ab78cfd7e66d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_epoch_fencing_config" kindref="compound">EpochFencingConfig</ref> &amp;</type>
+        <definition>const EpochFencingConfig &amp; themis::sharding::EpochFencingManager::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="350" column="31" bodyfile="include/sharding/epoch_fencing.h" bodystart="350" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a035ef47e1b9dfaa4486623f18c2d9d07" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_i_stonith_provider" kindref="compound">IStonithProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IStonithProvider &gt; themis::sharding::EpochFencingManager::stonithProvider</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stonithProvider</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::stonithProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="354" column="22" bodyfile="include/sharding/epoch_fencing.h" bodystart="354" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_epoch_fencing_manager_1ae7b9add1e401dbcafc458f8bf8c6274a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1a5b4bf426d6f51ceb8a563a2ad12eec22" kindref="member">FencingResult</ref></type>
+        <definition>FencingResult themis::sharding::EpochFencingManager::issueStonith</definition>
+        <argsstring>(const NodeId &amp;node, const std::string &amp;reason)</argsstring>
+        <name>issueStonith</name>
+        <qualifiedname>themis::sharding::EpochFencingManager::issueStonith</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1sharding_1a35c80457093816c3957f6b67e6705eb5" kindref="member">NodeId</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Issue Stonith. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), spdlog::warn(), fence(), lk(), spdlog::info(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/epoch_fencing.h" line="366" column="19" bodyfile="src/sharding/epoch_fencing.cpp" bodystart="213" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Epoch-based fencing manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Maintains the authoritative current epoch for a shard and exposes a single check-and-fence entry point used by the Raft leader and all write-path hot spots.</para>
+<para><heading level="3">Epoch Increment Protocol</heading>
+</para>
+<para><orderedlist>
+<listitem><para>A new Raft term begins (or leader election completes).</para>
+</listitem><listitem><para>The elected leader calls <computeroutput><ref refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1af7a53b74e2f505dac84902842037acd3" kindref="member">bumpEpoch()</ref></computeroutput>, which atomically increments the counter and returns the new <ref refid="structthemis_1_1sharding_1_1_epoch_token" kindref="compound">EpochToken</ref>.</para>
+</listitem><listitem><para>The leader attaches the token to every subsequent write RPC.</para>
+</listitem><listitem><para>Followers call <computeroutput><ref refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1af6f1f666a9b67770f7dc1e231d20fe07" kindref="member">checkToken()</ref></computeroutput> on every incoming write RPC.</para>
+</listitem><listitem><para>If the token&apos;s epoch is stale, <computeroutput><ref refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1af6f1f666a9b67770f7dc1e231d20fe07" kindref="member">checkToken()</ref></computeroutput> returns STALE_EPOCH and — if <computeroutput>auto_stonith</computeroutput> is set — triggers STONITH via the provider.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="note"><para>This class is entirely in-process. Across processes the epoch is propagated through the Raft log; each node reconstructs it on replay. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/epoch_fencing.h" line="278" column="1" bodyfile="include/sharding/epoch_fencing.h" bodystart="278" bodyend="367"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1af7a53b74e2f505dac84902842037acd3" prot="public" virt="virtual"><scope>themis::sharding::EpochFencingManager</scope><name>bumpEpoch</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1af6f1f666a9b67770f7dc1e231d20fe07" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>checkToken</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a34f49ed3caba36b719a4ab78cfd7e66d" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>config</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1adb2dc63128c09ec03881952d9f655ff6" prot="private" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1ad9338fe6e93f51a7ead821598c65387b" prot="private" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>current_epoch_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a3d2eef4c12f049634726a08fd9c71647" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>currentEpoch</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1aca8bf4edeb34311cf4d6e8739657a835" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>EpochFencingManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1ae7b9add1e401dbcafc458f8bf8c6274a" prot="private" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>issueStonith</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1ace74156cb2c17f24daf8fe957817f8ba" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>makeToken</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a53b3fea01a3dd544154baa5d17b6e596" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>metrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a0c3332c19c729d2d187c78a1fd07ae9d" prot="private" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a501151ee78f1c25d325960af3c8abc81" prot="private" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a202635816a445da48d33bfee213f7ef8" prot="private" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>stonith_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a035ef47e1b9dfaa4486623f18c2d9d07" prot="public" virt="non-virtual"><scope>themis::sharding::EpochFencingManager</scope><name>stonithProvider</name></member>
+      <member refid="classthemis_1_1sharding_1_1_epoch_fencing_manager_1a9fdfc8e47da9fd89671c28fbc6f36b17" prot="public" virt="virtual"><scope>themis::sharding::EpochFencingManager</scope><name>~EpochFencingManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

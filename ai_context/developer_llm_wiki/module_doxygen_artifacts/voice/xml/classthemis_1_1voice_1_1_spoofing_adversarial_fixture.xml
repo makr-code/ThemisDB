@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::SpoofingAdversarialFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a6e2eecc4401f35ed592e55fe47ca8c8f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_spoofing_detector" kindref="compound">SpoofingDetector</ref></type>
+        <definition>SpoofingDetector themis::voice::SpoofingAdversarialFixture::spoof_detector_</definition>
+        <argsstring></argsstring>
+        <name>spoof_detector_</name>
+        <qualifiedname>themis::voice::SpoofingAdversarialFixture::spoof_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="179" column="22" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a2440148358233135baccdfb2e2ca4388" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_injection_detector" kindref="compound">InjectionDetector</ref></type>
+        <definition>InjectionDetector themis::voice::SpoofingAdversarialFixture::injection_detector_</definition>
+        <argsstring></argsstring>
+        <name>injection_detector_</name>
+        <qualifiedname>themis::voice::SpoofingAdversarialFixture::injection_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="180" column="23" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a8251fdab85cdb5f7061e1851edfffaca" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_profile_matcher" kindref="compound">VoiceProfileMatcher</ref></type>
+        <definition>VoiceProfileMatcher themis::voice::SpoofingAdversarialFixture::profile_matcher_</definition>
+        <argsstring></argsstring>
+        <name>profile_matcher_</name>
+        <qualifiedname>themis::voice::SpoofingAdversarialFixture::profile_matcher_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="181" column="25" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1ad3cf9a23176200bc7adef0813b5c3591" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::SpoofingAdversarialFixture::security_audit_log_</definition>
+        <argsstring></argsstring>
+        <name>security_audit_log_</name>
+        <qualifiedname>themis::voice::SpoofingAdversarialFixture::security_audit_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="182" column="17" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a29b2605c613d14424c562b72b1980a4b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::SpoofingAdversarialFixture::logSecurityEvent</definition>
+        <argsstring>(const std::string &amp;event)</argsstring>
+        <name>logSecurityEvent</name>
+        <qualifiedname>themis::voice::SpoofingAdversarialFixture::logSecurityEvent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="184" column="10" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="184" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1acac92105e7092dbc382d031846dc4519" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::SpoofingAdversarialFixture::createLiveAudio</definition>
+        <argsstring>()</argsstring>
+        <name>createLiveAudio</name>
+        <qualifiedname>themis::voice::SpoofingAdversarialFixture::createLiveAudio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="188" column="17" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a7ba9531a92db75c3686607df80671ed1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::SpoofingAdversarialFixture::createRecordedAudio</definition>
+        <argsstring>()</argsstring>
+        <name>createRecordedAudio</name>
+        <qualifiedname>themis::voice::SpoofingAdversarialFixture::createRecordedAudio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="192" column="17" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="192" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1ae8d359397347de235cb01613ac16dd54" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::voice::SpoofingAdversarialFixture::createNoisyAudio</definition>
+        <argsstring>()</argsstring>
+        <name>createNoisyAudio</name>
+        <qualifiedname>themis::voice::SpoofingAdversarialFixture::createNoisyAudio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="201" column="17" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="201" bodyend="207"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::SpoofingAdversarialFixture</label>
+        <link refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::voice::InjectionDetector</label>
+        <link refid="classthemis_1_1voice_1_1_injection_detector"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::SpoofingAdversarialFixture</label>
+        <link refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>spoof_detector_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>injection_detector_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>profile_matcher_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::voice::SpoofingDetector</label>
+        <link refid="classthemis_1_1voice_1_1_spoofing_detector"/>
+      </node>
+      <node id="5">
+        <label>themis::voice::VoiceProfileMatcher</label>
+        <link refid="classthemis_1_1voice_1_1_voice_profile_matcher"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/voice/test_voice_spoofing_adversarial_focused.cpp" line="177" column="1" bodyfile="tests/voice/test_voice_spoofing_adversarial_focused.cpp" bodystart="177" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1acac92105e7092dbc382d031846dc4519" prot="protected" virt="non-virtual"><scope>themis::voice::SpoofingAdversarialFixture</scope><name>createLiveAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1ae8d359397347de235cb01613ac16dd54" prot="protected" virt="non-virtual"><scope>themis::voice::SpoofingAdversarialFixture</scope><name>createNoisyAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a7ba9531a92db75c3686607df80671ed1" prot="protected" virt="non-virtual"><scope>themis::voice::SpoofingAdversarialFixture</scope><name>createRecordedAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a2440148358233135baccdfb2e2ca4388" prot="protected" virt="non-virtual"><scope>themis::voice::SpoofingAdversarialFixture</scope><name>injection_detector_</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a29b2605c613d14424c562b72b1980a4b" prot="protected" virt="non-virtual"><scope>themis::voice::SpoofingAdversarialFixture</scope><name>logSecurityEvent</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a8251fdab85cdb5f7061e1851edfffaca" prot="protected" virt="non-virtual"><scope>themis::voice::SpoofingAdversarialFixture</scope><name>profile_matcher_</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1ad3cf9a23176200bc7adef0813b5c3591" prot="protected" virt="non-virtual"><scope>themis::voice::SpoofingAdversarialFixture</scope><name>security_audit_log_</name></member>
+      <member refid="classthemis_1_1voice_1_1_spoofing_adversarial_fixture_1a6e2eecc4401f35ed592e55fe47ca8c8f" prot="protected" virt="non-virtual"><scope>themis::voice::SpoofingAdversarialFixture</scope><name>spoof_detector_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

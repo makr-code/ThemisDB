@@ -1,0 +1,639 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_graph_query_cache" kind="class" language="C++" prot="public">
+    <compoundname>GraphQueryCache</compoundname>
+    <includes refid="graph__query__cache_8h" local="no">graph_query_cache.h</includes>
+    <innerclass refid="struct_graph_query_cache_1_1_config" prot="public">GraphQueryCache::Config</innerclass>
+    <innerclass refid="struct_graph_query_cache_1_1_stats" prot="public">GraphQueryCache::Stats</innerclass>
+    <innerclass refid="struct_graph_query_cache_1_1_entry" prot="private">GraphQueryCache::Entry</innerclass>
+    <innerclass refid="struct_graph_query_cache_1_1_l1_tier" prot="private">GraphQueryCache::L1Tier</innerclass>
+    <innerclass refid="struct_graph_query_cache_1_1_l2_entry" prot="private">GraphQueryCache::L2Entry</innerclass>
+    <innerclass refid="struct_graph_query_cache_1_1_l2_tier" prot="private">GraphQueryCache::L2Tier</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_graph_query_cache_1ac50b1dcb593847550513f3faa8e80fe7" prot="public" static="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>using themis::graph::GraphQueryCache::ResultSet = std::vector&lt;std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResultSet</name>
+        <qualifiedname>GraphQueryCache::ResultSet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="27" column="5" bodyfile="include/graph/graph_query_cache.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="class_graph_query_cache_1a8fad1a75a665f99667480c0e3dcd8bd4" prot="private" static="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>using themis::graph::GraphQueryCache::LruList = std::list&lt;std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>LruList</name>
+        <qualifiedname>GraphQueryCache::LruList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="132" column="5" bodyfile="include/graph/graph_query_cache.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_graph_query_cache_1ae6a0b0def9e564adc838928ef71ecdd3" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_graph_query_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::graph::GraphQueryCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>GraphQueryCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="192" column="14" bodyfile="include/graph/graph_query_cache.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_cache_1ae9f38081fe68590042c3c79ae894109b" prot="private" static="no" mutable="no">
+        <type>L1Tier</type>
+        <definition>L1Tier themis::graph::GraphQueryCache::l1_</definition>
+        <argsstring></argsstring>
+        <name>l1_</name>
+        <qualifiedname>GraphQueryCache::l1_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="193" column="14" bodyfile="include/graph/graph_query_cache.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_cache_1a82f32bbfba2b9b67c67d3beae919a0f3" prot="private" static="no" mutable="no">
+        <type>L2Tier</type>
+        <definition>L2Tier themis::graph::GraphQueryCache::l2_</definition>
+        <argsstring></argsstring>
+        <name>l2_</name>
+        <qualifiedname>GraphQueryCache::l2_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="194" column="14" bodyfile="include/graph/graph_query_cache.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_cache_1a825ee7c25ca11050f59e4e56c5816073" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_graph_query_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::graph::GraphQueryCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>GraphQueryCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="195" column="14" bodyfile="include/graph/graph_query_cache.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_graph_query_cache_1a5ba69fb1b1d2c2551aae93452744f566" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::GraphQueryCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>GraphQueryCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="196" column="24" bodyfile="include/graph/graph_query_cache.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_graph_query_cache_1a574767fafa3a67acd9bd9adfe78347dc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphQueryCache::GraphQueryCache</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>GraphQueryCache</name>
+        <qualifiedname>GraphQueryCache::GraphQueryCache</qualifiedname>
+        <param>
+          <type><ref refid="struct_graph_query_cache_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Graph Query Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="71" column="14" bodyfile="src/graph/graph_query_cache.cpp" bodystart="24" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1aa96166c48761b6c56d91d893fae03896" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphQueryCache::GraphQueryCache</definition>
+        <argsstring>(const GraphQueryCache &amp;)=delete</argsstring>
+        <name>GraphQueryCache</name>
+        <qualifiedname>GraphQueryCache::GraphQueryCache</qualifiedname>
+        <param>
+          <type>const <ref refid="class_graph_query_cache" kindref="compound">GraphQueryCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a9b1d176b5a3b5a94302e81e295277214" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphQueryCache::GraphQueryCache</definition>
+        <argsstring>(GraphQueryCache &amp;&amp;)=delete</argsstring>
+        <name>GraphQueryCache</name>
+        <qualifiedname>GraphQueryCache::GraphQueryCache</qualifiedname>
+        <param>
+          <type><ref refid="class_graph_query_cache" kindref="compound">GraphQueryCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a2da4153bbc3eec2c99c33c094f58793b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_graph_query_cache" kindref="compound">GraphQueryCache</ref> &amp;</type>
+        <definition>GraphQueryCache &amp; themis::graph::GraphQueryCache::operator=</definition>
+        <argsstring>(const GraphQueryCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>GraphQueryCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_graph_query_cache" kindref="compound">GraphQueryCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="74" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1aba18e529c66fdc66353d8960e15ce9a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_graph_query_cache" kindref="compound">GraphQueryCache</ref> &amp;</type>
+        <definition>GraphQueryCache &amp; themis::graph::GraphQueryCache::operator=</definition>
+        <argsstring>(GraphQueryCache &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>GraphQueryCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_graph_query_cache" kindref="compound">GraphQueryCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="76" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a28c8c76bdfcf429d1a2d727c81e196cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphQueryCache::~GraphQueryCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GraphQueryCache</name>
+        <qualifiedname>GraphQueryCache::~GraphQueryCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1af693776d24864eefca51ed6b2f550a6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryCache::put</definition>
+        <argsstring>(const std::string &amp;key, ResultSet result, double cost_hint=0.0)</argsstring>
+        <name>put</name>
+        <qualifiedname>GraphQueryCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="class_graph_query_cache_1ac50b1dcb593847550513f3faa8e80fe7" kindref="member">ResultSet</ref></type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>cost_hint</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cost_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lk(), find(), end(), std::move(), std::chrono::steady_clock::now(), splice(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="84" column="10" bodyfile="src/graph/graph_query_cache.cpp" bodystart="51" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a8c2e4c6f5ef8e49af63776e3e5566226" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_graph_query_cache_1ac50b1dcb593847550513f3faa8e80fe7" kindref="member">ResultSet</ref> &gt;</type>
+        <definition>std::optional&lt; GraphQueryCache::ResultSet &gt; themis::graph::GraphQueryCache::get</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>GraphQueryCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="86" column="20" bodyfile="src/graph/graph_query_cache.cpp" bodystart="95" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a112186816bb968cda635024b53d7be8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryCache::invalidate</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>GraphQueryCache::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lk(), removeFromL1(), removeFromL2(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="92" column="10" bodyfile="src/graph/graph_query_cache.cpp" bodystart="171" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a855860eb0751239a463beab7d4ec096e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>GraphQueryCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="97" column="10" bodyfile="src/graph/graph_query_cache.cpp" bodystart="184" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a36f144b0d7ea5f2c6f77094967445120" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_graph_query_cache_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>GraphQueryCache::Stats themis::graph::GraphQueryCache::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>GraphQueryCache::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="103" column="12" bodyfile="src/graph/graph_query_cache.cpp" bodystart="196" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a3f0dfab7dd2a805383e4401e2eb7356c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryCache::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>GraphQueryCache::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="struct_graph_query_cache_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="108" column="10" bodyfile="src/graph/graph_query_cache.cpp" bodystart="213" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a522efa07c5eb4d283f69c151a760145e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::l1Capacity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>l1Capacity</name>
+        <qualifiedname>GraphQueryCache::l1Capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="114" column="13" bodyfile="include/graph/graph_query_cache.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a240385dcf9938524bf65f1896da6cfc3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryCache::l2Capacity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>l2Capacity</name>
+        <qualifiedname>GraphQueryCache::l2Capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="116" column="13" bodyfile="include/graph/graph_query_cache.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a3f688f5ec157edba77f1d21b32d156ca" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::graph::GraphQueryCache::ttl</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>ttl</name>
+        <qualifiedname>GraphQueryCache::ttl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="118" column="32" bodyfile="include/graph/graph_query_cache.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_graph_query_cache_1a4d77e0e68821b6f6eac7fe405fe0eb59" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryCache::isExpired</definition>
+        <argsstring>(const Entry &amp;e) const noexcept</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>GraphQueryCache::isExpired</qualifiedname>
+        <param>
+          <type>const Entry &amp;</type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="162" column="11" bodyfile="src/graph/graph_query_cache.cpp" bodystart="222" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1ac891052c41dd7644d7dde875f2ea2ebf" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryCache::evictL1ToL2</definition>
+        <argsstring>()</argsstring>
+        <name>evictL1ToL2</name>
+        <qualifiedname>GraphQueryCache::evictL1ToL2</qualifiedname>
+        <briefdescription>
+<para>Evict L1 To L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), back(), find(), end(), pop_back(), std::move(), erase(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="167" column="10" bodyfile="src/graph/graph_query_cache.cpp" bodystart="235" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1aeeedc489465dcfbdd501b2c1e21f5237" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryCache::evictL2</definition>
+        <argsstring>()</argsstring>
+        <name>evictL2</name>
+        <qualifiedname>GraphQueryCache::evictL2</qualifiedname>
+        <briefdescription>
+<para>Evict L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: empty(), selectL2Victim(), removeFromL2(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="172" column="10" bodyfile="src/graph/graph_query_cache.cpp" bodystart="265" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1ac55bb23c7730e44900aca6d809b6ae1e" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::GraphQueryCache::selectL2Victim</definition>
+        <argsstring>() const</argsstring>
+        <name>selectL2Victim</name>
+        <qualifiedname>GraphQueryCache::selectL2Victim</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="174" column="18" bodyfile="src/graph/graph_query_cache.cpp" bodystart="275" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1ab480fe58b0a87d227612af813c940be6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryCache::removeFromL1</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>removeFromL1</name>
+        <qualifiedname>GraphQueryCache::removeFromL1</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove From L1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="180" column="10" bodyfile="src/graph/graph_query_cache.cpp" bodystart="305" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="class_graph_query_cache_1a74c7feb24b80efb6ee18aeb466fa568b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphQueryCache::removeFromL2</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>removeFromL2</name>
+        <qualifiedname>GraphQueryCache::removeFromL2</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove From L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_cache.h" line="186" column="10" bodyfile="src/graph/graph_query_cache.cpp" bodystart="319" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_cache.h" line="25" column="1" bodyfile="include/graph/graph_query_cache.h" bodystart="25" bodyend="197"/>
+    <listofallmembers>
+      <member refid="class_graph_query_cache_1a855860eb0751239a463beab7d4ec096e" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>clear</name></member>
+      <member refid="class_graph_query_cache_1ae6a0b0def9e564adc838928ef71ecdd3" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>config_</name></member>
+      <member refid="class_graph_query_cache_1ac891052c41dd7644d7dde875f2ea2ebf" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>evictL1ToL2</name></member>
+      <member refid="class_graph_query_cache_1aeeedc489465dcfbdd501b2c1e21f5237" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>evictL2</name></member>
+      <member refid="class_graph_query_cache_1a8c2e4c6f5ef8e49af63776e3e5566226" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>get</name></member>
+      <member refid="class_graph_query_cache_1a36f144b0d7ea5f2c6f77094967445120" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>getStats</name></member>
+      <member refid="class_graph_query_cache_1a574767fafa3a67acd9bd9adfe78347dc" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>GraphQueryCache</name></member>
+      <member refid="class_graph_query_cache_1aa96166c48761b6c56d91d893fae03896" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>GraphQueryCache</name></member>
+      <member refid="class_graph_query_cache_1a9b1d176b5a3b5a94302e81e295277214" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>GraphQueryCache</name></member>
+      <member refid="class_graph_query_cache_1a112186816bb968cda635024b53d7be8f" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>invalidate</name></member>
+      <member refid="class_graph_query_cache_1a4d77e0e68821b6f6eac7fe405fe0eb59" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>isExpired</name></member>
+      <member refid="class_graph_query_cache_1ae9f38081fe68590042c3c79ae894109b" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>l1_</name></member>
+      <member refid="class_graph_query_cache_1a522efa07c5eb4d283f69c151a760145e" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>l1Capacity</name></member>
+      <member refid="class_graph_query_cache_1a82f32bbfba2b9b67c67d3beae919a0f3" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>l2_</name></member>
+      <member refid="class_graph_query_cache_1a240385dcf9938524bf65f1896da6cfc3" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>l2Capacity</name></member>
+      <member refid="class_graph_query_cache_1a8fad1a75a665f99667480c0e3dcd8bd4" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>LruList</name></member>
+      <member refid="class_graph_query_cache_1a5ba69fb1b1d2c2551aae93452744f566" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>mutex_</name></member>
+      <member refid="class_graph_query_cache_1a2da4153bbc3eec2c99c33c094f58793b" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>operator=</name></member>
+      <member refid="class_graph_query_cache_1aba18e529c66fdc66353d8960e15ce9a9" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>operator=</name></member>
+      <member refid="class_graph_query_cache_1af693776d24864eefca51ed6b2f550a6c" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>put</name></member>
+      <member refid="class_graph_query_cache_1ab480fe58b0a87d227612af813c940be6" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>removeFromL1</name></member>
+      <member refid="class_graph_query_cache_1a74c7feb24b80efb6ee18aeb466fa568b" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>removeFromL2</name></member>
+      <member refid="class_graph_query_cache_1a3f0dfab7dd2a805383e4401e2eb7356c" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>resetStats</name></member>
+      <member refid="class_graph_query_cache_1ac50b1dcb593847550513f3faa8e80fe7" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>ResultSet</name></member>
+      <member refid="class_graph_query_cache_1ac55bb23c7730e44900aca6d809b6ae1e" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>selectL2Victim</name></member>
+      <member refid="class_graph_query_cache_1a825ee7c25ca11050f59e4e56c5816073" prot="private" virt="non-virtual"><scope>GraphQueryCache</scope><name>stats_</name></member>
+      <member refid="class_graph_query_cache_1a3f688f5ec157edba77f1d21b32d156ca" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>ttl</name></member>
+      <member refid="class_graph_query_cache_1a28c8c76bdfcf429d1a2d727c81e196cc" prot="public" virt="non-virtual"><scope>GraphQueryCache</scope><name>~GraphQueryCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

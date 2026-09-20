@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_training_pipeline_e2_e_test" kind="class" language="C++" prot="public">
+    <compoundname>TrainingPipelineE2ETest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_training_pipeline_e2_e_test_1acc4e3a550e706bd3680615e9cc2e09e4" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_pipeline_config" kindref="compound">PipelineConfig</ref></type>
+        <definition>PipelineConfig TrainingPipelineE2ETest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>TrainingPipelineE2ETest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_pipeline_e2e.cpp" line="62" column="20" bodyfile="tests/training/test_training_pipeline_e2e.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_training_pipeline_e2_e_test_1a719a557843e6e42679e3c2dac0e537f7" prot="protected" static="no" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string TrainingPipelineE2ETest::db_conn_</definition>
+        <argsstring></argsstring>
+        <name>db_conn_</name>
+        <qualifiedname>TrainingPipelineE2ETest::db_conn_</qualifiedname>
+        <initializer>= &quot;&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_pipeline_e2e.cpp" line="63" column="23" bodyfile="tests/training/test_training_pipeline_e2e.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_training_pipeline_e2_e_test_1aa77171af8aadf6f328b6e43f99f4c985" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TrainingPipelineE2ETest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TrainingPipelineE2ETest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_training_pipeline_e2e.cpp" line="33" column="10" bodyfile="tests/training/test_training_pipeline_e2e.cpp" bodystart="33" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TrainingPipelineE2ETest</label>
+        <link refid="class_training_pipeline_e2_e_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TrainingPipelineE2ETest</label>
+        <link refid="class_training_pipeline_e2_e_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::training::AutoLabelConfig</label>
+        <link refid="structthemis_1_1training_1_1_auto_label_config"/>
+      </node>
+      <node id="11">
+        <label>themis::training::CheckpointManagerConfig</label>
+        <link refid="structthemis_1_1training_1_1_checkpoint_manager_config"/>
+      </node>
+      <node id="6">
+        <label>themis::training::EnrichmentCacheConfig</label>
+        <link refid="structthemis_1_1training_1_1_enrichment_cache_config"/>
+      </node>
+      <node id="5">
+        <label>themis::training::EnrichmentConfig</label>
+        <link refid="structthemis_1_1training_1_1_enrichment_config"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>cache</edgelabel>
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::training::IncrementalTrainingConfig</label>
+        <link refid="structthemis_1_1training_1_1_incremental_training_config"/>
+        <childnode refid="8" relation="usage">
+          <edgelabel>quantization</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themis::training::LoRADataSelectionConfig</label>
+        <link refid="structthemis_1_1training_1_1_lo_r_a_data_selection_config"/>
+      </node>
+      <node id="3">
+        <label>themis::training::PipelineConfig</label>
+        <link refid="structthemis_1_1training_1_1_pipeline_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>labeler_config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>enricher_config</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>trainer_config</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>data_selection_config</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>provenance_config</edgelabel>
+        </childnode>
+        <childnode refid="11" relation="usage">
+          <edgelabel>checkpoint_manager_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themis::training::ProvenanceTrackerConfig</label>
+        <link refid="structthemis_1_1training_1_1_provenance_tracker_config"/>
+      </node>
+      <node id="8">
+        <label>themis::training::QuantizationConfig</label>
+        <link refid="structthemis_1_1training_1_1_quantization_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/training/test_training_pipeline_e2e.cpp" line="31" column="1" bodyfile="tests/training/test_training_pipeline_e2e.cpp" bodystart="31" bodyend="64"/>
+    <listofallmembers>
+      <member refid="class_training_pipeline_e2_e_test_1acc4e3a550e706bd3680615e9cc2e09e4" prot="protected" virt="non-virtual"><scope>TrainingPipelineE2ETest</scope><name>config_</name></member>
+      <member refid="class_training_pipeline_e2_e_test_1a719a557843e6e42679e3c2dac0e537f7" prot="protected" virt="non-virtual"><scope>TrainingPipelineE2ETest</scope><name>db_conn_</name></member>
+      <member refid="class_training_pipeline_e2_e_test_1aa77171af8aadf6f328b6e43f99f4c985" prot="protected" virt="non-virtual"><scope>TrainingPipelineE2ETest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_h_t_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::HTConfig</compoundname>
+    <includes refid="hierarchical__tucker__decomposer_8h" local="no">hierarchical_tucker_decomposer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_h_t_config_1adbbe9df81846271563677abd70e47a2a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::HTConfig::max_rank</definition>
+        <argsstring></argsstring>
+        <name>max_rank</name>
+        <qualifiedname>themis::storage::HTConfig::max_rank</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>Maximum rank per node (clamped to min(n_k, N/n_k)). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="30" column="17" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_h_t_config_1a389f3177eb9eb2f657c39db40509df48" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::HTConfig::eps</definition>
+        <argsstring></argsstring>
+        <name>eps</name>
+        <qualifiedname>themis::storage::HTConfig::eps</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Relative reconstruction error tolerance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="31" column="17" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_h_t_config_1a7874cbbb7164236ac0c261ecae07f01a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::storage::HTConfig::max_hooi_iter</definition>
+        <argsstring></argsstring>
+        <name>max_hooi_iter</name>
+        <qualifiedname>themis::storage::HTConfig::max_hooi_iter</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum HOOI alternating-optimization iterations after HOSVD initialization. Set to 0 to use HOSVD-only (lower quality but faster). Default 20 iterations are sufficient for convergence in most practical cases. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/hierarchical_tucker_decomposer.h" line="36" column="17" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1storage_1_1_hierarchical_tucker_decomposer" kindref="compound">HierarchicalTuckerDecomposer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/hierarchical_tucker_decomposer.h" line="29" column="1" bodyfile="include/storage/hierarchical_tucker_decomposer.h" bodystart="29" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_h_t_config_1a389f3177eb9eb2f657c39db40509df48" prot="public" virt="non-virtual"><scope>themis::storage::HTConfig</scope><name>eps</name></member>
+      <member refid="structthemis_1_1storage_1_1_h_t_config_1a7874cbbb7164236ac0c261ecae07f01a" prot="public" virt="non-virtual"><scope>themis::storage::HTConfig</scope><name>max_hooi_iter</name></member>
+      <member refid="structthemis_1_1storage_1_1_h_t_config_1adbbe9df81846271563677abd70e47a2a" prot="public" virt="non-virtual"><scope>themis::storage::HTConfig</scope><name>max_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

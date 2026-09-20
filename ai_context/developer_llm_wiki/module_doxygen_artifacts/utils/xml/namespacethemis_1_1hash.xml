@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1hash" kind="namespace" language="C++">
+    <compoundname>themis::hash</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1hash_1aa2dba715d74cb62783d70a65a920dd1a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::hash::kFnv32OffsetBasis</definition>
+        <argsstring></argsstring>
+        <name>kFnv32OffsetBasis</name>
+        <qualifiedname>themis::hash::kFnv32OffsetBasis</qualifiedname>
+        <initializer>= 2166136261U</initializer>
+        <briefdescription>
+<para>FNV-1a 32-bit offset basis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="24" column="27" bodyfile="include/utils/hash_util.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1hash_1a34f73c12782d94da57b218488177f874" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::hash::kFnv32Prime</definition>
+        <argsstring></argsstring>
+        <name>kFnv32Prime</name>
+        <qualifiedname>themis::hash::kFnv32Prime</qualifiedname>
+        <initializer>= 16777619U</initializer>
+        <briefdescription>
+<para>FNV-1a 32-bit prime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="26" column="27" bodyfile="include/utils/hash_util.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1hash_1a10eec845ffedcfebe5b9c5a57e4a9e19" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::hash::kFnv64OffsetBasis</definition>
+        <argsstring></argsstring>
+        <name>kFnv64OffsetBasis</name>
+        <qualifiedname>themis::hash::kFnv64OffsetBasis</qualifiedname>
+        <initializer>= 14695981039346656037ULL</initializer>
+        <briefdescription>
+<para>FNV-1a 64-bit offset basis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="29" column="27" bodyfile="include/utils/hash_util.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1hash_1a1855550a88be8e4551925099aeabaf43" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::hash::kFnv64Prime</definition>
+        <argsstring></argsstring>
+        <name>kFnv64Prime</name>
+        <qualifiedname>themis::hash::kFnv64Prime</qualifiedname>
+        <initializer>= 1099511628211ULL</initializer>
+        <briefdescription>
+<para>FNV-1a 64-bit prime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="31" column="27" bodyfile="include/utils/hash_util.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1hash_1af7d24a5e487c89e9602bdf17e82a5667" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::hash::fnv1a32</definition>
+        <argsstring>(const char *data, std::size_t len) noexcept</argsstring>
+        <name>fnv1a32</name>
+        <qualifiedname>themis::hash::fnv1a32</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Compute FNV-1a 32-bit hash of <computeroutput>len</computeroutput> bytes starting at <computeroutput>data</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>constexpr-safe (C++14+). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="42" column="21" bodyfile="include/utils/hash_util.h" bodystart="42" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1a0aca5b99e4fbcf85f48709025d25449b" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::hash::fnv1a32</definition>
+        <argsstring>(const uint8_t *data, std::size_t len) noexcept</argsstring>
+        <name>fnv1a32</name>
+        <qualifiedname>themis::hash::fnv1a32</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="52" column="21" bodyfile="include/utils/hash_util.h" bodystart="52" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1a7c2f4fca767ef2ff48bbd936532fea8f" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::hash::fnv1a32</definition>
+        <argsstring>(std::string_view s) noexcept</argsstring>
+        <name>fnv1a32</name>
+        <qualifiedname>themis::hash::fnv1a32</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="62" column="21" bodyfile="include/utils/hash_util.h" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1aa72225e3140c2e816c472c52dd3700a5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::hash::fnv1a32</definition>
+        <argsstring>(const std::string &amp;s) noexcept</argsstring>
+        <name>fnv1a32</name>
+        <qualifiedname>themis::hash::fnv1a32</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="67" column="18" bodyfile="include/utils/hash_util.h" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1a062ac8b297a364a26c09a8dec8a718aa" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::hash::fnv1a64</definition>
+        <argsstring>(const char *data, std::size_t len) noexcept</argsstring>
+        <name>fnv1a64</name>
+        <qualifiedname>themis::hash::fnv1a64</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Compute FNV-1a 64-bit hash of <computeroutput>len</computeroutput> bytes starting at <computeroutput>data</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>constexpr-safe (C++14+). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="80" column="21" bodyfile="include/utils/hash_util.h" bodystart="80" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1aa1904bca864a91a91c42a03f79329259" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::hash::fnv1a64</definition>
+        <argsstring>(const uint8_t *data, std::size_t len) noexcept</argsstring>
+        <name>fnv1a64</name>
+        <qualifiedname>themis::hash::fnv1a64</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="90" column="21" bodyfile="include/utils/hash_util.h" bodystart="90" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1a9723b34c81dc67042f10e0359bab00a9" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::hash::fnv1a64</definition>
+        <argsstring>(std::string_view s) noexcept</argsstring>
+        <name>fnv1a64</name>
+        <qualifiedname>themis::hash::fnv1a64</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="100" column="21" bodyfile="include/utils/hash_util.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1a0b9b48d317433f0394a82db40d9f6a79" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::hash::fnv1a64</definition>
+        <argsstring>(const std::string &amp;s) noexcept</argsstring>
+        <name>fnv1a64</name>
+        <qualifiedname>themis::hash::fnv1a64</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="105" column="18" bodyfile="include/utils/hash_util.h" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1a5be517a212b24a4d34ea4e58b2e934f5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::hash::fnv1a64_hex</definition>
+        <argsstring>(std::string_view s)</argsstring>
+        <name>fnv1a64_hex</name>
+        <qualifiedname>themis::hash::fnv1a64_hex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Return the FNV-1a 64-bit hash of <computeroutput>s</computeroutput> as a 16-character lowercase hexadecimal string. Useful for cache keys, ETags, and checksums. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="117" column="21" bodyfile="include/utils/hash_util.h" bodystart="117" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1a6a7bc835b3c77b963ada59324ed7ab6f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::hash::fnv1a64_hex</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>fnv1a64_hex</name>
+        <qualifiedname>themis::hash::fnv1a64_hex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Return the FNV-1a 64-bit hash of <computeroutput>s</computeroutput> as a 16-character lowercase hexadecimal string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="132" column="21" bodyfile="include/utils/hash_util.h" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1hash_1aad94b4638b116379783969d78efb6777" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::hash::bytes_to_hex</definition>
+        <argsstring>(const unsigned char *data, std::size_t n)</argsstring>
+        <name>bytes_to_hex</name>
+        <qualifiedname>themis::hash::bytes_to_hex</qualifiedname>
+        <param>
+          <type>const unsigned char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Encode <computeroutput>n</computeroutput> raw bytes as a lowercase hexadecimal string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Intended for encoding SHA-256 (32 bytes → 64 chars) and similar digests. Uses a nibble-lookup table; avoids the overhead of std::ostringstream.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the raw bytes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to encode. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Lowercase hex string of length 2*n. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/hash_util.h" line="150" column="21" bodyfile="include/utils/hash_util.h" bodystart="150" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/hash_util.h" line="17" column="1"/>
+  </compounddef>
+</doxygen>

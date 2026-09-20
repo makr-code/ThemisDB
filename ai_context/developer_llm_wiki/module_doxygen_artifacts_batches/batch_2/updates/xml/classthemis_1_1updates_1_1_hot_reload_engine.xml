@@ -1,0 +1,1021 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1_hot_reload_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::HotReloadEngine</compoundname>
+    <includes refid="hot__reload__engine_8h" local="no">hot_reload_engine.h</includes>
+    <innerclass refid="structthemis_1_1updates_1_1_hot_reload_engine_1_1_download_result" prot="public">themis::updates::HotReloadEngine::DownloadResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_hot_reload_engine_1_1_config" prot="public">themis::updates::HotReloadEngine::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1updates_1_1_hot_reload_engine_1a5715b1d78b912318606a66c2369794be" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::updates::HotReloadEngine::PostUpdateHealthCheck = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>PostUpdateHealthCheck</name>
+        <qualifiedname>themis::updates::HotReloadEngine::PostUpdateHealthCheck</qualifiedname>
+        <briefdescription>
+<para>Callback type for post-update health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The function should return <computeroutput>true</computeroutput> when the system is healthy after an update, or <computeroutput>false</computeroutput> to signal that the update should be rolled back. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="177" column="5" bodyfile="include/updates/hot_reload_engine.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hot_reload_engine_1abf4decee5b98b3d56bcc98647f2f4d5b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_manifest_database" kindref="compound">ManifestDatabase</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ManifestDatabase&gt; themis::updates::HotReloadEngine::manifest_db_</definition>
+        <argsstring></argsstring>
+        <name>manifest_db_</name>
+        <qualifiedname>themis::updates::HotReloadEngine::manifest_db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="198" column="21" bodyfile="include/updates/hot_reload_engine.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hot_reload_engine_1abfd87887d763f97303ecde10155abae6" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::UpdateChecker &gt;</type>
+        <definition>std::shared_ptr&lt;utils::UpdateChecker&gt; themis::updates::HotReloadEngine::update_checker_</definition>
+        <argsstring></argsstring>
+        <name>update_checker_</name>
+        <qualifiedname>themis::updates::HotReloadEngine::update_checker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="199" column="21" bodyfile="include/updates/hot_reload_engine.h" bodystart="199" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hot_reload_engine_1a4a2f69bc209e809025fc6253d92c3ab3" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_hot_reload_engine_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::updates::HotReloadEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::updates::HotReloadEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="200" column="12" bodyfile="include/updates/hot_reload_engine.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hot_reload_engine_1a6902998977cd426425869fee70acd606" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(int, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(int, const std::string&amp;)&gt; themis::updates::HotReloadEngine::progress_callback_</definition>
+        <argsstring></argsstring>
+        <name>progress_callback_</name>
+        <qualifiedname>themis::updates::HotReloadEngine::progress_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="201" column="19" bodyfile="include/updates/hot_reload_engine.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hot_reload_engine_1ae39bc865386379e4c26684b06a3159f9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::updates::HotReloadEngine::manifest_db_mutex_</definition>
+        <argsstring></argsstring>
+        <name>manifest_db_mutex_</name>
+        <qualifiedname>themis::updates::HotReloadEngine::manifest_db_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="204" column="24" bodyfile="include/updates/hot_reload_engine.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hot_reload_engine_1ade84a50046fcac4952315e046c699b1b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1updates_1_1_update_history_logger" kindref="compound">UpdateHistoryLogger</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;UpdateHistoryLogger&gt; themis::updates::HotReloadEngine::history_logger_</definition>
+        <argsstring></argsstring>
+        <name>history_logger_</name>
+        <qualifiedname>themis::updates::HotReloadEngine::history_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="212" column="21" bodyfile="include/updates/hot_reload_engine.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1_hot_reload_engine_1a2011b609cfb695955f01820aeda3b6f2" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a5715b1d78b912318606a66c2369794be" kindref="member">PostUpdateHealthCheck</ref></type>
+        <definition>PostUpdateHealthCheck themis::updates::HotReloadEngine::post_update_health_check_</definition>
+        <argsstring></argsstring>
+        <name>post_update_health_check_</name>
+        <qualifiedname>themis::updates::HotReloadEngine::post_update_health_check_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Protected (not private) so that test subclasses can access and invoke the registered callback without requiring a separate accessor. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="209" column="27" bodyfile="include/updates/hot_reload_engine.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a135bfae9faa846f872d09fdf2e78e64d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1updates_1_1_hot_reload_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>static const Config &amp; themis::updates::HotReloadEngine::defaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>defaultConfig</name>
+        <qualifiedname>themis::updates::HotReloadEngine::defaultConfig</qualifiedname>
+        <briefdescription>
+<para>Get default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="89" column="25" bodyfile="include/updates/hot_reload_engine.h" bodystart="89" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1aeb43b79498e115140e61976525aa5c6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::HotReloadEngine::HotReloadEngine</definition>
+        <argsstring>(std::shared_ptr&lt; ManifestDatabase &gt; manifest_db, std::shared_ptr&lt; utils::UpdateChecker &gt; update_checker, const Config &amp;config=defaultConfig())</argsstring>
+        <name>HotReloadEngine</name>
+        <qualifiedname>themis::updates::HotReloadEngine::HotReloadEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1updates_1_1_manifest_database" kindref="compound">ManifestDatabase</ref> &gt;</type>
+          <declname>manifest_db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; utils::UpdateChecker &gt;</type>
+          <declname>update_checker</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_hot_reload_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a135bfae9faa846f872d09fdf2e78e64d" kindref="member">defaultConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Construct hot-reload engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest_db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manifest database </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>update_checker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Update checker for fetching releases </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="100" column="5" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="78" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a58433507c803501ecd93afd442e72911" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>themis::updates::HotReloadEngine::~HotReloadEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~HotReloadEngine</name>
+        <qualifiedname>themis::updates::HotReloadEngine::~HotReloadEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="106" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a44488e14b9494a0228c2005eb9dd80f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_hot_reload_engine_1_1_download_result" kindref="compound">DownloadResult</ref></type>
+        <definition>HotReloadEngine::DownloadResult themis::updates::HotReloadEngine::downloadRelease</definition>
+        <argsstring>(const std::string &amp;version)</argsstring>
+        <name>downloadRelease</name>
+        <qualifiedname>themis::updates::HotReloadEngine::downloadRelease</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Download and verify a release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Download Release.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version to download (e.g., &quot;1.2.3&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Download result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reportProgress(), lock(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, getManifest(), verifyManifest(), fs::create_directories(), size(), getCachedDownload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="113" column="20" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="107" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_reload_result" kindref="compound">ReloadResult</ref></type>
+        <definition>ReloadResult themis::updates::HotReloadEngine::applyHotReload</definition>
+        <argsstring>(const std::string &amp;version, bool verify_only=false)</argsstring>
+        <name>applyHotReload</name>
+        <qualifiedname>themis::updates::HotReloadEngine::applyHotReload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verify_only</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Apply hot-reload (atomic operation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Hot Reload.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version to apply </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verify_only</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Dry-run mode (don&apos;t actually apply) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reload result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">verify_only</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reportProgress(), getConfig(), std::chrono::system_clock::now(), time_since_epoch(), count(), record(), getManifest(), recordHistory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="121" column="26" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="203" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a7edab47678434d4b06f8845fac42ee6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::HotReloadEngine::rollback</definition>
+        <argsstring>(const std::string &amp;rollback_id)</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::updates::HotReloadEngine::rollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rollback_id</declname>
+        </param>
+        <briefdescription>
+<para>Rollback to previous version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rollback_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Rollback ID from previous reload </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rollback_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rollback. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::exists(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, std::chrono::system_clock::now(), time_since_epoch(), count(), record(), metadata_file(), is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="131" column="18" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="350" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a360aa7951d24fef17d7e6dee040953b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::updates::HotReloadEngine::verifyRelease</definition>
+        <argsstring>(const ReleaseManifest &amp;manifest)</argsstring>
+        <name>verifyRelease</name>
+        <qualifiedname>themis::updates::HotReloadEngine::verifyRelease</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_release_manifest" kindref="compound">ReleaseManifest</ref> &amp;</type>
+          <declname>manifest</declname>
+        </param>
+        <briefdescription>
+<para>Verify release before applying. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Release.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Manifest to verify </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: verifyManifest(), fs::exists(), push_back(), verifyDownloadedFile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="138" column="24" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="430" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a4aa8723dca05419d99e2549e594f3817" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::HotReloadEngine::isCompatibleUpgrade</definition>
+        <argsstring>(const std::string &amp;current_version, const std::string &amp;target_version)</argsstring>
+        <name>isCompatibleUpgrade</name>
+        <qualifiedname>themis::updates::HotReloadEngine::isCompatibleUpgrade</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_version</declname>
+        </param>
+        <briefdescription>
+<para>Check if upgrade is compatible. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Compatible Upgrade.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current version </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target version </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if upgrade is compatible</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: utils::Version::parse(), <ref refid="batch5__safety__helpers_8h_1add82efa459e0af380b68522c29b9fd44" kindref="member">LOG_WARN()</ref>, getManifest(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="146" column="10" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="466" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a14fe7a9d0af9126359cb38f8d41ac3d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; themis::updates::HotReloadEngine::listRollbackPoints</definition>
+        <argsstring>() const</argsstring>
+        <name>listRollbackPoints</name>
+        <qualifiedname>themis::updates::HotReloadEngine::listRollbackPoints</qualifiedname>
+        <briefdescription>
+<para>List available rollback points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of rollback IDs with timestamps </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Metadata file. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the metadata. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="155" column="17" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="498" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1aa9ba7faee33fa028c26ec4e3b85c5dd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::HotReloadEngine::cleanRollbackPoints</definition>
+        <argsstring>(size_t keep_count=3)</argsstring>
+        <name>cleanRollbackPoints</name>
+        <qualifiedname>themis::updates::HotReloadEngine::cleanRollbackPoints</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>keep_count</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+<para>Clean old rollback points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clean Rollback Points.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keep_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rollback points to keep</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keep_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a14fe7a9d0af9126359cb38f8d41ac3d3" kindref="member">listRollbackPoints()</ref>, size(), fs::remove_all(), <ref refid="batch5__safety__helpers_8h_1a378e28bfcb78d17285210d6bbb70a083" kindref="member">LOG_INFO()</ref>, <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="161" column="10" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="554" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a8acdf4e04cd0885d1172d18e475b712c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::HotReloadEngine::setProgressCallback</definition>
+        <argsstring>(std::function&lt; void(int, const std::string &amp;)&gt; callback)</argsstring>
+        <name>setProgressCallback</name>
+        <qualifiedname>themis::updates::HotReloadEngine::setProgressCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(int, const std::string &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Set progress callback for long operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback function (progress percentage, message) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="167" column="10" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="573" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a820f1d92ad960923019a4dbfb772d497" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::HotReloadEngine::setPostUpdateHealthCheck</definition>
+        <argsstring>(PostUpdateHealthCheck check)</argsstring>
+        <name>setPostUpdateHealthCheck</name>
+        <qualifiedname>themis::updates::HotReloadEngine::setPostUpdateHealthCheck</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_hot_reload_engine_1a5715b1d78b912318606a66c2369794be" kindref="member">PostUpdateHealthCheck</ref></type>
+          <declname>check</declname>
+        </param>
+        <briefdescription>
+<para>Register a post-update health check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Post Update Health Check.</para>
+<para>When set, the callback is invoked after all files have been atomically replaced. If it returns <computeroutput>false</computeroutput> and <computeroutput><ref refid="structthemis_1_1updates_1_1_hot_reload_engine_1_1_config_1abb9ff1321b05bff894d33bfda5f6c759" kindref="member">Config::rollback_on_health_check_failure</ref></computeroutput> is <computeroutput>true</computeroutput> the engine automatically rolls back to the previous version.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Health-check callable (may be <computeroutput>nullptr</computeroutput> to clear)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">check</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="189" column="10" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="584" bodyend="586"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a1f476ebdb376e09bf50875779c91c635" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1updates_1_1_update_history_logger" kindref="compound">UpdateHistoryLogger</ref> *</type>
+        <definition>UpdateHistoryLogger * themis::updates::HotReloadEngine::historyLogger</definition>
+        <argsstring>()</argsstring>
+        <name>historyLogger</name>
+        <qualifiedname>themis::updates::HotReloadEngine::historyLogger</qualifiedname>
+        <briefdescription>
+<para>Access the update history logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>History Logger.</para>
+<para><simplesect kind="return"><para>Pointer to the logger, or nullptr if history logging is disabled.</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="195" column="25" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="832" bodyend="834"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a02d967ced6bf26f8546435ed0e00a7c0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::HotReloadEngine::downloadFile</definition>
+        <argsstring>(const ReleaseFile &amp;file, const std::string &amp;dest)</argsstring>
+        <name>downloadFile</name>
+        <qualifiedname>themis::updates::HotReloadEngine::downloadFile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dest</declname>
+        </param>
+        <briefdescription>
+<para>Download single file with resume support. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Download File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> to download </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, curl_easy_init(), fopen(), c_str(), curl_easy_cleanup(), curl_easy_setopt(), curl_easy_perform(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="220" column="10" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="610" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1acdc23e41dd2c375e176ac714df8a216f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::HotReloadEngine::verifyDownloadedFile</definition>
+        <argsstring>(const ReleaseFile &amp;file, const std::string &amp;path)</argsstring>
+        <name>verifyDownloadedFile</name>
+        <qualifiedname>themis::updates::HotReloadEngine::verifyDownloadedFile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Verify downloaded file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Downloaded File.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> with expected hash </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local file path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if hash matches</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: calculateFileHash(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, fs::file_size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="228" column="10" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="664" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a00f9a74ff7ff166798efaa82023eebf0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HotReloadEngine::createBackup</definition>
+        <argsstring>(const std::vector&lt; ReleaseFile &gt; &amp;files)</argsstring>
+        <name>createBackup</name>
+        <qualifiedname>themis::updates::HotReloadEngine::createBackup</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1updates_1_1_release_file" kindref="compound">ReleaseFile</ref> &gt; &amp;</type>
+          <declname>files</declname>
+        </param>
+        <briefdescription>
+<para>Create backup before update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Backup.</para>
+<para><simplesect kind="return"><para>Rollback ID for the backup</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">files</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: generateRollbackId(), fs::create_directories(), fs::exists(), fs::path(), parent_path(), fs::copy_file(), std::chrono::system_clock::now(), time_since_epoch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="234" column="17" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="690" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a195965ae93a02e8d7d5f8c8fee6b00d0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::HotReloadEngine::atomicReplace</definition>
+        <argsstring>(const std::string &amp;src, const std::string &amp;dst)</argsstring>
+        <name>atomicReplace</name>
+        <qualifiedname>themis::updates::HotReloadEngine::atomicReplace</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dst</declname>
+        </param>
+        <briefdescription>
+<para>Atomic file replacement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Atomic Replace.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source file path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination file path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fs::copy_file(), fs::rename(), <ref refid="batch5__safety__helpers_8h_1ad4a9117ce894e3319e903142347a0f63" kindref="member">LOG_ERROR()</ref>, what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="242" column="10" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="735" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1ab7aa0425a9cb93879410ea2593a01c3f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HotReloadEngine::calculateFileHash</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>calculateFileHash</name>
+        <qualifiedname>themis::updates::HotReloadEngine::calculateFileHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Calculate SHA-256 hash of file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate File Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File path </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Hex-encoded hash</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), mdctx(), EVP_MD_CTX_new(), get(), EVP_DigestInit_ex(), EVP_sha256(), buffer(), read(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="249" column="17" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="759" bodyend="796"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1a49914f2e7c3f55d3ce89e180e3364eda" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HotReloadEngine::generateRollbackId</definition>
+        <argsstring>()</argsstring>
+        <name>generateRollbackId</name>
+        <qualifiedname>themis::updates::HotReloadEngine::generateRollbackId</qualifiedname>
+        <briefdescription>
+<para>Generate unique rollback ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Rollback Id.</para>
+<para><simplesect kind="return"><para>UUID-based rollback ID</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="255" column="17" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="803" bodyend="811"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1updates_1_1_hot_reload_engine_1ab9b8ad273ceafd46989329399daf4581" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::HotReloadEngine::reportProgress</definition>
+        <argsstring>(int percentage, const std::string &amp;message)</argsstring>
+        <name>reportProgress</name>
+        <qualifiedname>themis::updates::HotReloadEngine::reportProgress</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>percentage</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Report progress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Report Progress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>percentage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Progress percentage (0-100) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Progress message</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="batch5__safety__helpers_8h_1a754b3d074e0af4ad3c7b918dd77ecb2d" kindref="member">LOG_DEBUG()</ref>, progress_callback_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hot_reload_engine.h" line="262" column="10" bodyfile="src/updates/hot_reload_engine.cpp" bodystart="819" bodyend="825"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Engine for hot-reloading ThemisDB from release manifests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>Download and verify releases from GitHub</para>
+</listitem><listitem><para>Atomic file replacement</para>
+</listitem><listitem><para>Automatic backup before update</para>
+</listitem><listitem><para>Rollback capability on failure </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/updates/hot_reload_engine.h" line="55" column="1" bodyfile="include/updates/hot_reload_engine.h" bodystart="55" bodyend="263"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a035c22b0954f4d2bbc06536215bd034d" prot="public" virt="virtual"><scope>themis::updates::HotReloadEngine</scope><name>applyHotReload</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a195965ae93a02e8d7d5f8c8fee6b00d0" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>atomicReplace</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1ab7aa0425a9cb93879410ea2593a01c3f" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>calculateFileHash</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1aa9ba7faee33fa028c26ec4e3b85c5dd8" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>cleanRollbackPoints</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a4a2f69bc209e809025fc6253d92c3ab3" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a00f9a74ff7ff166798efaa82023eebf0" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>createBackup</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a135bfae9faa846f872d09fdf2e78e64d" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>defaultConfig</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a02d967ced6bf26f8546435ed0e00a7c0" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>downloadFile</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a44488e14b9494a0228c2005eb9dd80f8" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>downloadRelease</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a49914f2e7c3f55d3ce89e180e3364eda" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>generateRollbackId</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1ade84a50046fcac4952315e046c699b1b" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>history_logger_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a1f476ebdb376e09bf50875779c91c635" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>historyLogger</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1aeb43b79498e115140e61976525aa5c6a" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>HotReloadEngine</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a4aa8723dca05419d99e2549e594f3817" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>isCompatibleUpgrade</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a14fe7a9d0af9126359cb38f8d41ac3d3" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>listRollbackPoints</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1abf4decee5b98b3d56bcc98647f2f4d5b" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>manifest_db_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1ae39bc865386379e4c26684b06a3159f9" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>manifest_db_mutex_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a2011b609cfb695955f01820aeda3b6f2" prot="protected" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>post_update_health_check_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a5715b1d78b912318606a66c2369794be" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>PostUpdateHealthCheck</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a6902998977cd426425869fee70acd606" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>progress_callback_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1ab9b8ad273ceafd46989329399daf4581" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>reportProgress</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a7edab47678434d4b06f8845fac42ee6a" prot="public" virt="virtual"><scope>themis::updates::HotReloadEngine</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a820f1d92ad960923019a4dbfb772d497" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>setPostUpdateHealthCheck</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a8acdf4e04cd0885d1172d18e475b712c" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>setProgressCallback</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1abfd87887d763f97303ecde10155abae6" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>update_checker_</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1acdc23e41dd2c375e176ac714df8a216f" prot="private" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>verifyDownloadedFile</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a360aa7951d24fef17d7e6dee040953b6" prot="public" virt="non-virtual"><scope>themis::updates::HotReloadEngine</scope><name>verifyRelease</name></member>
+      <member refid="classthemis_1_1updates_1_1_hot_reload_engine_1a58433507c803501ecd93afd442e72911" prot="public" virt="virtual"><scope>themis::updates::HotReloadEngine</scope><name>~HotReloadEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::FailoverCandidateDiagnostic</compoundname>
+    <includes refid="replication__failover__diagnostics_8h" local="no">replication_failover_diagnostics.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1_1_evaluation_steps" prot="public">themisdb::replication::FailoverCandidateDiagnostic::EvaluationSteps</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1af696e464cc8d63db6db1938211f8ab4f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::FailoverCandidateDiagnostic::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::FailoverCandidateDiagnostic::node_id</qualifiedname>
+        <briefdescription>
+<para>Replica node ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="48" column="17" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1a767f598e9f4ea84a14cf39e1a8e2eafa" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themisdb::replication::FailoverCandidateDiagnostic::ranking_score</definition>
+        <argsstring></argsstring>
+        <name>ranking_score</name>
+        <qualifiedname>themisdb::replication::FailoverCandidateDiagnostic::ranking_score</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Ranking score (higher is better). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="51" column="13" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1a8dcfafe914300464d9a74269e242b43f" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1_1_evaluation_steps" kindref="compound">themisdb::replication::FailoverCandidateDiagnostic::EvaluationSteps</ref></type>
+        <definition>struct themisdb::replication::FailoverCandidateDiagnostic::EvaluationSteps themisdb::replication::FailoverCandidateDiagnostic::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themisdb::replication::FailoverCandidateDiagnostic::steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="75" column="11"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1a342763b3032fee4f5c2faad15b8688eb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::FailoverCandidateDiagnostic::captured_at</definition>
+        <argsstring></argsstring>
+        <name>captured_at</name>
+        <qualifiedname>themisdb::replication::FailoverCandidateDiagnostic::captured_at</qualifiedname>
+        <briefdescription>
+<para>Timestamp when this diagnostic was captured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="78" column="43" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostic information about a failover candidate. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides transparency into the candidate selection process, enabling operators to understand why a particular replica was (or was not) selected during failover. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::replication::FailoverCandidateDiagnostic</label>
+        <link refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>steps</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::FailoverCandidateDiagnostic::EvaluationSteps</label>
+        <link refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1_1_evaluation_steps"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/replication_failover_diagnostics.h" line="46" column="1" bodyfile="include/replication/replication_failover_diagnostics.h" bodystart="46" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1a342763b3032fee4f5c2faad15b8688eb" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverCandidateDiagnostic</scope><name>captured_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1af696e464cc8d63db6db1938211f8ab4f" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverCandidateDiagnostic</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1a767f598e9f4ea84a14cf39e1a8e2eafa" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverCandidateDiagnostic</scope><name>ranking_score</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic_1a8dcfafe914300464d9a74269e242b43f" prot="public" virt="non-virtual"><scope>themisdb::replication::FailoverCandidateDiagnostic</scope><name>steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="chaos__admin__api__handler_8h" kind="file" language="C++">
+    <compoundname>chaos_admin_api_handler.h</compoundname>
+    <briefdescription>
+<para>Admin HTTP handler for Chaos Engineering fault injection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Exposes <computeroutput>themis::chaos::ChaosScheduler</computeroutput> as production admin/staging HTTP endpoints under <computeroutput>/admin/chaos/</computeroutput>. This header is the production consumer route for the <computeroutput>chaos</computeroutput> module — previously the module had only test consumers.</para>
+<para><heading level="3">Availability gate</heading>
+</para>
+<para>This handler is compiled only when <computeroutput>THEMIS_CHAOS_ADMIN=ON</computeroutput> is set at CMake configure time. It must <bold>never</bold> be enabled on production deployments without explicit operator approval; it is intended for development, staging, and SRE-controlled chaos test environments only.</para>
+<para><heading level="3">Routes</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><computeroutput>POST /admin/chaos/inject</computeroutput> — Inject a fault scenario.</para>
+</listitem><listitem><para><computeroutput>POST /admin/chaos/reset</computeroutput> — Clear all active fault injections.</para>
+</listitem><listitem><para><computeroutput>GET /admin/chaos/status</computeroutput> — Report active faults and counters.</para>
+</listitem><listitem><para><computeroutput>GET /admin/chaos/history</computeroutput> — List recent fault injection events.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Authentication</heading>
+</para>
+<para>All routes require <computeroutput>admin</computeroutput> role in the ******; validated by <computeroutput>AuthMiddleware</computeroutput>. Calls from non-admin tokens return HTTP 403.</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 INTEGRATION-READY (wiring to HttpServer pending) </para>
+</simplesect>
+<simplesect kind="note"><para>Compile gate: <computeroutput>THEMIS_CHAOS_ADMIN</computeroutput> </para>
+</simplesect>
+<simplesect kind="note"><para>Production consumer route for <computeroutput>src/chaos/</computeroutput> — see <computeroutput>src/chaos/ARCHITECTURE.md</computeroutput> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_CHAOS_ADMIN</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="auth__middleware_8h" kindref="compound">server/auth_middleware.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;chaos/chaos_framework.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/beast/http.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">beast<sp/>=<sp/>boost::beast;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/><sp/>=<sp/>beast::http;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ChaosAdminApiHandler<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>ChaosAdminApiHandler(</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::AuthMiddleware&gt;<sp/><sp/><sp/>auth,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::chaos::ChaosScheduler&gt;<sp/>sched);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>~ChaosAdminApiHandler();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ChaosAdminApiHandler(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ChaosAdminApiHandler&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>ChaosAdminApiHandler&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ChaosAdminApiHandler&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>handle(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>target);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>handleInject(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>handleReset(</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>handleStatus(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/>handleHistory(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>http::request&lt;http::string_body&gt;&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::AuthMiddleware&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>auth_;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::chaos::ChaosScheduler&gt;<sp/>scheduler_;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMIS_CHAOS_ADMIN</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/chaos_admin_api_handler.h"/>
+  </compounddef>
+</doxygen>

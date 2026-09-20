@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1test_1_1_mock_view" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::test::MockView</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1test_1_1_mock_view_1a1070c60e101a8255666112450fed0ab5" prot="public" static="no" mutable="no">
+        <type>float *</type>
+        <definition>float* themis::tensor::test::MockView::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::tensor::test::MockView::ptr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="103" column="11" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1test_1_1_mock_view_1aa2149412ef7ac3a4ff50613072b49a42" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::test::MockView::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::tensor::test::MockView::count</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="104" column="17" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1test_1_1_mock_view_1a1bcfc258c4bfe3b334b90e903f9ac7a7" prot="public" static="no" mutable="no">
+        <type>bool *</type>
+        <definition>bool* themis::tensor::test::MockView::parent_alive</definition>
+        <argsstring></argsstring>
+        <name>parent_alive</name>
+        <qualifiedname>themis::tensor::test::MockView::parent_alive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="105" column="11" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock non-owning view: points into parent data. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_contract_hardening_focused.cpp" line="102" column="1" bodyfile="tests/tensor/test_tensor_contract_hardening_focused.cpp" bodystart="102" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_view_1aa2149412ef7ac3a4ff50613072b49a42" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockView</scope><name>count</name></member>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_view_1a1bcfc258c4bfe3b334b90e903f9ac7a7" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockView</scope><name>parent_alive</name></member>
+      <member refid="structthemis_1_1tensor_1_1test_1_1_mock_view_1a1070c60e101a8255666112450fed0ab5" prot="public" virt="non-virtual"><scope>themis::tensor::test::MockView</scope><name>ptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

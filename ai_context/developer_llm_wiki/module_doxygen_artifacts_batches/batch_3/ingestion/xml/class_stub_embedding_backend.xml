@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_embedding_backend" kind="class" language="C++" prot="public">
+    <compoundname>StubEmbeddingBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1ingestion_1_1_i_embedding_backend" prot="public" virt="non-virtual">themis::ingestion::IEmbeddingBackend</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_embedding_backend_1a4804dea49e3efe94aefa87c296dabac1" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StubEmbeddingBackend::dims_</definition>
+        <argsstring></argsstring>
+        <name>dims_</name>
+        <qualifiedname>StubEmbeddingBackend::dims_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="232" column="9" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="232" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_embedding_backend_1ae4cbdbaf1927d40b5f5cc660a687fcc5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubEmbeddingBackend::StubEmbeddingBackend</definition>
+        <argsstring>(int dims=4)</argsstring>
+        <name>StubEmbeddingBackend</name>
+        <qualifiedname>StubEmbeddingBackend::StubEmbeddingBackend</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dims</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="224" column="14" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="224" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_embedding_backend_1a3c80536681d2ccf558f759c5cd41e59b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; StubEmbeddingBackend::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>StubEmbeddingBackend::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a95f1d0489a60aba4155f01dfacaf6dd3">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Compute a dense embedding for <computeroutput>text</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input text snippet (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dense embedding vector of <computeroutput><ref refid="class_stub_embedding_backend_1a909e4b0b85442667fb5a971d9f179497" kindref="member">dimensions()</ref></computeroutput> floats. Returns an empty vector on error; callers should check <computeroutput><ref refid="class_stub_embedding_backend_1a8ac8c3c951a5f6d9b9ea2c6a0a634118" kindref="member">isAvailable()</ref></computeroutput> before calling. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="225" column="17" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="225" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_embedding_backend_1a909e4b0b85442667fb5a971d9f179497" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>int</type>
+        <definition>int StubEmbeddingBackend::dimensions</definition>
+        <argsstring>() const override</argsstring>
+        <name>dimensions</name>
+        <qualifiedname>StubEmbeddingBackend::dimensions</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a09cd2b75ab5d9d5554b1c55116ef4ce7">dimensions</reimplements>
+        <briefdescription>
+<para>Number of dimensions in the embedding vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="228" column="10" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="228" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_embedding_backend_1a8ac8c3c951a5f6d9b9ea2c6a0a634118" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubEmbeddingBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>StubEmbeddingBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a9f4676d5dd4acbc5d2b15d7e16496dfe">isAvailable</reimplements>
+        <briefdescription>
+<para>Return true when the backend is ready for inference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="229" column="10" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="229" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_embedding_backend_1a2e18df54e71d5c5cce8f253834eda2aa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string StubEmbeddingBackend::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>StubEmbeddingBackend::description</qualifiedname>
+        <reimplements refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1aae20992657e8f1a600ae5ec38a1e194a">description</reimplements>
+        <briefdescription>
+<para>Human-readable backend description for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Example: &quot;multilingual-E5-base ONNX (768-d)&quot; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="230" column="17" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="230" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StubEmbeddingBackend</label>
+        <link refid="class_stub_embedding_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::IEmbeddingBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_embedding_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StubEmbeddingBackend</label>
+        <link refid="class_stub_embedding_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ingestion::IEmbeddingBackend</label>
+        <link refid="classthemis_1_1ingestion_1_1_i_embedding_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="222" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="222" bodyend="233"/>
+    <listofallmembers>
+      <member refid="class_stub_embedding_backend_1a2e18df54e71d5c5cce8f253834eda2aa" prot="public" virt="virtual"><scope>StubEmbeddingBackend</scope><name>description</name></member>
+      <member refid="class_stub_embedding_backend_1a909e4b0b85442667fb5a971d9f179497" prot="public" virt="virtual"><scope>StubEmbeddingBackend</scope><name>dimensions</name></member>
+      <member refid="class_stub_embedding_backend_1a4804dea49e3efe94aefa87c296dabac1" prot="private" virt="non-virtual"><scope>StubEmbeddingBackend</scope><name>dims_</name></member>
+      <member refid="class_stub_embedding_backend_1a3c80536681d2ccf558f759c5cd41e59b" prot="public" virt="virtual"><scope>StubEmbeddingBackend</scope><name>embed</name></member>
+      <member refid="class_stub_embedding_backend_1a8ac8c3c951a5f6d9b9ea2c6a0a634118" prot="public" virt="virtual"><scope>StubEmbeddingBackend</scope><name>isAvailable</name></member>
+      <member refid="class_stub_embedding_backend_1ae4cbdbaf1927d40b5f5cc660a687fcc5" prot="public" virt="non-virtual"><scope>StubEmbeddingBackend</scope><name>StubEmbeddingBackend</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_i_embedding_backend_1a4c03a603c5e4add5c45fa3cacdc5eaad" prot="public" virt="virtual"><scope>StubEmbeddingBackend</scope><name>~IEmbeddingBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

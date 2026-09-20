@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_list_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::config::LRUCacheWithTTL::ListEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_list_entry_1a580e9732dc4eb880deb5d032cf276385" prot="public" static="no" mutable="no">
+        <type>Key</type>
+        <definition>Key themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::ListEntry::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::ListEntry::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="205" column="13" bodyfile="include/config/lru_cache.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_list_entry_1ad9fe8c429a9f23c26c17f6df4bd6360e" prot="public" static="no" mutable="no">
+        <type>Value</type>
+        <definition>Value themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::ListEntry::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::ListEntry::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="206" column="15" bodyfile="include/config/lru_cache.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_list_entry_1ab3cf933b2048a6a29b8513f94542c923" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1a48723d7e4665710f70031cba61ef85ec" kindref="member">TimePoint</ref></type>
+        <definition>TimePoint themis::config::LRUCacheWithTTL&lt; Key, Value &gt;::ListEntry::expires_at</definition>
+        <argsstring></argsstring>
+        <name>expires_at</name>
+        <qualifiedname>themis::config::LRUCacheWithTTL::ListEntry::expires_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/lru_cache.h" line="207" column="19" bodyfile="include/config/lru_cache.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/lru_cache.h" line="204" column="5" bodyfile="include/config/lru_cache.h" bodystart="204" bodyend="208"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_list_entry_1ab3cf933b2048a6a29b8513f94542c923" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::ListEntry</scope><name>expires_at</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_list_entry_1a580e9732dc4eb880deb5d032cf276385" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::ListEntry</scope><name>key</name></member>
+      <member refid="structthemis_1_1config_1_1_l_r_u_cache_with_t_t_l_1_1_list_entry_1ad9fe8c429a9f23c26c17f6df4bd6360e" prot="public" virt="non-virtual"><scope>themis::config::LRUCacheWithTTL::ListEntry</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

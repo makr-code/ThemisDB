@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::QoSManager::TcConfig</compoundname>
+    <includes refid="qos__manager_8h" local="no">qos_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1a3a03143e02e6a7568b6bccea23a1427a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::QoSManager::TcConfig::interface_name</definition>
+        <argsstring></argsstring>
+        <name>interface_name</name>
+        <qualifiedname>themis::network::QoSManager::TcConfig::interface_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Network interface to configure (e.g. &quot;eth0&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="535" column="21" bodyfile="include/network/qos_manager.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1ae3d8023495d63f1d70547390b1f740f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::QoSManager::TcConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::network::QoSManager::TcConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable tc integration (Linux only; no-op on other platforms). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="538" column="14" bodyfile="include/network/qos_manager.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1adc7cc23377693862da10e4393b3a0405" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::QoSManager::TcConfig::total_rate_bps</definition>
+        <argsstring></argsstring>
+        <name>total_rate_bps</name>
+        <qualifiedname>themis::network::QoSManager::TcConfig::total_rate_bps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total bandwidth allocated on the interface (bps). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="541" column="18" bodyfile="include/network/qos_manager.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for Linux Traffic Control (tc) integration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/qos_manager.h" line="533" column="5" bodyfile="include/network/qos_manager.h" bodystart="533" bodyend="542"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1ae3d8023495d63f1d70547390b1f740f8" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TcConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1a3a03143e02e6a7568b6bccea23a1427a" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TcConfig</scope><name>interface_name</name></member>
+      <member refid="structthemis_1_1network_1_1_qo_s_manager_1_1_tc_config_1adc7cc23377693862da10e4393b3a0405" prot="public" virt="non-virtual"><scope>themis::network::QoSManager::TcConfig</scope><name>total_rate_bps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

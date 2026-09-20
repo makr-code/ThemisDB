@@ -1,0 +1,427 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ssm__state__store_8h" kind="file" language="C++">
+    <compoundname>ssm_state_store.h</compoundname>
+    <includes refid="i__ssm__plugin_8h" local="yes">llm/i_ssm_plugin.h</includes>
+    <includes local="yes">storage/hlc.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="llm__plugin__manager_8h" local="yes">include/llm/llm_plugin_manager.h</includedby>
+    <includedby refid="ssm__state__rocksdb__store_8h" local="yes">include/llm/ssm_state_rocksdb_store.h</includedby>
+    <includedby refid="ssm__stub__plugin_8h" local="yes">include/llm/ssm_stub_plugin.h</includedby>
+    <includedby refid="ssm__state__store_8cpp" local="yes">src/llm/ssm_state_store.cpp</includedby>
+    <includedby refid="test__ssm__plugin__interface_8cpp" local="yes">tests/llm/test_ssm_plugin_interface.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm/i_ssm_plugin.h</label>
+        <link refid="i__ssm__plugin_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/ssm_state_store.h</label>
+        <link refid="ssm__state__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>core/timestamp.h</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="16">
+        <label>storage/hlc.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/llm/bench_llm_raid_pipeline.cpp</label>
+        <link refid="bench__llm__raid__pipeline_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/llm/llm_ingestion_bridge.h</label>
+        <link refid="llm__ingestion__bridge_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/llm_plugin_manager.h</label>
+        <link refid="llm__plugin__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/llm/ssm_state_rocksdb_store.h</label>
+        <link refid="ssm__state__rocksdb__store_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/ssm_state_store.h</label>
+        <link refid="ssm__state__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/llm/ssm_stub_plugin.h</label>
+        <link refid="ssm__stub__plugin_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>src/llm/docs_assistant.cpp</label>
+        <link refid="docs__assistant_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/llm_client_default.cpp</label>
+        <link refid="llm__client__default_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/llm_ingestion_bridge.cpp</label>
+        <link refid="llm__ingestion__bridge_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/llm_plugin_manager.cpp</label>
+        <link refid="llm__plugin__manager_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/llm/ssm_state_rocksdb_store.cpp</label>
+        <link refid="ssm__state__rocksdb__store_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/llm/ssm_state_store.cpp</label>
+        <link refid="ssm__state__store_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/llm/ssm_stub_plugin.cpp</label>
+        <link refid="ssm__stub__plugin_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/llm/test_llm_aql_explain_stream_api.cpp</label>
+        <link refid="test__llm__aql__explain__stream__api_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/llm/test_llm_aql_handler.cpp</label>
+        <link refid="test__llm__aql__handler_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/llm/test_llm_gossip_adapter_publisher.cpp</label>
+        <link refid="test__llm__gossip__adapter__publisher_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/llm/test_llm_model_path_traversal.cpp</label>
+        <link refid="test__llm__model__path__traversal_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/llm/test_llm_phase5_hardening.cpp</label>
+        <link refid="test__llm__phase5__hardening_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/llm/test_llm_plugin.cpp</label>
+        <link refid="test__llm__plugin_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/llm/test_metrics_server_wiring.cpp</label>
+        <link refid="test__metrics__server__wiring_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/llm/test_openai_compat_adapter.cpp</label>
+        <link refid="test__openai__compat__adapter_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/llm/test_ssm_plugin_interface.cpp</label>
+        <link refid="test__ssm__plugin__interface_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/llm/test_ssm_rocksdb_store.cpp</label>
+        <link refid="test__ssm__rocksdb__store_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/llm/test_wave5_llm_stubs.cpp</label>
+        <link refid="test__wave5__llm__stubs_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/llm/test_wave_next_llm_threadsafety.cpp</label>
+        <link refid="test__wave__next__llm__threadsafety_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_i_s_s_m_state_store" prot="public">themis::llm::ISSMStateStore</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store" prot="public">themis::llm::InMemorySSMStateStore</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>SSM state persistence interface for ThemisDB LLM stack. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0-alpha </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: EXPERIMENTAL (Phase 1 PoC) </para>
+</simplesect>
+<simplesect kind="note"><para>Status: In-memory implementation only </para>
+</simplesect>
+<simplesect kind="note"><para>This file is auto-generated and will be updated per Phase 1 gates. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="i__ssm__plugin_8h" kindref="compound">llm/i_ssm_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/hlc.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1llm_1_1_i_s_s_m_state_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store" kindref="compound">ISSMStateStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a885727007764981a42486f792f059024" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a885727007764981a42486f792f059024" kindref="member">~ISSMStateStore</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4e60ff6ad46841495b8274f605b72ce6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4e60ff6ad46841495b8274f605b72ce6" kindref="member">checkpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref>&amp;<sp/>snapshot)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a7d520be67201a61955405215bcb9ec8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;SSMStateSnapshot&gt;<sp/><ref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a7d520be67201a61955405215bcb9ec8b" kindref="member">resume</ref>(</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;HLCTimestamp&gt;&amp;<sp/>snapshot_ts<sp/>=<sp/>std::nullopt)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4c26c6b2a920d4111506f01841c32f02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1a4c26c6b2a920d4111506f01841c32f02" kindref="member">invalidate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ae5150687cbca614d4a6c4139281233b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ae5150687cbca614d4a6c4139281233b5" kindref="member">compact</ref>(uint64_t<sp/>retention_window_ms)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ad398a86b16c0cfe4a84ca387a7f0eb9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store_1ad398a86b16c0cfe4a84ca387a7f0eb9a" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afa073c79956e496afe66fd5debe016b1" kindref="member">InMemorySSMStateStore</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_i_s_s_m_state_store" kindref="compound">ISSMStateStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afa073c79956e496afe66fd5debe016b1" kindref="member">InMemorySSMStateStore</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_snapshots_per_session<sp/>=<sp/>10);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1ab495eaf5392eaa6dbdf105d865bc3b6b" kindref="member">checkpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref>&amp;<sp/>snapshot)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SSMStateSnapshot&gt;<sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aae7b393a25d76f8fc56a3bf6a37d6447" kindref="member">resume</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;HLCTimestamp&gt;&amp;<sp/>snapshot_ts<sp/>=</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::nullopt)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1a5bab218c152f68e3330790cbb17cabf9" kindref="member">invalidate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aed7f42fcd76868dc1620708e539934bf" kindref="member">compact</ref>(uint64_t<sp/>retention_window_ms)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afd91f8f36ce13718ad15d6e391ef27d4" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::vector&lt;SSMStateSnapshot&gt;&gt;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state_by_session_;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_snapshots_per_session_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mu_;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Inline<sp/>simple<sp/>implementation<sp/>for<sp/>InMemorySSMStateStore<sp/>(phase-1)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afa073c79956e496afe66fd5debe016b1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afa073c79956e496afe66fd5debe016b1" kindref="member">InMemorySSMStateStore::InMemorySSMStateStore</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_snapshots_per_session)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>:<sp/>max_snapshots_per_session_(max_snapshots_per_session)<sp/>{}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1ab495eaf5392eaa6dbdf105d865bc3b6b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1ab495eaf5392eaa6dbdf105d865bc3b6b" kindref="member">InMemorySSMStateStore::checkpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot" kindref="compound">SSMStateSnapshot</ref>&amp;<sp/>snapshot)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;vec<sp/>=<sp/>state_by_session_[session_id];</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>duplicate<sp/>timestamp<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;s<sp/>:<sp/>vec)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.snapshot_ts<sp/>==<sp/>snapshot.<ref refid="structthemis_1_1llm_1_1_s_s_m_state_snapshot_1a03044dbbafae15df0d89fbff65d6b5e1" kindref="member">snapshot_ts</ref>)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>vec.push_back(snapshot);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(vec.size()<sp/>&gt;<sp/>max_snapshots_per_session_)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>vec.erase(vec.begin());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aae7b393a25d76f8fc56a3bf6a37d6447" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::optional&lt;SSMStateSnapshot&gt;<sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aae7b393a25d76f8fc56a3bf6a37d6447" kindref="member">InMemorySSMStateStore::resume</ref>(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;HLCTimestamp&gt;&amp;<sp/>snapshot_ts)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>state_by_session_.find(session_id);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>state_by_session_.end()<sp/>||<sp/>it-&gt;second.empty())<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(snapshot_ts.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;s<sp/>:<sp/>it-&gt;second)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s.snapshot_ts<sp/>==<sp/>snapshot_ts.value())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second.back();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1a5bab218c152f68e3330790cbb17cabf9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1a5bab218c152f68e3330790cbb17cabf9" kindref="member">InMemorySSMStateStore::invalidate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>session_id)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>state_by_session_.erase(session_id)<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aed7f42fcd76868dc1620708e539934bf" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1aed7f42fcd76868dc1620708e539934bf" kindref="member">InMemorySSMStateStore::compact</ref>(uint64_t<sp/></highlight><highlight class="comment">/*retention_window_ms*/</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase1:<sp/>no-op</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afd91f8f36ce13718ad15d6e391ef27d4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_in_memory_s_s_m_state_store_1afd91f8f36ce13718ad15d6e391ef27d4" kindref="member">InMemorySSMStateStore::getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sessions<sp/>=<sp/>state_by_session_.size();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>&amp;p<sp/>:<sp/>state_by_session_)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>total<sp/>+=<sp/>p.second.size();</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;{\&quot;sessions\&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(sessions)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;,<sp/>\&quot;snapshots\&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(total)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/ssm_state_store.h"/>
+  </compounddef>
+</doxygen>

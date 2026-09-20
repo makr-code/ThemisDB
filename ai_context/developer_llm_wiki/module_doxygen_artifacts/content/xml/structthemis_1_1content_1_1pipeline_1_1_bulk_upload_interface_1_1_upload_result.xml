@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::pipeline::BulkUploadInterface::UploadResult</compoundname>
+    <includes refid="bulk__upload__interface_8h" local="no">bulk_upload_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ae84fd50f9293fa7f43c69de0fdbd9bbe" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" kindref="member">UploadStatus</ref></type>
+        <definition>UploadStatus themis::content::pipeline::BulkUploadInterface::UploadResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::UploadResult::status</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbac69f06e1a9b016d133907b4e5f5864d2" kindref="member">UploadStatus::PENDING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="45" column="22" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ad1f8c11361610ac00d974494632da8e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::pipeline::BulkUploadInterface::UploadResult::content_id</definition>
+        <argsstring></argsstring>
+        <name>content_id</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::UploadResult::content_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="46" column="21" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1a70bd7a8041a53be5aa1bf4473504047a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::pipeline::BulkUploadInterface::UploadResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::UploadResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="47" column="21" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ab85affddf6100b41e315ead606247653" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::pipeline::BulkUploadInterface::UploadResult::bytes_uploaded</definition>
+        <argsstring></argsstring>
+        <name>bytes_uploaded</name>
+        <qualifiedname>themis::content::pipeline::BulkUploadInterface::UploadResult::bytes_uploaded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pipeline/bulk_upload_interface.h" line="48" column="16" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pipeline/bulk_upload_interface.h" line="44" column="5" bodyfile="include/content/pipeline/bulk_upload_interface.h" bodystart="44" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ab85affddf6100b41e315ead606247653" prot="public" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface::UploadResult</scope><name>bytes_uploaded</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ad1f8c11361610ac00d974494632da8e6" prot="public" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface::UploadResult</scope><name>content_id</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1a70bd7a8041a53be5aa1bf4473504047a" prot="public" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface::UploadResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ae84fd50f9293fa7f43c69de0fdbd9bbe" prot="public" virt="non-virtual"><scope>themis::content::pipeline::BulkUploadInterface::UploadResult</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

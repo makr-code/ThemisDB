@@ -1,0 +1,990 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_federation" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryFederation</compoundname>
+    <includes refid="query__federation_8h" local="no">query_federation.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_query_federation_1_1_config" prot="public">themis::query::QueryFederation::Config</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan" prot="public">themis::query::QueryFederation::ExecutionPlan</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" prot="public">themis::query::QueryFederation::QueryMetadata</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a9c0ca592a154ee9915b502f87922bbda" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::ShardRouter &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::ShardRouter&gt; themis::query::QueryFederation::shard_router_</definition>
+        <argsstring></argsstring>
+        <name>shard_router_</name>
+        <qualifiedname>themis::query::QueryFederation::shard_router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="153" column="21" bodyfile="include/query/query_federation.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a3d594d473b1466f895a8511548000c72" prot="public" static="no" mutable="no">
+        <type>sharding::ShardingManager *</type>
+        <definition>sharding::ShardingManager* themis::query::QueryFederation::sharding_manager_</definition>
+        <argsstring></argsstring>
+        <name>sharding_manager_</name>
+        <qualifiedname>themis::query::QueryFederation::sharding_manager_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="155" column="31" bodyfile="include/query/query_federation.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a46f4c9015463d1cc46b9f40c8fde8e68" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_federation_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::query::QueryFederation::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::query::QueryFederation::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="156" column="12" bodyfile="include/query/query_federation.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a61fad084814e84aeb0ccb2587ac65a9e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::QueryFederation::total_queries_</definition>
+        <argsstring></argsstring>
+        <name>total_queries_</name>
+        <qualifiedname>themis::query::QueryFederation::total_queries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="159" column="17" bodyfile="include/query/query_federation.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1aeb4288d1ce45bd5b8138d99d52a8ea5e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::QueryFederation::scatter_gather_queries_</definition>
+        <argsstring></argsstring>
+        <name>scatter_gather_queries_</name>
+        <qualifiedname>themis::query::QueryFederation::scatter_gather_queries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="160" column="17" bodyfile="include/query/query_federation.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a50a211c6145a7656aedd3ff452f7e05d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::QueryFederation::partition_pruned_queries_</definition>
+        <argsstring></argsstring>
+        <name>partition_pruned_queries_</name>
+        <qualifiedname>themis::query::QueryFederation::partition_pruned_queries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="161" column="17" bodyfile="include/query/query_federation.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1ad056e062f145e75fa187187df4824349" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::QueryFederation::broadcast_joins_</definition>
+        <argsstring></argsstring>
+        <name>broadcast_joins_</name>
+        <qualifiedname>themis::query::QueryFederation::broadcast_joins_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="162" column="17" bodyfile="include/query/query_federation.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a0828270d5817ff17b14b304262719d95" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::query::QueryFederation::shuffle_joins_</definition>
+        <argsstring></argsstring>
+        <name>shuffle_joins_</name>
+        <qualifiedname>themis::query::QueryFederation::shuffle_joins_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="163" column="17" bodyfile="include/query/query_federation.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a37f170c885800d833c8d7914db04a7c7" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::QueryFederation::routing_mutex_</definition>
+        <argsstring></argsstring>
+        <name>routing_mutex_</name>
+        <qualifiedname>themis::query::QueryFederation::routing_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="164" column="24" bodyfile="include/query/query_federation.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a8aadd5003bf3f0c9622701ac9c27130d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; distributed_knowledge::FederatedRAGMerger &gt;</type>
+        <definition>std::shared_ptr&lt;distributed_knowledge::FederatedRAGMerger&gt; themis::query::QueryFederation::rag_merger_</definition>
+        <argsstring></argsstring>
+        <name>rag_merger_</name>
+        <qualifiedname>themis::query::QueryFederation::rag_merger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="167" column="21" bodyfile="include/query/query_federation.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_federation_1a04bc66ef97a1375b0e91cda2169bc0e2" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; sharding::AdaptiveShardRouter &gt;</type>
+        <definition>std::shared_ptr&lt;sharding::AdaptiveShardRouter&gt; themis::query::QueryFederation::adaptive_router_</definition>
+        <argsstring></argsstring>
+        <name>adaptive_router_</name>
+        <qualifiedname>themis::query::QueryFederation::adaptive_router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="168" column="33" bodyfile="include/query/query_federation.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a93fda616626e390ba0eaca2771bd3745" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryFederation::QueryFederation</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::ShardRouter &gt; shard_router)</argsstring>
+        <name>QueryFederation</name>
+        <qualifiedname>themis::query::QueryFederation::QueryFederation</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRouter &gt;</type>
+          <declname>shard_router</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="68" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1aff32bc21a913193571fddaf04b2da2d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryFederation::QueryFederation</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::ShardRouter &gt; shard_router, const Config &amp;config)</argsstring>
+        <name>QueryFederation</name>
+        <qualifiedname>themis::query::QueryFederation::QueryFederation</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRouter &gt;</type>
+          <declname>shard_router</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_federation_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="70" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a76981e55d93914e7cfc6797b62dc8a9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryFederation::QueryFederation</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::ShardRouter &gt; shard_router, sharding::ShardingManager &amp;sharding_manager)</argsstring>
+        <name>QueryFederation</name>
+        <qualifiedname>themis::query::QueryFederation::QueryFederation</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRouter &gt;</type>
+          <declname>shard_router</declname>
+        </param>
+        <param>
+          <type>sharding::ShardingManager &amp;</type>
+          <declname>sharding_manager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="75" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a738035faa174dbad4c3a7ef2b7daa063" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryFederation::QueryFederation</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::ShardRouter &gt; shard_router, sharding::ShardingManager &amp;sharding_manager, const Config &amp;config)</argsstring>
+        <name>QueryFederation</name>
+        <qualifiedname>themis::query::QueryFederation::QueryFederation</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::ShardRouter &gt;</type>
+          <declname>shard_router</declname>
+        </param>
+        <param>
+          <type>sharding::ShardingManager &amp;</type>
+          <declname>sharding_manager</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_federation_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a56ac820632bc1b9957379f117985f999" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryFederation::setRAGMerger</definition>
+        <argsstring>(std::shared_ptr&lt; distributed_knowledge::FederatedRAGMerger &gt; merger)</argsstring>
+        <name>setRAGMerger</name>
+        <qualifiedname>themis::query::QueryFederation::setRAGMerger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; distributed_knowledge::FederatedRAGMerger &gt;</type>
+          <declname>merger</declname>
+        </param>
+        <briefdescription>
+<para>── DK-4: Federated RAG merge (Layer C) ───────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set RAGMerger.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">merger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="91" column="10" bodyfile="src/query/query_federation.cpp" bodystart="212" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1ae0b0ac2102f0605c9d23647e5186b3f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryFederation::setShardRouter</definition>
+        <argsstring>(std::shared_ptr&lt; sharding::AdaptiveShardRouter &gt; router)</argsstring>
+        <name>setShardRouter</name>
+        <qualifiedname>themis::query::QueryFederation::setShardRouter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; sharding::AdaptiveShardRouter &gt;</type>
+          <declname>router</declname>
+        </param>
+        <briefdescription>
+<para>Set Shard Router. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">router</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="98" column="10" bodyfile="src/query/query_federation.cpp" bodystart="222" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a8d0a05397d62fc87d05558f4464171e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>distributed_knowledge::MergedRAGContext</type>
+        <definition>distributed_knowledge::MergedRAGContext themis::query::QueryFederation::mergeRAGResults</definition>
+        <argsstring>(const std::vector&lt; distributed_knowledge::ShardRetrievalResult &gt; &amp;shard_results) const</argsstring>
+        <name>mergeRAGResults</name>
+        <qualifiedname>themis::query::QueryFederation::mergeRAGResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; distributed_knowledge::ShardRetrievalResult &gt; &amp;</type>
+          <declname>shard_results</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="101" column="46" bodyfile="src/query/query_federation.cpp" bodystart="228" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a6ff104c47d97ebce4479bbd3dcbeb31a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>distributed_knowledge::MergedRAGContext</type>
+        <definition>distributed_knowledge::MergedRAGContext themis::query::QueryFederation::executeFederatedRAGQuery</definition>
+        <argsstring>(const std::string &amp;query, distributed_knowledge::AdapterDomainType domain=distributed_knowledge::AdapterDomainType::GENERAL)</argsstring>
+        <name>executeFederatedRAGQuery</name>
+        <qualifiedname>themis::query::QueryFederation::executeFederatedRAGQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>distributed_knowledge::AdapterDomainType</type>
+          <declname>domain</declname>
+          <defval>distributed_knowledge::AdapterDomainType::GENERAL</defval>
+        </param>
+        <briefdescription>
+<para>Execute Federated RAGQuery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="105" column="46" bodyfile="src/query/query_federation.cpp" bodystart="245" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a1ece4c38f674a21d6dd90b06e7e12b83" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryFederation::execute</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::QueryFederation::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>── Standard execution ─────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), spdlog::info(), substr(), <ref refid="classthemis_1_1query_1_1_query_federation_1adabaa497a9f815cb12bd7939b32773df" kindref="member">analyzeQuery()</ref>, join_keyword_regex(), std::regex_search(), empty(), <ref refid="classthemis_1_1query_1_1_query_federation_1abab431bfd1123df3a85e37b63b001bd0" kindref="member">createExecutionPlan()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="117" column="20" bodyfile="src/query/query_federation.cpp" bodystart="357" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1abab431bfd1123df3a85e37b63b001bd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_federation_1_1_execution_plan" kindref="compound">ExecutionPlan</ref></type>
+        <definition>QueryFederation::ExecutionPlan themis::query::QueryFederation::createExecutionPlan</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>createExecutionPlan</name>
+        <qualifiedname>themis::query::QueryFederation::createExecutionPlan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Create Execution Plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_query_federation_1adabaa497a9f815cb12bd7939b32773df" kindref="member">analyzeQuery()</ref>, empty(), size(), <ref refid="classthemis_1_1query_1_1_query_federation_1a32542a9979546919706568d3dfb665a9" kindref="member">estimateCollectionSize()</ref>, std::min(), spdlog::debug(), has_value(), <ref refid="classthemis_1_1query_1_1_query_federation_1ab3853825f6ab1967538f95594f1126db" kindref="member">determineRelevantShards()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="124" column="19" bodyfile="src/query/query_federation.cpp" bodystart="552" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1ac8f2ae91859a339dc720901f7e6ffb46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryFederation::executeJoin</definition>
+        <argsstring>(const std::string &amp;left_collection, const std::string &amp;right_collection, const std::string &amp;join_condition)</argsstring>
+        <name>executeJoin</name>
+        <qualifiedname>themis::query::QueryFederation::executeJoin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>left_collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>right_collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>join_condition</declname>
+        </param>
+        <briefdescription>
+<para>Execute Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">join_condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">left_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right_collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">join_condition</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: isValidAqlIdentifier(), find_first_not_of(), spdlog::info(), <ref refid="classthemis_1_1query_1_1_query_federation_1a32542a9979546919706568d3dfb665a9" kindref="member">estimateCollectionSize()</ref>, nlohmann::json::array(), find_last_not_of(), substr(), rfind(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="133" column="20" bodyfile="src/query/query_federation.cpp" bodystart="628" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a64c69392375144fb48db2984e1d24ac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryFederation::executeAggregation</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>executeAggregation</name>
+        <qualifiedname>themis::query::QueryFederation::executeAggregation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute Aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), substr(), scatterGather(), std::sort(), begin(), end(), nlohmann::json::object(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="144" column="20" bodyfile="src/query/query_federation.cpp" bodystart="869" bodyend="912"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a1d1ca12f810c4715e5066e39e4dab363" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryFederation::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::query::QueryFederation::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="150" column="20" bodyfile="src/query/query_federation.cpp" bodystart="914" bodyend="931"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1adabaa497a9f815cb12bd7939b32773df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref></type>
+        <definition>QueryFederation::QueryMetadata themis::query::QueryFederation::analyzeQuery</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>analyzeQuery</name>
+        <qualifiedname>themis::query::QueryFederation::analyzeQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Analyze <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(), std::toupper(), empty(), std::find(), push_back(), re_for(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="213" column="19" bodyfile="src/query/query_federation.cpp" bodystart="939" bodyend="1206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1ab3853825f6ab1967538f95594f1126db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::query::QueryFederation::determineRelevantShards</definition>
+        <argsstring>(const QueryMetadata &amp;metadata)</argsstring>
+        <name>determineRelevantShards</name>
+        <qualifiedname>themis::query::QueryFederation::determineRelevantShards</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Determine Relevant Shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::sort(), begin(), end(), erase(), std::unique(), empty(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="219" column="17" bodyfile="src/query/query_federation.cpp" bodystart="1214" bodyend="1311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a4cd7bca59a8e4bfe405aa02dd67c614d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryFederation::rewriteQueryForShard</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;shard_id)</argsstring>
+        <name>rewriteQueryForShard</name>
+        <qualifiedname>themis::query::QueryFederation::rewriteQueryForShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Rewrite <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> For Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements rewriteQueryForShard without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="227" column="17" bodyfile="src/query/query_federation.cpp" bodystart="1320" bodyend="1333"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a623bfa2778354a1deac243924535e2f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryFederation::mergeResults</definition>
+        <argsstring>(const std::vector&lt; sharding::ShardResult &gt; &amp;results, const QueryMetadata &amp;metadata)</argsstring>
+        <name>mergeResults</name>
+        <qualifiedname>themis::query::QueryFederation::mergeResults</qualifiedname>
+        <param>
+          <type>const std::vector&lt; sharding::ShardResult &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Merge Results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::array(), dump(), size(), enforceAccumulatedSizeLimit(), push_back(), reserve(), emplace_back(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="235" column="20" bodyfile="src/query/query_federation.cpp" bodystart="1342" bodyend="1395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a13c0e899aa1067cf60a8586a396a3742" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::QueryFederation::applyGlobalOperations</definition>
+        <argsstring>(const nlohmann::json &amp;merged, const QueryMetadata &amp;metadata)</argsstring>
+        <name>applyGlobalOperations</name>
+        <qualifiedname>themis::query::QueryFederation::applyGlobalOperations</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>merged</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_query_federation_1_1_query_metadata" kindref="compound">QueryMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Apply Global Operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">merged</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">merged</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_array(), has_value(), reserve(), size(), push_back(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="246" column="20" bodyfile="src/query/query_federation.cpp" bodystart="1404" bodyend="1458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_federation_1a32542a9979546919706568d3dfb665a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::query::QueryFederation::estimateCollectionSize</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>estimateCollectionSize</name>
+        <qualifiedname>themis::query::QueryFederation::estimateCollectionSize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Collection Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements estimateCollectionSize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_federation.h" line="256" column="14" bodyfile="src/query/query_federation.cpp" bodystart="1466" bodyend="1472"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::QueryFederation</label>
+        <link refid="classthemis_1_1query_1_1_query_federation"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::QueryFederation::Config</label>
+        <link refid="structthemis_1_1query_1_1_query_federation_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_federation.h" line="30" column="1" bodyfile="include/query/query_federation.h" bodystart="30" bodyend="257"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a04bc66ef97a1375b0e91cda2169bc0e2" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>adaptive_router_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1adabaa497a9f815cb12bd7939b32773df" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>analyzeQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a13c0e899aa1067cf60a8586a396a3742" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>applyGlobalOperations</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1ad056e062f145e75fa187187df4824349" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>broadcast_joins_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a46f4c9015463d1cc46b9f40c8fde8e68" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>config_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1abab431bfd1123df3a85e37b63b001bd0" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>createExecutionPlan</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1ab3853825f6ab1967538f95594f1126db" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>determineRelevantShards</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a32542a9979546919706568d3dfb665a9" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>estimateCollectionSize</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a1ece4c38f674a21d6dd90b06e7e12b83" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a64c69392375144fb48db2984e1d24ac0" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>executeAggregation</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a6ff104c47d97ebce4479bbd3dcbeb31a" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>executeFederatedRAGQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1ac8f2ae91859a339dc720901f7e6ffb46" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>executeJoin</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a1d1ca12f810c4715e5066e39e4dab363" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a8d0a05397d62fc87d05558f4464171e4" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>mergeRAGResults</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a623bfa2778354a1deac243924535e2f0" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>mergeResults</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a50a211c6145a7656aedd3ff452f7e05d" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>partition_pruned_queries_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a93fda616626e390ba0eaca2771bd3745" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>QueryFederation</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1aff32bc21a913193571fddaf04b2da2d4" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>QueryFederation</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a76981e55d93914e7cfc6797b62dc8a9d" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>QueryFederation</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a738035faa174dbad4c3a7ef2b7daa063" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>QueryFederation</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a8aadd5003bf3f0c9622701ac9c27130d" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>rag_merger_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a4cd7bca59a8e4bfe405aa02dd67c614d" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>rewriteQueryForShard</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a37f170c885800d833c8d7914db04a7c7" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>routing_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1aeb4288d1ce45bd5b8138d99d52a8ea5e" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>scatter_gather_queries_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a56ac820632bc1b9957379f117985f999" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>setRAGMerger</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1ae0b0ac2102f0605c9d23647e5186b3f5" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>setShardRouter</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a9c0ca592a154ee9915b502f87922bbda" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>shard_router_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a3d594d473b1466f895a8511548000c72" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>sharding_manager_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a0828270d5817ff17b14b304262719d95" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>shuffle_joins_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_federation_1a61fad084814e84aeb0ccb2587ac65a9e" prot="public" virt="non-virtual"><scope>themis::query::QueryFederation</scope><name>total_queries_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

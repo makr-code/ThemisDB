@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_adapter_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdapterDescriptor</compoundname>
+    <includes refid="lora__adapter__merger_8h" local="no">lora_adapter_merger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_descriptor_1ab4e8a9bf794f1ffb2d2e189302f81042" prot="public" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref> *</type>
+        <definition>const LoRAAdapter* themis::training::AdapterDescriptor::adapter</definition>
+        <argsstring></argsstring>
+        <name>adapter</name>
+        <qualifiedname>themis::training::AdapterDescriptor::adapter</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Pointer to the adapter (non-owning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="28" column="23" bodyfile="include/training/lora_adapter_merger.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_descriptor_1aae4ef209905aac300730b7bf10724f50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdapterDescriptor::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::training::AdapterDescriptor::layer_name</qualifiedname>
+        <briefdescription>
+<para>Layer name within the adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="29" column="24" bodyfile="include/training/lora_adapter_merger.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_descriptor_1a2a2298ff1e5c5dc7697247dfc861155e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::AdapterDescriptor::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::training::AdapterDescriptor::weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Blend weight (used by linear merge). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter_merger.h" line="30" column="24" bodyfile="include/training/lora_adapter_merger.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor of one adapter participating in a merge. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::training::AdapterDescriptor</label>
+        <link refid="structthemis_1_1training_1_1_adapter_descriptor"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>adapter</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::LoRAAdapter</label>
+        <link refid="classthemis_1_1training_1_1_lo_r_a_adapter"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/lora_adapter_merger.h" line="27" column="1" bodyfile="include/training/lora_adapter_merger.h" bodystart="27" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_adapter_descriptor_1ab4e8a9bf794f1ffb2d2e189302f81042" prot="public" virt="non-virtual"><scope>themis::training::AdapterDescriptor</scope><name>adapter</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_descriptor_1aae4ef209905aac300730b7bf10724f50" prot="public" virt="non-virtual"><scope>themis::training::AdapterDescriptor</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_descriptor_1a2a2298ff1e5c5dc7697247dfc861155e" prot="public" virt="non-virtual"><scope>themis::training::AdapterDescriptor</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

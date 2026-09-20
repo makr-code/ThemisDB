@@ -1,0 +1,1030 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_audit_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceAuditLogger</compoundname>
+    <includes refid="voice__audit__logger_8h" local="no">voice_audit_logger.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config" prot="public">themis::voice::VoiceAuditLogger::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_audit_logger_1ab225e362ba05e591e2f63020be6ed343" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::voice::VoiceAuditLogger::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="215" column="12" bodyfile="include/voice/voice_audit_logger.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_audit_logger_1aad57b3b21cf7d4da2e984519304c8647" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceAuditLogger::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="216" column="24" bodyfile="include/voice/voice_audit_logger.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_audit_logger_1a2fbaf01eda180b57c6a895c814049adf" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt;json&gt; themis::voice::VoiceAuditLogger::event_log_</definition>
+        <argsstring></argsstring>
+        <name>event_log_</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::event_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="217" column="17" bodyfile="include/voice/voice_audit_logger.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_audit_logger_1aed3cd4985367ecbfca481a4f73aaa1a4" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;void(const json&amp;)&gt; themis::voice::VoiceAuditLogger::event_callback_</definition>
+        <argsstring></argsstring>
+        <name>event_callback_</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::event_callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="218" column="19" bodyfile="include/voice/voice_audit_logger.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1afc2d3ec43aad56afff2e79903f844eac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAuditLogger::VoiceAuditLogger</definition>
+        <argsstring>()=default</argsstring>
+        <name>VoiceAuditLogger</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::VoiceAuditLogger</qualifiedname>
+        <briefdescription>
+<para>Construct logger with default config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="116" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a9a71cd9541ef77bd3e1b46e0bf51f6f6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAuditLogger::VoiceAuditLogger</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>VoiceAuditLogger</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::VoiceAuditLogger</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_audit_logger_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct logger with custom config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit logging configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="120" column="14" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a616c7c3d6b3335c32df0126cc8afa785" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAuditLogger::~VoiceAuditLogger</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VoiceAuditLogger</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::~VoiceAuditLogger</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="123" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a3427d1c80050b3ded4aa5cf5e0e9a254" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAuditLogger::VoiceAuditLogger</definition>
+        <argsstring>(const VoiceAuditLogger &amp;)=delete</argsstring>
+        <name>VoiceAuditLogger</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::VoiceAuditLogger</qualifiedname>
+        <param>
+          <type>const VoiceAuditLogger &amp;</type>
+        </param>
+        <briefdescription>
+<para>Delete copy, allow move. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="126" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1ad3a25594ba0499310ec838b467acdc67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_audit_logger_1afc2d3ec43aad56afff2e79903f844eac" kindref="member">VoiceAuditLogger</ref> &amp;</type>
+        <definition>VoiceAuditLogger &amp; themis::voice::VoiceAuditLogger::operator=</definition>
+        <argsstring>(const VoiceAuditLogger &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1voice_1_1_voice_audit_logger_1afc2d3ec43aad56afff2e79903f844eac" kindref="member">VoiceAuditLogger</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="127" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1ac1fb8ab5904ebe228a019a40cb9633d9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceAuditLogger::VoiceAuditLogger</definition>
+        <argsstring>(VoiceAuditLogger &amp;&amp;) noexcept=default</argsstring>
+        <name>VoiceAuditLogger</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::VoiceAuditLogger</qualifiedname>
+        <param>
+          <type>VoiceAuditLogger &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="128" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1aeac0ac07cb260df18f1b0a41cb509596" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1voice_1_1_voice_audit_logger_1afc2d3ec43aad56afff2e79903f844eac" kindref="member">VoiceAuditLogger</ref> &amp;</type>
+        <definition>VoiceAuditLogger &amp; themis::voice::VoiceAuditLogger::operator=</definition>
+        <argsstring>(VoiceAuditLogger &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1voice_1_1_voice_audit_logger_1afc2d3ec43aad56afff2e79903f844eac" kindref="member">VoiceAuditLogger</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="129" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a5ade899f1cd6ec31cad4567c1c1a5e53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLogger::logAuthenticationAttempt</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;method, bool success, const std::string &amp;reason, int64_t duration_ms=0, const std::string &amp;session_id=&quot;&quot;)</argsstring>
+        <name>logAuthenticationAttempt</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::logAuthenticationAttempt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>duration_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log authentication attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Authentication Attempt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Authentication method (&quot;liveness&quot;, &quot;password&quot;, &quot;2fa&quot;, etc.) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether authentication passed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detailed reason (on failure) or context </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time taken for authentication </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Associated session ID (optional)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getTimestamp(), empty(), writeEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="138" column="10" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="32" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1acfd498081088bbea15bbb71c3d2edf8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLogger::logSessionLifecycle</definition>
+        <argsstring>(const std::string &amp;session_id, const std::string &amp;user_id, const std::string &amp;event, int64_t duration_ms=0, size_t bytes_transferred=0)</argsstring>
+        <name>logSessionLifecycle</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::logSessionLifecycle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+          <defname>event_type</defname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>duration_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_transferred</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Log session lifecycle event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Session Lifecycle.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event type: &quot;created&quot;, &quot;closed&quot;, &quot;timeout&quot;, &quot;expired&quot; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session duration in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bytes_transferred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total bytes transferred in session</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_transferred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getTimestamp(), writeEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="153" column="10" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="68" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a0055092e714f97fded3285a7fceadf4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLogger::logLivenessChallenge</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;challenge_id, const std::string &amp;event, bool passed, const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>logLivenessChallenge</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::logLivenessChallenge</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>challenge_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event</declname>
+          <defname>event_type</defname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>passed</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log liveness challenge event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Liveness <ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>challenge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1voice_1_1_challenge" kindref="compound">Challenge</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event type: &quot;issued&quot;, &quot;verified&quot;, &quot;expired&quot;, &quot;failed&quot; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>passed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether challenge passed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detailed reason</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">challenge_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the challenge. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">passed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getTimestamp(), empty(), writeEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="167" column="10" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="100" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a533e600ae0b72a7f0f6aeb0c75da3305" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLogger::logSpoofDetection</definition>
+        <argsstring>(const std::string &amp;user_id, double spoof_score, const std::string &amp;verdict, double freshness_score=0.0, double speaker_match_score=0.0, double noise_consistency_score=0.0, const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>logSpoofDetection</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::logSpoofDetection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>spoof_score</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>verdict</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>freshness_score</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>speaker_match_score</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>noise_consistency_score</declname>
+          <defval>0.0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Log spoofing detection result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Spoof Detection.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spoof_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Overall spoof probability (0.0-1.0) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verdict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>&quot;spoofed&quot; or &quot;clean&quot; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>freshness_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audio freshness score (0.0-1.0) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>speaker_match_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Speaker match score (0.0-1.0) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>noise_consistency_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Noise consistency score (0.0-1.0) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Detailed reason for verdict</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spoof_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">verdict</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">freshness_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">speaker_match_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">noise_consistency_score</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: getTimestamp(), empty(), writeEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="183" column="10" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="136" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a24b21092b3a42f5bb115568fe335af67" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::voice::VoiceAuditLogger::getEventLog</definition>
+        <argsstring>() const</argsstring>
+        <name>getEventLog</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::getEventLog</qualifiedname>
+        <briefdescription>
+<para>Get all logged events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of JSON event objects </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="195" column="18" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="165" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a0767b8522b947acaf0b110d8979cf02e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &gt;</type>
+        <definition>std::vector&lt; json &gt; themis::voice::VoiceAuditLogger::getEventsForUser</definition>
+        <argsstring>(const std::string &amp;user_id) const</argsstring>
+        <name>getEventsForUser</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::getEventsForUser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Get events for a specific user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of JSON events for that user </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="200" column="18" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="175" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a1b61dea73c0e13780e78b77d1f80f8c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLogger::clearEventLog</definition>
+        <argsstring>()</argsstring>
+        <name>clearEventLog</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::clearEventLog</qualifiedname>
+        <briefdescription>
+<para>Clear all logged events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Event Log.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="203" column="10" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="197" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1adbf363a1113ef7a59f12fa63da68cc90" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceAuditLogger::getEventCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getEventCount</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::getEventCount</qualifiedname>
+        <briefdescription>
+<para>Get event count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of logged events </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="207" column="13" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="202" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1ac0ff2327a7240ae33d59ccf9dbbbdd1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLogger::setEventCallback</definition>
+        <argsstring>(std::function&lt; void(const json &amp;)&gt; callback)</argsstring>
+        <name>setEventCallback</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::setEventCallback</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback for new events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function called when new event is logged </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Callback receives the JSON event object </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="212" column="10" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="212" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1a66496d0b38b8565ffa72ac22cdd207a8" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditLogger::getTimestamp</definition>
+        <argsstring>() const</argsstring>
+        <name>getTimestamp</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::getTimestamp</qualifiedname>
+        <briefdescription>
+<para>Get current timestamp in ISO 8601 format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Timestamp string (e.g., &quot;2026-08-28T14:22:31.456Z&quot;) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="222" column="18" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="222" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1aaccf973216ee7ae68a8bed3b5194b625" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::VoiceAuditLogger::writeEvent</definition>
+        <argsstring>(const json &amp;event)</argsstring>
+        <name>writeEvent</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::writeEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Write event to output (console, file, or callback). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON event object</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: void(), lock(), push_back(), callback(), serializeEvent(), empty(), log_file(), is_open(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="226" column="10" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="246" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_audit_logger_1af7b540409a922f3f09152f6657af634a" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceAuditLogger::serializeEvent</definition>
+        <argsstring>(const json &amp;event) const</argsstring>
+        <name>serializeEvent</name>
+        <qualifiedname>themis::voice::VoiceAuditLogger::serializeEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Serialize event to JSON string with formatting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON event </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted JSON string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_audit_logger.h" line="231" column="18" bodyfile="src/voice/voice_audit_logger.cpp" bodystart="277" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive audit logging for voice authentication events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides structured logging of all security-relevant events:<itemizedlist>
+<listitem><para>Authentication attempts (success/failure)</para>
+</listitem><listitem><para>Session lifecycle (create/close/timeout)</para>
+</listitem><listitem><para>Liveness challenges (issued/verified/expired)</para>
+</listitem><listitem><para>Spoofing detection (passed/failed)</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe: all methods acquire internal mutex. Logs are formatted as JSON for easy parsing and compliance reporting. </para>
+    </detaileddescription>
+    <location file="include/voice/voice_audit_logger.h" line="105" column="1" bodyfile="include/voice/voice_audit_logger.h" bodystart="105" bodyend="232"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a1b61dea73c0e13780e78b77d1f80f8c0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>clearEventLog</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1ab225e362ba05e591e2f63020be6ed343" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1aed3cd4985367ecbfca481a4f73aaa1a4" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>event_callback_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a2fbaf01eda180b57c6a895c814049adf" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>event_log_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1adbf363a1113ef7a59f12fa63da68cc90" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>getEventCount</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a24b21092b3a42f5bb115568fe335af67" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>getEventLog</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a0767b8522b947acaf0b110d8979cf02e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>getEventsForUser</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a66496d0b38b8565ffa72ac22cdd207a8" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>getTimestamp</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a5ade899f1cd6ec31cad4567c1c1a5e53" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>logAuthenticationAttempt</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a0055092e714f97fded3285a7fceadf4c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>logLivenessChallenge</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1acfd498081088bbea15bbb71c3d2edf8f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>logSessionLifecycle</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a533e600ae0b72a7f0f6aeb0c75da3305" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>logSpoofDetection</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1aad57b3b21cf7d4da2e984519304c8647" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1ad3a25594ba0499310ec838b467acdc67" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1aeac0ac07cb260df18f1b0a41cb509596" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1af7b540409a922f3f09152f6657af634a" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>serializeEvent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1ac0ff2327a7240ae33d59ccf9dbbbdd1d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>setEventCallback</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1afc2d3ec43aad56afff2e79903f844eac" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>VoiceAuditLogger</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a9a71cd9541ef77bd3e1b46e0bf51f6f6" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>VoiceAuditLogger</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a3427d1c80050b3ded4aa5cf5e0e9a254" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>VoiceAuditLogger</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1ac1fb8ab5904ebe228a019a40cb9633d9" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>VoiceAuditLogger</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1aaccf973216ee7ae68a8bed3b5194b625" prot="private" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>writeEvent</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_audit_logger_1a616c7c3d6b3335c32df0126cc8afa785" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAuditLogger</scope><name>~VoiceAuditLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::test::GPUBatchA9HardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test_1a7955fcbfbfc49f91533beee58fc65388" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::GPUBatchA9HardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::gpu::test::GPUBatchA9HardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="445" column="10" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="445" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test_1acf1305ae2d1fcb8945b61bdab9c312e9" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::test::GPUBatchA9HardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::gpu::test::GPUBatchA9HardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="449" column="10" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="449" bodyend="451"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for <ref refid="test__gpu__training__loop_8cpp_1af47983e44c7b4c07e44229aedf03c895" kindref="member">Batch</ref> A-9 specific safety hardening patterns. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::GPUBatchA9HardeningTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::gpu::test::GPUBatchA9HardeningTest</label>
+        <link refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" line="443" column="1" bodyfile="tests/gpu/test_gpu_batch_a9_safety_focused.cpp" bodystart="443" bodyend="452"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test_1a7955fcbfbfc49f91533beee58fc65388" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUBatchA9HardeningTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1gpu_1_1test_1_1_g_p_u_batch_a9_hardening_test_1acf1305ae2d1fcb8945b61bdab9c312e9" prot="protected" virt="non-virtual"><scope>themis::gpu::test::GPUBatchA9HardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

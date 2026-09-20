@@ -1,0 +1,354 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::DistributedFlameGraph::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1afa90813ae8c9d1d934c3f47e833a6148" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::DistributedFlameGraph::Impl::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="334" column="24" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a6124bd1d968dc4cd120601c129a8af9c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref></type>
+        <definition>DistributedFlameGraphConfig themis::observability::DistributedFlameGraph::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="335" column="33" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1addb69f3ce384d2553bf5d4e4e3b63571" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref> &gt;</type>
+        <definition>std::map&lt;std::string, NodeProfile&gt; themis::observability::DistributedFlameGraph::Impl::profiles_</definition>
+        <argsstring></argsstring>
+        <name>profiles_</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::profiles_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="336" column="14" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a5f786a6895963c4a3ca1108f68f96fbb" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::DistributedFlameGraph::Impl::insertion_order_</definition>
+        <argsstring></argsstring>
+        <name>insertion_order_</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::insertion_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="337" column="17" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="337" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a0504453f49e5900e7ffc4c1c680d4ae4" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::DistributedFlameGraph::Impl::Impl</definition>
+        <argsstring>(const DistributedFlameGraphConfig &amp;config)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="109" column="14" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1abeb57c7c6a0cae283a01c7d82beb753c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedFlameGraph::Impl::addNodeProfile</definition>
+        <argsstring>(const NodeProfile &amp;profile)</argsstring>
+        <name>addNodeProfile</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::addNodeProfile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Add Node Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), push_back(), size(), empty(), front(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="116" column="10" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="116" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a829c05666e46ec0aa53b666e6c22b641" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::DistributedFlameGraph::Impl::clearProfiles</definition>
+        <argsstring>()</argsstring>
+        <name>clearProfiles</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::clearProfiles</qualifiedname>
+        <briefdescription>
+<para>Clear Profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="140" column="10" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="140" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a1e86c34d8ce30c78c4c2a3cbc1fbcf2d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref></type>
+        <definition>MergedFlameGraph themis::observability::DistributedFlameGraph::Impl::merge</definition>
+        <argsstring>() const</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::merge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="146" column="22" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="146" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a4cf7b897bca7f5d31eabf5a4305ea922" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref></type>
+        <definition>MergedFlameGraph themis::observability::DistributedFlameGraph::Impl::mergeFiltered</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;node_ids) const</argsstring>
+        <name>mergeFiltered</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::mergeFiltered</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>node_ids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="151" column="22" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="151" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a921b26cade8d2f658ce989f7cb715b0a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_profile_diff" kindref="compound">ProfileDiff</ref></type>
+        <definition>ProfileDiff themis::observability::DistributedFlameGraph::Impl::diff</definition>
+        <argsstring>(const MergedFlameGraph &amp;baseline, const MergedFlameGraph &amp;current) const</argsstring>
+        <name>diff</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::diff</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref> &amp;</type>
+          <declname>baseline</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref> &amp;</type>
+          <declname>current</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="156" column="17" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="156" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1afe906e6167d003c2b47664e65c8e9bab" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::observability::DistributedFlameGraph::Impl::getNodeIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getNodeIds</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::getNodeIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="221" column="17" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="221" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1ae01d24240167f4de2c46cb9e1decf315" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::DistributedFlameGraph::Impl::nodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::nodeCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="238" column="12" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="238" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a514d6a63ab91b575ef795c9153ea904a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_distributed_flame_graph_config" kindref="compound">DistributedFlameGraphConfig</ref></type>
+        <definition>DistributedFlameGraphConfig themis::observability::DistributedFlameGraph::Impl::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="248" column="33" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="248" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a20f6c93e95094c6396fd46543485f93a" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref> &gt;</type>
+        <definition>std::map&lt; std::string, NodeProfile &gt; themis::observability::DistributedFlameGraph::Impl::snapshotProfiles</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshotProfiles</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::snapshotProfiles</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="259" column="15" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="259" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1af3085c8f70c4e3fc99a8a0de7377ac38" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_merged_flame_graph" kindref="compound">MergedFlameGraph</ref></type>
+        <definition>MergedFlameGraph themis::observability::DistributedFlameGraph::Impl::mergeProfiles</definition>
+        <argsstring>(const std::map&lt; std::string, NodeProfile &gt; &amp;snapshot, const std::vector&lt; std::string &gt; &amp;ids) const</argsstring>
+        <name>mergeProfiles</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::mergeProfiles</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref> &gt; &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>ids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="280" column="23" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="280" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1aaa4b0769b64240e065384c25263eae45" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::observability::DistributedFlameGraph::Impl::collectIds</definition>
+        <argsstring>(const std::map&lt; std::string, NodeProfile &gt; &amp;snapshot)</argsstring>
+        <name>collectIds</name>
+        <qualifiedname>themis::observability::DistributedFlameGraph::Impl::collectIds</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_node_profile" kindref="compound">NodeProfile</ref> &gt; &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/distributed_flame_graph.cpp" line="269" column="25" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="269" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/observability/distributed_flame_graph.cpp" line="107" column="1" bodyfile="src/observability/distributed_flame_graph.cpp" bodystart="107" bodyend="338"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1abeb57c7c6a0cae283a01c7d82beb753c" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>addNodeProfile</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a829c05666e46ec0aa53b666e6c22b641" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>clearProfiles</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1aaa4b0769b64240e065384c25263eae45" prot="private" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>collectIds</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a6124bd1d968dc4cd120601c129a8af9c" prot="private" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a921b26cade8d2f658ce989f7cb715b0a" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>diff</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a514d6a63ab91b575ef795c9153ea904a" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1afe906e6167d003c2b47664e65c8e9bab" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>getNodeIds</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a0504453f49e5900e7ffc4c1c680d4ae4" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a5f786a6895963c4a3ca1108f68f96fbb" prot="private" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>insertion_order_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a1e86c34d8ce30c78c4c2a3cbc1fbcf2d" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>merge</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a4cf7b897bca7f5d31eabf5a4305ea922" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>mergeFiltered</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1af3085c8f70c4e3fc99a8a0de7377ac38" prot="private" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>mergeProfiles</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1afa90813ae8c9d1d934c3f47e833a6148" prot="private" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1ae01d24240167f4de2c46cb9e1decf315" prot="public" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1addb69f3ce384d2553bf5d4e4e3b63571" prot="private" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>profiles_</name></member>
+      <member refid="classthemis_1_1observability_1_1_distributed_flame_graph_1_1_impl_1a20f6c93e95094c6396fd46543485f93a" prot="private" virt="non-virtual"><scope>themis::observability::DistributedFlameGraph::Impl</scope><name>snapshotProfiles</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1whisper_1_1_i_voice_activity_detector" kind="interface" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::whisper::IVoiceActivityDetector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1whisper_1_1_energy_threshold_vad" prot="public" virt="non-virtual">themis::whisper::EnergyThresholdVad</derivedcompoundref>
+    <includes refid="voice__activity__detector_8h" local="no">voice_activity_detector.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_i_voice_activity_detector_1a24f1972cf6cc2b84887e438e0ce2e1e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::whisper::IVoiceActivityDetector::~IVoiceActivityDetector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IVoiceActivityDetector</name>
+        <qualifiedname>themis::whisper::IVoiceActivityDetector::~IVoiceActivityDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="70" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_i_voice_activity_detector_1ab011728d8f3893425386b9a4e537ad4c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1whisper_1_1_speech_segment" kindref="compound">SpeechSegment</ref> &gt;</type>
+        <definition>virtual std::vector&lt; SpeechSegment &gt; themis::whisper::IVoiceActivityDetector::detect</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm, float sample_rate, const VadConfig &amp;cfg) const =0</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::whisper::IVoiceActivityDetector::detect</qualifiedname>
+        <reimplementedby refid="classthemis_1_1whisper_1_1_energy_threshold_vad_1aa545e69295499699b1b985bdd940860c">detect</reimplementedby>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1whisper_1_1_vad_config" kindref="compound">VadConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Detect speech segments in a PCM buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pcm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Mono float32 samples, normalised to [-1, 1]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sampling rate of <computeroutput>pcm</computeroutput> (e.g. 16000.0f). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>VAD parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of speech segments ordered by start_sample. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/voice_activity_detector.h" line="81" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Strategy interface for Voice Activity Detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implementations receive a mono float32 PCM buffer and return a list of sample ranges that contain speech. The buffer is assumed to be normalised to [-1, 1].</para>
+<para>Thread-safety: implementations must be safe for concurrent calls. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::whisper::EnergyThresholdVad</label>
+        <link refid="classthemis_1_1whisper_1_1_energy_threshold_vad"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::whisper::IVoiceActivityDetector</label>
+        <link refid="classthemis_1_1whisper_1_1_i_voice_activity_detector"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/whisper/voice_activity_detector.h" line="68" column="1" bodyfile="include/whisper/voice_activity_detector.h" bodystart="68" bodyend="90"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1whisper_1_1_i_voice_activity_detector_1ab011728d8f3893425386b9a4e537ad4c" prot="public" virt="pure-virtual"><scope>themis::whisper::IVoiceActivityDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1whisper_1_1_i_voice_activity_detector_1a24f1972cf6cc2b84887e438e0ce2e1e4" prot="public" virt="virtual"><scope>themis::whisper::IVoiceActivityDetector</scope><name>~IVoiceActivityDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

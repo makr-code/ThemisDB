@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_resource_exhaustion_alert" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::ResourceExhaustionAlert</compoundname>
+    <includes refid="resource__monitor_8h" local="no">resource_monitor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1aeca225bae2b8a99f831ee7f492a94880" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1ingestion_1aea2b5c682ff91fec47228c5b3340050d" kindref="member">ResourceExhaustionType</ref></type>
+        <definition>ResourceExhaustionType themis::ingestion::ResourceExhaustionAlert::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::ingestion::ResourceExhaustionAlert::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="52" column="28" bodyfile="include/ingestion/resource_monitor.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1a347204b6b0f4cc91be152dab0b1f1b17" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ResourceExhaustionAlert::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::ingestion::ResourceExhaustionAlert::component</qualifiedname>
+        <briefdescription>
+<para>Component reporting exhaustion (e.g., &quot;quality_judge&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="53" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1adb4e63af1ba6a7df3c05be9b3ba497fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::ResourceExhaustionAlert::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::ingestion::ResourceExhaustionAlert::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="54" column="17" bodyfile="include/ingestion/resource_monitor.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1af3b171ab523bf36f4644fc9069e294a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::ResourceExhaustionAlert::current_usage</definition>
+        <argsstring></argsstring>
+        <name>current_usage</name>
+        <qualifiedname>themis::ingestion::ResourceExhaustionAlert::current_usage</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Current utilization (0.0-1.0 scale). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="55" column="12" bodyfile="include/ingestion/resource_monitor.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1a9752fec29792f3b1405fb3878572b49a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::ResourceExhaustionAlert::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::ingestion::ResourceExhaustionAlert::threshold</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Threshold that was exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="56" column="12" bodyfile="include/ingestion/resource_monitor.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1acbc90d15f1a5295bc96184ea2ba6c990" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::ingestion::ResourceExhaustionAlert::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::ingestion::ResourceExhaustionAlert::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/resource_monitor.h" line="57" column="43" bodyfile="include/ingestion/resource_monitor.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Alert generated when a resource is exhausted. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/resource_monitor.h" line="51" column="1" bodyfile="include/ingestion/resource_monitor.h" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1a347204b6b0f4cc91be152dab0b1f1b17" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceExhaustionAlert</scope><name>component</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1af3b171ab523bf36f4644fc9069e294a7" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceExhaustionAlert</scope><name>current_usage</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1adb4e63af1ba6a7df3c05be9b3ba497fd" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceExhaustionAlert</scope><name>description</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1a9752fec29792f3b1405fb3878572b49a" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceExhaustionAlert</scope><name>threshold</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1acbc90d15f1a5295bc96184ea2ba6c990" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceExhaustionAlert</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_resource_exhaustion_alert_1aeca225bae2b8a99f831ee7f492a94880" prot="public" virt="non-virtual"><scope>themis::ingestion::ResourceExhaustionAlert</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

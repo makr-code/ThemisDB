@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm" kind="namespace" language="C++">
+    <compoundname>themis::llm</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1_i_docs_assistant" prot="public">themis::llm::IDocsAssistant</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_i_embedded_l_l_m" prot="public">themis::llm::IEmbeddedLLM</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_i_llama_wrapper" prot="public">themis::llm::ILlamaWrapper</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_i_l_l_m_model_audit_logger" prot="public">themis::llm::ILLMModelAuditLogger</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager" prot="public">themis::llm::ILLMPluginManager</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_i_l_l_m_resource_policy" prot="public">themis::llm::ILLMResourcePolicy</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_i_themis_help_lo_r_a" prot="public">themis::llm::IThemisHelpLoRA</innerclass>
+    <innernamespace refid="namespacethemis_1_1llm_1_1applications">themis::llm::applications</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1a0d528f67e7975f23eb4ecdb4d7b2e8e4" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_docs_assistant" kindref="compound">IDocsAssistant</ref> &gt;()&gt;</type>
+        <definition>using themis::llm::DocsAssistantFactory = std::function&lt;std::shared_ptr&lt;IDocsAssistant&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>DocsAssistantFactory</name>
+        <qualifiedname>themis::llm::DocsAssistantFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="16" column="1" bodyfile="include/themis/llm/llm_factory.h" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1a7f3bbd9aabb49d1cf68fc4eb709c6eaf" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_embedded_l_l_m" kindref="compound">IEmbeddedLLM</ref> &gt;()&gt;</type>
+        <definition>using themis::llm::EmbeddedLLMFactory = std::function&lt;std::shared_ptr&lt;IEmbeddedLLM&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>EmbeddedLLMFactory</name>
+        <qualifiedname>themis::llm::EmbeddedLLMFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="17" column="1" bodyfile="include/themis/llm/llm_factory.h" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1a36f3bb693779bed6e1fbda323140e1ed" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_themis_help_lo_r_a" kindref="compound">IThemisHelpLoRA</ref> &gt;()&gt;</type>
+        <definition>using themis::llm::ThemisHelpLoRAFactory = std::function&lt;std::shared_ptr&lt;IThemisHelpLoRA&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ThemisHelpLoRAFactory</name>
+        <qualifiedname>themis::llm::ThemisHelpLoRAFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="18" column="1" bodyfile="include/themis/llm/llm_factory.h" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1a7f09b3c8f942ab5c0d80db71403b2dc8" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_llama_wrapper" kindref="compound">ILlamaWrapper</ref> &gt;()&gt;</type>
+        <definition>using themis::llm::LlamaWrapperFactory = std::function&lt;std::shared_ptr&lt;ILlamaWrapper&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>LlamaWrapperFactory</name>
+        <qualifiedname>themis::llm::LlamaWrapperFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="19" column="1" bodyfile="include/themis/llm/llm_factory.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1a38ded7581e5088292f69429411443a86" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_l_l_m_model_audit_logger" kindref="compound">ILLMModelAuditLogger</ref> &gt;()&gt;</type>
+        <definition>using themis::llm::LLMModelAuditLoggerFactory = std::function&lt;std::shared_ptr&lt;ILLMModelAuditLogger&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>LLMModelAuditLoggerFactory</name>
+        <qualifiedname>themis::llm::LLMModelAuditLoggerFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="20" column="1" bodyfile="include/themis/llm/llm_factory.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1a787e893b49f0c620d05f0d9028e778c5" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager" kindref="compound">themis::llm::ILLMPluginManager</ref> &gt;()&gt;</type>
+        <definition>using themis::llm::LLMPluginManagerFactory = std::function&lt;std::shared_ptr&lt;themis::llm::ILLMPluginManager&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>LLMPluginManagerFactory</name>
+        <qualifiedname>themis::llm::LLMPluginManagerFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="21" column="1" bodyfile="include/themis/llm/llm_factory.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1llm_1a54b0a0b40783954a0f809ad87e12d0eb" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator" kindref="compound">themis::llm::lora::ILoRAOrchestrator</ref> &gt;()&gt;</type>
+        <definition>using themis::llm::LoRAOrchestratorFactory = std::function&lt;std::shared_ptr&lt;themis::llm::lora::ILoRAOrchestrator&gt;()&gt;</definition>
+        <argsstring></argsstring>
+        <name>LoRAOrchestratorFactory</name>
+        <qualifiedname>themis::llm::LoRAOrchestratorFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="22" column="1" bodyfile="include/themis/llm/llm_factory.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1aa03ecf1e39a50d0b50d3a274dfa3636b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::registerDocsAssistantFactory</definition>
+        <argsstring>(DocsAssistantFactory f)</argsstring>
+        <name>registerDocsAssistantFactory</name>
+        <qualifiedname>themis::llm::registerDocsAssistantFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a0d528f67e7975f23eb4ecdb4d7b2e8e4" kindref="member">DocsAssistantFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="27" column="6" declfile="include/themis/llm/llm_factory.h" declline="27" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1af27e9542f92840be387ddad9c9fa3225" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::registerEmbeddedLLMFactory</definition>
+        <argsstring>(EmbeddedLLMFactory f)</argsstring>
+        <name>registerEmbeddedLLMFactory</name>
+        <qualifiedname>themis::llm::registerEmbeddedLLMFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a7f3bbd9aabb49d1cf68fc4eb709c6eaf" kindref="member">EmbeddedLLMFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="28" column="6" declfile="include/themis/llm/llm_factory.h" declline="28" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1a4cb08c78bdd050c41556df7487c76db4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::registerThemisHelpLoRAFactory</definition>
+        <argsstring>(ThemisHelpLoRAFactory f)</argsstring>
+        <name>registerThemisHelpLoRAFactory</name>
+        <qualifiedname>themis::llm::registerThemisHelpLoRAFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a36f3bb693779bed6e1fbda323140e1ed" kindref="member">ThemisHelpLoRAFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="29" column="6" declfile="include/themis/llm/llm_factory.h" declline="29" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1aa0562d0d0f8a216e4f92b946242abfa1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::registerLlamaWrapperFactory</definition>
+        <argsstring>(LlamaWrapperFactory f)</argsstring>
+        <name>registerLlamaWrapperFactory</name>
+        <qualifiedname>themis::llm::registerLlamaWrapperFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a7f09b3c8f942ab5c0d80db71403b2dc8" kindref="member">LlamaWrapperFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="30" column="6" declfile="include/themis/llm/llm_factory.h" declline="30" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1a062ed6a354296feaf0ff2e6ef67ecd30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::registerLLMModelAuditLoggerFactory</definition>
+        <argsstring>(LLMModelAuditLoggerFactory f)</argsstring>
+        <name>registerLLMModelAuditLoggerFactory</name>
+        <qualifiedname>themis::llm::registerLLMModelAuditLoggerFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a38ded7581e5088292f69429411443a86" kindref="member">LLMModelAuditLoggerFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="31" column="6" declfile="include/themis/llm/llm_factory.h" declline="31" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1a0d73b061000047000e22446cac3f8fee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::registerLLMPluginManagerFactory</definition>
+        <argsstring>(LLMPluginManagerFactory f)</argsstring>
+        <name>registerLLMPluginManagerFactory</name>
+        <qualifiedname>themis::llm::registerLLMPluginManagerFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a787e893b49f0c620d05f0d9028e778c5" kindref="member">LLMPluginManagerFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="32" column="6" declfile="include/themis/llm/llm_factory.h" declline="32" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1ad23169a0e25715a9c6b412b653f6bcf8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::registerLoRAOrchestratorFactory</definition>
+        <argsstring>(LoRAOrchestratorFactory f)</argsstring>
+        <name>registerLoRAOrchestratorFactory</name>
+        <qualifiedname>themis::llm::registerLoRAOrchestratorFactory</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a54b0a0b40783954a0f809ad87e12d0eb" kindref="member">LoRAOrchestratorFactory</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="33" column="6" declfile="include/themis/llm/llm_factory.h" declline="33" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1a4cdf9e69137d9d383ed955a18e64aad0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_docs_assistant" kindref="compound">IDocsAssistant</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IDocsAssistant &gt; themis::llm::createDocsAssistant</definition>
+        <argsstring>()</argsstring>
+        <name>createDocsAssistant</name>
+        <qualifiedname>themis::llm::createDocsAssistant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="37" column="17" declfile="include/themis/llm/llm_factory.h" declline="37" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1a7a104affb6b21c3e25df1ff9d923d784" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_embedded_l_l_m" kindref="compound">IEmbeddedLLM</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IEmbeddedLLM &gt; themis::llm::createEmbeddedLLM</definition>
+        <argsstring>()</argsstring>
+        <name>createEmbeddedLLM</name>
+        <qualifiedname>themis::llm::createEmbeddedLLM</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="38" column="17" declfile="include/themis/llm/llm_factory.h" declline="38" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1a74249adde52144a88308ca6ed3ce4d5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_themis_help_lo_r_a" kindref="compound">IThemisHelpLoRA</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IThemisHelpLoRA &gt; themis::llm::createThemisHelpLoRA</definition>
+        <argsstring>()</argsstring>
+        <name>createThemisHelpLoRA</name>
+        <qualifiedname>themis::llm::createThemisHelpLoRA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="39" column="17" declfile="include/themis/llm/llm_factory.h" declline="39" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1aa925a3aca81e43b7a99292d40aebbd5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_llama_wrapper" kindref="compound">ILlamaWrapper</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ILlamaWrapper &gt; themis::llm::createLlamaWrapper</definition>
+        <argsstring>()</argsstring>
+        <name>createLlamaWrapper</name>
+        <qualifiedname>themis::llm::createLlamaWrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="40" column="17" declfile="include/themis/llm/llm_factory.h" declline="40" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1a6d6b03c89b42c33f802bc9d060d598c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_l_l_m_model_audit_logger" kindref="compound">ILLMModelAuditLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ILLMModelAuditLogger &gt; themis::llm::createLLMModelAuditLogger</definition>
+        <argsstring>()</argsstring>
+        <name>createLLMModelAuditLogger</name>
+        <qualifiedname>themis::llm::createLLMModelAuditLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="41" column="17" declfile="include/themis/llm/llm_factory.h" declline="41" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1ad2f8345ddd49afba5dc0b2df6844ef55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_manager" kindref="compound">themis::llm::ILLMPluginManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; themis::llm::ILLMPluginManager &gt; themis::llm::createLLMPluginManager</definition>
+        <argsstring>()</argsstring>
+        <name>createLLMPluginManager</name>
+        <qualifiedname>themis::llm::createLLMPluginManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="42" column="17" declfile="include/themis/llm/llm_factory.h" declline="42" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1a1f4a533e8367792e402196ff69f529db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_i_lo_r_a_orchestrator" kindref="compound">themis::llm::lora::ILoRAOrchestrator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; themis::llm::lora::ILoRAOrchestrator &gt; themis::llm::createLoRAOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>createLoRAOrchestrator</name>
+        <qualifiedname>themis::llm::createLoRAOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_factory.h" line="43" column="17" declfile="include/themis/llm/llm_factory.h" declline="43" declcolumn="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/illm_resource_policy.h" line="31" column="1"/>
+  </compounddef>
+</doxygen>

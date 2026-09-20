@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_collection_redundancy_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::storage::CollectionRedundancyConfig</compoundname>
+    <includes refid="blob__redundancy__manager_8h" local="no">blob_redundancy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_collection_redundancy_config_1a69f974fe5c4550a87b3c320eac4ae49b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::CollectionRedundancyConfig::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::storage::CollectionRedundancyConfig::collection</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="556" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="556" bodyend="556"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_collection_redundancy_config_1a52d201732536842e222923720f6c8a88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::CollectionRedundancyConfig::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themisdb::storage::CollectionRedundancyConfig::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="557" column="17" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_collection_redundancy_config_1af725759529d2c2c8eb0ba8c9a0ef2f7e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref></type>
+        <definition>BlobRedundancyConfig themisdb::storage::CollectionRedundancyConfig::defaults</definition>
+        <argsstring></argsstring>
+        <name>defaults</name>
+        <qualifiedname>themisdb::storage::CollectionRedundancyConfig::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="560" column="26" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="560" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_collection_redundancy_config_1aee86a8429cad34097efbca91c409a48a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref> &gt;</type>
+        <definition>std::map&lt;std::string, BlobRedundancyConfig&gt; themisdb::storage::CollectionRedundancyConfig::field_overrides</definition>
+        <argsstring></argsstring>
+        <name>field_overrides</name>
+        <qualifiedname>themisdb::storage::CollectionRedundancyConfig::field_overrides</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="563" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="563" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_collection_redundancy_config_1a7226fd7f20534b482c1a493c2b8078a9" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" kindref="member">BlobType</ref>, <ref refid="structthemisdb_1_1storage_1_1_blob_redundancy_config" kindref="compound">BlobRedundancyConfig</ref> &gt;</type>
+        <definition>std::map&lt;BlobType, BlobRedundancyConfig&gt; themisdb::storage::CollectionRedundancyConfig::blob_overrides</definition>
+        <argsstring></argsstring>
+        <name>blob_overrides</name>
+        <qualifiedname>themisdb::storage::CollectionRedundancyConfig::blob_overrides</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="566" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="566" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1storage_1_1_collection_redundancy_config_1ac943bc3511d728294705e9ef57c99dce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1storage_1_1_collection_redundancy_config" kindref="compound">CollectionRedundancyConfig</ref> &gt;</type>
+        <definition>std::optional&lt; CollectionRedundancyConfig &gt; themisdb::storage::CollectionRedundancyConfig::loadFromYaml</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFromYaml</name>
+        <qualifiedname>themisdb::storage::CollectionRedundancyConfig::loadFromYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ <ref refid="structthemisdb_1_1storage_1_1_collection_redundancy_config" kindref="compound">CollectionRedundancyConfig</ref> Implementation ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: IsMap(), YAML::LoadFile(), parse_blob_cfg(), empty(), find(), end(), spdlog::warn(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="569" column="26" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="427" bodyend="571"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1storage_1_1_collection_redundancy_config_1a90fa87c577da91569931b1ec7bc7c31a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::storage::CollectionRedundancyConfig::saveToYaml</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>saveToYaml</name>
+        <qualifiedname>themisdb::storage::CollectionRedundancyConfig::saveToYaml</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="572" column="10" bodyfile="src/storage/blob_redundancy_manager.cpp" bodystart="573" bodyend="618"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Collection Redundancy Configuration For per-collection YAML configuration </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::storage::BlobRedundancyConfig</label>
+        <link refid="structthemisdb_1_1storage_1_1_blob_redundancy_config"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>erasure_coding</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::storage::CollectionRedundancyConfig</label>
+        <link refid="structthemisdb_1_1storage_1_1_collection_redundancy_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>defaults</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themisdb::storage::ErasureCodingConfig</label>
+        <link refid="structthemisdb_1_1storage_1_1_erasure_coding_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/blob_redundancy_manager.h" line="555" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="555" bodyend="573"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_collection_redundancy_config_1a7226fd7f20534b482c1a493c2b8078a9" prot="public" virt="non-virtual"><scope>themisdb::storage::CollectionRedundancyConfig</scope><name>blob_overrides</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_collection_redundancy_config_1a69f974fe5c4550a87b3c320eac4ae49b" prot="public" virt="non-virtual"><scope>themisdb::storage::CollectionRedundancyConfig</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_collection_redundancy_config_1af725759529d2c2c8eb0ba8c9a0ef2f7e" prot="public" virt="non-virtual"><scope>themisdb::storage::CollectionRedundancyConfig</scope><name>defaults</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_collection_redundancy_config_1a52d201732536842e222923720f6c8a88" prot="public" virt="non-virtual"><scope>themisdb::storage::CollectionRedundancyConfig</scope><name>description</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_collection_redundancy_config_1aee86a8429cad34097efbca91c409a48a" prot="public" virt="non-virtual"><scope>themisdb::storage::CollectionRedundancyConfig</scope><name>field_overrides</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_collection_redundancy_config_1ac943bc3511d728294705e9ef57c99dce" prot="public" virt="non-virtual"><scope>themisdb::storage::CollectionRedundancyConfig</scope><name>loadFromYaml</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_collection_redundancy_config_1a90fa87c577da91569931b1ec7bc7c31a" prot="public" virt="non-virtual"><scope>themisdb::storage::CollectionRedundancyConfig</scope><name>saveToYaml</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

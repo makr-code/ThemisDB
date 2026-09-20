@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_query_cache" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::QueryCache</compoundname>
+    <includes refid="temporal__query__engine_8h" local="no">temporal_query_engine.h</includes>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_query_cache_1_1_cache_key" prot="private">themisdb::temporal::QueryCache::CacheKey</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_query_cache_1_1_cache_key_hash" prot="private">themisdb::temporal::QueryCache::CacheKeyHash</innerclass>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_query_cache_1_1_entry" prot="private">themisdb::temporal::QueryCache::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_query_cache_1a366d8a9faee4d1ce6bb4b0cb70119b03" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::QueryCache::max_entries_</definition>
+        <argsstring></argsstring>
+        <name>max_entries_</name>
+        <qualifiedname>themisdb::temporal::QueryCache::max_entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="540" column="12" bodyfile="include/temporal/temporal_query_engine.h" bodystart="540" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_query_cache_1aa42c42fd80733196d7d77304ad0e5aa8" prot="private" static="no" mutable="yes">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::QueryCache::lru_counter_</definition>
+        <argsstring></argsstring>
+        <name>lru_counter_</name>
+        <qualifiedname>themisdb::temporal::QueryCache::lru_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="541" column="20" bodyfile="include/temporal/temporal_query_engine.h" bodystart="541" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_query_cache_1a48564979e3739a2c2ff090de19c91f52" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; CacheKey, Entry, CacheKeyHash &gt;</type>
+        <definition>std::unordered_map&lt;CacheKey, Entry, CacheKeyHash&gt; themisdb::temporal::QueryCache::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themisdb::temporal::QueryCache::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="543" column="32" bodyfile="include/temporal/temporal_query_engine.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_query_cache_1a4fcfb8d7a75e1307cd451a254271e50d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::QueryCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::QueryCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="544" column="24" bodyfile="include/temporal/temporal_query_engine.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_query_cache_1a4ffc11aad7e8678d5d8efd127eb8324d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::QueryCache::QueryCache</definition>
+        <argsstring>(size_t max_entries=256)</argsstring>
+        <name>QueryCache</name>
+        <qualifiedname>themisdb::temporal::QueryCache::QueryCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+          <defval>256</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a cache with the given maximum number of entries. When the cache is full the least-recently-used entry is evicted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of (table, time) entries to retain. Must be &gt; 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="489" column="14" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="408" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_query_cache_1a67361202ecbc497a1eb4db92178b4311" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; VersionedDocument &gt; &gt; themisdb::temporal::QueryCache::get</definition>
+        <argsstring>(const std::string &amp;table_name, Timestamp as_of) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::temporal::QueryCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Look up a cached result. Returns a copy of the cached vector, or std::nullopt on cache miss. Returning by value avoids returning a pointer into internal storage that can be invalidated by a concurrent put/invalidate/clear call. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="497" column="19" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="411" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_query_cache_1a178a55626936f000216a157296905d0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::QueryCache::put</definition>
+        <argsstring>(const std::string &amp;table_name, Timestamp as_of, std::vector&lt; VersionedDocument &gt; result)</argsstring>
+        <name>put</name>
+        <qualifiedname>themisdb::temporal::QueryCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store a result in the cache, evicting LRU entry if necessary.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), std::move(), <ref refid="classthemisdb_1_1temporal_1_1_query_cache_1a571066ca0caf3c341c8c7842989807d3" kindref="member">size()</ref>, begin(), erase(), emplace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="501" column="10" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="437" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_query_cache_1a742e4346f33466148931044017d99f1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::QueryCache::invalidate</definition>
+        <argsstring>(const std::string &amp;table_name)</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themisdb::temporal::QueryCache::invalidate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invalidate all entries for the given table (e.g. after a write).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="506" column="10" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="472" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_query_cache_1a83d92129c0e893948521792dbe1d7412" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::QueryCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themisdb::temporal::QueryCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Discard all cached entries.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="509" column="10" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="487" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_query_cache_1a571066ca0caf3c341c8c7842989807d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::QueryCache::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themisdb::temporal::QueryCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="511" column="12" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="492" bodyend="500"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1temporal_1_1_query_cache" kindref="compound">QueryCache</ref></para>
+<para>A simple thread-safe LRU cache for AS-OF query results. Each entry maps a (table_name, as_of) key to the list of <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> rows returned by a previous queryAsOf() call.</para>
+<para>Intended usage pattern: <programlisting><codeline><highlight class="normal"><ref refid="classthemisdb_1_1temporal_1_1_query_cache_1a4ffc11aad7e8678d5d8efd127eb8324d" kindref="member">QueryCache</ref><sp/>cache(128);<sp/><sp/></highlight><highlight class="comment">//<sp/>keep<sp/>up<sp/>to<sp/>128<sp/>distinct<sp/>(table,<sp/>time)<sp/>entries</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows<sp/>=<sp/><ref refid="namespacethemisdb_1_1temporal_1_1detail_1a73ea2f5d7970de7d4b77d1651a280b1c" kindref="member">detail::queryAsOfCached</ref>(table,<sp/>as_of,<sp/>cache);</highlight></codeline>
+</programlisting></para>
+<para>Thread-safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_query_engine.h" line="480" column="1" bodyfile="include/temporal/temporal_query_engine.h" bodystart="480" bodyend="545"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a83d92129c0e893948521792dbe1d7412" prot="public" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>clear</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a67361202ecbc497a1eb4db92178b4311" prot="public" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>get</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a742e4346f33466148931044017d99f1c" prot="public" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>invalidate</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1aa42c42fd80733196d7d77304ad0e5aa8" prot="private" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>lru_counter_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a366d8a9faee4d1ce6bb4b0cb70119b03" prot="private" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>max_entries_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a4fcfb8d7a75e1307cd451a254271e50d" prot="private" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a178a55626936f000216a157296905d0f" prot="public" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>put</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a4ffc11aad7e8678d5d8efd127eb8324d" prot="public" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>QueryCache</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a571066ca0caf3c341c8c7842989807d3" prot="public" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>size</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_query_cache_1a48564979e3739a2c2ff090de19c91f52" prot="private" virt="non-virtual"><scope>themisdb::temporal::QueryCache</scope><name>store_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

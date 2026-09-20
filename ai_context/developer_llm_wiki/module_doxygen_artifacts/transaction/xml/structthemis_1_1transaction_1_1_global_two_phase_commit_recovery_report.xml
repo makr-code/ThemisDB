@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::GlobalTwoPhaseCommitRecoveryReport</compoundname>
+    <includes refid="recoverable__two__phase__coordinator_8h" local="no">recoverable_two_phase_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1ad1d10da7d64c9b9a86777f4e95003b2e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::GlobalTwoPhaseCommitRecoveryReport::coordinator_count</definition>
+        <argsstring></argsstring>
+        <name>coordinator_count</name>
+        <qualifiedname>themis::transaction::GlobalTwoPhaseCommitRecoveryReport::coordinator_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of coordinators visited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="138" column="12" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3e5425775534eb059c4eb3ebcfcf2147" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::GlobalTwoPhaseCommitRecoveryReport::in_doubt_before</definition>
+        <argsstring></argsstring>
+        <name>in_doubt_before</name>
+        <qualifiedname>themis::transaction::GlobalTwoPhaseCommitRecoveryReport::in_doubt_before</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Aggregate non-final count before recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="139" column="12" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a62f860736a32b9c0a2543edefd5d34cc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::GlobalTwoPhaseCommitRecoveryReport::resolved</definition>
+        <argsstring></argsstring>
+        <name>resolved</name>
+        <qualifiedname>themis::transaction::GlobalTwoPhaseCommitRecoveryReport::resolved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Aggregate transactions resolved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="140" column="12" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a8928e4e53e4d0dd4b175c87b3790c24f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::transaction::GlobalTwoPhaseCommitRecoveryReport::in_doubt_after</definition>
+        <argsstring></argsstring>
+        <name>in_doubt_after</name>
+        <qualifiedname>themis::transaction::GlobalTwoPhaseCommitRecoveryReport::in_doubt_after</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Aggregate non-final count after recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="141" column="12" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3c7deb4ef78bc580e4a2684d37d4bab5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_recoverable_two_phase_coordinator_report" kindref="compound">RecoverableTwoPhaseCoordinatorReport</ref> &gt;</type>
+        <definition>std::vector&lt;RecoverableTwoPhaseCoordinatorReport&gt; themis::transaction::GlobalTwoPhaseCommitRecoveryReport::coordinators</definition>
+        <argsstring></argsstring>
+        <name>coordinators</name>
+        <qualifiedname>themis::transaction::GlobalTwoPhaseCommitRecoveryReport::coordinators</qualifiedname>
+        <briefdescription>
+<para>Per-coordinator breakdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/recoverable_two_phase_coordinator.h" line="144" column="17" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregate report for a global 2PC recovery pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/recoverable_two_phase_coordinator.h" line="137" column="1" bodyfile="include/transaction/recoverable_two_phase_coordinator.h" bodystart="137" bodyend="145"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1ad1d10da7d64c9b9a86777f4e95003b2e" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTwoPhaseCommitRecoveryReport</scope><name>coordinator_count</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3c7deb4ef78bc580e4a2684d37d4bab5" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTwoPhaseCommitRecoveryReport</scope><name>coordinators</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a8928e4e53e4d0dd4b175c87b3790c24f" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTwoPhaseCommitRecoveryReport</scope><name>in_doubt_after</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a3e5425775534eb059c4eb3ebcfcf2147" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTwoPhaseCommitRecoveryReport</scope><name>in_doubt_before</name></member>
+      <member refid="structthemis_1_1transaction_1_1_global_two_phase_commit_recovery_report_1a62f860736a32b9c0a2543edefd5d34cc" prot="public" virt="non-virtual"><scope>themis::transaction::GlobalTwoPhaseCommitRecoveryReport</scope><name>resolved</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

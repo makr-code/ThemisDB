@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__federation__contract_8h" kind="file" language="C++">
+    <compoundname>process_federation_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="federation__consensus__manager_8cpp" local="yes">src/process/federation_consensus_manager.cpp</includedby>
+    <includedby refid="federation__replica__manager_8cpp" local="yes">src/process/federation_replica_manager.cpp</includedby>
+    <includedby refid="process__audit__logger_8cpp" local="yes">src/process/process_audit_logger.cpp</includedby>
+    <includedby refid="process__conflict__resolver_8cpp" local="yes">src/process/process_conflict_resolver.cpp</includedby>
+    <includedby refid="process__telemetry__integration_8cpp" local="yes">src/process/process_telemetry_integration.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_federation_contract.h</label>
+        <link refid="process__federation__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/process_federation_contract.h</label>
+        <link refid="process__federation__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/federation_consensus_manager.cpp</label>
+        <link refid="federation__consensus__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/process/federation_replica_manager.cpp</label>
+        <link refid="federation__replica__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/process/process_audit_logger.cpp</label>
+        <link refid="process__audit__logger_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/process/process_conflict_resolver.cpp</label>
+        <link refid="process__conflict__resolver_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/process/process_telemetry_integration.cpp</label>
+        <link refid="process__telemetry__integration_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1process_1_1_process_federation_config" prot="public">themisdb::process::ProcessFederationConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates" prot="public">themisdb::process::CrashFaultToleranceGates</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_thread_safety_guarantee" prot="public">themisdb::process::ThreadSafetyGuarantee</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_replication_status" prot="public">themisdb::process::ReplicationStatus</innerclass>
+    <innerclass refid="structthemisdb_1_1process_1_1_partition_detection_result" prot="public">themisdb::process::PartitionDetectionResult</innerclass>
+    <innerclass refid="classthemisdb_1_1process_1_1_federation_consensus_manager" prot="public">themisdb::process::FederationConsensusManager</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1process">themisdb::process</innernamespace>
+    <briefdescription>
+<para>Federated concurrency and replication contract for distributed Process Module deployments. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Defines API contracts for federated consensus, quorum-based voting, crash fault tolerance, and replication consistency guarantees in multi-node Process Module deployments.</para>
+<para><simplesect kind="version"><para>2.1.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-06 @status PHASE_1_DESIGN (Q1 2027)</para>
+</simplesect>
+</para>
+<sect1 id="process__federation__contract_8h_1autotoc_md15_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md15">
+<title>Overview</title><para>The federation contract specifies thread-safety guarantees, consensus semantics, and replication consistency for Process Module deployments across multiple nodes/shards.</para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md16_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md16">
+<title>Consensus Model</title><para><itemizedlist>
+<listitem><para><bold>Algorithm:</bold> Raft-inspired quorum-based voting (configurable quorum size)</para>
+</listitem><listitem><para><bold>Fault Tolerance:</bold> Crash fault tolerant under majority quorum where N &gt;= 2F + 1</para>
+</listitem><listitem><para><bold>Message Ordering:</bold> Total ordering via logical clocks on all replicas</para>
+</listitem><listitem><para><bold>Determinism:</bold> Consensus outcome deterministic given same failure pattern and messages</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md17_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md17">
+<title>Thread-Safety Guarantees</title><para><heading level="3">Concurrency Patterns</heading>
+</para>
+<para><orderedlist>
+<listitem><para><bold>Snapshot Isolation (Model Manager)</bold> – Readers do not block writers; writers see consistent snapshots</para>
+</listitem><listitem><para><bold>Fine-Grained Locking (Linker)</bold> – Per-link atomicity; independent links do not block each other</para>
+</listitem><listitem><para><bold>Stateless Serializers</bold> – Fully thread-safe; no per-instance state</para>
+</listitem><listitem><para><bold>Replicated State Machine</bold> – Single writer (leader); multiple readers (followers)</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Lock Ordering (Prevention of Deadlock)</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">consensus_mutex_<sp/>→<sp/>replica_mutex_<sp/>→<sp/>log_mutex_<sp/>→<sp/>audit_mutex_</highlight></codeline>
+</programlisting> All code must respect this ordering; no circular acquisition.</para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md18_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md18">
+<title>Replication Consistency Guarantees</title><para><table rows="4" cols="3"><row>
+<entry thead="yes"><para>Consistency Level  </para>
+</entry><entry thead="yes"><para>Behavior  </para>
+</entry><entry thead="yes"><para>Use Case  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><bold>Strong Consistency</bold>  </para>
+</entry><entry thead="no"><para>Writes wait for majority quorum  </para>
+</entry><entry thead="no"><para>Critical updates (model deletes, state transitions)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><bold>Eventual Consistency</bold>  </para>
+</entry><entry thead="no"><para>Writes complete on leader; async replication  </para>
+</entry><entry thead="no"><para>Reads, non-critical updates  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><bold>Snapshot Isolation</bold>  </para>
+</entry><entry thead="no"><para>Readers see consistent historical snapshot  </para>
+</entry><entry thead="no"><para>Report generation, auditing  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md19_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md19">
+<title>Network Partition Handling</title><para><itemizedlist>
+<listitem><para><bold>Majority Partition:</bold> Continues consensus and accepts writes</para>
+</listitem><listitem><para><bold>Minority Partition:</bold> Fails-closed to read-only degraded mode; no writes accepted</para>
+</listitem><listitem><para><bold>Split-Brain Prevention:</bold> Quorum-based voting prevents minority from claiming leadership</para>
+</listitem><listitem><para><bold>Automatic Healing:</bold> Re-join when partition heals (log sync + catch-up replication)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md20_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md20">
+<title>Error Handling &amp; Failure Modes</title><para><heading level="3">Fail-Closed Behaviors</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Network partition → read-only degraded mode (no data loss)</para>
+</listitem><listitem><para>Replica divergence → automatic re-sync from leader</para>
+</listitem><listitem><para>Consensus timeout → return error; application may retry with exponential backoff</para>
+</listitem><listitem><para>Node failure → automatic leader re-election (if quorum available)</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Crash Fault Tolerance</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>Tolerate up to F crash faults where F &lt; N/2 and quorum remains available</para>
+</listitem><listitem><para>Faulty/partitioned nodes cannot commit writes without quorum</para>
+</listitem><listitem><para>Majority must agree on log entries before commit</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md21_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md21">
+<title>Usage Pattern</title><para><programlisting><codeline><highlight class="comment">//<sp/>Federated<sp/>Process<sp/>Module<sp/>deployment</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ProcessFederationConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.node_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;node-1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">config.quorum_size<sp/>=<sp/>3;<sp/><sp/></highlight><highlight class="comment">//<sp/>Deploy<sp/>with<sp/>3+<sp/>replicas<sp/>for<sp/>fault<sp/>tolerance</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">config.network_latency_ms<sp/>=<sp/>5;<sp/><sp/></highlight><highlight class="comment">//<sp/>Intra-DC<sp/>assumption</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>federation_mgr<sp/>=<sp/>ProcessFederationManager::Create(config);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Single-shard<sp/>code<sp/>unchanged;<sp/>federation<sp/>transparent<sp/>to<sp/>application</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ProcessModelManager<sp/>model_mgr<sp/>=<sp/>federation_mgr-&gt;GetModelManager();</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md22_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md22">
+<title>Production Deployment Requirements</title><para><orderedlist>
+<listitem><para><bold>Quorum Configuration:</bold> Minimum 3 nodes (F=1); prefer 5+ for higher availability</para>
+</listitem><listitem><para><bold>Network Assumptions:</bold> Intra-DC latency &lt;5ms; inter-DC latencies documented</para>
+</listitem><listitem><para><bold>Storage Backends:</bold> RocksDB (primary), S3 (backup), file-based (local dev)</para>
+</listitem><listitem><para><bold>Monitoring:</bold> Track consensus latency, replication lag, partition detection time</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md23_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md23">
+<title>Backward Compatibility</title><para><itemizedlist>
+<listitem><para>v2.x single-shard Process Module API <bold>unchanged</bold></para>
+</listitem><listitem><para>Federation is <bold>opt-in</bold> (default: 1 replica = single-shard mode)</para>
+</listitem><listitem><para>Existing applications continue to work without federation awareness</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="process__federation__contract_8h_1autotoc_md24_1s1"><sect2 id="process__federation__contract_8h_1autotoc_md24">
+<title>Limitations &amp; Future Work</title><para><itemizedlist>
+<listitem><para>Cross-federation consensus (multi-shard voting across data centers) deferred to Q2 2027</para>
+</listitem><listitem><para>Lock-free data structures for ultra-high-contention scenarios deferred to Q2 2027</para>
+</listitem><listitem><para>ML-based anomaly detection deferred to Q2 2027</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para><ref refid="process__conflict__resolution__callback_8h" kindref="compound">process_conflict_resolution_callback.h</ref> – Conflict resolution strategies </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="process__telemetry__contract_8h" kindref="compound">process_telemetry_contract.h</ref> – Audit trail, temporal queries, and telemetry integration </para>
+</simplesect>
+<simplesect kind="see"><para>ROADMAP_FEDERATION.md – Phase 1-6 implementation plan </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_FEDERATION_CONTRACT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_FEDERATION_CONTRACT_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="namespacethemisdb" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1process" kindref="compound">themisdb::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FEDERATION<sp/>CONFIGURATION</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemisdb_1_1process_1_1_process_federation_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1process_1_1_process_federation_config" kindref="compound">ProcessFederationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="127" refid="structthemisdb_1_1process_1_1_process_federation_config_1a68e201e0ee397f1410467064acf14ebc" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config_1a68e201e0ee397f1410467064acf14ebc" kindref="member">node_id</ref>;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemisdb_1_1process_1_1_process_federation_config_1a0dd0022ab47e2b48e2fc3ba5e36a73eb" refkind="member"><highlight class="normal"><sp/><sp/>std::uint32_t<sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config_1a0dd0022ab47e2b48e2fc3ba5e36a73eb" kindref="member">quorum_size</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemisdb_1_1process_1_1_process_federation_config_1a9719992bccaa203b462b3bdcca3945bb" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config_1a9719992bccaa203b462b3bdcca3945bb" kindref="member">peer_addresses</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemisdb_1_1process_1_1_process_federation_config_1a7fad99e07402fff05b69779592486f20" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config_1a7fad99e07402fff05b69779592486f20" kindref="member">network_latency_ms</ref>{5};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="structthemisdb_1_1process_1_1_process_federation_config_1a5ca0227a66a4f4fd03c1db42f065795b" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config_1a5ca0227a66a4f4fd03c1db42f065795b" kindref="member">consensus_timeout_ms</ref>{1000};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="structthemisdb_1_1process_1_1_process_federation_config_1ac31ce41a26312bcb36ae7146056f246a" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config_1ac31ce41a26312bcb36ae7146056f246a" kindref="member">audit_backend</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;rocksdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemisdb_1_1process_1_1_process_federation_config_1af7a48499a68c3fb4abe418a152616c7f" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config_1af7a48499a68c3fb4abe418a152616c7f" kindref="member">max_replication_lag_ms</ref>{5000};</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CONSENSUS<sp/>MODEL<sp/>&amp;<sp/>FAILURE<sp/>MODES</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6c" kindref="member">ConsensusState</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="166" refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6ca1c5babdbf4c1bea8e9e2069dafc26de2" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6ca1c5babdbf4c1bea8e9e2069dafc26de2" kindref="member">kFollower</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167" refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6ca9693599042f54ae88a57dbf4dbff4d72" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6ca9693599042f54ae88a57dbf4dbff4d72" kindref="member">kCandidate</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6cacac5b31b9f972b4c982e4aac8921540f" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6cacac5b31b9f972b4c982e4aac8921540f" kindref="member">kLeader</ref><sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169" refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6cab62fa3c9492b6dae76c23d6dfa466611" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6cab62fa3c9492b6dae76c23d6dfa466611" kindref="member">kFailed</ref><sp/>=<sp/>3,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2" kindref="member">ConsensusPhase</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="176" refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2af5137a026a4b2f3b1c8a21cfc60dd14b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2af5137a026a4b2f3b1c8a21cfc60dd14b" kindref="member">kIdle</ref><sp/>=<sp/>0,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2aec63f5d78aeb8f95cf2b0b9b4da9cc2c" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2aec63f5d78aeb8f95cf2b0b9b4da9cc2c" kindref="member">kLeaderElection</ref><sp/>=<sp/>1,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178" refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2af00e236c7caa3ca457c6d38f847f442f" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2af00e236c7caa3ca457c6d38f847f442f" kindref="member">kLogReplication</ref><sp/>=<sp/>2,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179" refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2a9c45143dd28d2f41b6b4c1bdf2ac1a4d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a4cae6748c2c12eab0dc4f72ead1e83a2a9c45143dd28d2f41b6b4c1bdf2ac1a4d" kindref="member">kCommit</ref><sp/>=<sp/>3,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190" refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates" kindref="compound">CrashFaultToleranceGates</ref><sp/>{</highlight></codeline>
+<codeline lineno="191" refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1a817e2fe1ec079ccf4ffbe1958b7f3df5" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1a817e2fe1ec079ccf4ffbe1958b7f3df5" kindref="member">kMinNodeCount</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1a4d12a25005544d45e8028457b9e28256" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint32_t<sp/><ref refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1a4d12a25005544d45e8028457b9e28256" kindref="member">kRecommendedNodeCount</ref><sp/>=<sp/>5;<sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1ab63ac4d9a66e3fc74f5ce817ac580c5b" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_crash_fault_tolerance_gates_1ab63ac4d9a66e3fc74f5ce817ac580c5b" kindref="member">kFaultToleranceRatio</ref><sp/>=<sp/>1.0f<sp/>/<sp/>2.0f;<sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>THREAD-SAFETY<sp/>PATTERNS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203" refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0" kindref="member">ConcurrencyPattern</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="205" refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a921f72f9600dd4f5d288449d4d57874d" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a921f72f9600dd4f5d288449d4d57874d" kindref="member">kSnapshotIsolation</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208" refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a399df85a3540298a188da2bfa8ef2418" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a399df85a3540298a188da2bfa8ef2418" kindref="member">kFineGrainedLocking</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211" refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a81bed5d4366e76d12df6d7acb5173216" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a81bed5d4366e76d12df6d7acb5173216" kindref="member">kStateless</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a1c773380e02823c9af6f7ab1a8824ddc" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0a1c773380e02823c9af6f7ab1a8824ddc" kindref="member">kReplicatedStateMachine</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234" refid="structthemisdb_1_1process_1_1_thread_safety_guarantee" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1process_1_1_thread_safety_guarantee" kindref="compound">ThreadSafetyGuarantee</ref><sp/>{</highlight></codeline>
+<codeline lineno="236" refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a20d93b9f576cfeba305046f7f418a9cb" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0" kindref="member">ConcurrencyPattern</ref><sp/><ref refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a20d93b9f576cfeba305046f7f418a9cb" kindref="member">pattern</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a965622873253785a2ef703f53cab1be0" refkind="member"><highlight class="normal"><sp/><sp/>std::int32_t<sp/><ref refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a965622873253785a2ef703f53cab1be0" kindref="member">max_concurrent_readers</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1ae922f5738818703d43bddc221b9d5b26" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1ae922f5738818703d43bddc221b9d5b26" kindref="member">is_replicated_atomic</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a980ff072b088f44725d90bc21ebed14e" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a980ff072b088f44725d90bc21ebed14e" kindref="member">consistency_level</ref>;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>REPLICATION<sp/>CONSISTENCY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490c" kindref="member">ConsistencyLevel</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="257" refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490ca6618d71ea07d1ddd6ece5a22bcac946b" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490ca6618d71ea07d1ddd6ece5a22bcac946b" kindref="member">kStrong</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490caa7c01de95ace52ea07a5ca5f1d6f3862" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490caa7c01de95ace52ea07a5ca5f1d6f3862" kindref="member">kEventual</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490cafcf37e733f29d6aa14fb34fa737a809a" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490cafcf37e733f29d6aa14fb34fa737a809a" kindref="member">kLocal</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="structthemisdb_1_1process_1_1_replication_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1process_1_1_replication_status" kindref="compound">ReplicationStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="273" refid="structthemisdb_1_1process_1_1_replication_status_1a64cdd8e891c3fbee280927feb6b9bd8f" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1process_1_1_replication_status_1a64cdd8e891c3fbee280927feb6b9bd8f" kindref="member">state</ref>;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="structthemisdb_1_1process_1_1_replication_status_1ae0cef15b31c1a0a85190aaba76e46784" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1process_1_1_replication_status_1ae0cef15b31c1a0a85190aaba76e46784" kindref="member">replicated_on</ref>;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279" refid="structthemisdb_1_1process_1_1_replication_status_1a2ce5d1b12997f9fd99bbe8c1ab5701ff" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1process_1_1_replication_status_1a2ce5d1b12997f9fd99bbe8c1ab5701ff" kindref="member">acknowledged_by</ref>;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="structthemisdb_1_1process_1_1_replication_status_1a879bb0d32e4b7b137069d6e00feb4131" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_replication_status_1a879bb0d32e4b7b137069d6e00feb4131" kindref="member">quorum_achieved</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="structthemisdb_1_1process_1_1_replication_status_1af6b23eb3c84b931727e987331f4a693f" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1process_1_1_replication_status_1af6b23eb3c84b931727e987331f4a693f" kindref="member">completion_time</ref>;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NETWORK<sp/>PARTITION<sp/>HANDLING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297" refid="structthemisdb_1_1process_1_1_partition_detection_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1process_1_1_partition_detection_result" kindref="compound">PartitionDetectionResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="299" refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3" kindref="member">PartitionRole</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="300" refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3a8223c692c152fc6f8b387c19cdd7e8b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3a8223c692c152fc6f8b387c19cdd7e8b2" kindref="member">kMajority</ref><sp/>=<sp/>0,<sp/><sp/></highlight></codeline>
+<codeline lineno="301" refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3abb405e4cf8626119f06788093f02ac21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3abb405e4cf8626119f06788093f02ac21" kindref="member">kMinority</ref><sp/>=<sp/>1,<sp/><sp/></highlight></codeline>
+<codeline lineno="302" refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3afec310ee7baf1811254eeca29aa6ea0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a40ba2d7d17ac64a3e0ad80984282abc3afec310ee7baf1811254eeca29aa6ea0f" kindref="member">kIsolated</ref><sp/>=<sp/>2,<sp/><sp/></highlight></codeline>
+<codeline lineno="303" refid="structthemisdb_1_1process_1_1_partition_detection_result_1a773a320daac5d1f3d0d0470aebff95a1" refkind="member"><highlight class="normal"><sp/><sp/>}<sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a773a320daac5d1f3d0d0470aebff95a1" kindref="member">role</ref>;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="structthemisdb_1_1process_1_1_partition_detection_result_1a3998b661417baa575477d2418d3a34bd" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a3998b661417baa575477d2418d3a34bd" kindref="member">reachable_nodes</ref>;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="structthemisdb_1_1process_1_1_partition_detection_result_1a309dea5b37e2aa6eb1aef5b07fafd72c" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a309dea5b37e2aa6eb1aef5b07fafd72c" kindref="member">unreachable_nodes</ref>;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312" refid="structthemisdb_1_1process_1_1_partition_detection_result_1a336c6efd14826a552e4e79ed648e94a0" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1a336c6efd14826a552e4e79ed648e94a0" kindref="member">confidence</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="structthemisdb_1_1process_1_1_partition_detection_result_1adeb88f7e33e93fb7834b37d0c0ad67bb" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result_1adeb88f7e33e93fb7834b37d0c0ad67bb" kindref="member">detection_time</ref>;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>API<sp/>DECLARATIONS<sp/>(Skeleton<sp/>for<sp/>Phase<sp/>2<sp/>Implementation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338" refid="classthemisdb_1_1process_1_1_federation_consensus_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1aa6d95427f683f559c09eb178c8d63d55" kindref="member">FederationConsensusManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="341" refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1aa6d95427f683f559c09eb178c8d63d55" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1aa6d95427f683f559c09eb178c8d63d55" kindref="member">FederationConsensusManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config" kindref="compound">ProcessFederationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345" refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a3b15b42bf29d7a1f8671e552720146f8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6c" kindref="member">ConsensusState</ref><sp/><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a3b15b42bf29d7a1f8671e552720146f8" kindref="member">GetCurrentState</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349" refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1af86f254a26c77ecfd5d7deafff324b63" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_partition_detection_result" kindref="compound">PartitionDetectionResult</ref><sp/><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1af86f254a26c77ecfd5d7deafff324b63" kindref="member">DetectPartition</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355" refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a1b3a42fc3e6193f13eb3f5b6203ee6c2" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a1b3a42fc3e6193f13eb3f5b6203ee6c2" kindref="member">AttemptWrite</ref>(</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1process_1afba64c73420a584c45680b5420be490c" kindref="member">ConsistencyLevel</ref><sp/>consistency)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362" refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a61dc4dbb33eb78adbe4f25a0a4e84a92" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1process_1_1_replication_status" kindref="compound">ReplicationStatus</ref><sp/><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a61dc4dbb33eb78adbe4f25a0a4e84a92" kindref="member">GetReplicationStatus</ref>(</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>operation_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365" refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a43cd14ba063005d27640fb07bc3b3b33" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a43cd14ba063005d27640fb07bc3b3b33" kindref="member">~FederationConsensusManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="368" refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a9b864c1e681c3d98983d394bdbe4b0fa" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="structthemisdb_1_1process_1_1_process_federation_config" kindref="compound">ProcessFederationConfig</ref><sp/><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a9b864c1e681c3d98983d394bdbe4b0fa" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="369" refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a75f00b64104cf1bcc5917710669d8fd2" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6c" kindref="member">ConsensusState</ref><sp/><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager_1a75f00b64104cf1bcc5917710669d8fd2" kindref="member">current_state_</ref><sp/>=<sp/><ref refid="namespacethemisdb_1_1process_1acde909679cca1779951b4bc252045f6ca1c5babdbf4c1bea8e9e2069dafc26de2" kindref="member">ConsensusState::kFollower</ref>;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DOCUMENTATION<sp/>SECTIONS<sp/>(Design-Phase<sp/>Specifications)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb::process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/><sp/></highlight><highlight class="comment">//<sp/>THEMISDB_INCLUDE_PROCESS_PROCESS_FEDERATION_CONTRACT_H</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_federation_contract.h"/>
+  </compounddef>
+</doxygen>

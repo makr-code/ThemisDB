@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_claim" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::Claim</compoundname>
+    <includes refid="faithfulness__evaluator_8h" local="no">faithfulness_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_1af2fcf6e55c5fdca251c680943fe85d6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::Claim::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::rag::judge::Claim::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="34" column="17" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_1a59b16445eae1c25e811ec0b765dd9e45" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::Claim::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::rag::judge::Claim::category</qualifiedname>
+        <briefdescription>
+<para>factual, opinion, reasoning </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="35" column="17" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_1a7cedf6f7bfe0d921729cd348a20f007e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a9a728c8fa25e8d98b45275916d29376b" kindref="member">SupportLevel</ref></type>
+        <definition>SupportLevel themis::rag::judge::Claim::support_level</definition>
+        <argsstring></argsstring>
+        <name>support_level</name>
+        <qualifiedname>themis::rag::judge::Claim::support_level</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="36" column="18" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_1abcf3a46950bd6019f9ea498b125da9b6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::rag::judge::Claim::supporting_doc_ids</definition>
+        <argsstring></argsstring>
+        <name>supporting_doc_ids</name>
+        <qualifiedname>themis::rag::judge::Claim::supporting_doc_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="37" column="17" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_claim_1a049e852bb8c5b66ce7d0779c8f0cb2f6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::Claim::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::rag::judge::Claim::confidence</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/faithfulness_evaluator.h" line="38" column="12" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A claim extracted from an answer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/faithfulness_evaluator.h" line="33" column="1" bodyfile="include/rag/faithfulness_evaluator.h" bodystart="33" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_1a59b16445eae1c25e811ec0b765dd9e45" prot="public" virt="non-virtual"><scope>themis::rag::judge::Claim</scope><name>category</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_1a049e852bb8c5b66ce7d0779c8f0cb2f6" prot="public" virt="non-virtual"><scope>themis::rag::judge::Claim</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_1a7cedf6f7bfe0d921729cd348a20f007e" prot="public" virt="non-virtual"><scope>themis::rag::judge::Claim</scope><name>support_level</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_1abcf3a46950bd6019f9ea498b125da9b6" prot="public" virt="non-virtual"><scope>themis::rag::judge::Claim</scope><name>supporting_doc_ids</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_claim_1af2fcf6e55c5fdca251c680943fe85d6e" prot="public" virt="non-virtual"><scope>themis::rag::judge::Claim</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

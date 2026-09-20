@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::MultiGPUMemoryCoordinator::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_impl_1aca1a746589eeed670f524f44b57cc3fb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_g_p_u_device" kindref="compound">GPUDevice</ref> &gt;</type>
+        <definition>std::vector&lt;GPUDevice&gt; themis::llm::MultiGPUMemoryCoordinator::Impl::gpus_</definition>
+        <argsstring></argsstring>
+        <name>gpus_</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::Impl::gpus_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_gpu_memory_coordinator.cpp" line="33" column="17" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_impl_1a0b6258ae9b8f6ea23cb1a8c02d1628f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MultiGPUMemoryCoordinator::Impl::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::llm::MultiGPUMemoryCoordinator::Impl::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/multi_gpu_memory_coordinator.cpp" line="34" column="10" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/multi_gpu_memory_coordinator.cpp" line="31" column="1" bodyfile="src/llm/multi_gpu_memory_coordinator.cpp" bodystart="31" bodyend="35"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_impl_1aca1a746589eeed670f524f44b57cc3fb" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::Impl</scope><name>gpus_</name></member>
+      <member refid="classthemis_1_1llm_1_1_multi_g_p_u_memory_coordinator_1_1_impl_1a0b6258ae9b8f6ea23cb1a8c02d1628f4" prot="public" virt="non-virtual"><scope>themis::llm::MultiGPUMemoryCoordinator::Impl</scope><name>initialized_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,282 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_i_shard_limit_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::sharding::IShardLimitPolicy</compoundname>
+    <includes refid="ishard__limit__policy_8h" local="no">ishard_limit_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3c422e5bf1a403b7c7fcd53a0cc0069b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::sharding::IShardLimitPolicy::~IShardLimitPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IShardLimitPolicy</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::~IShardLimitPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="43" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::IShardLimitPolicy::IShardLimitPolicy</definition>
+        <argsstring>(const IShardLimitPolicy &amp;)=delete</argsstring>
+        <name>IShardLimitPolicy</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::IShardLimitPolicy</qualifiedname>
+        <param>
+          <type>const IShardLimitPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a0ff3743a762cc546736af73dd3b05a69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref> &amp;</type>
+        <definition>IShardLimitPolicy &amp; themis::sharding::IShardLimitPolicy::operator=</definition>
+        <argsstring>(const IShardLimitPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="47" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2eae8a65e8dc419ab2c7e2ac72523498" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int themis::sharding::IShardLimitPolicy::maxNodes</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxNodes</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::maxNodes</qualifiedname>
+        <briefdescription>
+<para>Declared maximum number of shard nodes this policy allows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This value is validated against the compile-time ceiling by EditionManager::installShardPolicy before the policy is accepted.</para>
+<para><simplesect kind="return"><para>Maximum node count; -1 signals unlimited (only valid for Hyperscaler edition binaries where SHARDING_MAX_NODES == -1). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="58" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a4395c2cc7bf10b7764f90dc1e70aec6d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::IShardLimitPolicy::canExpand</definition>
+        <argsstring>(int requested_total) const =0</argsstring>
+        <name>canExpand</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::canExpand</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>requested_total</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff the cluster is permitted to reach <computeroutput>requested_total</computeroutput> nodes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The policy may consult <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1ac9658ac0ff214c8e73d2f2ae84c9c5dd" kindref="member">activeNodeCount()</ref> to make the admission decision. Does not modify accounting state — call <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a80c72138a5fc0a83d363f69e46f351bc" kindref="member">onNodeAdded()</ref> only after the node has actually joined.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested_total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Intended total cluster size after the pending join. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the expansion is permitted under the current policy. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="70" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a80c72138a5fc0a83d363f69e46f351bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::sharding::IShardLimitPolicy::onNodeAdded</definition>
+        <argsstring>(const std::string &amp;shard_id)=0</argsstring>
+        <name>onNodeAdded</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::onNodeAdded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that a shard node with <computeroutput>shard_id</computeroutput> has joined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates internal accounting. Implementations must be safe to call concurrently from multiple threads.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opaque, unique shard identifier (non-empty string). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="80" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a9e6e28374e68b5c9393a177ebd1663d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::sharding::IShardLimitPolicy::onNodeRemoved</definition>
+        <argsstring>(const std::string &amp;shard_id)=0</argsstring>
+        <name>onNodeRemoved</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::onNodeRemoved</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the policy that the shard node <computeroutput>shard_id</computeroutput> has left. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Updates internal accounting. Implementations must clamp to zero on mismatched calls to prevent underflow.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Opaque shard identifier previously passed to <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a80c72138a5fc0a83d363f69e46f351bc" kindref="member">onNodeAdded()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="90" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1ac9658ac0ff214c8e73d2f2ae84c9c5dd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int themis::sharding::IShardLimitPolicy::activeNodeCount</definition>
+        <argsstring>() const =0</argsstring>
+        <name>activeNodeCount</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::activeNodeCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of nodes currently tracked as active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Non-negative active node count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="97" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2d97e345b3fe409f94e5237db92f3fea" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::sharding::IShardLimitPolicy::isShardingEnabled</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isShardingEnabled</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::isShardingEnabled</qualifiedname>
+        <briefdescription>
+<para>Return true when this policy permits multi-node sharding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should return false when <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2eae8a65e8dc419ab2c7e2ac72523498" kindref="member">maxNodes()</ref> == 1 (single-node Community edition) or when sharding has been administratively disabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="105" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1af6022d52adcd799748bb57b8c889c537" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::IShardLimitPolicy::IShardLimitPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>IShardLimitPolicy</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::IShardLimitPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a7cc401fb72262cb36c12cce3d0806e6b" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::IShardLimitPolicy::IShardLimitPolicy</definition>
+        <argsstring>(IShardLimitPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>IShardLimitPolicy</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::IShardLimitPolicy</qualifiedname>
+        <param>
+          <type>IShardLimitPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_i_shard_limit_policy_1af34f2fcb5a7fcf1063ef18ba26333079" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref> &amp;</type>
+        <definition>IShardLimitPolicy &amp; themis::sharding::IShardLimitPolicy::operator=</definition>
+        <argsstring>(IShardLimitPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::IShardLimitPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" kindref="member">IShardLimitPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/sharding/ishard_limit_policy.h" line="110" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract shard-node admission and accounting policy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All shard-count enforcement in ThemisDB routes through this interface so that edition limits, signed plugin upgrades, and operational caps share a single, auditable enforcement surface.</para>
+<para>Hierarchy overview: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1af6022d52adcd799748bb57b8c889c537" kindref="member">IShardLimitPolicy</ref><sp/><sp/><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>file)</highlight></codeline>
+<codeline><highlight class="normal">└──<sp/>EditionManager::installShardPolicy()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>└──<sp/>EditionManager::checkNodeLimit()</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>└──<sp/>ShardingManager<sp/>—<sp/>enforces<sp/>on<sp/>shard<sp/>join</highlight></codeline>
+</programlisting></para>
+<para>Thread safety: all implementations must be individually thread-safe.</para>
+<para><simplesect kind="note"><para>A policy&apos;s <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2eae8a65e8dc419ab2c7e2ac72523498" kindref="member">maxNodes()</ref> must never exceed the compile-time edition constant <ref refid="namespacethemis_1_1edition_1a6c6823dc5c27228bbb08357e9819a263" kindref="member">edition::SHARDING_MAX_NODES</ref> (enforced by EditionManager::installShardPolicy before accepting the policy). On Hyperscaler binaries (SHARDING_MAX_NODES == -1) the ceiling is unlimited and any positive <ref refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2eae8a65e8dc419ab2c7e2ac72523498" kindref="member">maxNodes()</ref> value is accepted. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/themis/sharding/ishard_limit_policy.h" line="41" column="1" bodyfile="include/themis/sharding/ishard_limit_policy.h" bodystart="41" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1ac9658ac0ff214c8e73d2f2ae84c9c5dd" prot="public" virt="pure-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>activeNodeCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a4395c2cc7bf10b7764f90dc1e70aec6d" prot="public" virt="pure-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>canExpand</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3f3f02b0514789d11a447efe3833a4dd" prot="public" virt="non-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>IShardLimitPolicy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1af6022d52adcd799748bb57b8c889c537" prot="protected" virt="non-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>IShardLimitPolicy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a7cc401fb72262cb36c12cce3d0806e6b" prot="protected" virt="non-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>IShardLimitPolicy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2d97e345b3fe409f94e5237db92f3fea" prot="public" virt="pure-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>isShardingEnabled</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a2eae8a65e8dc419ab2c7e2ac72523498" prot="public" virt="pure-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>maxNodes</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a80c72138a5fc0a83d363f69e46f351bc" prot="public" virt="pure-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>onNodeAdded</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a9e6e28374e68b5c9393a177ebd1663d3" prot="public" virt="pure-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>onNodeRemoved</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a0ff3743a762cc546736af73dd3b05a69" prot="public" virt="non-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1af34f2fcb5a7fcf1063ef18ba26333079" prot="protected" virt="non-virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_i_shard_limit_policy_1a3c422e5bf1a403b7c7fcd53a0cc0069b" prot="public" virt="virtual"><scope>themis::sharding::IShardLimitPolicy</scope><name>~IShardLimitPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

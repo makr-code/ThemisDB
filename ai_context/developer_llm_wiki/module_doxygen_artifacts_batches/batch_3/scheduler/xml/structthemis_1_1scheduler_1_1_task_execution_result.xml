@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scheduler_1_1_task_execution_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scheduler::TaskExecutionResult</compoundname>
+    <includes refid="task__result__store_8h" local="no">task_result_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_execution_result_1aeb1950fee1effd23bfa81fb8994c0227" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskExecutionResult::task_id</definition>
+        <argsstring></argsstring>
+        <name>task_id</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::task_id</qualifiedname>
+        <briefdescription>
+<para>Task identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="33" column="17" bodyfile="include/scheduler/task_result_store.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_execution_result_1ab8d3076671f45ba1be74f29a874c6627" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskExecutionResult::task_name</definition>
+        <argsstring></argsstring>
+        <name>task_name</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::task_name</qualifiedname>
+        <briefdescription>
+<para>Human-readable task name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="34" column="17" bodyfile="include/scheduler/task_result_store.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_execution_result_1af12a85e824c413acb5b6da344c646341" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::scheduler::TaskExecutionResult::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::timestamp_ms</qualifiedname>
+        <briefdescription>
+<para>Wall-clock start time (ms since Unix epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="35" column="17" bodyfile="include/scheduler/task_result_store.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_execution_result_1a74acfcf150ab5d7b35780ae06bbbb6e1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scheduler::TaskExecutionResult::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::duration_ms</qualifiedname>
+        <briefdescription>
+<para>Execution duration in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="36" column="17" bodyfile="include/scheduler/task_result_store.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_execution_result_1a8ef049353690f205f5678d47b45223b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scheduler::TaskExecutionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::success</qualifiedname>
+        <briefdescription>
+<para>true if the task completed without error </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="37" column="17" bodyfile="include/scheduler/task_result_store.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_execution_result_1ab5907d8bb5c260e6ad8da930ca168602" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskExecutionResult::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::output</qualifiedname>
+        <briefdescription>
+<para>JSON result returned by the task (empty on failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="38" column="20" bodyfile="include/scheduler/task_result_store.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scheduler_1_1_task_execution_result_1ac7b695aa65105d9911e9cb3b45f1ba82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scheduler::TaskExecutionResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::error</qualifiedname>
+        <briefdescription>
+<para>Error message (empty on success). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="39" column="17" bodyfile="include/scheduler/task_result_store.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_execution_result_1abefd7d1f018a995706fbdb25ba5efa78" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::scheduler::TaskExecutionResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize to JSON (for storage / API responses). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="42" column="20" bodyfile="src/scheduler/task_execution_result.cpp" bodystart="7" bodyend="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1scheduler_1_1_task_execution_result_1a17bac6f7a9e61b9cf510323b4d90610c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1scheduler_1_1_task_execution_result" kindref="compound">TaskExecutionResult</ref></type>
+        <definition>TaskExecutionResult themis::scheduler::TaskExecutionResult::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::scheduler::TaskExecutionResult::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize from JSON (used when loading from RocksDB). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), at(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/task_result_store.h" line="45" column="32" bodyfile="src/scheduler/task_execution_result.cpp" bodystart="25" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single recorded execution of a scheduled task. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/task_result_store.h" line="32" column="1" bodyfile="include/scheduler/task_result_store.h" bodystart="32" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1a74acfcf150ab5d7b35780ae06bbbb6e1" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1ac7b695aa65105d9911e9cb3b45f1ba82" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1a17bac6f7a9e61b9cf510323b4d90610c" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1ab5907d8bb5c260e6ad8da930ca168602" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>output</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1a8ef049353690f205f5678d47b45223b9" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1aeb1950fee1effd23bfa81fb8994c0227" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>task_id</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1ab8d3076671f45ba1be74f29a874c6627" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>task_name</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1af12a85e824c413acb5b6da344c646341" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1scheduler_1_1_task_execution_result_1abefd7d1f018a995706fbdb25ba5efa78" prot="public" virt="non-virtual"><scope>themis::scheduler::TaskExecutionResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

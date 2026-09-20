@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_parameter_bounds" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ParameterBounds</compoundname>
+    <includes refid="bayesian__optimizer_8h" local="no">bayesian_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_parameter_bounds_1a048e2d1afca2ee2ca4037acde0c80ff2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ParameterBounds::min_value</definition>
+        <argsstring></argsstring>
+        <name>min_value</name>
+        <qualifiedname>themis::rag::learning::ParameterBounds::min_value</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="24" column="12" bodyfile="include/rag/bayesian_optimizer.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_parameter_bounds_1a703e0c9dd37f9bbb59b093c4a87d1c59" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ParameterBounds::max_value</definition>
+        <argsstring></argsstring>
+        <name>max_value</name>
+        <qualifiedname>themis::rag::learning::ParameterBounds::max_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/bayesian_optimizer.h" line="25" column="12" bodyfile="include/rag/bayesian_optimizer.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parameter bounds for optimization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/bayesian_optimizer.h" line="23" column="1" bodyfile="include/rag/bayesian_optimizer.h" bodystart="23" bodyend="26"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds_1a703e0c9dd37f9bbb59b093c4a87d1c59" prot="public" virt="non-virtual"><scope>themis::rag::learning::ParameterBounds</scope><name>max_value</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_parameter_bounds_1a048e2d1afca2ee2ca4037acde0c80ff2" prot="public" virt="non-virtual"><scope>themis::rag::learning::ParameterBounds</scope><name>min_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

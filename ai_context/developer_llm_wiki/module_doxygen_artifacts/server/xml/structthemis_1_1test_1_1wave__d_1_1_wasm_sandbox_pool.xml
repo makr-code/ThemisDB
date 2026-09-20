@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::WasmSandboxPool</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a090a21a4b25bff8afcea527da6c7337f" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::test::wave_d::WasmSandboxPool::slots_</definition>
+        <argsstring></argsstring>
+        <name>slots_</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::slots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="149" column="25" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a560bf71b6aa075fe8ea3409e07d01a8e" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::wave_d::WasmSandboxPool::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="150" column="25" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a4488e265b77fd049b1b1a8afb6bfd9dc" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::test::wave_d::WasmSandboxPool::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::active_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="151" column="19" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a5b76a18b7a9ff3efd95707c03705b333" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::WasmSandboxPool::acquired_</definition>
+        <argsstring></argsstring>
+        <name>acquired_</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::acquired_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="152" column="19" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a18b12e6edf0574aefb7369aad5de1bf2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::WasmSandboxPool::exhausted_</definition>
+        <argsstring></argsstring>
+        <name>exhausted_</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::exhausted_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="153" column="19" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a347fdeeff11a346083291e0cca7e098b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; long &gt;</type>
+        <definition>std::atomic&lt;long&gt; themis::test::wave_d::WasmSandboxPool::invocations_</definition>
+        <argsstring></argsstring>
+        <name>invocations_</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::invocations_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="154" column="19" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="154" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a8c936303ca1ccfb2b0a9f25c0c698c6b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::wave_d::WasmSandboxPool::WasmSandboxPool</definition>
+        <argsstring>(int slots)</argsstring>
+        <name>WasmSandboxPool</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::WasmSandboxPool</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>slots</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="116" column="14" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="116" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a113d86e887baf8807ee2f5b8c4322c82" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::WasmSandboxPool::acquire</definition>
+        <argsstring>(int *slot_out)</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::acquire</qualifiedname>
+        <param>
+          <type>int *</type>
+          <declname>slot_out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="120" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="120" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a377930c4adf71fa73c963d4b539ba687" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::wave_d::WasmSandboxPool::release</definition>
+        <argsstring>(int slot)</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::release</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>slot</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="134" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a94023066bcb13164d792a7cb89c166e3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::wave_d::WasmSandboxPool::invoke</definition>
+        <argsstring>(int)</argsstring>
+        <name>invoke</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::invoke</qualifiedname>
+        <param>
+          <type>int</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="139" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="139" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a4913e1fe085925bbd6f60c55ee00bcfb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::WasmSandboxPool::acquired</definition>
+        <argsstring>() const</argsstring>
+        <name>acquired</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::acquired</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="144" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a40fc16a050255c8d2ce0d0ff2b2e8e71" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::WasmSandboxPool::exhausted</definition>
+        <argsstring>() const</argsstring>
+        <name>exhausted</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::exhausted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="145" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1aefd68fa07020f25bc07c362940cd10d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>long themis::test::wave_d::WasmSandboxPool::invocations</definition>
+        <argsstring>() const</argsstring>
+        <name>invocations</name>
+        <qualifiedname>themis::test::wave_d::WasmSandboxPool::invocations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_highcardinality_stress.cpp" line="146" column="10" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="146" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_highcardinality_stress.cpp" line="115" column="1" bodyfile="tests/server/test_server_highcardinality_stress.cpp" bodystart="115" bodyend="155"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a113d86e887baf8807ee2f5b8c4322c82" prot="public" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>acquire</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a4913e1fe085925bbd6f60c55ee00bcfb" prot="public" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>acquired</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a5b76a18b7a9ff3efd95707c03705b333" prot="private" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>acquired_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a4488e265b77fd049b1b1a8afb6bfd9dc" prot="private" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>active_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a40fc16a050255c8d2ce0d0ff2b2e8e71" prot="public" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>exhausted</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a18b12e6edf0574aefb7369aad5de1bf2" prot="private" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>exhausted_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1aefd68fa07020f25bc07c362940cd10d0" prot="public" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>invocations</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a347fdeeff11a346083291e0cca7e098b" prot="private" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>invocations_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a94023066bcb13164d792a7cb89c166e3" prot="public" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>invoke</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a560bf71b6aa075fe8ea3409e07d01a8e" prot="private" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>mu_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a377930c4adf71fa73c963d4b539ba687" prot="public" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>release</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a090a21a4b25bff8afcea527da6c7337f" prot="private" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>slots_</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_wasm_sandbox_pool_1a8c936303ca1ccfb2b0a9f25c0c698c6b" prot="public" virt="non-virtual"><scope>themis::test::wave_d::WasmSandboxPool</scope><name>WasmSandboxPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

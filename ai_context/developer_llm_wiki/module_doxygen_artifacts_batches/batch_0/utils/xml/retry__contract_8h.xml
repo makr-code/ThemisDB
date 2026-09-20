@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="retry__contract_8h" kind="file" language="C++">
+    <compoundname>retry_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/retry_contract.h</label>
+        <link refid="retry__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1utils_1_1_retry_metadata" prot="public">themis::utils::RetryMetadata</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4" kindref="member">RetryExhaustionReason</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="11" refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="12" refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4ace7455345990865a6e04540e841c7d13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4ace7455345990865a6e04540e841c7d13" kindref="member">MAX_ATTEMPTS_REACHED</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="13" refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a89a20664fefa2334a49a62cc26348ad5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a89a20664fefa2334a49a62cc26348ad5" kindref="member">TIME_BUDGET_EXCEEDED</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="14" refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a9f935beb31030ad0d4d26126c0f39bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a9f935beb31030ad0d4d26126c0f39bf2" kindref="member">CANCELLED</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="15" refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a5b0203cecbb54fa428da6c6e2e10598d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a5b0203cecbb54fa428da6c6e2e10598d" kindref="member">NON_RETRYABLE</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="16" refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a4abfc2444891986ac67526fb0314c947" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a4abfc2444891986ac67526fb0314c947" kindref="member">MEMORY_BUDGET_EXCEEDED</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569" kindref="member">RetryTimeoutSource</ref><sp/>:<sp/>std::uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569a9b4c95b3a8636935c451524e13012c97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569a9b4c95b3a8636935c451524e13012c97" kindref="member">PER_ATTEMPT</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569a7905c9b3eda793da18fade6e791b2183" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569a7905c9b3eda793da18fade6e791b2183" kindref="member">OVERALL</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569a5fe9db299562a253ce0745d25f54eb0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569a5fe9db299562a253ce0745d25f54eb0f" kindref="member">SHARD</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569a110e6608651150fbeb240b893c81e526" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569a110e6608651150fbeb240b893c81e526" kindref="member">QUORUM</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569ae041cd821518c1b575f85bfad403d4b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569ae041cd821518c1b575f85bfad403d4b1" kindref="member">BACKEND</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1utils_1_1_retry_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_retry_metadata" kindref="compound">RetryMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1utils_1_1_retry_metadata_1a9e0c09281049d220f04de6a415cbfc7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1utils_1_1_retry_metadata_1a9e0c09281049d220f04de6a415cbfc7a" kindref="member">retry_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1utils_1_1_retry_metadata_1a789b309170145d0fb1f4ac47fc88d346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1utils_1_1_retry_metadata_1a789b309170145d0fb1f4ac47fc88d346" kindref="member">retry_budget</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1utils_1_1_retry_metadata_1a306a7bf0821315b7d2e2b653aca8bb95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4" kindref="member">RetryExhaustionReason</ref><sp/><ref refid="structthemis_1_1utils_1_1_retry_metadata_1a306a7bf0821315b7d2e2b653aca8bb95" kindref="member">exhaustion_reason</ref><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4ab50339a10e1de285ac99d4c3990b8693" kindref="member">RetryExhaustionReason::NONE</ref>;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1utils_1_1_retry_metadata_1a37664a7bdac12a12b64aa15dd1a52483" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569" kindref="member">RetryTimeoutSource</ref><sp/><ref refid="structthemis_1_1utils_1_1_retry_metadata_1a37664a7bdac12a12b64aa15dd1a52483" kindref="member">timeout_source</ref><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569ab50339a10e1de285ac99d4c3990b8693" kindref="member">RetryTimeoutSource::NONE</ref>;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1utils_1_1_retry_metadata_1a4335ced8dda7caeb7695cc493e198eaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_retry_metadata_1a4335ced8dda7caeb7695cc493e198eaf" kindref="member">retriable</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1utils_1a8880a436df483b4869e71edd6909c90c" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a8880a436df483b4869e71edd6909c90c" kindref="member">isRetryExhausted</ref>(</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4" kindref="member">RetryExhaustionReason</ref><sp/>reason)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>reason<sp/>!=<sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4ab50339a10e1de285ac99d4c3990b8693" kindref="member">RetryExhaustionReason::NONE</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1utils_1a6cac04f4852d6050ba1a90798bdb0b27" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1utils_1a6cac04f4852d6050ba1a90798bdb0b27" kindref="member">isTimeoutDriven</ref>(</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4" kindref="member">RetryExhaustionReason</ref><sp/>reason)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>reason<sp/>==<sp/><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4a89a20664fefa2334a49a62cc26348ad5" kindref="member">RetryExhaustionReason::TIME_BUDGET_EXCEEDED</ref>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::utils</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/retry_contract.h"/>
+  </compounddef>
+</doxygen>

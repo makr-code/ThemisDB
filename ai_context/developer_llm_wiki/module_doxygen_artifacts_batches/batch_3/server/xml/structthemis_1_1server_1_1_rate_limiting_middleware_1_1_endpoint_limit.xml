@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RateLimitingMiddleware::EndpointLimit</compoundname>
+    <includes refid="rate__limiting__middleware_8h" local="no">rate_limiting_middleware.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a0d74051436865fd4a001b9b395f5a6c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::RateLimitingMiddleware::EndpointLimit::path_prefix</definition>
+        <argsstring></argsstring>
+        <name>path_prefix</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::EndpointLimit::path_prefix</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;/v2/documents&quot;, &quot;/api/bulk&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="30" column="21" bodyfile="include/server/rate_limiting_middleware.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a008624815170a5ae088557cf280f204e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimitingMiddleware::EndpointLimit::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::EndpointLimit::capacity</qualifiedname>
+        <briefdescription>
+<para>token bucket size (burst) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="31" column="21" bodyfile="include/server/rate_limiting_middleware.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a432e5f22a8817e57ad31bec30df0b133" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::RateLimitingMiddleware::EndpointLimit::refill_rate</definition>
+        <argsstring></argsstring>
+        <name>refill_rate</name>
+        <qualifiedname>themis::server::RateLimitingMiddleware::EndpointLimit::refill_rate</qualifiedname>
+        <briefdescription>
+<para>tokens per second </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiting_middleware.h" line="32" column="21" bodyfile="include/server/rate_limiting_middleware.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiting_middleware.h" line="29" column="5" bodyfile="include/server/rate_limiting_middleware.h" bodystart="29" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a008624815170a5ae088557cf280f204e" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::EndpointLimit</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a0d74051436865fd4a001b9b395f5a6c6" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::EndpointLimit</scope><name>path_prefix</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limiting_middleware_1_1_endpoint_limit_1a432e5f22a8817e57ad31bec30df0b133" prot="public" virt="non-virtual"><scope>themis::server::RateLimitingMiddleware::EndpointLimit</scope><name>refill_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

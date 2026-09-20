@@ -1,0 +1,395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::prompt_engineering::ILLMProviderReflectionAdapter</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" prot="public" virt="non-virtual">themis::prompt_engineering::IReflectionProvider</basecompoundref>
+    <includes refid="llm__reflection__adapter_8h" local="no">llm_reflection_adapter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1ad813249fa8c9eaf17ee51a5488ad1da8" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kindref="compound">ILLMProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ILLMProvider&gt; themis::prompt_engineering::ILLMProviderReflectionAdapter::llm_</definition>
+        <argsstring></argsstring>
+        <name>llm_</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::llm_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="135" column="27" bodyfile="include/prompt_engineering/llm_reflection_adapter.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a2664a9a2fe3b61199c9a761d1e909280" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref></type>
+        <definition>DynamicReflectionPromptBuilder themis::prompt_engineering::ILLMProviderReflectionAdapter::builder_</definition>
+        <argsstring></argsstring>
+        <name>builder_</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::builder_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="136" column="41" bodyfile="include/prompt_engineering/llm_reflection_adapter.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a743be69bd4d6dcd9446bf8daec7f13db" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer" kindref="compound">IReflectionScorer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IReflectionScorer&gt; themis::prompt_engineering::ILLMProviderReflectionAdapter::scorer_</definition>
+        <argsstring></argsstring>
+        <name>scorer_</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::scorer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="137" column="22" bodyfile="include/prompt_engineering/llm_reflection_adapter.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1ae4afb649c06266fff005334f82833969" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::ILLMProviderReflectionAdapter::ILLMProviderReflectionAdapter</definition>
+        <argsstring>(std::shared_ptr&lt; ILLMProvider &gt; llm_provider, ReflectionStrategy strategy=ReflectionStrategy::SELF_REFINE)</argsstring>
+        <name>ILLMProviderReflectionAdapter</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::ILLMProviderReflectionAdapter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kindref="compound">ILLMProvider</ref> &gt;</type>
+          <declname>llm_provider</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" kindref="member">ReflectionStrategy</ref></type>
+          <declname>strategy</declname>
+          <defval><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921fa440d48e0b4aa56402fc8e62af4acdd4c" kindref="member">ReflectionStrategy::SELF_REFINE</ref></defval>
+        </param>
+        <briefdescription>
+<para>Construct the adapter wrapping <computeroutput>llm_provider</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>llm_provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kindref="compound">ILLMProvider</ref></computeroutput> to delegate LLM calls to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reflection strategy used for prompt construction (defaults to <computeroutput>SELF_REFINE</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="72" column="14" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="25" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1af8f94b37614cba09c4f73638d826a665" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ILLMProviderReflectionAdapter::generate</definition>
+        <argsstring>(const std::string &amp;prompt) const override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a192547c130b35136e9305ce56a3675ae">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Generate an initial response by forwarding <computeroutput>prompt</computeroutput> directly to the underlying <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1a634950a81c986e68988e4f73930273e9" kindref="member">ILLMProvider::complete()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="84" column="17" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="31" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a471518b667a37a2bbfbc46e964544b69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ILLMProviderReflectionAdapter::critique</definition>
+        <argsstring>(const std::string &amp;original_prompt, const std::string &amp;response) const override</argsstring>
+        <name>critique</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::critique</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1ad46b78567b678e61f33098ef6e5db9cd">critique</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Build a strategy-specific critique prompt via <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref></computeroutput>, then call <computeroutput>complete()</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="90" column="17" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a32dfa37b5dd0ca73482d2fde4265fa17" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ILLMProviderReflectionAdapter::revise</definition>
+        <argsstring>(const std::string &amp;original_prompt, const std::string &amp;response, const std::string &amp;critique) const override</argsstring>
+        <name>revise</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::revise</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a37fc95c346a058b4fa7e539d71a32361">revise</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original_prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>critique</declname>
+        </param>
+        <briefdescription>
+<para>Build a strategy-specific revision prompt, then call <computeroutput>complete()</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="96" column="17" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="47" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a5bd9515575ef8085ddb5b9609abfdca8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ILLMProviderReflectionAdapter::score</definition>
+        <argsstring>(const std::string &amp;prompt, const std::string &amp;response) const override</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::score</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1ab88b65385d3f34f4a3dc659f956b04a2">score</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Return the quality score from an injected <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer" kindref="compound">IReflectionScorer</ref></computeroutput>, or from the built-in heuristic when none is set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="104" column="12" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="60" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a181c6b51db1d7de77f116dec5c380aeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ILLMProviderReflectionAdapter::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::name</qualifiedname>
+        <reimplements refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a8c8a2c31b209375448dc9c3de7e30426">name</reimplements>
+        <briefdescription>
+<para>Return <computeroutput>"llm-reflection-adapter(&lt;provider-name&gt;)"</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="110" column="17" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="69" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1af4bbee80ab38304c2aad4e3f8e7a5b2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ILLMProviderReflectionAdapter::setStrategy</definition>
+        <argsstring>(ReflectionStrategy strategy)</argsstring>
+        <name>setStrategy</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::setStrategy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" kindref="member">ReflectionStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Replace the reflection strategy used for prompt construction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setStrategy without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="117" column="10" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a42dd3d017da39801e3aeb6aee72e4943" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a486e9d258dcda29bdfb48a058325921f" kindref="member">ReflectionStrategy</ref></type>
+        <definition>ReflectionStrategy themis::prompt_engineering::ILLMProviderReflectionAdapter::getStrategy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getStrategy</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::getStrategy</qualifiedname>
+        <briefdescription>
+<para>Return the current reflection strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="120" column="24" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a0c01cc291dbafc3ad58bdd96af32f981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ILLMProviderReflectionAdapter::setScorer</definition>
+        <argsstring>(std::shared_ptr&lt; IReflectionScorer &gt; scorer)</argsstring>
+        <name>setScorer</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::setScorer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer" kindref="compound">IReflectionScorer</ref> &gt;</type>
+          <declname>scorer</declname>
+        </param>
+        <briefdescription>
+<para>Inject a custom quality scorer, replacing the built-in heuristic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Scorer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null scorer implementation.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="126" column="10" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="94" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1ac77c24d5c0129bec79a379d0c7363a11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ILLMProviderReflectionAdapter::clearScorer</definition>
+        <argsstring>()</argsstring>
+        <name>clearScorer</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::clearScorer</qualifiedname>
+        <briefdescription>
+<para>Remove the custom scorer (fall back to built-in heuristic). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Scorer.</para>
+<para>Calls: reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="129" column="10" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1af71bd407dd7387e2a9c3f63819fd43b1" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ILLMProviderReflectionAdapter::hasScorer</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasScorer</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::hasScorer</qualifiedname>
+        <briefdescription>
+<para>Return <computeroutput>true</computeroutput> when a custom scorer is attached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="132" column="10" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a90bfb28ea5a60f4467305b8dd04a8d4d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ILLMProviderReflectionAdapter::heuristicScore</definition>
+        <argsstring>(const std::string &amp;response) const</argsstring>
+        <name>heuristicScore</name>
+        <qualifiedname>themis::prompt_engineering::ILLMProviderReflectionAdapter::heuristicScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Built-in heuristic scorer (length, structure, hallucination markers). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/llm_reflection_adapter.h" line="140" column="12" bodyfile="src/prompt_engineering/llm_reflection_adapter.cpp" bodystart="111" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adapts any <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider" kindref="compound">ILLMProvider</ref></computeroutput> for use as an <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" kindref="compound">IReflectionProvider</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Adapter pattern</bold>: translates <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider" kindref="compound">IReflectionProvider</ref></computeroutput>&apos;s four-method interface into <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_1a634950a81c986e68988e4f73930273e9" kindref="member">ILLMProvider::complete()</ref></computeroutput> calls, with <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref></computeroutput> producing the strategy-specific prompts.</para>
+<para>Strategy and self-aware context behaviour are inherited from the <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_dynamic_reflection_prompt_builder" kindref="compound">DynamicReflectionPromptBuilder</ref></computeroutput> that is embedded in the adapter and configurable via <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1af4bbee80ab38304c2aad4e3f8e7a5b2d" kindref="member">setStrategy()</ref></computeroutput>.</para>
+<para>Quality scoring falls back to a built-in heuristic when no <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_i_reflection_scorer" kindref="compound">IReflectionScorer</ref></computeroutput> is injected. The heuristic rewards length and structured content, and penalises hallucination marker phrases. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::prompt_engineering::ILLMProviderReflectionAdapter</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IReflectionProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::ILLMProviderReflectionAdapter</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::IReflectionProvider</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/llm_reflection_adapter.h" line="63" column="1" bodyfile="include/prompt_engineering/llm_reflection_adapter.h" bodystart="63" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a2664a9a2fe3b61199c9a761d1e909280" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>builder_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1ac77c24d5c0129bec79a379d0c7363a11" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>clearScorer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a471518b667a37a2bbfbc46e964544b69" prot="public" virt="virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>critique</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1af8f94b37614cba09c4f73638d826a665" prot="public" virt="virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>generate</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a42dd3d017da39801e3aeb6aee72e4943" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>getStrategy</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1af71bd407dd7387e2a9c3f63819fd43b1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>hasScorer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a90bfb28ea5a60f4467305b8dd04a8d4d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>heuristicScore</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1ae4afb649c06266fff005334f82833969" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>ILLMProviderReflectionAdapter</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1ad813249fa8c9eaf17ee51a5488ad1da8" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>llm_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a181c6b51db1d7de77f116dec5c380aeb" prot="public" virt="virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>name</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a32dfa37b5dd0ca73482d2fde4265fa17" prot="public" virt="virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>revise</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a5bd9515575ef8085ddb5b9609abfdca8" prot="public" virt="virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>score</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a743be69bd4d6dcd9446bf8daec7f13db" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>scorer_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1a0c01cc291dbafc3ad58bdd96af32f981" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>setScorer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_l_l_m_provider_reflection_adapter_1af4bbee80ab38304c2aad4e3f8e7a5b2d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>setStrategy</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_i_reflection_provider_1a563121b1617f18a08e0a0ba9c68f3072" prot="public" virt="virtual"><scope>themis::prompt_engineering::ILLMProviderReflectionAdapter</scope><name>~IReflectionProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

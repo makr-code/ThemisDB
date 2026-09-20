@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_instrumented_shard_router" kind="class" language="C++" prot="public">
+    <compoundname>InstrumentedShardRouter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">ShardRouter</basecompoundref>
+    <derivedcompoundref refid="class_federated_result_shard_router" prot="public" virt="non-virtual">FederatedResultShardRouter</derivedcompoundref>
+    <derivedcompoundref refid="class_query_result_shard_router" prot="public" virt="non-virtual">QueryResultShardRouter</derivedcompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_instrumented_shard_router_1a6a3e5e24e079ca3369ce250e12030665" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; InstrumentedShardRouter::last_on_shards_call</definition>
+        <argsstring></argsstring>
+        <name>last_on_shards_call</name>
+        <qualifiedname>InstrumentedShardRouter::last_on_shards_call</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="53" column="17" bodyfile="tests/query/test_query_federation.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_instrumented_shard_router_1a08a9b010feacba4302c3eaddd46d79b7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int InstrumentedShardRouter::scatter_gather_call_count</definition>
+        <argsstring></argsstring>
+        <name>scatter_gather_call_count</name>
+        <qualifiedname>InstrumentedShardRouter::scatter_gather_call_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="54" column="9" bodyfile="tests/query/test_query_federation.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_instrumented_shard_router_1a5bbae7c711ec4a7c94e434519016e9f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>InstrumentedShardRouter::InstrumentedShardRouter</definition>
+        <argsstring>(std::shared_ptr&lt; URNResolver &gt; resolver)</argsstring>
+        <name>InstrumentedShardRouter</name>
+        <qualifiedname>InstrumentedShardRouter::InstrumentedShardRouter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; URNResolver &gt;</type>
+          <declname>resolver</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="24" column="5" bodyfile="tests/query/test_query_federation.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_instrumented_shard_router_1a34f7666f143143b39f1573c4a774b3ff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; ShardResult &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; InstrumentedShardRouter::scatterGather</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>scatterGather</name>
+        <qualifiedname>InstrumentedShardRouter::scatterGather</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="30" column="17" bodyfile="tests/query/test_query_federation.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_instrumented_shard_router_1a6b68c59b533e364d01abbf9a94851bac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; ShardResult &gt;</type>
+        <definition>std::vector&lt; ShardResult &gt; InstrumentedShardRouter::executeOnShards</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; std::string &gt; &amp;shard_ids) override</argsstring>
+        <name>executeOnShards</name>
+        <qualifiedname>InstrumentedShardRouter::executeOnShards</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation.cpp" line="35" column="17" bodyfile="tests/query/test_query_federation.cpp" bodystart="35" bodyend="50"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>FederatedResultShardRouter</label>
+        <link refid="class_federated_result_shard_router"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>InstrumentedShardRouter</label>
+        <link refid="class_instrumented_shard_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>QueryResultShardRouter</label>
+        <link refid="class_query_result_shard_router"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ShardRouter</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>InstrumentedShardRouter</label>
+        <link refid="class_instrumented_shard_router"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>ShardRouter</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_federation.cpp" line="22" column="1" bodyfile="tests/query/test_query_federation.cpp" bodystart="22" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_instrumented_shard_router_1a6b68c59b533e364d01abbf9a94851bac" prot="public" virt="non-virtual"><scope>InstrumentedShardRouter</scope><name>executeOnShards</name></member>
+      <member refid="class_instrumented_shard_router_1a5bbae7c711ec4a7c94e434519016e9f8" prot="public" virt="non-virtual"><scope>InstrumentedShardRouter</scope><name>InstrumentedShardRouter</name></member>
+      <member refid="class_instrumented_shard_router_1a6a3e5e24e079ca3369ce250e12030665" prot="public" virt="non-virtual"><scope>InstrumentedShardRouter</scope><name>last_on_shards_call</name></member>
+      <member refid="class_instrumented_shard_router_1a08a9b010feacba4302c3eaddd46d79b7" prot="public" virt="non-virtual"><scope>InstrumentedShardRouter</scope><name>scatter_gather_call_count</name></member>
+      <member refid="class_instrumented_shard_router_1a34f7666f143143b39f1573c4a774b3ff" prot="public" virt="non-virtual"><scope>InstrumentedShardRouter</scope><name>scatterGather</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

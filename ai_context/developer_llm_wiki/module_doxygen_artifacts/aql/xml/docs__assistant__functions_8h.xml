@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="docs__assistant__functions_8h" kind="file" language="C++">
+    <compoundname>docs_assistant_functions.h</compoundname>
+    <includes refid="classify__bridge_8h" local="yes">aql/classify_bridge.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="classify__bridge_8cpp" local="yes">src/aql/classify_bridge.cpp</includedby>
+    <includedby refid="docs__assistant__functions_8cpp" local="yes">src/aql/docs_assistant_functions.cpp</includedby>
+    <includedby refid="test__aql__query__validator_8cpp" local="yes">tests/aql/test_aql_query_validator.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>aql/classify_bridge.h</label>
+        <link refid="classify__bridge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/aql/docs_assistant_functions.h</label>
+        <link refid="docs__assistant__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/aql/docs_assistant_functions.h</label>
+        <link refid="docs__assistant__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/aql/classify_bridge.cpp</label>
+        <link refid="classify__bridge_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/aql/docs_assistant_functions.cpp</label>
+        <link refid="docs__assistant__functions_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/aql/test_aql_query_validator.cpp</label>
+        <link refid="test__aql__query__validator_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1aql_1_1_docs_assistant_functions" prot="public">themis::aql::DocsAssistantFunctions</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="13" refid="namespacethemis_1_1llm" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">DocumentEntry;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="classify__bridge_8h" kindref="compound">aql/classify_bridge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">aql<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1aql_1_1_docs_assistant_functions" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a39820435ed40df9f58623fdafcd5ff03" kindref="member">DocsAssistantFunctions</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994" kindref="member">DegradedReason</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a49b0ebc9d191ab046c453d8292773cc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a49b0ebc9d191ab046c453d8292773cc3" kindref="member">DATABASE_NOT_FOUND</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a7ea647f3d58679383ef592beb80910ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a7ea647f3d58679383ef592beb80910ac" kindref="member">DATABASE_LOAD_FAILED</ref>,<sp/></highlight></codeline>
+<codeline lineno="38" refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a817c3a6e3a7800c536d3080a03c65d8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ad0b469a647aacf206a398231f815a994a817c3a6e3a7800c536d3080a03c65d8f" kindref="member">LORA_LOAD_FAILED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a39820435ed40df9f58623fdafcd5ff03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a39820435ed40df9f58623fdafcd5ff03" kindref="member">DocsAssistantFunctions</ref>();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a5e23aa82237ab62088f7ee91a7480f73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a5e23aa82237ab62088f7ee91a7480f73" kindref="member">~DocsAssistantFunctions</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1aaabcd6eda335f5c5c1668400c25d6334" kindref="member">help</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;anonymous&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a81116d2a994b07830ae6aa1e1dc7c238" kindref="member">docsQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a84d6f3fb8ef2f3fc1287080b228913aa" kindref="member">docsSearch</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>5);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a33b792ec11cc4bda1a5411cabdcc845d" kindref="member">docsConfigHelp</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>topic);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a9d8abdcbc8c002e9f43ceba00672de8e" kindref="member">docsTroubleshoot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>error_description);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a68b471336a66780e3e6d42754b51e7a3" kindref="member">docsStats</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a334b97b8e825796608cf742f79c7cce8" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1ac1367616b67d17ca18159261e4e9d513" kindref="member">isFullyReady</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a4696aa6b3f9cb67a66c77542ac0b11ce" kindref="member">degradedReason</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a941b86171f4a0d64598fab433210a60a" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1aac1325d0fa88362126044a8f148dee82" kindref="member">isLoRAActive</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1aab63efa828627771d32fc1e947790dc7" kindref="member">getPerformanceMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1abeb00aebf98203e1e33f74d3b44d1703" kindref="member">setClassifier</ref>(<ref refid="classthemis_1_1aql_1_1_i_classify_fn" kindref="compound">IClassifyFn</ref>*<sp/>classifier);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1a96fc006f58b9cb6080816c0d6b97ff9b" kindref="member">detectIntentWithNativeNLP</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kindref="compound">Impl</ref>&amp;<sp/>ensureImpl();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions_1_1_impl" kindref="compound">Impl</ref>*<sp/>tryGetImpl()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_i_classify_fn" kindref="compound">IClassifyFn</ref>*<sp/>classifier_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>detectIntentWithLLM(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>detectIntentWithRegex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extractTopicFromQuery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extractSearchQuery(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatSearchResults(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;llm::DocumentEntry&gt;&amp;<sp/>docs);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="classthemis_1_1aql_1_1_docs_assistant_functions" kindref="compound">DocsAssistantFunctions</ref>&amp;<sp/><ref refid="namespacethemis_1_1aql_1ab26ffca0af8db556434b77d3261faae6" kindref="member">getDocsAssistantFunctions</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/aql/docs_assistant_functions.h"/>
+  </compounddef>
+</doxygen>

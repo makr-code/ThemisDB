@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="audit__api__handler_8h" kind="file" language="C++">
+    <compoundname>audit_api_handler.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">climits</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="yes">security/encryption.h</includes>
+    <includes local="yes">utils/pki_client.h</includes>
+    <includedby refid="http__server_8h" local="yes">include/server/http_server.h</includedby>
+    <includedby refid="audit__api__handler_8cpp" local="yes">src/server/audit_api_handler.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/audit_api_handler.h</label>
+        <link refid="audit__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>climits</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="9">
+        <label>utils/pki_client.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/server/bench_api_endpoints.cpp</label>
+        <link refid="bench__api__endpoints_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/server/audit_api_handler.h</label>
+        <link refid="audit__api__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/server/http_server.h</label>
+        <link refid="http__server_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/server/audit_api_handler.cpp</label>
+        <link refid="audit__api__handler_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/server/http_server.cpp</label>
+        <link refid="http__server_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/server/test_api_integration.cpp</label>
+        <link refid="test__api__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/server/test_server_integration_complete.cpp</label>
+        <link refid="test__server__integration__complete_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1server_1_1_audit_log_entry" prot="public">themis::server::AuditLogEntry</innerclass>
+    <innerclass refid="structthemis_1_1server_1_1_audit_query_filter" prot="public">themis::server::AuditQueryFilter</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1_audit_api_handler" prot="public">themis::server::AuditApiHandler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;climits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/encryption.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/pki_client.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1server_1_1_audit_log_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1server_1_1_audit_log_entry_1a2b1416b1822fe7254e851a66427be64a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a2b1416b1822fe7254e851a66427be64a" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1server_1_1_audit_log_entry_1a2a8f604a0b165b413b0d8b87ff5eb33f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a2a8f604a0b165b413b0d8b87ff5eb33f" kindref="member">timestamp_ms</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1server_1_1_audit_log_entry_1ac8a0870b9183d21dd0666f9887ac6a11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1ac8a0870b9183d21dd0666f9887ac6a11" kindref="member">user</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1server_1_1_audit_log_entry_1a3befcc8c641e28c75a543c178cce8dce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a3befcc8c641e28c75a543c178cce8dce" kindref="member">action</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1server_1_1_audit_log_entry_1a2d2a8b8f0faa67ff2beffab2ac2f0ed0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a2d2a8b8f0faa67ff2beffab2ac2f0ed0" kindref="member">entity_type</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1server_1_1_audit_log_entry_1a08900a94b28e94e9e726bdeb3a1df366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a08900a94b28e94e9e726bdeb3a1df366" kindref="member">entity_id</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1server_1_1_audit_log_entry_1a36c26c727129b4dbf875c4bd61cdd001" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a36c26c727129b4dbf875c4bd61cdd001" kindref="member">old_value</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1server_1_1_audit_log_entry_1a2e70db9175a1affa112e5511ace22b2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a2e70db9175a1affa112e5511ace22b2f" kindref="member">new_value</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1server_1_1_audit_log_entry_1a82ae62ab320c1f5e9ebc637823bc2599" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a82ae62ab320c1f5e9ebc637823bc2599" kindref="member">success</ref>;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1server_1_1_audit_log_entry_1ad35b09865a408577057617fe2a7420ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1ad35b09865a408577057617fe2a7420ef" kindref="member">ip_address</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1server_1_1_audit_log_entry_1a42efeb2443b9fd6ada4bcee4add75775" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a42efeb2443b9fd6ada4bcee4add75775" kindref="member">session_id</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1server_1_1_audit_log_entry_1a1262a3d42d0bfa4977cb6cd18194d4db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1a1262a3d42d0bfa4977cb6cd18194d4db" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry_1af1f37d8fec04aa1b86f400b72caefe9b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1server_1_1_audit_query_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1server_1_1_audit_query_filter" kindref="compound">AuditQueryFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1server_1_1_audit_query_filter_1a1fc88a949173496e06509e160549e232" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1a1fc88a949173496e06509e160549e232" kindref="member">start_ts_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1server_1_1_audit_query_filter_1a110d29f004b0820a79a8f26965beebeb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1a110d29f004b0820a79a8f26965beebeb" kindref="member">end_ts_ms</ref><sp/>=<sp/>LLONG_MAX;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1server_1_1_audit_query_filter_1aee99dfe4d218bb3a4df45294c4b73f4c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1aee99dfe4d218bb3a4df45294c4b73f4c" kindref="member">user</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1server_1_1_audit_query_filter_1a2a0d5a06aeb9c2d491cfe9159a397ae3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1a2a0d5a06aeb9c2d491cfe9159a397ae3" kindref="member">action</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1server_1_1_audit_query_filter_1a3e97f87be8e5649ce3692b859a762e2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1a3e97f87be8e5649ce3692b859a762e2a" kindref="member">entity_type</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1server_1_1_audit_query_filter_1ae6e38870a715ccf8672506c1b74e7223" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1ae6e38870a715ccf8672506c1b74e7223" kindref="member">entity_id</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1server_1_1_audit_query_filter_1a2e8d8362a7afd2d0c6191da05d6c2f21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1a2e8d8362a7afd2d0c6191da05d6c2f21" kindref="member">success_only</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1server_1_1_audit_query_filter_1abe0a2def968bed5de1b80c7353c3c698" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1abe0a2def968bed5de1b80c7353c3c698" kindref="member">page</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1server_1_1_audit_query_filter_1aa39ee4abd9995f1d270c54fc3b4441fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter_1aa39ee4abd9995f1d270c54fc3b4441fb" kindref="member">page_size</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1server_1_1_audit_api_handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1server_1_1_audit_api_handler_1a14a63a1ad3b8f70ed6c189bd04f57d94" kindref="member">AuditApiHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1server_1_1_audit_api_handler_1a14a63a1ad3b8f70ed6c189bd04f57d94" kindref="member">AuditApiHandler</ref>(std::shared_ptr&lt;themis::FieldEncryption&gt;<sp/>enc,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::utils::VCCPKIClient&gt;<sp/>pki,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>log_path);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1server_1_1_audit_api_handler_1af0e71253ac14b23ad27977d41e4da9a7" kindref="member">queryAuditLogs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter" kindref="compound">AuditQueryFilter</ref>&amp;<sp/>filter);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1server_1_1_audit_api_handler_1ae730fc92fabe9ce762be51da9e91ba6c" kindref="member">exportAuditLogsCsv</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter" kindref="compound">AuditQueryFilter</ref>&amp;<sp/>filter);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::FieldEncryption&gt;<sp/>enc_;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::utils::VCCPKIClient&gt;<sp/>pki_;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>log_path_;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditLogEntry&gt;<sp/>readAuditLogs(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1server_1_1_audit_query_filter" kindref="compound">AuditQueryFilter</ref>&amp;<sp/>filter);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1server_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref><sp/>parseLogLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j,<sp/>int64_t<sp/>line_id);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>decryptPayload(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/audit_api_handler.h"/>
+  </compounddef>
+</doxygen>

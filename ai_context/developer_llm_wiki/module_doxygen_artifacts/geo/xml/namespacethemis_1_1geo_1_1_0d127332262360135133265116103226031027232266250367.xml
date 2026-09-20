@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1geo_1_1_0d127332262360135133265116103226031027232266250367" kind="namespace" language="C++">
+    <compoundname>themis::geo::@127332262360135133265116103226031027232266250367</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/geo/bench_geo_cuda_kernel_gating.cpp" line="25" column="1"/>
+  </compounddef>
+</doxygen>

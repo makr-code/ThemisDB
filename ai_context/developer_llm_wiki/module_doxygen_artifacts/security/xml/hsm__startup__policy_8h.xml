@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hsm__startup__policy_8h" kind="file" language="C++">
+    <compoundname>hsm_startup_policy.h</compoundname>
+    <includes refid="hsm__provider_8h" local="yes">security/hsm_provider.h</includes>
+    <includes refid="hsm__security__checker_8h" local="yes">security/hsm_security_checker.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">cctype</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="test__hsm__startup__policy_8cpp" local="yes">tests/security/test_hsm_startup_policy.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>security/hsm_provider.h</label>
+        <link refid="hsm__provider_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>security/hsm_security_checker.h</label>
+        <link refid="hsm__security__checker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/security/hsm_startup_policy.h</label>
+        <link refid="hsm__startup__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>cctype</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>cstdlib</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>utils/logger.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/hsm_startup_policy.h</label>
+        <link refid="hsm__startup__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/security/test_hsm_startup_policy.cpp</label>
+        <link refid="test__hsm__startup__policy_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" prot="public">themis::security::HSMStartupPolicyResult</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision" prot="public">themis::security::HSMRuntimeSecurityDecision</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__provider_8h" kindref="compound">security/hsm_provider.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hsm__security__checker_8h" kindref="compound">security/hsm_security_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cctype&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" kindref="compound">HSMStartupPolicyResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a56c34aba571df550b6fe08e17c40aa8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a56c34aba571df550b6fe08e17c40aa8d" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a40203a9ecd53ff20c4d43f6eaf0a4547" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a40203a9ecd53ff20c4d43f6eaf0a4547" kindref="member">explicit_stub_opt_in</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1aa045f2382ac8259b259bf3df81061a8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1aa045f2382ac8259b259bf3df81061a8c" kindref="member">hsm_config_present</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a7291180aa85e35a0f3e0255b0aaf8997" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a7291180aa85e35a0f3e0255b0aaf8997" kindref="member">config_source</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a79ebd882b7a1b65fc0c26ac570cc7fa4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a79ebd882b7a1b65fc0c26ac570cc7fa4" kindref="member">error</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a4389485a189636ecf73cdc9e427b3b0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a4389485a189636ecf73cdc9e427b3b0b" kindref="member">ok</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a79ebd882b7a1b65fc0c26ac570cc7fa4" kindref="member">error</ref>.empty();<sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">[[nodiscard]]<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision" kindref="compound">HSMRuntimeSecurityDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1ac28e8769d2b3efba449b313125b83276" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1ac28e8769d2b3efba449b313125b83276" kindref="member">allow_startup</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1adbc4a4420f000f9c2aa22c4520882e5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1adbc4a4420f000f9c2aa22c4520882e5b" kindref="member">runtime_stub_active</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a6430c64fe22c5cf85634034117650476" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a6430c64fe22c5cf85634034117650476" kindref="member">security_classification</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" kindref="member">audit_event</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1security_1a13834569e94d4f9ef07d6d656b741565" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a13834569e94d4f9ef07d6d656b741565" kindref="member">isHSMStubOptInEnabled</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>argv[])<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="classthemis_1_1security_1_1_h_s_m_security_checker_1a843296d2d2e3f7c5e8f4c41888898023" kindref="member">HSMSecurityChecker::hasAllowStubFlag</ref>(argc,<sp/>argv))<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>allow_stub<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_ALLOW_HSM_STUB&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(allow_stub<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>value{allow_stub};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ch<sp/>:<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ch<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::tolower(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ch)));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal"><sp/>||<sp/>value<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"><sp/>||<sp/>value<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;yes&quot;</highlight><highlight class="normal"><sp/>||<sp/>value<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;on&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1security_1ac49a8354ab55c7b80d0d67c164d2ec08" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision" kindref="compound">HSMRuntimeSecurityDecision</ref><sp/><ref refid="namespacethemis_1_1security_1ac49a8354ab55c7b80d0d67c164d2ec08" kindref="member">evaluateHSMRuntimeSecurity</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" kindref="compound">HSMStartupPolicyResult</ref>&amp;<sp/>policy,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>runtime_stub_active,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>runtime_error)</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision" kindref="compound">HSMRuntimeSecurityDecision</ref><sp/>decision;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1adbc4a4420f000f9c2aa22c4520882e5b" kindref="member">runtime_stub_active</ref><sp/>=<sp/>runtime_stub_active;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!runtime_stub_active)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1ac28e8769d2b3efba449b313125b83276" kindref="member">allow_startup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a6430c64fe22c5cf85634034117650476" kindref="member">security_classification</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM-HARDENED-PKCS11&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" kindref="member">audit_event</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>runtime<sp/>classified<sp/>as<sp/>hardened<sp/>PKCS#11.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>decision;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(policy.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a40203a9ecd53ff20c4d43f6eaf0a4547" kindref="member">explicit_stub_opt_in</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1ac28e8769d2b3efba449b313125b83276" kindref="member">allow_startup</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a6430c64fe22c5cf85634034117650476" kindref="member">security_classification</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM-DEGRADED-EXPLICIT-STUB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" kindref="member">audit_event</ref><sp/>=</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>runtime<sp/>uses<sp/>explicit<sp/>insecure<sp/>stub<sp/>override;<sp/>hardware<sp/>key<sp/>protection<sp/>is<sp/>disabled.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>decision;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1ac28e8769d2b3efba449b313125b83276" kindref="member">allow_startup</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!policy.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a56c34aba571df550b6fe08e17c40aa8d" kindref="member">config</ref>.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a6430c64fe22c5cf85634034117650476" kindref="member">security_classification</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM-BLOCKED-PKCS11-FALLBACK&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" kindref="member">audit_event</ref><sp/>=</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>policy<sp/>requires<sp/>PKCS#11<sp/>but<sp/>runtime<sp/>fell<sp/>back<sp/>to<sp/>stub<sp/>without<sp/>explicit<sp/>override;<sp/>startup<sp/>blocked.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a6430c64fe22c5cf85634034117650476" kindref="member">security_classification</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HSM-BLOCKED-IMPLICIT-STUB&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" kindref="member">audit_event</ref><sp/>=</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;HSM<sp/>runtime<sp/>attempted<sp/>implicit<sp/>stub<sp/>startup<sp/>without<sp/>explicit<sp/>insecure<sp/>override.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!runtime_error.empty())<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decision.<ref refid="structthemis_1_1security_1_1_h_s_m_runtime_security_decision_1a58c495d4410b36a5d887e1eb426656ad" kindref="member">audit_event</ref><sp/>+=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>Provider<sp/>error:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>runtime_error;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>decision;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1security_1af9d133ba1d98e306ccef5dbed87e1c28" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="namespacethemis_1_1security_1af9d133ba1d98e306ccef5dbed87e1c28" kindref="member">applyConfiguredHSMProvider</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>hsm,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>allow_stub_opt_in,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hsm.contains(</highlight><highlight class="stringliteral">&quot;provider&quot;</highlight><highlight class="normal">)<sp/>||<sp/>!hsm[</highlight><highlight class="stringliteral">&quot;provider&quot;</highlight><highlight class="normal">].is_string())<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;HSM<sp/>configuration<sp/>requires<sp/>string<sp/>field<sp/>`hsm.provider`.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>provider<sp/>=<sp/>hsm[</highlight><highlight class="stringliteral">&quot;provider&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(provider<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;pkcs11&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hsm.contains(</highlight><highlight class="stringliteral">&quot;pkcs11&quot;</highlight><highlight class="normal">)<sp/>||<sp/>!hsm[</highlight><highlight class="stringliteral">&quot;pkcs11&quot;</highlight><highlight class="normal">].is_object())<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;`hsm.provider:<sp/>pkcs11`<sp/>requires<sp/>object<sp/>`hsm.pkcs11`.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/><ref refid="namespacethemis_1_1security_1_1pkcs11" kindref="compound">pkcs11</ref><sp/>=<sp/>hsm[</highlight><highlight class="stringliteral">&quot;pkcs11&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1_1pkcs11" kindref="compound">pkcs11</ref>.value(</highlight><highlight class="stringliteral">&quot;library_path&quot;</highlight><highlight class="normal">,<sp/>std::string{});</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;`hsm.provider:<sp/>pkcs11`<sp/>requires<sp/>non-empty<sp/>`hsm.pkcs11.library_path`.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1acc0b927b3d4bc134a5ab326d18b1d42c" kindref="member">slot_id</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1_1pkcs11" kindref="compound">pkcs11</ref>.value(</highlight><highlight class="stringliteral">&quot;slot_id&quot;</highlight><highlight class="normal">,<sp/>0u);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1ab4b51ff96783bff418c4114490403178" kindref="member">pin</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1_1pkcs11" kindref="compound">pkcs11</ref>.value(</highlight><highlight class="stringliteral">&quot;pin&quot;</highlight><highlight class="normal">,<sp/>std::string{});</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1add4ca1795671e240fe683c6751a9e9c2" kindref="member">token_label</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1_1pkcs11" kindref="compound">pkcs11</ref>.value(</highlight><highlight class="stringliteral">&quot;token_label&quot;</highlight><highlight class="normal">,<sp/>std::string{});</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1af31c0565e8cf0b9c0c70fe66dae610df" kindref="member">key_label</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1_1pkcs11" kindref="compound">pkcs11</ref>.value(</highlight><highlight class="stringliteral">&quot;key_label&quot;</highlight><highlight class="normal">,<sp/>std::string(</highlight><highlight class="stringliteral">&quot;themis-signing-key&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(provider<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;stub&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!allow_stub_opt_in)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;`hsm.provider:<sp/>stub`<sp/>requires<sp/>explicit<sp/>development<sp/>opt-in<sp/>via<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;`--allow-stub-hsm`<sp/>or<sp/>`THEMIS_ALLOW_HSM_STUB=1`.&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.clear();</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1ab4b51ff96783bff418c4114490403178" kindref="member">pin</ref>.clear();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1add4ca1795671e240fe683c6751a9e9c2" kindref="member">token_label</ref>.clear();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1af31c0565e8cf0b9c0c70fe66dae610df" kindref="member">key_label</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis-signing-key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;Unsupported<sp/>HSM<sp/>provider<sp/>`&quot;</highlight><highlight class="normal">)<sp/>+<sp/>provider</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;`.<sp/>Supported<sp/>providers<sp/>are<sp/>`pkcs11`<sp/>and<sp/>`stub`.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="namespacethemis_1_1security_1a71f1c3c981a929aa3c6f0abbbff2e908" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" kindref="compound">HSMStartupPolicyResult</ref><sp/><ref refid="namespacethemis_1_1security_1a71f1c3c981a929aa3c6f0abbbff2e908" kindref="member">resolveHSMStartupPolicy</ref>(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;nlohmann::json&gt;&amp;<sp/>security_config,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;nlohmann::json&gt;&amp;<sp/>main_config,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>argc,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>argv[])</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result" kindref="compound">HSMStartupPolicyResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a40203a9ecd53ff20c4d43f6eaf0a4547" kindref="member">explicit_stub_opt_in</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1a13834569e94d4f9ef07d6d656b741565" kindref="member">isHSMStubOptInEnabled</ref>(argc,<sp/>argv);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>applyConfigIfPresent<sp/>=<sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;nlohmann::json&gt;&amp;<sp/>cfg,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!cfg<sp/>||<sp/>!cfg-&gt;contains(</highlight><highlight class="stringliteral">&quot;hsm&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1aa045f2382ac8259b259bf3df81061a8c" kindref="member">hsm_config_present</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a7291180aa85e35a0f3e0255b0aaf8997" kindref="member">config_source</ref><sp/>=<sp/>source;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>error<sp/>=<sp/><ref refid="namespacethemis_1_1security_1af9d133ba1d98e306ccef5dbed87e1c28" kindref="member">applyConfiguredHSMProvider</ref>((*cfg)[</highlight><highlight class="stringliteral">&quot;hsm&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a40203a9ecd53ff20c4d43f6eaf0a4547" kindref="member">explicit_stub_opt_in</ref>,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a56c34aba571df550b6fe08e17c40aa8d" kindref="member">config</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a79ebd882b7a1b65fc0c26ac570cc7fa4" kindref="member">error</ref><sp/>=<sp/>*error;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!applyConfigIfPresent(security_config,<sp/></highlight><highlight class="stringliteral">&quot;security<sp/>config&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>!applyConfigIfPresent(main_config,<sp/></highlight><highlight class="stringliteral">&quot;main<sp/>config&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a40203a9ecd53ff20c4d43f6eaf0a4547" kindref="member">explicit_stub_opt_in</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a79ebd882b7a1b65fc0c26ac570cc7fa4" kindref="member">error</ref><sp/>=</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;No<sp/>HSM<sp/>configuration<sp/>found.<sp/>Configure<sp/>`hsm.provider:<sp/>pkcs11`<sp/>with<sp/>a<sp/>real<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;`hsm.pkcs11.library_path`,<sp/>or<sp/>explicitly<sp/>opt<sp/>in<sp/>to<sp/>the<sp/>development<sp/>stub<sp/>via<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;`--allow-stub-hsm`<sp/>or<sp/>`THEMIS_ALLOW_HSM_STUB=1`.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a7291180aa85e35a0f3e0255b0aaf8997" kindref="member">config_source</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;explicit<sp/>stub<sp/>opt-in&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a56c34aba571df550b6fe08e17c40aa8d" kindref="member">config</ref>.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1a70f3899ef9deaea810d87aab297949fa" kindref="member">library_path</ref>.clear();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="structthemis_1_1security_1_1_h_s_m_startup_policy_result_1a56c34aba571df550b6fe08e17c40aa8d" kindref="member">config</ref>.<ref refid="structthemis_1_1security_1_1_h_s_m_config_1af31c0565e8cf0b9c0c70fe66dae610df" kindref="member">key_label</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis-signing-key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::security</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/hsm_startup_policy.h"/>
+  </compounddef>
+</doxygen>

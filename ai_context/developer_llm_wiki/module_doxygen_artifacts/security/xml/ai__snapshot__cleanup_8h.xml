@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ai__snapshot__cleanup_8h" kind="file" language="C++">
+    <compoundname>ai_snapshot_cleanup.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">ctime</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="ai__snapshot__cleanup_8cpp" local="yes">src/security/ai_snapshot_cleanup.cpp</includedby>
+    <includedby refid="test__ai__safety__chaos_8cpp" local="yes">tests/security/ai_safety/test_ai_safety_chaos.cpp</includedby>
+    <includedby refid="test__ai__snapshot__cleanup_8cpp" local="yes">tests/security/test_ai_snapshot_cleanup.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/ai_snapshot_cleanup.h</label>
+        <link refid="ai__snapshot__cleanup_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>ctime</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/ai_snapshot_cleanup.h</label>
+        <link refid="ai__snapshot__cleanup_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/ai_snapshot_cleanup.cpp</label>
+        <link refid="ai__snapshot__cleanup_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/security/ai_safety/test_ai_safety_chaos.cpp</label>
+        <link refid="test__ai__safety__chaos_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/security/test_ai_snapshot_cleanup.cpp</label>
+        <link refid="test__ai__snapshot__cleanup_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_ai_snapshot_info" prot="public">themis::security::AiSnapshotInfo</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job" prot="public">themis::security::AiSnapshotCleanupJob</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config" prot="public">themis::security::AiSnapshotCleanupJob::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AI<sp/>Safety<sp/>Layer<sp/>—<sp/>ASL-11:<sp/>Snapshot<sp/>Cleanup<sp/>/<sp/>Retention-Policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deletes<sp/>pre-operation<sp/>AI<sp/>snapshots<sp/>older<sp/>than<sp/>retention_days<sp/>or<sp/>when</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>total<sp/>size<sp/>exceeds<sp/>max_total_gb.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-safe:<sp/>runCleanup()<sp/>can<sp/>be<sp/>called<sp/>from<sp/>any<sp/>thread.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Docs:<sp/>docs/de/security/ai_safety/AI_SAFETY_ARCHITECTURE.md</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Roadmap:<sp/>src/security/ROADMAP.md<sp/>§<sp/>Phase<sp/>3<sp/>(ASL-11)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ctime&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="struct_ai_snapshot_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_ai_snapshot_info" kindref="compound">AiSnapshotInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1security_1_1_ai_snapshot_info_1ac82c416949db5443eeed7f871a8e09fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1security_1_1_ai_snapshot_info_1ac82c416949db5443eeed7f871a8e09fb" kindref="member">path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1security_1_1_ai_snapshot_info_1ab7775190c73c0b9a6e6f7d9d39583427" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1security_1_1_ai_snapshot_info_1ab7775190c73c0b9a6e6f7d9d39583427" kindref="member">size_bytes</ref>;<sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1security_1_1_ai_snapshot_info_1a3c9f481defae1cb51170e20297a6477c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::time_t<sp/><sp/><ref refid="structthemis_1_1security_1_1_ai_snapshot_info_1a3c9f481defae1cb51170e20297a6477c" kindref="member">created_at</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="class_ai_snapshot_cleanup_job" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_ai_snapshot_cleanup_job_1ad816ef054c9fb60b7200458db541bfe7" kindref="member">AiSnapshotCleanupJob</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="struct_ai_snapshot_cleanup_job_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_ai_snapshot_cleanup_job_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config_1afa897d1e735dd41bdfae81e9fdf45195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config_1afa897d1e735dd41bdfae81e9fdf45195" kindref="member">snapshot_dir</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/themis/ai-snapshots&quot;</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config_1af9f80612bcbb4d5d3cd1d7fa5303016a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config_1af9f80612bcbb4d5d3cd1d7fa5303016a" kindref="member">retention_days</ref><sp/>=<sp/>7;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config_1ae855c51e383cab32c2823f9cc3b15f68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config_1ae855c51e383cab32c2823f9cc3b15f68" kindref="member">max_total_gb</ref><sp/><sp/><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ad816ef054c9fb60b7200458db541bfe7" kindref="member">AiSnapshotCleanupJob</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ad816ef054c9fb60b7200458db541bfe7" kindref="member">AiSnapshotCleanupJob</ref>(<ref refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config" kindref="compound">Config</ref><sp/>cfg);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a74068b7b85406e139e9488b4869bd910" kindref="member">runCleanup</ref>();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;AiSnapshotInfo&gt;<sp/><ref refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1ab84d3e74da3cf61fa819c260d15c58dd" kindref="member">listSnapshots</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a2b345d2e1260bd58e5c44741a4fe3b9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_ai_snapshot_cleanup_job_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_ai_snapshot_cleanup_job_1a2b345d2e1260bd58e5c44741a4fe3b9e" kindref="member">config</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__tls__hot__reload_8cpp_1abbae112e09a650b420da55146a2ca8b1" kindref="member">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>totalSizeBytes(</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;AiSnapshotInfo&gt;&amp;<sp/>snaps)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>removeDirectory(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isExpired(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_ai_snapshot_info" kindref="compound">AiSnapshotInfo</ref>&amp;<sp/>snap,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>retention_days)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/ai_snapshot_cleanup.h"/>
+  </compounddef>
+</doxygen>

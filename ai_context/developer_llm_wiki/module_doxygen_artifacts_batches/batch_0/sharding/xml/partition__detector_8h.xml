@@ -1,0 +1,233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="partition__detector_8h" kind="file" language="C++">
+    <compoundname>partition_detector.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includedby refid="partition__detector_8cpp" local="yes">src/sharding/partition_detector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/partition_detector.h</label>
+        <link refid="partition__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/partition_detector.h</label>
+        <link refid="partition__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/partition_detector.cpp</label>
+        <link refid="partition__detector_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_node_connectivity" prot="public">themisdb::sharding::NodeConnectivity</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_partition_event" prot="public">themisdb::sharding::PartitionEvent</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_partition_detector_config" prot="public">themisdb::sharding::PartitionDetectorConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_partition_detector" prot="public">themisdb::sharding::PartitionDetector</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics" prot="public">themisdb::sharding::PartitionDetector::Statistics</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44" kindref="member">NetworkHealth</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44af068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7af068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44a0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44a44c98f91eb8d3d58eda8b38501db52b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44a44c98f91eb8d3d58eda8b38501db52b3" kindref="member">PARTITIONED</ref><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemisdb_1_1sharding_1_1_node_connectivity" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_node_connectivity" kindref="compound">NodeConnectivity</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a7b49143212fc4760705451eab918ce7d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a7b49143212fc4760705451eab918ce7d" kindref="member">node_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a9f072626288a1abe921b46d465acccb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a9f072626288a1abe921b46d465acccb6" kindref="member">reachable</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1sharding_1_1_node_connectivity_1aa5b0dfa2dbc514bfb21f837102f84d4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_node_connectivity_1aa5b0dfa2dbc514bfb21f837102f84d4a" kindref="member">last_rtt</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a40ae70a525a77359cc52c4f6946c3a82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a40ae70a525a77359cc52c4f6946c3a82" kindref="member">last_successful_contact</ref>;<sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a32850ec3f84aa9d72b3364461e898cd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a32850ec3f84aa9d72b3364461e898cd1" kindref="member">consecutive_failures</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1sharding_1_1_node_connectivity_1ae29eb26fb352ae8c57d539effd70396a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_node_connectivity_1ae29eb26fb352ae8c57d539effd70396a" kindref="member">packet_loss_rate</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemisdb_1_1sharding_1_1_partition_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_partition_event" kindref="compound">PartitionEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemisdb_1_1sharding_1_1_partition_event_1a1176c259cccd4319ef57632c1802947d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_event_1a1176c259cccd4319ef57632c1802947d" kindref="member">detected_at</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1sharding_1_1_partition_event_1ae288d6bd414aa21aaa22bef999876d4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_event_1ae288d6bd414aa21aaa22bef999876d4b" kindref="member">healed_at</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemisdb_1_1sharding_1_1_partition_event_1a33b42d0ac93de2b16d83088972763e66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_event_1a33b42d0ac93de2b16d83088972763e66" kindref="member">partition_a</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemisdb_1_1sharding_1_1_partition_event_1a594ab1facaf48e5d04561e11694e8c15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_event_1a594ab1facaf48e5d04561e11694e8c15" kindref="member">partition_b</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemisdb_1_1sharding_1_1_partition_event_1a0440180cef9116c9a5e9bbd1032eb996" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_event_1a0440180cef9116c9a5e9bbd1032eb996" kindref="member">is_healed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemisdb_1_1sharding_1_1_partition_event_1a3e33e58eb1c47f3a8d23fc85a4c307cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_event_1a3e33e58eb1c47f3a8d23fc85a4c307cb" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemisdb_1_1sharding_1_1_partition_detector_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config" kindref="compound">PartitionDetectorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1aa4b2852023b8dc231fe29b2251c8524b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1aa4b2852023b8dc231fe29b2251c8524b" kindref="member">health_check_interval</ref>{1000};<sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1ab730d1503f25dd0fdbe45d609ea3baa4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1ab730d1503f25dd0fdbe45d609ea3baa4" kindref="member">heartbeat_timeout</ref>{500};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1a89bd357f2fab926b4df91310e5b2f248" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1a89bd357f2fab926b4df91310e5b2f248" kindref="member">max_consecutive_failures</ref>{3};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1a13abb5dd57c6091384e120a0cde87afb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1a13abb5dd57c6091384e120a0cde87afb" kindref="member">packet_loss_threshold</ref>{0.5};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1a705d5981a382f39d7d8f6d1653efb98c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1a705d5981a382f39d7d8f6d1653efb98c" kindref="member">enable_split_brain_detection</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1afe3897e40913d261680367b92d78c4d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config_1afe3897e40913d261680367b92d78c4d6" kindref="member">enable_auto_healing</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemisdb_1_1sharding_1_1_partition_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a994a7536858adcf6c212767c6d98ba35" kindref="member">PartitionDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84" refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5c7cfaaff2c7917adc32d2a9b63eb3b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5c7cfaaff2c7917adc32d2a9b63eb3b1" kindref="member">HealthCheckCallback</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)&gt;;</highlight></codeline>
+<codeline lineno="86" refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7c926ff189de30fa90fb1e124a5adc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7c926ff189de30fa90fb1e124a5adc7" kindref="member">PartitionCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_event" kindref="compound">PartitionEvent</ref>&amp;<sp/>event)&gt;;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a994a7536858adcf6c212767c6d98ba35" kindref="member">PartitionDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config" kindref="compound">PartitionDetectorConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5aa246edc6bde94db20de7cc8c502e24" kindref="member">~PartitionDetector</ref>();</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa34293677fb0de068770ce522eb7e205" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a77d63fe2ce75271d379c1e68713bea49" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a025b746db8e5ac5f489667fb6446daa1" kindref="member">addNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1af5afc3670a17e25e68a7b16370024062" kindref="member">removeNode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a2196199f65a3b9b49ca7defa746e151b" kindref="member">recordHeartbeat</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,<sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>rtt);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5eba5ff0791e3e75cd57f0a63bab3f31" kindref="member">recordFailure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44" kindref="member">NetworkHealth</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7937659391d76fb26cad5a5bbba5366" kindref="member">getNetworkHealth</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;NodeConnectivity&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a257209ed7a3aef7272203cb4646c37b8" kindref="member">getNodeConnectivity</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a901fc5bc180a5b87f3c1ff7ce187059b" kindref="member">isSplitBrainDetected</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PartitionEvent&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1ae162f2520d9e880b9b47ab31bcf659db" kindref="member">getPartitionHistory</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a4373119f4cf397126fac105024ca6549" kindref="member">setHealthCheckCallback</ref>(<ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5c7cfaaff2c7917adc32d2a9b63eb3b1" kindref="member">HealthCheckCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a66932b1ea2f9f67144fc7dce4ed46dee" kindref="member">setPartitionCallback</ref>(<ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7c926ff189de30fa90fb1e124a5adc7" kindref="member">PartitionCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="173" refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1ae567a13f81def9afcde7dc13bf73761b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1ae567a13f81def9afcde7dc13bf73761b" kindref="member">total_health_checks</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1afcfdfbc7e2a0289227871709b0082d75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1afcfdfbc7e2a0289227871709b0082d75" kindref="member">failed_health_checks</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="175" refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1a5a5b0db7c803949f1cc5637fc68fde0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1a5a5b0db7c803949f1cc5637fc68fde0a" kindref="member">partitions_detected</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176" refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1a408e0932e88f51fab302703296230c83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1a408e0932e88f51fab302703296230c83" kindref="member">partitions_healed</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177" refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1a6b9b6ef677bb1b248f857101da68c377" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics_1a6b9b6ef677bb1b248f857101da68c377" kindref="member">last_partition_time</ref>;<sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemisdb_1_1sharding_1_1_partition_detector_1a42a3ea8251bc5a7efbec2aa141d1a624" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics" kindref="compound">Statistics</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a42a3ea8251bc5a7efbec2aa141d1a624" kindref="member">getStatistics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_config" kindref="compound">PartitionDetectorConfig</ref><sp/>config_;<sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>nodes_mutex_;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>NodeConnectivity&gt;<sp/>nodes_;<sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>events_mutex_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PartitionEvent&gt;<sp/>partition_history_;<sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;NetworkHealth&gt;<sp/>current_health_{<ref refid="namespacethemisdb_1_1sharding_1aac2996cdc651b89a9cb6811ac3e82c44af068ebe4133e3e6563080836268ea979" kindref="member">NetworkHealth::HEALTHY</ref>};<sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>split_brain_detected_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_partition_detector_1_1_statistics" kindref="compound">Statistics</ref><sp/>stats_;<sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1a5c7cfaaff2c7917adc32d2a9b63eb3b1" kindref="member">HealthCheckCallback</ref><sp/>health_check_callback_;<sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_partition_detector_1aa7c926ff189de30fa90fb1e124a5adc7" kindref="member">PartitionCallback</ref><sp/>partition_callback_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>healthCheckLoop();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>health_check_thread_;<sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>detectPartition();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkPartitionHealing();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateNetworkHealth();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/partition_detector.h"/>
+  </compounddef>
+</doxygen>

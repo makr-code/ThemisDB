@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_lo_r_a_signature_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::LoRASignatureResult</compoundname>
+    <includes refid="lora__security__validator_8h" local="no">lora_security_validator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a569d49b299618b4b5c0881d2bba00bde" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::LoRASignatureResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::llm::LoRASignatureResult::is_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="32" column="10" bodyfile="include/llm/lora_security_validator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a8d7e458fb4bd5edb6528ccc80a261a08" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASignatureResult::signer_identity</definition>
+        <argsstring></argsstring>
+        <name>signer_identity</name>
+        <qualifiedname>themis::llm::LoRASignatureResult::signer_identity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="33" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a2c6ac92a85ddeeae513fb20bb6036c38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASignatureResult::signature_algorithm</definition>
+        <argsstring></argsstring>
+        <name>signature_algorithm</name>
+        <qualifiedname>themis::llm::LoRASignatureResult::signature_algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="34" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a61c38f0db5e8a20808b2978731bdcf41" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::LoRASignatureResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::LoRASignatureResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="35" column="17" bodyfile="include/llm/lora_security_validator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a200bd825b5cf01525b55c887f4d4fc11" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::LoRASignatureResult::verified_at</definition>
+        <argsstring></argsstring>
+        <name>verified_at</name>
+        <qualifiedname>themis::llm::LoRASignatureResult::verified_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_security_validator.h" line="36" column="43" bodyfile="include/llm/lora_security_validator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_security_validator.h" line="31" column="1" bodyfile="include/llm/lora_security_validator.h" bodystart="31" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a61c38f0db5e8a20808b2978731bdcf41" prot="public" virt="non-virtual"><scope>themis::llm::LoRASignatureResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a569d49b299618b4b5c0881d2bba00bde" prot="public" virt="non-virtual"><scope>themis::llm::LoRASignatureResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a2c6ac92a85ddeeae513fb20bb6036c38" prot="public" virt="non-virtual"><scope>themis::llm::LoRASignatureResult</scope><name>signature_algorithm</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a8d7e458fb4bd5edb6528ccc80a261a08" prot="public" virt="non-virtual"><scope>themis::llm::LoRASignatureResult</scope><name>signer_identity</name></member>
+      <member refid="structthemis_1_1llm_1_1_lo_r_a_signature_result_1a200bd825b5cf01525b55c887f4d4fc11" prot="public" virt="non-virtual"><scope>themis::llm::LoRASignatureResult</scope><name>verified_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

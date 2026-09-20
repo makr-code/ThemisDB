@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_conflict_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConflictContext</compoundname>
+    <includes refid="conflict__resolution__plugin_8h" local="no">conflict_resolution_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_context_1aa4cbca4b7db9fbbcc3a172bcd4cafa66" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ff" kindref="member">ConflictType</ref></type>
+        <definition>ConflictType themis::process::ConflictContext::conflict_type</definition>
+        <argsstring></argsstring>
+        <name>conflict_type</name>
+        <qualifiedname>themis::process::ConflictContext::conflict_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a547777206cac89623abb9585547ff2ffa454998446963cf54d88bf67914c089c9" kindref="member">ConflictType::CONCURRENT_MODIFICATION</ref></initializer>
+        <briefdescription>
+<para>Type of conflict detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="183" column="18" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_context_1ae4fb02fae5aadbe6c76e5b3666e79325" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictContext::principal_id</definition>
+        <argsstring></argsstring>
+        <name>principal_id</name>
+        <qualifiedname>themis::process::ConflictContext::principal_id</qualifiedname>
+        <briefdescription>
+<para>Principal (user/service) ID that triggered the operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="186" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_context_1a1e12b9ab04e04eac015293f6bc9b613f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictContext::local_shard_id</definition>
+        <argsstring></argsstring>
+        <name>local_shard_id</name>
+        <qualifiedname>themis::process::ConflictContext::local_shard_id</qualifiedname>
+        <briefdescription>
+<para>Source shard ID (where conflict resolution is running). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="189" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_context_1a6fff0a2e3f53c34206edda98ced74338" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictContext::remote_shard_id</definition>
+        <argsstring></argsstring>
+        <name>remote_shard_id</name>
+        <qualifiedname>themis::process::ConflictContext::remote_shard_id</qualifiedname>
+        <briefdescription>
+<para>Remote shard ID (where conflicting model originated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="192" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_context_1a22ec0edeced3484cc2f50c4ac6736a31" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ConflictContext::detection_timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>detection_timestamp_ns</name>
+        <qualifiedname>themis::process::ConflictContext::detection_timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of conflict detection (UTC, nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="195" column="13" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_context_1a2f7bce4fcd39a8f32e2d5d800d3bc68c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1process_1_1_model_version" kindref="compound">ModelVersion</ref> &gt;</type>
+        <definition>std::optional&lt;ModelVersion&gt; themis::process::ConflictContext::base_version</definition>
+        <argsstring></argsstring>
+        <name>base_version</name>
+        <qualifiedname>themis::process::ConflictContext::base_version</qualifiedname>
+        <briefdescription>
+<para>Optional: base version (common ancestor for 3-way merge). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="198" column="19" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_context_1afc422f171703800f9bb4e8fdc4e8a86f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictContext::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::ConflictContext::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for tracing this conflict resolution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="201" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_conflict_context_1a583af25a4a7226deca5bfed822a1eb8c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConflictContext::audit_log_snippet</definition>
+        <argsstring></argsstring>
+        <name>audit_log_snippet</name>
+        <qualifiedname>themis::process::ConflictContext::audit_log_snippet</qualifiedname>
+        <briefdescription>
+<para>Audit trail: operation history leading to this conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/conflict_resolution_plugin.h" line="204" column="17" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Context information for conflict resolution callback. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides additional information about the conflict and the operation context. </para>
+    </detaileddescription>
+    <location file="include/process/conflict_resolution_plugin.h" line="181" column="1" bodyfile="include/process/conflict_resolution_plugin.h" bodystart="181" bodyend="205"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_conflict_context_1a583af25a4a7226deca5bfed822a1eb8c" prot="public" virt="non-virtual"><scope>themis::process::ConflictContext</scope><name>audit_log_snippet</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_context_1a2f7bce4fcd39a8f32e2d5d800d3bc68c" prot="public" virt="non-virtual"><scope>themis::process::ConflictContext</scope><name>base_version</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_context_1aa4cbca4b7db9fbbcc3a172bcd4cafa66" prot="public" virt="non-virtual"><scope>themis::process::ConflictContext</scope><name>conflict_type</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_context_1a22ec0edeced3484cc2f50c4ac6736a31" prot="public" virt="non-virtual"><scope>themis::process::ConflictContext</scope><name>detection_timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_context_1a1e12b9ab04e04eac015293f6bc9b613f" prot="public" virt="non-virtual"><scope>themis::process::ConflictContext</scope><name>local_shard_id</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_context_1ae4fb02fae5aadbe6c76e5b3666e79325" prot="public" virt="non-virtual"><scope>themis::process::ConflictContext</scope><name>principal_id</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_context_1a6fff0a2e3f53c34206edda98ced74338" prot="public" virt="non-virtual"><scope>themis::process::ConflictContext</scope><name>remote_shard_id</name></member>
+      <member refid="structthemis_1_1process_1_1_conflict_context_1afc422f171703800f9bb4e8fdc4e8a86f" prot="public" virt="non-virtual"><scope>themis::process::ConflictContext</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

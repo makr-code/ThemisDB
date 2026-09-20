@@ -1,0 +1,970 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__tile__server_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_tile_server.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="tile__server_8h" local="yes">geo/tile_server.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/tile_server.h</label>
+        <link refid="tile__server_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_tile_server.cpp</label>
+        <link refid="test__geo__tile__server_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LatLonToTile, Zoom0_WholeWorld)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LatLonToTile</type>
+        </param>
+        <param>
+          <type>Zoom0_WholeWorld</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="15" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a6a3b5928bbc3f0ff64cb6f4d0ef7ce65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LatLonToTile, Zoom1_NorthWestQuadrant)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LatLonToTile</type>
+        </param>
+        <param>
+          <type>Zoom1_NorthWestQuadrant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="23" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="23" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a07c531c13b597358276817bc0ab8ee6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LatLonToTile, Zoom1_NorthEastQuadrant)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LatLonToTile</type>
+        </param>
+        <param>
+          <type>Zoom1_NorthEastQuadrant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="31" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1af9bb0be80875d61bd092f43902f7babf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LatLonToTile, Zoom1_SouthEastQuadrant)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LatLonToTile</type>
+        </param>
+        <param>
+          <type>Zoom1_SouthEastQuadrant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="39" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a0ef2c6178bd1be3badefdab1eda53c6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LatLonToTile, Berlin_Zoom10)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LatLonToTile</type>
+        </param>
+        <param>
+          <type>Berlin_Zoom10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="47" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="47" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a94618725ae88d43bc92f423f05c3c3f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LatLonToTile, MaxLonClamped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LatLonToTile</type>
+        </param>
+        <param>
+          <type>MaxLonClamped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="56" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a4587fc3fe0ddbe74121b67d22304890e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LatLonToTile, PolarLatClamped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LatLonToTile</type>
+        </param>
+        <param>
+          <type>PolarLatClamped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="64" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a748e2b9c49cef4da3108d5f564fd734a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileEdgeLon, Zoom0_WestEdge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TileEdgeLon</type>
+        </param>
+        <param>
+          <type>Zoom0_WestEdge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="75" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a0826ce2606c4128e29edc0b538a8264f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileEdgeLon, Zoom1_MiddleMeridian)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TileEdgeLon</type>
+        </param>
+        <param>
+          <type>Zoom1_MiddleMeridian</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="79" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="79" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a559dcdfe823d4acf9e7c35f7e295f2f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileEdgeLat, Zoom0_TopEdge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TileEdgeLat</type>
+        </param>
+        <param>
+          <type>Zoom0_TopEdge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="84" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="84" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a24d2322d53f186c02576c94db5262af0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileEdgeLat, Zoom1_Equator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TileEdgeLat</type>
+        </param>
+        <param>
+          <type>Zoom1_Equator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="90" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="90" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1aecc3d671f909438aea880dd31461fef3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileToBBox, Zoom0_CoversWorld)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TileToBBox</type>
+        </param>
+        <param>
+          <type>Zoom0_CoversWorld</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="100" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="100" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a2245b67628f51c1b0891e230dfa417bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileToBBox, WestEdge_LessThanEastEdge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TileToBBox</type>
+        </param>
+        <param>
+          <type>WestEdge_LessThanEastEdge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="108" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a30b78c6e0c313dd86cf5ee605dacab27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileToBBox, BBoxContainsTileCenter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TileToBBox</type>
+        </param>
+        <param>
+          <type>BBoxContainsTileCenter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="114" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="114" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a78cdcf8e0ab4ec0c97d7366c38f56fe6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FormatTileUrl, OSMTemplate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FormatTileUrl</type>
+        </param>
+        <param>
+          <type>OSMTemplate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="128" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="128" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1ad014f543b5890ed54696a3083f4b186c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FormatTileUrl, CustomTemplate_AllPlaceholders)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FormatTileUrl</type>
+        </param>
+        <param>
+          <type>CustomTemplate_AllPlaceholders</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="134" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="134" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a8d4d65586a597ad4dd94ac23c7d5fc0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FormatTileUrl, NoPlaceholders_Unchanged)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FormatTileUrl</type>
+        </param>
+        <param>
+          <type>NoPlaceholders_Unchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="140" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="140" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a524a278d2a7581f452c7ffc80881f074" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FormatTileUrl, RepeatedPlaceholders)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FormatTileUrl</type>
+        </param>
+        <param>
+          <type>RepeatedPlaceholders</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="145" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="145" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1aaac3c8a1445c4e85056a6fc13b67ff6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TilesForBBox, SingleTile_Zoom0)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TilesForBBox</type>
+        </param>
+        <param>
+          <type>SingleTile_Zoom0</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="155" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="155" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a8fc15319b6097a43310b9578eb38094b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TilesForBBox, BerlinSmallArea_Zoom10)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TilesForBBox</type>
+        </param>
+        <param>
+          <type>BerlinSmallArea_Zoom10</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="165" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="165" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1aa099103173284d019432eb8de0d2095c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TilesForBBox, InvertedBBox_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TilesForBBox</type>
+        </param>
+        <param>
+          <type>InvertedBBox_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="176" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="176" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1aaec8535dff1598cfca478eb3a5b56a33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TilesForBBox, AllTilesContainBBox)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>TilesForBBox</type>
+        </param>
+        <param>
+          <type>AllTilesContainBBox</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="182" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="182" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1ad89c7da78663fc933c64a14597d1880f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EncodeVectorTile, EmptyInput_EmptyResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EncodeVectorTile</type>
+        </param>
+        <param>
+          <type>EmptyInput_EmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="200" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="200" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1ad87e30d1cedfffdaee7104c42bdeb4a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EncodeVectorTile, PointInsideTile_Included)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EncodeVectorTile</type>
+        </param>
+        <param>
+          <type>PointInsideTile_Included</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="209" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="209" bodyend="225"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a6f024aa1a29473c0bfcbfe6b7d30d2c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EncodeVectorTile, PointOutsideTile_Excluded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EncodeVectorTile</type>
+        </param>
+        <param>
+          <type>PointOutsideTile_Excluded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="227" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="227" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a632e893637f2105d1adc58d2f7599600" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EncodeVectorTile, LineStringPreservesVertexCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EncodeVectorTile</type>
+        </param>
+        <param>
+          <type>LineStringPreservesVertexCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="237" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="237" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a1f48d8f10ad3cb527cf07f0c36f9ff81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EncodeVectorTile, PolygonEncoded)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EncodeVectorTile</type>
+        </param>
+        <param>
+          <type>PolygonEncoded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="252" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="252" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a721c5af791946ed6d264c0c0aeb2f4b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EncodeVectorTile, UnsupportedType_Skipped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EncodeVectorTile</type>
+        </param>
+        <param>
+          <type>UnsupportedType_Skipped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="271" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="271" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1a15ca3aab96279c9e1230a1c08fbd44b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(EncodeVectorTile, CustomExtent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>EncodeVectorTile</type>
+        </param>
+        <param>
+          <type>CustomExtent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="279" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="279" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1abd6f8814bce26efbc1e383eb5c82a6a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileLayerConfig, DefaultValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_tile_layer_config" kindref="compound">TileLayerConfig</ref></type>
+        </param>
+        <param>
+          <type>DefaultValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="299" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="299" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__tile__server_8cpp_1acfa08d6bd86f2af30dc8c88fd4f2af8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(TileLayerConfig, FormatUrl_UsingConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="structthemis_1_1geo_1_1_tile_layer_config" kindref="compound">TileLayerConfig</ref></type>
+        </param>
+        <param>
+          <type>FormatUrl_UsingConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_tile_server.cpp" line="307" column="1" bodyfile="tests/geo/test_geo_tile_server.cpp" bodystart="307" bodyend="312"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tile__server_8h" kindref="compound">geo/tile_server.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>latLonToTile</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(LatLonToTile,<sp/>Zoom0_WholeWorld)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>zoom<sp/>0<sp/>the<sp/>entire<sp/>world<sp/>is<sp/>tile<sp/>(0,<sp/>0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(0.0,<sp/>0.0,<sp/>0);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1ac240efeedc9c7fddf7045866a2fc80b4" kindref="member">zoom</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(LatLonToTile,<sp/>Zoom1_NorthWestQuadrant)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>At<sp/>zoom<sp/>1<sp/>the<sp/>NW<sp/>quadrant<sp/>is<sp/>(0,<sp/>0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(-90.0,<sp/>45.0,<sp/>1);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1ac240efeedc9c7fddf7045866a2fc80b4" kindref="member">zoom</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(LatLonToTile,<sp/>Zoom1_NorthEastQuadrant)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NE<sp/>quadrant<sp/>at<sp/>zoom<sp/>1<sp/>is<sp/>(1,<sp/>0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(90.0,<sp/>45.0,<sp/>1);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>,<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1ac240efeedc9c7fddf7045866a2fc80b4" kindref="member">zoom</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(LatLonToTile,<sp/>Zoom1_SouthEastQuadrant)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SE<sp/>quadrant<sp/>at<sp/>zoom<sp/>1<sp/>is<sp/>(1,<sp/>1).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(90.0,<sp/>-45.0,<sp/>1);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>,<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>,<sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1ac240efeedc9c7fddf7045866a2fc80b4" kindref="member">zoom</ref>,<sp/>1u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(LatLonToTile,<sp/>Berlin_Zoom10)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin:<sp/>lon=13.4050,<sp/>lat=52.5200</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>tile<sp/>at<sp/>zoom<sp/>10:<sp/>x=550,<sp/>y=335<sp/><sp/>(standard<sp/>Web<sp/>Mercator)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(13.4050,<sp/>52.5200,<sp/>10);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1ac240efeedc9c7fddf7045866a2fc80b4" kindref="member">zoom</ref>,<sp/>10u);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>,<sp/><sp/><sp/><sp/>550u);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>,<sp/><sp/><sp/><sp/>335u);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(LatLonToTile,<sp/>MaxLonClamped)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Longitude<sp/>&gt;<sp/>180<sp/>should<sp/>be<sp/>clamped<sp/>to<sp/>the<sp/>rightmost<sp/>column.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t1<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(180.0,<sp/><sp/>0.0,<sp/>2);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t2<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(200.0,<sp/><sp/>0.0,<sp/>2);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t1.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>,<sp/>t2.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t1.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>,<sp/>t2.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(LatLonToTile,<sp/>PolarLatClamped)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latitude<sp/>at<sp/>90°<sp/>is<sp/>clamped<sp/>to<sp/>Mercator<sp/>max<sp/>~85.05°;<sp/>must<sp/>not<sp/>produce<sp/>NaN.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(0.0,<sp/>90.0,<sp/>5);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1ac240efeedc9c7fddf7045866a2fc80b4" kindref="member">zoom</ref>,<sp/>5u);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(t.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>,<sp/>1u<sp/>&lt;&lt;<sp/>5);<sp/><sp/></highlight><highlight class="comment">//<sp/>row<sp/>within<sp/>valid<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>tileXToLon<sp/>/<sp/>tileYToLat</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TileEdgeLon,<sp/>Zoom0_WestEdge)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(<ref refid="namespacethemis_1_1geo_1add35afb11189a773ee63fe0e7035a052" kindref="member">tileXToLon</ref>(0u,<sp/>0u),<sp/>-180.0);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TileEdgeLon,<sp/>Zoom1_MiddleMeridian)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>x=1<sp/>at<sp/>zoom<sp/>1<sp/>starts<sp/>at<sp/>lon<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(<ref refid="namespacethemis_1_1geo_1add35afb11189a773ee63fe0e7035a052" kindref="member">tileXToLon</ref>(1u,<sp/>1u),<sp/>0.0);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TileEdgeLat,<sp/>Zoom0_TopEdge)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>y=0<sp/>at<sp/>zoom<sp/>0<sp/>is<sp/>the<sp/>north<sp/>pole<sp/>(Mercator<sp/>max).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a84a53fd1b309a301788f7e51d42d18cf" kindref="member">tileYToLat</ref>(0u,<sp/>0u);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(lat,<sp/>85.0511,<sp/>0.001);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TileEdgeLat,<sp/>Zoom1_Equator)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>y=1<sp/>at<sp/>zoom<sp/>1<sp/>reaches<sp/>the<sp/>equator.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lat<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a84a53fd1b309a301788f7e51d42d18cf" kindref="member">tileYToLat</ref>(1u,<sp/>1u);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(lat,<sp/>0.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>tileToBBox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TileToBBox,<sp/>Zoom0_CoversWorld)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bbox<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a4d096a537583a55f7337c0c2fd83c1b2" kindref="member">tileToBBox</ref>({0u,<sp/>0u,<sp/>0u});</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(bbox.minx,<sp/>-180.0,<sp/><sp/>1e-6);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(bbox.maxx,<sp/><sp/>180.0,<sp/><sp/>1e-6);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(bbox.maxy,<sp/><sp/>85.051,<sp/>0.001);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(bbox.miny,<sp/>-85.051,<sp/>0.001);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TileToBBox,<sp/>WestEdge_LessThanEastEdge)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bbox<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a4d096a537583a55f7337c0c2fd83c1b2" kindref="member">tileToBBox</ref>({100u,<sp/>200u,<sp/>10u});</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(bbox.minx,<sp/>bbox.maxx);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(bbox.miny,<sp/>bbox.maxy);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TileToBBox,<sp/>BBoxContainsTileCenter)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>tile<sp/>containing<sp/>Berlin<sp/>should<sp/>have<sp/>a<sp/>bbox<sp/>that<sp/>includes<sp/>Berlin&apos;s<sp/>coords.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>t<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a9c8316293656ec1a98d97ca1aca40aec" kindref="member">latLonToTile</ref>(13.4050,<sp/>52.5200,<sp/>10);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bbox<sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a4d096a537583a55f7337c0c2fd83c1b2" kindref="member">tileToBBox</ref>(t);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(13.4050,<sp/>bbox.minx);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(13.4050,<sp/>bbox.maxx);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(52.5200,<sp/>bbox.miny);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(52.5200,<sp/>bbox.maxy);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>formatTileUrl</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(FormatTileUrl,<sp/>OSMTemplate)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tmpl<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://tile.openstreetmap.org/{z}/{x}/{y}.png&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>url<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a1c41a1edf9c7aee281e23aed14dace88" kindref="member">formatTileUrl</ref>(tmpl,<sp/>{549u,<sp/>335u,<sp/>10u});</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(url,<sp/></highlight><highlight class="stringliteral">&quot;https://tile.openstreetmap.org/10/549/335.png&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(FormatTileUrl,<sp/>CustomTemplate_AllPlaceholders)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tmpl<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://example.com/tiles/{z}/{x}/{y}.jpg&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>url<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a1c41a1edf9c7aee281e23aed14dace88" kindref="member">formatTileUrl</ref>(tmpl,<sp/>{0u,<sp/>0u,<sp/>0u});</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(url,<sp/></highlight><highlight class="stringliteral">&quot;http://example.com/tiles/0/0/0.jpg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(FormatTileUrl,<sp/>NoPlaceholders_Unchanged)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tmpl<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://example.com/static_tile.png&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1geo_1a1c41a1edf9c7aee281e23aed14dace88" kindref="member">formatTileUrl</ref>(tmpl,<sp/>{1u,<sp/>2u,<sp/>3u}),<sp/>tmpl);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(FormatTileUrl,<sp/>RepeatedPlaceholders)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>tmpl<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{z}/{x}/{y}?z={z}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>url<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a1c41a1edf9c7aee281e23aed14dace88" kindref="member">formatTileUrl</ref>(tmpl,<sp/>{5u,<sp/>10u,<sp/>2u});</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(url,<sp/></highlight><highlight class="stringliteral">&quot;2/5/10?z=2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>tilesForBBox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TilesForBBox,<sp/>SingleTile_Zoom0)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zoom<sp/>0<sp/>has<sp/>exactly<sp/>one<sp/>tile<sp/>for<sp/>the<sp/>whole<sp/>world.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>world{-180.0,<sp/>-85.05,<sp/>180.0,<sp/>85.05};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tiles<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a5995e2bbbd50417db48ec7ba2758e7d8" kindref="member">tilesForBBox</ref>(world,<sp/>0);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(tiles.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tiles.front().x,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tiles.front().y,<sp/><sp/><sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tiles.front().zoom,<sp/>0u);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TilesForBBox,<sp/>BerlinSmallArea_Zoom10)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>area<sp/>around<sp/>Berlin<sp/>should<sp/>produce<sp/>a<sp/>handful<sp/>of<sp/>tiles<sp/>at<sp/>zoom<sp/>10.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bbox{13.38,<sp/>52.50,<sp/>13.42,<sp/>52.54};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tiles<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a5995e2bbbd50417db48ec7ba2758e7d8" kindref="member">tilesForBBox</ref>(bbox,<sp/>10);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(tiles.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(tiles.size(),<sp/>4u);<sp/></highlight><highlight class="comment">//<sp/>at<sp/>most<sp/>a<sp/>2×2<sp/>patch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>tiles)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(t.zoom,<sp/>10u);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TilesForBBox,<sp/>InvertedBBox_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>min<sp/>&gt;<sp/>max<sp/>→<sp/>no<sp/>tiles.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bad{10.0,<sp/>10.0,<sp/>5.0,<sp/>5.0};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1geo_1a5995e2bbbd50417db48ec7ba2758e7d8" kindref="member">tilesForBBox</ref>(bad,<sp/>5).empty());</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(TilesForBBox,<sp/>AllTilesContainBBox)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>returned<sp/>tile<sp/>should<sp/>overlap<sp/>the<sp/>query<sp/>bbox.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>query{13.3,<sp/>52.4,<sp/>13.6,<sp/>52.7};</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tiles<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a5995e2bbbd50417db48ec7ba2758e7d8" kindref="member">tilesForBBox</ref>(query,<sp/>12);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>tiles)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>tb<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a4d096a537583a55f7337c0c2fd83c1b2" kindref="member">tileToBBox</ref>(t);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tile<sp/>overlaps<sp/>query<sp/>iff<sp/>tile.max<sp/>&gt;<sp/>query.min<sp/>AND<sp/>tile.min<sp/>&lt;<sp/>query.max</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(tb.maxx,<sp/>query.minx);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(tb.minx,<sp/>query.maxx);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(tb.maxy,<sp/>query.miny);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(tb.miny,<sp/>query.maxy);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>encodeVectorTile</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(EncodeVectorTile,<sp/>EmptyInput_EmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{549u,<sp/>335u,<sp/>10u};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_vector_tile_result" kindref="compound">VectorTileResult</ref><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a00316080323482da2c3366c0e703699c" kindref="member">encodeVectorTile</ref>(tile,<sp/>{});</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a558b68b81d3446a0aaa8cd3e020e3d47" kindref="member">tile</ref>.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tile.<ref refid="structthemis_1_1geo_1_1_tile_coord_1af180f50c4d41af2507037cf601261f28" kindref="member">x</ref>);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a558b68b81d3446a0aaa8cd3e020e3d47" kindref="member">tile</ref>.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tile.<ref refid="structthemis_1_1geo_1_1_tile_coord_1a422a612d3930d6e5a3274a386643e3f7" kindref="member">y</ref>);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a558b68b81d3446a0aaa8cd3e020e3d47" kindref="member">tile</ref>.<ref refid="structthemis_1_1geo_1_1_tile_coord_1ac240efeedc9c7fddf7045866a2fc80b4" kindref="member">zoom</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>tile.<ref refid="structthemis_1_1geo_1_1_tile_coord_1ac240efeedc9c7fddf7045866a2fc80b4" kindref="member">zoom</ref>);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>.empty());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(EncodeVectorTile,<sp/>PointInsideTile_Included)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{549u,<sp/>335u,<sp/>10u};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bbox<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a4d096a537583a55f7337c0c2fd83c1b2" kindref="member">tileToBBox</ref>(tile);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cx<sp/>=<sp/>(bbox.minx<sp/>+<sp/>bbox.maxx)<sp/>/<sp/>2.0;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cy<sp/>=<sp/>(bbox.miny<sp/>+<sp/>bbox.maxy)<sp/>/<sp/>2.0;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>pt(GeometryType::Point);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>pt.coords.emplace_back(cx,<sp/>cy);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_vector_tile_result" kindref="compound">VectorTileResult</ref><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a00316080323482da2c3366c0e703699c" kindref="member">encodeVectorTile</ref>(tile,<sp/>{pt});</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Projected<sp/>point<sp/>should<sp/>be<sp/>near<sp/>the<sp/>centre<sp/>of<sp/>the<sp/>tile<sp/>(extent/2).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ext<sp/>=<sp/>4096.0;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>[0].geometry.coords[0].x,<sp/>ext<sp/>/<sp/>2.0,<sp/>ext<sp/>*<sp/>0.01);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>[0].geometry.coords[0].y,<sp/>ext<sp/>/<sp/>2.0,<sp/>ext<sp/>*<sp/>0.01);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(EncodeVectorTile,<sp/>PointOutsideTile_Excluded)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{0u,<sp/>0u,<sp/>10u};</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>point<sp/>far<sp/>outside<sp/>the<sp/>tile<sp/>bounding<sp/>box.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>pt(GeometryType::Point);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>pt.coords.emplace_back(170.0,<sp/>-80.0);<sp/></highlight><highlight class="comment">//<sp/>SE<sp/>corner<sp/>of<sp/>world;<sp/>tile<sp/>is<sp/>NW</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_vector_tile_result" kindref="compound">VectorTileResult</ref><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a00316080323482da2c3366c0e703699c" kindref="member">encodeVectorTile</ref>(tile,<sp/>{pt});</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>.empty());</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(EncodeVectorTile,<sp/>LineStringPreservesVertexCount)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{549u,<sp/>335u,<sp/>10u};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bbox<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a4d096a537583a55f7337c0c2fd83c1b2" kindref="member">tileToBBox</ref>(tile);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>line(GeometryType::LineString);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>line.coords.emplace_back(bbox.minx,<sp/>bbox.miny);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>line.coords.emplace_back(bbox.maxx,<sp/>bbox.maxy);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>line.coords.emplace_back((bbox.minx<sp/>+<sp/>bbox.maxx)<sp/>/<sp/>2.0,</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(bbox.miny<sp/>+<sp/>bbox.maxy)<sp/>/<sp/>2.0);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_vector_tile_result" kindref="compound">VectorTileResult</ref><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a00316080323482da2c3366c0e703699c" kindref="member">encodeVectorTile</ref>(tile,<sp/>{line});</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>[0].geometry.coords.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(EncodeVectorTile,<sp/>PolygonEncoded)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{549u,<sp/>335u,<sp/>10u};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bbox<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a4d096a537583a55f7337c0c2fd83c1b2" kindref="member">tileToBBox</ref>(tile);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cx<sp/>=<sp/>(bbox.minx<sp/>+<sp/>bbox.maxx)<sp/>/<sp/>2.0;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cy<sp/>=<sp/>(bbox.miny<sp/>+<sp/>bbox.maxy)<sp/>/<sp/>2.0;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d<sp/><sp/>=<sp/>(bbox.maxx<sp/>-<sp/>bbox.minx)<sp/>*<sp/>0.1;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>poly(GeometryType::Polygon);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>poly.coords.emplace_back(cx<sp/>-<sp/>d,<sp/>cy<sp/>-<sp/>d);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>poly.coords.emplace_back(cx<sp/>+<sp/>d,<sp/>cy<sp/>-<sp/>d);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>poly.coords.emplace_back(cx<sp/>+<sp/>d,<sp/>cy<sp/>+<sp/>d);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>poly.coords.emplace_back(cx<sp/>-<sp/>d,<sp/>cy<sp/>+<sp/>d);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>poly.coords.emplace_back(cx<sp/>-<sp/>d,<sp/>cy<sp/>-<sp/>d);<sp/></highlight><highlight class="comment">//<sp/>close<sp/>ring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_vector_tile_result" kindref="compound">VectorTileResult</ref><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a00316080323482da2c3366c0e703699c" kindref="member">encodeVectorTile</ref>(tile,<sp/>{poly});</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>[0].geometry.coords.size(),<sp/>5u);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(EncodeVectorTile,<sp/>UnsupportedType_Skipped)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{549u,<sp/>335u,<sp/>10u};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>gc(GeometryType::GeometryCollection);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_vector_tile_result" kindref="compound">VectorTileResult</ref><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a00316080323482da2c3366c0e703699c" kindref="member">encodeVectorTile</ref>(tile,<sp/>{gc});</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>.empty());</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(EncodeVectorTile,<sp/>CustomExtent)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_tile_coord" kindref="compound">TileCoord</ref><sp/>tile{549u,<sp/>335u,<sp/>10u};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR<sp/>bbox<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a4d096a537583a55f7337c0c2fd83c1b2" kindref="member">tileToBBox</ref>(tile);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cx<sp/>=<sp/>(bbox.minx<sp/>+<sp/>bbox.maxx)<sp/>/<sp/>2.0;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cy<sp/>=<sp/>(bbox.miny<sp/>+<sp/>bbox.maxy)<sp/>/<sp/>2.0;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>GeometryInfo<sp/>pt(GeometryType::Point);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>pt.coords.emplace_back(cx,<sp/>cy);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/>ext<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_vector_tile_result" kindref="compound">VectorTileResult</ref><sp/>r<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a00316080323482da2c3366c0e703699c" kindref="member">encodeVectorTile</ref>(tile,<sp/>{pt},<sp/>ext);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>[0].geometry.coords[0].x,<sp/>ext<sp/>/<sp/>2.0,<sp/>ext<sp/>*<sp/>0.01);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(r.<ref refid="structthemis_1_1geo_1_1_vector_tile_result_1a554f4538892fda01efdb7a5f2504a9f2" kindref="member">features</ref>[0].geometry.coords[0].y,<sp/>ext<sp/>/<sp/>2.0,<sp/>ext<sp/>*<sp/>0.01);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TileLayerConfig<sp/>smoke<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(<ref refid="structthemis_1_1geo_1_1_tile_layer_config" kindref="compound">TileLayerConfig</ref>,<sp/>DefaultValues)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_tile_layer_config" kindref="compound">TileLayerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1geo_1_1_tile_layer_config_1a614b969dd4ba141bb01beb622a4960b7" kindref="member">min_zoom</ref>,<sp/><sp/>0u);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1geo_1_1_tile_layer_config_1a4a2bfd8edf3e1f940874c810b9aeed28" kindref="member">max_zoom</ref>,<sp/><sp/>19u);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.<ref refid="structthemis_1_1geo_1_1_tile_layer_config_1a6960b0d82de7939090c35644a4467af3" kindref="member">tile_size</ref>,<sp/>256u);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.<ref refid="structthemis_1_1geo_1_1_tile_layer_config_1a4a0c960b246ee7b7680314126da1fc74" kindref="member">url_template</ref>.empty());</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><ref refid="test__geo__tile__server_8cpp_1aaa96a4ac04ca4ffb2cc6fb3f344b1216" kindref="member">TEST</ref>(<ref refid="structthemis_1_1geo_1_1_tile_layer_config" kindref="compound">TileLayerConfig</ref>,<sp/>FormatUrl_UsingConfig)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_tile_layer_config" kindref="compound">TileLayerConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1geo_1_1_tile_layer_config_1a4a0c960b246ee7b7680314126da1fc74" kindref="member">url_template</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://tile.example.com/{z}/{x}/{y}.png&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>url<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a1c41a1edf9c7aee281e23aed14dace88" kindref="member">formatTileUrl</ref>(cfg.<ref refid="structthemis_1_1geo_1_1_tile_layer_config_1a4a0c960b246ee7b7680314126da1fc74" kindref="member">url_template</ref>,<sp/>{1u,<sp/>2u,<sp/>3u});</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(url,<sp/></highlight><highlight class="stringliteral">&quot;https://tile.example.com/3/1/2.png&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_tile_server.cpp"/>
+  </compounddef>
+</doxygen>

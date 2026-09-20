@@ -1,0 +1,727 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::GPUMemoryOversubscriptionManager</compoundname>
+    <includes refid="gpu__memory__oversubscription_8h" local="no">gpu_memory_oversubscription.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" prot="public">themis::index::GPUMemoryOversubscriptionManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info" prot="public">themis::index::GPUMemoryOversubscriptionManager::PartitionInfo</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" prot="public">themis::index::GPUMemoryOversubscriptionManager::Stats</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl" prot="public">themis::index::GPUMemoryOversubscriptionManager::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a5713c4bbb9af73337afcf3bc6a192c41" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::index::GPUMemoryOversubscriptionManager::pImpl_</definition>
+        <argsstring></argsstring>
+        <name>pImpl_</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::pImpl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="241" column="21" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::GPUMemoryOversubscriptionManager::GPUMemoryOversubscriptionManager</definition>
+        <argsstring>()</argsstring>
+        <name>GPUMemoryOversubscriptionManager</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::GPUMemoryOversubscriptionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="87" column="5" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="399" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1af6fced7e1329f577ad8c228991fb2a2f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::GPUMemoryOversubscriptionManager::GPUMemoryOversubscriptionManager</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>GPUMemoryOversubscriptionManager</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::GPUMemoryOversubscriptionManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>GPUMemory Oversubscription Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="93" column="14" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="402" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a4bcff5b0c753751ea4e45609d45513c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::GPUMemoryOversubscriptionManager::~GPUMemoryOversubscriptionManager</definition>
+        <argsstring>()</argsstring>
+        <name>~GPUMemoryOversubscriptionManager</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::~GPUMemoryOversubscriptionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="94" column="5" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="406" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a8404e5b32c3a26f0882569229aa8133a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::GPUMemoryOversubscriptionManager::GPUMemoryOversubscriptionManager</definition>
+        <argsstring>(const GPUMemoryOversubscriptionManager &amp;)=delete</argsstring>
+        <name>GPUMemoryOversubscriptionManager</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::GPUMemoryOversubscriptionManager</qualifiedname>
+        <param>
+          <type>const GPUMemoryOversubscriptionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a7bbbd535587fe7517ed9fd069faa4d4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" kindref="member">GPUMemoryOversubscriptionManager</ref> &amp;</type>
+        <definition>GPUMemoryOversubscriptionManager &amp; themis::index::GPUMemoryOversubscriptionManager::operator=</definition>
+        <argsstring>(const GPUMemoryOversubscriptionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" kindref="member">GPUMemoryOversubscriptionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="97" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a4da5067fcd079e49245e682ce8de29e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::addPartition</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;flat_data, size_t num_vectors, size_t dimension, const std::string &amp;tag=&quot;&quot;)</argsstring>
+        <name>addPartition</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::addPartition</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>flat_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>num_vectors</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">flat_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">num_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), push_back(), emplace(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="103" column="12" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="430" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a693e436f4e2179eb6ea52823f2d7f944" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUMemoryOversubscriptionManager::removePartition</definition>
+        <argsstring>(size_t partition_id)</argsstring>
+        <name>removePartition</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::removePartition</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), evictPartitionLocked(), <ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1acc2ee4db07266af9a1bb2330ab99fb9b" kindref="member">Impl::partitionBytes()</ref>, erase(), std::remove(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="113" column="10" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="464" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae3a13f5c7985244d4317fd442f100f41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUMemoryOversubscriptionManager::accessPartition</definition>
+        <argsstring>(size_t partition_id)</argsstring>
+        <name>accessPartition</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::accessPartition</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Access Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), loadPartitionLocked(), touchLRULocked(), <ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1a14318112ff81cfd6c8fdef7c2843d1c1" kindref="member">Impl::nowNs()</ref>, applyPrefetchLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="120" column="10" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="509" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ab75e73893b8c4f8926132f4badeaaf4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUMemoryOversubscriptionManager::evictPartition</definition>
+        <argsstring>(size_t partition_id)</argsstring>
+        <name>evictPartition</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::evictPartition</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Evict Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), erase(), evictPartitionLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="127" column="10" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="547" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1addc771482c6e6f08a8388a0b73155ff3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; float &gt; *</type>
+        <definition>const std::vector&lt; float &gt; * themis::index::GPUMemoryOversubscriptionManager::getPartitionData</definition>
+        <argsstring>(size_t partition_id) const</argsstring>
+        <name>getPartitionData</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getPartitionData</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Partition Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="138" column="23" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="575" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a9d02d8fed1754f86f9dd2f94696671db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::getPartitionVectorCount</definition>
+        <argsstring>(size_t partition_id) const</argsstring>
+        <name>getPartitionVectorCount</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getPartitionVectorCount</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Partition Vector Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="145" column="12" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="590" bodyend="599"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a0cd0fd38988dff03797ed31cc3264df3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::GPUMemoryOversubscriptionManager::isPartitionInVRAM</definition>
+        <argsstring>(size_t partition_id) const</argsstring>
+        <name>isPartitionInVRAM</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::isPartitionInVRAM</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Partition In VRAM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="152" column="10" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="605" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a8517fc9629ccb74e017044ebbf362656" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt; size_t &gt; themis::index::GPUMemoryOversubscriptionManager::getHotPartitions</definition>
+        <argsstring>() const</argsstring>
+        <name>getHotPartitions</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getHotPartitions</qualifiedname>
+        <briefdescription>
+<para>Get Hot Partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="158" column="17" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="620" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ad781bea923a1c4a5b9a7259455126126" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt; size_t &gt; themis::index::GPUMemoryOversubscriptionManager::getColdPartitions</definition>
+        <argsstring>() const</argsstring>
+        <name>getColdPartitions</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getColdPartitions</qualifiedname>
+        <briefdescription>
+<para>Get Cold Partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="164" column="17" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="639" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a87ff76f21d6f0142163194c90c5e8631" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt; size_t &gt; themis::index::GPUMemoryOversubscriptionManager::getAllPartitionIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllPartitionIds</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getAllPartitionIds</qualifiedname>
+        <briefdescription>
+<para>Get All Partition Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="170" column="17" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="657" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a692de8b81941e2c93e95b0c9c004bdf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::GPUMemoryOversubscriptionManager::prefetchPartition</definition>
+        <argsstring>(size_t partition_id)</argsstring>
+        <name>prefetchPartition</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::prefetchPartition</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Prefetch Partition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), <ref refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_impl_1acc2ee4db07266af9a1bb2330ab99fb9b" kindref="member">Impl::partitionBytes()</ref>, vramBudgetBytes(), loadPartitionLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="180" column="10" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="671" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a52bb206ae6e699a466e3b98a359c5d2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::GPUMemoryOversubscriptionManager::setPrefetchStrategy</definition>
+        <argsstring>(PrefetchStrategy strategy)</argsstring>
+        <name>setPrefetchStrategy</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::setPrefetchStrategy</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" kindref="member">PrefetchStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Set Prefetch Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="186" column="10" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="705" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a65f220d05f799bad3eaaafcb7d19ab05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2" kindref="member">PrefetchStrategy</ref></type>
+        <definition>PrefetchStrategy themis::index::GPUMemoryOversubscriptionManager::getPrefetchStrategy</definition>
+        <argsstring>() const</argsstring>
+        <name>getPrefetchStrategy</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getPrefetchStrategy</qualifiedname>
+        <briefdescription>
+<para>Get Prefetch Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="192" column="22" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="715" bodyend="718"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a0c5f78c6049eb32b2935c76c457d8226" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::GPUMemoryOversubscriptionManager::setVRAMBudgetMB</definition>
+        <argsstring>(size_t mb)</argsstring>
+        <name>setVRAMBudgetMB</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::setVRAMBudgetMB</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>mb</declname>
+        </param>
+        <briefdescription>
+<para>Set VRAMBudget MB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), empty(), evictLRULocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="202" column="10" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="729" bodyend="740"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a21012c177173719042c70855044c3784" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::getVRAMBudgetBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>getVRAMBudgetBytes</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getVRAMBudgetBytes</qualifiedname>
+        <briefdescription>
+<para>Get VRAMBudget Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="208" column="12" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="746" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1aec7e28571fdb907dd89621ff97c3cb5d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::getVRAMUsedBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>getVRAMUsedBytes</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getVRAMUsedBytes</qualifiedname>
+        <briefdescription>
+<para>Get VRAMUsed Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="214" column="12" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="757" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae7fa668ae942f3975960e9350b78c6ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>GPUMemoryOversubscriptionManager::Stats themis::index::GPUMemoryOversubscriptionManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="224" column="11" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="767" bodyend="794"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a7c811f7e520c8ef7ef4f2391b8a3a4ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1_1_partition_info" kindref="compound">PartitionInfo</ref></type>
+        <definition>GPUMemoryOversubscriptionManager::PartitionInfo themis::index::GPUMemoryOversubscriptionManager::getPartitionInfo</definition>
+        <argsstring>(size_t partition_id) const</argsstring>
+        <name>getPartitionInfo</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::getPartitionInfo</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>partition_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Partition Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partition_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the partition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="231" column="19" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="801" bodyend="821"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae4ce990087dc09355783b3a4c36a1f96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::index::GPUMemoryOversubscriptionManager::partitionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>partitionCount</name>
+        <qualifiedname>themis::index::GPUMemoryOversubscriptionManager::partitionCount</qualifiedname>
+        <briefdescription>
+<para>Partition Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_memory_oversubscription.h" line="237" column="12" bodyfile="src/index/gpu_memory_oversubscription.cpp" bodystart="827" bodyend="830"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gpu_memory_oversubscription.h" line="31" column="1" bodyfile="include/index/gpu_memory_oversubscription.h" bodystart="31" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae3a13f5c7985244d4317fd442f100f41" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>accessPartition</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a4da5067fcd079e49245e682ce8de29e7" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>addPartition</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ab75e73893b8c4f8926132f4badeaaf4a" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>evictPartition</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a87ff76f21d6f0142163194c90c5e8631" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getAllPartitionIds</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ad781bea923a1c4a5b9a7259455126126" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getColdPartitions</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a8517fc9629ccb74e017044ebbf362656" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getHotPartitions</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1addc771482c6e6f08a8388a0b73155ff3" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getPartitionData</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a7c811f7e520c8ef7ef4f2391b8a3a4ac" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getPartitionInfo</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a9d02d8fed1754f86f9dd2f94696671db" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getPartitionVectorCount</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a65f220d05f799bad3eaaafcb7d19ab05" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getPrefetchStrategy</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae7fa668ae942f3975960e9350b78c6ed" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a21012c177173719042c70855044c3784" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getVRAMBudgetBytes</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1aec7e28571fdb907dd89621ff97c3cb5d" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>getVRAMUsedBytes</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1abcc738df5718e6ff46480d9a952795c6" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>GPUMemoryOversubscriptionManager</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1af6fced7e1329f577ad8c228991fb2a2f" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>GPUMemoryOversubscriptionManager</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a8404e5b32c3a26f0882569229aa8133a" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>GPUMemoryOversubscriptionManager</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a0cd0fd38988dff03797ed31cc3264df3" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>isPartitionInVRAM</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a7bbbd535587fe7517ed9fd069faa4d4b" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1ae4ce990087dc09355783b3a4c36a1f96" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>partitionCount</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a5713c4bbb9af73337afcf3bc6a192c41" prot="private" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>pImpl_</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a692de8b81941e2c93e95b0c9c004bdf3" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>prefetchPartition</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a693e436f4e2179eb6ea52823f2d7f944" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>removePartition</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a52bb206ae6e699a466e3b98a359c5d2b" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>setPrefetchStrategy</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a0c5f78c6049eb32b2935c76c457d8226" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>setVRAMBudgetMB</name></member>
+      <member refid="classthemis_1_1index_1_1_g_p_u_memory_oversubscription_manager_1a4bcff5b0c753751ea4e45609d45513c7" prot="public" virt="non-virtual"><scope>themis::index::GPUMemoryOversubscriptionManager</scope><name>~GPUMemoryOversubscriptionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

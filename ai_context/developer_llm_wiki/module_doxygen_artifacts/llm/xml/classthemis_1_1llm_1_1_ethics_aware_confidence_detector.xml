@@ -1,0 +1,1165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::EthicsAwareConfidenceDetector</compoundname>
+    <includes refid="ethics__aware__confidence__detector_8h" local="no">ethics_aware_confidence_detector.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_statistics" prot="public">themis::llm::EthicsAwareConfidenceDetector::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl" prot="public">themis::llm::EthicsAwareConfidenceDetector::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a29d73e0f33769fb836406062467bccf9" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::EthicsAwareConfidenceDetector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="215" column="21" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a47bb1b06b19ab9d4efef466d3d7b5391" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EthicsAwareConfidenceDetector::EthicsAwareConfidenceDetector</definition>
+        <argsstring>(const EthicsAwareConfidenceConfig &amp;config={})</argsstring>
+        <name>EthicsAwareConfidenceDetector</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::EthicsAwareConfidenceDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config" kindref="compound">EthicsAwareConfidenceConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="91" column="14" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="107" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a889e41f2d6de3bf44f501b62e2ffad06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::EthicsAwareConfidenceDetector::~EthicsAwareConfidenceDetector</definition>
+        <argsstring>()</argsstring>
+        <name>~EthicsAwareConfidenceDetector</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::~EthicsAwareConfidenceDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aa0d910bf4e31f7035e4ff97d34a5cd7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_confidence_result" kindref="compound">ConfidenceResult</ref></type>
+        <definition>ConfidenceResult themis::llm::EthicsAwareConfidenceDetector::detectConfidence</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; TokenConfidence &gt; &amp;token_confidences={})</argsstring>
+        <name>detectConfidence</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::detectConfidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_token_confidence" kindref="compound">TokenConfidence</ref> &gt; &amp;</type>
+          <declname>token_confidences</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Core functionality ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_confidences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), generateCacheKey(), getCachedResult(), empty(), <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ae24d5303eb9c07eb6ea23497422a4464" kindref="member">evaluateTechnicalConfidence()</ref>, calculateTokenEntropy(), calculatePerplexity(), <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad2cb5f801fd90f4add60545742d78197" kindref="member">evaluateAutonomyRespect()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="101" column="22" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="131" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aa30217b98bd064640c42f61cb469fa8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_confidence_result" kindref="compound">ConfidenceResult</ref></type>
+        <definition>ConfidenceResult themis::llm::EthicsAwareConfidenceDetector::detectConfidenceWithContext</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;context, const std::vector&lt; TokenConfidence &gt; &amp;token_confidences={})</argsstring>
+        <name>detectConfidenceWithContext</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::detectConfidenceWithContext</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>context</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_token_confidence" kindref="compound">TokenConfidence</ref> &gt; &amp;</type>
+          <declname>token_confidences</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Detect Confidence With Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_confidences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aa0d910bf4e31f7035e4ff97d34a5cd7e" kindref="member">detectConfidence()</ref>, empty(), <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad2cb5f801fd90f4add60545742d78197" kindref="member">evaluateAutonomyRespect()</ref>, combineScores(), generateReasoning(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="106" column="22" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="235" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ae24d5303eb9c07eb6ea23497422a4464" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceDetector::evaluateTechnicalConfidence</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; TokenConfidence &gt; &amp;token_confidences)</argsstring>
+        <name>evaluateTechnicalConfidence</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::evaluateTechnicalConfidence</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_token_confidence" kindref="compound">TokenConfidence</ref> &gt; &amp;</type>
+          <declname>token_confidences</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Individual dimension evaluation ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_confidences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">token_confidences</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), calculateTokenEntropy(), std::log2(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="120" column="11" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="273" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad2cb5f801fd90f4add60545742d78197" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceDetector::evaluateAutonomyRespect</definition>
+        <argsstring>(const std::string &amp;text, const std::string &amp;query=&quot;&quot;)</argsstring>
+        <name>evaluateAutonomyRespect</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::evaluateAutonomyRespect</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Evaluate Autonomy Respect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ab494016c261cd94dfc3aaec64dfb2086" kindref="member">detectPatronizingLanguage()</ref>, <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad7cff5c52a2c6dcf7e81a25d2367a1b2" kindref="member">detectImperatives()</ref>, size(), <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a9651258cb0fb5171e91908868e055cc0" kindref="member">checkChoicePreservation()</ref>, std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="125" column="11" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="304" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1adc83cd95fcea0324822352eb843a6ea3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceDetector::evaluateTransparency</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>evaluateTransparency</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::evaluateTransparency</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Transparency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ac4be26be11697d28e67218400dbd370d" kindref="member">detectUncertaintyAcknowledgment()</ref>, toLowerCase(), countPatternMatches(), std::min(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="135" column="11" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="342" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ab494016c261cd94dfc3aaec64dfb2086" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::EthicsAwareConfidenceDetector::detectPatronizingLanguage</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>detectPatronizingLanguage</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::detectPatronizingLanguage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Pattern detection ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toLowerCase(), find(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="143" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="380" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad7cff5c52a2c6dcf7e81a25d2367a1b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::EthicsAwareConfidenceDetector::detectImperatives</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>detectImperatives</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::detectImperatives</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect Imperatives. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toLowerCase(), find(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="150" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="409" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ac4be26be11697d28e67218400dbd370d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::EthicsAwareConfidenceDetector::detectUncertaintyAcknowledgment</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>detectUncertaintyAcknowledgment</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::detectUncertaintyAcknowledgment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect Uncertainty Acknowledgment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toLowerCase(), find(), push_back(), unique(), begin(), end(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="157" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="438" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a9651258cb0fb5171e91908868e055cc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicsAwareConfidenceDetector::checkChoicePreservation</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>checkChoicePreservation</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::checkChoicePreservation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Check Choice Preservation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: toLowerCase(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="164" column="10" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="471" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1abeac76e954bd4ed4e0542cc449cd63f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EthicsAwareConfidenceDetector::setConfig</definition>
+        <argsstring>(const EthicsAwareConfidenceConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config" kindref="compound">EthicsAwareConfidenceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Configuration ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), validateWeights(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="171" column="10" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="496" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aab916ae10aa1902261a0de444888fd96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_config" kindref="compound">EthicsAwareConfidenceConfig</ref></type>
+        <definition>EthicsAwareConfidenceConfig themis::llm::EthicsAwareConfidenceDetector::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="177" column="33" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="508" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a93d509953039d29a3e09b8efd29b63ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EthicsAwareConfidenceDetector::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="182" column="10" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="517" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1acccc3d19e20598fcfaa888b7c42b11a8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>EthicsAwareConfidenceDetector::Statistics themis::llm::EthicsAwareConfidenceDetector::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="206" column="16" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="526" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a8e77c87fc939abab2c871a3811fa0a7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EthicsAwareConfidenceDetector::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1llm_1_1_ethics_aware_confidence_detector_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), Statistics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="211" column="10" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="535" bodyend="538"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a46b766ec66761d64a3bf4783a1b2d6d3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicsAwareConfidenceDetector::containsPattern</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;patterns)</argsstring>
+        <name>containsPattern</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::containsPattern</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>patterns</declname>
+        </param>
+        <briefdescription>
+<para>Contains Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Helper methods ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: toLowerCase(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="224" column="10" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="548" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a8f14587e0a6d42e0c8136c1c23891012" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::EthicsAwareConfidenceDetector::countPatternMatches</definition>
+        <argsstring>(const std::string &amp;text, const std::vector&lt; std::string &gt; &amp;patterns)</argsstring>
+        <name>countPatternMatches</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::countPatternMatches</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>patterns</declname>
+        </param>
+        <briefdescription>
+<para>Count Pattern Matches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">patterns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: toLowerCase(), find(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="231" column="9" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="568" bodyend="580"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1af5447da027cf58db7946b1fae39270fc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicsAwareConfidenceDetector::toLowerCase</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>toLowerCase</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::toLowerCase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>To Lower Case. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="237" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="588" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad5b84fbc9c2046982fbfa79e697ae886" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceDetector::calculateTokenEntropy</definition>
+        <argsstring>(const std::vector&lt; TokenConfidence &gt; &amp;tokens)</argsstring>
+        <name>calculateTokenEntropy</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::calculateTokenEntropy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_token_confidence" kindref="compound">TokenConfidence</ref> &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Token Entropy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::log2(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="245" column="11" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="600" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a0749bbe8e7b7db969ec7be695ebbbefe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceDetector::calculatePerplexity</definition>
+        <argsstring>(const std::vector&lt; TokenConfidence &gt; &amp;tokens)</argsstring>
+        <name>calculatePerplexity</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::calculatePerplexity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_token_confidence" kindref="compound">TokenConfidence</ref> &gt; &amp;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Perplexity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::log2(), std::pow(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="251" column="11" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="622" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a3b85d57f28ddd12515ecbc7e321ec566" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::EthicsAwareConfidenceDetector::combineScores</definition>
+        <argsstring>(float technical, float autonomy, float transparency)</argsstring>
+        <name>combineScores</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::combineScores</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>technical</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>autonomy</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>transparency</declname>
+        </param>
+        <briefdescription>
+<para>Combine Scores. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">technical</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">autonomy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transparency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">technical</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">autonomy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">transparency</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements combineScores without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="261" column="11" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="647" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ab2ae5f47714a0b00f4a76952dc40b337" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicsAwareConfidenceDetector::generateReasoning</definition>
+        <argsstring>(const ConfidenceResult &amp;result)</argsstring>
+        <name>generateReasoning</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::generateReasoning</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_confidence_result" kindref="compound">ConfidenceResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Generate Reasoning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="267" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="663" bodyend="694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1adbd1df334a6c6b5d843d94e506124b40" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::EthicsAwareConfidenceDetector::generateCacheKey</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>generateCacheKey</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::generateCacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Generate Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(), hasher(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="275" column="17" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="702" bodyend="706"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aecab2d4b0f6a7aff084e90fba24917ba" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::EthicsAwareConfidenceDetector::getCachedResult</definition>
+        <argsstring>(const std::string &amp;key, ConfidenceResult &amp;result)</argsstring>
+        <name>getCachedResult</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::getCachedResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_confidence_result" kindref="compound">ConfidenceResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Get Cached Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="282" column="10" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="715" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aa3916cd5f81b5c2fd4967632c6b79590" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::EthicsAwareConfidenceDetector::cacheResult</definition>
+        <argsstring>(const std::string &amp;key, const ConfidenceResult &amp;result)</argsstring>
+        <name>cacheResult</name>
+        <qualifiedname>themis::llm::EthicsAwareConfidenceDetector::cacheResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_confidence_result" kindref="compound">ConfidenceResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Cache Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ethics_aware_confidence_detector.h" line="288" column="10" bodyfile="src/llm/ethics_aware_confidence_detector.cpp" bodystart="733" bodyend="743"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ethics_aware_confidence_detector.h" line="89" column="1" bodyfile="include/llm/ethics_aware_confidence_detector.h" bodystart="89" bodyend="289"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aa3916cd5f81b5c2fd4967632c6b79590" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>cacheResult</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a0749bbe8e7b7db969ec7be695ebbbefe" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>calculatePerplexity</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad5b84fbc9c2046982fbfa79e697ae886" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>calculateTokenEntropy</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a9651258cb0fb5171e91908868e055cc0" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>checkChoicePreservation</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a93d509953039d29a3e09b8efd29b63ca" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a3b85d57f28ddd12515ecbc7e321ec566" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>combineScores</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a46b766ec66761d64a3bf4783a1b2d6d3" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>containsPattern</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a8f14587e0a6d42e0c8136c1c23891012" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>countPatternMatches</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aa0d910bf4e31f7035e4ff97d34a5cd7e" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>detectConfidence</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aa30217b98bd064640c42f61cb469fa8b" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>detectConfidenceWithContext</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad7cff5c52a2c6dcf7e81a25d2367a1b2" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>detectImperatives</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ab494016c261cd94dfc3aaec64dfb2086" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>detectPatronizingLanguage</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ac4be26be11697d28e67218400dbd370d" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>detectUncertaintyAcknowledgment</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a47bb1b06b19ab9d4efef466d3d7b5391" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>EthicsAwareConfidenceDetector</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ad2cb5f801fd90f4add60545742d78197" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>evaluateAutonomyRespect</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ae24d5303eb9c07eb6ea23497422a4464" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>evaluateTechnicalConfidence</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1adc83cd95fcea0324822352eb843a6ea3" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>evaluateTransparency</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1adbd1df334a6c6b5d843d94e506124b40" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>generateCacheKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1ab2ae5f47714a0b00f4a76952dc40b337" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>generateReasoning</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aecab2d4b0f6a7aff084e90fba24917ba" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>getCachedResult</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1aab916ae10aa1902261a0de444888fd96" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1acccc3d19e20598fcfaa888b7c42b11a8" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a29d73e0f33769fb836406062467bccf9" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a8e77c87fc939abab2c871a3811fa0a7e" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1abeac76e954bd4ed4e0542cc449cd63f0" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1af5447da027cf58db7946b1fae39270fc" prot="private" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>toLowerCase</name></member>
+      <member refid="classthemis_1_1llm_1_1_ethics_aware_confidence_detector_1a889e41f2d6de3bf44f501b62e2ffad06" prot="public" virt="non-virtual"><scope>themis::llm::EthicsAwareConfidenceDetector</scope><name>~EthicsAwareConfidenceDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

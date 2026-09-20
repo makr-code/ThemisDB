@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="round__trip__editor_8h" kind="file" language="C++">
+    <compoundname>round_trip_editor.h</compoundname>
+    <includes refid="document__store_8h" local="yes">document/document_store.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__document__round__trip_8cpp" local="yes">benchmarks/document/bench_document_round_trip.cpp</includedby>
+    <includedby refid="round__trip__editor_8cpp" local="yes">src/document/round_trip_editor.cpp</includedby>
+    <includedby refid="test__document__round__trip__persistence__focused_8cpp" local="yes">tests/document/test_document_round_trip_persistence_focused.cpp</includedby>
+    <includedby refid="test__document__schema__hardening__focused_8cpp" local="yes">tests/document/test_document_schema_hardening_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>document/document_store.h</label>
+        <link refid="document__store_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/document/round_trip_editor.h</label>
+        <link refid="round__trip__editor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/document/bench_document_round_trip.cpp</label>
+        <link refid="bench__document__round__trip_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/document/round_trip_editor.h</label>
+        <link refid="round__trip__editor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/document/round_trip_editor.cpp</label>
+        <link refid="round__trip__editor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/document/test_document_round_trip_persistence_focused.cpp</label>
+        <link refid="test__document__round__trip__persistence__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/document/test_document_schema_hardening_focused.cpp</label>
+        <link refid="test__document__schema__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1document_1_1_round_trip_snapshot" prot="public">themis::document::RoundTripSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_i_round_trip_editor" prot="public">themis::document::IRoundTripEditor</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" prot="public">themis::document::StoreBackedRoundTripEditor</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1document">themis::document</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>—<sp/>Document<sp/>Module</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>round_trip_editor.h</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>include/document/</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>Store-backed<sp/>persistence<sp/>for<sp/>DELEGATE-52<sp/>round-trip<sp/>document</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>interactions<sp/>(seed<sp/>+<sp/>intermediate<sp/>versions).</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>Version:<sp/>1.0.0</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="document__store_8h" kindref="compound">document/document_store.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document" kindref="compound">themis::document</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1document_1aa2c043cd325abdd7526e543ca08253ed" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="namespacethemis_1_1document_1aa2c043cd325abdd7526e543ca08253ed" kindref="member">kDefaultRoundTripCollection</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;delegate_round_trip&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1document_1_1_round_trip_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1document_1_1_round_trip_snapshot" kindref="compound">RoundTripSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1document_1_1_round_trip_snapshot_1a1a836ef73a556d8602d17d1532635726" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1document_1_1_round_trip_snapshot_1a1a836ef73a556d8602d17d1532635726" kindref="member">relay_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1document_1_1_round_trip_snapshot_1a661f2f0c4fe8e899f4c97479f46aa52a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1document_1_1_round_trip_snapshot_1a661f2f0c4fe8e899f4c97479f46aa52a" kindref="member">interaction_index</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1document_1_1_round_trip_snapshot_1a905d55976d1929109ea767a59a0a77d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1document_1_1_round_trip_snapshot_1a905d55976d1929109ea767a59a0a77d1" kindref="member">instruction</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1document_1_1_round_trip_snapshot_1ade5bcb7451eca1d161ecec0ec8e067b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1document_1_1_round_trip_snapshot_1ade5bcb7451eca1d161ecec0ec8e067b6" kindref="member">document</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1document_1_1_i_round_trip_editor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1document_1_1_i_round_trip_editor" kindref="compound">IRoundTripEditor</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1document_1_1_i_round_trip_editor_1ad6c37ca4545f450077173783223be156" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_round_trip_editor_1ad6c37ca4545f450077173783223be156" kindref="member">~IRoundTripEditor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1document_1_1_i_round_trip_editor_1a7e9877a2d11d5bc1e6afd66211f8caa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_round_trip_editor_1a7e9877a2d11d5bc1e6afd66211f8caa5" kindref="member">beginRelay</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>seed_document)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1document_1_1_i_round_trip_editor_1a1baa591e40813784972ccf063c3649ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_round_trip_editor_1a1baa591e40813784972ccf063c3649ae" kindref="member">saveInteraction</ref>(</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>interaction_index,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instruction,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1document" kindref="compound">document</ref>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1document_1_1_i_round_trip_editor_1a20e461fca9506a551d8d71d4192272da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;std::optional&lt;RoundTripSnapshot&gt;&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_round_trip_editor_1a20e461fca9506a551d8d71d4192272da" kindref="member">loadInteraction</ref>(</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>interaction_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1document_1_1_i_round_trip_editor_1a293e7fa41a9a253813adcd68ee87ad42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>Result&lt;std::size_t&gt;<sp/><ref refid="classthemis_1_1document_1_1_i_round_trip_editor_1a293e7fa41a9a253813adcd68ee87ad42" kindref="member">countSnapshots</ref>(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1document_1_1_store_backed_round_trip_editor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a0b31be0c8d561b27e3c54f69f9273c76" kindref="member">StoreBackedRoundTripEditor</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_i_round_trip_editor" kindref="compound">IRoundTripEditor</ref><sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a0b31be0c8d561b27e3c54f69f9273c76" kindref="member">StoreBackedRoundTripEditor</ref>(<ref refid="classthemis_1_1document_1_1_i_document_store" kindref="compound">IDocumentStore</ref>&amp;<sp/>store,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref><sp/>collection<sp/>=<sp/><ref refid="namespacethemis_1_1document_1aa2c043cd325abdd7526e543ca08253ed" kindref="member">kDefaultRoundTripCollection</ref>);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a16b60b3b2b7732c5dd2c7c5fa7a60b5b" kindref="member">beginRelay</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>seed_document)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a9e3242001383fc73c12ecf988fb5b541" kindref="member">saveInteraction</ref>(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>interaction_index,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>instruction,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1document" kindref="compound">document</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;std::optional&lt;RoundTripSnapshot&gt;&gt;<sp/><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a9950c7507df5d805234bc18a43106b35" kindref="member">loadInteraction</ref>(</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>interaction_index)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>Result&lt;std::size_t&gt;<sp/><ref refid="classthemis_1_1document_1_1_store_backed_round_trip_editor_1a17236032e006493fbe8b42dc6e622da4" kindref="member">countSnapshots</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/>makeSnapshotId(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>relay_id,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>interaction_index)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_i_document_store" kindref="compound">IDocumentStore</ref>&amp;<sp/>store_;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1a5840c7368ab76eef87bad728e292bdad" kindref="member">CollectionId</ref><sp/>collection_;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::document</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/document/round_trip_editor.h"/>
+  </compounddef>
+</doxygen>

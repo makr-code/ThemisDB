@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_a_n_n_kernel_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ANNKernelParams</compoundname>
+    <includes refid="kernel__invocation_8h" local="no">kernel_invocation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1aab9b8cc5c1cd3a46186dd1404505fa14" prot="public" static="no" mutable="no">
+        <type>const float *</type>
+        <definition>const float* themis::acceleration::ANNKernelParams::queries</definition>
+        <argsstring></argsstring>
+        <name>queries</name>
+        <qualifiedname>themis::acceleration::ANNKernelParams::queries</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Query matrix [numQueries × dim]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="84" column="19" bodyfile="include/acceleration/kernel_invocation.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1ae734ca4f06f04a45720a48757b40c067" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ANNKernelParams::numQueries</definition>
+        <argsstring></argsstring>
+        <name>numQueries</name>
+        <qualifiedname>themis::acceleration::ANNKernelParams::numQueries</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="85" column="20" bodyfile="include/acceleration/kernel_invocation.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1aa7ac1161ebabbaabe8b9a2b1acfb9a1b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ANNKernelParams::dim</definition>
+        <argsstring></argsstring>
+        <name>dim</name>
+        <qualifiedname>themis::acceleration::ANNKernelParams::dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Vector dimensionality. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="86" column="20" bodyfile="include/acceleration/kernel_invocation.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a65e2f8c933c3717f16836fc6e82cc483" prot="public" static="no" mutable="no">
+        <type>const float *</type>
+        <definition>const float* themis::acceleration::ANNKernelParams::vectors</definition>
+        <argsstring></argsstring>
+        <name>vectors</name>
+        <qualifiedname>themis::acceleration::ANNKernelParams::vectors</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Database matrix [numVectors × dim]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="87" column="19" bodyfile="include/acceleration/kernel_invocation.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a016fd3f3fcc6b53f9d940489f17f7b3d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ANNKernelParams::numVectors</definition>
+        <argsstring></argsstring>
+        <name>numVectors</name>
+        <qualifiedname>themis::acceleration::ANNKernelParams::numVectors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Database size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="88" column="20" bodyfile="include/acceleration/kernel_invocation.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a0c3540206916b24101c02ea6d170afed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::ANNKernelParams::topK</definition>
+        <argsstring></argsstring>
+        <name>topK</name>
+        <qualifiedname>themis::acceleration::ANNKernelParams::topK</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>k nearest neighbours to retrieve </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="89" column="20" bodyfile="include/acceleration/kernel_invocation.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a7996ce6b43082b4017f8126a7b987548" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref></type>
+        <definition>DistanceMetric themis::acceleration::ANNKernelParams::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::acceleration::ANNKernelParams::metric</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref></initializer>
+        <briefdescription>
+<para>Distance metric. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="90" column="20" bodyfile="include/acceleration/kernel_invocation.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Describes the input shape and search configuration for an ANN kernel call. All pointer fields are device pointers unless the CPU backend is used, in which case they are host pointers. </para>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_invocation.h" line="83" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="83" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1aa7ac1161ebabbaabe8b9a2b1acfb9a1b" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelParams</scope><name>dim</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a7996ce6b43082b4017f8126a7b987548" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelParams</scope><name>metric</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1ae734ca4f06f04a45720a48757b40c067" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelParams</scope><name>numQueries</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a016fd3f3fcc6b53f9d940489f17f7b3d" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelParams</scope><name>numVectors</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1aab9b8cc5c1cd3a46186dd1404505fa14" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelParams</scope><name>queries</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a0c3540206916b24101c02ea6d170afed" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelParams</scope><name>topK</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_params_1a65e2f8c933c3717f16836fc6e82cc483" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelParams</scope><name>vectors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

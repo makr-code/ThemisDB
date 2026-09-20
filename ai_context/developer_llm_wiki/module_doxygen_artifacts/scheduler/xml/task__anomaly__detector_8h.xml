@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="task__anomaly__detector_8h" kind="file" language="C++">
+    <compoundname>task_anomaly_detector.h</compoundname>
+    <includes refid="task__audit__event_8h" local="yes">scheduler/task_audit_event.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="task__audit__manager_8h" local="yes">include/scheduler/task_audit_manager.h</includedby>
+    <includedby refid="task__anomaly__detector_8cpp" local="yes">src/scheduler/task_anomaly_detector.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/scheduler/task_anomaly_detector.h</label>
+        <link refid="task__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>scheduler/task_audit_event.h</label>
+        <link refid="task__audit__event_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="8">
+        <label>deque</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>queue</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/scheduler/task_anomaly_detector.h</label>
+        <link refid="task__anomaly__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/scheduler/task_audit_manager.h</label>
+        <link refid="task__audit__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/scheduler/task_anomaly_detector.cpp</label>
+        <link refid="task__anomaly__detector_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/scheduler/task_audit_manager.cpp</label>
+        <link refid="task__audit__manager_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/scheduler/task_scheduler.cpp</label>
+        <link refid="task__scheduler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" prot="public">themis::scheduler::AnomalyDetectorConfig</innerclass>
+    <innerclass refid="structthemis_1_1scheduler_1_1_task_statistics" prot="public">themis::scheduler::TaskStatistics</innerclass>
+    <innerclass refid="classthemis_1_1scheduler_1_1_task_anomaly_detector" prot="public">themis::scheduler::TaskAnomalyDetector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scheduler">themis::scheduler</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="task__audit__event_8h" kindref="compound">scheduler/task_audit_event.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scheduler" kindref="compound">scheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Detection<sp/>thresholds<sp/>(0-1<sp/>scale)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a713cdc4f4709dee0814e14e1b543e511" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a713cdc4f4709dee0814e14e1b543e511" kindref="member">frequency_threshold</ref><sp/>=<sp/>0.7;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>alert<sp/>if<sp/>frequency<sp/>score<sp/>&gt;<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1aa23aaaf86bb1447055821947ec3da1a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1aa23aaaf86bb1447055821947ec3da1a1" kindref="member">pattern_threshold</ref><sp/>=<sp/>0.7;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>alert<sp/>if<sp/>pattern<sp/>score<sp/>&gt;<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ab3898fde00beb21068f9a264279d5315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ab3898fde00beb21068f9a264279d5315" kindref="member">resource_threshold</ref><sp/>=<sp/>0.8;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>alert<sp/>if<sp/>resource<sp/>score<sp/>&gt;<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ac2dcd45371f861f241ca5346274fb5d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ac2dcd45371f861f241ca5346274fb5d0" kindref="member">failure_rate_threshold</ref><sp/>=<sp/>0.6;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>alert<sp/>if<sp/>failure<sp/>rate<sp/>score<sp/>&gt;<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1adcb2ed272b089c85c158d529d5cd2501" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1adcb2ed272b089c85c158d529d5cd2501" kindref="member">overall_threshold</ref><sp/>=<sp/>0.7;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trigger<sp/>alert<sp/>if<sp/>overall<sp/>score<sp/>&gt;<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Baseline<sp/>learning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a82a815d81462b45e17a1334494a4b3af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a82a815d81462b45e17a1334494a4b3af" kindref="member">min_samples</ref><sp/>=<sp/>30;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>samples<sp/>needed<sp/>for<sp/>baseline</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ae8b117cbf96914816afc2d8afc697c1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ae8b117cbf96914816afc2d8afc697c1d" kindref="member">max_history_size</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>history<sp/>entries<sp/>per<sp/>task</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1afa629cd3883f597bea2f261b79db232a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1afa629cd3883f597bea2f261b79db232a" kindref="member">baseline_window</ref>{24};<sp/></highlight><highlight class="comment">//<sp/>Time<sp/>window<sp/>for<sp/>baseline<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Frequency<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ace9ae6658cd3befda77e2d1707d6ec54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ace9ae6658cd3befda77e2d1707d6ec54" kindref="member">frequency_spike_factor</ref><sp/>=<sp/>3.0;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spike<sp/>if<sp/>frequency<sp/>&gt;<sp/>mean<sp/>*<sp/>factor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a466478b7cfb955179e3865195a02c162" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a466478b7cfb955179e3865195a02c162" kindref="member">frequency_drop_factor</ref><sp/>=<sp/>0.3;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drop<sp/>if<sp/>frequency<sp/>&lt;<sp/>mean<sp/>*<sp/>factor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a73b1860d975473073b8e3f096599d8e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a73b1860d975473073b8e3f096599d8e4" kindref="member">resource_spike_factor</ref><sp/>=<sp/>2.5;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spike<sp/>if<sp/>resource<sp/>&gt;<sp/>mean<sp/>*<sp/>factor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>rate<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a7b757cc6dbd3836c74a06bb7070d1198" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a7b757cc6dbd3836c74a06bb7070d1198" kindref="member">failure_rate_spike</ref><sp/>=<sp/>0.3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alert<sp/>if<sp/>failure<sp/>rate<sp/>&gt;<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pattern<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a63c2b161fe77ce20357b2569e6f9486f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a63c2b161fe77ce20357b2569e6f9486f" kindref="member">pattern_window_size</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Window<sp/>size<sp/>for<sp/>pattern<sp/>analysis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enabled<sp/>features</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ae0d502e1baff53da7d645f908148dbd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ae0d502e1baff53da7d645f908148dbd4" kindref="member">enable_frequency_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ab990826eeb0035f1c029e4a17fa556ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1ab990826eeb0035f1c029e4a17fa556ae" kindref="member">enable_pattern_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1af27ebc89534144e30f7b987b798a1964" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1af27ebc89534144e30f7b987b798a1964" kindref="member">enable_resource_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1af7bb8dfc4e5a889846cc5d88f476fe92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1af7bb8dfc4e5a889846cc5d88f476fe92" kindref="member">enable_failure_rate_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GAP<sp/>2<sp/>FIX:<sp/>Callback<sp/>for<sp/>async<sp/>anomaly<sp/>notifications</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a3821c449e0973ab178c37bee303e93e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config_1a3821c449e0973ab178c37bee303e93e1" kindref="member">on_anomaly_detected</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1scheduler_1_1_task_statistics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1scheduler_1_1_task_statistics" kindref="compound">TaskStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>frequency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1scheduler_1_1_task_statistics_1ae38243d26ab8c0a72ce65b3006cb3244" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1ae38243d26ab8c0a72ce65b3006cb3244" kindref="member">total_executions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1scheduler_1_1_task_statistics_1ac5221bf10d41800172be4972ce94fed9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1ac5221bf10d41800172be4972ce94fed9" kindref="member">executions_per_hour</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1scheduler_1_1_task_statistics_1a9c429b10f9cf539254213483a2fa574f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a9c429b10f9cf539254213483a2fa574f" kindref="member">mean_execution_frequency</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1scheduler_1_1_task_statistics_1aa92a9d464b4a1ac279172b01d49c9fe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1aa92a9d464b4a1ac279172b01d49c9fe5" kindref="member">stddev_execution_frequency</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1scheduler_1_1_task_statistics_1afea65e4c8f6524f2195826a67221da5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1afea65e4c8f6524f2195826a67221da5d" kindref="member">mean_execution_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1scheduler_1_1_task_statistics_1aea0978276a032fcfc3b1629b2b8e8699" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1aea0978276a032fcfc3b1629b2b8e8699" kindref="member">stddev_execution_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1scheduler_1_1_task_statistics_1aff99637fc2c46410772293324ecc9352" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1aff99637fc2c46410772293324ecc9352" kindref="member">min_execution_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1scheduler_1_1_task_statistics_1a206a157cfc6078954c77c0f105f47c0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a206a157cfc6078954c77c0f105f47c0b" kindref="member">max_execution_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1scheduler_1_1_task_statistics_1a5cc5f5333378361a5bf39c15fb7b3346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a5cc5f5333378361a5bf39c15fb7b3346" kindref="member">mean_cpu_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1scheduler_1_1_task_statistics_1aa30dba4d46c3afb7f9a85b0e56927ac9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1aa30dba4d46c3afb7f9a85b0e56927ac9" kindref="member">stddev_cpu_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1scheduler_1_1_task_statistics_1a4aeabac14702613e247d970a5af69e5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a4aeabac14702613e247d970a5af69e5a" kindref="member">mean_memory_bytes</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1scheduler_1_1_task_statistics_1a8b2db902434f1f4da743c8ad4dbc2466" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a8b2db902434f1f4da743c8ad4dbc2466" kindref="member">stddev_memory_bytes</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failure<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1scheduler_1_1_task_statistics_1ae3a80d234788b6cc321521d8e23e6669" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1ae3a80d234788b6cc321521d8e23e6669" kindref="member">total_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1scheduler_1_1_task_statistics_1a5ffdc8414165ffa4d272d95084cac768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a5ffdc8414165ffa4d272d95084cac768" kindref="member">failure_rate</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1scheduler_1_1_task_statistics_1a5b2640985900c9b30847d88c725cfcd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a5b2640985900c9b30847d88c725cfcd6" kindref="member">recent_failure_rate</ref><sp/>=<sp/>0.0;<sp/></highlight><highlight class="comment">//<sp/>Last<sp/>N<sp/>executions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Time<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1scheduler_1_1_task_statistics_1ab638c0cf84f7a25d1a8a62890f818b82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1ab638c0cf84f7a25d1a8a62890f818b82" kindref="member">first_execution</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1scheduler_1_1_task_statistics_1a25cf19e5ea2a7cbd2642398110d9eb12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a25cf19e5ea2a7cbd2642398110d9eb12" kindref="member">last_execution</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pattern<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1scheduler_1_1_task_statistics_1a3c5876e78dbb05245611c62a4c709c36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;std::chrono::system_clock::time_point&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a3c5876e78dbb05245611c62a4c709c36" kindref="member">execution_times</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1scheduler_1_1_task_statistics_1aa1af38315e9bb640f0e914244b083dc3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;double&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1aa1af38315e9bb640f0e914244b083dc3" kindref="member">execution_durations</ref>;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1scheduler_1_1_task_statistics_1a47b452279fe36bbd043808c158124755" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;bool&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a47b452279fe36bbd043808c158124755" kindref="member">execution_results</ref>;<sp/></highlight><highlight class="comment">//<sp/>true<sp/>=<sp/>success,<sp/>false<sp/>=<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1scheduler_1_1_task_statistics_1a312115eba48f457cb163b30d299ccd63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;double&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a312115eba48f457cb163b30d299ccd63" kindref="member">cpu_usage</ref>;</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1scheduler_1_1_task_statistics_1a02ccc8315df5df64d3fb4cff0215ee53" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;double&gt;<sp/><ref refid="structthemis_1_1scheduler_1_1_task_statistics_1a02ccc8315df5df64d3fb4cff0215ee53" kindref="member">memory_usage</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1scheduler_1_1_task_anomaly_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a6c9fa1be84e0dd2e29e74a212878a334" kindref="member">TaskAnomalyDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a6c9fa1be84e0dd2e29e74a212878a334" kindref="member">TaskAnomalyDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref>());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a3d10c6425453c1e343cad821cd31761f" kindref="member">~TaskAnomalyDetector</ref>();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Lifecycle<sp/>(GAP<sp/>2<sp/>FIX:<sp/>background<sp/>thread<sp/>management)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a71dafba5d6cc24cf2a8545707a3dcad5" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa22135c0978352d08e268ac57d2dc0e9" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a872ffe0490485b43b291cdd7ad3c1c47" kindref="member">recordExecution</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TaskStatistics&gt;<sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1ae43ccaf448dc9e64d80f6386e083ffe4" kindref="member">getTaskStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TaskStatistics&gt;<sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a15dab2854fe6a2c82b2db027e027019d" kindref="member">getAllStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aa4d838d995e928f9364903ff04e3c7dc" kindref="member">resetTaskStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1aee957a163a9ca0985065ca5ffd624dad" kindref="member">resetAllStatistics</ref>();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a34608da672dd270a0d84f5f1ddb61577" kindref="member">hasBaseline</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_metrics" kindref="compound">AnomalyMetrics</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a45fd20bb985acdcfd70f011a1cc10a2a" kindref="member">checkAnomaly</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1acfa9d22329982a1177643cf954562a03" kindref="member">recalibrateBaseline</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1adee30f96aa2fc4493303e62d25de34b1" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a4a06d70d93ef6b823c25eee826e76156" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a45206ef07aff5f3fd3e4b56bda57de63" kindref="member">exportStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1scheduler_1_1_task_anomaly_detector_1a44c7c2f4ee871f864c90e8e2376c359f" kindref="member">importStatistics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1scheduler_1_1_anomaly_detector_config" kindref="compound">AnomalyDetectorConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-task<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TaskStatistics&gt;<sp/>task_stats_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GAP<sp/>2<sp/>FIX:<sp/>Background<sp/>thread<sp/>for<sp/>async<sp/>anomaly<sp/>callback<sp/>delivery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>callback_thread_;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;std::pair&lt;std::string,<sp/>AnomalyMetrics&gt;&gt;<sp/>anomaly_queue_;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>queue_mutex_;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable<sp/>queue_cv_;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>callback<sp/>processor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>anomalyCallbackWorker();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Anomaly<sp/>detection<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>detectFrequencyAnomaly(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,<sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>now)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>detectPatternAnomaly(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::system_clock::time_point&amp;<sp/>now)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>detectResourceAnomaly(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_resource_usage" kindref="compound">TaskResourceUsage</ref>&amp;<sp/>resource_usage)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>detectFailureRateAnomaly(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistical<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateStatistics(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>task_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1scheduler_1_1_task_audit_event" kindref="compound">TaskAuditEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateMean(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>values)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateStdDev(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>values,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mean)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculatePercentile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::deque&lt;double&gt;&amp;<sp/>values,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percentile)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>old<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupOldData(<ref refid="structthemis_1_1scheduler_1_1_task_statistics" kindref="compound">TaskStatistics</ref>&amp;<sp/>stats);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scheduler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/scheduler/task_anomaly_detector.h"/>
+  </compounddef>
+</doxygen>

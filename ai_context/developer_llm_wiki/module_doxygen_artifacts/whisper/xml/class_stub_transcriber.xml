@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_transcriber" kind="class" language="C++" prot="public">
+    <compoundname>StubTranscriber</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_transcriber_1a9b0955ea69d1d973f31bd87283f7d1b9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubTranscriber::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>StubTranscriber::ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="57" column="17" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_transcriber_1a862cd6d6b29f3498a84911df5adaf66a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="struct_transcript_record" kindref="compound">TranscriptRecord</ref></type>
+        <definition>TranscriptRecord StubTranscriber::transcribe</definition>
+        <argsstring>(const std::string &amp;audio_id) noexcept</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>StubTranscriber::transcribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>audio_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="51" column="22" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_transcriber_1a51572d9757c92e4a0e23b4ead28fd8b7" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubTranscriber::totalOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalOps</name>
+        <qualifiedname>StubTranscriber::totalOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="55" column="14" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/whisper/test_whisper_highcardinality_stress.cpp" line="49" column="1" bodyfile="tests/whisper/test_whisper_highcardinality_stress.cpp" bodystart="49" bodyend="58"/>
+    <listofallmembers>
+      <member refid="class_stub_transcriber_1a9b0955ea69d1d973f31bd87283f7d1b9" prot="private" virt="non-virtual"><scope>StubTranscriber</scope><name>ops_</name></member>
+      <member refid="class_stub_transcriber_1a51572d9757c92e4a0e23b4ead28fd8b7" prot="public" virt="non-virtual"><scope>StubTranscriber</scope><name>totalOps</name></member>
+      <member refid="class_stub_transcriber_1a862cd6d6b29f3498a84911df5adaf66a" prot="public" virt="non-virtual"><scope>StubTranscriber</scope><name>transcribe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

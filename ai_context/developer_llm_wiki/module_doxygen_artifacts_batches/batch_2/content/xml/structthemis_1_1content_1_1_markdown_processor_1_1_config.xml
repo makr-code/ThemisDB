@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_markdown_processor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::MarkdownProcessor::Config</compoundname>
+    <includes refid="markdown__processor_8h" local="no">markdown_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_markdown_processor_1_1_config_1ab7c58d59889cc9e5ce07c42efdf7fd8d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::MarkdownProcessor::Config::parse_frontmatter</definition>
+        <argsstring></argsstring>
+        <name>parse_frontmatter</name>
+        <qualifiedname>themis::content::MarkdownProcessor::Config::parse_frontmatter</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="23" column="14" bodyfile="include/content/markdown_processor.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_markdown_processor_1_1_config_1a0a55222bd7b998389782c9a6c93ac8da" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::MarkdownProcessor::Config::preserve_heading_markers</definition>
+        <argsstring></argsstring>
+        <name>preserve_heading_markers</name>
+        <qualifiedname>themis::content::MarkdownProcessor::Config::preserve_heading_markers</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="24" column="14" bodyfile="include/content/markdown_processor.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_markdown_processor_1_1_config_1ab6445b6541b583c55291eb2daea26aeb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::MarkdownProcessor::Config::strip_code_blocks</definition>
+        <argsstring></argsstring>
+        <name>strip_code_blocks</name>
+        <qualifiedname>themis::content::MarkdownProcessor::Config::strip_code_blocks</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="25" column="14" bodyfile="include/content/markdown_processor.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_markdown_processor_1_1_config_1ad92d2b15de936ff3db1861b84c51ca66" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::MarkdownProcessor::Config::max_text_length</definition>
+        <argsstring></argsstring>
+        <name>max_text_length</name>
+        <qualifiedname>themis::content::MarkdownProcessor::Config::max_text_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/markdown_processor.h" line="26" column="16" bodyfile="include/content/markdown_processor.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/markdown_processor.h" line="22" column="5" bodyfile="include/content/markdown_processor.h" bodystart="22" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_markdown_processor_1_1_config_1ad92d2b15de936ff3db1861b84c51ca66" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor::Config</scope><name>max_text_length</name></member>
+      <member refid="structthemis_1_1content_1_1_markdown_processor_1_1_config_1ab7c58d59889cc9e5ce07c42efdf7fd8d" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor::Config</scope><name>parse_frontmatter</name></member>
+      <member refid="structthemis_1_1content_1_1_markdown_processor_1_1_config_1a0a55222bd7b998389782c9a6c93ac8da" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor::Config</scope><name>preserve_heading_markers</name></member>
+      <member refid="structthemis_1_1content_1_1_markdown_processor_1_1_config_1ab6445b6541b583c55291eb2daea26aeb" prot="public" virt="non-virtual"><scope>themis::content::MarkdownProcessor::Config</scope><name>strip_code_blocks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

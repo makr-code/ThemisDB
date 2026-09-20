@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_buffer_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphBufferPool</compoundname>
+    <includes refid="graph__resource__pool_8h" local="no">graph_resource_pool.h</includes>
+    <innerclass refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer" prot="public">themis::graph::GraphBufferPool::ScopedBuffer</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a08832becc0bb6763b34198bc6836b1dd" prot="public" static="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>using themis::graph::GraphBufferPool::Buffer = std::vector&lt;uint8_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>Buffer</name>
+        <qualifiedname>themis::graph::GraphBufferPool::Buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="306" column="5" bodyfile="include/graph/graph_resource_pool.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a8beda82aadadef2471ee400f8970e225" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphBufferPool::buffer_size_</definition>
+        <argsstring></argsstring>
+        <name>buffer_size_</name>
+        <qualifiedname>themis::graph::GraphBufferPool::buffer_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="439" column="33" bodyfile="include/graph/graph_resource_pool.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a4e52f9418af586c02ac970a5926fa105" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::GraphBufferPool::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graph::GraphBufferPool::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="440" column="33" bodyfile="include/graph/graph_resource_pool.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a64478fb7cbd943bb74f4c43672f2995c" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::graph::GraphBufferPool::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::graph::GraphBufferPool::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="441" column="33" bodyfile="include/graph/graph_resource_pool.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a037d3dedca852450376c26a743e57160" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; <ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a08832becc0bb6763b34198bc6836b1dd" kindref="member">Buffer</ref> &gt;</type>
+        <definition>std::queue&lt;Buffer&gt; themis::graph::GraphBufferPool::free_</definition>
+        <argsstring></argsstring>
+        <name>free_</name>
+        <qualifiedname>themis::graph::GraphBufferPool::free_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="442" column="25" bodyfile="include/graph/graph_resource_pool.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a348789e036175e7cc16f6cf2dd26f4ec" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphBufferPool::acquired_count_</definition>
+        <argsstring></argsstring>
+        <name>acquired_count_</name>
+        <qualifiedname>themis::graph::GraphBufferPool::acquired_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="443" column="23" bodyfile="include/graph/graph_resource_pool.h" bodystart="443" bodyend="443"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a7ee47e490b87e5ef1eca8a81f1dbd69e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphBufferPool::GraphBufferPool</definition>
+        <argsstring>(size_t num_buffers, size_t buffer_size)</argsstring>
+        <name>GraphBufferPool</name>
+        <qualifiedname>themis::graph::GraphBufferPool::GraphBufferPool</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_buffers</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>buffer_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="357" column="5" bodyfile="include/graph/graph_resource_pool.h" bodystart="357" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1ab640292517d1a589c0bdf1178f5fc3c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer" kindref="compound">ScopedBuffer</ref></type>
+        <definition>ScopedBuffer themis::graph::GraphBufferPool::acquire</definition>
+        <argsstring>()</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themis::graph::GraphBufferPool::acquire</qualifiedname>
+        <briefdescription>
+<para>Acquire. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), wait(), empty(), std::move(), front(), pop(), ScopedBuffer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="379" column="18" bodyfile="include/graph/graph_resource_pool.h" bodystart="379" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1aa2a3e48a9d5d268c3eebad9269e59f38" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer" kindref="compound">ScopedBuffer</ref> &gt;</type>
+        <definition>std::optional&lt; ScopedBuffer &gt; themis::graph::GraphBufferPool::tryAcquire</definition>
+        <argsstring>()</argsstring>
+        <name>tryAcquire</name>
+        <qualifiedname>themis::graph::GraphBufferPool::tryAcquire</qualifiedname>
+        <briefdescription>
+<para>Try Acquire. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), std::move(), front(), pop(), ScopedBuffer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="393" column="19" bodyfile="include/graph/graph_resource_pool.h" bodystart="393" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a6016a56f3cf17c4ef379224a27a26b23" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphBufferPool::bufferSize</definition>
+        <argsstring>() const</argsstring>
+        <name>bufferSize</name>
+        <qualifiedname>themis::graph::GraphBufferPool::bufferSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="404" column="12" bodyfile="include/graph/graph_resource_pool.h" bodystart="404" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a78dbaeb20849fc9db8fbdda28e82243c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphBufferPool::available</definition>
+        <argsstring>() const</argsstring>
+        <name>available</name>
+        <qualifiedname>themis::graph::GraphBufferPool::available</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="406" column="12" bodyfile="include/graph/graph_resource_pool.h" bodystart="406" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1a5bba186293a57e367340bd1400bc241c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphBufferPool::acquiredCount</definition>
+        <argsstring>() const</argsstring>
+        <name>acquiredCount</name>
+        <qualifiedname>themis::graph::GraphBufferPool::acquiredCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="416" column="14" bodyfile="include/graph/graph_resource_pool.h" bodystart="416" bodyend="418"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1aee655960a849fc9db707f924269811cd" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphBufferPool::returnBuffer</definition>
+        <argsstring>(Buffer buf)</argsstring>
+        <name>returnBuffer</name>
+        <qualifiedname>themis::graph::GraphBufferPool::returnBuffer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a08832becc0bb6763b34198bc6836b1dd" kindref="member">Buffer</ref></type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+<para>Return <ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a08832becc0bb6763b34198bc6836b1dd" kindref="member">Buffer</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: assign(), lock(), push(), std::move(), notify_one(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="426" column="10" bodyfile="include/graph/graph_resource_pool.h" bodystart="426" bodyend="437"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_resource_pool.h" line="304" column="1" bodyfile="include/graph/graph_resource_pool.h" bodystart="304" bodyend="444"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1ab640292517d1a589c0bdf1178f5fc3c9" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>acquire</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a348789e036175e7cc16f6cf2dd26f4ec" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>acquired_count_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a5bba186293a57e367340bd1400bc241c" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>acquiredCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a78dbaeb20849fc9db8fbdda28e82243c" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>available</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a08832becc0bb6763b34198bc6836b1dd" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>Buffer</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a8beda82aadadef2471ee400f8970e225" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>buffer_size_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a6016a56f3cf17c4ef379224a27a26b23" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>bufferSize</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a64478fb7cbd943bb74f4c43672f2995c" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a037d3dedca852450376c26a743e57160" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>free_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a7ee47e490b87e5ef1eca8a81f1dbd69e" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>GraphBufferPool</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a4e52f9418af586c02ac970a5926fa105" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1aee655960a849fc9db707f924269811cd" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>returnBuffer</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1aa2a3e48a9d5d268c3eebad9269e59f38" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool</scope><name>tryAcquire</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_cuda_device_memory_guard" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::CudaDeviceMemoryGuard</compoundname>
+    <includes refid="cuda__raii_8h" local="no">cuda_raii.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a0727e49c6548c2588cf5697d42119f20" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::CudaDeviceMemoryGuard::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::ptr</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="197" column="11" bodyfile="include/gpu/cuda_raii.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a4c5108514d93bc76336e6fb21f63aaa1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::CudaDeviceMemoryGuard::bytes</definition>
+        <argsstring></argsstring>
+        <name>bytes</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="198" column="12" bodyfile="include/gpu/cuda_raii.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a76f45dac5d2feaf5eb5fff985450639c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemoryGuard::CudaDeviceMemoryGuard</definition>
+        <argsstring>(size_t n_bytes)</argsstring>
+        <name>CudaDeviceMemoryGuard</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::CudaDeviceMemoryGuard</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="200" column="14" bodyfile="include/gpu/cuda_raii.h" bodystart="200" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1aadeca134c61d700fa459469def64868b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemoryGuard::CudaDeviceMemoryGuard</definition>
+        <argsstring>() noexcept=default</argsstring>
+        <name>CudaDeviceMemoryGuard</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::CudaDeviceMemoryGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="211" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a27980d16592c0d194e031ef10154cd2c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemoryGuard::~CudaDeviceMemoryGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CudaDeviceMemoryGuard</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::~CudaDeviceMemoryGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="213" column="5" bodyfile="include/gpu/cuda_raii.h" bodystart="213" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a12160fdee7948c8394eb62140bec5625" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemoryGuard::CudaDeviceMemoryGuard</definition>
+        <argsstring>(const CudaDeviceMemoryGuard &amp;)=delete</argsstring>
+        <name>CudaDeviceMemoryGuard</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::CudaDeviceMemoryGuard</qualifiedname>
+        <param>
+          <type>const CudaDeviceMemoryGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="222" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1af28033d3a16d21e1413c30f472ce756e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a76f45dac5d2feaf5eb5fff985450639c" kindref="member">CudaDeviceMemoryGuard</ref> &amp;</type>
+        <definition>CudaDeviceMemoryGuard &amp; themis::gpu::CudaDeviceMemoryGuard::operator=</definition>
+        <argsstring>(const CudaDeviceMemoryGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a76f45dac5d2feaf5eb5fff985450639c" kindref="member">CudaDeviceMemoryGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="223" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a1b9c7256e2c59a1cd6c41f487ae90423" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemoryGuard::CudaDeviceMemoryGuard</definition>
+        <argsstring>(CudaDeviceMemoryGuard &amp;&amp;o) noexcept</argsstring>
+        <name>CudaDeviceMemoryGuard</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::CudaDeviceMemoryGuard</qualifiedname>
+        <param>
+          <type>CudaDeviceMemoryGuard &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="225" column="5" bodyfile="include/gpu/cuda_raii.h" bodystart="225" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1ab5abc661bd70a48eb3bc1bac169596ca" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a76f45dac5d2feaf5eb5fff985450639c" kindref="member">CudaDeviceMemoryGuard</ref> &amp;</type>
+        <definition>CudaDeviceMemoryGuard &amp; themis::gpu::CudaDeviceMemoryGuard::operator=</definition>
+        <argsstring>(CudaDeviceMemoryGuard &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a76f45dac5d2feaf5eb5fff985450639c" kindref="member">CudaDeviceMemoryGuard</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="229" column="27" bodyfile="include/gpu/cuda_raii.h" bodystart="229" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a7f395d40bdf1d2e6cbcd88b8db967f8e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaDeviceMemoryGuard::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="242" column="11" bodyfile="include/gpu/cuda_raii.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a828835292110d1bc0c9bee2333524dcd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::CudaDeviceMemoryGuard::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemoryGuard::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_raii.h" line="244" column="10" bodyfile="include/gpu/cuda_raii.h" bodystart="244" bodyend="247"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/cuda_raii.h" line="196" column="1" bodyfile="include/gpu/cuda_raii.h" bodystart="196" bodyend="248"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a4c5108514d93bc76336e6fb21f63aaa1" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a76f45dac5d2feaf5eb5fff985450639c" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>CudaDeviceMemoryGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1aadeca134c61d700fa459469def64868b" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>CudaDeviceMemoryGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a12160fdee7948c8394eb62140bec5625" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>CudaDeviceMemoryGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a1b9c7256e2c59a1cd6c41f487ae90423" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>CudaDeviceMemoryGuard</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a7f395d40bdf1d2e6cbcd88b8db967f8e" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1af28033d3a16d21e1413c30f472ce756e" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1ab5abc661bd70a48eb3bc1bac169596ca" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>operator=</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a0727e49c6548c2588cf5697d42119f20" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>ptr</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a828835292110d1bc0c9bee2333524dcd" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>release</name></member>
+      <member refid="structthemis_1_1gpu_1_1_cuda_device_memory_guard_1a27980d16592c0d194e031ef10154cd2c" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemoryGuard</scope><name>~CudaDeviceMemoryGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

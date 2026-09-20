@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_project_bundle_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::ProjectBundleManifest</compoundname>
+    <includes refid="project__bundle_8h" local="no">project_bundle.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_bundle_manifest_1a271f9783b637cb04587d43ab3bedb469" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectBundleManifest::project_id</definition>
+        <argsstring></argsstring>
+        <name>project_id</name>
+        <qualifiedname>themis::projects::ProjectBundleManifest::project_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="21" column="17" bodyfile="include/projects/project_bundle.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_bundle_manifest_1a75b7b47039086f917bbd4309f480afcf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectBundleManifest::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::projects::ProjectBundleManifest::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="22" column="17" bodyfile="include/projects/project_bundle.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_bundle_manifest_1affc4a836d2160259868db85797affcdd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectBundleManifest::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::projects::ProjectBundleManifest::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="23" column="17" bodyfile="include/projects/project_bundle.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_bundle_manifest_1a73ee8c8aeebfadd123259962796a566c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::ProjectBundleManifest::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::projects::ProjectBundleManifest::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="24" column="17" bodyfile="include/projects/project_bundle.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_bundle_manifest_1a8a6769c15ab62c49535f87e9c01d1af6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::projects::ProjectBundleManifest::included_collections</definition>
+        <argsstring></argsstring>
+        <name>included_collections</name>
+        <qualifiedname>themis::projects::ProjectBundleManifest::included_collections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="25" column="17" bodyfile="include/projects/project_bundle.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_project_bundle_manifest_1af411c2ed4b90d84895d3e10bffbe6405" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::projects::ProjectBundleManifest::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::projects::ProjectBundleManifest::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="26" column="14" bodyfile="include/projects/project_bundle.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/project_bundle.h" line="20" column="1" bodyfile="include/projects/project_bundle.h" bodystart="20" bodyend="27"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_project_bundle_manifest_1a73ee8c8aeebfadd123259962796a566c" prot="public" virt="non-virtual"><scope>themis::projects::ProjectBundleManifest</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_bundle_manifest_1a8a6769c15ab62c49535f87e9c01d1af6" prot="public" virt="non-virtual"><scope>themis::projects::ProjectBundleManifest</scope><name>included_collections</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_bundle_manifest_1af411c2ed4b90d84895d3e10bffbe6405" prot="public" virt="non-virtual"><scope>themis::projects::ProjectBundleManifest</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_bundle_manifest_1a75b7b47039086f917bbd4309f480afcf" prot="public" virt="non-virtual"><scope>themis::projects::ProjectBundleManifest</scope><name>name</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_bundle_manifest_1a271f9783b637cb04587d43ab3bedb469" prot="public" virt="non-virtual"><scope>themis::projects::ProjectBundleManifest</scope><name>project_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_project_bundle_manifest_1affc4a836d2160259868db85797affcdd" prot="public" virt="non-virtual"><scope>themis::projects::ProjectBundleManifest</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

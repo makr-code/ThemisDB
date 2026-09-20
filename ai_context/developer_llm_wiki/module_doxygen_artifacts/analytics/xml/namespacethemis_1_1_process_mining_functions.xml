@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1_process_mining_functions" kind="namespace" language="C++">
+    <compoundname>themis::ProcessMiningFunctions</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1_process_mining_functions_1aea0cd2ffa7295eb4b5295aff3a8af56b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ProcessMiningFunctions::EXTRACT_EVENT_LOG</definition>
+        <argsstring></argsstring>
+        <name>EXTRACT_EVENT_LOG</name>
+        <qualifiedname>themis::ProcessMiningFunctions::EXTRACT_EVENT_LOG</qualifiedname>
+        <initializer>= &quot;EXTRACT_EVENT_LOG&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="442" column="26" bodyfile="include/analytics/process_mining.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_process_mining_functions_1a0171a5dc9b155af678e659c51de3ccbb" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ProcessMiningFunctions::DISCOVER_PROCESS</definition>
+        <argsstring></argsstring>
+        <name>DISCOVER_PROCESS</name>
+        <qualifiedname>themis::ProcessMiningFunctions::DISCOVER_PROCESS</qualifiedname>
+        <initializer>= &quot;DISCOVER_PROCESS&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="443" column="26" bodyfile="include/analytics/process_mining.h" bodystart="443" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_process_mining_functions_1ac69fc261a06bb59f94b8d25784d608fb" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ProcessMiningFunctions::ANALYZE_VARIANTS</definition>
+        <argsstring></argsstring>
+        <name>ANALYZE_VARIANTS</name>
+        <qualifiedname>themis::ProcessMiningFunctions::ANALYZE_VARIANTS</qualifiedname>
+        <initializer>= &quot;ANALYZE_VARIANTS&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="444" column="26" bodyfile="include/analytics/process_mining.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_process_mining_functions_1a038ae764df0cc15b4acc7b64814ce556" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ProcessMiningFunctions::CHECK_CONFORMANCE</definition>
+        <argsstring></argsstring>
+        <name>CHECK_CONFORMANCE</name>
+        <qualifiedname>themis::ProcessMiningFunctions::CHECK_CONFORMANCE</qualifiedname>
+        <initializer>= &quot;CHECK_CONFORMANCE&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="445" column="26" bodyfile="include/analytics/process_mining.h" bodystart="445" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_process_mining_functions_1a90e33005c8d041bf4dded12ccdef63b5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ProcessMiningFunctions::DETECT_BOTTLENECKS</definition>
+        <argsstring></argsstring>
+        <name>DETECT_BOTTLENECKS</name>
+        <qualifiedname>themis::ProcessMiningFunctions::DETECT_BOTTLENECKS</qualifiedname>
+        <initializer>= &quot;DETECT_BOTTLENECKS&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="446" column="26" bodyfile="include/analytics/process_mining.h" bodystart="446" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_process_mining_functions_1a22e15f63b0867d6987b3bffe5bddc40b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ProcessMiningFunctions::EXPORT_BPMN</definition>
+        <argsstring></argsstring>
+        <name>EXPORT_BPMN</name>
+        <qualifiedname>themis::ProcessMiningFunctions::EXPORT_BPMN</qualifiedname>
+        <initializer>= &quot;EXPORT_BPMN&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="447" column="26" bodyfile="include/analytics/process_mining.h" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_process_mining_functions_1af9ad21776f3705175c7ce329cc1159a5" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ProcessMiningFunctions::FIND_SIMILAR_PATTERNS</definition>
+        <argsstring></argsstring>
+        <name>FIND_SIMILAR_PATTERNS</name>
+        <qualifiedname>themis::ProcessMiningFunctions::FIND_SIMILAR_PATTERNS</qualifiedname>
+        <initializer>= &quot;FIND_SIMILAR_PATTERNS&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="448" column="26" bodyfile="include/analytics/process_mining.h" bodystart="448" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1_process_mining_functions_1afa1fae20917bed545b3902162b81d2e3" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::ProcessMiningFunctions::PROCESS_EVOLUTION</definition>
+        <argsstring></argsstring>
+        <name>PROCESS_EVOLUTION</name>
+        <qualifiedname>themis::ProcessMiningFunctions::PROCESS_EVOLUTION</qualifiedname>
+        <initializer>= &quot;PROCESS_EVOLUTION&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="449" column="26" bodyfile="include/analytics/process_mining.h" bodystart="449" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1_process_mining_functions_1a96a7d824d44182e4993d64b0e1a7051a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ProcessMiningFunctions::registerFunctions</definition>
+        <argsstring>()</argsstring>
+        <name>registerFunctions</name>
+        <qualifiedname>themis::ProcessMiningFunctions::registerFunctions</qualifiedname>
+        <briefdescription>
+<para>Register Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/process_mining.cpp" line="3107" column="6" bodyfile="src/analytics/process_mining.cpp" bodystart="3107" bodyend="3130" declfile="include/analytics/process_mining.h" declline="454" declcolumn="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="440" column="1"/>
+  </compounddef>
+</doxygen>

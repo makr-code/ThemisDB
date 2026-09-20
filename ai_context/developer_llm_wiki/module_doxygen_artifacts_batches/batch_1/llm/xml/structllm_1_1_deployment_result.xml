@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structllm_1_1_deployment_result" kind="struct" language="C++" prot="public">
+    <compoundname>llm::DeploymentResult</compoundname>
+    <includes refid="adapter__deployment__manager_8h" local="no">adapter_deployment_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structllm_1_1_deployment_result_1abbf6a2095d8f7c65ef56757ab95b4f4c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool llm::DeploymentResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>llm::DeploymentResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="86" column="10" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_result_1a2b89fadd18a62b364be1d69667049b7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::DeploymentResult::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>llm::DeploymentResult::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="87" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_result_1a1fcdc268f3af193fceeba9accca07312" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; llm::DeploymentResult::deployed_shards</definition>
+        <argsstring></argsstring>
+        <name>deployed_shards</name>
+        <qualifiedname>llm::DeploymentResult::deployed_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="88" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_result_1a35cf9c405f0a5ab4a85c2d9c8c47012f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; llm::DeploymentResult::failed_shards</definition>
+        <argsstring></argsstring>
+        <name>failed_shards</name>
+        <qualifiedname>llm::DeploymentResult::failed_shards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="89" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_result_1a39b63a462faaa9308ed67dc9c194df94" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; llm::DeploymentResult::shard_errors</definition>
+        <argsstring></argsstring>
+        <name>shard_errors</name>
+        <qualifiedname>llm::DeploymentResult::shard_errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="90" column="14" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_result_1a55060e9027f22ca50d5ae277f22b9690" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t llm::DeploymentResult::deployment_time_ms</definition>
+        <argsstring></argsstring>
+        <name>deployment_time_ms</name>
+        <qualifiedname>llm::DeploymentResult::deployment_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="91" column="13" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_result_1a51f9cd62d877f7de2ae7d96575dcb5ed" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t llm::DeploymentResult::total_data_transferred_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_data_transferred_bytes</name>
+        <qualifiedname>llm::DeploymentResult::total_data_transferred_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="92" column="12" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structllm_1_1_deployment_result_1a0b82d0e23d6aaa6a9de4652dd721341b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string llm::DeploymentResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>llm::DeploymentResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="93" column="17" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structllm_1_1_deployment_result_1a0f1c0ead03785b61d111868e2564a302" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual llm::DeploymentResult::~DeploymentResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DeploymentResult</name>
+        <qualifiedname>llm::DeploymentResult::~DeploymentResult</qualifiedname>
+        <briefdescription>
+<para>Deployment Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="85" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structllm_1_1_deployment_result_1af162982638217b3424ee581384bc2235" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string llm::DeploymentResult::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>llm::DeploymentResult::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adapter_deployment_manager.h" line="99" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adapter_deployment_manager.h" line="80" column="1" bodyfile="include/llm/adapter_deployment_manager.h" bodystart="80" bodyend="100"/>
+    <listofallmembers>
+      <member refid="structllm_1_1_deployment_result_1a2b89fadd18a62b364be1d69667049b7b" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>adapter_id</name></member>
+      <member refid="structllm_1_1_deployment_result_1a1fcdc268f3af193fceeba9accca07312" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>deployed_shards</name></member>
+      <member refid="structllm_1_1_deployment_result_1a55060e9027f22ca50d5ae277f22b9690" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>deployment_time_ms</name></member>
+      <member refid="structllm_1_1_deployment_result_1a0b82d0e23d6aaa6a9de4652dd721341b" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>error_message</name></member>
+      <member refid="structllm_1_1_deployment_result_1a35cf9c405f0a5ab4a85c2d9c8c47012f" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>failed_shards</name></member>
+      <member refid="structllm_1_1_deployment_result_1a39b63a462faaa9308ed67dc9c194df94" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>shard_errors</name></member>
+      <member refid="structllm_1_1_deployment_result_1abbf6a2095d8f7c65ef56757ab95b4f4c" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>success</name></member>
+      <member refid="structllm_1_1_deployment_result_1af162982638217b3424ee581384bc2235" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>toJSON</name></member>
+      <member refid="structllm_1_1_deployment_result_1a51f9cd62d877f7de2ae7d96575dcb5ed" prot="public" virt="non-virtual"><scope>llm::DeploymentResult</scope><name>total_data_transferred_bytes</name></member>
+      <member refid="structllm_1_1_deployment_result_1a0f1c0ead03785b61d111868e2564a302" prot="public" virt="virtual"><scope>llm::DeploymentResult</scope><name>~DeploymentResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

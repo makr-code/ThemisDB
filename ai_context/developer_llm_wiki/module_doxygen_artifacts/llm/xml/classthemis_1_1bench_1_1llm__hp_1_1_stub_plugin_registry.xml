@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1llm__hp_1_1_stub_plugin_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::llm_hp::StubPluginRegistry</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_plugin_registry_1a06e5924e5c7c660e7c7d5867f966af73" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::bench::llm_hp::StubPluginRegistry::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::bench::llm_hp::StubPluginRegistry::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="211" column="24" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="211" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_plugin_registry_1a57daab0cf330836191270a8450fea624" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::llm_hp::StubPluginRegistry::StubPluginRegistry</definition>
+        <argsstring>(int n)</argsstring>
+        <name>StubPluginRegistry</name>
+        <qualifiedname>themis::bench::llm_hp::StubPluginRegistry::StubPluginRegistry</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="201" column="14" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="201" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_plugin_registry_1ac0c4d659aa2f3fe594bd27c432c48fc4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::bench::llm_hp::StubPluginRegistry::lookup</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::bench::llm_hp::StubPluginRegistry::lookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="206" column="9" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="206" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub plugin registry. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="199" column="1" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="199" bodyend="212"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_plugin_registry_1a06e5924e5c7c660e7c7d5867f966af73" prot="private" virt="non-virtual"><scope>themis::bench::llm_hp::StubPluginRegistry</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_plugin_registry_1ac0c4d659aa2f3fe594bd27c432c48fc4" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubPluginRegistry</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_plugin_registry_1a57daab0cf330836191270a8450fea624" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubPluginRegistry</scope><name>StubPluginRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

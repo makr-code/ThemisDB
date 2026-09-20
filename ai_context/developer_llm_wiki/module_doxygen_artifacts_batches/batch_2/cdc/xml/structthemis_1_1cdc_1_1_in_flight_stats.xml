@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_in_flight_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::InFlightStats</compoundname>
+    <includes refid="consumer__group_8h" local="no">consumer_group.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_in_flight_stats_1abfe3fcb6d2b6c67d18addf9b5a325448" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::InFlightStats::group_id</definition>
+        <argsstring></argsstring>
+        <name>group_id</name>
+        <qualifiedname>themis::cdc::InFlightStats::group_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="91" column="17" bodyfile="include/cdc/consumer_group.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_in_flight_stats_1ac1d93728530cce7aae0caf6661908306" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::InFlightStats::consumer_id</definition>
+        <argsstring></argsstring>
+        <name>consumer_id</name>
+        <qualifiedname>themis::cdc::InFlightStats::consumer_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="92" column="17" bodyfile="include/cdc/consumer_group.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_in_flight_stats_1a2bb13fee5e4bbda9a67f6f9420ff2204" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::InFlightStats::inflight_count</definition>
+        <argsstring></argsstring>
+        <name>inflight_count</name>
+        <qualifiedname>themis::cdc::InFlightStats::inflight_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total in-flight events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="93" column="14" bodyfile="include/cdc/consumer_group.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_in_flight_stats_1aa7afbaac1ea20598fa5cdb2fa5c03139" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::InFlightStats::overdue_count</definition>
+        <argsstring></argsstring>
+        <name>overdue_count</name>
+        <qualifiedname>themis::cdc::InFlightStats::overdue_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>In-flight events past ack timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="94" column="14" bodyfile="include/cdc/consumer_group.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_in_flight_stats_1ac402fcc92c4825c968b00601b46ea7bf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::InFlightStats::oldest_inflight_sequence</definition>
+        <argsstring></argsstring>
+        <name>oldest_inflight_sequence</name>
+        <qualifiedname>themis::cdc::InFlightStats::oldest_inflight_sequence</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Lowest in-flight sequence (0 if none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="95" column="14" bodyfile="include/cdc/consumer_group.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/consumer_group.h" line="90" column="1" bodyfile="include/cdc/consumer_group.h" bodystart="90" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_in_flight_stats_1ac1d93728530cce7aae0caf6661908306" prot="public" virt="non-virtual"><scope>themis::cdc::InFlightStats</scope><name>consumer_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_in_flight_stats_1abfe3fcb6d2b6c67d18addf9b5a325448" prot="public" virt="non-virtual"><scope>themis::cdc::InFlightStats</scope><name>group_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_in_flight_stats_1a2bb13fee5e4bbda9a67f6f9420ff2204" prot="public" virt="non-virtual"><scope>themis::cdc::InFlightStats</scope><name>inflight_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_in_flight_stats_1ac402fcc92c4825c968b00601b46ea7bf" prot="public" virt="non-virtual"><scope>themis::cdc::InFlightStats</scope><name>oldest_inflight_sequence</name></member>
+      <member refid="structthemis_1_1cdc_1_1_in_flight_stats_1aa7afbaac1ea20598fa5cdb2fa5c03139" prot="public" virt="non-virtual"><scope>themis::cdc::InFlightStats</scope><name>overdue_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

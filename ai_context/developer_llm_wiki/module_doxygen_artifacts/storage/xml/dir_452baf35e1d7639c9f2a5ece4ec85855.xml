@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_452baf35e1d7639c9f2a5ece4ec85855" kind="dir">
+    <compoundname>src/storage</compoundname>
+    <innerfile refid="adaptive__compaction_8cpp">adaptive_compaction.cpp</innerfile>
+    <innerfile refid="backup__manager_8cpp">backup_manager.cpp</innerfile>
+    <innerfile refid="base__entity_8cpp">base_entity.cpp</innerfile>
+    <innerfile refid="batch__write__optimizer_8cpp">batch_write_optimizer.cpp</innerfile>
+    <innerfile refid="blob__backend__azure_8cpp">blob_backend_azure.cpp</innerfile>
+    <innerfile refid="blob__backend__filesystem_8cpp">blob_backend_filesystem.cpp</innerfile>
+    <innerfile refid="blob__backend__gcs_8cpp">blob_backend_gcs.cpp</innerfile>
+    <innerfile refid="blob__backend__s3_8cpp">blob_backend_s3.cpp</innerfile>
+    <innerfile refid="blob__backend__webdav_8cpp">blob_backend_webdav.cpp</innerfile>
+    <innerfile refid="blob__redundancy__manager_8cpp">blob_redundancy_manager.cpp</innerfile>
+    <innerfile refid="columnar__cache_8cpp">columnar_cache.cpp</innerfile>
+    <innerfile refid="columnar__format_8cpp">columnar_format.cpp</innerfile>
+    <innerfile refid="compaction__manager_8cpp">compaction_manager.cpp</innerfile>
+    <innerfile refid="compressed__storage_8cpp">compressed_storage.cpp</innerfile>
+    <innerfile refid="compression__strategy_8cpp">compression_strategy.cpp</innerfile>
+    <innerfile refid="concurrent__write__controller_8cpp">concurrent_write_controller.cpp</innerfile>
+    <innerfile refid="database__connection__manager_8cpp">database_connection_manager.cpp</innerfile>
+    <innerfile refid="disk__space__monitor_8cpp">disk_space_monitor.cpp</innerfile>
+    <innerfile refid="distributed__transaction__manager_8cpp">distributed_transaction_manager.cpp</innerfile>
+    <innerfile refid="encrypted__blob__backend_8cpp">encrypted_blob_backend.cpp</innerfile>
+    <innerfile refid="erasure__coder__factory_8cpp">erasure_coder_factory.cpp</innerfile>
+    <innerfile refid="erasure__coding__backend_8cpp">erasure_coding_backend.cpp</innerfile>
+    <innerfile refid="ggml__tensor__bridge_8cpp">ggml_tensor_bridge.cpp</innerfile>
+    <innerfile refid="gguf__metadata_8cpp">gguf_metadata.cpp</innerfile>
+    <innerfile refid="gpu__compression_8cpp">gpu_compression.cpp</innerfile>
+    <innerfile refid="hamming__coder_8cpp">hamming_coder.cpp</innerfile>
+    <innerfile refid="hierarchical__tucker__decomposer_8cpp">hierarchical_tucker_decomposer.cpp</innerfile>
+    <innerfile refid="history__manager_8cpp">history_manager.cpp</innerfile>
+    <innerfile refid="hlc_8cpp">hlc.cpp</innerfile>
+    <innerfile refid="index__analyzer_8cpp">index_analyzer.cpp</innerfile>
+    <innerfile refid="index__maintenance_8cpp">index_maintenance.cpp</innerfile>
+    <innerfile refid="key__schema_8cpp">key_schema.cpp</innerfile>
+    <innerfile refid="merge__operators_8cpp">merge_operators.cpp</innerfile>
+    <innerfile refid="mvcc__chain__pruner_8cpp">mvcc_chain_pruner.cpp</innerfile>
+    <innerfile refid="mvcc__store_8cpp">mvcc_store.cpp</innerfile>
+    <innerfile refid="nlp__metadata__extractor_8cpp">nlp_metadata_extractor.cpp</innerfile>
+    <innerfile refid="nvme__manager_8cpp">nvme_manager.cpp</innerfile>
+    <innerfile refid="online__schema__migration_8cpp">online_schema_migration.cpp</innerfile>
+    <innerfile refid="pitr__manager_8cpp">pitr_manager.cpp</innerfile>
+    <innerfile refid="raft__mvcc__bridge_8cpp">raft_mvcc_bridge.cpp</innerfile>
+    <innerfile refid="rocksdb__wrapper_8cpp">rocksdb_wrapper.cpp</innerfile>
+    <innerfile refid="schema__dead__weight__detector_8cpp">schema_dead_weight_detector.cpp</innerfile>
+    <innerfile refid="security__signature_8cpp">security_signature.cpp</innerfile>
+    <innerfile refid="security__signature__manager_8cpp">security_signature_manager.cpp</innerfile>
+    <innerfile refid="simd__filter_8cpp">simd_filter.cpp</innerfile>
+    <innerfile refid="storage__audit__logger_8cpp">storage_audit_logger.cpp</innerfile>
+    <innerfile refid="storage__engine_8cpp">storage_engine.cpp</innerfile>
+    <innerfile refid="storage__error__diagnostics_8cpp">storage_error_diagnostics.cpp</innerfile>
+    <innerfile refid="storage__layout__advisor_8cpp">storage_layout_advisor.cpp</innerfile>
+    <innerfile refid="storage__parquet__exporter_8cpp">storage_parquet_exporter.cpp</innerfile>
+    <innerfile refid="storage__pressure__manager_8cpp">storage_pressure_manager.cpp</innerfile>
+    <innerfile refid="storage__recovery__fault__handler_8cpp">storage_recovery_fault_handler.cpp</innerfile>
+    <innerfile refid="streaming__ingest__manager_8cpp">streaming_ingest_manager.cpp</innerfile>
+    <innerfile refid="tensor__compaction__filter_8cpp">tensor_compaction_filter.cpp</innerfile>
+    <innerfile refid="tensor__network__storage__engine_8cpp">tensor_network_storage_engine.cpp</innerfile>
+    <innerfile refid="tensor__router_8cpp">tensor_router.cpp</innerfile>
+    <innerfile refid="tensor__train__decomposer_8cpp">tensor_train_decomposer.cpp</innerfile>
+    <innerfile refid="tiered__storage_8cpp">tiered_storage.cpp</innerfile>
+    <innerfile refid="transaction__retry__manager_8cpp">transaction_retry_manager.cpp</innerfile>
+    <innerfile refid="tt__quantizer_8cpp">tt_quantizer.cpp</innerfile>
+    <innerfile refid="vector__index__backend_8cpp">vector_index_backend.cpp</innerfile>
+    <innerfile refid="wal__storage_8cpp">wal_storage.cpp</innerfile>
+    <innerfile refid="wom__tree_8cpp">wom_tree.cpp</innerfile>
+    <innerfile refid="zero__copy__blob__transfer_8cpp">zero_copy_blob_transfer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/"/>
+  </compounddef>
+</doxygen>

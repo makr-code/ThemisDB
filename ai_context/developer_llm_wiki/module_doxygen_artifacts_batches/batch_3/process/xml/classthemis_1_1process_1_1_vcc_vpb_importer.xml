@@ -1,0 +1,491 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_vcc_vpb_importer" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::VccVpbImporter</compoundname>
+    <includes refid="vcc__vpb__importer_8h" local="no">vcc_vpb_importer.h</includes>
+    <innerclass refid="structthemis_1_1process_1_1_vcc_vpb_importer_1_1_import_result" prot="public">themis::process::VccVpbImporter::ImportResult</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_vcc_vpb_importer_1a789ed64c06faaf9e0c843614370af95f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_vcc_vpb_importer_1_1_import_result" kindref="compound">ImportResult</ref></type>
+        <definition>VccVpbImporter::ImportResult themis::process::VccVpbImporter::importYaml</definition>
+        <argsstring>(std::string_view yaml_text, const ProcessModelRecord &amp;meta={})</argsstring>
+        <name>importYaml</name>
+        <qualifiedname>themis::process::VccVpbImporter::importYaml</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>yaml_text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta</declname>
+          <defname>meta_defaults</defname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Parse a VCC-VPB YAML string and produce a <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Yaml.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw YAML content (UTF-8). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional metadata overrides (owner, version, state). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_vcc_vpb_importer_1_1_import_result" kindref="compound">ImportResult</ref> with a fully populated record on success.</para>
+</simplesect>
+Implementation notes:<itemizedlist>
+<listitem><para>Uses RAII containers for safe memory management (std::string, std::vector, json)</para>
+</listitem><listitem><para>All string operations are bounds-safe (std::string uses checked access patterns)</para>
+</listitem><listitem><para>Regexes are pre-compiled as static const to avoid repeated compilation</para>
+</listitem><listitem><para>Input YAML size is validated before parsing</para>
+</listitem><listitem><para>Complexity: O(n log n) where n = length of YAML text (dominated by regex matching)</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta_defaults</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/vcc_vpb_importer.h" line="99" column="25" bodyfile="src/process/vcc_vpb_importer.cpp" bodystart="672" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_vcc_vpb_importer_1a8dc19760d2c93d2b7b5f55823e9fb86c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_vcc_vpb_importer_1_1_import_result" kindref="compound">ImportResult</ref> &gt;</type>
+        <definition>std::vector&lt; VccVpbImporter::ImportResult &gt; themis::process::VccVpbImporter::importYamlList</definition>
+        <argsstring>(std::string_view yaml_text, std::string_view list_key=&quot;administrative_models&quot;, const ProcessModelRecord &amp;meta_defaults={})</argsstring>
+        <name>importYamlList</name>
+        <qualifiedname>themis::process::VccVpbImporter::importYamlList</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>yaml_text</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>list_key</declname>
+          <defval>&quot;administrative_models&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta_defaults</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Batch-import multiple VCC-VPB models from a single YAML file that uses a top-level list key (e.g. <computeroutput>administrative_models:</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Yaml List.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw YAML content with a top-level list. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>list_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The top-level YAML key that holds the array of models. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta_defaults</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata defaults applied to every imported model. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1process_1_1_vcc_vpb_importer_1_1_import_result" kindref="compound">ImportResult</ref> — one per model in the list.</para>
+</simplesect>
+Implementation notes:<itemizedlist>
+<listitem><para>Uses RAII containers (std::string, std::vector) for safe memory management</para>
+</listitem><listitem><para>Bounds-checks all array/string access via size() before indexing</para>
+</listitem><listitem><para>Limits total line count to 100,000 to prevent DoS (malformed input)</para>
+</listitem><listitem><para>Pre-compiles all regexes as static const to avoid repeated compilation</para>
+</listitem><listitem><para>Complexity: O(n) where n = length of input YAML text</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">list_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta_defaults</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Locate list_key block and extract individual model definitions Exception-safe: all allocations are RAII-managed (std::string, std::vector) <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Ss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/process/vcc_vpb_importer.h" line="120" column="24" bodyfile="src/process/vcc_vpb_importer.cpp" bodystart="701" bodyend="810"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_vcc_vpb_importer_1a67e83bdd70612d26f34659770e212db9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1process_1_1_vcc_vpb_importer_1_1_import_result" kindref="compound">ImportResult</ref> &gt;</type>
+        <definition>std::vector&lt; VccVpbImporter::ImportResult &gt; themis::process::VccVpbImporter::importDirectory</definition>
+        <argsstring>(std::string_view directory_path, const ProcessModelRecord &amp;meta_defaults={})</argsstring>
+        <name>importDirectory</name>
+        <qualifiedname>themis::process::VccVpbImporter::importDirectory</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>directory_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta_defaults</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Import all *.yaml files from a directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Import Directory.</para>
+<para>Recursively discovers YAML files and imports them using the standard VCC-VPB schema. Errors per file are collected and returned individually.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>directory_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Filesystem path to the directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>meta_defaults</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metadata defaults applied to every imported model.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">directory_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the directory. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta_defaults</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/vcc_vpb_importer.h" line="135" column="24" bodyfile="src/process/vcc_vpb_importer.cpp" bodystart="822" bodyend="863"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_vcc_vpb_importer_1a52940190646aa9d74ccf6897fd9ccf0a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_vcc_vpb_importer_1_1_import_result" kindref="compound">ImportResult</ref></type>
+        <definition>VccVpbImporter::ImportResult themis::process::VccVpbImporter::parseModelNode_</definition>
+        <argsstring>(const nlohmann::json &amp;yaml_as_json, const ProcessModelRecord &amp;meta_defaults)</argsstring>
+        <name>parseModelNode_</name>
+        <qualifiedname>themis::process::VccVpbImporter::parseModelNode_</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>yaml_as_json</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref> &amp;</type>
+          <declname>meta_defaults</declname>
+        </param>
+        <briefdescription>
+<para>Parse Model Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">meta_defaults</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/vcc_vpb_importer.h" line="142" column="25" bodyfile="src/process/vcc_vpb_importer.cpp" bodystart="474" bodyend="660"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_vcc_vpb_importer_1a230d401fabb297063e8a2b252b448713" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>BPMNNodeType</type>
+        <definition>BPMNNodeType themis::process::VccVpbImporter::activityTypeToNodeType_</definition>
+        <argsstring>(std::string_view type_str)</argsstring>
+        <name>activityTypeToNodeType_</name>
+        <qualifiedname>themis::process::VccVpbImporter::activityTypeToNodeType_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_str</declname>
+        </param>
+        <briefdescription>
+<para>Activity Type To Node Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: t(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/vcc_vpb_importer.h" line="148" column="25" bodyfile="src/process/vcc_vpb_importer.cpp" bodystart="85" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_vcc_vpb_importer_1a45f1696082fa30aacf850a80741d7be4" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ProcessEdgeType</type>
+        <definition>ProcessEdgeType themis::process::VccVpbImporter::edgeTypeToProcessEdgeType_</definition>
+        <argsstring>(std::string_view type_str)</argsstring>
+        <name>edgeTypeToProcessEdgeType_</name>
+        <qualifiedname>themis::process::VccVpbImporter::edgeTypeToProcessEdgeType_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>type_str</declname>
+        </param>
+        <briefdescription>
+<para>Edge Type To Process Edge Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: t(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/vcc_vpb_importer.h" line="151" column="28" bodyfile="src/process/vcc_vpb_importer.cpp" bodystart="121" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_vcc_vpb_importer_1a1fe698d9aa8e9b21d29815bfaee0b9fb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref></type>
+        <definition>ProcessDomain themis::process::VccVpbImporter::domainStringToEnum_</definition>
+        <argsstring>(std::string_view domain)</argsstring>
+        <name>domainStringToEnum_</name>
+        <qualifiedname>themis::process::VccVpbImporter::domainStringToEnum_</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Domain String To Enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: d(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/vcc_vpb_importer.h" line="154" column="26" bodyfile="src/process/vcc_vpb_importer.cpp" bodystart="55" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Importer for VCC-VPB (Visual Change Control – Visual Process Builder) YAML process definitions. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1process_1_1_vcc_vpb_importer_1autotoc_md33_1s1"><sect2 id="classthemis_1_1process_1_1_vcc_vpb_importer_1autotoc_md33">
+<title>VCC-VPB Format Overview</title><para>VCC-VPB produces YAML process definitions that look like:</para>
+<para><programlisting filename=".yaml"><codeline><highlight class="normal">id:<sp/>bauantrag_standard</highlight></codeline>
+<codeline><highlight class="normal">name:<sp/>&quot;Bauantrag<sp/>(Standard)&quot;</highlight></codeline>
+<codeline><highlight class="normal">domain:<sp/>Bauwesen</highlight></codeline>
+<codeline><highlight class="normal">description:<sp/>&quot;Standard-Bauantragsverfahren<sp/>nach<sp/>§34<sp/>BauO&quot;</highlight></codeline>
+<codeline><highlight class="normal">compliance:<sp/>[&quot;§34<sp/>BauO&quot;,<sp/>&quot;DSGVO&quot;,<sp/>&quot;VwVfG&quot;]</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">activities:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>id:<sp/>antragstellung</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>name:<sp/>&quot;Antragstellung&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>type:<sp/>start</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>description:<sp/>&quot;Eingang<sp/>des<sp/>Bauantrags&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>sla_hours:<sp/>0</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>id:<sp/>vollstaendigkeitspruefung</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>name:<sp/>&quot;Vollständigkeitsprüfung&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>type:<sp/>task</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>description:<sp/>&quot;Prüfung<sp/>der<sp/>Vollständigkeit<sp/>der<sp/>Unterlagen&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>responsible_role:<sp/>&quot;Sachbearbeiter&quot;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>sla_hours:<sp/>48</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal">edges:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>from:<sp/>antragstellung</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>to:<sp/>vollstaendigkeitspruefung</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>type:<sp/>sequence</highlight></codeline>
+<codeline></codeline>
+<codeline><highlight class="normal"><sp/><sp/>-<sp/>from:<sp/>vollstaendigkeitspruefung</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>to:<sp/>nachforderung</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>type:<sp/>conditional</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>condition:<sp/>incomplete</highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1process_1_1_vcc_vpb_importer_1autotoc_md34_1s1"><sect2 id="classthemis_1_1process_1_1_vcc_vpb_importer_1autotoc_md34">
+<title>Domain mapping</title><para><table rows="10" cols="2"><row>
+<entry thead="yes"><para>VCC-VPB domain string  </para>
+</entry><entry thead="yes"><para>ThemisDB <ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref>  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Bauwesen  </para>
+</entry><entry thead="no"><para>ADMINISTRATION  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Beschaffung  </para>
+</entry><entry thead="no"><para>ADMINISTRATION  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Personal  </para>
+</entry><entry thead="no"><para>ADMINISTRATION  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Haushalt  </para>
+</entry><entry thead="no"><para>ADMINISTRATION  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IT  </para>
+</entry><entry thead="no"><para>IT_SERVICE  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Gesundheit  </para>
+</entry><entry thead="no"><para>HEALTHCARE  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Finanzen  </para>
+</entry><entry thead="no"><para>FINANCE  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Kundenservice  </para>
+</entry><entry thead="no"><para>CUSTOMER_SERVICE  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>(anything else)  </para>
+</entry><entry thead="no"><para>CUSTOM  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/process/vcc_vpb_importer.h" line="77" column="1" bodyfile="include/process/vcc_vpb_importer.h" bodystart="77" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_vcc_vpb_importer_1a230d401fabb297063e8a2b252b448713" prot="private" virt="non-virtual"><scope>themis::process::VccVpbImporter</scope><name>activityTypeToNodeType_</name></member>
+      <member refid="classthemis_1_1process_1_1_vcc_vpb_importer_1a1fe698d9aa8e9b21d29815bfaee0b9fb" prot="private" virt="non-virtual"><scope>themis::process::VccVpbImporter</scope><name>domainStringToEnum_</name></member>
+      <member refid="classthemis_1_1process_1_1_vcc_vpb_importer_1a45f1696082fa30aacf850a80741d7be4" prot="private" virt="non-virtual"><scope>themis::process::VccVpbImporter</scope><name>edgeTypeToProcessEdgeType_</name></member>
+      <member refid="classthemis_1_1process_1_1_vcc_vpb_importer_1a67e83bdd70612d26f34659770e212db9" prot="public" virt="non-virtual"><scope>themis::process::VccVpbImporter</scope><name>importDirectory</name></member>
+      <member refid="classthemis_1_1process_1_1_vcc_vpb_importer_1a789ed64c06faaf9e0c843614370af95f" prot="public" virt="non-virtual"><scope>themis::process::VccVpbImporter</scope><name>importYaml</name></member>
+      <member refid="classthemis_1_1process_1_1_vcc_vpb_importer_1a8dc19760d2c93d2b7b5f55823e9fb86c" prot="public" virt="non-virtual"><scope>themis::process::VccVpbImporter</scope><name>importYamlList</name></member>
+      <member refid="classthemis_1_1process_1_1_vcc_vpb_importer_1a52940190646aa9d74ccf6897fd9ccf0a" prot="private" virt="non-virtual"><scope>themis::process::VccVpbImporter</scope><name>parseModelNode_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

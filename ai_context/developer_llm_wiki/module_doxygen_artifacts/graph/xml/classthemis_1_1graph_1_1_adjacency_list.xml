@@ -1,0 +1,465 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_adjacency_list" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::AdjacencyList</compoundname>
+    <includes refid="adjacency__list_8h" local="no">adjacency_list.h</includes>
+    <innerclass refid="structthemis_1_1graph_1_1_adjacency_list_1_1_vertex_data" prot="private">themis::graph::AdjacencyList::VertexData</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_adjacency_list_1a51041d83d26a281a8f7563cfde1d417b" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref>, VertexData &gt;</type>
+        <definition>std::unordered_map&lt;VertexId, VertexData&gt; themis::graph::AdjacencyList::graph_</definition>
+        <argsstring></argsstring>
+        <name>graph_</name>
+        <qualifiedname>themis::graph::AdjacencyList::graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="143" column="24" bodyfile="include/graph/adjacency_list.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_adjacency_list_1ad216d7a25aed0f484ab75fd4a0cf03ec" prot="private" static="yes" mutable="no">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> &gt;</type>
+        <definition>const std::vector&lt; Edge &gt; themis::graph::AdjacencyList::kEmptyEdges</definition>
+        <argsstring></argsstring>
+        <name>kEmptyEdges</name>
+        <qualifiedname>themis::graph::AdjacencyList::kEmptyEdges</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="145" column="30" bodyfile="include/graph/adjacency_list.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a10af46d74e5b0826fd7367f23b58bd70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::AdjacencyList::AdjacencyList</definition>
+        <argsstring>()=default</argsstring>
+        <name>AdjacencyList</name>
+        <qualifiedname>themis::graph::AdjacencyList::AdjacencyList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a0839d2fc8fee2c73d36ef85b50f18811" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::AdjacencyList::~AdjacencyList</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdjacencyList</name>
+        <qualifiedname>themis::graph::AdjacencyList::~AdjacencyList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1add4d0cdd4ead73758c44f7c9bda703e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::AdjacencyList::AdjacencyList</definition>
+        <argsstring>(const AdjacencyList &amp;)=default</argsstring>
+        <name>AdjacencyList</name>
+        <qualifiedname>themis::graph::AdjacencyList::AdjacencyList</qualifiedname>
+        <param>
+          <type>const AdjacencyList &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1aefaadc2c6d7477ea76ec452657b962cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_adjacency_list_1a10af46d74e5b0826fd7367f23b58bd70" kindref="member">AdjacencyList</ref> &amp;</type>
+        <definition>AdjacencyList &amp; themis::graph::AdjacencyList::operator=</definition>
+        <argsstring>(const AdjacencyList &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::AdjacencyList::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_adjacency_list_1a10af46d74e5b0826fd7367f23b58bd70" kindref="member">AdjacencyList</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="81" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1af06f57cb45708736df6a1c52f3784bcf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::AdjacencyList::AdjacencyList</definition>
+        <argsstring>(AdjacencyList &amp;&amp;) noexcept=default</argsstring>
+        <name>AdjacencyList</name>
+        <qualifiedname>themis::graph::AdjacencyList::AdjacencyList</qualifiedname>
+        <param>
+          <type>AdjacencyList &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a41e51cad708cbb56030f96ba91abe144" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_adjacency_list_1a10af46d74e5b0826fd7367f23b58bd70" kindref="member">AdjacencyList</ref> &amp;</type>
+        <definition>AdjacencyList &amp; themis::graph::AdjacencyList::operator=</definition>
+        <argsstring>(AdjacencyList &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::AdjacencyList::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_adjacency_list_1a10af46d74e5b0826fd7367f23b58bd70" kindref="member">AdjacencyList</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="83" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a080f5e86f9b27930fd2a0dfce48c984a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::AdjacencyList::add_vertex</definition>
+        <argsstring>(VertexId id, std::string label={})</argsstring>
+        <name>add_vertex</name>
+        <qualifiedname>themis::graph::AdjacencyList::add_vertex</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>label</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Add vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">label</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="89" column="10" bodyfile="src/graph/adjacency_list.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a335eb48cac1206b2832fdbc6c028fcdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::AdjacencyList::remove_vertex</definition>
+        <argsstring>(VertexId id)</argsstring>
+        <name>remove_vertex</name>
+        <qualifiedname>themis::graph::AdjacencyList::remove_vertex</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="96" column="10" bodyfile="src/graph/adjacency_list.cpp" bodystart="59" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a31585f2b9981f9ba04d855f319b0b974" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::AdjacencyList::has_vertex</definition>
+        <argsstring>(VertexId id) const noexcept</argsstring>
+        <name>has_vertex</name>
+        <qualifiedname>themis::graph::AdjacencyList::has_vertex</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="98" column="11" bodyfile="src/graph/adjacency_list.cpp" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a6878f026a1d0b2e52d86bd1045095a33" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::AdjacencyList::vertex_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>vertex_count</name>
+        <qualifiedname>themis::graph::AdjacencyList::vertex_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="100" column="18" bodyfile="src/graph/adjacency_list.cpp" bodystart="92" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1abd206e7cb9d95ba1c3f080b86e44c9d3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1graph_1_1_vertex_descriptor" kindref="compound">VertexDescriptor</ref> &gt;</type>
+        <definition>std::optional&lt; VertexDescriptor &gt; themis::graph::AdjacencyList::vertex</definition>
+        <argsstring>(VertexId id) const</argsstring>
+        <name>vertex</name>
+        <qualifiedname>themis::graph::AdjacencyList::vertex</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="102" column="20" bodyfile="src/graph/adjacency_list.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a86a39952f3138562d9af7d8c2d429b55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::AdjacencyList::add_edge</definition>
+        <argsstring>(VertexId src, Edge edge)</argsstring>
+        <name>add_edge</name>
+        <qualifiedname>themis::graph::AdjacencyList::add_edge</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref></type>
+          <declname>edge</declname>
+        </param>
+        <briefdescription>
+<para>Add edge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">edge</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="113" column="10" bodyfile="src/graph/adjacency_list.cpp" bodystart="119" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1acabf3e1050d4ce62e2eaeeeed983f185" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::AdjacencyList::remove_edges_if</definition>
+        <argsstring>(VertexId src, const EdgePredicate &amp;pred)</argsstring>
+        <name>remove_edges_if</name>
+        <qualifiedname>themis::graph::AdjacencyList::remove_edges_if</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1graph_1a5340366b4fd5d12d9ce2316953c7e837" kindref="member">EdgePredicate</ref> &amp;</type>
+          <declname>pred</declname>
+        </param>
+        <briefdescription>
+<para>Remove edges if. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="121" column="17" bodyfile="src/graph/adjacency_list.cpp" bodystart="141" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a2bba974cada51bf100ba1394bd3ea81e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::AdjacencyList::out_degree</definition>
+        <argsstring>(VertexId src) const noexcept</argsstring>
+        <name>out_degree</name>
+        <qualifiedname>themis::graph::AdjacencyList::out_degree</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="123" column="18" bodyfile="src/graph/adjacency_list.cpp" bodystart="205" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a8d1a97cee349694499e1fd826d394b4d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Edge &gt; &amp; themis::graph::AdjacencyList::neighbours</definition>
+        <argsstring>(VertexId src) const</argsstring>
+        <name>neighbours</name>
+        <qualifiedname>themis::graph::AdjacencyList::neighbours</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="125" column="24" bodyfile="src/graph/adjacency_list.cpp" bodystart="216" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a08349f948daf10d7e02d6c7870100d2d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1graph_1_1_edge" kindref="compound">Edge</ref> &amp;</type>
+        <definition>const Edge &amp; themis::graph::AdjacencyList::neighbour_at</definition>
+        <argsstring>(VertexId src, std::size_t index) const</argsstring>
+        <name>neighbour_at</name>
+        <qualifiedname>themis::graph::AdjacencyList::neighbour_at</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1graph_1ac47971244dd755cf3b807d908da927a2" kindref="member">VertexId</ref></type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="127" column="17" bodyfile="src/graph/adjacency_list.cpp" bodystart="229" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a3ee3fe54ce896eda5614033b87d6a5a5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::AdjacencyList::edge_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>edge_count</name>
+        <qualifiedname>themis::graph::AdjacencyList::edge_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="129" column="18" bodyfile="src/graph/adjacency_list.cpp" bodystart="257" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_adjacency_list_1a013125577a39060cd51ef46aa2ef7479" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::AdjacencyList::clear</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::graph::AdjacencyList::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/adjacency_list.h" line="135" column="10" bodyfile="src/graph/adjacency_list.cpp" bodystart="270" bodyend="273"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/adjacency_list.h" line="75" column="1" bodyfile="include/graph/adjacency_list.h" bodystart="75" bodyend="146"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a86a39952f3138562d9af7d8c2d429b55" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>add_edge</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a080f5e86f9b27930fd2a0dfce48c984a" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>add_vertex</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a10af46d74e5b0826fd7367f23b58bd70" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>AdjacencyList</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1add4d0cdd4ead73758c44f7c9bda703e5" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>AdjacencyList</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1af06f57cb45708736df6a1c52f3784bcf" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>AdjacencyList</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a013125577a39060cd51ef46aa2ef7479" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>clear</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a3ee3fe54ce896eda5614033b87d6a5a5" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>edge_count</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a51041d83d26a281a8f7563cfde1d417b" prot="private" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>graph_</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a31585f2b9981f9ba04d855f319b0b974" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>has_vertex</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1ad216d7a25aed0f484ab75fd4a0cf03ec" prot="private" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>kEmptyEdges</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a08349f948daf10d7e02d6c7870100d2d" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>neighbour_at</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a8d1a97cee349694499e1fd826d394b4d" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>neighbours</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1aefaadc2c6d7477ea76ec452657b962cc" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a41e51cad708cbb56030f96ba91abe144" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a2bba974cada51bf100ba1394bd3ea81e" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>out_degree</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1acabf3e1050d4ce62e2eaeeeed983f185" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>remove_edges_if</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a335eb48cac1206b2832fdbc6c028fcdc" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>remove_vertex</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1abd206e7cb9d95ba1c3f080b86e44c9d3" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>vertex</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a6878f026a1d0b2e52d86bd1045095a33" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>vertex_count</name></member>
+      <member refid="classthemis_1_1graph_1_1_adjacency_list_1a0839d2fc8fee2c73d36ef85b50f18811" prot="public" virt="non-virtual"><scope>themis::graph::AdjacencyList</scope><name>~AdjacencyList</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

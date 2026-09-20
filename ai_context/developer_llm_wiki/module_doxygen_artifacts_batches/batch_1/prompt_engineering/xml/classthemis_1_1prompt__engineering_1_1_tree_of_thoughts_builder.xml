@@ -1,0 +1,867 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::TreeOfThoughtsBuilder</compoundname>
+    <includes refid="tree__of__thoughts_8h" local="no">tree_of_thoughts.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a7109c4108f03a04583fb418633636fcc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::prompt_engineering::TreeOfThoughtsBuilder::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="291" column="43" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a2c1fdaf38adc76287be30e590dbd5756" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config" kindref="compound">ToTConfig</ref></type>
+        <definition>ToTConfig themis::prompt_engineering::TreeOfThoughtsBuilder::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="292" column="43" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a6748d741c895ef4d29b572a203f6fc92" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator" kindref="compound">IToTThoughtGenerator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IToTThoughtGenerator&gt; themis::prompt_engineering::TreeOfThoughtsBuilder::generator_</definition>
+        <argsstring></argsstring>
+        <name>generator_</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::generator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="293" column="21" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1ac7cb1ef78d4f6e465a205b5ecc52e2a3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" kindref="compound">IToTEvaluator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IToTEvaluator&gt; themis::prompt_engineering::TreeOfThoughtsBuilder::evaluator_</definition>
+        <argsstring></argsstring>
+        <name>evaluator_</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::evaluator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="294" column="28" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a96df8c6947db60da36eff09948eb8437" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::TreeOfThoughtsBuilder::TreeOfThoughtsBuilder</definition>
+        <argsstring>(const ToTConfig &amp;config=ToTConfig{})</argsstring>
+        <name>TreeOfThoughtsBuilder</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::TreeOfThoughtsBuilder</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config" kindref="compound">ToTConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config" kindref="compound">ToTConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="196" column="14" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1af6c93460efe8317d8cd84b889f419735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a96df8c6947db60da36eff09948eb8437" kindref="member">TreeOfThoughtsBuilder</ref> &amp;</type>
+        <definition>TreeOfThoughtsBuilder &amp; themis::prompt_engineering::TreeOfThoughtsBuilder::setThoughtGenerator</definition>
+        <argsstring>(std::shared_ptr&lt; IToTThoughtGenerator &gt; generator)</argsstring>
+        <name>setThoughtGenerator</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::setThoughtGenerator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator" kindref="compound">IToTThoughtGenerator</ref> &gt;</type>
+          <declname>generator</declname>
+        </param>
+        <briefdescription>
+<para>Set the thought generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Thought Generator.</para>
+<para><simplesect kind="return"><para>Reference to <computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">generator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="202" column="27" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a93e1e5c96931ce465f1d428260f85bf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a96df8c6947db60da36eff09948eb8437" kindref="member">TreeOfThoughtsBuilder</ref> &amp;</type>
+        <definition>TreeOfThoughtsBuilder &amp; themis::prompt_engineering::TreeOfThoughtsBuilder::setEvaluator</definition>
+        <argsstring>(std::shared_ptr&lt; IToTEvaluator &gt; evaluator)</argsstring>
+        <name>setEvaluator</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::setEvaluator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" kindref="compound">IToTEvaluator</ref> &gt;</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Set the node evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Evaluator.</para>
+<para><simplesect kind="return"><para>Reference to <computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="209" column="27" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="118" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1aa84a65a448bd564a7358d4b602bf53cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a96df8c6947db60da36eff09948eb8437" kindref="member">TreeOfThoughtsBuilder</ref> &amp;</type>
+        <definition>TreeOfThoughtsBuilder &amp; themis::prompt_engineering::TreeOfThoughtsBuilder::setConfig</definition>
+        <argsstring>(const ToTConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config" kindref="compound">ToTConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the search configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><simplesect kind="return"><para>Reference to <computeroutput>*this</computeroutput> for chaining.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="216" column="27" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="136" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1aa095c0a2840641de57ffb66b63ea0cdc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config" kindref="compound">ToTConfig</ref> &amp;</type>
+        <definition>const ToTConfig &amp; themis::prompt_engineering::TreeOfThoughtsBuilder::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return a read-only reference to the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="221" column="21" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="148" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a1cfa4d8bf63ae0e687a49de1d55c79e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_to_t_result" kindref="compound">ToTResult</ref></type>
+        <definition>ToTResult themis::prompt_engineering::TreeOfThoughtsBuilder::solve</definition>
+        <argsstring>(const std::string &amp;problem)</argsstring>
+        <name>solve</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::solve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <briefdescription>
+<para>Run tree-of-thoughts search to solve <computeroutput>problem</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Solve.</para>
+<para>If no generator or evaluator was injected, built-in heuristic implementations are used automatically so callers do not need to provide custom components for basic usage.</para>
+<para>If <computeroutput>problem</computeroutput> is empty, the search is not executed and a default / empty <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_result" kindref="compound">ToTResult</ref> is returned (e.g., with no best_path and no answer).</para>
+<para>Even for non-empty problems, the returned <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_result" kindref="compound">ToTResult</ref> may have an empty best_path and/or answer if no satisfactory solution can be found under the current configuration (e.g., depth limits, pruning). Callers SHOULD NOT assume that best_path or answer are always set and SHOULD check these fields before use.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Natural-language problem statement. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1prompt__engineering_1_1_to_t_result" kindref="compound">ToTResult</ref> containing the best reasoning path (if any) and final answer (if available).</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Solve DFS. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Solve Beam. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="243" column="15" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="162" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a91255dd03e85f4915ec01b4c6b40a0dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::TreeOfThoughtsBuilder::buildGenerationPrompt</definition>
+        <argsstring>(const std::string &amp;problem, const std::vector&lt; std::string &gt; &amp;path, size_t k)</argsstring>
+        <name>buildGenerationPrompt</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::buildGenerationPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Build a thought-generation prompt for a given path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Generation Prompt.</para>
+<para>Formats the accumulated path as context and instructs the LLM to generate <computeroutput>k</computeroutput> next reasoning steps.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original problem. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current reasoning chain. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of thoughts to request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="260" column="24" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="538" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a6519c7806f05aa9143ca88ae1fe9f36c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::TreeOfThoughtsBuilder::buildEvaluationPrompt</definition>
+        <argsstring>(const std::string &amp;problem, const ToTNode &amp;node)</argsstring>
+        <name>buildEvaluationPrompt</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::buildEvaluationPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_node" kindref="compound">ToTNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Build a node-evaluation prompt for a given thought node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Evaluation Prompt.</para>
+<para>Instructs the LLM to rate the promising-ness of the partial path on a scale of 0–10 and assign a sure/maybe/impossible verdict.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original problem. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node to evaluate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted prompt string.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="275" column="24" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="567" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1ad20d069cb37f110b49ed836a5671bf2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::TreeOfThoughtsBuilder::buildSynthesisPrompt</definition>
+        <argsstring>(const std::string &amp;problem, const std::vector&lt; std::string &gt; &amp;best_path)</argsstring>
+        <name>buildSynthesisPrompt</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::buildSynthesisPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>best_path</declname>
+        </param>
+        <briefdescription>
+<para>Build a synthesis prompt that condenses the best path to an answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Synthesis Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original problem. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>best_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Winning reasoning chain. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted synthesis prompt.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">best_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the best. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="286" column="24" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="595" bodyend="608"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a83a6c92c819ecd22ac6b1809adcfa3d9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_to_t_result" kindref="compound">ToTResult</ref></type>
+        <definition>ToTResult themis::prompt_engineering::TreeOfThoughtsBuilder::solveBFS</definition>
+        <argsstring>(const std::string &amp;problem, const ToTConfig &amp;config, const std::shared_ptr&lt; IToTThoughtGenerator &gt; &amp;generator, const std::shared_ptr&lt; IToTEvaluator &gt; &amp;evaluator)</argsstring>
+        <name>solveBFS</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::solveBFS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config" kindref="compound">ToTConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator" kindref="compound">IToTThoughtGenerator</ref> &gt; &amp;</type>
+          <declname>generator</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" kindref="compound">IToTEvaluator</ref> &gt; &amp;</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Solve BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="297" column="15" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="237" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a2a3bad4bea1e5b4d4043605193e5a1db" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_to_t_result" kindref="compound">ToTResult</ref></type>
+        <definition>ToTResult themis::prompt_engineering::TreeOfThoughtsBuilder::solveDFS</definition>
+        <argsstring>(const std::string &amp;problem, const ToTConfig &amp;config, const std::shared_ptr&lt; IToTThoughtGenerator &gt; &amp;generator, const std::shared_ptr&lt; IToTEvaluator &gt; &amp;evaluator)</argsstring>
+        <name>solveDFS</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::solveDFS</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config" kindref="compound">ToTConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator" kindref="compound">IToTThoughtGenerator</ref> &gt; &amp;</type>
+          <declname>generator</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" kindref="compound">IToTEvaluator</ref> &gt; &amp;</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Solve DFS. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="302" column="15" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="324" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a177389c83072810348d347c7ae198bf9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_to_t_result" kindref="compound">ToTResult</ref></type>
+        <definition>ToTResult themis::prompt_engineering::TreeOfThoughtsBuilder::solveBeam</definition>
+        <argsstring>(const std::string &amp;problem, const ToTConfig &amp;config, const std::shared_ptr&lt; IToTThoughtGenerator &gt; &amp;generator, const std::shared_ptr&lt; IToTEvaluator &gt; &amp;evaluator)</argsstring>
+        <name>solveBeam</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::solveBeam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_to_t_config" kindref="compound">ToTConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_thought_generator" kindref="compound">IToTThoughtGenerator</ref> &gt; &amp;</type>
+          <declname>generator</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_to_t_evaluator" kindref="compound">IToTEvaluator</ref> &gt; &amp;</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Solve Beam. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">problem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">generator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="307" column="15" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="407" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a9243db477b8f07540d3d833484c028c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_to_t_node" kindref="compound">ToTNode</ref></type>
+        <definition>ToTNode themis::prompt_engineering::TreeOfThoughtsBuilder::makeNode</definition>
+        <argsstring>(const std::string &amp;thought, const std::vector&lt; std::string &gt; &amp;parent_path, size_t depth) const</argsstring>
+        <name>makeNode</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::makeNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>thought</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>parent_path</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="314" column="13" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="498" bodyend="509"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a3d411bf90b48da44859e40522cd252dc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::TreeOfThoughtsBuilder::synthesiseAnswer</definition>
+        <argsstring>(const std::string &amp;problem, const std::vector&lt; std::string &gt; &amp;best_path) const</argsstring>
+        <name>synthesiseAnswer</name>
+        <qualifiedname>themis::prompt_engineering::TreeOfThoughtsBuilder::synthesiseAnswer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>problem</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>best_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/tree_of_thoughts.h" line="317" column="17" bodyfile="src/prompt_engineering/tree_of_thoughts.cpp" bodystart="511" bodyend="525"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Drives Tree-of-Thoughts reasoning over a problem statement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a96df8c6947db60da36eff09948eb8437" kindref="member">TreeOfThoughtsBuilder</ref><sp/>tot;</highlight></codeline>
+<codeline><highlight class="normal">tot.setThoughtGenerator(std::make_shared&lt;MyLLMGenerator&gt;())</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/>.setEvaluator(std::make_shared&lt;MyLLMEvaluator&gt;());</highlight></codeline>
+<codeline><highlight class="normal">ToTResult<sp/>result<sp/>=<sp/>tot.solve(</highlight><highlight class="stringliteral">&quot;What<sp/>caused<sp/>the<sp/>fall<sp/>of<sp/>the<sp/>Roman<sp/>Empire?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>result.answer<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>thought<sp/>:<sp/>result.best_path)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>•<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>thought<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/tree_of_thoughts.h" line="191" column="1" bodyfile="include/prompt_engineering/tree_of_thoughts.h" bodystart="191" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a6519c7806f05aa9143ca88ae1fe9f36c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>buildEvaluationPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a91255dd03e85f4915ec01b4c6b40a0dc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>buildGenerationPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1ad20d069cb37f110b49ed836a5671bf2b" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>buildSynthesisPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a2c1fdaf38adc76287be30e590dbd5756" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1ac7cb1ef78d4f6e465a205b5ecc52e2a3" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>evaluator_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a6748d741c895ef4d29b572a203f6fc92" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>generator_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1aa095c0a2840641de57ffb66b63ea0cdc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a9243db477b8f07540d3d833484c028c9" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>makeNode</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a7109c4108f03a04583fb418633636fcc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1aa84a65a448bd564a7358d4b602bf53cf" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a93e1e5c96931ce465f1d428260f85bf3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>setEvaluator</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1af6c93460efe8317d8cd84b889f419735" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>setThoughtGenerator</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a1cfa4d8bf63ae0e687a49de1d55c79e8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>solve</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a177389c83072810348d347c7ae198bf9" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>solveBeam</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a83a6c92c819ecd22ac6b1809adcfa3d9" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>solveBFS</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a2a3bad4bea1e5b4d4043605193e5a1db" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>solveDFS</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a3d411bf90b48da44859e40522cd252dc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>synthesiseAnswer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_tree_of_thoughts_builder_1a96df8c6947db60da36eff09948eb8437" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::TreeOfThoughtsBuilder</scope><name>TreeOfThoughtsBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

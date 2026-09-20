@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_degradation_mock_peer" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>DegradationMockPeer</compoundname>
+    <basecompoundref refid="classthemis_1_1cache_1_1_i_remote_cache_peer" prot="public" virt="non-virtual">themis::cache::IRemoteCachePeer</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_degradation_mock_peer_1a5ff02324a65cec8fa9054036d71fda19" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; DegradationMockPeer::invalidate_calls</definition>
+        <argsstring></argsstring>
+        <name>invalidate_calls</name>
+        <qualifiedname>DegradationMockPeer::invalidate_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="81" column="17" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_degradation_mock_peer_1afb3cb80255e6a8dd672ab350838bd061" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; DegradationMockPeer::invalidate_tenant_calls</definition>
+        <argsstring></argsstring>
+        <name>invalidate_tenant_calls</name>
+        <qualifiedname>DegradationMockPeer::invalidate_tenant_calls</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="82" column="17" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_degradation_mock_peer_1a5df749dfd7234bd11df02beeb57e6e4b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; DegradationMockPeer::failure_count</definition>
+        <argsstring></argsstring>
+        <name>failure_count</name>
+        <qualifiedname>DegradationMockPeer::failure_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="83" column="17" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_degradation_mock_peer_1a8f260d3ab2d4b6c3a73879bbbf95c1aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DegradationMockPeer::last_key</definition>
+        <argsstring></argsstring>
+        <name>last_key</name>
+        <qualifiedname>DegradationMockPeer::last_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="84" column="22" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_degradation_mock_peer_1a793c5167c6c12a7342a6a5e4bcbdb3d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DegradationMockPeer::last_tenant</definition>
+        <argsstring></argsstring>
+        <name>last_tenant</name>
+        <qualifiedname>DegradationMockPeer::last_tenant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="85" column="22" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_degradation_mock_peer_1acc2ca78c67aa7caac0c7774920833dc4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string DegradationMockPeer::addr_</definition>
+        <argsstring></argsstring>
+        <name>addr_</name>
+        <qualifiedname>DegradationMockPeer::addr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="96" column="29" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_degradation_mock_peer_1a4f006ca51fa55ab3860c67ff7d60af91" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool DegradationMockPeer::degraded_</definition>
+        <argsstring></argsstring>
+        <name>degraded_</name>
+        <qualifiedname>DegradationMockPeer::degraded_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="97" column="29" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_degradation_mock_peer_1a89d9758070d0f61c5c61f56005ec3e5f" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex DegradationMockPeer::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>DegradationMockPeer::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="98" column="29" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_degradation_mock_peer_1a86bb232038bdb61957c17c2c4af4f97b" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable DegradationMockPeer::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>DegradationMockPeer::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="99" column="29" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_degradation_mock_peer_1a6caa70336449dd368dce8e35289b740c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int DegradationMockPeer::delivered_</definition>
+        <argsstring></argsstring>
+        <name>delivered_</name>
+        <qualifiedname>DegradationMockPeer::delivered_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="100" column="29" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_degradation_mock_peer_1a917254933773348eba4a1862f9784cfa" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>DegradationMockPeer::DegradationMockPeer</definition>
+        <argsstring>(std::string addr, bool degraded=false)</argsstring>
+        <name>DegradationMockPeer</name>
+        <qualifiedname>DegradationMockPeer::DegradationMockPeer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>addr</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>degraded</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="45" column="14" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="45" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_degradation_mock_peer_1a3e1a14f5edae3c1f52f6ac88d9b13928" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void DegradationMockPeer::invalidate</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;tenant_id=&quot;&quot;) override</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>DegradationMockPeer::invalidate</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1af1d6df3103c57fcab0e74d3cdae9a1e6">invalidate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="48" column="10" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="48" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_degradation_mock_peer_1a91952e8574ddc52442e40047dcc62a5d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void DegradationMockPeer::invalidateTenant</definition>
+        <argsstring>(const std::string &amp;tenant_id) override</argsstring>
+        <name>invalidateTenant</name>
+        <qualifiedname>DegradationMockPeer::invalidateTenant</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a901da52e94352d0673c09c3a7ed27955">invalidateTenant</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Invalidate Tenant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="60" column="10" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="60" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_degradation_mock_peer_1aff37bcf98be5b84843baedee30e2a101" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string DegradationMockPeer::address</definition>
+        <argsstring>() const override</argsstring>
+        <name>address</name>
+        <qualifiedname>DegradationMockPeer::address</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a354262a618b2c22f9ce5c152f08c7dd8">address</reimplements>
+        <briefdescription>
+<para>Address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="70" column="17" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_degradation_mock_peer_1abf533e50519ae0a09d5e39a3a5c594ba" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool DegradationMockPeer::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>DegradationMockPeer::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1a2194e5b9e864bc661600031c6d8cbef1">isHealthy</reimplements>
+        <briefdescription>
+<para>Is Healthy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="71" column="17" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_degradation_mock_peer_1aee3defd10923908cb447669a847abfbb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool DegradationMockPeer::waitDeliveries</definition>
+        <argsstring>(int n, std::chrono::milliseconds timeout=std::chrono::milliseconds{2000})</argsstring>
+        <name>waitDeliveries</name>
+        <qualifiedname>DegradationMockPeer::waitDeliveries</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds{2000}</defval>
+        </param>
+        <briefdescription>
+<para>Block until at least <computeroutput>n</computeroutput> delivery notifications arrive (or timeout). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="74" column="10" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_degradation_mock_peer_1af0b853d77829135f56afbda10ebd6750" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DegradationMockPeer::setDegraded</definition>
+        <argsstring>(bool v)</argsstring>
+        <name>setDegraded</name>
+        <qualifiedname>DegradationMockPeer::setDegraded</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="87" column="10" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_degradation_mock_peer_1a7015c3e4bd6e16f07fc76b5d184d8621" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DegradationMockPeer::notifyDelivery</definition>
+        <argsstring>()</argsstring>
+        <name>notifyDelivery</name>
+        <qualifiedname>DegradationMockPeer::notifyDelivery</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="90" column="10" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="90" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DegradationMockPeer</label>
+        <link refid="class_degradation_mock_peer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IRemoteCachePeer</label>
+        <link refid="classthemis_1_1cache_1_1_i_remote_cache_peer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DegradationMockPeer</label>
+        <link refid="class_degradation_mock_peer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::IRemoteCachePeer</label>
+        <link refid="classthemis_1_1cache_1_1_i_remote_cache_peer"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_coordinator_degradation.cpp" line="43" column="1" bodyfile="tests/cache/test_cache_coordinator_degradation.cpp" bodystart="43" bodyend="101"/>
+    <listofallmembers>
+      <member refid="class_degradation_mock_peer_1acc2ca78c67aa7caac0c7774920833dc4" prot="private" virt="non-virtual"><scope>DegradationMockPeer</scope><name>addr_</name></member>
+      <member refid="class_degradation_mock_peer_1aff37bcf98be5b84843baedee30e2a101" prot="public" virt="virtual"><scope>DegradationMockPeer</scope><name>address</name></member>
+      <member refid="class_degradation_mock_peer_1a86bb232038bdb61957c17c2c4af4f97b" prot="private" virt="non-virtual"><scope>DegradationMockPeer</scope><name>cv_</name></member>
+      <member refid="class_degradation_mock_peer_1a917254933773348eba4a1862f9784cfa" prot="public" virt="non-virtual"><scope>DegradationMockPeer</scope><name>DegradationMockPeer</name></member>
+      <member refid="class_degradation_mock_peer_1a4f006ca51fa55ab3860c67ff7d60af91" prot="private" virt="non-virtual"><scope>DegradationMockPeer</scope><name>degraded_</name></member>
+      <member refid="class_degradation_mock_peer_1a6caa70336449dd368dce8e35289b740c" prot="private" virt="non-virtual"><scope>DegradationMockPeer</scope><name>delivered_</name></member>
+      <member refid="class_degradation_mock_peer_1a5df749dfd7234bd11df02beeb57e6e4b" prot="public" virt="non-virtual"><scope>DegradationMockPeer</scope><name>failure_count</name></member>
+      <member refid="class_degradation_mock_peer_1a3e1a14f5edae3c1f52f6ac88d9b13928" prot="public" virt="virtual"><scope>DegradationMockPeer</scope><name>invalidate</name></member>
+      <member refid="class_degradation_mock_peer_1a5ff02324a65cec8fa9054036d71fda19" prot="public" virt="non-virtual"><scope>DegradationMockPeer</scope><name>invalidate_calls</name></member>
+      <member refid="class_degradation_mock_peer_1afb3cb80255e6a8dd672ab350838bd061" prot="public" virt="non-virtual"><scope>DegradationMockPeer</scope><name>invalidate_tenant_calls</name></member>
+      <member refid="class_degradation_mock_peer_1a91952e8574ddc52442e40047dcc62a5d" prot="public" virt="virtual"><scope>DegradationMockPeer</scope><name>invalidateTenant</name></member>
+      <member refid="class_degradation_mock_peer_1abf533e50519ae0a09d5e39a3a5c594ba" prot="public" virt="virtual"><scope>DegradationMockPeer</scope><name>isHealthy</name></member>
+      <member refid="class_degradation_mock_peer_1a8f260d3ab2d4b6c3a73879bbbf95c1aa" prot="public" virt="non-virtual"><scope>DegradationMockPeer</scope><name>last_key</name></member>
+      <member refid="class_degradation_mock_peer_1a793c5167c6c12a7342a6a5e4bcbdb3d2" prot="public" virt="non-virtual"><scope>DegradationMockPeer</scope><name>last_tenant</name></member>
+      <member refid="class_degradation_mock_peer_1a89d9758070d0f61c5c61f56005ec3e5f" prot="private" virt="non-virtual"><scope>DegradationMockPeer</scope><name>mu_</name></member>
+      <member refid="class_degradation_mock_peer_1a7015c3e4bd6e16f07fc76b5d184d8621" prot="private" virt="non-virtual"><scope>DegradationMockPeer</scope><name>notifyDelivery</name></member>
+      <member refid="class_degradation_mock_peer_1af0b853d77829135f56afbda10ebd6750" prot="public" virt="non-virtual"><scope>DegradationMockPeer</scope><name>setDegraded</name></member>
+      <member refid="class_degradation_mock_peer_1aee3defd10923908cb447669a847abfbb" prot="public" virt="non-virtual"><scope>DegradationMockPeer</scope><name>waitDeliveries</name></member>
+      <member refid="classthemis_1_1cache_1_1_i_remote_cache_peer_1ac1cc66cde7d38641496ec2bb4dada445" prot="public" virt="virtual"><scope>DegradationMockPeer</scope><name>~IRemoteCachePeer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

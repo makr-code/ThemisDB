@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_import_wizard_state" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ImportWizardState</compoundname>
+    <includes refid="gui__import__wizard_8h" local="no">gui_import_wizard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1aafe6120ddec49ecfe7b303d993b0ae9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizardState::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::importers::ImportWizardState::session_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="60" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a515cfcb6935bc0d977a124b670d7ebcd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08d" kindref="member">WizardStep</ref></type>
+        <definition>WizardStep themis::importers::ImportWizardState::current_step</definition>
+        <argsstring></argsstring>
+        <name>current_step</name>
+        <qualifiedname>themis::importers::ImportWizardState::current_step</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1importers_1a2b769aec7a3c306db49ad9fb5a8de08dae60b4854b44ccfb2d92aa6f035171bb4" kindref="member">WizardStep::SOURCE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="61" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a21d2290290a7d85167510002529f1227" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportWizardState::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>themis::importers::ImportWizardState::completed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="62" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a5f05016e5d4dcaab2cb41d27f6fb550f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizardState::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::importers::ImportWizardState::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="63" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a27593dad812cd051890439bbea9bc178" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizardState::source_type</definition>
+        <argsstring></argsstring>
+        <name>source_type</name>
+        <qualifiedname>themis::importers::ImportWizardState::source_type</qualifiedname>
+        <briefdescription>
+<para>&quot;postgresql&quot;, &quot;mysql&quot;, &quot;sqlite&quot;, &quot;s3&quot;, &quot;flatfile&quot;, &quot;kafka&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="66" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1abc1d92bcc11ab75304801f79d06600e4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::ImportWizardState::connection_params</definition>
+        <argsstring></argsstring>
+        <name>connection_params</name>
+        <qualifiedname>themis::importers::ImportWizardState::connection_params</qualifiedname>
+        <briefdescription>
+<para>Source-specific connection parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="69" column="10" bodyfile="include/importers/gui_import_wizard.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a520ee80077638942ea7e7ba1e8a3ea4e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::ImportWizardState::preview_schema</definition>
+        <argsstring></argsstring>
+        <name>preview_schema</name>
+        <qualifiedname>themis::importers::ImportWizardState::preview_schema</qualifiedname>
+        <briefdescription>
+<para>[{name, type, nullable, sample_values}] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="72" column="10" bodyfile="include/importers/gui_import_wizard.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1aa15fb5eab09150c7f7532b32774ed52a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::ImportWizardState::preview_rows</definition>
+        <argsstring></argsstring>
+        <name>preview_rows</name>
+        <qualifiedname>themis::importers::ImportWizardState::preview_rows</qualifiedname>
+        <briefdescription>
+<para>First N rows as array of objects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="73" column="10" bodyfile="include/importers/gui_import_wizard.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a845b1685b6ddffd9d03455a9f4f29bdf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_column_mapping" kindref="compound">ColumnMapping</ref> &gt;</type>
+        <definition>std::vector&lt;ColumnMapping&gt; themis::importers::ImportWizardState::column_mappings</definition>
+        <argsstring></argsstring>
+        <name>column_mappings</name>
+        <qualifiedname>themis::importers::ImportWizardState::column_mappings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="76" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a38fc143b72f945f6f9bc3f20d4789355" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizardState::target_collection</definition>
+        <argsstring></argsstring>
+        <name>target_collection</name>
+        <qualifiedname>themis::importers::ImportWizardState::target_collection</qualifiedname>
+        <briefdescription>
+<para>Target ThemisDB collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="77" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a88d0d50e16d73f9c16d8d131e8ef9f00" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizardState::conflict_strategy</definition>
+        <argsstring></argsstring>
+        <name>conflict_strategy</name>
+        <qualifiedname>themis::importers::ImportWizardState::conflict_strategy</qualifiedname>
+        <initializer>= &quot;upsert&quot;</initializer>
+        <briefdescription>
+<para>&quot;upsert&quot;, &quot;skip&quot;, &quot;replace&quot;, &quot;fail&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="80" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a26d8ba56b1b1ed8b9256de3d0af2d4b7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportWizardState::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::importers::ImportWizardState::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="81" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a032bb0716d57cbc4e2c35f6212bcce9f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportWizardState::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>themis::importers::ImportWizardState::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="82" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a95bccded6462a7a2b34c3219ad2640f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::ImportWizardState::enable_schema_validation</definition>
+        <argsstring></argsstring>
+        <name>enable_schema_validation</name>
+        <qualifiedname>themis::importers::ImportWizardState::enable_schema_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="83" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a533920f831ee9b5c4da9fcbabee722e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportWizardState::rows_processed</definition>
+        <argsstring></argsstring>
+        <name>rows_processed</name>
+        <qualifiedname>themis::importers::ImportWizardState::rows_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="86" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a93a9e5b123c380ce488386894a882686" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportWizardState::rows_imported</definition>
+        <argsstring></argsstring>
+        <name>rows_imported</name>
+        <qualifiedname>themis::importers::ImportWizardState::rows_imported</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="87" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a1b5fcdeec680746884202eababd3712c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::ImportWizardState::rows_failed</definition>
+        <argsstring></argsstring>
+        <name>rows_failed</name>
+        <qualifiedname>themis::importers::ImportWizardState::rows_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="88" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a068da6f22037614acc7eb7f81b866652" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::ImportWizardState::progress_pct</definition>
+        <argsstring></argsstring>
+        <name>progress_pct</name>
+        <qualifiedname>themis::importers::ImportWizardState::progress_pct</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="89" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1afeff27b51dc020e2ac55cfc495f2a0e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizardState::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::importers::ImportWizardState::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="90" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_import_wizard_state_1a3f7c016fe64c22a4da385b2fc8518c25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ImportWizardState::finished_at</definition>
+        <argsstring></argsstring>
+        <name>finished_at</name>
+        <qualifiedname>themis::importers::ImportWizardState::finished_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="91" column="17" bodyfile="include/importers/gui_import_wizard.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_import_wizard_state_1a4e41e47dcfd977659e284c4a288abb05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::ImportWizardState::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::importers::ImportWizardState::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="97" column="10" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="88" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_import_wizard_state_1a37e97acbe4e209b54c9c7abeadbcd2fd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_import_wizard_state" kindref="compound">ImportWizardState</ref></type>
+        <definition>ImportWizardState themis::importers::ImportWizardState::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::importers::ImportWizardState::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/gui_import_wizard.h" line="103" column="30" bodyfile="src/importers/gui_import_wizard.cpp" bodystart="128" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/gui_import_wizard.h" line="59" column="1" bodyfile="include/importers/gui_import_wizard.h" bodystart="59" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a26d8ba56b1b1ed8b9256de3d0af2d4b7" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a845b1685b6ddffd9d03455a9f4f29bdf" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>column_mappings</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a21d2290290a7d85167510002529f1227" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>completed</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a88d0d50e16d73f9c16d8d131e8ef9f00" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>conflict_strategy</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1abc1d92bcc11ab75304801f79d06600e4" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>connection_params</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a515cfcb6935bc0d977a124b670d7ebcd" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>current_step</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a032bb0716d57cbc4e2c35f6212bcce9f" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>dry_run</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a95bccded6462a7a2b34c3219ad2640f0" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>enable_schema_validation</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a5f05016e5d4dcaab2cb41d27f6fb550f" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a3f7c016fe64c22a4da385b2fc8518c25" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>finished_at</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a37e97acbe4e209b54c9c7abeadbcd2fd" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1aa15fb5eab09150c7f7532b32774ed52a" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>preview_rows</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a520ee80077638942ea7e7ba1e8a3ea4e" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>preview_schema</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a068da6f22037614acc7eb7f81b866652" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>progress_pct</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a1b5fcdeec680746884202eababd3712c" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>rows_failed</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a93a9e5b123c380ce488386894a882686" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>rows_imported</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a533920f831ee9b5c4da9fcbabee722e1" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>rows_processed</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1aafe6120ddec49ecfe7b303d993b0ae9d" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a27593dad812cd051890439bbea9bc178" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>source_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1afeff27b51dc020e2ac55cfc495f2a0e3" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a38fc143b72f945f6f9bc3f20d4789355" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>target_collection</name></member>
+      <member refid="structthemis_1_1importers_1_1_import_wizard_state_1a4e41e47dcfd977659e284c4a288abb05" prot="public" virt="non-virtual"><scope>themis::importers::ImportWizardState</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

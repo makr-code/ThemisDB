@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_semantic_match_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::SemanticMatchConfig</compoundname>
+    <includes refid="entity__matcher_8h" local="no">entity_matcher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_semantic_match_config_1aab2d910e30bf92fb93e167dd4ff72cd2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::SemanticMatchConfig::overall_threshold</definition>
+        <argsstring></argsstring>
+        <name>overall_threshold</name>
+        <qualifiedname>themis::importers::SemanticMatchConfig::overall_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+<para>Minimum overall confidence to report a match. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="95" column="13" bodyfile="include/importers/entity_matcher.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_semantic_match_config_1ad8e9f945094952ec16f6554c5293b5f4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::SemanticMatchConfig::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::importers::SemanticMatchConfig::max_results</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Maximum number of candidate matches to return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="96" column="13" bodyfile="include/importers/entity_matcher.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_semantic_match_config_1a1d0525306a564f576e0e4ec6364d0bac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::SemanticMatchConfig::use_embeddings</definition>
+        <argsstring></argsstring>
+        <name>use_embeddings</name>
+        <qualifiedname>themis::importers::SemanticMatchConfig::use_embeddings</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable vector-based similarity (requires embedding model). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="97" column="13" bodyfile="include/importers/entity_matcher.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_semantic_match_config_1a5ebb17190573089f8f2294c03eaf023e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::importers::SemanticMatchConfig::field_weights</definition>
+        <argsstring></argsstring>
+        <name>field_weights</name>
+        <qualifiedname>themis::importers::SemanticMatchConfig::field_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="99" column="14" bodyfile="include/importers/entity_matcher.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_semantic_match_config_1a90478c298e0691ed56a68d9b36509475" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::SemanticMatchConfig::field_algorithms</definition>
+        <argsstring></argsstring>
+        <name>field_algorithms</name>
+        <qualifiedname>themis::importers::SemanticMatchConfig::field_algorithms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_matcher.h" line="101" column="14" bodyfile="include/importers/entity_matcher.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/entity_matcher.h" line="94" column="1" bodyfile="include/importers/entity_matcher.h" bodystart="94" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_semantic_match_config_1a90478c298e0691ed56a68d9b36509475" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatchConfig</scope><name>field_algorithms</name></member>
+      <member refid="structthemis_1_1importers_1_1_semantic_match_config_1a5ebb17190573089f8f2294c03eaf023e" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatchConfig</scope><name>field_weights</name></member>
+      <member refid="structthemis_1_1importers_1_1_semantic_match_config_1ad8e9f945094952ec16f6554c5293b5f4" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatchConfig</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1importers_1_1_semantic_match_config_1aab2d910e30bf92fb93e167dd4ff72cd2" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatchConfig</scope><name>overall_threshold</name></member>
+      <member refid="structthemis_1_1importers_1_1_semantic_match_config_1a1d0525306a564f576e0e4ec6364d0bac" prot="public" virt="non-virtual"><scope>themis::importers::SemanticMatchConfig</scope><name>use_embeddings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

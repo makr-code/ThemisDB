@@ -1,0 +1,215 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::fi_test::SimWAL</compoundname>
+    <derivedcompoundref refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_coordinator_w_a_l" prot="public" virt="non-virtual">themisdb::sharding::fi_test::SimCoordinatorWAL</derivedcompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a716d2c76830d03891760281754f20ee2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::fi_test::SimWAL::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="153" column="27" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a5f0bf61758852ccd931aa7a5510f5dc7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_wal_entry" kindref="compound">WalEntry</ref> &gt;</type>
+        <definition>std::vector&lt;WalEntry&gt; themisdb::sharding::fi_test::SimWAL::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="154" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a4690bd1bbbc4e0f7c1732a9158394c4e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::SimWAL::append</definition>
+        <argsstring>(const std::string &amp;op, const std::string &amp;txn_id, const std::string &amp;shard_id=&quot;&quot;)</argsstring>
+        <name>append</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::append</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="70" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="70" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a724a550ffc2367329b3f7efac81fe7d3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::fi_test::SimWAL::contains</definition>
+        <argsstring>(const std::string &amp;txn_id, const std::string &amp;op) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="80" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="80" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a2b32ae0881aefaa6cb58ba0d2f4f5932" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_wal_entry" kindref="compound">WalEntry</ref> &gt;</type>
+        <definition>std::vector&lt; WalEntry &gt; themisdb::sharding::fi_test::SimWAL::entriesFor</definition>
+        <argsstring>(const std::string &amp;txn_id) const</argsstring>
+        <name>entriesFor</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::entriesFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="89" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="89" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a43706968650382f753530034bf80172c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_wal_entry" kindref="compound">WalEntry</ref> &gt;</type>
+        <definition>std::vector&lt; WalEntry &gt; themisdb::sharding::fi_test::SimWAL::snapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>snapshot</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="100" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="100" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a6547e3f65ec666346b56a99f90c74710" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::fi_test::SimWAL::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="105" column="12" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="105" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a4ff0f3e7fee119cccfc4d8bc2f92d8de" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::fi_test::SimWAL::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="110" column="10" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="110" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1ac4bc425fe2e5ab8104eb543d2e8dc154" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::fi_test::SimWAL::lastOpForTxn</definition>
+        <argsstring>(const std::string &amp;txn_id) const</argsstring>
+        <name>lastOpForTxn</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::lastOpForTxn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the last operation recorded for a given transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>empty string if no entry exists for that txn_id. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="119" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="119" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1ab05d63ad06098d3013b6d418e6eeecf1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::sharding::fi_test::SimWAL::inDoubtTxns</definition>
+        <argsstring>() const</argsstring>
+        <name>inDoubtTxns</name>
+        <qualifiedname>themisdb::sharding::fi_test::SimWAL::inDoubtTxns</qualifiedname>
+        <briefdescription>
+<para>Collect all distinct txn_ids that have PREPARE but no COMMIT/ABORT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="132" column="17" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="132" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe in-process simulated Write-Ahead Log. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::sharding::fi_test::SimCoordinatorWAL</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_coordinator_w_a_l"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::fi_test::SimWAL</label>
+        <link refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l"/>
+      </node>
+    </inheritancegraph>
+    <location file="tests/sharding/test_sharding_p6_fault_injection.cpp" line="68" column="1" bodyfile="tests/sharding/test_sharding_p6_fault_injection.cpp" bodystart="68" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a4690bd1bbbc4e0f7c1732a9158394c4e" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>append</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a4ff0f3e7fee119cccfc4d8bc2f92d8de" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>clear</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a724a550ffc2367329b3f7efac81fe7d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>contains</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a6547e3f65ec666346b56a99f90c74710" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>count</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a5f0bf61758852ccd931aa7a5510f5dc7" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>entries_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a2b32ae0881aefaa6cb58ba0d2f4f5932" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>entriesFor</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1ab05d63ad06098d3013b6d418e6eeecf1" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>inDoubtTxns</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1ac4bc425fe2e5ab8104eb543d2e8dc154" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>lastOpForTxn</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a716d2c76830d03891760281754f20ee2" prot="private" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1fi__test_1_1_sim_w_a_l_1a43706968650382f753530034bf80172c" prot="public" virt="non-virtual"><scope>themisdb::sharding::fi_test::SimWAL</scope><name>snapshot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

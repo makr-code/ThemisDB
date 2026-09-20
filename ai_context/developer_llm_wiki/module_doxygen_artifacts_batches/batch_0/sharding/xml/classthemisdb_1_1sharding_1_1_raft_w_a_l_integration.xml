@@ -1,0 +1,539 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::RaftWALIntegration</compoundname>
+    <includes refid="raft__wal__integration_8h" local="no">raft_wal_integration.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_config" prot="public">themisdb::sharding::RaftWALIntegration::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result" prot="public">themisdb::sharding::RaftWALIntegration::WriteResult</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_pending_write" prot="private">themisdb::sharding::RaftWALIntegration::PendingWrite</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a226898876fa05965f37ef26c04c4d8a7" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themisdb::sharding::RaftWALIntegration::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::config_</qualifiedname>
+        <briefdescription>
+<para>Shared subsystem dependencies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="115" column="12" bodyfile="include/sharding/raft_wal_integration.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a081ec50e408756765942c6acb5b8e7e3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftWALIntegration::is_leader_</definition>
+        <argsstring></argsstring>
+        <name>is_leader_</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::is_leader_</qualifiedname>
+        <briefdescription>
+<para>Cached local leadership mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="116" column="10" bodyfile="include/sharding/raft_wal_integration.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a55fd5e3e07d19a6317a53f179683b3a8" prot="private" static="no" mutable="yes">
+        <type>std::timed_mutex</type>
+        <definition>std::timed_mutex themisdb::sharding::RaftWALIntegration::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::mutex_</qualifiedname>
+        <briefdescription>
+<para>FIXED: Changed to timed_mutex to enforce write_timeout. Protects leadership and pending write state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="117" column="30" bodyfile="include/sharding/raft_wal_integration.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a0cf5db9f0e944b3348db4bd27a60c52d" prot="private" static="no" mutable="no">
+        <type>std::condition_variable_any</type>
+        <definition>std::condition_variable_any themisdb::sharding::RaftWALIntegration::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::cv_</qualifiedname>
+        <briefdescription>
+<para>Notified by onAppendEntriesResponse() when ACKs arrive (works with timed_mutex). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="118" column="33" bodyfile="include/sharding/raft_wal_integration.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a684437ca42d5e1719a603b65687a4389" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, PendingWrite &gt;</type>
+        <definition>std::map&lt;uint64_t, PendingWrite&gt; themisdb::sharding::RaftWALIntegration::pending_writes_</definition>
+        <argsstring></argsstring>
+        <name>pending_writes_</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::pending_writes_</qualifiedname>
+        <briefdescription>
+<para>Pending writes keyed by Raft log index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="129" column="14" bodyfile="include/sharding/raft_wal_integration.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a3ef789aa914485354d62b65b8c2a0f72" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftWALIntegration::RaftWALIntegration</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RaftWALIntegration</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::RaftWALIntegration</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct Raft/WAL integration bridge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared subsystem dependencies and node identity. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="74" column="14" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1aba8e4b578330bc79560986ee249a39b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::RaftWALIntegration::~RaftWALIntegration</definition>
+        <argsstring>()</argsstring>
+        <name>~RaftWALIntegration</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::~RaftWALIntegration</qualifiedname>
+        <briefdescription>
+<para>Stop active shipper/applier role during destruction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="77" column="5" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="24" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1ac8db72ce81f9491fdd3d8c3b65e71752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1_1_write_result" kindref="compound">WriteResult</ref></type>
+        <definition>RaftWALIntegration::WriteResult themisdb::sharding::RaftWALIntegration::write</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>write</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::write</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Append WAL entry locally and wait for Raft/WAL quorum acknowledgment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Write.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL entry payload to append and replicate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Write result including assigned <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> and timeout/redirect errors.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), try_lock_for(), <ref refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a71b81e0b7db554de922c500ec242fc57" kindref="member">getLeaderId()</ref>, append(), serialize(), getCurrentTerm(), getLastLogIndex(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="85" column="17" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="44" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a66659625b7b648abab98b33925f14655" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &gt;</type>
+        <definition>std::optional&lt; WALEntry &gt; themisdb::sharding::RaftWALIntegration::read</definition>
+        <argsstring>(const LSN &amp;lsn)</argsstring>
+        <name>read</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::read</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> &amp;</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+<para>Read WAL entry only when this node is current leader. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Read.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>WAL <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> to read. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>WAL entry when present and served by leader, otherwise nullopt.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lsn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="93" column="19" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="107" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1aaeadcb428c9f5039be5df748ac84f3db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftWALIntegration::onBecomeLeader</definition>
+        <argsstring>()</argsstring>
+        <name>onBecomeLeader</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::onBecomeLeader</qualifiedname>
+        <briefdescription>
+<para>Switch to leader mode and start leader-side WAL shipping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Become Leader.</para>
+<para>Calls: lock(), stopWALApplier(), startWALShipper(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="97" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="124" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a722f11bcc973ba7f198c929175e83c81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftWALIntegration::onBecomeFollower</definition>
+        <argsstring>()</argsstring>
+        <name>onBecomeFollower</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::onBecomeFollower</qualifiedname>
+        <briefdescription>
+<para>Switch to follower mode and start follower-side apply readiness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Become Follower.</para>
+<para>Calls: lock(), stopWALShipper(), startWALApplier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="99" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="140" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1ae0227f82f0a3ad4946164e1ef089c709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftWALIntegration::compact</definition>
+        <argsstring>(uint64_t snapshot_index)</argsstring>
+        <name>compact</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::compact</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>snapshot_index</declname>
+        </param>
+        <briefdescription>
+<para>Advance compaction-related commit metadata up to snapshot index. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compact.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Highest index captured by snapshot.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), getCommitIndex(), setCommitIndex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="106" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="157" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a79cf7140782ebb5522baf27c6789fb87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftWALIntegration::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::isLeader</qualifiedname>
+        <briefdescription>
+<para>Return whether integration is currently in leader mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="110" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="170" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a71b81e0b7db554de922c500ec242fc57" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::RaftWALIntegration::getLeaderId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLeaderId</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::getLeaderId</qualifiedname>
+        <briefdescription>
+<para>Return current leader ID from shared Raft state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="112" column="17" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="180" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a87bf14a8b15e760de37d08c53f45ad7b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftWALIntegration::startWALShipper</definition>
+        <argsstring>()</argsstring>
+        <name>startWALShipper</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::startWALShipper</qualifiedname>
+        <briefdescription>
+<para>Start leader-side WAL shipper if configured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start <ref refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref>.</para>
+<para>Calls: start(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="133" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="188" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a99e655916e6cffaafa49549719083b54" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftWALIntegration::stopWALShipper</definition>
+        <argsstring>()</argsstring>
+        <name>stopWALShipper</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::stopWALShipper</qualifiedname>
+        <briefdescription>
+<para>Stop leader-side WAL shipper if configured. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop <ref refid="classthemisdb_1_1sharding_1_1_w_a_l_shipper" kindref="compound">WALShipper</ref>.</para>
+<para>Calls: stop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="135" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="198" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a428790fbc246e30e9948ed8a389420da" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftWALIntegration::startWALApplier</definition>
+        <argsstring>()</argsstring>
+        <name>startWALApplier</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::startWALApplier</qualifiedname>
+        <briefdescription>
+<para>Prepare follower-side WAL applier for use. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start <ref refid="classthemisdb_1_1sharding_1_1_w_a_l_applier" kindref="compound">WALApplier</ref>.</para>
+<para>Implements startWALApplier without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="137" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="208" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a62ecab2910163063c5528ce447c86e9c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftWALIntegration::stopWALApplier</definition>
+        <argsstring>()</argsstring>
+        <name>stopWALApplier</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::stopWALApplier</qualifiedname>
+        <briefdescription>
+<para>Stop follower-side WAL applier when role changes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop <ref refid="classthemisdb_1_1sharding_1_1_w_a_l_applier" kindref="compound">WALApplier</ref>.</para>
+<para>Implements stopWALApplier without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="139" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="217" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a92d517b1ccf14cbdfb36b1a21e02fd78" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::RaftWALIntegration::hasQuorum</definition>
+        <argsstring>(const std::set&lt; std::string &gt; &amp;acks) const</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::hasQuorum</qualifiedname>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>acks</declname>
+        </param>
+        <briefdescription>
+<para>Check whether acknowledgment set satisfies current cluster quorum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>acks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node IDs that acknowledged write. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when majority quorum is reached. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="146" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="221" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a8dd65bb02be86a6ecdabff5b65a40322" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::RaftWALIntegration::onAppendEntriesResponse</definition>
+        <argsstring>(const std::string &amp;follower_id, uint64_t match_index)</argsstring>
+        <name>onAppendEntriesResponse</name>
+        <qualifiedname>themisdb::sharding::RaftWALIntegration::onAppendEntriesResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>follower_id</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>match_index</declname>
+        </param>
+        <briefdescription>
+<para>Record follower replication progress and notify waiting writers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On Append Entries Response.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>follower_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Follower node that responded. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>match_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Highest replicated log index on that follower.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">follower_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the follower. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">match_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), insert(), hasQuorum(), setCommitIndex(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_wal_integration.h" line="153" column="10" bodyfile="src/sharding/raft_wal_integration.cpp" bodystart="236" bodyend="256"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Integrates Raft consensus with WAL replication for automatic failover. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides:<itemizedlist>
+<listitem><para>Quorum-based writes (blocks until majority acknowledgment)</para>
+</listitem><listitem><para>Automatic failover on leader failure</para>
+</listitem><listitem><para>Strong consistency (linearizable reads/writes)</para>
+</listitem><listitem><para>Leadership management (starts/stops WAL Shipper) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/sharding/raft_wal_integration.h" line="46" column="1" bodyfile="include/sharding/raft_wal_integration.h" bodystart="46" bodyend="154"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1ae0227f82f0a3ad4946164e1ef089c709" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>compact</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a226898876fa05965f37ef26c04c4d8a7" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a0cf5db9f0e944b3348db4bd27a60c52d" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>cv_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a71b81e0b7db554de922c500ec242fc57" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>getLeaderId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a92d517b1ccf14cbdfb36b1a21e02fd78" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>hasQuorum</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a081ec50e408756765942c6acb5b8e7e3" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>is_leader_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a79cf7140782ebb5522baf27c6789fb87" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>isLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a55fd5e3e07d19a6317a53f179683b3a8" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a8dd65bb02be86a6ecdabff5b65a40322" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>onAppendEntriesResponse</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a722f11bcc973ba7f198c929175e83c81" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>onBecomeFollower</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1aaeadcb428c9f5039be5df748ac84f3db" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>onBecomeLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a684437ca42d5e1719a603b65687a4389" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>pending_writes_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a3ef789aa914485354d62b65b8c2a0f72" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>RaftWALIntegration</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a66659625b7b648abab98b33925f14655" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>read</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a428790fbc246e30e9948ed8a389420da" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>startWALApplier</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a87bf14a8b15e760de37d08c53f45ad7b" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>startWALShipper</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a62ecab2910163063c5528ce447c86e9c" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>stopWALApplier</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1a99e655916e6cffaafa49549719083b54" prot="private" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>stopWALShipper</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1ac8db72ce81f9491fdd3d8c3b65e71752" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>write</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_raft_w_a_l_integration_1aba8e4b578330bc79560986ee249a39b0" prot="public" virt="non-virtual"><scope>themisdb::sharding::RaftWALIntegration</scope><name>~RaftWALIntegration</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,426 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__model__path__traversal_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_model_path_traversal.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="llm__plugin__manager_8h" local="yes">llm/llm_plugin_manager.h</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>llm/active_vram_allocator.h</label>
+        <link refid="active__vram__allocator_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/grafana_metrics.h</label>
+        <link refid="grafana__metrics_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>llm/i_ssm_plugin.h</label>
+        <link refid="i__ssm__plugin_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/llm_plugin_manager.h</label>
+        <link refid="llm__plugin__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>llm/ssm_state_store.h</label>
+        <link refid="ssm__state__store_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_model_path_traversal.cpp</label>
+        <link refid="test__llm__model__path__traversal_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>chrono</label>
+      </node>
+      <node id="25">
+        <label>core/timestamp.h</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="27">
+        <label>cstdlib</label>
+      </node>
+      <node id="4">
+        <label>distributed_knowledge/adapter_capability_announcement.h</label>
+      </node>
+      <node id="28">
+        <label>filesystem</label>
+      </node>
+      <node id="29">
+        <label>fstream</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="21">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="22">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="26">
+        <label>storage/hlc.h</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="18">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_scoped_env" prot="public">ScopedEnv</innerclass>
+    <innerclass refid="class_llm_model_path_traversal_test" prot="public">LlmModelPathTraversalTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__model__path__traversal_8cpp_1aa07af47b37b2043ed1b35a0f0d521c9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmModelPathTraversalTest, GAP009_PathInsideRoot_NotRejectedByPolicy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_model_path_traversal_test" kindref="compound">LlmModelPathTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>GAP009_PathInsideRoot_NotRejectedByPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_path_traversal.cpp" line="81" column="1" bodyfile="tests/llm/test_llm_model_path_traversal.cpp" bodystart="81" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__model__path__traversal_8cpp_1a8015e944c31860d001bd3e6c636ad866" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmModelPathTraversalTest, GAP009_PathTraversal_Rejected)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_model_path_traversal_test" kindref="compound">LlmModelPathTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>GAP009_PathTraversal_Rejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_path_traversal.cpp" line="98" column="1" bodyfile="tests/llm/test_llm_model_path_traversal.cpp" bodystart="98" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__model__path__traversal_8cpp_1aa7cb696d57cc744ed922776b6c994853" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(LlmModelPathTraversalTest, GAP009_NoModelRoot_CheckSkipped)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_llm_model_path_traversal_test" kindref="compound">LlmModelPathTraversalTest</ref></type>
+        </param>
+        <param>
+          <type>GAP009_NoModelRoot_CheckSkipped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_model_path_traversal.cpp" line="112" column="1" bodyfile="tests/llm/test_llm_model_path_traversal.cpp" bodystart="112" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>GAP-009:<sp/>Model<sp/>path<sp/>traversal<sp/>prevention<sp/>tests.</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>LLMPluginManager::loadModel()<sp/>must<sp/>reject<sp/>paths<sp/>that<sp/>escape<sp/>the<sp/>configured</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>THEMIS_MODEL_ROOT<sp/>directory<sp/>(e.g.<sp/>&quot;../../etc/passwd&quot;<sp/>tricks).</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__manager_8h" kindref="compound">llm/llm_plugin_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>POSIX<sp/>/<sp/>Win32<sp/>setenv<sp/>shim</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>ifndef<sp/>setenv</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/><sp/>define<sp/>setenv(n,<sp/>v,<sp/>o)<sp/>_putenv_s(n,<sp/>v)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>ifndef<sp/>unsetenv</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/><sp/><sp/>define<sp/>unsetenv(n)<sp/>_putenv_s(n,<sp/>&quot;&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RAII<sp/>helper<sp/>to<sp/>set/restore<sp/>an<sp/>environment<sp/>variable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="struct_scoped_env" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_scoped_env_1a930bb771d7e06e9e3f9c087d8ae98099" kindref="member">ScopedEnv</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_scoped_env_1aa3bc656f791df750d234b04fa763d85b" kindref="member">name_</ref>,<sp/><ref refid="struct_scoped_env_1a5b69dd89aac917d1869ba70542528d72" kindref="member">old_</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_scoped_env_1a978a4b78cd90ffb02e031a7b3300a5c9" kindref="member">had_old_</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_scoped_env_1a930bb771d7e06e9e3f9c087d8ae98099" kindref="member">ScopedEnv</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>value)<sp/>:<sp/><ref refid="struct_scoped_env_1aa3bc656f791df750d234b04fa763d85b" kindref="member">name_</ref>(name)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>prev<sp/>=<sp/>std::getenv(name))<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_scoped_env_1a978a4b78cd90ffb02e031a7b3300a5c9" kindref="member">had_old_</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_scoped_env_1a5b69dd89aac917d1869ba70542528d72" kindref="member">old_</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>prev;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::setenv(name,<sp/>value,<sp/>1);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_scoped_env_1a6053d4ad51ecdcdc46eb0964bca37dac" kindref="member">~ScopedEnv</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="struct_scoped_env_1a978a4b78cd90ffb02e031a7b3300a5c9" kindref="member">had_old_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::setenv(<ref refid="struct_scoped_env_1aa3bc656f791df750d234b04fa763d85b" kindref="member">name_</ref>.c_str(),<sp/><ref refid="struct_scoped_env_1a5b69dd89aac917d1869ba70542528d72" kindref="member">old_</ref>.c_str(),<sp/>1);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>_putenv_s(<ref refid="struct_scoped_env_1aa3bc656f791df750d234b04fa763d85b" kindref="member">name_</ref>.c_str(),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::unsetenv(<ref refid="struct_scoped_env_1aa3bc656f791df750d234b04fa763d85b" kindref="member">name_</ref>.c_str());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture<sp/>—<sp/>creates<sp/>a<sp/>real<sp/>temp<sp/>directory<sp/>as<sp/>THEMIS_MODEL_ROOT.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="class_llm_model_path_traversal_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_llm_model_path_traversal_test" kindref="compound">LlmModelPathTraversalTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><ref refid="class_llm_model_path_traversal_test_1ab03324d00bd59bd93b299b0773b038a0" kindref="member">model_root_</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_llm_model_path_traversal_test_1a904e599263484e04f002375e900f4735" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_llm_model_path_traversal_test_1ab03324d00bd59bd93b299b0773b038a0" kindref="member">model_root_</ref><sp/>=<sp/>fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_gap009_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::now()</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_since_epoch().count()));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_llm_model_path_traversal_test_1ab03324d00bd59bd93b299b0773b038a0" kindref="member">model_root_</ref>);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>a<sp/>dummy<sp/>model<sp/>file<sp/>inside<sp/>the<sp/>root.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream(<ref refid="class_llm_model_path_traversal_test_1ab03324d00bd59bd93b299b0773b038a0" kindref="member">model_root_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;allowed.gguf&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;dummy&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_llm_model_path_traversal_test_1ab90b448e25bb23f88b6f788bcc537044" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::error_code<sp/>ec<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_llm_model_path_traversal_test_1ab03324d00bd59bd93b299b0773b038a0" kindref="member">model_root_</ref>,<sp/>ec);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GAP-009-01:<sp/>A<sp/>path<sp/>inside<sp/>THEMIS_MODEL_ROOT<sp/>must<sp/>pass<sp/>the<sp/>containment<sp/>check.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>loadModel()<sp/>may<sp/>still<sp/>return<sp/>false<sp/>(no<sp/>real<sp/>plugin<sp/>/<sp/>model)<sp/>but<sp/>it<sp/>must<sp/>NOT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>reject<sp/>because<sp/>of<sp/>path<sp/>policy.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__llm__model__path__traversal_8cpp_1aa07af47b37b2043ed1b35a0f0d521c9b" kindref="member">TEST_F</ref>(<ref refid="class_llm_model_path_traversal_test" kindref="compound">LlmModelPathTraversalTest</ref>,<sp/>GAP009_PathInsideRoot_NotRejectedByPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_scoped_env" kindref="compound">ScopedEnv</ref><sp/>env(</highlight><highlight class="stringliteral">&quot;THEMIS_MODEL_ROOT&quot;</highlight><highlight class="normal">,<sp/>model_root_.string().c_str());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>inside_path<sp/>=<sp/>(model_root_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;allowed.gguf&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="class_l_l_m_plugin_manager_1acd865f6941d469b6fb0ccf9cb2368311" kindref="member">LLMPluginManager::instance</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>loadModel<sp/>returns<sp/>false<sp/>because<sp/>no<sp/>plugin<sp/>is<sp/>registered<sp/>—<sp/>that&apos;s<sp/>OK.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>What<sp/>matters<sp/>is<sp/>that<sp/>the<sp/>call<sp/>does<sp/>NOT<sp/>throw<sp/>/<sp/>return<sp/>false<sp/>due<sp/>to<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>path<sp/>containment<sp/>check<sp/>(which<sp/>would<sp/>be<sp/>logged<sp/>at<sp/>error<sp/>level).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>only<sp/>verify<sp/>no<sp/>exception<sp/>escapes;<sp/>the<sp/>return<sp/>value<sp/>is<sp/>don&apos;t-care.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ignore<sp/>the<sp/>return<sp/>value<sp/>—<sp/>no<sp/>real<sp/>plugin<sp/>is<sp/>installed<sp/>in<sp/>unit<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)mgr.loadModel(</highlight><highlight class="stringliteral">&quot;test-model&quot;</highlight><highlight class="normal">,<sp/>inside_path);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GAP-009-02:<sp/>A<sp/>path<sp/>that<sp/>traverses<sp/>above<sp/>THEMIS_MODEL_ROOT<sp/>must<sp/>be<sp/>rejected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__llm__model__path__traversal_8cpp_1aa07af47b37b2043ed1b35a0f0d521c9b" kindref="member">TEST_F</ref>(<ref refid="class_llm_model_path_traversal_test" kindref="compound">LlmModelPathTraversalTest</ref>,<sp/>GAP009_PathTraversal_Rejected)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_scoped_env" kindref="compound">ScopedEnv</ref><sp/>env(</highlight><highlight class="stringliteral">&quot;THEMIS_MODEL_ROOT&quot;</highlight><highlight class="normal">,<sp/>model_root_.string().c_str());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>a<sp/>path<sp/>that<sp/>escapes<sp/>via<sp/>&quot;../../..&quot;:<sp/>resolve<sp/>to<sp/>/etc/passwd<sp/>style</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>traversal<sp/>=<sp/>(model_root_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;..&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;..&quot;</highlight><highlight class="normal"><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;evil.gguf&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="class_l_l_m_plugin_manager_1acd865f6941d469b6fb0ccf9cb2368311" kindref="member">LLMPluginManager::instance</ref>();</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>loadModel<sp/>must<sp/>return<sp/>false<sp/>when<sp/>path<sp/>is<sp/>outside<sp/>the<sp/>model<sp/>root.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mgr.loadModel(</highlight><highlight class="stringliteral">&quot;evil-model&quot;</highlight><highlight class="normal">,<sp/>traversal);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Path<sp/>traversal<sp/>outside<sp/>THEMIS_MODEL_ROOT<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GAP-009-03:<sp/>When<sp/>THEMIS_MODEL_ROOT<sp/>is<sp/>not<sp/>set,<sp/>the<sp/>containment<sp/>check<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>skipped<sp/>(backward-compatibility),<sp/>so<sp/>loadModel<sp/>proceeds<sp/>normally.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__llm__model__path__traversal_8cpp_1aa07af47b37b2043ed1b35a0f0d521c9b" kindref="member">TEST_F</ref>(<ref refid="class_llm_model_path_traversal_test" kindref="compound">LlmModelPathTraversalTest</ref>,<sp/>GAP009_NoModelRoot_CheckSkipped)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>sure<sp/>env<sp/>var<sp/>is<sp/>absent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>_putenv_s(</highlight><highlight class="stringliteral">&quot;THEMIS_MODEL_ROOT&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>::unsetenv(</highlight><highlight class="stringliteral">&quot;THEMIS_MODEL_ROOT&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mgr<sp/>=<sp/><ref refid="class_l_l_m_plugin_manager_1acd865f6941d469b6fb0ccf9cb2368311" kindref="member">LLMPluginManager::instance</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>containment<sp/>rejection<sp/>expected<sp/>(may<sp/>fail<sp/>for<sp/>other<sp/>reasons<sp/>—<sp/>don&apos;t<sp/>care).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)mgr.loadModel(</highlight><highlight class="stringliteral">&quot;unrestricted-model&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(model_root_<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;allowed.gguf&quot;</highlight><highlight class="normal">).string());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_model_path_traversal.cpp"/>
+  </compounddef>
+</doxygen>

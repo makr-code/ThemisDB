@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ai::AIPluginGenerator::Config</compoundname>
+    <includes refid="ai__plugin__generator_8h" local="no">ai_plugin_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a36824354b7b3608cdda155dcc083db60" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::AIPluginGenerator::Config::llm_endpoint</definition>
+        <argsstring></argsstring>
+        <name>llm_endpoint</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::llm_endpoint</qualifiedname>
+        <initializer>= &quot;http://localhost:8080&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="84" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a32a658321edeadc77de37384011e57fe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ai::AIPluginGenerator::Config::allowed_llm_endpoints</definition>
+        <argsstring></argsstring>
+        <name>allowed_llm_endpoints</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::allowed_llm_endpoints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="85" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1af90ae2470e729415a6d9676c6b617b4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::AIPluginGenerator::Config::sandbox_dir</definition>
+        <argsstring></argsstring>
+        <name>sandbox_dir</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::sandbox_dir</qualifiedname>
+        <initializer>= &quot;/tmp/themis_plugin_sandbox&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="86" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a4e77571cda027d97a8e09d8e6809ce18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ai::AIPluginGenerator::Config::output_dir</definition>
+        <argsstring></argsstring>
+        <name>output_dir</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::output_dir</qualifiedname>
+        <initializer>= &quot;./generated_plugins&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="87" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ab66f13a9a5683c6943ad8d0242323657" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::plugins::ai::AIPluginGenerator::Config::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="88" column="14" bodyfile="include/ai/ai_plugin_generator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a2b8008c9f2d95c2439fcbb72903fd8f6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Config::max_request_body_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_request_body_bytes</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::max_request_body_bytes</qualifiedname>
+        <initializer>= 256u * 1024u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="89" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a0abc008b20f02f50f182d7528b9dd291" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ai::AIPluginGenerator::Config::max_response_body_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_response_body_bytes</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::max_response_body_bytes</qualifiedname>
+        <initializer>= 8u * 1024u * 1024u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="90" column="21" bodyfile="include/ai/ai_plugin_generator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ac478a8bc6ab1cfbcee39b85211243ade" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1ae462adef446904d2e73132ea7fa8c9d0" kindref="member">EndpointInvokeFn</ref></type>
+        <definition>EndpointInvokeFn themis::plugins::ai::AIPluginGenerator::Config::endpoint_invoke_fn</definition>
+        <argsstring></argsstring>
+        <name>endpoint_invoke_fn</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::endpoint_invoke_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="91" column="26" bodyfile="include/ai/ai_plugin_generator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a9b96c54c85f5faad97e9d2da8a59efa1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ai::AIPluginGenerator::Config::enable_c1_cai_safety_gate</definition>
+        <argsstring></argsstring>
+        <name>enable_c1_cai_safety_gate</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::enable_c1_cai_safety_gate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="92" column="14" bodyfile="include/ai/ai_plugin_generator.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1aaa9bfc6addc8bbbc8ffc82a85443608f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::ai::AIPluginGenerator::Config::c1_min_safety_score</definition>
+        <argsstring></argsstring>
+        <name>c1_min_safety_score</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::c1_min_safety_score</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="93" column="16" bodyfile="include/ai/ai_plugin_generator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a94491d10b0ea32bc16381ab3aa458109" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1aac040bbc41ca6a78b61b984934438e14" kindref="member">CAISafetyEvalFn</ref></type>
+        <definition>CAISafetyEvalFn themis::plugins::ai::AIPluginGenerator::Config::c1_cai_eval_fn</definition>
+        <argsstring></argsstring>
+        <name>c1_cai_eval_fn</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::c1_cai_eval_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="94" column="25" bodyfile="include/ai/ai_plugin_generator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a3d3c07119a217e9b836707465a7f099b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ai::AIPluginGenerator::Config::enable_c2_federated_telemetry</definition>
+        <argsstring></argsstring>
+        <name>enable_c2_federated_telemetry</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::enable_c2_federated_telemetry</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="95" column="14" bodyfile="include/ai/ai_plugin_generator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a0e18a3bc25bd667b33ee7d7bf466e6f7" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1aa7f60f64174b7a674663b6f6607b909e" kindref="member">FederatedTelemetryFn</ref></type>
+        <definition>FederatedTelemetryFn themis::plugins::ai::AIPluginGenerator::Config::c2_federated_telemetry_fn</definition>
+        <argsstring></argsstring>
+        <name>c2_federated_telemetry_fn</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::c2_federated_telemetry_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="96" column="30" bodyfile="include/ai/ai_plugin_generator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ac9be7973ac6972da90466bd6aa55267b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::ai::AIPluginGenerator::Config::enable_sandbox_gate</definition>
+        <argsstring></argsstring>
+        <name>enable_sandbox_gate</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::enable_sandbox_gate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="97" column="14" bodyfile="include/ai/ai_plugin_generator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a3ac1e350d58a699578baaa7399da3f6a" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1a9526cde32d4525bb2a67362eec866690" kindref="member">SandboxVerifyFn</ref></type>
+        <definition>SandboxVerifyFn themis::plugins::ai::AIPluginGenerator::Config::sandbox_verify_fn</definition>
+        <argsstring></argsstring>
+        <name>sandbox_verify_fn</name>
+        <qualifiedname>themis::plugins::ai::AIPluginGenerator::Config::sandbox_verify_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ai/ai_plugin_generator.h" line="98" column="25" bodyfile="include/ai/ai_plugin_generator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ai/ai_plugin_generator.h" line="83" column="5" bodyfile="include/ai/ai_plugin_generator.h" bodystart="83" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a32a658321edeadc77de37384011e57fe" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>allowed_llm_endpoints</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a94491d10b0ea32bc16381ab3aa458109" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>c1_cai_eval_fn</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1aaa9bfc6addc8bbbc8ffc82a85443608f" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>c1_min_safety_score</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a0e18a3bc25bd667b33ee7d7bf466e6f7" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>c2_federated_telemetry_fn</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a9b96c54c85f5faad97e9d2da8a59efa1" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>enable_c1_cai_safety_gate</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a3d3c07119a217e9b836707465a7f099b" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>enable_c2_federated_telemetry</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ac9be7973ac6972da90466bd6aa55267b" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>enable_sandbox_gate</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ac478a8bc6ab1cfbcee39b85211243ade" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>endpoint_invoke_fn</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a36824354b7b3608cdda155dcc083db60" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>llm_endpoint</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a2b8008c9f2d95c2439fcbb72903fd8f6" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>max_request_body_bytes</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a0abc008b20f02f50f182d7528b9dd291" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>max_response_body_bytes</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a4e77571cda027d97a8e09d8e6809ce18" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>output_dir</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1af90ae2470e729415a6d9676c6b617b4e" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>sandbox_dir</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1a3ac1e350d58a699578baaa7399da3f6a" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>sandbox_verify_fn</name></member>
+      <member refid="structthemis_1_1plugins_1_1ai_1_1_a_i_plugin_generator_1_1_config_1ab66f13a9a5683c6943ad8d0242323657" prot="public" virt="non-virtual"><scope>themis::plugins::ai::AIPluginGenerator::Config</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

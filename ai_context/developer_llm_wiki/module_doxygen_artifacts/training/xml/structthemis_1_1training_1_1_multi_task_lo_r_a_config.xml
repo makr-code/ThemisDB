@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_multi_task_lo_r_a_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::MultiTaskLoRAConfig</compoundname>
+    <includes refid="multi__task__lora_8h" local="no">multi_task_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1abb96e1c7a508ee815f3fa59a93158418" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::MultiTaskLoRAConfig::shared_rank</definition>
+        <argsstring></argsstring>
+        <name>shared_rank</name>
+        <qualifiedname>themis::training::MultiTaskLoRAConfig::shared_rank</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Rank of the shared LoRA base adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="124" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1a7c4d6f96f5a3c30c72d42014e633c93b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::MultiTaskLoRAConfig::epochs</definition>
+        <argsstring></argsstring>
+        <name>epochs</name>
+        <qualifiedname>themis::training::MultiTaskLoRAConfig::epochs</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Training epochs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="125" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1a14413a48cf8741d5bb64b447ddaf1300" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::MultiTaskLoRAConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::training::MultiTaskLoRAConfig::batch_size</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Samples per gradient step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="126" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1a6e197be2973fdd1f4877d0ed61573b48" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::MultiTaskLoRAConfig::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::training::MultiTaskLoRAConfig::learning_rate</qualifiedname>
+        <initializer>= 1e-3f</initializer>
+        <briefdescription>
+<para>Global base learning rate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="127" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1ac2ef060ac46aa298c096d2628d694912" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::MultiTaskLoRAConfig::warmup_frac</definition>
+        <argsstring></argsstring>
+        <name>warmup_frac</name>
+        <qualifiedname>themis::training::MultiTaskLoRAConfig::warmup_frac</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+<para>Fraction of steps used for LR warmup. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="128" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1aba51c5391c96277231ab28a52b4169c8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::MultiTaskLoRAConfig::input_dim</definition>
+        <argsstring></argsstring>
+        <name>input_dim</name>
+        <qualifiedname>themis::training::MultiTaskLoRAConfig::input_dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Input feature dimension (inferred from first sample if 0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="131" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1a461758a1805c1a23f78a31d774f49138" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::MultiTaskLoRAConfig::gating_fallback_threshold</definition>
+        <argsstring></argsstring>
+        <name>gating_fallback_threshold</name>
+        <qualifiedname>themis::training::MultiTaskLoRAConfig::gating_fallback_threshold</qualifiedname>
+        <initializer>= 0.2f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Gating confidence threshold below which the trainer falls back to the highest-weight task rather than the gating prediction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="135" column="12" bodyfile="include/training/multi_task_lora.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Top-level configuration for <ref refid="classthemis_1_1training_1_1_multi_task_lo_r_a_trainer" kindref="compound">MultiTaskLoRATrainer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/multi_task_lora.h" line="123" column="1" bodyfile="include/training/multi_task_lora.h" bodystart="123" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1a14413a48cf8741d5bb64b447ddaf1300" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRAConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1a7c4d6f96f5a3c30c72d42014e633c93b" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRAConfig</scope><name>epochs</name></member>
+      <member refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1a461758a1805c1a23f78a31d774f49138" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRAConfig</scope><name>gating_fallback_threshold</name></member>
+      <member refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1aba51c5391c96277231ab28a52b4169c8" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRAConfig</scope><name>input_dim</name></member>
+      <member refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1a6e197be2973fdd1f4877d0ed61573b48" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRAConfig</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1abb96e1c7a508ee815f3fa59a93158418" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRAConfig</scope><name>shared_rank</name></member>
+      <member refid="structthemis_1_1training_1_1_multi_task_lo_r_a_config_1ac2ef060ac46aa298c096d2628d694912" prot="public" virt="non-virtual"><scope>themis::training::MultiTaskLoRAConfig</scope><name>warmup_frac</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

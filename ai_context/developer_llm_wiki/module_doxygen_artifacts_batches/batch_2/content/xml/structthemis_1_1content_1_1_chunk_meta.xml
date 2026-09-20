@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_chunk_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ChunkMeta</compoundname>
+    <includes refid="content__manager_8h" local="no">content_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1a42cc2ec2706abfd9f1faa3aa272862c5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ChunkMeta::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::content::ChunkMeta::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="92" column="17" bodyfile="include/content/content_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1ae2f4dc08af282d174a553e9972338cb1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ChunkMeta::content_id</definition>
+        <argsstring></argsstring>
+        <name>content_id</name>
+        <qualifiedname>themis::content::ChunkMeta::content_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="93" column="17" bodyfile="include/content/content_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1a3d3706b3ace5d31f57a5cdbab717e9b0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ChunkMeta::seq_num</definition>
+        <argsstring></argsstring>
+        <name>seq_num</name>
+        <qualifiedname>themis::content::ChunkMeta::seq_num</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="94" column="9" bodyfile="include/content/content_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1a92933006143842d0e02a17a3ba97dcdd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ChunkMeta::chunk_type</definition>
+        <argsstring></argsstring>
+        <name>chunk_type</name>
+        <qualifiedname>themis::content::ChunkMeta::chunk_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="95" column="17" bodyfile="include/content/content_manager.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1abb0f0ab81fdc95eb678ab472ec8bfcc4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ChunkMeta::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::content::ChunkMeta::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="98" column="17" bodyfile="include/content/content_manager.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1a7fe7d91b06094b0e78a076c527ec625b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ChunkMeta::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::content::ChunkMeta::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="99" column="10" bodyfile="include/content/content_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1ac23a870ab5548b0428fd1905c553da99" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ChunkMeta::blob_ref</definition>
+        <argsstring></argsstring>
+        <name>blob_ref</name>
+        <qualifiedname>themis::content::ChunkMeta::blob_ref</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="100" column="17" bodyfile="include/content/content_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1ad07889e47d177c7a2bd079446bdea65c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ChunkMeta::start_offset</definition>
+        <argsstring></argsstring>
+        <name>start_offset</name>
+        <qualifiedname>themis::content::ChunkMeta::start_offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="103" column="9" bodyfile="include/content/content_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1a77ee2ca66073cd5900e0e34119c6a655" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::ChunkMeta::end_offset</definition>
+        <argsstring></argsstring>
+        <name>end_offset</name>
+        <qualifiedname>themis::content::ChunkMeta::end_offset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="104" column="9" bodyfile="include/content/content_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1ae71c78b33b512c5e1b15b51b3c76e491" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::content::ChunkMeta::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::content::ChunkMeta::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="107" column="17" bodyfile="include/content/content_manager.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1a1f0c2463a03bc162bfa923c914ce3a22" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::ChunkMeta::embedding_indexed</definition>
+        <argsstring></argsstring>
+        <name>embedding_indexed</name>
+        <qualifiedname>themis::content::ChunkMeta::embedding_indexed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="108" column="10" bodyfile="include/content/content_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_chunk_meta_1a6389a747f461a9d36f2196fcb5995fc0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::content::ChunkMeta::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::content::ChunkMeta::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="110" column="13" bodyfile="include/content/content_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_chunk_meta_1ab3d5f10597ff7e85db9d5320732f0417" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ChunkMeta::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::content::ChunkMeta::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="116" column="10" bodyfile="src/content/content_manager.cpp" bodystart="697" bodyend="712"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_chunk_meta_1a54fa9b57eb3bba45cab4b79df4b737df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_chunk_meta" kindref="compound">ChunkMeta</ref></type>
+        <definition>ChunkMeta themis::content::ChunkMeta::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::content::ChunkMeta::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="122" column="22" bodyfile="src/content/content_manager.cpp" bodystart="720" bodyend="735"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_manager.h" line="91" column="1" bodyfile="include/content/content_manager.h" bodystart="91" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1ac23a870ab5548b0428fd1905c553da99" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>blob_ref</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1a92933006143842d0e02a17a3ba97dcdd" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>chunk_type</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1ae2f4dc08af282d174a553e9972338cb1" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>content_id</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1a6389a747f461a9d36f2196fcb5995fc0" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1a7fe7d91b06094b0e78a076c527ec625b" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>data</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1ae71c78b33b512c5e1b15b51b3c76e491" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1a1f0c2463a03bc162bfa923c914ce3a22" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>embedding_indexed</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1a77ee2ca66073cd5900e0e34119c6a655" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>end_offset</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1a54fa9b57eb3bba45cab4b79df4b737df" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1a42cc2ec2706abfd9f1faa3aa272862c5" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>id</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1a3d3706b3ace5d31f57a5cdbab717e9b0" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>seq_num</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1ad07889e47d177c7a2bd079446bdea65c" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>start_offset</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1abb0f0ab81fdc95eb678ab472ec8bfcc4" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>text</name></member>
+      <member refid="structthemis_1_1content_1_1_chunk_meta_1ab3d5f10597ff7e85db9d5320732f0417" prot="public" virt="non-virtual"><scope>themis::content::ChunkMeta</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

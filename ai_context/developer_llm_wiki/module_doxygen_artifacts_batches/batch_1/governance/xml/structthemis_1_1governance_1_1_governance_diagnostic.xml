@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_governance_diagnostic" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::GovernanceDiagnostic</compoundname>
+    <includes refid="governance__diagnostics_8h" local="no">governance_diagnostics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_governance_diagnostic_1a881de1275b75b328b2c8db2984754a28" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1" kindref="member">GovDiagnosticCode</ref></type>
+        <definition>GovDiagnosticCode themis::governance::GovernanceDiagnostic::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::governance::GovernanceDiagnostic::code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1governance_1a2e0faacc52d0f584917b1c4a248ba0a1a1155bcd42527d8baa325221fab8e7b68" kindref="member">GovDiagnosticCode::kConflictDetected</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="42" column="23" bodyfile="include/governance/governance_diagnostics.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_governance_diagnostic_1a069bf9104ff77c521f793f8c792d7537" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::GovernanceDiagnostic::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::governance::GovernanceDiagnostic::component</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="44" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_governance_diagnostic_1a052c313785b26689a637527a385636a6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::GovernanceDiagnostic::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::GovernanceDiagnostic::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="46" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_governance_diagnostic_1a1331fb7671a3f94827375d17e9012765" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::GovernanceDiagnostic::remediation_steps</definition>
+        <argsstring></argsstring>
+        <name>remediation_steps</name>
+        <qualifiedname>themis::governance::GovernanceDiagnostic::remediation_steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="48" column="17" bodyfile="include/governance/governance_diagnostics.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_governance_diagnostic_1a9a77083b51fe8819e9adfe333b71313e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::GovernanceDiagnostic::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::governance::GovernanceDiagnostic::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="50" column="13" bodyfile="include/governance/governance_diagnostics.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_governance_diagnostic_1a6533924640af363fdc1ac14b2834dd4e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::governance::GovernanceDiagnostic::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::governance::GovernanceDiagnostic::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="52" column="24" bodyfile="include/governance/governance_diagnostics.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_governance_diagnostic_1a403d8988f81e96cd4c9f9e2cb3319296" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::GovernanceDiagnostic::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::GovernanceDiagnostic::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_diagnostics.h" line="58" column="20" bodyfile="src/governance/governance_diagnostics.cpp" bodystart="16" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_diagnostics.h" line="41" column="1" bodyfile="include/governance/governance_diagnostics.h" bodystart="41" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_governance_diagnostic_1a881de1275b75b328b2c8db2984754a28" prot="public" virt="non-virtual"><scope>themis::governance::GovernanceDiagnostic</scope><name>code</name></member>
+      <member refid="structthemis_1_1governance_1_1_governance_diagnostic_1a069bf9104ff77c521f793f8c792d7537" prot="public" virt="non-virtual"><scope>themis::governance::GovernanceDiagnostic</scope><name>component</name></member>
+      <member refid="structthemis_1_1governance_1_1_governance_diagnostic_1a6533924640af363fdc1ac14b2834dd4e" prot="public" virt="non-virtual"><scope>themis::governance::GovernanceDiagnostic</scope><name>context</name></member>
+      <member refid="structthemis_1_1governance_1_1_governance_diagnostic_1a052c313785b26689a637527a385636a6" prot="public" virt="non-virtual"><scope>themis::governance::GovernanceDiagnostic</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_governance_diagnostic_1a1331fb7671a3f94827375d17e9012765" prot="public" virt="non-virtual"><scope>themis::governance::GovernanceDiagnostic</scope><name>remediation_steps</name></member>
+      <member refid="structthemis_1_1governance_1_1_governance_diagnostic_1a9a77083b51fe8819e9adfe333b71313e" prot="public" virt="non-virtual"><scope>themis::governance::GovernanceDiagnostic</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1governance_1_1_governance_diagnostic_1a403d8988f81e96cd4c9f9e2cb3319296" prot="public" virt="non-virtual"><scope>themis::governance::GovernanceDiagnostic</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

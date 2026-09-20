@@ -1,0 +1,471 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geo_edge_case_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::geo::GeoEdgeCaseHandler</compoundname>
+    <includes refid="geo__edge__case__handler_8h" local="no">geo_edge_case_handler.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1ad236da6cb820b678e59263ffaaa9d838" prot="public" static="no">
+        <type>std::function&lt; void(std::string_view incident_id, std::string_view description)&gt;</type>
+        <definition>using themis::geo::GeoEdgeCaseHandler::IncidentCallback = std::function&lt;void(std::string_view incident_id,
+                                               std::string_view description)&gt;</definition>
+        <argsstring></argsstring>
+        <name>IncidentCallback</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::IncidentCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="98" column="5" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1abce224a0ee9e80f38c0031a0f40e9991" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595" kindref="member">BackendCombination</ref></type>
+        <definition>BackendCombination themis::geo::GeoEdgeCaseHandler::combo_</definition>
+        <argsstring></argsstring>
+        <name>combo_</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::combo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="155" column="29" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1abe37c091ca6e0d7765c1df7dc5e8d474" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref></type>
+        <definition>GeoPrecisionMode themis::geo::GeoEdgeCaseHandler::precision_</definition>
+        <argsstring></argsstring>
+        <name>precision_</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::precision_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="156" column="29" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab3df0db08fb6d88a7ffd5219bf2bfec6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ad236da6cb820b678e59263ffaaa9d838" kindref="member">IncidentCallback</ref></type>
+        <definition>IncidentCallback themis::geo::GeoEdgeCaseHandler::on_incident_</definition>
+        <argsstring></argsstring>
+        <name>on_incident_</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::on_incident_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="157" column="29" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a8022930b3b8142a5fc1604738a7baeeb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GeoEdgeCaseHandler::cpu_dispatch_count_</definition>
+        <argsstring></argsstring>
+        <name>cpu_dispatch_count_</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::cpu_dispatch_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="158" column="19" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="158" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1ade2d45a496542ff12324bc3e90d43f8e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GeoEdgeCaseHandler::gpu_dispatch_count_</definition>
+        <argsstring></argsstring>
+        <name>gpu_dispatch_count_</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::gpu_dispatch_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="159" column="19" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="159" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a3735a2b7780160f5c86b943f0623e7d9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GeoEdgeCaseHandler::fallback_count_</definition>
+        <argsstring></argsstring>
+        <name>fallback_count_</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::fallback_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="160" column="19" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a73092298d12ef51b2d007efd4423069e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::geo::GeoEdgeCaseHandler::drift_event_count_</definition>
+        <argsstring></argsstring>
+        <name>drift_event_count_</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::drift_event_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="161" column="19" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1af3acbc48d43a47ef842e619275c1e2d2" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::geo::GeoEdgeCaseHandler::kDriftThreshold</definition>
+        <argsstring></argsstring>
+        <name>kDriftThreshold</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::kDriftThreshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="163" column="31" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoEdgeCaseHandler::GeoEdgeCaseHandler</definition>
+        <argsstring>(BackendCombination combo=BackendCombination::CPU_ONLY, GeoPrecisionMode precision=GeoPrecisionMode::STANDARD, IncidentCallback on_incident=nullptr) noexcept</argsstring>
+        <name>GeoEdgeCaseHandler</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::GeoEdgeCaseHandler</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595" kindref="member">BackendCombination</ref></type>
+          <declname>combo</declname>
+          <defval><ref refid="namespacethemis_1_1geo_1a132a0b4e28cf622a04d131f5472c4595a9393911bc06bdfb0c3663d541246e15a" kindref="member">BackendCombination::CPU_ONLY</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61" kindref="member">GeoPrecisionMode</ref></type>
+          <declname>precision</declname>
+          <defval><ref refid="namespacethemis_1_1geo_1af21d16376787344e64995200be6e5c61a94e94133f4bdc1794c6b647b8ea134d0" kindref="member">GeoPrecisionMode::STANDARD</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ad236da6cb820b678e59263ffaaa9d838" kindref="member">IncidentCallback</ref></type>
+          <declname>on_incident</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="101" column="14" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="25" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a5ed66959562766b53927652902797454" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoEdgeCaseHandler::GeoEdgeCaseHandler</definition>
+        <argsstring>(const GeoEdgeCaseHandler &amp;)=delete</argsstring>
+        <name>GeoEdgeCaseHandler</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::GeoEdgeCaseHandler</qualifiedname>
+        <param>
+          <type>const GeoEdgeCaseHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab6707b3e5efc3c6d37083ece0f20174a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref> &amp;</type>
+        <definition>GeoEdgeCaseHandler &amp; themis::geo::GeoEdgeCaseHandler::operator=</definition>
+        <argsstring>(const GeoEdgeCaseHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="108" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a9245b89b9d0f0b57d1b5a778dc96660e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoEdgeCaseHandler::GeoEdgeCaseHandler</definition>
+        <argsstring>(GeoEdgeCaseHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>GeoEdgeCaseHandler</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::GeoEdgeCaseHandler</qualifiedname>
+        <param>
+          <type>GeoEdgeCaseHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="109" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a37a9ea90baa4070cfdc25d1ff2cdfa3c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref> &amp;</type>
+        <definition>GeoEdgeCaseHandler &amp; themis::geo::GeoEdgeCaseHandler::operator=</definition>
+        <argsstring>(GeoEdgeCaseHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" kindref="member">GeoEdgeCaseHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="110" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1ac97532d6d25cf5c4c02df5fa99efd80c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_geo_edge_case_result" kindref="compound">GeoEdgeCaseResult</ref></type>
+        <definition>GeoEdgeCaseResult themis::geo::GeoEdgeCaseHandler::dispatch</definition>
+        <argsstring>(std::function&lt; double()&gt; cpu_fn, std::function&lt; std::optional&lt; double &gt;()&gt; gpu_fn=nullptr) noexcept</argsstring>
+        <name>dispatch</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::dispatch</qualifiedname>
+        <param>
+          <type>std::function&lt; double()&gt;</type>
+          <declname>cpu_fn</declname>
+        </param>
+        <param>
+          <type>std::function&lt; std::optional&lt; double &gt;()&gt;</type>
+          <declname>gpu_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="116" column="24" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="38" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab7be33d1b71af6d5b71aa561f526c95b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref></type>
+        <definition>GeoErrorCode themis::geo::GeoEdgeCaseHandler::validateCoordinateBoundary</definition>
+        <argsstring>(double lon, double lat) const noexcept</argsstring>
+        <name>validateCoordinateBoundary</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::validateCoordinateBoundary</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="124" column="19" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="114" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1acde9443f9951f3c801a24e05bdb00243" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1geo_1aec57e6f95b62cb4d5b64347cfbec317d" kindref="member">GeoErrorCode</ref></type>
+        <definition>GeoErrorCode themis::geo::GeoEdgeCaseHandler::validateRing</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; double, double &gt; &gt; &amp;ring) const noexcept</argsstring>
+        <name>validateRing</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::validateRing</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; double, double &gt; &gt; &amp;</type>
+          <declname>ring</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="127" column="19" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="129" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a8d38e1fcd81150f0b52641280a01f9c4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoEdgeCaseHandler::hasCapabilityDrift</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasCapabilityDrift</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::hasCapabilityDrift</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="134" column="11" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1ac5c6c9f94a895c1c5debe8699677c2f2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoEdgeCaseHandler::resetDriftCounter</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetDriftCounter</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::resetDriftCounter</qualifiedname>
+        <briefdescription>
+<para>Reset Drift Counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="140" column="10" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a77704f914f1f90077fb01c3614ab5501" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::geo::GeoEdgeCaseHandler::cpuDispatchCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>cpuDispatchCount</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::cpuDispatchCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="146" column="15" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="167" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab15913c42fdd9a14be50a7c64e1737a1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::geo::GeoEdgeCaseHandler::gpuDispatchCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>gpuDispatchCount</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::gpuDispatchCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="148" column="15" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="171" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1a35e38f7ec726c5d73d57aebed082f0f7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::geo::GeoEdgeCaseHandler::fallbackCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>fallbackCount</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::fallbackCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="150" column="15" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1aedd430884022b8cb5efec4db3c2ff784" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::geo::GeoEdgeCaseHandler::driftEventCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>driftEventCount</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::driftEventCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="152" column="15" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="179" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_edge_case_handler_1acf64373198abbfea6216f3add13fabc4" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoEdgeCaseHandler::emitIncident</definition>
+        <argsstring>(std::string_view id, std::string_view desc) const noexcept</argsstring>
+        <name>emitIncident</name>
+        <qualifiedname>themis::geo::GeoEdgeCaseHandler::emitIncident</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+<para>Emit Incident. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">desc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_edge_case_handler.h" line="171" column="10" bodyfile="src/geo/geo_edge_case_handler.cpp" bodystart="187" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_edge_case_handler.h" line="96" column="1" bodyfile="include/geo/geo_edge_case_handler.h" bodystart="96" bodyend="172"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1abce224a0ee9e80f38c0031a0f40e9991" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>combo_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a8022930b3b8142a5fc1604738a7baeeb" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>cpu_dispatch_count_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a77704f914f1f90077fb01c3614ab5501" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>cpuDispatchCount</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ac97532d6d25cf5c4c02df5fa99efd80c" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>dispatch</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a73092298d12ef51b2d007efd4423069e" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>drift_event_count_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1aedd430884022b8cb5efec4db3c2ff784" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>driftEventCount</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1acf64373198abbfea6216f3add13fabc4" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>emitIncident</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a3735a2b7780160f5c86b943f0623e7d9" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>fallback_count_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a35e38f7ec726c5d73d57aebed082f0f7" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>fallbackCount</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a1c59e3d871bf988c864176949a20ce48" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>GeoEdgeCaseHandler</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a5ed66959562766b53927652902797454" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>GeoEdgeCaseHandler</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a9245b89b9d0f0b57d1b5a778dc96660e" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>GeoEdgeCaseHandler</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ade2d45a496542ff12324bc3e90d43f8e" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>gpu_dispatch_count_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab15913c42fdd9a14be50a7c64e1737a1" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>gpuDispatchCount</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a8d38e1fcd81150f0b52641280a01f9c4" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>hasCapabilityDrift</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ad236da6cb820b678e59263ffaaa9d838" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>IncidentCallback</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1af3acbc48d43a47ef842e619275c1e2d2" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>kDriftThreshold</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab3df0db08fb6d88a7ffd5219bf2bfec6" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>on_incident_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab6707b3e5efc3c6d37083ece0f20174a" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1a37a9ea90baa4070cfdc25d1ff2cdfa3c" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1abe37c091ca6e0d7765c1df7dc5e8d474" prot="private" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>precision_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ac5c6c9f94a895c1c5debe8699677c2f2" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>resetDriftCounter</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1ab7be33d1b71af6d5b71aa561f526c95b" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>validateCoordinateBoundary</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_edge_case_handler_1acde9443f9951f3c801a24e05bdb00243" prot="public" virt="non-virtual"><scope>themis::geo::GeoEdgeCaseHandler</scope><name>validateRing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

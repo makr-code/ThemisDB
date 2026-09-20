@@ -1,0 +1,636 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_bounded_l_r_u_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::BoundedLRUCache</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_cache_backend" prot="public" virt="non-virtual">themis::cache::ICacheBackend&lt; std::string, nlohmann::json &gt;</basecompoundref>
+    <includes refid="bounded__lru__cache_8h" local="no">bounded_lru_cache.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config" prot="public">themis::cache::BoundedLRUCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics" prot="public">themis::cache::BoundedLRUCache::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_cache_entry" prot="private">themis::cache::BoundedLRUCache::CacheEntry</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_node" prot="private">themis::cache::BoundedLRUCache::Node</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1af01d17b48f38569b3a4fea0e2295964a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Node &gt;</type>
+        <definition>std::shared_ptr&lt;Node&gt; themis::cache::BoundedLRUCache::head_</definition>
+        <argsstring></argsstring>
+        <name>head_</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::head_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="134" column="21" bodyfile="include/cache/bounded_lru_cache.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1aaf543241bb5640006bdc16c00a61e986" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Node &gt;</type>
+        <definition>std::shared_ptr&lt;Node&gt; themis::cache::BoundedLRUCache::tail_</definition>
+        <argsstring></argsstring>
+        <name>tail_</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::tail_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="135" column="21" bodyfile="include/cache/bounded_lru_cache.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ad5df3e467a39de8c8a160669348cf50e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; Node &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;Node&gt; &gt; themis::cache::BoundedLRUCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="138" column="24" bodyfile="include/cache/bounded_lru_cache.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1aae0267bdc8e75f970dd447eb360af370" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::cache::BoundedLRUCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="140" column="12" bodyfile="include/cache/bounded_lru_cache.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ab307fa77a7702317664709be6260949e" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::cache::BoundedLRUCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="141" column="31" bodyfile="include/cache/bounded_lru_cache.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a207010a5638f434285c8e535ff0f0e05" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cache::BoundedLRUCache::hits_</definition>
+        <argsstring></argsstring>
+        <name>hits_</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="143" column="17" bodyfile="include/cache/bounded_lru_cache.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a495945bf6c5f5e34c482cee61d93c187" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::cache::BoundedLRUCache::misses_</definition>
+        <argsstring></argsstring>
+        <name>misses_</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::misses_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="144" column="17" bodyfile="include/cache/bounded_lru_cache.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1add04a6fecd3a857c178524fded6044ce" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::BoundedLRUCache::BoundedLRUCache</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>BoundedLRUCache</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::BoundedLRUCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Bounded <ref refid="classthemis_1_1cache_1_1_l_r_u_cache" kindref="compound">LRUCache</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="47" column="14" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ae407c3e3010f90931e509e966a7417e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::BoundedLRUCache::~BoundedLRUCache</definition>
+        <argsstring>()</argsstring>
+        <name>~BoundedLRUCache</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::~BoundedLRUCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="49" column="5" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="26" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a562d7d0441d302fb44b40c7a39143c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::cache::BoundedLRUCache::get</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::get</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1a685c75dea3805213ead4f7b6012fac76">get</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rlock(), find(), end(), fetch_add(), lock(), erase(), isExpired(), removeNode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="51" column="19" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="36" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a554bb52074b9332ad1d97cb1c5edc8ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::BoundedLRUCache::put</definition>
+        <argsstring>(const std::string &amp;key, nlohmann::json value, uint32_t ttl_seconds=0) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::put</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1a6bacc96db167f50ab2c671cb1d6a84fc">put</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>nlohmann::json</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ttl_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: dump(), <ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a3f99b7e738953ac3132b25f54b7ea5cc" kindref="member">size()</ref>, THEMIS_WARN(), std::chrono::seconds(), lock(), find(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="53" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="106" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ae534205b1a981f9f8d0c7c1aa8919437" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::BoundedLRUCache::remove</definition>
+        <argsstring>(const std::string &amp;key) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::remove</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1ae4896e628aafae2aea8e540648b1e7fe">remove</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), erase(), removeNode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="55" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="172" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a56feb08d270cda8e60fd37234b3d70e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::BoundedLRUCache::contains</definition>
+        <argsstring>(const std::string &amp;key) const override</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::contains</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1a77508b5c3ca52edaeffad4a703baa83d">contains</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Contains. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="57" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="351" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a1c40e1bd07896dd0fc0f7e820069e201" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cache::BoundedLRUCache::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::clear</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1ad729e3356e2407a80272cf0ba7e146e7">clear</reimplements>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), store(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="59" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="228" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a3f99b7e738953ac3132b25f54b7ea5cc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cache::BoundedLRUCache::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::size</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_backend_1a710034ab39cd48a815d173b189c6eee8">size</reimplements>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="61" column="17" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="368" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1aa4854929b70eaf5fbedd864496c36ca7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::BoundedLRUCache::evictLRUIfNeeded</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRUIfNeeded</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::evictLRUIfNeeded</qualifiedname>
+        <briefdescription>
+<para>Evict LRUIf Needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), <ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a3f99b7e738953ac3132b25f54b7ea5cc" kindref="member">size()</ref>, removeLRU(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="67" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="197" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a93a6b8f989b305046d7969b43d182b8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>BoundedLRUCache::Statistics themis::cache::BoundedLRUCache::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="87" column="16" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="208" bodyend="222"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1afee11419322b8458ee978625babb5724" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::BoundedLRUCache::moveToFront</definition>
+        <argsstring>(std::shared_ptr&lt; Node &gt; node)</argsstring>
+        <name>moveToFront</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::moveToFront</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Node &gt;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Move To Front. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements moveToFront without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="107" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="243" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1adc95fcb6cbe8c2a6a497dd53f7be29fd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::BoundedLRUCache::removeNode</definition>
+        <argsstring>(std::shared_ptr&lt; Node &gt; node)</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::removeNode</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Node &gt;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Remove Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements removeNode without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="113" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="281" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ae9b334e958e021ae491a9923209cfd38" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::BoundedLRUCache::addToFront</definition>
+        <argsstring>(std::shared_ptr&lt; Node &gt; node)</argsstring>
+        <name>addToFront</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::addToFront</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Node &gt;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Add To Front. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addToFront without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="119" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="306" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a9388d3646dba104ca648f0a0a788ba3d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::BoundedLRUCache::removeLRU</definition>
+        <argsstring>()</argsstring>
+        <name>removeLRU</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::removeLRU</qualifiedname>
+        <briefdescription>
+<para>Remove LRU. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="124" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="327" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a42a622c9760eb929323779e6f077967e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::BoundedLRUCache::isExpired</definition>
+        <argsstring>(const CacheEntry &amp;entry) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::cache::BoundedLRUCache::isExpired</qualifiedname>
+        <param>
+          <type>const CacheEntry &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Is Expired. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/bounded_lru_cache.h" line="131" column="10" bodyfile="src/cache/bounded_lru_cache.cpp" bodystart="347" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::cache::BoundedLRUCache</label>
+        <link refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheBackend&lt; std::string, nlohmann::json &gt;</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_backend"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::cache::BoundedLRUCache</label>
+        <link refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheBackend&lt; std::string, nlohmann::json &gt;</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/cache/bounded_lru_cache.h" line="30" column="1" bodyfile="include/cache/bounded_lru_cache.h" bodystart="30" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ae9b334e958e021ae491a9923209cfd38" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>addToFront</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1add04a6fecd3a857c178524fded6044ce" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>BoundedLRUCache</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ad5df3e467a39de8c8a160669348cf50e" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a1c40e1bd07896dd0fc0f7e820069e201" prot="public" virt="virtual"><scope>themis::cache::BoundedLRUCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1aae0267bdc8e75f970dd447eb360af370" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a56feb08d270cda8e60fd37234b3d70e9" prot="public" virt="virtual"><scope>themis::cache::BoundedLRUCache</scope><name>contains</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1aa4854929b70eaf5fbedd864496c36ca7" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>evictLRUIfNeeded</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a562d7d0441d302fb44b40c7a39143c1b" prot="public" virt="virtual"><scope>themis::cache::BoundedLRUCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a93a6b8f989b305046d7969b43d182b8b" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1af01d17b48f38569b3a4fea0e2295964a" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>head_</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a207010a5638f434285c8e535ff0f0e05" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>hits_</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a42a622c9760eb929323779e6f077967e" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a495945bf6c5f5e34c482cee61d93c187" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>misses_</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1afee11419322b8458ee978625babb5724" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>moveToFront</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ab307fa77a7702317664709be6260949e" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a554bb52074b9332ad1d97cb1c5edc8ff" prot="public" virt="virtual"><scope>themis::cache::BoundedLRUCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ae534205b1a981f9f8d0c7c1aa8919437" prot="public" virt="virtual"><scope>themis::cache::BoundedLRUCache</scope><name>remove</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a9388d3646dba104ca648f0a0a788ba3d" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>removeLRU</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1adc95fcb6cbe8c2a6a497dd53f7be29fd" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>removeNode</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1a3f99b7e738953ac3132b25f54b7ea5cc" prot="public" virt="virtual"><scope>themis::cache::BoundedLRUCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1aaf543241bb5640006bdc16c00a61e986" prot="private" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>tail_</name></member>
+      <member refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache_1ae407c3e3010f90931e509e966a7417e2" prot="public" virt="non-virtual"><scope>themis::cache::BoundedLRUCache</scope><name>~BoundedLRUCache</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_backend_1a57aad9805255276152e57cbe1316433f" prot="public" virt="virtual"><scope>themis::cache::BoundedLRUCache</scope><name>~ICacheBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

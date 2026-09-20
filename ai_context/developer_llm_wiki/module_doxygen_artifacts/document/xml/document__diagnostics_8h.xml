@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="document__diagnostics_8h" kind="file" language="C++">
+    <compoundname>document_diagnostics.h</compoundname>
+    <includes local="yes">utils/error_registry.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">ostream</includes>
+    <includes local="no">sstream</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="test__document__conflict__diagnostics__focused_8cpp" local="yes">tests/document/test_document_conflict_diagnostics_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/document/document_diagnostics.h</label>
+        <link refid="document__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>ostream</label>
+      </node>
+      <node id="7">
+        <label>sstream</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="2">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="3">
+        <label>utils/expected.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/document/document_diagnostics.h</label>
+        <link refid="document__diagnostics_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/document/test_document_conflict_diagnostics_focused.cpp</label>
+        <link refid="test__document__conflict__diagnostics__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structstd_1_1hash_3_01themis_1_1document_1_1_document_error_class_01_4" prot="public">std::hash&lt; themis::document::DocumentErrorClass &gt;</innerclass>
+    <innerclass refid="classthemis_1_1document_1_1_document_diagnostic_sink" prot="public">themis::document::DocumentDiagnosticSink</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1document">themis::document</innernamespace>
+    <innernamespace refid="namespacestd">std</innernamespace>
+    <briefdescription>
+<para>Unified document module error taxonomy, classification utilities, and diagnostic sink for store/schema/merge/lifecycle/exchange failure paths. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready</para>
+</simplesect>
+This header provides a complete Phase 2 diagnostics taxonomy for the ThemisDB document module. It covers all 20 ERR_DOC_* error codes (9400–9419), organises them into eight semantic failure classes, and exposes utilities that allow callers to classify, describe, and format document errors uniformly.</para>
+<para>In addition, DocumentDiagnosticSink provides a lightweight, thread-safe observer that can be embedded in manager or store implementations to collect per-class error counts at runtime without allocation on the hot path.</para>
+<para><heading level="3">Coverage map</heading>
+</para>
+<para><table rows="9" cols="2"><row>
+<entry thead="yes"><para>Code range  </para>
+</entry><entry thead="yes"><para>Class  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>9400, 9401, 9402, 9408, 9409, 9416  </para>
+</entry><entry thead="no"><para>STORE_FAILURE  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>9403, 9404, 9405, 9412, 9418  </para>
+</entry><entry thead="no"><para>SCHEMA_VIOLATION  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>9407, 9419  </para>
+</entry><entry thead="no"><para>MERGE_CONFLICT  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>9417  </para>
+</entry><entry thead="no"><para>LIFECYCLE_ERROR  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>9413, 9414  </para>
+</entry><entry thead="no"><para>ROUND_TRIP_ERROR  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>9406, 9415  </para>
+</entry><entry thead="no"><para>EXCHANGE_ERROR  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>9410, 9411  </para>
+</entry><entry thead="no"><para>INVALID_INPUT  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>all others  </para>
+</entry><entry thead="no"><para>UNKNOWN  </para>
+</entry></row>
+</table>
+</para>
+<para>SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/error_registry.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-declare<sp/>DocumentErrorClass<sp/>before<sp/>its<sp/>std::hash<sp/>specialisation<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>that<sp/>the<sp/>unordered_map<sp/>inside<sp/>DocumentDiagnosticSink<sp/>compiles<sp/>cleanly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document" kindref="compound">document</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae65c584a1c1cce23636bc5e415560368" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae65c584a1c1cce23636bc5e415560368" kindref="member">STORE_FAILURE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a13b2d7efee18e49c8d2a9f364c289c36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a13b2d7efee18e49c8d2a9f364c289c36" kindref="member">SCHEMA_VIOLATION</ref>,<sp/></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a17763dd8b1599489badf616d0a38518a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a17763dd8b1599489badf616d0a38518a" kindref="member">MERGE_CONFLICT</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae8b36bb9c26e3401b23229252bc87768" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae8b36bb9c26e3401b23229252bc87768" kindref="member">LIFECYCLE_ERROR</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a0ec0e0af5e5e2c40aa5531fc3e936178" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a0ec0e0af5e5e2c40aa5531fc3e936178" kindref="member">ROUND_TRIP_ERROR</ref>,<sp/></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ab2526a31f19f4f88f1aaf92df2f3d006" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ab2526a31f19f4f88f1aaf92df2f3d006" kindref="member">EXCHANGE_ERROR</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ac063281d4adc16ebccfec66aa885b4dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ac063281d4adc16ebccfec66aa885b4dd" kindref="member">INVALID_INPUT</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>std::hash<sp/>specialisation<sp/>–<sp/>must<sp/>appear<sp/>before<sp/>DocumentDiagnosticSink<sp/>so<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>the<sp/>compiler<sp/>can<sp/>locate<sp/>it<sp/>when<sp/>instantiating</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>std::unordered_map&lt;DocumentErrorClass,<sp/>std::size_t&gt;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="namespacestd" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;&gt;</highlight></codeline>
+<codeline lineno="76" refid="structstd_1_1hash_3_01themis_1_1document_1_1_document_error_class_01_4" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">hash&lt;<ref refid="namespacethemis" kindref="compound">themis</ref>::document::DocumentErrorClass&gt;<sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structstd_1_1hash_3_01themis_1_1document_1_1_document_error_class_01_4_1a60348ebe98d06342b8607c0f024be409" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="structstd_1_1hash_3_01themis_1_1document_1_1_document_error_class_01_4_1a60348ebe98d06342b8607c0f024be409" kindref="member">operator()</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">themis::document::DocumentErrorClass</ref><sp/>cls)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::hash&lt;int&gt;{}(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(cls));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>std</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Remaining<sp/>document_diagnostics<sp/>API<sp/>lives<sp/>in<sp/>themis::document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1document" kindref="compound">document</ref><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>classifyDocumentError</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1document_1a3368a041f18baa0ecc3d3f5028a6987f" refkind="member"><highlight class="normal"><ref refid="namespacethemis_1_1document_1a3368a041f18baa0ecc3d3f5028a6987f" kindref="member">classifyDocumentError</ref>(errors::ErrorCode<sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(code)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>STORE_FAILURE<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_NOT_FOUND:</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_ALREADY_EXISTS:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_INVALID_ID:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_ACCESS_DENIED:</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_COLLECTION_NOT_FOUND:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_STORE_UNAVAILABLE:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae65c584a1c1cce23636bc5e415560368" kindref="member">DocumentErrorClass::STORE_FAILURE</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>SCHEMA_VIOLATION<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SCHEMA_SEALED:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SCHEMA_VERSION_NOT_FOUND:</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SCHEMA_VERSION_EXISTS:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SCHEMA_TRANSITION_INVALID:</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_VALIDATION_ABORTED:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a13b2d7efee18e49c8d2a9f364c289c36" kindref="member">DocumentErrorClass::SCHEMA_VIOLATION</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>MERGE_CONFLICT<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_MERGE_CONFLICT:</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_VERSION_CONFLICT:</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a17763dd8b1599489badf616d0a38518a" kindref="member">DocumentErrorClass::MERGE_CONFLICT</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>LIFECYCLE_ERROR<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_LIFECYCLE_HOOK_FAILED:</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae8b36bb9c26e3401b23229252bc87768" kindref="member">DocumentErrorClass::LIFECYCLE_ERROR</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>ROUND_TRIP_ERROR<sp/>───────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SNAPSHOT_COLLISION:</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_ROUND_TRIP_PERSIST_FAIL:</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a0ec0e0af5e5e2c40aa5531fc3e936178" kindref="member">DocumentErrorClass::ROUND_TRIP_ERROR</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>EXCHANGE_ERROR<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_DIFF_NOT_FOUND:</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_EXCHANGE_BOUNDARY_VIOLATED:</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ab2526a31f19f4f88f1aaf92df2f3d006" kindref="member">DocumentErrorClass::EXCHANGE_ERROR</ref>;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>INVALID_INPUT<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_ENCRYPT_FAILED:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ac063281d4adc16ebccfec66aa885b4dd" kindref="member">DocumentErrorClass::INVALID_INPUT</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>UNKNOWN<sp/>(non-document<sp/>or<sp/>unrecognised<sp/>codes)<sp/>───────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">DocumentErrorClass::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>documentErrorClassName</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string_view</highlight></codeline>
+<codeline lineno="152" refid="namespacethemis_1_1document_1a2284036c6db2425a222228dfcb93d794" refkind="member"><highlight class="normal"><ref refid="namespacethemis_1_1document_1a2284036c6db2425a222228dfcb93d794" kindref="member">documentErrorClassName</ref>(<ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref><sp/>cls)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(cls)<sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae65c584a1c1cce23636bc5e415560368" kindref="member">DocumentErrorClass::STORE_FAILURE</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;STORE_FAILURE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a13b2d7efee18e49c8d2a9f364c289c36" kindref="member">DocumentErrorClass::SCHEMA_VIOLATION</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;SCHEMA_VIOLATION&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a17763dd8b1599489badf616d0a38518a" kindref="member">DocumentErrorClass::MERGE_CONFLICT</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MERGE_CONFLICT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ae8b36bb9c26e3401b23229252bc87768" kindref="member">DocumentErrorClass::LIFECYCLE_ERROR</ref>:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;LIFECYCLE_ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7a0ec0e0af5e5e2c40aa5531fc3e936178" kindref="member">DocumentErrorClass::ROUND_TRIP_ERROR</ref>:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ROUND_TRIP_ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ab2526a31f19f4f88f1aaf92df2f3d006" kindref="member">DocumentErrorClass::EXCHANGE_ERROR</ref>:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;EXCHANGE_ERROR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7ac063281d4adc16ebccfec66aa885b4dd" kindref="member">DocumentErrorClass::INVALID_INPUT</ref>:<sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;INVALID_INPUT&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;UNKNOWN&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>documentErrorDescription</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string_view</highlight></codeline>
+<codeline lineno="171" refid="namespacethemis_1_1document_1a35fe1901e4724d2c5d4c054fa510b878" refkind="member"><highlight class="normal"><ref refid="namespacethemis_1_1document_1a35fe1901e4724d2c5d4c054fa510b878" kindref="member">documentErrorDescription</ref>(errors::ErrorCode<sp/>code)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(code)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_NOT_FOUND:</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;document<sp/>not<sp/>found<sp/>in<sp/>the<sp/>store&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_ALREADY_EXISTS:</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;document<sp/>with<sp/>the<sp/>same<sp/>ID<sp/>already<sp/>exists&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_INVALID_ID:</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;document<sp/>ID<sp/>is<sp/>empty<sp/>or<sp/>malformed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SCHEMA_SEALED:</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;schema<sp/>registry<sp/>is<sp/>sealed;<sp/>cannot<sp/>register<sp/>new<sp/>versions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SCHEMA_VERSION_NOT_FOUND:</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;requested<sp/>schema<sp/>version<sp/>does<sp/>not<sp/>exist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SCHEMA_VERSION_EXISTS:</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;schema<sp/>version<sp/>already<sp/>registered&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_DIFF_NOT_FOUND:</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;one<sp/>or<sp/>both<sp/>documents<sp/>for<sp/>diff/merge<sp/>not<sp/>found&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_MERGE_CONFLICT:</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;three-way<sp/>merge<sp/>produced<sp/>unresolvable<sp/>conflicts&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_ACCESS_DENIED:</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;collection<sp/>ACL<sp/>denied<sp/>the<sp/>requested<sp/>operation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_COLLECTION_NOT_FOUND:</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;collection<sp/>does<sp/>not<sp/>exist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_ENCRYPT_FAILED:</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;encrypted<sp/>entity<sp/>operation<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_INVALID_ARGUMENT:</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;a<sp/>required<sp/>argument<sp/>is<sp/>invalid<sp/>or<sp/>missing&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SCHEMA_TRANSITION_INVALID:</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;schema<sp/>version<sp/>transition<sp/>violates<sp/>ordering<sp/>or<sp/>compatibility<sp/>rules&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_SNAPSHOT_COLLISION:</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;round-trip<sp/>snapshot<sp/>ID<sp/>already<sp/>exists<sp/>(relay/index<sp/>collision)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_ROUND_TRIP_PERSIST_FAIL:</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;round-trip<sp/>persistence<sp/>failed<sp/>at<sp/>store<sp/>level&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_EXCHANGE_BOUNDARY_VIOLATED:</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;XDOMEA/exchange<sp/>boundary<sp/>enforcement<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_STORE_UNAVAILABLE:</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;backing<sp/>document<sp/>store<sp/>is<sp/>unavailable<sp/>or<sp/>unresponsive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_LIFECYCLE_HOOK_FAILED:</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;lifecycle<sp/>hook<sp/>signaled<sp/>a<sp/>terminal<sp/>failure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_VALIDATION_ABORTED:</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;schema<sp/>validation<sp/>aborted<sp/>due<sp/>to<sp/>structural<sp/>document<sp/>error<sp/>(non-object<sp/>body)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>errors::ErrorCode::ERR_DOC_VERSION_CONFLICT:</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;concurrent<sp/>version<sp/>update<sp/>conflict<sp/>detected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;unknown<sp/>document<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>operator&lt;&lt;<sp/>for<sp/>DocumentErrorClass</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="namespacethemis_1_1document_1ab71b895d39e3eecbe09ab639cbba57dd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::ostream&amp;<sp/><ref refid="namespacethemis_1_1document_1ab71b895d39e3eecbe09ab639cbba57dd" kindref="member">operator&lt;&lt;</ref>(std::ostream&amp;<sp/>os,<sp/><ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref><sp/>cls)</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>os<sp/>&lt;&lt;<sp/><ref refid="namespacethemis_1_1document_1a2284036c6db2425a222228dfcb93d794" kindref="member">documentErrorClassName</ref>(cls);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/>formatDocumentError</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="namespacethemis_1_1document_1a8780db39a809d8b94134ae31470d482d" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1document_1a8780db39a809d8b94134ae31470d482d" kindref="member">formatDocumentError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themis::Error&amp;<sp/>err)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>err.code();</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cls<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1document_1a3368a041f18baa0ecc3d3f5028a6987f" kindref="member">classifyDocumentError</ref>(code);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>desc<sp/>=<sp/><ref refid="namespacethemis_1_1document_1a35fe1901e4724d2c5d4c054fa510b878" kindref="member">documentErrorDescription</ref>(code);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ctx<sp/>=<sp/>err.context();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;[DOC:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code)</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;/&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/><ref refid="namespacethemis_1_1document_1a2284036c6db2425a222228dfcb93d794" kindref="member">documentErrorClassName</ref>(cls)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;]<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>desc;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ctx.empty())<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ctx;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DocumentDiagnosticSink</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1document_1_1_document_diagnostic_sink" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref><sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a0c04b4b0d4b00f89b8ac061ecfc8dd42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a0c04b4b0d4b00f89b8ac061ecfc8dd42" kindref="member">DocumentDiagnosticSink</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="258" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a7924e874949b9e43147e5f6204feae96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref>&amp;<sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a7924e874949b9e43147e5f6204feae96" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a8ae7cd23e577aaad02a1feffc7d43cb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a8ae7cd23e577aaad02a1feffc7d43cb4" kindref="member">DocumentDiagnosticSink</ref>(<ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="261" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a2191a150d88341b41b550429e2f6c3b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1ac29de8f83dcebbd6f4d8cb83e2ec9225" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a5362b365680567ae0c5c02d846660b71" kindref="member">DocumentDiagnosticSink</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Mutating<sp/>operations<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1ab3cc670bfacb9f58bbeb7d1814ca1ffc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1ab3cc670bfacb9f58bbeb7d1814ca1ffc" kindref="member">record</ref>(errors::ErrorCode<sp/>code,</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/><ref refid="namespacestd" kindref="compound">std</ref>::string_view<sp/>context)<sp/>noexcept</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cls<sp/>=<sp/><ref refid="namespacethemis_1_1document_1a3368a041f18baa0ecc3d3f5028a6987f" kindref="member">classifyDocumentError</ref>(code);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mu_);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++counts_[cls];</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++total_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Read-only<sp/>accessors<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1aafe145fdaaa0be75c052b477c32e7b65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1aafe145fdaaa0be75c052b477c32e7b65" kindref="member">count</ref>(<ref refid="namespacethemis_1_1document_1ab5870308723f7d40916f8315f8cfd3f7" kindref="member">DocumentErrorClass</ref><sp/>cls)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mu_);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>counts_.find(cls);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>counts_.end())<sp/>?<sp/>it-&gt;second<sp/>:<sp/>std::size_t{0};</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a59f57c5cb8a4002e7901d9bf72a8d666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::size_t<sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a59f57c5cb8a4002e7901d9bf72a8d666" kindref="member">totalCount</ref>()<sp/>const<sp/>noexcept</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mu_);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306" refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a0e79a19f1a33e3e97c375529d56529c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1document_1_1_document_diagnostic_sink_1a0e79a19f1a33e3e97c375529d56529c8" kindref="member">clear</ref>()<sp/>noexcept</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lock(mu_);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>counts_.clear();</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mu_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;DocumentErrorClass,<sp/>std::size_t&gt;<sp/>counts_;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>total_{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>document</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/document/document_diagnostics.h"/>
+  </compounddef>
+</doxygen>

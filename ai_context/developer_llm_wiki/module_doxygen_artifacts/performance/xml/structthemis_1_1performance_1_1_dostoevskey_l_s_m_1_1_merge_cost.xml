@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::DostoevskeyLSM::MergeCost</compoundname>
+    <includes refid="dostoevsky_8h" local="no">dostoevsky.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1aa69a844dcf23c8ad9fa3e773cf4589e9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::DostoevskeyLSM::MergeCost::read_amplification</definition>
+        <argsstring></argsstring>
+        <name>read_amplification</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::MergeCost::read_amplification</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="91" column="16" bodyfile="include/performance/dostoevsky.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1a4efb1e9137d2911e4e4943f6f9e21d4a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::DostoevskeyLSM::MergeCost::write_amplification</definition>
+        <argsstring></argsstring>
+        <name>write_amplification</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::MergeCost::write_amplification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="92" column="16" bodyfile="include/performance/dostoevsky.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1a7bcc94633a06e9e65c6d74e6913cf0d6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::DostoevskeyLSM::MergeCost::space_amplification</definition>
+        <argsstring></argsstring>
+        <name>space_amplification</name>
+        <qualifiedname>themis::performance::DostoevskeyLSM::MergeCost::space_amplification</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/dostoevsky.h" line="93" column="16" bodyfile="include/performance/dostoevsky.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/dostoevsky.h" line="90" column="5" bodyfile="include/performance/dostoevsky.h" bodystart="90" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1aa69a844dcf23c8ad9fa3e773cf4589e9" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM::MergeCost</scope><name>read_amplification</name></member>
+      <member refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1a7bcc94633a06e9e65c6d74e6913cf0d6" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM::MergeCost</scope><name>space_amplification</name></member>
+      <member refid="structthemis_1_1performance_1_1_dostoevskey_l_s_m_1_1_merge_cost_1a4efb1e9137d2911e4e4943f6f9e21d4a" prot="public" virt="non-virtual"><scope>themis::performance::DostoevskeyLSM::MergeCost</scope><name>write_amplification</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

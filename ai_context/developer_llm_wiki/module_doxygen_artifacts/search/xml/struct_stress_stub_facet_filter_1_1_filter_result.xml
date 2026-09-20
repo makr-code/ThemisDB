@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_stress_stub_facet_filter_1_1_filter_result" kind="struct" language="C++" prot="public">
+    <compoundname>StressStubFacetFilter::FilterResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_stress_stub_facet_filter_1_1_filter_result_1a528eb60e2dbd9e9f908aa8c3495ed6c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StressStubFacetFilter::FilterResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>StressStubFacetFilter::FilterResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="75" column="28" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_stress_stub_facet_filter_1_1_filter_result_1ad955c39ec7f05d71acb9ff657c124e08" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t StressStubFacetFilter::FilterResult::matched</definition>
+        <argsstring></argsstring>
+        <name>matched</name>
+        <qualifiedname>StressStubFacetFilter::FilterResult::matched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/search/test_search_highcardinality_stress.cpp" line="75" column="41" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/search/test_search_highcardinality_stress.cpp" line="75" column="5" bodyfile="tests/search/test_search_highcardinality_stress.cpp" bodystart="75" bodyend="75"/>
+    <listofallmembers>
+      <member refid="struct_stress_stub_facet_filter_1_1_filter_result_1ad955c39ec7f05d71acb9ff657c124e08" prot="public" virt="non-virtual"><scope>StressStubFacetFilter::FilterResult</scope><name>matched</name></member>
+      <member refid="struct_stress_stub_facet_filter_1_1_filter_result_1a528eb60e2dbd9e9f908aa8c3495ed6c9" prot="public" virt="non-virtual"><scope>StressStubFacetFilter::FilterResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

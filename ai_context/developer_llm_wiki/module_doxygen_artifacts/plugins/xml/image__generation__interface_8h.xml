@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="image__generation__interface_8h" kind="file" language="C++">
+    <compoundname>image_generation_interface.h</compoundname>
+    <includes refid="plugin__interface_8h" local="yes">plugins/plugin_interface.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/plugins/image_generation_interface.h</label>
+        <link refid="image__generation__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>plugins/plugin_interface.h</label>
+        <link refid="plugin__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>algorithm</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>cstdio</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>tuple</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1imggen_1_1_generated_image" prot="public">themis::imggen::GeneratedImage</innerclass>
+    <innerclass refid="structthemis_1_1imggen_1_1_s_d_generation_config" prot="public">themis::imggen::SDGenerationConfig</innerclass>
+    <innerclass refid="structthemis_1_1imggen_1_1_img2_img_config" prot="public">themis::imggen::Img2ImgConfig</innerclass>
+    <innerclass refid="classthemis_1_1imggen_1_1_i_image_generation_backend" prot="public">themis::imggen::IImageGenerationBackend</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1imggen">themis::imggen</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="image__generation__interface_8h_1a8651cefba365502260814599d8afa208" prot="public" static="no">
+        <name>THEMIS_IMGGEN_PLUGIN</name>
+        <param></param>
+        <initializer>extern &quot;C&quot; <ref refid="plugin__interface_8h_1aad7af0582bd588a6d9a88a5d38eceea8" kindref="member">THEMIS_PLUGIN_EXPORT</ref>                                                        \
+    <ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend" kindref="compound">themis::imggen::IImageGenerationBackend</ref>* themis_imggen_create();                   \
+extern &quot;C&quot; <ref refid="plugin__interface_8h_1aad7af0582bd588a6d9a88a5d38eceea8" kindref="member">THEMIS_PLUGIN_EXPORT</ref>                                                        \
+    void themis_imggen_destroy(<ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend" kindref="compound">themis::imggen::IImageGenerationBackend</ref>* p)</initializer>
+        <briefdescription>
+<para>Export macro for dynamic loading of image-generation plugins. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add this macro once in the .cpp file of your image-generation plugin. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_generation_interface.h" line="164" column="9" bodyfile="include/plugins/image_generation_interface.h" bodystart="164" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="plugin__interface_8h" kindref="compound">plugins/plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1imggen" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1imggen" kindref="compound">imggen</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1imggen_1_1_generated_image" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1imggen_1_1_generated_image_1a9c08860386c8b9c59022dd4dc1e01d8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1a9c08860386c8b9c59022dd4dc1e01d8e" kindref="member">png_data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encoded<sp/>PNG<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1imggen_1_1_generated_image_1aeddfaf437818e00151006f336ba60f21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1aeddfaf437818e00151006f336ba60f21" kindref="member">width</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1imggen_1_1_generated_image_1a6749d7c63406bec9dd976b0ad8b12c12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1a6749d7c63406bec9dd976b0ad8b12c12" kindref="member">height</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1imggen_1_1_generated_image_1a4aa44bd262b6511aa4c1d75a1091017d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1a4aa44bd262b6511aa4c1d75a1091017d" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1imggen_1_1_generated_image_1a72779a67f678a07e6fcdab3f42d2c702" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1a72779a67f678a07e6fcdab3f42d2c702" kindref="member">plugin_version</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1imggen_1_1_generated_image_1a16e9917a96e5542724716271eb587ef8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1a16e9917a96e5542724716271eb587ef8" kindref="member">sampler</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1imggen_1_1_generated_image_1a0e4b3ec542ba78f08265cf9b43ff2aa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1a0e4b3ec542ba78f08265cf9b43ff2aa6" kindref="member">seed_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1imggen_1_1_generated_image_1a564a8461c00636cf76b3f5dca1d1271e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1a564a8461c00636cf76b3f5dca1d1271e" kindref="member">generation_timestamp</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>epoch<sp/>milliseconds;<sp/>mandatory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1imggen_1_1_generated_image_1ac82b76df3c7ef72799cd116e0a0bd116" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1ac82b76df3c7ef72799cd116e0a0bd116" kindref="member">prompt_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FNV-1a<sp/>64-bit<sp/>hex<sp/>fingerprint<sp/>of<sp/>the<sp/>sanitised<sp/>prompt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1imggen_1_1_generated_image_1ac9476c7b88ac970a1db9e84ff9d5efa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1ac9476c7b88ac970a1db9e84ff9d5efa5" kindref="member">perceptual_hash</ref>;<sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>deterministic<sp/>perceptual<sp/>hash<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1imggen_1_1_generated_image_1ae22fc87082ac06b780b431da69e8d0ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1ae22fc87082ac06b780b431da69e8d0ba" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1imggen_1_1_generated_image_1aca152a4164d94d2e9cf9de8b6c651f6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_generated_image_1aca152a4164d94d2e9cf9de8b6c651f6b" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1imggen_1_1_s_d_generation_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config" kindref="compound">SDGenerationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aaf07c33f2549eef4b85eb8335ca8aa11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aaf07c33f2549eef4b85eb8335ca8aa11" kindref="member">width</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a5e3d3daf9595a1b3016696e8f2887933" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a5e3d3daf9595a1b3016696e8f2887933" kindref="member">height</ref><sp/>=<sp/>512;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a5526a89c587f7749ae576da31aa6cd1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a5526a89c587f7749ae576da31aa6cd1c" kindref="member">steps</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a896d083af6c97c72da9d084abdacfd49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a896d083af6c97c72da9d084abdacfd49" kindref="member">cfg_scale</ref><sp/>=<sp/>7.0f;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a6b95040b10c296bd4996e0f1344e47d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a6b95040b10c296bd4996e0f1344e47d3" kindref="member">sampler</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;euler_a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ae4c1c9d780187f744f70bcc51565cc51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ae4c1c9d780187f744f70bcc51565cc51" kindref="member">seed</ref><sp/>=<sp/>-1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-1<sp/>=<sp/>random</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aecd552028dd005be839de1b135be92be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aecd552028dd005be839de1b135be92be" kindref="member">negative_prompt</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aaba39eac5c5b198ed4ba66872e6a9861" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1aaba39eac5c5b198ed4ba66872e6a9861" kindref="member">control_image_rgb</ref>;<sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>ControlNet<sp/>conditioning<sp/>image<sp/>(RGB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a17ab9b57e67f2ac6c1c2883198e6508d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a17ab9b57e67f2ac6c1c2883198e6508d" kindref="member">control_width</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Control<sp/>image<sp/>width;<sp/>must<sp/>match<sp/>control_image_rgb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a00508cdef8f62e1891481b6c0d772333" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a00508cdef8f62e1891481b6c0d772333" kindref="member">control_height</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Control<sp/>image<sp/>height;<sp/>must<sp/>match<sp/>control_image_rgb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ac53c72a49bf40fdc5d97f0b09c3f2942" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ac53c72a49bf40fdc5d97f0b09c3f2942" kindref="member">control_model_path</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>ControlNet<sp/>model<sp/>path<sp/>for<sp/>this<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ac9d306cca42b02b41b13986e7c97bf6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1ac9d306cca42b02b41b13986e7c97bf6d" kindref="member">control_strength</ref><sp/>=<sp/>0.9f;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ControlNet<sp/>conditioning<sp/>strength<sp/>[0.0,<sp/>1.0]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a036c8bb5cb07f50d5317988501a7fdfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a036c8bb5cb07f50d5317988501a7fdfa" kindref="member">lora_adapter_path</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>LoRA<sp/>adapter<sp/>path<sp/>for<sp/>this<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a670a965570aa9b7b7a759d505ecabfa6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config_1a670a965570aa9b7b7a759d505ecabfa6" kindref="member">lora_scale</ref><sp/>=<sp/>1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LoRA<sp/>scale<sp/>multiplier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1imggen_1_1_img2_img_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1imggen_1_1_img2_img_config" kindref="compound">Img2ImgConfig</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config" kindref="compound">SDGenerationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1imggen_1_1_img2_img_config_1ad9fe9f95398df79d63877098c8740203" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1imggen_1_1_img2_img_config_1ad9fe9f95398df79d63877098c8740203" kindref="member">input_image_rgb</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Raw<sp/>RGB<sp/>byte<sp/>buffer<sp/>of<sp/>the<sp/>input<sp/>image</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1imggen_1_1_img2_img_config_1a51e122cd09b3c3b9ba6410c69c7d08a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_img2_img_config_1a51e122cd09b3c3b9ba6410c69c7d08a3" kindref="member">input_width</ref><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Width<sp/>of<sp/>the<sp/>input<sp/>image</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1imggen_1_1_img2_img_config_1ad87a10150653a8790e01d7d6a59a99df" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_img2_img_config_1ad87a10150653a8790e01d7d6a59a99df" kindref="member">input_height</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Height<sp/>of<sp/>the<sp/>input<sp/>image</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1imggen_1_1_img2_img_config_1ad182263aea21afb1afa7476f55ab3534" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1imggen_1_1_img2_img_config_1ad182263aea21afb1afa7476f55ab3534" kindref="member">strength</ref><sp/>=<sp/>0.75f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Denoising<sp/>strength<sp/>[0.0,<sp/>1.0];<sp/>1.0<sp/>=<sp/>fully<sp/>redraw</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1imggen_1_1_img2_img_config_1a7235a354b5764d39c48691fedc405c1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1imggen_1_1_img2_img_config_1a7235a354b5764d39c48691fedc405c1f" kindref="member">mask_rgb</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>binary<sp/>mask<sp/>(white<sp/>=<sp/>repaint);<sp/>empty<sp/>=<sp/>no<sp/>mask</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1imggen_1_1_i_image_generation_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend" kindref="compound">IImageGenerationBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ac36be31cbbf81854b09dcc3ebe7099e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ac36be31cbbf81854b09dcc3ebe7099e7" kindref="member">~IImageGenerationBackend</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1af598e14ba9439fd3b38e08e2028bf2a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1af598e14ba9439fd3b38e08e2028bf2a3" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ae62c1fc96ce4986f7abc99790940a89f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ae62c1fc96ce4986f7abc99790940a89f" kindref="member">isInitialized</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a9b36a35bbb8b3707880fa0b823129a18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref><sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a9b36a35bbb8b3707880fa0b823129a18" kindref="member">generate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config" kindref="compound">SDGenerationConfig</ref>&amp;<sp/>cfg)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a7a734097514b544cd01fdeec7db2936d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;GeneratedImage&gt;<sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a7a734097514b544cd01fdeec7db2936d" kindref="member">generateBatch</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>prompts,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_s_d_generation_config" kindref="compound">SDGenerationConfig</ref>&amp;<sp/>cfg)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;GeneratedImage&gt;<sp/>results<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.reserve(prompts.size());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>prompts)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.push_back(<ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a9b36a35bbb8b3707880fa0b823129a18" kindref="member">generate</ref>(p,<sp/>cfg));</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>results;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a7706cf58c55c53ddf1057afb8f145eca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_generated_image" kindref="compound">GeneratedImage</ref><sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a7706cf58c55c53ddf1057afb8f145eca" kindref="member">generateImg2Img</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1imggen_1_1_img2_img_config" kindref="compound">Img2ImgConfig</ref>&amp;<sp/>cfg)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a9b36a35bbb8b3707880fa0b823129a18" kindref="member">generate</ref>(prompt,<sp/>cfg);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a427b512f8659b0782956b5a54edb4e11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a427b512f8659b0782956b5a54edb4e11" kindref="member">isPromptAllowed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1aff3e56eb3e9fb98b2e47424f905126dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1aff3e56eb3e9fb98b2e47424f905126dd" kindref="member">getModelId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a63dc8f051c1330ca35388d65ef883782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1a63dc8f051c1330ca35388d65ef883782" kindref="member">getPluginVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ac63ef7b044914992d6e218b0ecb17c8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1imggen_1_1_i_image_generation_backend_1ac63ef7b044914992d6e218b0ecb17c8b" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>imggen</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="image__generation__interface_8h_1a8651cefba365502260814599d8afa208" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_IMGGEN_PLUGIN()<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="165"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>extern<sp/>&quot;C&quot;<sp/>THEMIS_PLUGIN_EXPORT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="166"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::imggen::IImageGenerationBackend*<sp/>themis_imggen_create();<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="167"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>extern<sp/>&quot;C&quot;<sp/>THEMIS_PLUGIN_EXPORT<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>\</highlight></codeline>
+<codeline lineno="168"><highlight class="preprocessor"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>void<sp/>themis_imggen_destroy(themis::imggen::IImageGenerationBackend*<sp/>p)</highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/image_generation_interface.h"/>
+  </compounddef>
+</doxygen>

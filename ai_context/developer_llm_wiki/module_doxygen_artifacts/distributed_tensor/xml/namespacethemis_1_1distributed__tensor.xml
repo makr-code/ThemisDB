@@ -1,0 +1,2754 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1distributed__tensor" kind="namespace" language="C++">
+    <compoundname>themis::distributed_tensor</compoundname>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_artifact_classifier" prot="public">themis::distributed_tensor::ArtifactClassifier</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_artifact_integrity" prot="public">themis::distributed_tensor::ArtifactIntegrity</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_artifact_invalidation_manager" prot="public">themis::distributed_tensor::ArtifactInvalidationManager</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_artifact_lifecycle_policy" prot="public">themis::distributed_tensor::ArtifactLifecyclePolicy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_artifact_manifest" prot="public">themis::distributed_tensor::ArtifactManifest</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_artifact_metadata" prot="public">themis::distributed_tensor::ArtifactMetadata</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_checkpoint" prot="public">themis::distributed_tensor::Checkpoint</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_cluster_node" prot="public">themis::distributed_tensor::ClusterNode</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_content_hash" prot="public">themis::distributed_tensor::ContentHash</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_crash_recovery_checkpoint" prot="public">themis::distributed_tensor::CrashRecoveryCheckpoint</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_default_distributed_tensor_planner" prot="public">themis::distributed_tensor::DefaultDistributedTensorPlanner</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_default_integrity_verification_engine" prot="public">themis::distributed_tensor::DefaultIntegrityVerificationEngine</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_default_recovery_manager" prot="public">themis::distributed_tensor::DefaultRecoveryManager</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_default_shard_placement_strategy" prot="public">themis::distributed_tensor::DefaultShardPlacementStrategy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_default_tensor_infrastructure_manager" prot="public">themis::distributed_tensor::DefaultTensorInfrastructureManager</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_delta_log_entry" prot="public">themis::distributed_tensor::DeltaLogEntry</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_delta_window" prot="public">themis::distributed_tensor::DeltaWindow</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_derived_tensor_artifact" prot="public">themis::distributed_tensor::DerivedTensorArtifact</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_distributed_lock" prot="public">themis::distributed_tensor::DistributedLock</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_distributed_lock_manager" prot="public">themis::distributed_tensor::DistributedLockManager</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_distributed_retrieval_plan" prot="public">themis::distributed_tensor::DistributedRetrievalPlan</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_distributed_tensor_planner" prot="public">themis::distributed_tensor::DistributedTensorPlanner</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_ephemeral_tensor_artifact" prot="public">themis::distributed_tensor::EphemeralTensorArtifact</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_error_recovery_handler" prot="public">themis::distributed_tensor::ErrorRecoveryHandler</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_error_recovery_info" prot="public">themis::distributed_tensor::ErrorRecoveryInfo</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_request" prot="public">themis::distributed_tensor::ExactFetchRequest</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_exact_fetch_result" prot="public">themis::distributed_tensor::ExactFetchResult</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_exact_graph_fallback_policy" prot="public">themis::distributed_tensor::ExactGraphFallbackPolicy</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint" prot="public">themis::distributed_tensor::FactorizationPlacementHint</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_fragment_load_request" prot="public">themis::distributed_tensor::FragmentLoadRequest</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_fragment_load_result" prot="public">themis::distributed_tensor::FragmentLoadResult</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_freshness_consensus_result" prot="public">themis::distributed_tensor::FreshnessConsensusResult</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_i_fragment_fetcher" prot="public">themis::distributed_tensor::IFragmentFetcher</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_integrity_receipt" prot="public">themis::distributed_tensor::IntegrityReceipt</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook" prot="public">themis::distributed_tensor::IntegrityRecoveryHook</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_engine" prot="public">themis::distributed_tensor::IntegrityVerificationEngine</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_integrity_verification_receipt" prot="public">themis::distributed_tensor::IntegrityVerificationReceipt</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_invalidation_reason_utils" prot="public">themis::distributed_tensor::InvalidationReasonUtils</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_i_shard_fetcher" prot="public">themis::distributed_tensor::IShardFetcher</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_i_tensor_training_worker" prot="public">themis::distributed_tensor::ITensorTrainingWorker</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_manifest_store" prot="public">themis::distributed_tensor::ManifestStore</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_merkle_proof" prot="public">themis::distributed_tensor::MerkleProof</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_merkle_proof_component" prot="public">themis::distributed_tensor::MerkleProofComponent</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_merkle_tree_node" prot="public">themis::distributed_tensor::MerkleTreeNode</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_mmap_loader" prot="public">themis::distributed_tensor::MmapLoader</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_mmap_region" prot="public">themis::distributed_tensor::MmapRegion</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_node_capacity" prot="public">themis::distributed_tensor::NodeCapacity</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_placement_plan" prot="public">themis::distributed_tensor::PlacementPlan</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_primary_tensor_artifact" prot="public">themis::distributed_tensor::PrimaryTensorArtifact</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook" prot="public">themis::distributed_tensor::ProvenanceVerificationHook</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_quantization_assessment" prot="public">themis::distributed_tensor::QuantizationAssessment</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_quantization_assessor" prot="public">themis::distributed_tensor::QuantizationAssessor</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_quantization_constraints" prot="public">themis::distributed_tensor::QuantizationConstraints</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_rebuild_state_utils" prot="public">themis::distributed_tensor::RebuildStateUtils</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_receipt_chain" prot="public">themis::distributed_tensor::ReceiptChain</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_reconstruction_instruction" prot="public">themis::distributed_tensor::ReconstructionInstruction</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_recovery_job" prot="public">themis::distributed_tensor::RecoveryJob</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_recovery_manager" prot="public">themis::distributed_tensor::RecoveryManager</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_recovery_plan" prot="public">themis::distributed_tensor::RecoveryPlan</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_routing_decision" prot="public">themis::distributed_tensor::RoutingDecision</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_routing_summary" prot="public">themis::distributed_tensor::RoutingSummary</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_shard_freshness_record" prot="public">themis::distributed_tensor::ShardFreshnessRecord</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_shard_placement" prot="public">themis::distributed_tensor::ShardPlacement</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_shard_placement_strategy" prot="public">themis::distributed_tensor::ShardPlacementStrategy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_shard_summary_coordinator" prot="public">themis::distributed_tensor::ShardSummaryCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_shard_summary_refresh_result" prot="public">themis::distributed_tensor::ShardSummaryRefreshResult</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_snapshot_based_update_worker" prot="public">themis::distributed_tensor::SnapshotBasedUpdateWorker</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_stale_artifact_detector" prot="public">themis::distributed_tensor::StaleArtifactDetector</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_stale_artifact_metrics" prot="public">themis::distributed_tensor::StaleArtifactMetrics</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_staleness_policy" prot="public">themis::distributed_tensor::StalenessPolicy</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_storage_strategy_assessor" prot="public">themis::distributed_tensor::StorageStrategyAssessor</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_storage_strategy_recommendation" prot="public">themis::distributed_tensor::StorageStrategyRecommendation</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_stripe_transport" prot="public">themis::distributed_tensor::StripeTransport</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_tensor_artifact" prot="public">themis::distributed_tensor::TensorArtifact</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_tensor_delta_log" prot="public">themis::distributed_tensor::TensorDeltaLog</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_dependency" prot="public">themis::distributed_tensor::TensorDependency</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_tensor_infrastructure_manager" prot="public">themis::distributed_tensor::TensorInfrastructureManager</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_retrieval_plan" prot="public">themis::distributed_tensor::TensorRetrievalPlan</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_shard_work_item" prot="public">themis::distributed_tensor::TensorShardWorkItem</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_tensor_training_coordinator" prot="public">themis::distributed_tensor::TensorTrainingCoordinator</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_result" prot="public">themis::distributed_tensor::TensorTrainingJobResult</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_tensor_training_job_spec" prot="public">themis::distributed_tensor::TensorTrainingJobSpec</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_update_metrics" prot="public">themis::distributed_tensor::UpdateMetrics</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_update_mode_utils" prot="public">themis::distributed_tensor::UpdateModeUtils</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_update_task" prot="public">themis::distributed_tensor::UpdateTask</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_verification_audit_trail" prot="public">themis::distributed_tensor::VerificationAuditTrail</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" prot="public">themis::distributed_tensor::VerificationReceipt</innerclass>
+    <innerclass refid="structthemis_1_1distributed__tensor_1_1_verification_result" prot="public">themis::distributed_tensor::VerificationResult</innerclass>
+    <innerclass refid="classthemis_1_1distributed__tensor_1_1_zero_copy_accessor" prot="public">themis::distributed_tensor::ZeroCopyAccessor</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8f" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RetrievalStrategy</name>
+        <qualifiedname>themis::distributed_tensor::RetrievalStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8fa307247881e360adb23b9b9d61b45740e" prot="public">
+          <name>SUMMARY_FIRST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8fac41e056424136b6e8c4e23dd6326efa1" prot="public">
+          <name>EXACT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8fa84f22947e52fefadf0f4475f4db9ef47" prot="public">
+          <name>APPROXIMATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8fa6a8a3c94520fb08ece01af05181f1545" prot="public">
+          <name>LAZY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4761712de85777b9ba08e83681a65d8faaa1b42b00b0251dbf8ad3de215c9e0d5" prot="public">
+          <name>CACHED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="31" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="31" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RetrievalLocation</name>
+        <qualifiedname>themis::distributed_tensor::RetrievalLocation</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809a5389b9d1fb12e0319b150464b6106b42" prot="public">
+          <name>LOCAL_CACHE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809ac3bc80b242a656f447eac19e6f51b60d" prot="public">
+          <name>HOT_TIER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809a9ae43e9f29e686667cf3c64e32ba4ae7" prot="public">
+          <name>WARM_TIER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809ad75b2f10a8ebb3b6b3f4566c5fcb9345" prot="public">
+          <name>COLD_TIER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aea70cef149cbc8830bbb2a0c910d3809ad417aec8c6eeaf8227dcdbae378fd2a9" prot="public">
+          <name>ANY_TIER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="41" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="41" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HashAlgorithm</name>
+        <qualifiedname>themis::distributed_tensor::HashAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27ab505df5aa812b4f320420b8a952f20e5" prot="public">
+          <name>SHA256</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27a021508d03d4b477e1a922f793599d69f" prot="public">
+          <name>BLAKE3</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27af5478d64c1261687e75c7df6077268c2" prot="public">
+          <name>BLAKE2B</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2bf3300f06f33f53f2754de4eec71a27a0bff498c6dfc387bd350ffee848cc864" prot="public">
+          <name>SHA3_256</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/integrity_verification.h" line="27" column="1" bodyfile="include/distributed_tensor/integrity_verification.h" bodystart="27" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52dd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RecoveryStrategy</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52ddaa7edf0e23b2e16cfe930efa1c009d66e" prot="public">
+          <name>REPLICATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52ddabbe9fdebce4b23afb1a57309d6b0cf81" prot="public">
+          <name>ERASURE_CODING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52dda86b2601b90ca575f9557442e6fdbf71b" prot="public">
+          <name>REBUILD_FROM_PARENT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52ddad532cdfbc008eea715abb5e97c74a07c" prot="public">
+          <name>FULL_RECONSTRUCTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52ddab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="26" column="1" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="26" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a827f47cd542baa0b1f2829bc59214190" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RecoveryFailureMode</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryFailureMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a827f47cd542baa0b1f2829bc59214190a97ff349fe9027477acb512b02db11c00" prot="public">
+          <name>TRANSIENT_UNAVAILABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a827f47cd542baa0b1f2829bc59214190af2e937cfc87bfeee72449c923a0d67ed" prot="public">
+          <name>PERMANENT_LOSS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a827f47cd542baa0b1f2829bc59214190a655f1c88b08b42e296dd33fe910b338e" prot="public">
+          <name>INSUFFICIENT_REDUNDANCY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a827f47cd542baa0b1f2829bc59214190afd7ff252215c3ea5e5e5b047b3ad9821" prot="public">
+          <name>RECOVERY_TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a827f47cd542baa0b1f2829bc59214190a7ee8dfba6a0498aa9d66827fe9426620" prot="public">
+          <name>RECOVERY_ERROR</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="38" column="1" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="38" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RecoveryJobStatus</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJobStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187a9df29ce7ca629ff1d47bca1149d9faae" prot="public">
+          <name>QUEUED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187a43491564ebcfd38568918efbd6e840fd" prot="public">
+          <name>RUNNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187ae11004255d265db1b1cd2d67a5cb6d54" prot="public">
+          <name>FAILED_RECOVERABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187a7b276222a051f507dca7cab9fd9990f8" prot="public">
+          <name>FAILED_UNRECOVERABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187a9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="50" column="1" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="50" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PlacementConstraint</name>
+        <qualifiedname>themis::distributed_tensor::PlacementConstraint</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a3a6ad65b0b0eec06e7abf8390a514981" prot="public">
+          <name>CROSS_ZONE_REPLICATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a4c968bf24ba0d8ae26df4e9ac5aaf5d3" prot="public">
+          <name>LOCAL_AFFINITY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834ae51f64a1de2cd495509509641388cd9f" prot="public">
+          <name>PROXIMITY_TO_COMPUTE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a72c7c2649580ed06678f3e5303a8f474" prot="public">
+          <name>ACCELERATOR_REQUIRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2fe16684805760d406eb969b0ec37834a35d15c524844d92c7e4bdf8d8a5756a5" prot="public">
+          <name>TIER_AWARE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="58" column="1" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="58" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ArtifactClass</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3a428429ba9ea83e4841036fb0508fd6dc" prot="public">
+          <name>PRIMARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3a787a73f9406d65d027b75097ceb833ac" prot="public">
+          <name>DERIVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3a39e1a59cea607af67bf1f6cbfd85adaa" prot="public">
+          <name>EPHEMERAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3a5a3a2a7eb1e7a2962968d28bfbeeb3dd" prot="public">
+          <name>SOURCE_OF_TRUTH</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3a787a73f9406d65d027b75097ceb833ac" prot="public">
+          <name>DERIVED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a833e6bd5500fdb46e25349f61c2417b3a39e1a59cea607af67bf1f6cbfd85adaa" prot="public">
+          <name>EPHEMERAL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="25" column="1" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="25" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ArtifactLifecycleStage</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactLifecycleStage</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397ab8a1431064f351dbef92871d02bab8cf" prot="public">
+          <name>STAGING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397a4d855a061b3066dc14a3b12ed26b5456" prot="public">
+          <name>STALE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397abdfbb6f2aa06fd5d4c2cc0072f960254" prot="public">
+          <name>RECOVERING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397af0d9e10417deacee308b91a46ddc1746" prot="public">
+          <name>DEPRECATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ab492cfc211f04c65d837586da2971397a63c2867fdcae0e8e8413d7ac21b69b59" prot="public">
+          <name>DELETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="33" column="1" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="33" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1abc4d812ededfab3ddf5289d9c16884c5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DurabilityLevel</name>
+        <qualifiedname>themis::distributed_tensor::DurabilityLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abc4d812ededfab3ddf5289d9c16884c5ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abc4d812ededfab3ddf5289d9c16884c5abeb10abc952221e5fad73bbae786958a" prot="public">
+          <name>SINGLE_COPY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abc4d812ededfab3ddf5289d9c16884c5a12f97b6f65fe09d962ed8326a18ac613" prot="public">
+          <name>REPLICATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abc4d812ededfab3ddf5289d9c16884c5a0d1642a1c8e675ca9413d1e5e62a28b2" prot="public">
+          <name>ERASURE_CODED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_artifact_classes.h" line="47" column="1" bodyfile="include/distributed_tensor/tensor_artifact_classes.h" bodystart="47" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>NodeStatus</name>
+        <qualifiedname>themis::distributed_tensor::NodeStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64daf068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da084f4ca2c0fe703e46514a144b4d6ead" prot="public">
+          <name>UNAVAILABLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da7ed929f45ba34eff59d81d74d4f80a58" prot="public">
+          <name>OFFLINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a2ff3d24a4f3e03990f94c6381377a64da696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="27" column="1" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="27" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HardwareCapability</name>
+        <qualifiedname>themis::distributed_tensor::HardwareCapability</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a9393911bc06bdfb0c3663d541246e15a" prot="public">
+          <name>CPU_ONLY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a14cd2d97733fb4f7a2a6c98d97c628ef" prot="public">
+          <name>NVIDIA_CUDA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a6c663ad0a747839a0b20d4a302c0f2bd" prot="public">
+          <name>AMD_HIP</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a091481c311139a3fbfa425f837801881" prot="public">
+          <name>GOOGLE_TPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56abc213e7b9081b7345daac6183d9cd024" prot="public">
+          <name>INTEL_HABANA</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ae05fd324932c251286f1b031c102cb56a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_infrastructure.h" line="39" column="1" bodyfile="include/distributed_tensor/tensor_infrastructure.h" bodystart="39" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fc" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>QuantizationLevel</name>
+        <qualifiedname>themis::distributed_tensor::QuantizationLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fca44ad4ef5a76e6aa6fb3e3fa079a54fda" prot="public">
+          <name>F32</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>32-bit IEEE 754 float (no quantization). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fca56d8353718e6fdc78b8d69078a2cdb94" prot="public">
+          <name>F16</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>16-bit IEEE 754 half-precision float. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fcaf656bbf613964dcf710b771b0918ab30" prot="public">
+          <name>BF16</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>16-bit Brain Float (truncated mantissa). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fcaee9d73311ff0658494edfff14c3ec1e3" prot="public">
+          <name>INT8</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>8-bit signed integer with affine scale+zero-point. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fca94635600f8a63640263a5ebc30d79a2a" prot="public">
+          <name>INT4</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>4-bit signed integer, nibble-packed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fca98ad0e8750ae10ad556ed7a62affb452" prot="public">
+          <name>BINARY</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>1-bit binary representation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="65" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="65" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>MmapError</name>
+        <qualifiedname>themis::distributed_tensor::MmapError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>No error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739acd54d99c8efb3c2db794197045f5b83c" prot="public">
+          <name>FILE_NOT_FOUND</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>The artifact file path does not exist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739a255df50c140519133f1489ab44a389d9" prot="public">
+          <name>PERMISSION_DENIED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Insufficient permissions to open or map the file. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739ad2ae4315904b03da885839226dff37c4" prot="public">
+          <name>FILE_TOO_LARGE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>File size exceeds the platform address-space limit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739a9331d448460051e4542eea64d74f49bd" prot="public">
+          <name>MAPPING_FAILED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para><computeroutput>mmap()</computeroutput>/<computeroutput>MapViewOfFile()</computeroutput> returned an error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739a74a149c7d3086a6f27b8924faf92fb38" prot="public">
+          <name>ALREADY_OPEN</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>A mapping is already open; close it first. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739a4123eab28c9b9c77d5d942c9695cee29" prot="public">
+          <name>NOT_OPEN</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>No mapping is currently open. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739a3cfc468f5825854d2661952214f89dc0" prot="public">
+          <name>UNSUPPORTED_PLATFORM</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>Current platform does not support mmap. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739a4b0d434f38237207d4c173aaf9540050" prot="public">
+          <name>LOCK_FAILED</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+<para><computeroutput>mlock()</computeroutput> failed (non-fatal; mapping still usable). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739a198489bd72edc2407c15917c5323cd93" prot="public">
+          <name>IO_ERROR</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+<para>Generic I/O error (check errno/GetLastError). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="161" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="161" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1aca9d4a839984f27bfb59da06ea694481" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>LoadMechanism</name>
+        <qualifiedname>themis::distributed_tensor::LoadMechanism</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca9d4a839984f27bfb59da06ea694481a95902dc9c7ec8429f003c25370819c8d" prot="public">
+          <name>MMAP_ZERO_COPY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca9d4a839984f27bfb59da06ea694481a2b0c2ab97defdfac36f558d9405fd59b" prot="public">
+          <name>MMAP_PREFAULT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca9d4a839984f27bfb59da06ea694481a8093d951220b76bbc27bb46280a423d9" prot="public">
+          <name>BUFFERED_READ</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca9d4a839984f27bfb59da06ea694481a4f8423cfe2aaaaf59ecc93ef2dd6a4a5" prot="public">
+          <name>DIRECT_IO</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="290" column="1" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="290" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>TrainingJobState</name>
+        <qualifiedname>themis::distributed_tensor::TrainingJobState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38a9df29ce7ca629ff1d47bca1149d9faae" prot="public">
+          <name>QUEUED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38a43491564ebcfd38568918efbd6e840fd" prot="public">
+          <name>RUNNING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ad0749aaba8b833466dfcbb0428e4f89c" prot="public">
+          <name>SUCCESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38ac0cc02c3b3d55abb7bfb49ddbb4866c8" prot="public">
+          <name>RETRY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a8c26ddc19713a825f00aa2dc0df6da38a9f935beb31030ad0d4d26126c0f39bf2" prot="public">
+          <name>CANCELLED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_training_coordinator.h" line="22" column="1" bodyfile="include/distributed_tensor/tensor_training_coordinator.h" bodystart="22" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a934694434e1f7c38b5409213f4cf094a" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ArtifactKind</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a934694434e1f7c38b5409213f4cf094aac0c947910cfb7c091a4f190643fa30ca" prot="public">
+          <name>ADVISORY_SUMMARY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a934694434e1f7c38b5409213f4cf094aa426466ca25acedb6d743c76cc7f1a184" prot="public">
+          <name>DELTA_LOG</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a934694434e1f7c38b5409213f4cf094aa87117ad095169c4146a2ea6329ea92b0" prot="public">
+          <name>SHARD_SUMMARY</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="56" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a54c834964a5f919db979890122ed5ba2" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ArtifactClass</name>
+        <qualifiedname>themis::distributed_tensor::ArtifactClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a54c834964a5f919db979890122ed5ba2a428429ba9ea83e4841036fb0508fd6dc" prot="public">
+          <name>PRIMARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a54c834964a5f919db979890122ed5ba2a787a73f9406d65d027b75097ceb833ac" prot="public">
+          <name>DERIVED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a54c834964a5f919db979890122ed5ba2a39e1a59cea607af67bf1f6cbfd85adaa" prot="public">
+          <name>EPHEMERAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a54c834964a5f919db979890122ed5ba2a5a3a2a7eb1e7a2962968d28bfbeeb3dd" prot="public">
+          <name>SOURCE_OF_TRUTH</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a54c834964a5f919db979890122ed5ba2a787a73f9406d65d027b75097ceb833ac" prot="public">
+          <name>DERIVED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a54c834964a5f919db979890122ed5ba2a39e1a59cea607af67bf1f6cbfd85adaa" prot="public">
+          <name>EPHEMERAL</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="66" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a0ebe13f5a65079e8ac40a47c322db0d9" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>TruthSemantic</name>
+        <qualifiedname>themis::distributed_tensor::TruthSemantic</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a0ebe13f5a65079e8ac40a47c322db0d9aee1cc4d691e95cb3606344c57343dd74" prot="public">
+          <name>ADVISORY_ONLY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a0ebe13f5a65079e8ac40a47c322db0d9a0fe2bab2a0a77b33c3a0bb0e7d79a00c" prot="public">
+          <name>GROUND_TRUTH</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="76" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>LifecycleState</name>
+        <qualifiedname>themis::distributed_tensor::LifecycleState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a2baa69eafc7204f3bd8648eba580c489" prot="public">
+          <name>READY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a4d855a061b3066dc14a3b12ed26b5456" prot="public">
+          <name>STALE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a2b4710604f043a2056edb0c8d2462e39" prot="public">
+          <name>INVALIDATED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1a509579b889462e42f8ff497733516749" prot="public">
+          <name>REBUILDING</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1af3b313410b5d33bc1458846e0b17f9f1ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="85" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="85" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995e" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>RebuildState</name>
+        <qualifiedname>themis::distributed_tensor::RebuildState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995ea491ca4a69e8dd441c32a551d1339552c" prot="public">
+          <name>PRISTINE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995ea558afe9f453959dd62b9e563451aa4f2" prot="public">
+          <name>PATCHED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995ea5880ede3852e941025fb168c977d35d0" prot="public">
+          <name>PARTIAL_REFITTED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aef69197fe9938d007b491d40ec49995ea54fa3ee06e705161c760abfe65769df6" prot="public">
+          <name>REBUILT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="98" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="98" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55f" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>UpdateMode</name>
+        <qualifiedname>themis::distributed_tensor::UpdateMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55fab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55fa63bc9a3997d66d835d9f3ec29451407d" prot="public">
+          <name>PATCH</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55fa4bf0cbdd5f69e2c5407d5093aafe56f9" prot="public">
+          <name>PARTIAL_REFIT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aed4e9fd1628700ec881982b13f40b55fac75592fa549dce0833e49b89944bf685" prot="public">
+          <name>REBUILD</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="109" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="109" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>InvalidationReason</name>
+        <qualifiedname>themis::distributed_tensor::InvalidationReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18ba696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18baf378dffaebd3e65168c2771db0d4effd" prot="public">
+          <name>INTEGRITY_CHECK_FAILED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18bab3cb5a62e39afc6be880a16f152a78bc" prot="public">
+          <name>STALENESS_EXCEEDED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18ba73b8097d176de6d65433a5d20c803b9b" prot="public">
+          <name>SOURCE_INVALIDATED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18bae53a408c01b8dbc39be51928fc7b261c" prot="public">
+          <name>SOURCE_LINEAGE_CORRUPTED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18ba169cb04bda558347b02294770e4b9e0c" prot="public">
+          <name>POLICY_VIOLATION</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18baf436b6d4588b7b891c8bbe0933b3e60d" prot="public">
+          <name>ADMIN_REQUESTED</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18baf71da8a6c905d1ee9298d5136f147b09" prot="public">
+          <name>SHARD_UNAVAILABLE</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="120" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CheckpointStatus</name>
+        <qualifiedname>themis::distributed_tensor::CheckpointStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6ae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a8c02547a8a3b02382bac3557bcb2280d" prot="public">
+          <name>NOT_FOUND</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a079c6dcd1b1ee137ecf0244d4f8bad01" prot="public">
+          <name>CORRUPTED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a198489bd72edc2407c15917c5323cd93" prot="public">
+          <name>IO_ERROR</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a94f58f39fbe930b311f80bb571faa31e" prot="public">
+          <name>VERSION_MISMATCH</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a41e55833795c7b587b2ca4530eb28609" prot="public">
+          <name>NO_SPACE</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a6d6fa140bb987a44102c8c4921aa16d6a9a10f345b0f755d461a8673a5e9ef6b4" prot="public">
+          <name>UNKNOWN_ERROR</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/crash_recovery_checkpoint.h" line="36" column="1" bodyfile="src/distributed_tensor/include/crash_recovery_checkpoint.h" bodystart="36" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8a" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>LockStatus</name>
+        <qualifiedname>themis::distributed_tensor::LockStatus</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aaaeff3f3f2731681b2ed6a27786a56203" prot="public">
+          <name>LOCKED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa3381d60e190ff0788f875d2f7770e794" prot="public">
+          <name>HOLDER_MISMATCH</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aafc9f43bae9ccdf57bec817d9c7c23f36" prot="public">
+          <name>NOT_HELD</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa38afd7ae34bd5e3e6fc170d8b09178a3" prot="public">
+          <name>EXPIRED</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa7ae7f2a13f0d5a18b0db91af9c5aef34" prot="public">
+          <name>STORAGE_ERROR</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a739e5948c1c988d8461ad215d4331e8aa9a10f345b0f755d461a8673a5e9ef6b4" prot="public">
+          <name>UNKNOWN_ERROR</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/distributed_lock_manager.h" line="36" column="1" bodyfile="src/distributed_tensor/include/distributed_lock_manager.h" bodystart="36" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674e" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>UpdateErrorCode</name>
+        <qualifiedname>themis::distributed_tensor::UpdateErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674eae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea1d293b8d0a57f8af3711aa9805067869" prot="public">
+          <name>PARTIAL_REFIT_FAILED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674eaf21fb1a72ae2af08deadeb070f9c011f" prot="public">
+          <name>RANK_CAP_BREACH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea60fbe864f53779e58555efc99fac571e" prot="public">
+          <name>RESIDUAL_BREACH</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674eac342f2ab390aa5dde1cd9cd6cf96f301" prot="public">
+          <name>LOCK_TIMEOUT</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea1fb0cb12f98f10c07244f839f0963930" prot="public">
+          <name>CHECKPOINT_CORRUPTED</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ead30e88cdb2897128035121f24a35125b" prot="public">
+          <name>UPDATE_TIMEOUT</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea8fff4889e5b07609008365698fba75b8" prot="public">
+          <name>PUBLISH_FAILED</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea85be689dd2a623e93d91d59bdd6e5a11" prot="public">
+          <name>WORKER_ERROR</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1ad957f85bd64a6028eb2fc7647ad6674ea9a10f345b0f755d461a8673a5e9ef6b4" prot="public">
+          <name>UNKNOWN_ERROR</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="30" column="1" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="30" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aa" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>RecoveryAction</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryAction</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaac0cc02c3b3d55abb7bfb49ddbb4866c8" prot="public">
+          <name>RETRY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaa3fd14ab89e42898035571ebbe83afb73" prot="public">
+          <name>FALLBACK_TO_REBUILD</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaaca750ccb333dd1ca9dcc27ad9997b99e" prot="public">
+          <name>MARK_STALE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaac7ba4bde5fe21a5ad38e8ddb71e2ae2a" prot="public">
+          <name>INVALIDATE</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaa9f049697059f4bf2d43d85d11e5453f5" prot="public">
+          <name>ESCALATE_TO_PRIORITY</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a08420ceb70a296bd2ebec3ad8f7657aaa5702f0a75b0d225300e4764ce2359c2c" prot="public">
+          <name>DEFER_UPDATE</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/error_recovery_handler.h" line="52" column="1" bodyfile="src/distributed_tensor/include/error_recovery_handler.h" bodystart="52" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a3efca40d40279e83a52d91a02a7929ba" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>VerificationState</name>
+        <qualifiedname>themis::distributed_tensor::VerificationState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a3efca40d40279e83a52d91a02a7929baa0dda3249de3efdf2a6a33708ec5aa1c3" prot="public">
+          <name>UNVERIFIED</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Initial state; integrity not yet checked. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a3efca40d40279e83a52d91a02a7929baa2778dde25400a8e3df508c90229d2657" prot="public">
+          <name>VERIFIED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Content hash verified; full artifact integrity confirmed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a3efca40d40279e83a52d91a02a7929baae57ac2b1f565b3ba9a77f24b506c19cb" prot="public">
+          <name>VERIFIED_FRAGMENTS</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Fragment-level Merkle proofs verified. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a3efca40d40279e83a52d91a02a7929baafad2f4d832184f8b063e736cac40012b" prot="public">
+          <name>CORRUPT</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Integrity check failed; artifact corrupted or tampered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a3efca40d40279e83a52d91a02a7929baa4d855a061b3066dc14a3b12ed26b5456" prot="public">
+          <name>STALE</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Content OK but provenance outdated (rebuild recommended). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="160" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="160" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44e" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>AccuracyMode</name>
+        <qualifiedname>themis::distributed_tensor::AccuracyMode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44ea040229420d76868f24fae4859aaf0939" prot="public">
+          <name>ADVISORY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1abd5015ec2c2901dae8cff30dbdd8f44eac41e056424136b6e8c4e23dd6326efa1" prot="public">
+          <name>EXACT</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/shard_summary_coordinator.h" line="134" column="1" bodyfile="src/distributed_tensor/include/shard_summary_coordinator.h" bodystart="134" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dc" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>UpdateWorkerState</name>
+        <qualifiedname>themis::distributed_tensor::UpdateWorkerState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcaa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dca2baa69eafc7204f3bd8648eba580c489" prot="public">
+          <name>READY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcae133e9a63fd4950f19c2180be4047ecc" prot="public">
+          <name>PROCESSING</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dcabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a1195be053da398cb8ca3a370487c61dca89e5325b1f9acbf5dde5c70b84bbdcb1" prot="public">
+          <name>SHUTTING_DOWN</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="63" column="1" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="63" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>UpdateDecision</name>
+        <qualifiedname>themis::distributed_tensor::UpdateDecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a63c719161482d82fb65d5bb9f77dc3a0" prot="public">
+          <name>NO_UPDATE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a63bc9a3997d66d835d9f3ec29451407d" prot="public">
+          <name>PATCH</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770a4bf0cbdd5f69e2c5407d5093aafe56f9" prot="public">
+          <name>PARTIAL_REFIT</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770ac75592fa549dce0833e49b89944bf685" prot="public">
+          <name>REBUILD</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1aca3a4f412fcb71ba766d2774c3c62770acf5f9ba4ad9763a9f8ab7ea89ab6eaf5" prot="public">
+          <name>ERROR_FALLBACK_TO_REBUILD</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/snapshot_update_worker.h" line="75" column="1" bodyfile="src/distributed_tensor/include/snapshot_update_worker.h" bodystart="75" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6ee" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>StalenessLevel</name>
+        <qualifiedname>themis::distributed_tensor::StalenessLevel</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaa56278fcd527ad6b4619050916ca2ca8" prot="public">
+          <name>FRESH</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eead2d36acfdff172f81da0de6dc3f84847" prot="public">
+          <name>SLIGHTLY_STALE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeaff3bc4e39416ed55db783c9275b228df" prot="public">
+          <name>MODERATELY_STALE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a699ef27ff600de9b8037ff6fa89fd6eeac636a56c172822db6cdebe6470583157" prot="public">
+          <name>CRITICALLY_STALE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/stale_artifact_detector.h" line="37" column="1" bodyfile="src/distributed_tensor/include/stale_artifact_detector.h" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>DeltaMutationType</name>
+        <qualifiedname>themis::distributed_tensor::DeltaMutationType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a61ee777e7f71dc466c3b2c685d8d313b" prot="public">
+          <name>INSERT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a15a8022d0ed9cd9c2a2e756822703eb4" prot="public">
+          <name>UPDATE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a32f68a60cef40faedbc6af20298c1a1e" prot="public">
+          <name>DELETE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6aa3c77b27a99fe4f442f19057f70adb76" prot="public">
+          <name>SHARD_CHANGE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1distributed__tensor_1a62b3ce336f074743ecedd96050b394e6a62479f7cc8892714d48719f67cc696ae" prot="public">
+          <name>METADATA_UPDATE</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="50" column="1" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="50" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::distributed_tensor::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::distributed_tensor::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/integrity_verification.h" line="41" column="1" bodyfile="src/distributed_tensor/include/integrity_verification.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1acc929172e5eec0af52a716ee01e204e7" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::distributed_tensor::bytesPerParam</definition>
+        <argsstring>(QuantizationLevel level) noexcept</argsstring>
+        <name>bytesPerParam</name>
+        <qualifiedname>themis::distributed_tensor::bytesPerParam</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fc" kindref="member">QuantizationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="74" column="20" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="74" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1aae6e42fd71e5907c042f7761dd9d07ba" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::packedBytesForParams</definition>
+        <argsstring>(uint64_t num_params, QuantizationLevel level) noexcept</argsstring>
+        <name>packedBytesForParams</name>
+        <qualifiedname>themis::distributed_tensor::packedBytesForParams</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>num_params</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fc" kindref="member">QuantizationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/tensor_storage_strategy.h" line="86" column="21" bodyfile="include/distributed_tensor/tensor_storage_strategy.h" bodystart="86" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a30e4fbf474385a7b5584fb72a1739360" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::distributed_tensor::mmapErrorMessage</definition>
+        <argsstring>(MmapError err) noexcept</argsstring>
+        <name>mmapErrorMessage</name>
+        <qualifiedname>themis::distributed_tensor::mmapErrorMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1af758624e81b186ccd110b1082f9d2739" kindref="member">MmapError</ref></type>
+          <declname>err</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/tensor_storage_strategy.cc" line="52" column="12" bodyfile="src/distributed_tensor/src/tensor_storage_strategy.cc" bodystart="52" bodyend="66" declfile="include/distributed_tensor/tensor_storage_strategy.h" declline="174" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a10c771582f555c8408ca3c57c961c50a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::get_iso8601_timestamp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_iso8601_timestamp</name>
+        <qualifiedname>themis::distributed_tensor::get_iso8601_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/artifact_manifest.cc" line="15" column="20" bodyfile="src/distributed_tensor/artifact_manifest.cc" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a5c8f7808c78dc4c6f3621a1473528f68" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::compute_simple_hash</definition>
+        <argsstring>(const std::string &amp;input) noexcept</argsstring>
+        <name>compute_simple_hash</name>
+        <qualifiedname>themis::distributed_tensor::compute_simple_hash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/artifact_manifest.cc" line="25" column="20" bodyfile="src/distributed_tensor/artifact_manifest.cc" bodystart="25" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a10c771582f555c8408ca3c57c961c50a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::get_iso8601_timestamp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_iso8601_timestamp</name>
+        <qualifiedname>themis::distributed_tensor::get_iso8601_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/integrity_verification.cc" line="15" column="20" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1aafb9dbf2123bab4b1edfc27425d3b53a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::simple_sha256_hash</definition>
+        <argsstring>(const std::string &amp;input) noexcept</argsstring>
+        <name>simple_sha256_hash</name>
+        <qualifiedname>themis::distributed_tensor::simple_sha256_hash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/integrity_verification.cc" line="25" column="20" bodyfile="src/distributed_tensor/integrity_verification.cc" bodystart="25" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a10c771582f555c8408ca3c57c961c50a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::get_iso8601_timestamp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_iso8601_timestamp</name>
+        <qualifiedname>themis::distributed_tensor::get_iso8601_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/recovery_manager.cc" line="16" column="20" bodyfile="src/distributed_tensor/recovery_manager.cc" bodystart="16" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1aa3b2f47654ddf08de1cf849459e78f3f" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::generate_job_id</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>generate_job_id</name>
+        <qualifiedname>themis::distributed_tensor::generate_job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/recovery_manager.cc" line="25" column="20" bodyfile="src/distributed_tensor/recovery_manager.cc" bodystart="25" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a10c771582f555c8408ca3c57c961c50a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::get_iso8601_timestamp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_iso8601_timestamp</name>
+        <qualifiedname>themis::distributed_tensor::get_iso8601_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/shard_placement.cc" line="16" column="20" bodyfile="src/distributed_tensor/shard_placement.cc" bodystart="16" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a10c771582f555c8408ca3c57c961c50a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::get_iso8601_timestamp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_iso8601_timestamp</name>
+        <qualifiedname>themis::distributed_tensor::get_iso8601_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/tensor_artifact_classes.cc" line="14" column="20" bodyfile="src/distributed_tensor/tensor_artifact_classes.cc" bodystart="14" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a10c771582f555c8408ca3c57c961c50a" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::get_iso8601_timestamp</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>get_iso8601_timestamp</name>
+        <qualifiedname>themis::distributed_tensor::get_iso8601_timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/tensor_infrastructure.cc" line="15" column="20" bodyfile="src/distributed_tensor/tensor_infrastructure.cc" bodystart="15" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a41b00e6b2b0b573c1b3b43f0191202a8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::verificationStateToString</definition>
+        <argsstring>(VerificationState state)</argsstring>
+        <name>verificationStateToString</name>
+        <qualifiedname>themis::distributed_tensor::verificationStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a3efca40d40279e83a52d91a02a7929ba" kindref="member">VerificationState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Verification State To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements verificationStateToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="491" column="13" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="491" bodyend="506" declfile="src/distributed_tensor/include/integrity_verification.h" declline="168" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a643e8f35b75ed97fcbd0812d10f84f47" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1a3efca40d40279e83a52d91a02a7929ba" kindref="member">VerificationState</ref> &gt;</type>
+        <definition>std::optional&lt; VerificationState &gt; themis::distributed_tensor::stringToVerificationState</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>stringToVerificationState</name>
+        <qualifiedname>themis::distributed_tensor::stringToVerificationState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>String To Verification State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToVerificationState without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="514" column="15" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="514" bodyend="532" declfile="src/distributed_tensor/include/integrity_verification.h" declline="170" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a845c0690260aeeb0a3896f89c7fde140" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::distributed_tensor::verifyArtifactIntegrity</definition>
+        <argsstring>(const std::string &amp;artifact_id, std::string_view payload, const std::string &amp;expected_content_hash, const std::optional&lt; MerkleProof &gt; &amp;merkle_proof, const std::optional&lt; ReceiptChain &gt; &amp;receipt_chain, ProvenanceVerificationHook *provenance_hook)</argsstring>
+        <name>verifyArtifactIntegrity</name>
+        <qualifiedname>themis::distributed_tensor::verifyArtifactIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>payload</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_content_hash</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1distributed__tensor_1_1_merkle_proof" kindref="compound">MerkleProof</ref> &gt; &amp;</type>
+          <declname>merkle_proof</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="classthemis_1_1distributed__tensor_1_1_receipt_chain" kindref="compound">ReceiptChain</ref> &gt; &amp;</type>
+          <declname>receipt_chain</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_provenance_verification_hook" kindref="compound">ProvenanceVerificationHook</ref> *</type>
+          <declname>provenance_hook</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Verify Artifact Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">payload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_content_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">merkle_proof</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">receipt_chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">provenance_hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1distributed__tensor_1a48d6370a209596666332ed4cc01d3b98" kindref="member">isValidSHA256Hex()</ref>, push_back(), spdlog::warn(), <ref refid="namespacethemis_1_1distributed__tensor_1adbea5e641ff17ae9427956705e442d55" kindref="member">computeSHA256()</ref>, fmt::format(), spdlog::error(), requestArtifactRecovery(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="553" column="20" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="553" bodyend="665" declfile="src/distributed_tensor/include/integrity_verification.h" declline="245" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a6d98a40d5c8a93bfbb5f74fbf30a90e3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::distributed_tensor::detectReceiptChainTampering</definition>
+        <argsstring>(const ReceiptChain &amp;chain)</argsstring>
+        <name>detectReceiptChainTampering</name>
+        <qualifiedname>themis::distributed_tensor::detectReceiptChainTampering</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_receipt_chain" kindref="compound">ReceiptChain</ref> &amp;</type>
+          <declname>chain</declname>
+        </param>
+        <briefdescription>
+<para>Detect Receipt Chain Tampering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), getAllReceipts(), front(), push_back(), spdlog::error(), size(), verifyIntegrity(), fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="673" column="20" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="673" bodyend="728" declfile="src/distributed_tensor/include/integrity_verification.h" declline="253" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a2d890c49f3e595069f9ac5ed255ff422" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::distributed_tensor::handlePartialReceiptChain</definition>
+        <argsstring>(const ReceiptChain &amp;partial_chain, const std::string &amp;artifact_id, const std::string &amp;current_hash)</argsstring>
+        <name>handlePartialReceiptChain</name>
+        <qualifiedname>themis::distributed_tensor::handlePartialReceiptChain</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1distributed__tensor_1_1_receipt_chain" kindref="compound">ReceiptChain</ref> &amp;</type>
+          <declname>partial_chain</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_hash</declname>
+        </param>
+        <briefdescription>
+<para>Handle Partial Receipt Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">partial_chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), push_back(), spdlog::warn(), getHeadReceipt(), has_value(), fmt::format(), spdlog::error(), requestChainRebuild(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="738" column="20" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="738" bodyend="804" declfile="src/distributed_tensor/include/integrity_verification.h" declline="256" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a75c1c76d80096b9c1322dea2209fc6cd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::distributed_tensor::handleStaleReceipt</definition>
+        <argsstring>(const VerificationReceipt &amp;head_receipt, const std::string &amp;current_lineage_hash, const std::string &amp;content_hash)</argsstring>
+        <name>handleStaleReceipt</name>
+        <qualifiedname>themis::distributed_tensor::handleStaleReceipt</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_verification_receipt" kindref="compound">VerificationReceipt</ref> &amp;</type>
+          <declname>head_receipt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>current_lineage_hash</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_hash</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stale Receipt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">head_receipt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">current_lineage_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">content_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: verifyIntegrity(), push_back(), spdlog::error(), fmt::format(), empty(), substr(), spdlog::info(), requestChainRebuild(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="814" column="20" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="814" bodyend="871" declfile="src/distributed_tensor/include/integrity_verification.h" declline="261" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a2ba8214f2d704729c5f0cd6ea2b58540" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1distributed__tensor_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::distributed_tensor::verifyFragmentIntegrity</definition>
+        <argsstring>(const std::string &amp;artifact_id, std::string_view fragment_data, size_t fragment_index, const MerkleProof &amp;merkle_proof, const std::string &amp;expected_root)</argsstring>
+        <name>verifyFragmentIntegrity</name>
+        <qualifiedname>themis::distributed_tensor::verifyFragmentIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>artifact_id</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>fragment_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>fragment_index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__tensor_1_1_merkle_proof" kindref="compound">MerkleProof</ref> &amp;</type>
+          <declname>merkle_proof</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_root</declname>
+        </param>
+        <briefdescription>
+<para>Verify Fragment Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">artifact_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the artifact. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fragment_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fragment_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">merkle_proof</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expected_root</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1distributed__tensor_1adbea5e641ff17ae9427956705e442d55" kindref="member">computeSHA256()</ref>, verify(), push_back(), fmt::format(), spdlog::error(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="883" column="20" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="883" bodyend="916" declfile="src/distributed_tensor/include/integrity_verification.h" declline="266" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a32a99f7dd10d8cb5d82206a819d5fa46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::distributed_tensor::setIntegrityRecoveryHook</definition>
+        <argsstring>(IntegrityRecoveryHook *hook)</argsstring>
+        <name>setIntegrityRecoveryHook</name>
+        <qualifiedname>themis::distributed_tensor::setIntegrityRecoveryHook</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook" kindref="compound">IntegrityRecoveryHook</ref> *</type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+<para>Set Integrity Recovery Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="923" column="6" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="923" bodyend="930" declfile="src/distributed_tensor/include/integrity_verification.h" declline="310" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a67ccc3e1838b1f86f7c04313e4651503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1distributed__tensor_1_1_integrity_recovery_hook" kindref="compound">IntegrityRecoveryHook</ref> *</type>
+        <definition>IntegrityRecoveryHook * themis::distributed_tensor::getIntegrityRecoveryHook</definition>
+        <argsstring>()</argsstring>
+        <name>getIntegrityRecoveryHook</name>
+        <qualifiedname>themis::distributed_tensor::getIntegrityRecoveryHook</qualifiedname>
+        <briefdescription>
+<para>Get Integrity Recovery Hook. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getIntegrityRecoveryHook without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="937" column="23" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="937" bodyend="939" declfile="src/distributed_tensor/include/integrity_verification.h" declline="316" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1adbea5e641ff17ae9427956705e442d55" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::computeSHA256</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::distributed_tensor::computeSHA256</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string_view(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="970" column="13" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="970" bodyend="972" declfile="src/distributed_tensor/include/integrity_verification.h" declline="322" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a692ba21bf52993780db3f9c17bd922ee" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::computeSHA256</definition>
+        <argsstring>(std::string_view data)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::distributed_tensor::computeSHA256</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: SHA256_Init(), SHA256_Update(), data(), size(), SHA256_Final(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="980" column="13" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="980" bodyend="996" declfile="src/distributed_tensor/include/integrity_verification.h" declline="324" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a11ccb49c78fa95489be4e23c0493d74b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::computeSHA256</definition>
+        <argsstring>(const char *data)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::distributed_tensor::computeSHA256</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Compute SHA256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::string(), std::string_view(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="1004" column="13" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="1004" bodyend="1009" declfile="src/distributed_tensor/include/integrity_verification.h" declline="326" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1ac424d5214ff397d894f5fbc0b631ec1d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::computeJSONHash</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>computeJSONHash</name>
+        <qualifiedname>themis::distributed_tensor::computeJSONHash</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1distributed__tensor_1a8eadada81999a0abd98d5379955e1533" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Compute JSONHash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: canonicalizeJson(), dump(), <ref refid="namespacethemis_1_1distributed__tensor_1adbea5e641ff17ae9427956705e442d55" kindref="member">computeSHA256()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="1017" column="13" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="1017" bodyend="1027" declfile="src/distributed_tensor/include/integrity_verification.h" declline="328" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a48d6370a209596666332ed4cc01d3b98" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::isValidSHA256Hex</definition>
+        <argsstring>(std::string_view hex_str)</argsstring>
+        <name>isValidSHA256Hex</name>
+        <qualifiedname>themis::distributed_tensor::isValidSHA256Hex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>hex_str</declname>
+        </param>
+        <briefdescription>
+<para>Is Valid SHA256 Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hex_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), isLowercaseHexCharacter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/integrity_verification.cc" line="1035" column="6" bodyfile="src/distributed_tensor/src/integrity_verification.cc" bodystart="1035" bodyend="1048" declfile="src/distributed_tensor/include/integrity_verification.h" declline="330" declcolumn="7"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a8d7ff789508fa983f0a8dc05368653b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::distributed_tensor::getCurrentTimestamp</definition>
+        <argsstring>()</argsstring>
+        <name>getCurrentTimestamp</name>
+        <qualifiedname>themis::distributed_tensor::getCurrentTimestamp</qualifiedname>
+        <briefdescription>
+<para>Get Current Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), time_since_epoch(), std::put_time(), std::localtime(), std::setfill(), std::setw(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/distributed_planner.cc" line="28" column="20" bodyfile="src/distributed_tensor/src/distributed_planner.cc" bodystart="28" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1a2798026ff26a89a5b6fde2c5f8211d28" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>long</type>
+        <definition>static long themis::distributed_tensor::parseTimestampAgeSec</definition>
+        <argsstring>(const std::string &amp;iso_timestamp) noexcept</argsstring>
+        <name>parseTimestampAgeSec</name>
+        <qualifiedname>themis::distributed_tensor::parseTimestampAgeSec</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iso_timestamp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">iso_timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/distributed_planner.cc" line="40" column="13" bodyfile="src/distributed_tensor/src/distributed_planner.cc" bodystart="40" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1distributed__tensor_1ad039e5e28c2211086c890a7b6e8d7a18" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::distributed_tensor::typicalL2Error</definition>
+        <argsstring>(QuantizationLevel level) noexcept</argsstring>
+        <name>typicalL2Error</name>
+        <qualifiedname>themis::distributed_tensor::typicalL2Error</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1aeb000aa969dcae0497341269cc4d42fc" kindref="member">QuantizationLevel</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/src/tensor_storage_strategy.cc" line="344" column="15" bodyfile="src/distributed_tensor/src/tensor_storage_strategy.cc" bodystart="344" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/artifact_manifest.h" line="24" column="1"/>
+  </compounddef>
+</doxygen>

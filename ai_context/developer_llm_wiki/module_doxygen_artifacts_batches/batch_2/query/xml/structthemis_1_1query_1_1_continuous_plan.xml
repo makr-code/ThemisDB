@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_continuous_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ContinuousPlan</compoundname>
+    <includes refid="continuous__query__planner_8h" local="no">continuous_query_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_plan_1a5241fe3dc2290482b99e4f9159d4c715" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3" kindref="member">CQPlanNodeType</ref></type>
+        <definition>CQPlanNodeType themis::query::ContinuousPlan::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::ContinuousPlan::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1query_1a8e0fff1c89049eceff6099eaec4386e3ad20d4afba9e274c83e9c9b7d536f683d" kindref="member">CQPlanNodeType::RESULT_EMIT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_planner.h" line="37" column="20" bodyfile="include/query/continuous_query_planner.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_continuous_plan_1aed4cef7d4ab2a200066ff0f0bcbb5a25" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ContinuousPlan::query_name</definition>
+        <argsstring></argsstring>
+        <name>query_name</name>
+        <qualifiedname>themis::query::ContinuousPlan::query_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_planner.h" line="38" column="20" bodyfile="include/query/continuous_query_planner.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_continuous_plan_1a927002f963506ed819e1c47b9b9744d3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::ContinuousPlan::evaluate</definition>
+        <argsstring>(ContinuousQueryState &amp;state, std::vector&lt; CQResult &gt; &amp;results) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::query::ContinuousPlan::evaluate</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_continuous_query_state" kindref="compound">ContinuousQueryState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_c_q_result" kindref="compound">CQResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_planner.h" line="45" column="10" bodyfile="src/query/continuous_query_planner.cpp" bodystart="25" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/continuous_query_planner.h" line="36" column="1" bodyfile="include/query/continuous_query_planner.h" bodystart="36" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_continuous_plan_1a927002f963506ed819e1c47b9b9744d3" prot="public" virt="non-virtual"><scope>themis::query::ContinuousPlan</scope><name>evaluate</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_plan_1aed4cef7d4ab2a200066ff0f0bcbb5a25" prot="public" virt="non-virtual"><scope>themis::query::ContinuousPlan</scope><name>query_name</name></member>
+      <member refid="structthemis_1_1query_1_1_continuous_plan_1a5241fe3dc2290482b99e4f9159d4c715" prot="public" virt="non-virtual"><scope>themis::query::ContinuousPlan</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

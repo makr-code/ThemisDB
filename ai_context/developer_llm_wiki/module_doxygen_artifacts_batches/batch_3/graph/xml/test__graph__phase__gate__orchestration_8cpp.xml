@@ -1,0 +1,732 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__graph__phase__gate__orchestration_8cpp" kind="file" language="C++">
+    <compoundname>test_graph_phase_gate_orchestration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="graph__phase__gate__orchestrator_8h" local="yes">graph/graph_phase_gate_orchestrator.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>graph/graph_phase_gate_orchestrator.h</label>
+        <link refid="graph__phase__gate__orchestrator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_graph_phase_gate_orchestration.cpp</label>
+        <link refid="test__graph__phase__gate__orchestration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>shared_mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>type_traits</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_01_EmptyOrchestratorHasZeroPhases)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_01_EmptyOrchestratorHasZeroPhases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="34" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1ab07acd7df85ed1af0cedf590514fedc8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_02_RegisterRootPhase)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_02_RegisterRootPhase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="45" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1a757a031f7e759faa4df5eca682ec3b69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_03_RejectDuplicateRegistration)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_03_RejectDuplicateRegistration</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="56" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1aa9b262ca87bca3ed242e424d1b2e383c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_04_RejectUnknownPrerequisite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_04_RejectUnknownPrerequisite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="67" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="67" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1a83de0fcecba02ae7f341712b1cc18478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_05_RejectSelfAndDuplicateRegistrations)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_05_RejectSelfAndDuplicateRegistrations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="77" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="77" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1a63cb8bc1923a335ca135fdc138a7a4b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_MoveSemanticsTransferState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_MoveSemanticsTransferState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="90" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="90" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1adc119ddcea7ca1ce7fff3a7637a65461" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_06_PendingForUnregisteredPhase)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_06_PendingForUnregisteredPhase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="120" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="120" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1aa57d64dd7ec835e8d34007236d710424" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_07_RootPhaseNoCriteriaPasses)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_07_RootPhaseNoCriteriaPasses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="129" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="129" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1a9e237d3f26644d8ebe83e1a06fbf0def" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_08_GateFailWhenMetricAbsent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_08_GateFailWhenMetricAbsent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="139" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="139" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1ab83a5a7087efee8f1e400fc4d51c27eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_09_GateFailWhenBelowThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_09_GateFailWhenBelowThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="151" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="151" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1aa748247dc90c86317786db009fbdad8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_10_GatePassAtExactThreshold)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_10_GatePassAtExactThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="164" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="164" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1a0a45c774b29edcf18e5eadbfed7584b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_11_GateBlockedByPrerequisite)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_11_GateBlockedByPrerequisite</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="177" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="177" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1ab76d6317d2097cb41305915d02cb0030" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_12_GapReportEnumeratesGaps)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_12_GapReportEnumeratesGaps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="191" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="191" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1a795ef0b59c8f7fe245c5a8aa813d84a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_13_AllGapsExcludesPassedPhases)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_13_AllGapsExcludesPassedPhases</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="215" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="215" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1acab16d25c1660a533b30d7620cbec9cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_14_TopologicalOrderRespectsDeps)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_14_TopologicalOrderRespectsDeps</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="234" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="234" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1a85db821d2d5488b617fc907dc20f26ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_15_CompletionRatioAccurate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_15_CompletionRatioAccurate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="256" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="256" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__phase__gate__orchestration_8cpp_1a1379325b8fe7d6c4d55013e720d6c076" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphPhaseGateOrchestration, GRAPH_PHASE_GATE_BENCH_01_LargePipelineWithin500ms)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphPhaseGateOrchestration</type>
+        </param>
+        <param>
+          <type>GRAPH_PHASE_GATE_BENCH_01_LargePipelineWithin500ms</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase_gate_orchestration.cpp" line="276" column="1" bodyfile="tests/graph/test_graph_phase_gate_orchestration.cpp" bodystart="276" bodyend="316"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave C C3 — Graph Phase Gate Orchestration tests (GRAPH_PHASE_GATE-01..15 + GRAPH_PHASE_GATE-BENCH-01). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Acceptance criteria for Wave C C3 (issue #6287):<itemizedlist>
+<listitem><para>Phase gate DAG construction, acyclic registration enforcement, and topological ordering</para>
+</listitem><listitem><para>Gate criteria evaluation and gap reporting</para>
+</listitem><listitem><para>Metric attachment, threshold evaluation, and prerequisite blocking</para>
+</listitem><listitem><para>Completion ratio and passedPhaseCount tracking</para>
+</listitem><listitem><para>BENCH-01: orchestration of a 20-phase pipeline completes within 500 ms</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests are self-contained and require no external infrastructure.</para>
+<para>Wave C issue: #6287 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__phase__gate__orchestrator_8h" kindref="compound">graph/graph_phase_gate_orchestrator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">themis::graph</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-01:<sp/>empty<sp/>orchestrator<sp/>has<sp/>zero<sp/>phases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_01_EmptyOrchestratorHasZeroPhases)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6e91df9fb8f102ebced83938574586c8" kindref="member">phaseCount</ref>(),<sp/>0u)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-01:<sp/>empty<sp/>orchestrator<sp/>must<sp/>have<sp/>0<sp/>phases&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af13b733477173457034bd09c53a19244" kindref="member">completionRatio</ref>(),<sp/>0.0f)</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-01:<sp/>completion<sp/>ratio<sp/>on<sp/>empty<sp/>orchestrator<sp/>must<sp/>be<sp/>0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-02:<sp/>registerPhase<sp/>accepts<sp/>root<sp/>phase<sp/>(no<sp/>prerequisites)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_02_RegisterRootPhase)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;data_validation&quot;</highlight><highlight class="normal">,<sp/>{}))</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-02:<sp/>registration<sp/>of<sp/>root<sp/>phase<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6e91df9fb8f102ebced83938574586c8" kindref="member">phaseCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a2ae34d9fa0e0068ce1af43b72d7ff441" kindref="member">hasPhase</ref>(</highlight><highlight class="stringliteral">&quot;data_validation&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-03:<sp/>registerPhase<sp/>rejects<sp/>duplicate<sp/>phase<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_03_RejectDuplicateRegistration)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;phase_a&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;phase_a&quot;</highlight><highlight class="normal">,<sp/>{}))</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-03:<sp/>re-registering<sp/>the<sp/>same<sp/>phase<sp/>must<sp/>fail&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6e91df9fb8f102ebced83938574586c8" kindref="member">phaseCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-04:<sp/>registerPhase<sp/>rejects<sp/>unregistered<sp/>prerequisites</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_04_RejectUnknownPrerequisite)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;phase_b&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;ghost_phase&quot;</highlight><highlight class="normal">}))</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-04:<sp/>prerequisite<sp/>that<sp/>is<sp/>not<sp/>registered<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6e91df9fb8f102ebced83938574586c8" kindref="member">phaseCount</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-05:<sp/>registerPhase<sp/>rejects<sp/>self/duplicate<sp/>invalid<sp/>registrations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>GRAPH_PHASE_GATE_05_RejectSelfAndDuplicateRegistrations)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;self&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;self&quot;</highlight><highlight class="normal">}))</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-05:<sp/>self-referential<sp/>registration<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">}))</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-05:<sp/>duplicate<sp/>registration<sp/>must<sp/>be<sp/>rejected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a6e91df9fb8f102ebced83938574586c8" kindref="member">phaseCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_MoveSemanticsTransferState)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(std::is_move_constructible_v&lt;GraphPhaseGateOrchestrator&gt;);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(std::is_move_assignable_v&lt;GraphPhaseGateOrchestrator&gt;);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>source;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(source.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(source.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>0.7f,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(source.attachMetric(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>0.8f));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>moved(std::move(source));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(moved.hasPhase(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.gateStatus(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fa7a95bf926a0333f57705aeac07a362a2" kindref="member">GateStatus::PASS</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(source.phaseCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(source.hasPhase(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(source.registerPhase(</highlight><highlight class="stringliteral">&quot;reused_source&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(source.hasPhase(</highlight><highlight class="stringliteral">&quot;reused_source&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>assigned;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>assigned<sp/>=<sp/>std::move(moved);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(assigned.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a2ae34d9fa0e0068ce1af43b72d7ff441" kindref="member">hasPhase</ref>(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(assigned.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a426f1c109eb818d608ef3e63bfcf19f2" kindref="member">gateStatus</ref>(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fa7a95bf926a0333f57705aeac07a362a2" kindref="member">GateStatus::PASS</ref>);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.phaseCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(moved.hasPhase(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(moved.registerPhase(</highlight><highlight class="stringliteral">&quot;reused_moved&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(moved.hasPhase(</highlight><highlight class="stringliteral">&quot;reused_moved&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-06:<sp/>gate<sp/>status<sp/>PENDING<sp/>for<sp/>unregistered<sp/>phase</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_06_PendingForUnregisteredPhase)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a426f1c109eb818d608ef3e63bfcf19f2" kindref="member">gateStatus</ref>(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac69f06e1a9b016d133907b4e5f5864d2" kindref="member">GateStatus::PENDING</ref>)</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-06:<sp/>unregistered<sp/>phase<sp/>must<sp/>yield<sp/>PENDING<sp/>gate<sp/>status&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-07:<sp/>root<sp/>phase<sp/>with<sp/>no<sp/>criteria<sp/>passes<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_07_RootPhaseNoCriteriaPasses)<sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a426f1c109eb818d608ef3e63bfcf19f2" kindref="member">gateStatus</ref>(</highlight><highlight class="stringliteral">&quot;root&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fa7a95bf926a0333f57705aeac07a362a2" kindref="member">GateStatus::PASS</ref>)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-07:<sp/>root<sp/>phase<sp/>with<sp/>no<sp/>criteria<sp/>must<sp/>PASS<sp/>immediately&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-08:<sp/>gate<sp/>FAIL<sp/>when<sp/>metric<sp/>absent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_08_GateFailWhenMetricAbsent)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;accuracy&quot;</highlight><highlight class="normal">,<sp/>0.80f,<sp/></highlight><highlight class="stringliteral">&quot;≥<sp/>80%&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.gateStatus(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">GateStatus::FAIL</ref>)</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-08:<sp/>missing<sp/>metric<sp/>must<sp/>yield<sp/>FAIL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-09:<sp/>gate<sp/>FAIL<sp/>when<sp/>metric<sp/>below<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_09_GateFailWhenBelowThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;accuracy&quot;</highlight><highlight class="normal">,<sp/>0.80f,<sp/></highlight><highlight class="stringliteral">&quot;≥<sp/>80%&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.attachMetric(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;accuracy&quot;</highlight><highlight class="normal">,<sp/>0.70f));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.gateStatus(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">GateStatus::FAIL</ref>)</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-09:<sp/>metric<sp/>below<sp/>threshold<sp/>must<sp/>yield<sp/>FAIL&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-10:<sp/>gate<sp/>PASS<sp/>when<sp/>metric<sp/>meets<sp/>threshold<sp/>exactly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_10_GatePassAtExactThreshold)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;accuracy&quot;</highlight><highlight class="normal">,<sp/>0.80f,<sp/></highlight><highlight class="stringliteral">&quot;≥<sp/>80%&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.attachMetric(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;accuracy&quot;</highlight><highlight class="normal">,<sp/>0.80f));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.gateStatus(</highlight><highlight class="stringliteral">&quot;training&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fa7a95bf926a0333f57705aeac07a362a2" kindref="member">GateStatus::PASS</ref>)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-10:<sp/>metric<sp/>equal<sp/>to<sp/>threshold<sp/>must<sp/>yield<sp/>PASS&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-11:<sp/>gate<sp/>BLOCKED<sp/>when<sp/>prerequisite<sp/>has<sp/>not<sp/>passed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_11_GateBlockedByPrerequisite)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;data_prep&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;data_prep&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;completeness&quot;</highlight><highlight class="normal">,<sp/>0.95f,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>prep<sp/>has<sp/>not<sp/>passed<sp/>(no<sp/>metric<sp/>attached).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.registerPhase(</highlight><highlight class="stringliteral">&quot;model_train&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;data_prep&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.gateStatus(</highlight><highlight class="stringliteral">&quot;model_train&quot;</highlight><highlight class="normal">),<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10faeecba0068950a2df17c47e851e1eef14" kindref="member">GateStatus::BLOCKED</ref>)</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-11:<sp/>phase<sp/>must<sp/>be<sp/>BLOCKED<sp/>when<sp/>prerequisite<sp/>has<sp/>not<sp/>PASSED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-12:<sp/>gap<sp/>report<sp/>enumerates<sp/>unsatisfied<sp/>criteria<sp/>and<sp/>blockers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_12_GapReportEnumeratesGaps)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;step1&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;step1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>0.90f,<sp/></highlight><highlight class="stringliteral">&quot;quality<sp/>score&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.registerPhase(</highlight><highlight class="stringliteral">&quot;step2&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;step1&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.setGateCriteria(</highlight><highlight class="stringliteral">&quot;step2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;f1&quot;</highlight><highlight class="normal">,<sp/>0.85f,<sp/></highlight><highlight class="stringliteral">&quot;F1<sp/>metric&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>step1<sp/>has<sp/>not<sp/>passed<sp/>(no<sp/>metric),<sp/>so<sp/>step2<sp/>should<sp/>be<sp/>BLOCKED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report" kindref="compound">PhaseGapReport</ref><sp/>report<sp/>=<sp/>orch.gaps(</highlight><highlight class="stringliteral">&quot;step2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(report.<ref refid="structthemis_1_1graph_1_1_phase_gap_report_1a22cc13aac130b216e2739b7fcb934acd" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10faeecba0068950a2df17c47e851e1eef14" kindref="member">GateStatus::BLOCKED</ref>)</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-12:<sp/>gap<sp/>report<sp/>status<sp/>must<sp/>be<sp/>BLOCKED<sp/>when<sp/>prereq<sp/>fails&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(report.<ref refid="structthemis_1_1graph_1_1_phase_gap_report_1a183ee11757e0c8fed1bb42b82231df3f" kindref="member">blocked_by_phases</ref>.empty())</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-12:<sp/>blocked_by_phases<sp/>must<sp/>be<sp/>non-empty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>step1<sp/>gap<sp/>report<sp/>should<sp/>list<sp/>the<sp/>missing<sp/>metric.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1graph_1_1_phase_gap_report" kindref="compound">PhaseGapReport</ref><sp/>step1_report<sp/>=<sp/>orch.gaps(</highlight><highlight class="stringliteral">&quot;step1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(step1_report.<ref refid="structthemis_1_1graph_1_1_phase_gap_report_1a22cc13aac130b216e2739b7fcb934acd" kindref="member">status</ref>,<sp/><ref refid="namespacethemis_1_1graph_1a9b8242ee443758f7fd2656973ab8a10fac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">GateStatus::FAIL</ref>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(step1_report.<ref refid="structthemis_1_1graph_1_1_phase_gap_report_1afcfb3ea91e793ff05fb4193ed2957c84" kindref="member">unsatisfied_criteria</ref>.empty())</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-12:<sp/>unsatisfied_criteria<sp/>must<sp/>list<sp/>missing<sp/>metric&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-13:<sp/>allGaps<sp/>returns<sp/>reports<sp/>only<sp/>for<sp/>non-PASS<sp/>phases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_13_AllGapsExcludesPassedPhases)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;metric&quot;</highlight><highlight class="normal">,<sp/>0.5f,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.attachMetric(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;metric&quot;</highlight><highlight class="normal">,<sp/>0.9f));<sp/><sp/></highlight><highlight class="comment">//<sp/>PASS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.registerPhase(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.setGateCriteria(</highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;metric&quot;</highlight><highlight class="normal">,<sp/>0.5f,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>p2<sp/>has<sp/>no<sp/>metric<sp/>→<sp/>FAIL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gaps<sp/>=<sp/>orch.allGaps();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gaps.size(),<sp/>1u)</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-13:<sp/>allGaps<sp/>must<sp/>only<sp/>report<sp/>non-PASS<sp/>phases&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gaps[0].phase_name,<sp/></highlight><highlight class="stringliteral">&quot;p2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-14:<sp/>topological<sp/>ordering<sp/>respects<sp/>prerequisites</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_14_TopologicalOrderRespectsDeps)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>order<sp/>=<sp/>orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1acc4acb2bfb42c3f9085151762f075250" kindref="member">topologicalOrder</ref>();</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(order.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos_a<sp/>=<sp/>std::find(order.begin(),<sp/>order.end(),<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">)<sp/>-<sp/>order.begin();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos_b<sp/>=<sp/>std::find(order.begin(),<sp/>order.end(),<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">)<sp/>-<sp/>order.begin();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos_c<sp/>=<sp/>std::find(order.begin(),<sp/>order.end(),<sp/></highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">)<sp/>-<sp/>order.begin();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(pos_a,<sp/>pos_b)</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-14:<sp/>&apos;a&apos;<sp/>must<sp/>precede<sp/>&apos;b&apos;<sp/>in<sp/>topological<sp/>order&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(pos_b,<sp/>pos_c)</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-14:<sp/>&apos;b&apos;<sp/>must<sp/>precede<sp/>&apos;c&apos;<sp/>in<sp/>topological<sp/>order&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-15:<sp/>completionRatio<sp/>reflects<sp/>passed<sp/>/<sp/>total<sp/>phases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_15_CompletionRatioAccurate)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;phase_x&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;phase_x&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>0.7f,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a05e155130a91d901492605ee0f8bac74" kindref="member">attachMetric</ref>(</highlight><highlight class="stringliteral">&quot;phase_x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>0.8f));<sp/><sp/></highlight><highlight class="comment">//<sp/>PASS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(</highlight><highlight class="stringliteral">&quot;phase_y&quot;</highlight><highlight class="normal">,<sp/>{}));</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(</highlight><highlight class="stringliteral">&quot;phase_y&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>0.7f,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>phase_y<sp/>has<sp/>no<sp/>metric<sp/>→<sp/>FAIL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a5c49012322dfd557075a7b4e50a03cc3" kindref="member">passedPhaseCount</ref>(),<sp/>1u)</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-15:<sp/>passedPhaseCount<sp/>must<sp/>be<sp/>1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af13b733477173457034bd09c53a19244" kindref="member">completionRatio</ref>(),<sp/>0.5f)</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-15:<sp/>completionRatio<sp/>must<sp/>be<sp/>0.5<sp/>when<sp/>1<sp/>of<sp/>2<sp/>phases<sp/>pass&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GRAPH_PHASE_GATE-BENCH-01:<sp/>20-phase<sp/>pipeline<sp/>completes<sp/>within<sp/>500<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><ref refid="test__graph__phase__gate__orchestration_8cpp_1ad809501e4b9a0763a6269c4746cca919" kindref="member">TEST</ref>(GraphPhaseGateOrchestration,<sp/>GRAPH_PHASE_GATE_BENCH_01_LargePipelineWithin500ms)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kPhases<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator" kindref="compound">GraphPhaseGateOrchestrator</ref><sp/>orch;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>a<sp/>linear<sp/>chain<sp/>of<sp/>20<sp/>phases.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kPhases;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;phase_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>prereqs;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prereqs.push_back(</highlight><highlight class="stringliteral">&quot;phase_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i<sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a9fdcbcdb762141fa18b2708c80181104" kindref="member">registerPhase</ref>(name,<sp/>prereqs));</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>phase<sp/>has<sp/>a<sp/>single<sp/>metric<sp/>gate.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af4d8e1d49bb15dbabb981af5d86c6346" kindref="member">setGateCriteria</ref>(name,<sp/>{{</highlight><highlight class="stringliteral">&quot;metric&quot;</highlight><highlight class="normal">,<sp/>0.75f,<sp/></highlight><highlight class="stringliteral">&quot;≥<sp/>75%&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attach<sp/>all<sp/>metrics<sp/>so<sp/>every<sp/>gate<sp/>passes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kPhases;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;phase_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a05e155130a91d901492605ee0f8bac74" kindref="member">attachMetric</ref>(name,<sp/></highlight><highlight class="stringliteral">&quot;metric&quot;</highlight><highlight class="normal">,<sp/>0.90f));</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>phases<sp/>pass.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1a5c49012322dfd557075a7b4e50a03cc3" kindref="member">passedPhaseCount</ref>(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kPhases))</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-BENCH-01:<sp/>all<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kPhases</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>phases<sp/>should<sp/>pass<sp/>when<sp/>metrics<sp/>are<sp/>met&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(orch.<ref refid="classthemis_1_1graph_1_1_graph_phase_gate_orchestrator_1af13b733477173457034bd09c53a19244" kindref="member">completionRatio</ref>(),<sp/>1.0f)</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-BENCH-01:<sp/>completion<sp/>ratio<sp/>must<sp/>be<sp/>1.0<sp/>when<sp/>all<sp/>phases<sp/>pass&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_ms<sp/>=</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(elapsed_ms,<sp/>500)</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GRAPH_PHASE_GATE-BENCH-01:<sp/>orchestrating<sp/>a<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>kPhases</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;-phase<sp/>pipeline<sp/>must<sp/>complete<sp/>within<sp/>500<sp/>ms<sp/>(took<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>elapsed_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>ms)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_graph_phase_gate_orchestration.cpp"/>
+  </compounddef>
+</doxygen>

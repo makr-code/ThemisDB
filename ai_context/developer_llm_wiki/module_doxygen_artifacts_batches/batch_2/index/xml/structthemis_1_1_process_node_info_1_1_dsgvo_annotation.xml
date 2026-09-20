@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_node_info_1_1_dsgvo_annotation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessNodeInfo::DsgvoAnnotation</compoundname>
+    <includes refid="process__graph_8h" local="no">process_graph.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_node_info_1_1_dsgvo_annotation_1aef3ad750d69e240929e9d63dc338fc56" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessNodeInfo::DsgvoAnnotation::data_category</definition>
+        <argsstring></argsstring>
+        <name>data_category</name>
+        <qualifiedname>themis::ProcessNodeInfo::DsgvoAnnotation::data_category</qualifiedname>
+        <briefdescription>
+<para>&quot;personal&quot;, &quot;sensitive&quot;, &quot;anonymised&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="315" column="21" bodyfile="include/index/process_graph.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_node_info_1_1_dsgvo_annotation_1a0d2c973ff8514b919883f9ca7999834a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ProcessNodeInfo::DsgvoAnnotation::legal_basis</definition>
+        <argsstring></argsstring>
+        <name>legal_basis</name>
+        <qualifiedname>themis::ProcessNodeInfo::DsgvoAnnotation::legal_basis</qualifiedname>
+        <briefdescription>
+<para>e.g. &quot;Art. 6(1)(e) DSGVO&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="316" column="21" bodyfile="include/index/process_graph.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_node_info_1_1_dsgvo_annotation_1a6be3afa500b2447d5bb716bcbb72da74" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; themis::ProcessNodeInfo::DsgvoAnnotation::retention_days</definition>
+        <argsstring></argsstring>
+        <name>retention_days</name>
+        <qualifiedname>themis::ProcessNodeInfo::DsgvoAnnotation::retention_days</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="317" column="23" bodyfile="include/index/process_graph.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_node_info_1_1_dsgvo_annotation_1a9c451fa912189b65413c2ae8310f84b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ProcessNodeInfo::DsgvoAnnotation::requires_consent</definition>
+        <argsstring></argsstring>
+        <name>requires_consent</name>
+        <qualifiedname>themis::ProcessNodeInfo::DsgvoAnnotation::requires_consent</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/process_graph.h" line="318" column="14" bodyfile="include/index/process_graph.h" bodystart="318" bodyend="318"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/process_graph.h" line="314" column="5" bodyfile="include/index/process_graph.h" bodystart="314" bodyend="319"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_node_info_1_1_dsgvo_annotation_1aef3ad750d69e240929e9d63dc338fc56" prot="public" virt="non-virtual"><scope>themis::ProcessNodeInfo::DsgvoAnnotation</scope><name>data_category</name></member>
+      <member refid="structthemis_1_1_process_node_info_1_1_dsgvo_annotation_1a0d2c973ff8514b919883f9ca7999834a" prot="public" virt="non-virtual"><scope>themis::ProcessNodeInfo::DsgvoAnnotation</scope><name>legal_basis</name></member>
+      <member refid="structthemis_1_1_process_node_info_1_1_dsgvo_annotation_1a9c451fa912189b65413c2ae8310f84b8" prot="public" virt="non-virtual"><scope>themis::ProcessNodeInfo::DsgvoAnnotation</scope><name>requires_consent</name></member>
+      <member refid="structthemis_1_1_process_node_info_1_1_dsgvo_annotation_1a6be3afa500b2447d5bb716bcbb72da74" prot="public" virt="non-virtual"><scope>themis::ProcessNodeInfo::DsgvoAnnotation</scope><name>retention_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

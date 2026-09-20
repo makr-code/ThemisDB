@@ -1,0 +1,715 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_api_key_authenticator" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::ApiKeyAuthenticator</compoundname>
+    <includes refid="api__key__authenticator_8h" local="no">api_key_authenticator.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config" prot="public">themis::auth::ApiKeyAuthenticator::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_api_key_authenticator_1ac0da302b0908adbc65925b0d41b85ed4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::ApiKeyAuthenticator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="152" column="12" bodyfile="include/auth/api_key_authenticator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_api_key_authenticator_1a28c63458eee7722c5cfc0a74acba7afe" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::ApiKeyAuthenticator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="153" column="24" bodyfile="include/auth/api_key_authenticator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_api_key_authenticator_1a17f71ec88ae49470eb61d43a1c7fd68d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1auth_1_1_api_key_credential" kindref="compound">ApiKeyCredential</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, ApiKeyCredential&gt; themis::auth::ApiKeyAuthenticator::credentials_</definition>
+        <argsstring></argsstring>
+        <name>credentials_</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::credentials_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="154" column="24" bodyfile="include/auth/api_key_authenticator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_api_key_authenticator_1a59483336f852cb3ef64528d8b1163762" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::auth::ApiKeyAuthenticator::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::audit_logger_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+<para>Non-owning; may be nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="155" column="24" bodyfile="include/auth/api_key_authenticator.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a4bbeb2e6aa072b3a5979b7642238f4d6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::ApiKeyAuthenticator::ApiKeyAuthenticator</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>ApiKeyAuthenticator</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::ApiKeyAuthenticator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_api_key_authenticator_1_1_config_1ae66908c32addb26ae698f76b9262dbb5" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="78" column="14" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a5cdbb3c5514ebda2e1a4eb939daa21bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ApiKeyAuthenticator::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="85" column="10" bodyfile="include/auth/api_key_authenticator.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a75f64843895c421a99bcc454894e65e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ApiKeyAuthenticator::addCredential</definition>
+        <argsstring>(const ApiKeyCredential &amp;credential)</argsstring>
+        <name>addCredential</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::addCredential</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_api_key_credential" kindref="compound">ApiKeyCredential</ref> &amp;</type>
+          <declname>credential</declname>
+        </param>
+        <briefdescription>
+<para>Add Credential. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">credential</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">credential</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), AuthError(), size(), lock(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="95" column="10" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="45" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1aa6549958e9aae46b751a80e602cc7935" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::ApiKeyAuthenticator::removeCredential</definition>
+        <argsstring>(const std::string &amp;key_id)</argsstring>
+        <name>removeCredential</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::removeCredential</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Credential. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="101" column="10" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="73" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a42a9a1e444ed8d0e025eae8235ca2c9c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::ApiKeyAuthenticator::credentialCount</definition>
+        <argsstring>() const</argsstring>
+        <name>credentialCount</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::credentialCount</qualifiedname>
+        <briefdescription>
+<para>Credential Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="107" column="12" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1af033bba84ad95b08e890b7dc2eb30402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_api_key_claims" kindref="compound">ApiKeyClaims</ref></type>
+        <definition>ApiKeyClaims themis::auth::ApiKeyAuthenticator::authenticate</definition>
+        <argsstring>(const std::string &amp;key_id, const std::string &amp;secret)</argsstring>
+        <name>authenticate</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::authenticate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>secret</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">secret</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Authentication result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Al. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Al. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Al. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Al. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Al. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audit_logger_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="119" column="18" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="100" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1ac5ff24c2046ff9240722c4024d913767" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_api_key_claims" kindref="compound">ApiKeyClaims</ref></type>
+        <definition>ApiKeyClaims themis::auth::ApiKeyAuthenticator::authenticateCombined</definition>
+        <argsstring>(const std::string &amp;combined)</argsstring>
+        <name>authenticateCombined</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::authenticateCombined</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>combined</declname>
+        </param>
+        <briefdescription>
+<para>Authenticate Combined. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">combined</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">combined</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), size(), AuthError(), <ref refid="classthemis_1_1auth_1_1_api_key_authenticator_1af033bba84ad95b08e890b7dc2eb30402" kindref="member">authenticate()</ref>, substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="127" column="18" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="259" bodyend="269"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a1d41c10afec2c7a6efa3733a51042d3d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ApiKeyAuthenticator::hashSecret</definition>
+        <argsstring>(const std::string &amp;secret)</argsstring>
+        <name>hashSecret</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::hashSecret</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>secret</declname>
+        </param>
+        <briefdescription>
+<para>Hash Secret. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">secret</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">secret</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>AuthException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: SHA256(), data(), size(), AuthError(), hexEncode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="138" column="24" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="282" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a9426b49aeb0b7cdd3c3780243181b002" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_api_key_credential" kindref="compound">ApiKeyCredential</ref></type>
+        <definition>ApiKeyCredential themis::auth::ApiKeyAuthenticator::createCredential</definition>
+        <argsstring>(const std::string &amp;key_id, const std::string &amp;secret, const std::string &amp;principal, const std::vector&lt; std::string &gt; &amp;scopes={}, const std::vector&lt; std::string &gt; &amp;roles={}, const std::string &amp;tenant_id=&quot;&quot;, std::chrono::system_clock::time_point expires_at=std::chrono::system_clock::time_point{})</argsstring>
+        <name>createCredential</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::createCredential</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>secret</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>scopes</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>roles</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>expires_at</declname>
+          <defval>std::chrono::system_clock::time_point{}</defval>
+        </param>
+        <briefdescription>
+<para>Create Credential. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">secret</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">principal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scopes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">roles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">expires_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="140" column="29" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="306" bodyend="325"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a4b0546b4576a4a14c6cc8ba4c3149147" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::ApiKeyAuthenticator::constantTimeEqual</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b)</argsstring>
+        <name>constantTimeEqual</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::constantTimeEqual</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Constant Time Equal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="163" column="17" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="337" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a0e25691e396b15117d99e47a798aa0f8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::auth::ApiKeyAuthenticator::hexEncode</definition>
+        <argsstring>(const unsigned char *data, size_t len)</argsstring>
+        <name>hexEncode</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::hexEncode</qualifiedname>
+        <param>
+          <type>const unsigned char *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+<para>Hex Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="170" column="24" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="353" bodyend="360"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_api_key_authenticator_1a5465635e289e4b4a5ea325733f804cd1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_api_key_claims" kindref="compound">ApiKeyClaims</ref></type>
+        <definition>ApiKeyClaims themis::auth::ApiKeyAuthenticator::claimsFromCredential</definition>
+        <argsstring>(const ApiKeyCredential &amp;cred) const</argsstring>
+        <name>claimsFromCredential</name>
+        <qualifiedname>themis::auth::ApiKeyAuthenticator::claimsFromCredential</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_api_key_credential" kindref="compound">ApiKeyCredential</ref> &amp;</type>
+          <declname>cred</declname>
+        </param>
+        <briefdescription>
+<para>Claims From Credential. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/api_key_authenticator.h" line="177" column="18" bodyfile="src/auth/api_key_authenticator.cpp" bodystart="362" bodyend="373"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/api_key_authenticator.h" line="64" column="1" bodyfile="include/auth/api_key_authenticator.h" bodystart="64" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a75f64843895c421a99bcc454894e65e7" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>addCredential</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a4bbeb2e6aa072b3a5979b7642238f4d6" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>ApiKeyAuthenticator</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a59483336f852cb3ef64528d8b1163762" prot="private" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1af033bba84ad95b08e890b7dc2eb30402" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>authenticate</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1ac5ff24c2046ff9240722c4024d913767" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>authenticateCombined</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a5465635e289e4b4a5ea325733f804cd1" prot="private" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>claimsFromCredential</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1ac0da302b0908adbc65925b0d41b85ed4" prot="private" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a4b0546b4576a4a14c6cc8ba4c3149147" prot="private" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>constantTimeEqual</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a9426b49aeb0b7cdd3c3780243181b002" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>createCredential</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a42a9a1e444ed8d0e025eae8235ca2c9c" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>credentialCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a17f71ec88ae49470eb61d43a1c7fd68d" prot="private" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>credentials_</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a1d41c10afec2c7a6efa3733a51042d3d" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>hashSecret</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a0e25691e396b15117d99e47a798aa0f8" prot="private" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>hexEncode</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a28c63458eee7722c5cfc0a74acba7afe" prot="private" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1aa6549958e9aae46b751a80e602cc7935" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>removeCredential</name></member>
+      <member refid="classthemis_1_1auth_1_1_api_key_authenticator_1a5cdbb3c5514ebda2e1a4eb939daa21bb" prot="public" virt="non-virtual"><scope>themis::auth::ApiKeyAuthenticator</scope><name>setAuditLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

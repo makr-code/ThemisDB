@@ -1,0 +1,259 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="config__encrypted__store_8h" kind="file" language="C++">
+    <compoundname>config_encrypted_store.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__config__release__gates_8cpp" local="yes">benchmarks/config/bench_config_release_gates.cpp</includedby>
+    <includedby refid="config__encrypted__store_8cpp" local="yes">src/config/config_encrypted_store.cpp</includedby>
+    <includedby refid="test__config__encrypted__store_8cpp" local="yes">tests/config/test_config_encrypted_store.cpp</includedby>
+    <includedby refid="test__config__hardening__watcher__store_8cpp" local="yes">tests/config/test_config_hardening_watcher_store.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/config/config_encrypted_store.h</label>
+        <link refid="config__encrypted__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>shared_mutex</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/config/bench_config_release_gates.cpp</label>
+        <link refid="bench__config__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/config/config_encrypted_store.h</label>
+        <link refid="config__encrypted__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/config/config_encrypted_store.cpp</label>
+        <link refid="config__encrypted__store_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/config/test_config_encrypted_store.cpp</label>
+        <link refid="test__config__encrypted__store_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/config/test_config_hardening_watcher_store.cpp</label>
+        <link refid="test__config__hardening__watcher__store_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1config_1_1_config_encryption_exception" prot="public">themis::config::ConfigEncryptionException</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_key_not_found_exception" prot="public">themis::config::ConfigKeyNotFoundException</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_config_encrypted_blob" prot="public">themis::config::ConfigEncryptedBlob</innerclass>
+    <innerclass refid="classthemis_1_1config_1_1_config_encrypted_store" prot="public">themis::config::ConfigEncryptedStore</innerclass>
+    <innerclass refid="structthemis_1_1config_1_1_config_encrypted_store_1_1_key_material" prot="private">themis::config::ConfigEncryptedStore::KeyMaterial</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1config">themis::config</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1config" kindref="compound">config</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1config_1_1_config_encryption_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_encryption_exception_1aa82ffc3f24fa175e113e556c385a65d8" kindref="member">ConfigEncryptionException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35" refid="classthemis_1_1config_1_1_config_encryption_exception_1aa82ffc3f24fa175e113e556c385a65d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encryption_exception_1aa82ffc3f24fa175e113e556c385a65d8" kindref="member">ConfigEncryptionException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;ConfigEncryptedStore:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>msg)<sp/>{}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="classthemis_1_1config_1_1_config_key_not_found_exception" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_key_not_found_exception_1a288cad92b1951018ef04425fa7bb3ff4" kindref="member">ConfigKeyNotFoundException</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1config_1_1_config_key_not_found_exception_1a288cad92b1951018ef04425fa7bb3ff4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_key_not_found_exception_1a288cad92b1951018ef04425fa7bb3ff4" kindref="member">ConfigKeyNotFoundException</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key_id)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;ConfigEncryptedStore:<sp/>key<sp/>not<sp/>found:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>key_id)<sp/>{}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1config_1_1_config_encrypted_blob" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1config_1_1_config_encrypted_blob" kindref="compound">ConfigEncryptedBlob</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1config_1_1_config_encrypted_blob_1af907bf8c49aa659afa2c88e2518515d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob_1af907bf8c49aa659afa2c88e2518515d6" kindref="member">key_version</ref>{0};</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1config_1_1_config_encrypted_blob_1ab6fb1969962f71d52634b8c586248f01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob_1ab6fb1969962f71d52634b8c586248f01" kindref="member">iv</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1config_1_1_config_encrypted_blob_1aef39eadb93483478db2956071e76f137" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob_1aef39eadb93483478db2956071e76f137" kindref="member">ciphertext</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1config_1_1_config_encrypted_blob_1a5db8a47f1f9eae8cbab75b7e3e2eaaae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob_1a5db8a47f1f9eae8cbab75b7e3e2eaaae" kindref="member">tag</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob_1a84b2dd3c1830ac4d2321738fd38dd26f" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob" kindref="compound">ConfigEncryptedBlob</ref><sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob_1a08cb76e695c4818810ad07641686dc31" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json_str);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1config_1_1_config_encrypted_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a5cf44aae9cb394cfbcd87a96bdb9507a" kindref="member">ConfigEncryptedStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a5cf44aae9cb394cfbcd87a96bdb9507a" kindref="member">ConfigEncryptedStore</ref>();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1config_1_1_config_encrypted_store_1ad185627c11fd63da2ee5766495f842a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1ad185627c11fd63da2ee5766495f842a9" kindref="member">~ConfigEncryptedStore</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>non-movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1config_1_1_config_encrypted_store_1adeaa85e51e8181782d264efc7b059255" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1adeaa85e51e8181782d264efc7b059255" kindref="member">ConfigEncryptedStore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a5cf44aae9cb394cfbcd87a96bdb9507a" kindref="member">ConfigEncryptedStore</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1config_1_1_config_encrypted_store_1a9887fc364052a23a2aaa8920ade02486" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a5cf44aae9cb394cfbcd87a96bdb9507a" kindref="member">ConfigEncryptedStore</ref>&amp;<sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a9887fc364052a23a2aaa8920ade02486" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a5cf44aae9cb394cfbcd87a96bdb9507a" kindref="member">ConfigEncryptedStore</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1config_1_1_config_encrypted_store_1af4c938e909143ec2155b4d7f675ccd70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1af4c938e909143ec2155b4d7f675ccd70" kindref="member">ConfigEncryptedStore</ref>(<ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a5cf44aae9cb394cfbcd87a96bdb9507a" kindref="member">ConfigEncryptedStore</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1config_1_1_config_encrypted_store_1ac686ab18f68d016d7cf4e54d45e38612" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a5cf44aae9cb394cfbcd87a96bdb9507a" kindref="member">ConfigEncryptedStore</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a5cf44aae9cb394cfbcd87a96bdb9507a" kindref="member">ConfigEncryptedStore</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRUD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a30ab484c92a39f50e41f9dbb740852ae" kindref="member">set</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>config_key,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>plaintext);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1ae5d7e445262e4f7a4a0f9d21dcc73e9c" kindref="member">get</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>config_key)<sp/>const;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a8519478f28d9e8bdd206d148c47c0943" kindref="member">tryGet</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>config_key)<sp/>const;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1ad3097aa193d48fbad9d7cfd1c5ead70b" kindref="member">remove</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>config_key);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a58483622ae0ad366668186dea48df085" kindref="member">contains</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>config_key)<sp/>const;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1aa53ce2a0a6e2ef4522936d72c9b3f425" kindref="member">keys</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a6fede6389c22cc4482be98891b12a303" kindref="member">size</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a49fc956f7be9d320dac94a223db0f826" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>rotation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1abd314b30f8f5430e2a258a820088748e" kindref="member">rotateKey</ref>();</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a6b21a7cc0d865e7b2b9f4307cff42d62" kindref="member">currentKeyVersion</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialisation<sp/>/<sp/>deserialisation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1ab6b4d71479b80d7031fec54abb5f8ebf" kindref="member">serialize</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1config_1_1_config_encrypted_store_1a6add4bd1cc6669e5fa7b1c89bf740d2f" kindref="member">deserialize</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>json_str);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>internal<sp/>types<sp/>-----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>KeyMaterial<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version{0};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>key_bytes;<sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>generateKey();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>generateIV();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/>aesGcmEncrypt(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>plaintext,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/><sp/><sp/><sp/><sp/>out_iv,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/><sp/><sp/><sp/><sp/>out_tag);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>aesGcmDecrypt(</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>ciphertext,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>iv,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>tag);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob" kindref="compound">ConfigEncryptedBlob</ref><sp/>encryptValue(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>plaintext)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>decryptBlob(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1config_1_1_config_encrypted_blob" kindref="compound">ConfigEncryptedBlob</ref>&amp;<sp/>blob)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>state<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>KeyMaterial<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ConfigEncryptedBlob&gt;<sp/><sp/><sp/>store_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/config/config_encrypted_store.h"/>
+  </compounddef>
+</doxygen>

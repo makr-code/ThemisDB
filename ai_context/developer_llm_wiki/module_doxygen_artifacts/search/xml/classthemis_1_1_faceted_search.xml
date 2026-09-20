@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_faceted_search" kind="class" language="C++" prot="public">
+    <compoundname>themis::FacetedSearch</compoundname>
+    <includes refid="faceted__search_8h" local="no">faceted_search.h</includes>
+    <innerclass refid="structthemis_1_1_faceted_search_1_1_range_bucket" prot="public">themis::FacetedSearch::RangeBucket</innerclass>
+    <innerclass refid="structthemis_1_1_faceted_search_1_1_active_facet" prot="public">themis::FacetedSearch::ActiveFacet</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_faceted_search_1a21ba1b57b90ad1e9874fa71a0a033a7f" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager* themis::FacetedSearch::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::FacetedSearch::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="190" column="27" bodyfile="include/search/faceted_search.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_faceted_search_1a240ea270f0a5b4fcb7aa0dcfd91f6793" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FacetedSearch::FacetedSearch</definition>
+        <argsstring>(SecondaryIndexManager *index)</argsstring>
+        <name>FacetedSearch</name>
+        <qualifiedname>themis::FacetedSearch::FacetedSearch</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager. Must outlive this. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="79" column="14" bodyfile="src/search/faceted_search.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_faceted_search_1a50dda5048ae73f57db1c98d34f35ad63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; SecondaryIndexManager::Status, <ref refid="structthemis_1_1_facet_result" kindref="compound">FacetResult</ref> &gt;</type>
+        <definition>std::pair&lt; SecondaryIndexManager::Status, FacetResult &gt; themis::FacetedSearch::computeFacet</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column, const std::vector&lt; std::string &gt; &amp;candidate_pks={}, size_t max_values=100) const</argsstring>
+        <name>computeFacet</name>
+        <qualifiedname>themis::FacetedSearch::computeFacet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidate_pks</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_values</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Compute value counts for a single field (categorical facet). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Scans the secondary index for <computeroutput>table.column</computeroutput> and counts the occurrences of each distinct value, limited to documents in <computeroutput>candidate_pks</computeroutput> (if non-empty). If <computeroutput>candidate_pks</computeroutput> is empty all documents are counted.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column to facet on. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_pks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional set of PKs to restrict counting (search results). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of distinct values to return (0 = no limit). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of Status and <ref refid="structthemis_1_1_facet_result" kindref="compound">FacetResult</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="98" column="15" bodyfile="src/search/faceted_search.cpp" bodystart="23" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_faceted_search_1a4a14283faf8df1c86915467f9c38b053" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; <ref refid="structthemis_1_1_facet_result" kindref="compound">FacetResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; FacetResult &gt; &gt; themis::FacetedSearch::computeFacets</definition>
+        <argsstring>(const std::string &amp;table, const std::vector&lt; std::string &gt; &amp;columns, const std::vector&lt; std::string &gt; &amp;candidate_pks={}) const</argsstring>
+        <name>computeFacets</name>
+        <qualifiedname>themis::FacetedSearch::computeFacets</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>columns</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidate_pks</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Compute multiple facets at once. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience wrapper for calling <ref refid="classthemis_1_1_faceted_search_1a50dda5048ae73f57db1c98d34f35ad63" kindref="member">computeFacet()</ref> on several columns in a single call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>columns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>List of columns to compute facets for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_pks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional set of PKs to restrict counting. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of Status and list of <ref refid="structthemis_1_1_facet_result" kindref="compound">FacetResult</ref> (one per column). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="116" column="15" bodyfile="src/search/faceted_search.cpp" bodystart="98" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_faceted_search_1a9e4092a9d5ea9a6984487dd15dc6438b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; SecondaryIndexManager::Status, <ref refid="structthemis_1_1_facet_result" kindref="compound">FacetResult</ref> &gt;</type>
+        <definition>std::pair&lt; SecondaryIndexManager::Status, FacetResult &gt; themis::FacetedSearch::computeRangeFacet</definition>
+        <argsstring>(const std::string &amp;table, const std::string &amp;column, const std::vector&lt; RangeBucket &gt; &amp;buckets, const std::vector&lt; std::string &gt; &amp;candidate_pks={}) const</argsstring>
+        <name>computeRangeFacet</name>
+        <qualifiedname>themis::FacetedSearch::computeRangeFacet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_faceted_search_1_1_range_bucket" kindref="compound">RangeBucket</ref> &gt; &amp;</type>
+          <declname>buckets</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidate_pks</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Compute a numeric range facet. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Counts documents whose field value falls into each provided bucket.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Numeric column. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>buckets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ordered list of range definitions. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_pks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional set of PKs to restrict counting. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of Status and <ref refid="structthemis_1_1_facet_result" kindref="compound">FacetResult</ref> (bucket labels as value_counts keys). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="133" column="15" bodyfile="src/search/faceted_search.cpp" bodystart="112" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_faceted_search_1a7844127893235ad74d3d7b6c796590dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::FacetedSearch::applyFacetFilters</definition>
+        <argsstring>(const std::string &amp;table, const std::vector&lt; std::string &gt; &amp;candidate_pks, const std::vector&lt; ActiveFacet &gt; &amp;active_facets) const</argsstring>
+        <name>applyFacetFilters</name>
+        <qualifiedname>themis::FacetedSearch::applyFacetFilters</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidate_pks</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_faceted_search_1_1_active_facet" kindref="compound">ActiveFacet</ref> &gt; &amp;</type>
+          <declname>active_facets</declname>
+        </param>
+        <briefdescription>
+<para>Apply active facet filters to a candidate PK set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Given a set of candidate PKs and a list of required field=value constraints, return only the PKs that satisfy all constraints.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_pks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PKs to filter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>active_facets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Required field=value filters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Filtered PK list (may be empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="151" column="15" bodyfile="src/search/faceted_search.cpp" bodystart="155" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_faceted_search_1af14369b47cb7ce8ad6fa1ab6cbd31e73" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; std::string &gt; &gt; themis::FacetedSearch::discoverFacetableColumns</definition>
+        <argsstring>(const std::string &amp;table) const</argsstring>
+        <name>discoverFacetableColumns</name>
+        <qualifiedname>themis::FacetedSearch::discoverFacetableColumns</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <briefdescription>
+<para>Discover all columns in a table that are suitable for faceting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Queries the index metadata to find columns with regular, range, or sparse indexes. Geo, TTL, fulltext, and composite indexes are excluded because they do not produce meaningful categorical or numeric range facets.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of Status and list of column names suitable for faceting. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="167" column="15" bodyfile="src/search/faceted_search.cpp" bodystart="193" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_faceted_search_1a65dcb3cc333ab24286fa709c23dc758f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; <ref refid="structthemis_1_1_facet_result" kindref="compound">FacetResult</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; FacetResult &gt; &gt; themis::FacetedSearch::computeDynamicFacets</definition>
+        <argsstring>(const std::string &amp;table, const std::vector&lt; std::string &gt; &amp;candidate_pks={}, size_t max_values=100) const</argsstring>
+        <name>computeDynamicFacets</name>
+        <qualifiedname>themis::FacetedSearch::computeDynamicFacets</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>candidate_pks</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_values</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Compute dynamic facets for all discoverable columns in a table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Automatically calls <ref refid="classthemis_1_1_faceted_search_1af14369b47cb7ce8ad6fa1ab6cbd31e73" kindref="member">discoverFacetableColumns()</ref> and then <ref refid="classthemis_1_1_faceted_search_1a50dda5048ae73f57db1c98d34f35ad63" kindref="member">computeFacet()</ref> for each discovered column. This provides &quot;dynamic&quot; facet counting — callers do not need to know which columns are indexed in advance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidate_pks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional set of PKs to restrict counting (search results). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum distinct values per facet (0 = no limit). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of Status and list of <ref refid="structthemis_1_1_facet_result" kindref="compound">FacetResult</ref> (one per discoverable column). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/faceted_search.h" line="183" column="15" bodyfile="src/search/faceted_search.cpp" bodystart="220" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-dimensional facet computation for drill-down navigation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_faceted_search" kindref="compound">FacetedSearch</ref> reads a secondary index to compute per-field value counts, range bucket counts, and supports drill-down filtering through a list of active facets.</para>
+<para>It does <bold>not</bold> perform a full-text search — it is intended to be used alongside a search step:</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="comment">//<sp/>1.<sp/>Run<sp/>the<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>hybrid_search.search(</highlight><highlight class="stringliteral">&quot;laptop&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>2.<sp/>Collect<sp/>matching<sp/>PKs</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::vector&lt;std::string&gt;<sp/>pks;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>r<sp/>:<sp/>results)<sp/>pks.push_back(r.document_id);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>3.<sp/>Compute<sp/>facets</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_faceted_search_1a240ea270f0a5b4fcb7aa0dcfd91f6793" kindref="member">FacetedSearch</ref><sp/>facets(&amp;sec_index);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>brand_facet<sp/>=<sp/>facets.computeFacet(</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;brand&quot;</highlight><highlight class="normal">,<sp/>pks);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_faceted_search" kindref="compound">FacetedSearch</ref> instance is NOT thread-safe. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: All methods return Status; they never throw. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/faceted_search.h" line="57" column="1" bodyfile="include/search/faceted_search.h" bodystart="57" bodyend="191"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_faceted_search_1a7844127893235ad74d3d7b6c796590dc" prot="public" virt="non-virtual"><scope>themis::FacetedSearch</scope><name>applyFacetFilters</name></member>
+      <member refid="classthemis_1_1_faceted_search_1a65dcb3cc333ab24286fa709c23dc758f" prot="public" virt="non-virtual"><scope>themis::FacetedSearch</scope><name>computeDynamicFacets</name></member>
+      <member refid="classthemis_1_1_faceted_search_1a50dda5048ae73f57db1c98d34f35ad63" prot="public" virt="non-virtual"><scope>themis::FacetedSearch</scope><name>computeFacet</name></member>
+      <member refid="classthemis_1_1_faceted_search_1a4a14283faf8df1c86915467f9c38b053" prot="public" virt="non-virtual"><scope>themis::FacetedSearch</scope><name>computeFacets</name></member>
+      <member refid="classthemis_1_1_faceted_search_1a9e4092a9d5ea9a6984487dd15dc6438b" prot="public" virt="non-virtual"><scope>themis::FacetedSearch</scope><name>computeRangeFacet</name></member>
+      <member refid="classthemis_1_1_faceted_search_1af14369b47cb7ce8ad6fa1ab6cbd31e73" prot="public" virt="non-virtual"><scope>themis::FacetedSearch</scope><name>discoverFacetableColumns</name></member>
+      <member refid="classthemis_1_1_faceted_search_1a240ea270f0a5b4fcb7aa0dcfd91f6793" prot="public" virt="non-virtual"><scope>themis::FacetedSearch</scope><name>FacetedSearch</name></member>
+      <member refid="classthemis_1_1_faceted_search_1a21ba1b57b90ad1e9874fa71a0a033a7f" prot="private" virt="non-virtual"><scope>themis::FacetedSearch</scope><name>index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

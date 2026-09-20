@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_crypto_attack_vector_test" kind="class" language="C++" prot="public">
+    <compoundname>CryptoAttackVectorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_crypto_attack_vector_test_1ab921784420a1d6c467eaef154075a0cb" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockKeyProvider&gt; CryptoAttackVectorTest::provider_</definition>
+        <argsstring></argsstring>
+        <name>provider_</name>
+        <qualifiedname>CryptoAttackVectorTest::provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" line="72" column="21" bodyfile="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_crypto_attack_vector_test_1a7a22466ba4a270c94a2ccfbdb822bc64" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_field_encryption" kindref="compound">FieldEncryption</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; CryptoAttackVectorTest::enc_</definition>
+        <argsstring></argsstring>
+        <name>enc_</name>
+        <qualifiedname>CryptoAttackVectorTest::enc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" line="73" column="21" bodyfile="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_crypto_attack_vector_test_1a6b0e193829c9264a212272fa2b360dc5" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool CryptoAttackVectorTest::field_encryption_available_</definition>
+        <argsstring></argsstring>
+        <name>field_encryption_available_</name>
+        <qualifiedname>CryptoAttackVectorTest::field_encryption_available_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" line="74" column="10" bodyfile="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_crypto_attack_vector_test_1a5115cac5a5df30ea599cc44952cf3c61" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CryptoAttackVectorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CryptoAttackVectorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" line="55" column="10" bodyfile="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" bodystart="55" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_crypto_attack_vector_test_1a84b3c08ea3c55c3efe38150e981dd4ec" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool CryptoAttackVectorTest::expectEncryptionUnavailable</definition>
+        <argsstring>()</argsstring>
+        <name>expectEncryptionUnavailable</name>
+        <qualifiedname>CryptoAttackVectorTest::expectEncryptionUnavailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" line="64" column="10" bodyfile="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" bodystart="64" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CryptoAttackVectorTest</label>
+        <link refid="class_crypto_attack_vector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CryptoAttackVectorTest</label>
+        <link refid="class_crypto_attack_vector_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" line="53" column="1" bodyfile="tests/security/attack-vectors/crypto/test_crypto_attack_vectors.cpp" bodystart="53" bodyend="75"/>
+    <listofallmembers>
+      <member refid="class_crypto_attack_vector_test_1a7a22466ba4a270c94a2ccfbdb822bc64" prot="protected" virt="non-virtual"><scope>CryptoAttackVectorTest</scope><name>enc_</name></member>
+      <member refid="class_crypto_attack_vector_test_1a84b3c08ea3c55c3efe38150e981dd4ec" prot="protected" virt="non-virtual"><scope>CryptoAttackVectorTest</scope><name>expectEncryptionUnavailable</name></member>
+      <member refid="class_crypto_attack_vector_test_1a6b0e193829c9264a212272fa2b360dc5" prot="protected" virt="non-virtual"><scope>CryptoAttackVectorTest</scope><name>field_encryption_available_</name></member>
+      <member refid="class_crypto_attack_vector_test_1ab921784420a1d6c467eaef154075a0cb" prot="protected" virt="non-virtual"><scope>CryptoAttackVectorTest</scope><name>provider_</name></member>
+      <member refid="class_crypto_attack_vector_test_1a5115cac5a5df30ea599cc44952cf3c61" prot="protected" virt="non-virtual"><scope>CryptoAttackVectorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

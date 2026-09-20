@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::optimizations::PerformanceMonitor</compoundname>
+    <includes refid="raid__optimizations_8h" local="no">raid_optimizations.h</includes>
+    <innerclass refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics" prot="public">themisdb::sharding::optimizations::PerformanceMonitor::Metrics</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1ab942c18b4c5465151c71d08f375326d5" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>static Metrics themisdb::sharding::optimizations::PerformanceMonitor::collectMetrics</definition>
+        <argsstring>(const RedundancyStrategy &amp;strategy)</argsstring>
+        <name>collectMetrics</name>
+        <qualifiedname>themisdb::sharding::optimizations::PerformanceMonitor::collectMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref> &amp;</type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raid_optimizations.h" line="395" column="20" bodyfile="include/sharding/raid_optimizations.h" bodystart="395" bodyend="415"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance Monitoring. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="382" column="1" bodyfile="include/sharding/raid_optimizations.h" bodystart="382" bodyend="416"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor_1ab942c18b4c5465151c71d08f375326d5" prot="public" virt="non-virtual"><scope>themisdb::sharding::optimizations::PerformanceMonitor</scope><name>collectMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

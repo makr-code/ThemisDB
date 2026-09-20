@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_benchmark_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::BenchmarkResult</compoundname>
+    <includes refid="benchmark__matrix_8h" local="no">benchmark_matrix.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_result_1a10c3cd95cc8512ca17f448c1f149d645" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::BenchmarkResult::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>themis::evaluation::BenchmarkResult::value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Measured value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="202" column="12" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_result_1a9178c4431d9e9ce87db4f062aca5cd56" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::BenchmarkResult::stddev</definition>
+        <argsstring></argsstring>
+        <name>stddev</name>
+        <qualifiedname>themis::evaluation::BenchmarkResult::stddev</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Standard deviation (0 if unavailable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="203" column="12" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="203" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_result_1aff56be99af3ad2324177c64a4d4acb5c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::evaluation::BenchmarkResult::sample_count</definition>
+        <argsstring></argsstring>
+        <name>sample_count</name>
+        <qualifiedname>themis::evaluation::BenchmarkResult::sample_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of samples aggregated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="204" column="14" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="204" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_benchmark_result_1ab3904addb890763d7ca682f24b8d35db" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+        <definition>BenchmarkEdgeCase themis::evaluation::BenchmarkResult::edge_flags</definition>
+        <argsstring></argsstring>
+        <name>edge_flags</name>
+        <qualifiedname>themis::evaluation::BenchmarkResult::edge_flags</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298ab50339a10e1de285ac99d4c3990b8693" kindref="member">BenchmarkEdgeCase::NONE</ref>}</initializer>
+        <briefdescription>
+<para>Anomaly annotations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="205" column="23" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_benchmark_result_1aec72c39959ad2006ca638cadf02efc2a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::BenchmarkResult::isClean</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isClean</name>
+        <qualifiedname>themis::evaluation::BenchmarkResult::isClean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="207" column="11" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="207" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1evaluation_1_1_benchmark_result_1a66ca16f08dada75fa28a62562a6d529d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::BenchmarkResult::hasSufficientData</definition>
+        <argsstring>(uint32_t min_samples=3) const noexcept</argsstring>
+        <name>hasSufficientData</name>
+        <qualifiedname>themis::evaluation::BenchmarkResult::hasSufficientData</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>min_samples</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="211" column="11" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="211" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/benchmark_matrix.h" line="201" column="1" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="201" bodyend="215"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1ab3904addb890763d7ca682f24b8d35db" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkResult</scope><name>edge_flags</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1a66ca16f08dada75fa28a62562a6d529d" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkResult</scope><name>hasSufficientData</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1aec72c39959ad2006ca638cadf02efc2a" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkResult</scope><name>isClean</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1aff56be99af3ad2324177c64a4d4acb5c" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkResult</scope><name>sample_count</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1a9178c4431d9e9ce87db4f062aca5cd56" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkResult</scope><name>stddev</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_benchmark_result_1a10c3cd95cc8512ca17f448c1f149d645" prot="public" virt="non-virtual"><scope>themis::evaluation::BenchmarkResult</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

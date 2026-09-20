@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer" kind="struct" language="C++" prot="private">
+    <compoundname>themis::VectorAutoBuffer::NamespaceBuffer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1a85a225b1fb143ad356b407d4dc23fe47" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; BufferedOp &gt;</type>
+        <definition>std::deque&lt;BufferedOp&gt; themis::VectorAutoBuffer::NamespaceBuffer::operations</definition>
+        <argsstring></argsstring>
+        <name>operations</name>
+        <qualifiedname>themis::VectorAutoBuffer::NamespaceBuffer::operations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="279" column="20" bodyfile="include/index/vector_auto_buffer.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1af0b1cba2bb7c562fc861af2db3f4b6e9" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::VectorAutoBuffer::NamespaceBuffer::first_op_time</definition>
+        <argsstring></argsstring>
+        <name>first_op_time</name>
+        <qualifiedname>themis::VectorAutoBuffer::NamespaceBuffer::first_op_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="280" column="47" bodyfile="include/index/vector_auto_buffer.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1a5fa71b5a10b856b1e62fb1c864af1c1b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorAutoBuffer::NamespaceBuffer::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::VectorAutoBuffer::NamespaceBuffer::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="281" column="16" bodyfile="include/index/vector_auto_buffer.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1a3446edf19a5311d6a22da703a15ff47c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VectorAutoBuffer::NamespaceBuffer::add</definition>
+        <argsstring>(BufferedOp &amp;&amp;op)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::VectorAutoBuffer::NamespaceBuffer::add</qualifiedname>
+        <param>
+          <type>BufferedOp &amp;&amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="283" column="14" bodyfile="include/index/vector_auto_buffer.h" bodystart="283" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1a2bea9a41aae524b5578eeef58c6341db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::VectorAutoBuffer::NamespaceBuffer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::VectorAutoBuffer::NamespaceBuffer::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_auto_buffer.h" line="291" column="14" bodyfile="include/index/vector_auto_buffer.h" bodystart="291" bodyend="294"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_auto_buffer.h" line="278" column="5" bodyfile="include/index/vector_auto_buffer.h" bodystart="278" bodyend="295"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1a3446edf19a5311d6a22da703a15ff47c" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::NamespaceBuffer</scope><name>add</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1a2bea9a41aae524b5578eeef58c6341db" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::NamespaceBuffer</scope><name>clear</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1af0b1cba2bb7c562fc861af2db3f4b6e9" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::NamespaceBuffer</scope><name>first_op_time</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1a5fa71b5a10b856b1e62fb1c864af1c1b" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::NamespaceBuffer</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1_vector_auto_buffer_1_1_namespace_buffer_1a85a225b1fb143ad356b407d4dc23fe47" prot="public" virt="non-virtual"><scope>themis::VectorAutoBuffer::NamespaceBuffer</scope><name>operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

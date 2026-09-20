@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::DebeziumCDCImporter::CDCEvent</compoundname>
+    <includes refid="debezium__cdc__importer_8h" local="no">debezium_cdc_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a4cfba4d6e6b7d6f93770a42dfd5a52fd" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9" kindref="member">ChangeOp</ref></type>
+        <definition>ChangeOp themis::importers::DebeziumCDCImporter::CDCEvent::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::CDCEvent::op</qualifiedname>
+        <initializer>{<ref refid="classthemis_1_1importers_1_1_debezium_c_d_c_importer_1a4b09df1176b9cd507d97c047bc24b5a9a88183b946cc5f0e8c96b2e66e1c74a7e" kindref="member">ChangeOp::Unknown</ref>}</initializer>
+        <briefdescription>
+<para>Operation type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="52" column="18" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a760f860e9cf2a55658f8aed23c5cf62a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::DebeziumCDCImporter::CDCEvent::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::CDCEvent::table</qualifiedname>
+        <briefdescription>
+<para>Fully-qualified table name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="53" column="21" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a2c25a315cb1460f0588625881a69e11e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::DebeziumCDCImporter::CDCEvent::before</definition>
+        <argsstring></argsstring>
+        <name>before</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::CDCEvent::before</qualifiedname>
+        <briefdescription>
+<para>Pre-image; null for INSERT/READ. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="54" column="14" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a81a9903e4dd6b8510bae1160a0d0b41d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::DebeziumCDCImporter::CDCEvent::after</definition>
+        <argsstring></argsstring>
+        <name>after</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::CDCEvent::after</qualifiedname>
+        <briefdescription>
+<para>Post-image; null for DELETE. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="55" column="14" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1af029f841bd8ecb872575543c4861552d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::importers::DebeziumCDCImporter::CDCEvent::source_ts_ms</definition>
+        <argsstring></argsstring>
+        <name>source_ts_ms</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::CDCEvent::source_ts_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Source commit timestamp (epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="56" column="17" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a99610b13169e078f38d8f7844909841a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::DebeziumCDCImporter::CDCEvent::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::CDCEvent::transaction_id</qualifiedname>
+        <briefdescription>
+<para>Optional transaction boundary ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="57" column="21" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a8e98234dbbb9a3f68d40ebc6d1fccf9b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::DebeziumCDCImporter::CDCEvent::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::importers::DebeziumCDCImporter::CDCEvent::offset</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Kafka partition offset. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/debezium_cdc_importer.h" line="58" column="18" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/debezium_cdc_importer.h" line="51" column="5" bodyfile="include/importers/debezium_cdc_importer.h" bodystart="51" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a81a9903e4dd6b8510bae1160a0d0b41d" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter::CDCEvent</scope><name>after</name></member>
+      <member refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a2c25a315cb1460f0588625881a69e11e" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter::CDCEvent</scope><name>before</name></member>
+      <member refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a8e98234dbbb9a3f68d40ebc6d1fccf9b" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter::CDCEvent</scope><name>offset</name></member>
+      <member refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a4cfba4d6e6b7d6f93770a42dfd5a52fd" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter::CDCEvent</scope><name>op</name></member>
+      <member refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1af029f841bd8ecb872575543c4861552d" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter::CDCEvent</scope><name>source_ts_ms</name></member>
+      <member refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a760f860e9cf2a55658f8aed23c5cf62a" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter::CDCEvent</scope><name>table</name></member>
+      <member refid="structthemis_1_1importers_1_1_debezium_c_d_c_importer_1_1_c_d_c_event_1a99610b13169e078f38d8f7844909841a" prot="public" virt="non-virtual"><scope>themis::importers::DebeziumCDCImporter::CDCEvent</scope><name>transaction_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

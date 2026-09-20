@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1security_1_1tests" kind="namespace" language="C++">
+    <compoundname>themis::security::tests</compoundname>
+    <innerclass refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test" prot="public">themis::security::tests::LicenseDataInitializationTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1tests_1_1_signature_verification_exception_safety_test" prot="public">themis::security::tests::SignatureVerificationExceptionSafetyTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1tests_1_1_wire_protocol_buffer_overflow_test" prot="public">themis::security::tests::WireProtocolBufferOverflowTest</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test" prot="public">themis::security::tests::LegacyPathGovernanceTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1aa2f21b790914579d41343aae4f5cd112" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(LicenseDataInitializationTest, MaxNodesInitializedToUnlimited)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test" kindref="compound">LicenseDataInitializationTest</ref></type>
+        </param>
+        <param>
+          <type>MaxNodesInitializedToUnlimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #2: Verify max_nodes is initialized to -1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="55" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="55" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1a4d1a43b4d714c2734ff6a05823968138" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(LicenseDataInitializationTest, MaxCoresInitializedToUnlimited)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test" kindref="compound">LicenseDataInitializationTest</ref></type>
+        </param>
+        <param>
+          <type>MaxCoresInitializedToUnlimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #3: Verify max_cores is initialized to -1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="70" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="70" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1a66a5151f0c183b8ea10f2863524253ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(LicenseDataInitializationTest, MaxStorageTbInitializedToUnlimited)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test" kindref="compound">LicenseDataInitializationTest</ref></type>
+        </param>
+        <param>
+          <type>MaxStorageTbInitializedToUnlimited</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #4: Verify max_storage_tb is initialized to -1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="82" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="82" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1ad5e2e9f8804b2278795c35a3f00638e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(LicenseDataInitializationTest, MultipleInstancesConsistentlyInitialized)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test" kindref="compound">LicenseDataInitializationTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleInstancesConsistentlyInitialized</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Comprehensive test: Multiple LicenseData instances have consistent initialization </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="94" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="94" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1aaad6e5405f4edba5e3b31fa98dff3fa5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(LicenseDataInitializationTest, NoUninitializedReadInFormatLicense)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test" kindref="compound">LicenseDataInitializationTest</ref></type>
+        </param>
+        <param>
+          <type>NoUninitializedReadInFormatLicense</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>ASAN/Sanitizer validation: Verify no uninitialized read occurs </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="109" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="109" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1afb09d64f5e1183b30b9f280ca12bf907" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(LicenseDataInitializationTest, GetDaysUntilExpiryHandlesUninitializedDate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_license_data_initialization_test" kindref="compound">LicenseDataInitializationTest</ref></type>
+        </param>
+        <param>
+          <type>GetDaysUntilExpiryHandlesUninitializedDate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test getDaysUntilExpiry with uninitialized-like values </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="126" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="126" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1ae1f4a17965f804e0c1b467f9b36953f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(SignatureVerificationExceptionSafetyTest, EmptySignatureHandledSafely)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_signature_verification_exception_safety_test" kindref="compound">SignatureVerificationExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>EmptySignatureHandledSafely</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #5: Verify verifyLicenseSignature handles empty signature gracefully </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="147" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="147" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1a4be9e572f4c14e2e4b1cd65f61573cb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(SignatureVerificationExceptionSafetyTest, InvalidBase64SignatureHandledSafely)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_signature_verification_exception_safety_test" kindref="compound">SignatureVerificationExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>InvalidBase64SignatureHandledSafely</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #5: Verify verifyLicenseSignature handles invalid base64 gracefully </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="160" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="160" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1a4fd24bb5c65a1a37168a68335346aa23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(SignatureVerificationExceptionSafetyTest, MalformedDataHandledSafely)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_signature_verification_exception_safety_test" kindref="compound">SignatureVerificationExceptionSafetyTest</ref></type>
+        </param>
+        <param>
+          <type>MalformedDataHandledSafely</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #5: Verify verifyLicenseSignature doesn&apos;t crash on malformed data </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="181" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="181" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1a7481290c64d9033cd47a227e09d48490" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(WireProtocolBufferOverflowTest, BoundsCheckingPreventedOverflow)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_wire_protocol_buffer_overflow_test" kindref="compound">WireProtocolBufferOverflowTest</ref></type>
+        </param>
+        <param>
+          <type>BoundsCheckingPreventedOverflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #1: Verify bounds checking prevents buffer overflow </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="206" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="206" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1a482693fc53b6fcc3a3d5f1e50de0ca1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(WireProtocolBufferOverflowTest, BufferUnderflowRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_wire_protocol_buffer_overflow_test" kindref="compound">WireProtocolBufferOverflowTest</ref></type>
+        </param>
+        <param>
+          <type>BufferUnderflowRejected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #1: Verify buffer underflow is rejected </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="237" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="237" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1a843f6dc40fd3bad4ada22477a6b2a8a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(LegacyPathGovernanceTest, WireProtocolLegacyPathMarked)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test" kindref="compound">LegacyPathGovernanceTest</ref></type>
+        </param>
+        <param>
+          <type>WireProtocolLegacyPathMarked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #6: Verify wire_protocol_server.cpp has governance marker </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="266" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="266" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1security_1_1tests_1a924916632f0262f651830d7a87be55d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::tests::TEST_F</definition>
+        <argsstring>(LegacyPathGovernanceTest, LicenseInfoLegacyPathMarked)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::security::tests::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1security_1_1tests_1_1_legacy_path_governance_test" kindref="compound">LegacyPathGovernanceTest</ref></type>
+        </param>
+        <param>
+          <type>LicenseInfoLegacyPathMarked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>✓ SECURITY FIX #7: Verify license_info.cpp has governance marker </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_security_hardening_fixes.cpp" line="287" column="1" bodyfile="tests/security/test_security_hardening_fixes.cpp" bodystart="287" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_security_hardening_fixes.cpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

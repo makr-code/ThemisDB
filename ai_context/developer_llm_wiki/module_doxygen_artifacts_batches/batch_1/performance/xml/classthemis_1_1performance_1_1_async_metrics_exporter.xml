@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_async_metrics_exporter" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::AsyncMetricsExporter</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_async_metrics_exporter_1acb8107f5d684504461dca6178f812b75" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>AsyncMetricsExporter &amp;</type>
+        <definition>static AsyncMetricsExporter &amp; themis::performance::AsyncMetricsExporter::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::performance::AsyncMetricsExporter::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements instance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="289" column="33" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="289" bodyend="292"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_async_metrics_exporter_1a0c7b4fec92c0ee622fb4a47eb6ffed94" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AsyncMetricsExporter::start</definition>
+        <argsstring>(int export_interval_seconds=1)</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::performance::AsyncMetricsExporter::start</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>export_interval_seconds</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="294" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="294" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_async_metrics_exporter_1a4b6b61756349a99a9228a9fe558d8eb4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::AsyncMetricsExporter::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::performance::AsyncMetricsExporter::stop</qualifiedname>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a4ef9a200f5031a795e5b742fa9dea243" kindref="member">CycleMetricsCollector::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="302" column="10" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="302" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_async_metrics_exporter_1a4388acc4590fd6abcb94dff2d1a94abf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::AsyncMetricsExporter::getPrometheusMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getPrometheusMetrics</name>
+        <qualifiedname>themis::performance::AsyncMetricsExporter::getPrometheusMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Prometheus Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a4ef9a200f5031a795e5b742fa9dea243" kindref="member">CycleMetricsCollector::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="311" column="17" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="311" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_async_metrics_exporter_1aa949fff3819a5399de3e98fb368678ff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::performance::AsyncMetricsExporter::getCHIMERAMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>getCHIMERAMetrics</name>
+        <qualifiedname>themis::performance::AsyncMetricsExporter::getCHIMERAMetrics</qualifiedname>
+        <briefdescription>
+<para>Get CHIMERAMetrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1performance_1_1_cycle_metrics_collector_1a4ef9a200f5031a795e5b742fa9dea243" kindref="member">CycleMetricsCollector::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="320" column="17" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="320" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_async_metrics_exporter_1a612bf31912c7dba7b8ec13f7f39d3319" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::AsyncMetricsExporter::getDroppedMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getDroppedMetrics</name>
+        <qualifiedname>themis::performance::AsyncMetricsExporter::getDroppedMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="324" column="14" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="324" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_async_metrics_exporter_1a2137153f3240e54294615a59da25b4b7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AsyncMetricsExporter::AsyncMetricsExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>AsyncMetricsExporter</name>
+        <qualifiedname>themis::performance::AsyncMetricsExporter::AsyncMetricsExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="329" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_async_metrics_exporter_1a801bd59ffbe6129231bb10e6cbdf3d78" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::AsyncMetricsExporter::~AsyncMetricsExporter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AsyncMetricsExporter</name>
+        <qualifiedname>themis::performance::AsyncMetricsExporter::~AsyncMetricsExporter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/performance/async_metrics_exporter.cpp" line="330" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/performance/async_metrics_exporter.cpp" line="282" column="1" bodyfile="src/performance/async_metrics_exporter.cpp" bodystart="282" bodyend="331"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_async_metrics_exporter_1a2137153f3240e54294615a59da25b4b7" prot="private" virt="non-virtual"><scope>themis::performance::AsyncMetricsExporter</scope><name>AsyncMetricsExporter</name></member>
+      <member refid="classthemis_1_1performance_1_1_async_metrics_exporter_1aa949fff3819a5399de3e98fb368678ff" prot="public" virt="non-virtual"><scope>themis::performance::AsyncMetricsExporter</scope><name>getCHIMERAMetrics</name></member>
+      <member refid="classthemis_1_1performance_1_1_async_metrics_exporter_1a612bf31912c7dba7b8ec13f7f39d3319" prot="public" virt="non-virtual"><scope>themis::performance::AsyncMetricsExporter</scope><name>getDroppedMetrics</name></member>
+      <member refid="classthemis_1_1performance_1_1_async_metrics_exporter_1a4388acc4590fd6abcb94dff2d1a94abf" prot="public" virt="non-virtual"><scope>themis::performance::AsyncMetricsExporter</scope><name>getPrometheusMetrics</name></member>
+      <member refid="classthemis_1_1performance_1_1_async_metrics_exporter_1acb8107f5d684504461dca6178f812b75" prot="public" virt="non-virtual"><scope>themis::performance::AsyncMetricsExporter</scope><name>instance</name></member>
+      <member refid="classthemis_1_1performance_1_1_async_metrics_exporter_1a0c7b4fec92c0ee622fb4a47eb6ffed94" prot="public" virt="non-virtual"><scope>themis::performance::AsyncMetricsExporter</scope><name>start</name></member>
+      <member refid="classthemis_1_1performance_1_1_async_metrics_exporter_1a4b6b61756349a99a9228a9fe558d8eb4" prot="public" virt="non-virtual"><scope>themis::performance::AsyncMetricsExporter</scope><name>stop</name></member>
+      <member refid="classthemis_1_1performance_1_1_async_metrics_exporter_1a801bd59ffbe6129231bb10e6cbdf3d78" prot="private" virt="non-virtual"><scope>themis::performance::AsyncMetricsExporter</scope><name>~AsyncMetricsExporter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

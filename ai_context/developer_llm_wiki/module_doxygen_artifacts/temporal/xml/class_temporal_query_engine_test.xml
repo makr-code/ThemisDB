@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_temporal_query_engine_test" kind="class" language="C++" prot="public">
+    <compoundname>TemporalQueryEngineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_temporal_query_engine_test_1ae248e89eeabdbd1cae9c2bdf87dd871e" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref></type>
+        <definition>SystemVersionedTable TemporalQueryEngineTest::table</definition>
+        <argsstring></argsstring>
+        <name>table</name>
+        <qualifiedname>TemporalQueryEngineTest::table</qualifiedname>
+        <initializer>{&quot;test_table&quot;, &quot;node_a&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_query_engine.cpp" line="26" column="26" bodyfile="tests/temporal/test_temporal_query_engine.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_temporal_query_engine_test_1a5492928d446dc6cbe47e2d09afdf1bd1" prot="protected" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp TemporalQueryEngineTest::t_after_emp1_insert</definition>
+        <argsstring></argsstring>
+        <name>t_after_emp1_insert</name>
+        <qualifiedname>TemporalQueryEngineTest::t_after_emp1_insert</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_query_engine.cpp" line="27" column="15" bodyfile="tests/temporal/test_temporal_query_engine.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_temporal_query_engine_test_1a0a633d0f2498848b664b6247021869ac" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TemporalQueryEngineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TemporalQueryEngineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_temporal_query_engine.cpp" line="16" column="10" bodyfile="tests/temporal/test_temporal_query_engine.cpp" bodystart="16" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TemporalQueryEngineTest</label>
+        <link refid="class_temporal_query_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TemporalQueryEngineTest</label>
+        <link refid="class_temporal_query_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>table</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::SystemVersionedTable</label>
+        <link refid="classthemisdb_1_1temporal_1_1_system_versioned_table"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/temporal/test_temporal_query_engine.cpp" line="14" column="1" bodyfile="tests/temporal/test_temporal_query_engine.cpp" bodystart="14" bodyend="28"/>
+    <listofallmembers>
+      <member refid="class_temporal_query_engine_test_1a0a633d0f2498848b664b6247021869ac" prot="protected" virt="non-virtual"><scope>TemporalQueryEngineTest</scope><name>SetUp</name></member>
+      <member refid="class_temporal_query_engine_test_1a5492928d446dc6cbe47e2d09afdf1bd1" prot="protected" virt="non-virtual"><scope>TemporalQueryEngineTest</scope><name>t_after_emp1_insert</name></member>
+      <member refid="class_temporal_query_engine_test_1ae248e89eeabdbd1cae9c2bdf87dd871e" prot="protected" virt="non-virtual"><scope>TemporalQueryEngineTest</scope><name>table</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

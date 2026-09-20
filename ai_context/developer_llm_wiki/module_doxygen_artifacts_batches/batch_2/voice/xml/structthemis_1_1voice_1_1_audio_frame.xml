@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_audio_frame" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::AudioFrame</compoundname>
+    <includes refid="audio__preprocessing_8h" local="no">audio_preprocessing.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1voice_1_1_audio_frame_1a47d011ad533518757185b5153cab4f95" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Codec</name>
+        <qualifiedname>themis::voice::AudioFrame::Codec</qualifiedname>
+        <enumvalue id="structthemis_1_1voice_1_1_audio_frame_1a47d011ad533518757185b5153cab4f95a1674e5751ee747c73262d1479e828d15" prot="public">
+          <name>PCM16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1voice_1_1_audio_frame_1a47d011ad533518757185b5153cab4f95a4c2223596711a6a941bc19e8067ceef9" prot="public">
+          <name>OPUS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1voice_1_1_audio_frame_1a47d011ad533518757185b5153cab4f95a8bb7558ef2b1a75aaf8540c4c639fe3e" prot="public">
+          <name>G711</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1voice_1_1_audio_frame_1a47d011ad533518757185b5153cab4f95a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="31" column="5" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="31" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_frame_1a5872790b2e4b7a3b1592fffdf1438bdf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::voice::AudioFrame::samples</definition>
+        <argsstring></argsstring>
+        <name>samples</name>
+        <qualifiedname>themis::voice::AudioFrame::samples</qualifiedname>
+        <briefdescription>
+<para>Float samples [-1.0, +1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="142" column="17" bodyfile="include/voice/audio_preprocessing.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_frame_1aac6075696da9e9bd14ae51ac20aec1fd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::AudioFrame::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::voice::AudioFrame::sample_rate</qualifiedname>
+        <initializer>= 16000</initializer>
+        <briefdescription>
+<para>Hz (frozen nominal: 16 kHz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="143" column="9" bodyfile="include/voice/audio_preprocessing.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_frame_1ae3e13f80f42f684deaae6e8f049f5af9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::AudioFrame::channels</definition>
+        <argsstring></argsstring>
+        <name>channels</name>
+        <qualifiedname>themis::voice::AudioFrame::channels</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Mono (frozen: 1 channel). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="144" column="9" bodyfile="include/voice/audio_preprocessing.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_frame_1a681349290ee07910285cadeeb7b44308" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::AudioFrame::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::voice::AudioFrame::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock milliseconds at capture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/audio_preprocessing.h" line="145" column="13" bodyfile="include/voice/audio_preprocessing.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_frame_1a254342fa434503732a96475689f90c6c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_audio_frame_1a47d011ad533518757185b5153cab4f95" kindref="member">Codec</ref></type>
+        <definition>Codec themis::voice::AudioFrame::codec</definition>
+        <argsstring></argsstring>
+        <name>codec</name>
+        <qualifiedname>themis::voice::AudioFrame::codec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="38" column="11" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_frame_1ac9219cc34a470fb5f48a0ca6eb68f206" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::voice::AudioFrame::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::voice::AudioFrame::sample_rate</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="39" column="14" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_frame_1a96583a39635ff05996fe1bf0544ed20c" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::voice::AudioFrame::channels</definition>
+        <argsstring></argsstring>
+        <name>channels</name>
+        <qualifiedname>themis::voice::AudioFrame::channels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="40" column="14" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_audio_frame_1ae875ac25c8456272e7aaf064a1b0a46a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::voice::AudioFrame::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::voice::AudioFrame::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="41" column="17" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1voice_1_1_audio_frame_1a6cb3be55c9dca7c8bdb7787135e93042" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::AudioFrame::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::voice::AudioFrame::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_audio_preprocessing_focused.cpp" line="43" column="10" bodyfile="tests/voice/test_voice_audio_preprocessing_focused.cpp" bodystart="43" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>PCM audio with sample rate and timing information. Represents a single audio frame after decoding from transport format. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/audio_preprocessing.h" line="141" column="1" bodyfile="include/voice/audio_preprocessing.h" bodystart="141" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1ae3e13f80f42f684deaae6e8f049f5af9" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>channels</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1a96583a39635ff05996fe1bf0544ed20c" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>channels</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1a47d011ad533518757185b5153cab4f95" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>Codec</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1a254342fa434503732a96475689f90c6c" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>codec</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1ae875ac25c8456272e7aaf064a1b0a46a" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>data</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1a6cb3be55c9dca7c8bdb7787135e93042" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1aac6075696da9e9bd14ae51ac20aec1fd" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1ac9219cc34a470fb5f48a0ca6eb68f206" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1a5872790b2e4b7a3b1592fffdf1438bdf" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>samples</name></member>
+      <member refid="structthemis_1_1voice_1_1_audio_frame_1a681349290ee07910285cadeeb7b44308" prot="public" virt="non-virtual"><scope>themis::voice::AudioFrame</scope><name>timestamp_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

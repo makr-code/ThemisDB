@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_expression_1_1_field_access_expression" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::Expression::FieldAccessExpression</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_path_field_access_expr" prot="public" virt="non-virtual">themis::query::PathFieldAccessExpr</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_expression_1_1_field_access_expression_1ad73b673f509d1f74fe047180bde84ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::Expression::FieldAccessExpression::FieldAccessExpression</definition>
+        <argsstring>()=default</argsstring>
+        <name>FieldAccessExpression</name>
+        <qualifiedname>themis::query::Expression::FieldAccessExpression::FieldAccessExpression</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1189" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_expression_1_1_field_access_expression_1aee07573e69dd4b6d54b16372132a7d79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PathFieldAccessExpr::PathFieldAccessExpr</definition>
+        <argsstring>()=default</argsstring>
+        <name>PathFieldAccessExpr</name>
+        <qualifiedname>themis::query::Expression::FieldAccessExpression::PathFieldAccessExpr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1188" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_expression_1_1_field_access_expression_1a48358cdbdd0d359ca737803ebff433ef" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::PathFieldAccessExpr::PathFieldAccessExpr</definition>
+        <argsstring>(std::vector&lt; std::string &gt; p)</argsstring>
+        <name>PathFieldAccessExpr</name>
+        <qualifiedname>themis::query::Expression::FieldAccessExpression::PathFieldAccessExpr</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1188" column="5" bodyfile="include/query/aql_parser.h" bodystart="1137" bodyend="1137"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::Expression::FieldAccessExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_field_access_expression"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::PathFieldAccessExpr</label>
+        <link refid="structthemis_1_1query_1_1_path_field_access_expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::query::Expression</label>
+        <link refid="structthemis_1_1query_1_1_expression"/>
+      </node>
+      <node id="1">
+        <label>themis::query::Expression::FieldAccessExpression</label>
+        <link refid="structthemis_1_1query_1_1_expression_1_1_field_access_expression"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::PathFieldAccessExpr</label>
+        <link refid="structthemis_1_1query_1_1_path_field_access_expr"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="1187" column="1" bodyfile="include/query/aql_parser.h" bodystart="1187" bodyend="1190"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_expression_1_1_field_access_expression_1ad73b673f509d1f74fe047180bde84ef0" prot="public" virt="non-virtual"><scope>themis::query::Expression::FieldAccessExpression</scope><name>FieldAccessExpression</name></member>
+      <member refid="structthemis_1_1query_1_1_path_field_access_expr_1adebd2a2143a5a11dfe35dc1a127f8f24" prot="public" virt="virtual"><scope>themis::query::Expression::FieldAccessExpression</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_path_field_access_expr_1a50d48a9a593e19902fc83f9e41ff16aa" prot="public" virt="non-virtual"><scope>themis::query::Expression::FieldAccessExpression</scope><name>path</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1_1_field_access_expression_1aee07573e69dd4b6d54b16372132a7d79" prot="public" virt="non-virtual"><scope>themis::query::Expression::FieldAccessExpression</scope><name>PathFieldAccessExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1_1_field_access_expression_1a48358cdbdd0d359ca737803ebff433ef" prot="public" virt="non-virtual"><scope>themis::query::Expression::FieldAccessExpression</scope><name>PathFieldAccessExpr</name></member>
+      <member refid="structthemis_1_1query_1_1_path_field_access_expr_1aa9babd2536f20e01b187a494c7d9422c" prot="public" virt="virtual"><scope>themis::query::Expression::FieldAccessExpression</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_expression_1ab3ecf845da63bc89b3c506c43c6afc78" prot="public" virt="virtual"><scope>themis::query::Expression::FieldAccessExpression</scope><name>~Expression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

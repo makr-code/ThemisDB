@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_b_e_v_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::BEVImpl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_b_e_v_impl_1af8cac7d4fa08d8550b1ecaffa74e39ce" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, float &gt;</type>
+        <definition>std::unordered_map&lt;int,float&gt; themis::acceleration::BEVImpl::thresholds_</definition>
+        <argsstring></argsstring>
+        <name>thresholds_</name>
+        <qualifiedname>themis::acceleration::BEVImpl::thresholds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="29" column="24" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_b_e_v_impl_1a0d8af5948840ee24b117985a74a39eda" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, float &gt;</type>
+        <definition>std::unordered_map&lt;int,float&gt; themis::acceleration::BEVImpl::latest_ratios_</definition>
+        <argsstring></argsstring>
+        <name>latest_ratios_</name>
+        <qualifiedname>themis::acceleration::BEVImpl::latest_ratios_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="30" column="24" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_b_e_v_impl_1a78d932f9e8989f775175a07a453c5941" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1acceleration_1_1_break_even_decision" kindref="compound">BreakEvenDecision</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, BreakEvenDecision&gt; themis::acceleration::BEVImpl::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::acceleration::BEVImpl::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="31" column="24" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_b_e_v_impl_1a130690c6797537d676cda4141fa4f620" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BEVImpl::hits_</definition>
+        <argsstring></argsstring>
+        <name>hits_</name>
+        <qualifiedname>themis::acceleration::BEVImpl::hits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="32" column="12" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_b_e_v_impl_1aabcc1c0a85e79da4a2c7760bffb450b4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::BEVImpl::misses_</definition>
+        <argsstring></argsstring>
+        <name>misses_</name>
+        <qualifiedname>themis::acceleration::BEVImpl::misses_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="33" column="12" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_b_e_v_impl_1af0efae37b74535cd4f01cf9298861b2f" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::acceleration::BEVImpl::ttl_</definition>
+        <argsstring></argsstring>
+        <name>ttl_</name>
+        <qualifiedname>themis::acceleration::BEVImpl::ttl_</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="34" column="24" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_b_e_v_impl_1a836eebe0c1bf5e56af853dd2e9219681" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::acceleration::BEVImpl::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::acceleration::BEVImpl::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="35" column="16" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_b_e_v_impl_1ac0a06a66360e74a168b2d897de56dabe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::BEVImpl::BEVImpl</definition>
+        <argsstring>()</argsstring>
+        <name>BEVImpl</name>
+        <qualifiedname>themis::acceleration::BEVImpl::BEVImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="19" column="5" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="19" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/acceleration/break_even_validator_impl_fallback.cpp" line="17" column="1" bodyfile="src/acceleration/break_even_validator_impl_fallback.cpp" bodystart="17" bodyend="36"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_b_e_v_impl_1ac0a06a66360e74a168b2d897de56dabe" prot="public" virt="non-virtual"><scope>themis::acceleration::BEVImpl</scope><name>BEVImpl</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_b_e_v_impl_1a78d932f9e8989f775175a07a453c5941" prot="public" virt="non-virtual"><scope>themis::acceleration::BEVImpl</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_b_e_v_impl_1a130690c6797537d676cda4141fa4f620" prot="public" virt="non-virtual"><scope>themis::acceleration::BEVImpl</scope><name>hits_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_b_e_v_impl_1a0d8af5948840ee24b117985a74a39eda" prot="public" virt="non-virtual"><scope>themis::acceleration::BEVImpl</scope><name>latest_ratios_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_b_e_v_impl_1aabcc1c0a85e79da4a2c7760bffb450b4" prot="public" virt="non-virtual"><scope>themis::acceleration::BEVImpl</scope><name>misses_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_b_e_v_impl_1a836eebe0c1bf5e56af853dd2e9219681" prot="public" virt="non-virtual"><scope>themis::acceleration::BEVImpl</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_b_e_v_impl_1af8cac7d4fa08d8550b1ecaffa74e39ce" prot="public" virt="non-virtual"><scope>themis::acceleration::BEVImpl</scope><name>thresholds_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_b_e_v_impl_1af0efae37b74535cd4f01cf9298861b2f" prot="public" virt="non-virtual"><scope>themis::acceleration::BEVImpl</scope><name>ttl_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

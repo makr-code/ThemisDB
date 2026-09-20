@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1srv__dg" kind="namespace" language="C++">
+    <compoundname>themis::bench::srv_dg</compoundname>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table" prot="public">themis::bench::srv_dg::BenchRouteTable</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket" prot="public">themis::bench::srv_dg::BenchTokenBucket</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox" prot="public">themis::bench::srv_dg::BenchWasmSandbox</innerclass>
+    <innerclass refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator" prot="public">themis::bench::srv_dg::BenchAuthValidator</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1ab6d53c8eb7f800372ecded910cbe50c1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::srv_dg::kSrvDgSeed</definition>
+        <argsstring></argsstring>
+        <name>kSrvDgSeed</name>
+        <qualifiedname>themis::bench::srv_dg::kSrvDgSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="44" column="32" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1a010d128c0b8ea0543cf96637a619bc60" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srv_dg::kRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kRepetitions</name>
+        <qualifiedname>themis::bench::srv_dg::kRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="45" column="32" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1ac831497db0b34c281dd491b995d75ee7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srv_dg::kRouteCount</definition>
+        <argsstring></argsstring>
+        <name>kRouteCount</name>
+        <qualifiedname>themis::bench::srv_dg::kRouteCount</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="46" column="32" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1ad6b8177b3477f6ee4dc53483ede1d738" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srv_dg::kClientCount</definition>
+        <argsstring></argsstring>
+        <name>kClientCount</name>
+        <qualifiedname>themis::bench::srv_dg::kClientCount</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="47" column="32" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1ad8cfe0f16eb11c9a4fac86f9b082472a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srv_dg::kWasmSlots</definition>
+        <argsstring></argsstring>
+        <name>kWasmSlots</name>
+        <qualifiedname>themis::bench::srv_dg::kWasmSlots</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="48" column="32" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1add4a560c2ea8f4915b5d7ec5b6455e56" prot="public" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_route_table" kindref="compound">BenchRouteTable</ref></type>
+        <definition>BenchRouteTable themis::bench::srv_dg::g_routes</definition>
+        <argsstring></argsstring>
+        <name>g_routes</name>
+        <qualifiedname>themis::bench::srv_dg::g_routes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="131" column="25" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1a73c37824b227a35f3a506d83d0f7e3e7" prot="public" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_wasm_sandbox" kindref="compound">BenchWasmSandbox</ref></type>
+        <definition>BenchWasmSandbox themis::bench::srv_dg::g_sandbox</definition>
+        <argsstring></argsstring>
+        <name>g_sandbox</name>
+        <qualifiedname>themis::bench::srv_dg::g_sandbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="132" column="25" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1ababed1086f64f4325e5739835cde63b4" prot="public" static="yes" mutable="no">
+        <type><ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_auth_validator" kindref="compound">BenchAuthValidator</ref></type>
+        <definition>BenchAuthValidator themis::bench::srv_dg::g_auth</definition>
+        <argsstring></argsstring>
+        <name>g_auth</name>
+        <qualifiedname>themis::bench::srv_dg::g_auth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="133" column="27" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1acd4bb86abc9cb38ee93f0b22ddd7324a" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; std::string &gt;</type>
+        <definition>const std::vector&lt;std::string&gt; themis::bench::srv_dg::g_route_keys</definition>
+        <argsstring></argsstring>
+        <name>g_route_keys</name>
+        <qualifiedname>themis::bench::srv_dg::g_route_keys</qualifiedname>
+        <initializer>= make_route_keys()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="142" column="26" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1a36e315010e4f4115df8e2b30ef1b5d5d" prot="public" static="yes" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket" kindref="compound">BenchTokenBucket</ref> &gt;</type>
+        <definition>std::vector&lt;BenchTokenBucket&gt; themis::bench::srv_dg::g_buckets</definition>
+        <argsstring></argsstring>
+        <name>g_buckets</name>
+        <qualifiedname>themis::bench::srv_dg::g_buckets</qualifiedname>
+        <initializer>= make_buckets()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="150" column="20" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1srv__dg_1a8dd172f1af7ea2fac8e7bc98302fc744" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; std::string &gt;</type>
+        <definition>const std::vector&lt;std::string&gt; themis::bench::srv_dg::g_tokens</definition>
+        <argsstring></argsstring>
+        <name>g_tokens</name>
+        <qualifiedname>themis::bench::srv_dg::g_tokens</qualifiedname>
+        <initializer>= make_tokens()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="160" column="26" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srv__dg_1aa5afeafaeff1109d942f0783276cdc6b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::srv_dg::make_route_keys</definition>
+        <argsstring>()</argsstring>
+        <name>make_route_keys</name>
+        <qualifiedname>themis::bench::srv_dg::make_route_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="135" column="20" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="135" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srv__dg_1a0e19bdcc1832d6bcc2f7c41880689713" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1srv__dg_1_1_bench_token_bucket" kindref="compound">BenchTokenBucket</ref> &gt;</type>
+        <definition>static std::vector&lt; BenchTokenBucket &gt; themis::bench::srv_dg::make_buckets</definition>
+        <argsstring>()</argsstring>
+        <name>make_buckets</name>
+        <qualifiedname>themis::bench::srv_dg::make_buckets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="144" column="20" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="144" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srv__dg_1a95172471b08b4db0238e9d5028114d8b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::bench::srv_dg::make_tokens</definition>
+        <argsstring>()</argsstring>
+        <name>make_tokens</name>
+        <qualifiedname>themis::bench::srv_dg::make_tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="152" column="20" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="152" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srv__dg_1ace2585b0c7b5b40dc46f2d30b7587462" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srv_dg::BM_SRV_BM_01_RouteDispatch</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRV_BM_01_RouteDispatch</name>
+        <qualifiedname>themis::bench::srv_dg::BM_SRV_BM_01_RouteDispatch</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="166" column="13" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="166" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srv__dg_1aed261d5a3ed80a9cd3b6c5f4ade372f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srv_dg::Repetitions</definition>
+        <argsstring>(kRepetitions) -&gt; ReportAggregatesOnly(true) -&gt;Threads(1)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::srv_dg::Repetitions</qualifiedname>
+        <param>
+          <type>kRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="176" column="5" declfile="benchmarks/server/bench_server_dedicated_gates.cpp" declline="176" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srv__dg_1a6750a352821633c4aec967564f0ceb82" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srv_dg::BM_SRV_BM_02_RateLimitCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRV_BM_02_RateLimitCheck</name>
+        <qualifiedname>themis::bench::srv_dg::BM_SRV_BM_02_RateLimitCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="184" column="13" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="184" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srv__dg_1a8b2966db4344dd73dc084f9397e1c4cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srv_dg::BM_SRV_BM_03_WASMInvoke</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRV_BM_03_WASMInvoke</name>
+        <qualifiedname>themis::bench::srv_dg::BM_SRV_BM_03_WASMInvoke</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="205" column="13" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="205" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1srv__dg_1ac948120b884665407b431169730a5f8b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::srv_dg::BM_SRV_BM_04_AuthTokenValidate</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_SRV_BM_04_AuthTokenValidate</name>
+        <qualifiedname>themis::bench::srv_dg::BM_SRV_BM_04_AuthTokenValidate</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="224" column="13" bodyfile="benchmarks/server/bench_server_dedicated_gates.cpp" bodystart="224" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/server/bench_server_dedicated_gates.cpp" line="42" column="1"/>
+  </compounddef>
+</doxygen>

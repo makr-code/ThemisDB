@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_batch_generator_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::BatchGeneratorFactory</compoundname>
+    <includes refid="batch__generator_8h" local="no">batch_generator.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_factory_1ab307cf13e71df5d7e2e9e2f0fddecf9f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_batch_generator" kindref="compound">BatchGenerator</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; BatchGenerator &gt; themis::llm::BatchGeneratorFactory::create</definition>
+        <argsstring>(std::shared_ptr&lt; TrainingDataIterator &gt; data_iterator)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::llm::BatchGeneratorFactory::create</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_training_data_iterator" kindref="compound">TrainingDataIterator</ref> &gt;</type>
+          <declname>data_iterator</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data_iterator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="214" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_batch_generator_factory_1ac8ffac6b58c64ce300e79c31fd8c9f96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_batch_generator" kindref="compound">BatchGenerator</ref> &gt;</type>
+        <definition>static std::unique_ptr&lt; BatchGenerator &gt; themis::llm::BatchGeneratorFactory::create</definition>
+        <argsstring>(std::shared_ptr&lt; TrainingDataIterator &gt; data_iterator, const BatchConfig &amp;config)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::llm::BatchGeneratorFactory::create</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_training_data_iterator" kindref="compound">TrainingDataIterator</ref> &gt;</type>
+          <declname>data_iterator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_batch_config" kindref="compound">BatchConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data_iterator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/batch_generator.h" line="224" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/batch_generator.h" line="207" column="1" bodyfile="include/llm/batch_generator.h" bodystart="207" bodyend="228"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_factory_1ab307cf13e71df5d7e2e9e2f0fddecf9f" prot="public" virt="non-virtual"><scope>themis::llm::BatchGeneratorFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1llm_1_1_batch_generator_factory_1ac8ffac6b58c64ce300e79c31fd8c9f96" prot="public" virt="non-virtual"><scope>themis::llm::BatchGeneratorFactory</scope><name>create</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

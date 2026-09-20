@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_cache_warmup" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>MockCacheWarmup</compoundname>
+    <basecompoundref refid="structthemis_1_1cache_1_1_i_cache_warmup" prot="public" virt="non-virtual">themis::cache::ICacheWarmup</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_cache_warmup_1af3b2d4736ba2f2f2a5e73166d92290c3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cache_1_1_cache_entry" kindref="compound">CacheEntry</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;CacheEntry&lt;std::string, std::string&gt; &gt; MockCacheWarmup::inserted</definition>
+        <argsstring></argsstring>
+        <name>inserted</name>
+        <qualifiedname>MockCacheWarmup::inserted</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="118" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_warmup_1ada2dd9bf5b571f830ba081c088971941" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockCacheWarmup::should_error</definition>
+        <argsstring></argsstring>
+        <name>should_error</name>
+        <qualifiedname>MockCacheWarmup::should_error</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="119" column="10" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_cache_warmup_1a330dac8b2a8eb8693191f276b9e3c184" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MockCacheWarmup::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>MockCacheWarmup::error_message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="120" column="17" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_cache_warmup_1a3dec594bd1df98e35f0fe953f126a7d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_warmup_result" kindref="compound">WarmupResult</ref></type>
+        <definition>WarmupResult MockCacheWarmup::warm</definition>
+        <argsstring>(IWarmupSource &amp;source) override</argsstring>
+        <name>warm</name>
+        <qualifiedname>MockCacheWarmup::warm</qualifiedname>
+        <reimplements refid="structthemis_1_1cache_1_1_i_cache_warmup_1aa07974597a853ca59f05f43c1304100f">warm</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1cache_1_1_i_warmup_source" kindref="compound">IWarmupSource</ref> &amp;</type>
+          <declname>source</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_interfaces.cpp" line="122" column="18" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="122" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1cache_1_1_i_cache_warmup" kindref="compound">ICacheWarmup</ref> mock that collects inserted entries. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockCacheWarmup</label>
+        <link refid="class_mock_cache_warmup"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheWarmup</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_warmup"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockCacheWarmup</label>
+        <link refid="class_mock_cache_warmup"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::cache::ICacheWarmup</label>
+        <link refid="structthemis_1_1cache_1_1_i_cache_warmup"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_interfaces.cpp" line="116" column="1" bodyfile="tests/cache/test_cache_interfaces.cpp" bodystart="116" bodyend="143"/>
+    <listofallmembers>
+      <member refid="class_mock_cache_warmup_1a330dac8b2a8eb8693191f276b9e3c184" prot="public" virt="non-virtual"><scope>MockCacheWarmup</scope><name>error_message</name></member>
+      <member refid="class_mock_cache_warmup_1af3b2d4736ba2f2f2a5e73166d92290c3" prot="public" virt="non-virtual"><scope>MockCacheWarmup</scope><name>inserted</name></member>
+      <member refid="class_mock_cache_warmup_1ada2dd9bf5b571f830ba081c088971941" prot="public" virt="non-virtual"><scope>MockCacheWarmup</scope><name>should_error</name></member>
+      <member refid="class_mock_cache_warmup_1a3dec594bd1df98e35f0fe953f126a7d3" prot="public" virt="virtual"><scope>MockCacheWarmup</scope><name>warm</name></member>
+      <member refid="structthemis_1_1cache_1_1_i_cache_warmup_1a0593db9cc83c8de8d8ee3c3eb63d5448" prot="public" virt="virtual"><scope>MockCacheWarmup</scope><name>~ICacheWarmup</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

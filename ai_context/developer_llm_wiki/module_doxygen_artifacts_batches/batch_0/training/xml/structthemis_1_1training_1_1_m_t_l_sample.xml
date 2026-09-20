@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_m_t_l_sample" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::MTLSample</compoundname>
+    <includes refid="multi__task__lora_8h" local="no">multi_task_lora.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_sample_1a428b6b35773104b8abceb3ed21ddfd42" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::MTLSample::task_id</definition>
+        <argsstring></argsstring>
+        <name>task_id</name>
+        <qualifiedname>themis::training::MTLSample::task_id</qualifiedname>
+        <briefdescription>
+<para>Which task this sample belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="52" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_sample_1aee82a6380a48eebae939b613d0f1425d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::MTLSample::input</definition>
+        <argsstring></argsstring>
+        <name>input</name>
+        <qualifiedname>themis::training::MTLSample::input</qualifiedname>
+        <briefdescription>
+<para>Input feature vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="53" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_sample_1aff6c060949dfebf257e5deecfe868f05" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::MTLSample::target</definition>
+        <argsstring></argsstring>
+        <name>target</name>
+        <qualifiedname>themis::training::MTLSample::target</qualifiedname>
+        <briefdescription>
+<para>Target output vector (or one-hot label). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="54" column="17" bodyfile="include/training/multi_task_lora.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_m_t_l_sample_1a537f2453f7cdfc0e67355c8bb2396921" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::MTLSample::weight</definition>
+        <argsstring></argsstring>
+        <name>weight</name>
+        <qualifiedname>themis::training::MTLSample::weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+<para>Per-sample importance weight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/multi_task_lora.h" line="55" column="24" bodyfile="include/training/multi_task_lora.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single multi-task training sample. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/multi_task_lora.h" line="51" column="1" bodyfile="include/training/multi_task_lora.h" bodystart="51" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_m_t_l_sample_1aee82a6380a48eebae939b613d0f1425d" prot="public" virt="non-virtual"><scope>themis::training::MTLSample</scope><name>input</name></member>
+      <member refid="structthemis_1_1training_1_1_m_t_l_sample_1aff6c060949dfebf257e5deecfe868f05" prot="public" virt="non-virtual"><scope>themis::training::MTLSample</scope><name>target</name></member>
+      <member refid="structthemis_1_1training_1_1_m_t_l_sample_1a428b6b35773104b8abceb3ed21ddfd42" prot="public" virt="non-virtual"><scope>themis::training::MTLSample</scope><name>task_id</name></member>
+      <member refid="structthemis_1_1training_1_1_m_t_l_sample_1a537f2453f7cdfc0e67355c8bb2396921" prot="public" virt="non-virtual"><scope>themis::training::MTLSample</scope><name>weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

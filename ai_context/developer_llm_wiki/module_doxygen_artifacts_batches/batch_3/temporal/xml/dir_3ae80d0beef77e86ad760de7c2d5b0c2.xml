@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_3ae80d0beef77e86ad760de7c2d5b0c2" kind="dir">
+    <compoundname>include/temporal</compoundname>
+    <innerfile refid="bi__temporal_8h">bi_temporal.h</innerfile>
+    <innerfile refid="bitemporal__join_8h">bitemporal_join.h</innerfile>
+    <innerfile refid="interval__tree__index_8h">interval_tree_index.h</innerfile>
+    <innerfile refid="retention__manager_8h">retention_manager.h</innerfile>
+    <innerfile refid="snapshot__manager_8h">snapshot_manager.h</innerfile>
+    <innerfile refid="system__versioned__table_8h">system_versioned_table.h</innerfile>
+    <innerfile refid="temporal__aggregator_8h">temporal_aggregator.h</innerfile>
+    <innerfile refid="temporal__api__contract_8h">temporal_api_contract.h</innerfile>
+    <innerfile refid="temporal__cdc_8h">temporal_cdc.h</innerfile>
+    <innerfile refid="temporal__cold__store_8h">temporal_cold_store.h</innerfile>
+    <innerfile refid="temporal__compressor_8h">temporal_compressor.h</innerfile>
+    <innerfile refid="temporal__conflict__resolver_8h">temporal_conflict_resolver.h</innerfile>
+    <innerfile refid="temporal__index_8h">temporal_index.h</innerfile>
+    <innerfile refid="temporal__migrator_8h">temporal_migrator.h</innerfile>
+    <innerfile refid="temporal__query__engine_8h">temporal_query_engine.h</innerfile>
+    <innerfile refid="temporal__tier__manager_8h">temporal_tier_manager.h</innerfile>
+    <innerfile refid="temporal__types_8h">temporal_types.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/temporal/"/>
+  </compounddef>
+</doxygen>

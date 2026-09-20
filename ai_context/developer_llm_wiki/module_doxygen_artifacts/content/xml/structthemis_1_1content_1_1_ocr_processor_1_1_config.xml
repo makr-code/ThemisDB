@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_ocr_processor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::OcrProcessor::Config</compoundname>
+    <includes refid="ocr__processor_8h" local="no">ocr_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a01eedb5ddbf937fb7c768f51d87a4ebe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OcrProcessor::Config::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::language</qualifiedname>
+        <initializer>= &quot;eng&quot;</initializer>
+        <briefdescription>
+<para>Tesseract language pack name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="27" column="21" bodyfile="include/content/ocr_processor.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a8753c8624ad219a1de729112f7103196" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OcrProcessor::Config::data_dir</definition>
+        <argsstring></argsstring>
+        <name>data_dir</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::data_dir</qualifiedname>
+        <briefdescription>
+<para>Path to tessdata dir (empty = default: config/ai_ml/tesseract_lang/ or Tesseract auto-detect). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="28" column="21" bodyfile="include/content/ocr_processor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1af55ef61210c42fff8c16c4260d95d782" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::OcrProcessor::Config::page_seg_mode</definition>
+        <argsstring></argsstring>
+        <name>page_seg_mode</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::page_seg_mode</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>PSM: 3 = fully automatic page segmentation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="29" column="13" bodyfile="include/content/ocr_processor.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a1583fc733c7783bca69fa6ad8eec463a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::OcrProcessor::Config::extract_metadata</definition>
+        <argsstring></argsstring>
+        <name>extract_metadata</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::extract_metadata</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Store language/confidence in metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="30" column="14" bodyfile="include/content/ocr_processor.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a6c9f53017528fe53e48d71a10c8510b8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::OcrProcessor::Config::enable_char_whitelist</definition>
+        <argsstring></argsstring>
+        <name>enable_char_whitelist</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::enable_char_whitelist</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Restrict recognized characters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="31" column="14" bodyfile="include/content/ocr_processor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1ab8ed2e17539d3e1e05ffade14b960295" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::OcrProcessor::Config::char_whitelist</definition>
+        <argsstring></argsstring>
+        <name>char_whitelist</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::char_whitelist</qualifiedname>
+        <briefdescription>
+<para>Whitelist string (used when enabled). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="32" column="21" bodyfile="include/content/ocr_processor.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a560b4984ff95993482bc594e26667b5f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::content::OcrProcessor::Config::max_text_size</definition>
+        <argsstring></argsstring>
+        <name>max_text_size</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::max_text_size</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+<para>Maximum OCR output bytes (1 MB). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="33" column="16" bodyfile="include/content/ocr_processor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a1f1e49fc72b523025083cf2bc54e719b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_content_metrics" kindref="compound">ContentMetrics</ref> *</type>
+        <definition>ContentMetrics* themis::content::OcrProcessor::Config::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::metrics</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Optional metrics sink. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="34" column="24" bodyfile="include/content/ocr_processor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a9eb50bc524ccafbb2ae64718af69c7f5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::OcrProcessor::Config::target_dpi</definition>
+        <argsstring></argsstring>
+        <name>target_dpi</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::target_dpi</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+<para>Target resolution for DPI rescaling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="35" column="13" bodyfile="include/content/ocr_processor.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1aa0f36e962f29599fff04fb61f176b93a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::OcrProcessor::Config::enable_dpi_rescaling</definition>
+        <argsstring></argsstring>
+        <name>enable_dpi_rescaling</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::enable_dpi_rescaling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Rescale to target_dpi when image DPI is lower. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="36" column="14" bodyfile="include/content/ocr_processor.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_config_1aa692252f10623377d9306f3727c11cff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::OcrProcessor::Config::enable_adaptive_binarization</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_binarization</name>
+        <qualifiedname>themis::content::OcrProcessor::Config::enable_adaptive_binarization</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Apply adaptive binarisation (Sauvola) before OCR. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="37" column="14" bodyfile="include/content/ocr_processor.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::ContentMetrics</label>
+        <link refid="classthemis_1_1content_1_1_content_metrics"/>
+      </node>
+      <node id="1">
+        <label>themis::content::OcrProcessor::Config</label>
+        <link refid="structthemis_1_1content_1_1_ocr_processor_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/ocr_processor.h" line="26" column="5" bodyfile="include/content/ocr_processor.h" bodystart="26" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1ab8ed2e17539d3e1e05ffade14b960295" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>char_whitelist</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a8753c8624ad219a1de729112f7103196" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>data_dir</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1aa692252f10623377d9306f3727c11cff" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>enable_adaptive_binarization</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a6c9f53017528fe53e48d71a10c8510b8" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>enable_char_whitelist</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1aa0f36e962f29599fff04fb61f176b93a" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>enable_dpi_rescaling</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a1583fc733c7783bca69fa6ad8eec463a" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>extract_metadata</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a01eedb5ddbf937fb7c768f51d87a4ebe" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>language</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a560b4984ff95993482bc594e26667b5f" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>max_text_size</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a1f1e49fc72b523025083cf2bc54e719b" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1af55ef61210c42fff8c16c4260d95d782" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>page_seg_mode</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a9eb50bc524ccafbb2ae64718af69c7f5" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::Config</scope><name>target_dpi</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

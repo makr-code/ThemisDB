@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_explicit_fallback_test" kind="class" language="C++" prot="public">
+    <compoundname>ExplicitFallbackTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_explicit_fallback_test_1ae4944774cff07e56fd65d7742ae21356" prot="protected" static="no" mutable="no">
+        <type>FailureRecoveryLog</type>
+        <definition>FailureRecoveryLog ExplicitFallbackTest::recovery_log</definition>
+        <argsstring></argsstring>
+        <name>recovery_log</name>
+        <qualifiedname>ExplicitFallbackTest::recovery_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="439" column="24" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="439" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_explicit_fallback_test_1a1147068dffbd4ccea9ce4da818f2f9c5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ExplicitFallbackTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ExplicitFallbackTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="441" column="10" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="441" bodyend="443"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ExplicitFallbackTest</label>
+        <link refid="class_explicit_fallback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ExplicitFallbackTest</label>
+        <link refid="class_explicit_fallback_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>recovery_log</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:recovery_log</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_failure_handling.cpp" line="437" column="1" bodyfile="tests/acceleration/test_acceleration_failure_handling.cpp" bodystart="437" bodyend="444"/>
+    <listofallmembers>
+      <member refid="class_explicit_fallback_test_1ae4944774cff07e56fd65d7742ae21356" prot="protected" virt="non-virtual"><scope>ExplicitFallbackTest</scope><name>recovery_log</name></member>
+      <member refid="class_explicit_fallback_test_1a1147068dffbd4ccea9ce4da818f2f9c5" prot="protected" virt="non-virtual"><scope>ExplicitFallbackTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

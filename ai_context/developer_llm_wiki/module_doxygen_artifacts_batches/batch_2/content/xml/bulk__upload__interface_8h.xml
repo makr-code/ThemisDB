@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bulk__upload__interface_8h" kind="file" language="C++">
+    <compoundname>bulk_upload_interface.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="async__bulk__uploader_8h" local="yes">include/content/pipeline/async_bulk_uploader.h</includedby>
+    <includedby refid="bulk__upload__interface_8cpp" local="yes">src/content/pipeline/bulk_upload_interface.cpp</includedby>
+    <includedby refid="test__content__pipeline_8cpp" local="yes">tests/content/test_content_pipeline.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/content/pipeline/bulk_upload_interface.h</label>
+        <link refid="bulk__upload__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/content/pipeline/async_bulk_uploader.h</label>
+        <link refid="async__bulk__uploader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/pipeline/bulk_upload_interface.h</label>
+        <link refid="bulk__upload__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/content/pipeline/async_bulk_uploader.cpp</label>
+        <link refid="async__bulk__uploader_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/content/pipeline/bulk_upload_interface.cpp</label>
+        <link refid="bulk__upload__interface_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/content/test_content_pipeline.cpp</label>
+        <link refid="test__content__pipeline_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface" prot="public">themis::content::pipeline::BulkUploadInterface</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata" prot="public">themis::content::pipeline::BulkUploadInterface::ContentMetadata</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" prot="public">themis::content::pipeline::BulkUploadInterface::UploadResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content_1_1pipeline">themis::content::pipeline</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2024<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>MIT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1_1pipeline" kindref="compound">themis::content::pipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1affac1552599982f0aca08bad2f679a23" kindref="member">BulkUploadInterface</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" kindref="member">UploadStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbac69f06e1a9b016d133907b4e5f5864d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbac69f06e1a9b016d133907b4e5f5864d2" kindref="member">PENDING</ref>,</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbaca69f96c768067fbff6c911ca87bccc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbaca69f96c768067fbff6c911ca87bccc9" kindref="member">IN_PROGRESS</ref>,</highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bba8f7afecbc8fbc4cd0f50a57d1172482e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bba8f7afecbc8fbc4cd0f50a57d1172482e" kindref="member">COMPLETED</ref>,</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,</highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bba9f935beb31030ad0d4d26126c0f39bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bba9f935beb31030ad0d4d26126c0f39bf2" kindref="member">CANCELLED</ref></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata" kindref="compound">ContentMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1aef0666676d26cfe42c91e5b81ec2ec67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1aef0666676d26cfe42c91e5b81ec2ec67" kindref="member">content_id</ref>;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1a86fea75ed780cf9b32ba9cebbd093902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1a86fea75ed780cf9b32ba9cebbd093902" kindref="member">content_type</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1a39bce212f7c86105d3dd86e169f07f5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1a39bce212f7c86105d3dd86e169f07f5e" kindref="member">content_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1a0d28aac6b5198b78c3a22bc7853668d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1a0d28aac6b5198b78c3a22bc7853668d7" kindref="member">compressed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1ab190f8c88585ec2bf612ca9f7356fdc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata_1ab190f8c88585ec2bf612ca9f7356fdc9" kindref="member">chunk_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" kindref="compound">UploadResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ae84fd50f9293fa7f43c69de0fdbd9bbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" kindref="member">UploadStatus</ref><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ae84fd50f9293fa7f43c69de0fdbd9bbe" kindref="member">status</ref><sp/>=<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bbac69f06e1a9b016d133907b4e5f5864d2" kindref="member">UploadStatus::PENDING</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ad1f8c11361610ac00d974494632da8e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ad1f8c11361610ac00d974494632da8e6" kindref="member">content_id</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1a70bd7a8041a53be5aa1bf4473504047a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1a70bd7a8041a53be5aa1bf4473504047a" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ab85affddf6100b41e315ead606247653" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result_1ab85affddf6100b41e315ead606247653" kindref="member">bytes_uploaded</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1adf0256a1cea158305ea70782ba9035bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1adf0256a1cea158305ea70782ba9035bf" kindref="member">ProgressCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>bytes_uploaded,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_bytes)&gt;;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1affac1552599982f0aca08bad2f679a23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1affac1552599982f0aca08bad2f679a23" kindref="member">BulkUploadInterface</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1af8876f7dcfe2be42660ea14017ee1d7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1af8876f7dcfe2be42660ea14017ee1d7b" kindref="member">~BulkUploadInterface</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_upload_result" kindref="compound">UploadResult</ref><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a46c491bd19a025b829adea39dedbc6fc" kindref="member">upload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/><ref refid="namespacethemis_1_1content" kindref="compound">content</ref>,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1_1_content_metadata" kindref="compound">ContentMetadata</ref>&amp;<sp/>metadata);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;UploadResult&gt;<sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a093e79ece6884bb2f268b376e718589f" kindref="member">bulk_upload</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;uint8_t&gt;&gt;&amp;<sp/>contents,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ContentMetadata&gt;&amp;<sp/>metadata_list);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a6e809b3c768aca588ee0b8697b655aa3" kindref="member">set_progress_callback</ref>(<ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1adf0256a1cea158305ea70782ba9035bf" kindref="member">ProgressCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a14f9a15a9986da6509c4060c52603614" kindref="member">cancel_upload</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1aa434a6678d3f4d14293c0b379b8f08bb" kindref="member">UploadStatus</ref><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1a8147f7c7b9af70215284f58d0511afd3" kindref="member">get_upload_status</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1ab9a57602471a9fc36cda5075ade1b874" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1adf0256a1cea158305ea70782ba9035bf" kindref="member">ProgressCallback</ref><sp/><ref refid="classthemis_1_1content_1_1pipeline_1_1_bulk_upload_interface_1ab9a57602471a9fc36cda5075ade1b874" kindref="member">progress_callback_</ref>;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::content::pipeline</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/pipeline/bulk_upload_interface.h"/>
+  </compounddef>
+</doxygen>

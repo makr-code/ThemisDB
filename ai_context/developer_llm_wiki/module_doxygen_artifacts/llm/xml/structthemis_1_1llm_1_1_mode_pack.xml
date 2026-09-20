@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_mode_pack" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ModePack</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_pack_1ac09f0e0b2b22f892825983b39ee96f3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModePack::apiVersion</definition>
+        <argsstring></argsstring>
+        <name>apiVersion</name>
+        <qualifiedname>themis::llm::ModePack::apiVersion</qualifiedname>
+        <briefdescription>
+<para>Expected: &quot;themis.ai/v1&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="150" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_pack_1a3183faf7d100af5dcd428f57082c502c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModePack::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::llm::ModePack::kind</qualifiedname>
+        <briefdescription>
+<para>Expected: &quot;ThemisModePack&quot; or &quot;ThemisAIPolicy&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="151" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_pack_1aa1913344e087941051b56870b2951078" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModePack::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::ModePack::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="152" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_pack_1a812ed5975d5235aec01533a209868736" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModePack::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::llm::ModePack::version</qualifiedname>
+        <initializer>= &quot;1.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="153" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_pack_1a24df4c6eda67cdf1199d558d4c2b7066" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_model_entry" kindref="compound">ModelEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ModelEntry&gt; themis::llm::ModePack::models</definition>
+        <argsstring></argsstring>
+        <name>models</name>
+        <qualifiedname>themis::llm::ModePack::models</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="155" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_pack_1ad2d705a916754ed0f2b6dac9861a9f61" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_tool_spec" kindref="compound">ToolSpec</ref> &gt;</type>
+        <definition>std::vector&lt;ToolSpec&gt; themis::llm::ModePack::tools</definition>
+        <argsstring></argsstring>
+        <name>tools</name>
+        <qualifiedname>themis::llm::ModePack::tools</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="156" column="19" bodyfile="include/llm/ai_orchestrator.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_pack_1aceb2c41fa9bd71b1434a73a89b8bed8e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_mode_spec" kindref="compound">ModeSpec</ref> &gt;</type>
+        <definition>std::vector&lt;ModeSpec&gt; themis::llm::ModePack::modes</definition>
+        <argsstring></argsstring>
+        <name>modes</name>
+        <qualifiedname>themis::llm::ModePack::modes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="157" column="19" bodyfile="include/llm/ai_orchestrator.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mode_pack_1a64cb0c7eb564783b9b1e4c920da5d914" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::ModePack::default_mode</definition>
+        <argsstring></argsstring>
+        <name>default_mode</name>
+        <qualifiedname>themis::llm::ModePack::default_mode</qualifiedname>
+        <initializer>= &quot;ask&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="159" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="149" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="149" bodyend="160"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_mode_pack_1ac09f0e0b2b22f892825983b39ee96f3a" prot="public" virt="non-virtual"><scope>themis::llm::ModePack</scope><name>apiVersion</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_pack_1a64cb0c7eb564783b9b1e4c920da5d914" prot="public" virt="non-virtual"><scope>themis::llm::ModePack</scope><name>default_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_pack_1a3183faf7d100af5dcd428f57082c502c" prot="public" virt="non-virtual"><scope>themis::llm::ModePack</scope><name>kind</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_pack_1a24df4c6eda67cdf1199d558d4c2b7066" prot="public" virt="non-virtual"><scope>themis::llm::ModePack</scope><name>models</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_pack_1aceb2c41fa9bd71b1434a73a89b8bed8e" prot="public" virt="non-virtual"><scope>themis::llm::ModePack</scope><name>modes</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_pack_1aa1913344e087941051b56870b2951078" prot="public" virt="non-virtual"><scope>themis::llm::ModePack</scope><name>name</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_pack_1ad2d705a916754ed0f2b6dac9861a9f61" prot="public" virt="non-virtual"><scope>themis::llm::ModePack</scope><name>tools</name></member>
+      <member refid="structthemis_1_1llm_1_1_mode_pack_1a812ed5975d5235aec01533a209868736" prot="public" virt="non-virtual"><scope>themis::llm::ModePack</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

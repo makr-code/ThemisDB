@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1document_1_1_merge_conflict" kind="struct" language="C++" prot="public">
+    <compoundname>themis::document::MergeConflict</compoundname>
+    <includes refid="document__diff__merge_8h" local="no">document_diff_merge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_merge_conflict_1a3d5f9b4ad4e5c817017909667223c193" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::document::MergeConflict::field_name</definition>
+        <argsstring></argsstring>
+        <name>field_name</name>
+        <qualifiedname>themis::document::MergeConflict::field_name</qualifiedname>
+        <briefdescription>
+<para>Conflicting JSON key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="69" column="20" bodyfile="include/document/document_diff_merge.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_merge_conflict_1a3007813e9c53ff5250714505235cf6f7" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::document::MergeConflict::base_value</definition>
+        <argsstring></argsstring>
+        <name>base_value</name>
+        <qualifiedname>themis::document::MergeConflict::base_value</qualifiedname>
+        <briefdescription>
+<para>Value in the common base. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="70" column="20" bodyfile="include/document/document_diff_merge.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_merge_conflict_1aeeed13fb6e9775f081726169a4768708" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::document::MergeConflict::ours_value</definition>
+        <argsstring></argsstring>
+        <name>ours_value</name>
+        <qualifiedname>themis::document::MergeConflict::ours_value</qualifiedname>
+        <briefdescription>
+<para>Value in the &quot;ours&quot; branch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="71" column="20" bodyfile="include/document/document_diff_merge.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1document_1_1_merge_conflict_1a827d036faa537aea41a6a36a390304a8" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::document::MergeConflict::theirs_value</definition>
+        <argsstring></argsstring>
+        <name>theirs_value</name>
+        <qualifiedname>themis::document::MergeConflict::theirs_value</qualifiedname>
+        <briefdescription>
+<para>Value in the &quot;theirs&quot; branch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/document/document_diff_merge.h" line="72" column="20" bodyfile="include/document/document_diff_merge.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/document/document_diff_merge.h" line="68" column="1" bodyfile="include/document/document_diff_merge.h" bodystart="68" bodyend="73"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1document_1_1_merge_conflict_1a3007813e9c53ff5250714505235cf6f7" prot="public" virt="non-virtual"><scope>themis::document::MergeConflict</scope><name>base_value</name></member>
+      <member refid="structthemis_1_1document_1_1_merge_conflict_1a3d5f9b4ad4e5c817017909667223c193" prot="public" virt="non-virtual"><scope>themis::document::MergeConflict</scope><name>field_name</name></member>
+      <member refid="structthemis_1_1document_1_1_merge_conflict_1aeeed13fb6e9775f081726169a4768708" prot="public" virt="non-virtual"><scope>themis::document::MergeConflict</scope><name>ours_value</name></member>
+      <member refid="structthemis_1_1document_1_1_merge_conflict_1a827d036faa537aea41a6a36a390304a8" prot="public" virt="non-virtual"><scope>themis::document::MergeConflict</scope><name>theirs_value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

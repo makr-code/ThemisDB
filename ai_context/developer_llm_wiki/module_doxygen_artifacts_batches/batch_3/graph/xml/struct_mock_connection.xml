@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_connection" kind="struct" language="C++" prot="public">
+    <compoundname>MockConnection</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_connection_1a946082ccff6b02d0e217c0589c019a6c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MockConnection::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>MockConnection::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="19" column="9" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_mock_connection_1a0687914bd7e0e1470355644074fe000a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>MockConnection::MockConnection</definition>
+        <argsstring>(int id)</argsstring>
+        <name>MockConnection</name>
+        <qualifiedname>MockConnection::MockConnection</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="18" column="14" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="17" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="17" bodyend="20"/>
+    <listofallmembers>
+      <member refid="struct_mock_connection_1a946082ccff6b02d0e217c0589c019a6c" prot="public" virt="non-virtual"><scope>MockConnection</scope><name>id</name></member>
+      <member refid="struct_mock_connection_1a0687914bd7e0e1470355644074fe000a" prot="public" virt="non-virtual"><scope>MockConnection</scope><name>MockConnection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

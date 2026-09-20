@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_routing_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::RoutingDecision</compoundname>
+    <includes refid="aql__model__router_8h" local="no">aql_model_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_routing_decision_1ad0c842023d70277a201d481f27a306b3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref></type>
+        <definition>QueryModelType themis::aql::RoutingDecision::primary_type</definition>
+        <argsstring></argsstring>
+        <name>primary_type</name>
+        <qualifiedname>themis::aql::RoutingDecision::primary_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">QueryModelType::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="50" column="20" bodyfile="include/aql/aql_model_router.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_routing_decision_1a0ef728bf7217f48a998ff6e4ecac9a4b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1aql_1a0e76de8ddccf370b3169a1039bc9af33" kindref="member">QueryModelType</ref> &gt;</type>
+        <definition>std::vector&lt;QueryModelType&gt; themis::aql::RoutingDecision::detected_types</definition>
+        <argsstring></argsstring>
+        <name>detected_types</name>
+        <qualifiedname>themis::aql::RoutingDecision::detected_types</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="52" column="17" bodyfile="include/aql/aql_model_router.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_routing_decision_1a5f43b8fbb1d0e48377d73db5380f9e1d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1aql_1_1_model_route" kindref="compound">ModelRoute</ref> &gt;</type>
+        <definition>std::optional&lt;ModelRoute&gt; themis::aql::RoutingDecision::selected_route</definition>
+        <argsstring></argsstring>
+        <name>selected_route</name>
+        <qualifiedname>themis::aql::RoutingDecision::selected_route</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="54" column="19" bodyfile="include/aql/aql_model_router.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_routing_decision_1aebf9edd8054bac054e31e651fa1c03ec" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1aql_1_1_model_route" kindref="compound">ModelRoute</ref> &gt;</type>
+        <definition>std::optional&lt;ModelRoute&gt; themis::aql::RoutingDecision::fallback_route</definition>
+        <argsstring></argsstring>
+        <name>fallback_route</name>
+        <qualifiedname>themis::aql::RoutingDecision::fallback_route</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="56" column="19" bodyfile="include/aql/aql_model_router.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_routing_decision_1ab66435ef792dd552f86d3fb0868fe130" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::RoutingDecision::explanation</definition>
+        <argsstring></argsstring>
+        <name>explanation</name>
+        <qualifiedname>themis::aql::RoutingDecision::explanation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_model_router.h" line="58" column="17" bodyfile="include/aql/aql_model_router.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_model_router.h" line="49" column="1" bodyfile="include/aql/aql_model_router.h" bodystart="49" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_routing_decision_1a0ef728bf7217f48a998ff6e4ecac9a4b" prot="public" virt="non-virtual"><scope>themis::aql::RoutingDecision</scope><name>detected_types</name></member>
+      <member refid="structthemis_1_1aql_1_1_routing_decision_1ab66435ef792dd552f86d3fb0868fe130" prot="public" virt="non-virtual"><scope>themis::aql::RoutingDecision</scope><name>explanation</name></member>
+      <member refid="structthemis_1_1aql_1_1_routing_decision_1aebf9edd8054bac054e31e651fa1c03ec" prot="public" virt="non-virtual"><scope>themis::aql::RoutingDecision</scope><name>fallback_route</name></member>
+      <member refid="structthemis_1_1aql_1_1_routing_decision_1ad0c842023d70277a201d481f27a306b3" prot="public" virt="non-virtual"><scope>themis::aql::RoutingDecision</scope><name>primary_type</name></member>
+      <member refid="structthemis_1_1aql_1_1_routing_decision_1a5f43b8fbb1d0e48377d73db5380f9e1d" prot="public" virt="non-virtual"><scope>themis::aql::RoutingDecision</scope><name>selected_route</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

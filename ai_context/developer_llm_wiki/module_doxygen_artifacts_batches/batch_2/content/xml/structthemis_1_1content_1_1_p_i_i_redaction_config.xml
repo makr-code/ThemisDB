@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_p_i_i_redaction_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::PIIRedactionConfig</compoundname>
+    <includes refid="pii__redactor_8h" local="no">pii_redactor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_redaction_config_1a1722692c94de1efed0c799aa0c449fbb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767" kindref="member">RedactionMode</ref></type>
+        <definition>RedactionMode themis::content::PIIRedactionConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::content::PIIRedactionConfig::mode</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1content_1a1710da3d286e63d10ceb316428ece767a560a2dd6f6744646473b3b19e1fe96d7" kindref="member">RedactionMode::REPLACE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="71" column="30" bodyfile="include/content/pii_redactor.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_redaction_config_1a2b69ba1c866419993250eaba87fd4ae9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1content_1a2ed0f6b9b2feff673482291335a92aad" kindref="member">PIIType</ref> &gt;</type>
+        <definition>std::vector&lt;PIIType&gt; themis::content::PIIRedactionConfig::types_to_redact</definition>
+        <argsstring></argsstring>
+        <name>types_to_redact</name>
+        <qualifiedname>themis::content::PIIRedactionConfig::types_to_redact</qualifiedname>
+        <briefdescription>
+<para>Empty = all types. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="72" column="21" bodyfile="include/content/pii_redactor.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_redaction_config_1adc827ba8a97183c1f42a4a7bf2a84787" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::PIIRedactionConfig::min_confidence</definition>
+        <argsstring></argsstring>
+        <name>min_confidence</name>
+        <qualifiedname>themis::content::PIIRedactionConfig::min_confidence</qualifiedname>
+        <initializer>= 0.75f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="73" column="30" bodyfile="include/content/pii_redactor.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_p_i_i_redaction_config_1a168adbae18eca8ed43b036517f9e7985" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::PIIRedactionConfig::preserve_format</definition>
+        <argsstring></argsstring>
+        <name>preserve_format</name>
+        <qualifiedname>themis::content::PIIRedactionConfig::preserve_format</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/pii_redactor.h" line="74" column="30" bodyfile="include/content/pii_redactor.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/pii_redactor.h" line="70" column="1" bodyfile="include/content/pii_redactor.h" bodystart="70" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1adc827ba8a97183c1f42a4a7bf2a84787" prot="public" virt="non-virtual"><scope>themis::content::PIIRedactionConfig</scope><name>min_confidence</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a1722692c94de1efed0c799aa0c449fbb" prot="public" virt="non-virtual"><scope>themis::content::PIIRedactionConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a168adbae18eca8ed43b036517f9e7985" prot="public" virt="non-virtual"><scope>themis::content::PIIRedactionConfig</scope><name>preserve_format</name></member>
+      <member refid="structthemis_1_1content_1_1_p_i_i_redaction_config_1a2b69ba1c866419993250eaba87fd4ae9" prot="public" virt="non-virtual"><scope>themis::content::PIIRedactionConfig</scope><name>types_to_redact</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

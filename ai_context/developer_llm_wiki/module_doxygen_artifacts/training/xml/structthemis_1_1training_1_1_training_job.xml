@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_training_job" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::TrainingJob</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_job_1ac75ac75c3d1f49f69f22e7ea0f8d58ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingJob::dataset_ref</definition>
+        <argsstring></argsstring>
+        <name>dataset_ref</name>
+        <qualifiedname>themis::training::TrainingJob::dataset_ref</qualifiedname>
+        <briefdescription>
+<para>Collection / snapshot identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="156" column="18" bodyfile="include/training/training_interfaces.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_job_1ab10756f7f873aa535d26b75152644421" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingJob::model_config</definition>
+        <argsstring></argsstring>
+        <name>model_config</name>
+        <qualifiedname>themis::training::TrainingJob::model_config</qualifiedname>
+        <briefdescription>
+<para>Serialised model configuration (JSON). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="157" column="18" bodyfile="include/training/training_interfaces.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_job_1a9b76230750e4ac87131b28a36ebab5d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingJob::lora_config</definition>
+        <argsstring></argsstring>
+        <name>lora_config</name>
+        <qualifiedname>themis::training::TrainingJob::lora_config</qualifiedname>
+        <briefdescription>
+<para>Optional serialised LoRA config (JSON). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="158" column="18" bodyfile="include/training/training_interfaces.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_training_job_1a7ec3bf0164b2ba06b635694a282385e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::TrainingJob::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::training::TrainingJob::job_id</qualifiedname>
+        <briefdescription>
+<para>Optional caller-provided job ID; auto-assigned if empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="159" column="18" bodyfile="include/training/training_interfaces.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_training_job_1ac83482219c61eff568b5e592279de823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingJob::TrainingJob</definition>
+        <argsstring>()=default</argsstring>
+        <name>TrainingJob</name>
+        <qualifiedname>themis::training::TrainingJob::TrainingJob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="161" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Input specification for a single training job. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="155" column="1" bodyfile="include/training/training_interfaces.h" bodystart="155" bodyend="162"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_training_job_1ac75ac75c3d1f49f69f22e7ea0f8d58ad" prot="public" virt="non-virtual"><scope>themis::training::TrainingJob</scope><name>dataset_ref</name></member>
+      <member refid="structthemis_1_1training_1_1_training_job_1a7ec3bf0164b2ba06b635694a282385e9" prot="public" virt="non-virtual"><scope>themis::training::TrainingJob</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1training_1_1_training_job_1a9b76230750e4ac87131b28a36ebab5d2" prot="public" virt="non-virtual"><scope>themis::training::TrainingJob</scope><name>lora_config</name></member>
+      <member refid="structthemis_1_1training_1_1_training_job_1ab10756f7f873aa535d26b75152644421" prot="public" virt="non-virtual"><scope>themis::training::TrainingJob</scope><name>model_config</name></member>
+      <member refid="structthemis_1_1training_1_1_training_job_1ac83482219c61eff568b5e592279de823" prot="public" virt="non-virtual"><scope>themis::training::TrainingJob</scope><name>TrainingJob</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

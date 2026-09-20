@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_retry_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::RetryMetadata</compoundname>
+    <includes refid="retry__contract_8h" local="no">retry_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_metadata_1a9e0c09281049d220f04de6a415cbfc7a" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::utils::RetryMetadata::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::utils::RetryMetadata::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_contract.h" line="37" column="19" bodyfile="include/utils/retry_contract.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_metadata_1a789b309170145d0fb1f4ac47fc88d346" prot="public" static="no" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::utils::RetryMetadata::retry_budget</definition>
+        <argsstring></argsstring>
+        <name>retry_budget</name>
+        <qualifiedname>themis::utils::RetryMetadata::retry_budget</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_contract.h" line="38" column="19" bodyfile="include/utils/retry_contract.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_metadata_1a306a7bf0821315b7d2e2b653aca8bb95" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4" kindref="member">RetryExhaustionReason</ref></type>
+        <definition>RetryExhaustionReason themis::utils::RetryMetadata::exhaustion_reason</definition>
+        <argsstring></argsstring>
+        <name>exhaustion_reason</name>
+        <qualifiedname>themis::utils::RetryMetadata::exhaustion_reason</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1utils_1a9467539122012c089a71c3170dd1afe4ab50339a10e1de285ac99d4c3990b8693" kindref="member">RetryExhaustionReason::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_contract.h" line="39" column="27" bodyfile="include/utils/retry_contract.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_metadata_1a37664a7bdac12a12b64aa15dd1a52483" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569" kindref="member">RetryTimeoutSource</ref></type>
+        <definition>RetryTimeoutSource themis::utils::RetryMetadata::timeout_source</definition>
+        <argsstring></argsstring>
+        <name>timeout_source</name>
+        <qualifiedname>themis::utils::RetryMetadata::timeout_source</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1utils_1a7f9b84d8c84ce58c6aa095f6b369c569ab50339a10e1de285ac99d4c3990b8693" kindref="member">RetryTimeoutSource::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_contract.h" line="40" column="24" bodyfile="include/utils/retry_contract.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_retry_metadata_1a4335ced8dda7caeb7695cc493e198eaf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::RetryMetadata::retriable</definition>
+        <argsstring></argsstring>
+        <name>retriable</name>
+        <qualifiedname>themis::utils::RetryMetadata::retriable</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/retry_contract.h" line="41" column="10" bodyfile="include/utils/retry_contract.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical retry metadata envelope for diagnostics and automation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para><computeroutput><ref refid="structthemis_1_1utils_1_1_retry_metadata_1a9e0c09281049d220f04de6a415cbfc7a" kindref="member">retry_count</ref></computeroutput> is the number of retries already consumed (attempts - 1). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/utils/retry_contract.h" line="36" column="1" bodyfile="include/utils/retry_contract.h" bodystart="36" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_retry_metadata_1a306a7bf0821315b7d2e2b653aca8bb95" prot="public" virt="non-virtual"><scope>themis::utils::RetryMetadata</scope><name>exhaustion_reason</name></member>
+      <member refid="structthemis_1_1utils_1_1_retry_metadata_1a4335ced8dda7caeb7695cc493e198eaf" prot="public" virt="non-virtual"><scope>themis::utils::RetryMetadata</scope><name>retriable</name></member>
+      <member refid="structthemis_1_1utils_1_1_retry_metadata_1a789b309170145d0fb1f4ac47fc88d346" prot="public" virt="non-virtual"><scope>themis::utils::RetryMetadata</scope><name>retry_budget</name></member>
+      <member refid="structthemis_1_1utils_1_1_retry_metadata_1a9e0c09281049d220f04de6a415cbfc7a" prot="public" virt="non-virtual"><scope>themis::utils::RetryMetadata</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1utils_1_1_retry_metadata_1a37664a7bdac12a12b64aa15dd1a52483" prot="public" virt="non-virtual"><scope>themis::utils::RetryMetadata</scope><name>timeout_source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

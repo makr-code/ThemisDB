@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::ModularRAGPipeline</compoundname>
+    <includes refid="modular__rag__pipeline_8h" local="no">modular_rag_pipeline.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1af53f5f1f957c43624242308ba9e97eab" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_modular_r_a_g_pipeline_config" kindref="compound">ModularRAGPipelineConfig</ref></type>
+        <definition>ModularRAGPipelineConfig themis::rag::ModularRAGPipeline::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="398" column="30" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a5be98906fb511b1aee78c79f39d6f290" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::ModularRAGPipeline::ModularRAGPipeline</definition>
+        <argsstring>(ModularRAGPipelineConfig config)</argsstring>
+        <name>ModularRAGPipeline</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::ModularRAGPipeline</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1_modular_r_a_g_pipeline_config" kindref="compound">ModularRAGPipelineConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a pipeline with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if any stage handler is null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="302" column="14" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="302" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1aeef843cc681c879b0134119201cc93d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::ModularRAGPipeline::ModularRAGPipeline</definition>
+        <argsstring>(const ModularRAGPipeline &amp;)=delete</argsstring>
+        <name>ModularRAGPipeline</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::ModularRAGPipeline</qualifiedname>
+        <param>
+          <type>const ModularRAGPipeline &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="322" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a1284aaf8e2b2cb0a78e520a729d6899f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a5be98906fb511b1aee78c79f39d6f290" kindref="member">ModularRAGPipeline</ref> &amp;</type>
+        <definition>ModularRAGPipeline &amp; themis::rag::ModularRAGPipeline::operator=</definition>
+        <argsstring>(const ModularRAGPipeline &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a5be98906fb511b1aee78c79f39d6f290" kindref="member">ModularRAGPipeline</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="323" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1ac877fb4a84e17e89ae69189c7c2d283c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::ModularRAGPipeline::ModularRAGPipeline</definition>
+        <argsstring>(ModularRAGPipeline &amp;&amp;) noexcept=default</argsstring>
+        <name>ModularRAGPipeline</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::ModularRAGPipeline</qualifiedname>
+        <param>
+          <type>ModularRAGPipeline &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="324" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a3cc8a7914e929153cd93a6cac4cb2ea7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a5be98906fb511b1aee78c79f39d6f290" kindref="member">ModularRAGPipeline</ref> &amp;</type>
+        <definition>ModularRAGPipeline &amp; themis::rag::ModularRAGPipeline::operator=</definition>
+        <argsstring>(ModularRAGPipeline &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a5be98906fb511b1aee78c79f39d6f290" kindref="member">ModularRAGPipeline</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="325" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1abc98bf901a871827bdc928bb9a03dad7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::ModularRAGPipeline::~ModularRAGPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModularRAGPipeline</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::~ModularRAGPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="326" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1af960e6c7f315f37b81cfb66223423c79" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_modular_r_a_g_result" kindref="compound">ModularRAGResult</ref></type>
+        <definition>ModularRAGResult themis::rag::ModularRAGPipeline::run</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;tenant_id, llm::LLMCorrelationContext correlation={}) const</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::run</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <param>
+          <type>llm::LLMCorrelationContext</type>
+          <declname>correlation</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute the full pipeline for a single query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User query text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Tenant identifier for isolation. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>correlation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>W3C trace context (auto-generated if invalid). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Final result after all stages. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="336" column="23" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="336" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1aa1a35d2478da47626936782dec82e3ff" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_modular_r_a_g_pipeline_config" kindref="compound">ModularRAGPipelineConfig</ref> &amp;</type>
+        <definition>const ModularRAGPipelineConfig &amp; themis::rag::ModularRAGPipeline::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The configuration this pipeline was constructed with. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="393" column="37" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="393" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1aa7a7a4cb35f6153e053112677f8cf649" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_modular_r_a_g_result" kindref="compound">ModularRAGResult</ref></type>
+        <definition>static ModularRAGResult themis::rag::ModularRAGPipeline::buildSuccessResult</definition>
+        <argsstring>(const ModularRAGContext &amp;ctx) noexcept</argsstring>
+        <name>buildSuccessResult</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::buildSuccessResult</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_modular_r_a_g_context" kindref="compound">ModularRAGContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="400" column="30" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="400" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1ac54e330870a58bfd1cf534afccc212a8" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_modular_r_a_g_result" kindref="compound">ModularRAGResult</ref></type>
+        <definition>static ModularRAGResult themis::rag::ModularRAGPipeline::buildFailedResult</definition>
+        <argsstring>(const ModularRAGContext &amp;ctx, const std::string &amp;diagnostic) noexcept</argsstring>
+        <name>buildFailedResult</name>
+        <qualifiedname>themis::rag::ModularRAGPipeline::buildFailedResult</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_modular_r_a_g_context" kindref="compound">ModularRAGContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>diagnostic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/modular_rag_pipeline.h" line="423" column="30" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="423" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Orchestrates a five-stage RAG pipeline with provenance propagation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Create one instance per request. Call <computeroutput><ref refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1af960e6c7f315f37b81cfb66223423c79" kindref="member">run()</ref></computeroutput> with the initial query and tenant context. Each stage is invoked in order; the pipeline halts on the first error (when <computeroutput>config.fail_closed == true</computeroutput>).</para>
+<sect1 id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1autotoc_md3_1s1"><sect2 id="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1autotoc_md3">
+<title>Usage example</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">ModularRAGPipelineConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.retrieve_fn<sp/>=<sp/>myANNRetriever;</highlight></codeline>
+<codeline><highlight class="normal">cfg.rerank_fn<sp/><sp/><sp/>=<sp/>myCrossEncoder;</highlight></codeline>
+<codeline><highlight class="normal">cfg.validate_fn<sp/>=<sp/>myGraphValidator;</highlight></codeline>
+<codeline><highlight class="normal">cfg.assemble_fn<sp/>=<sp/>myPromptBuilder;</highlight></codeline>
+<codeline><highlight class="normal">cfg.generate_fn<sp/>=<sp/>myLLMInvoker;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a5be98906fb511b1aee78c79f39d6f290" kindref="member">ModularRAGPipeline</ref><sp/>pipeline{cfg};</highlight></codeline>
+<codeline><highlight class="normal">ModularRAGResult<sp/>result<sp/>=<sp/>pipeline.run(</highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>the<sp/>statute<sp/>of<sp/>limitations?&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;tenant-42&quot;</highlight><highlight class="normal">,<sp/>correlation_ctx);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success)<sp/>{<sp/>handle_error(result.error_message);<sp/>}</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/rag/modular_rag_pipeline.h" line="296" column="1" bodyfile="include/rag/modular_rag_pipeline.h" bodystart="296" bodyend="437"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1ac54e330870a58bfd1cf534afccc212a8" prot="private" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>buildFailedResult</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1aa7a7a4cb35f6153e053112677f8cf649" prot="private" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>buildSuccessResult</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1aa1a35d2478da47626936782dec82e3ff" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>config</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1af53f5f1f957c43624242308ba9e97eab" prot="private" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a5be98906fb511b1aee78c79f39d6f290" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>ModularRAGPipeline</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1aeef843cc681c879b0134119201cc93d8" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>ModularRAGPipeline</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1ac877fb4a84e17e89ae69189c7c2d283c" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>ModularRAGPipeline</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a1284aaf8e2b2cb0a78e520a729d6899f" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1a3cc8a7914e929153cd93a6cac4cb2ea7" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1af960e6c7f315f37b81cfb66223423c79" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>run</name></member>
+      <member refid="classthemis_1_1rag_1_1_modular_r_a_g_pipeline_1abc98bf901a871827bdc928bb9a03dad7" prot="public" virt="non-virtual"><scope>themis::rag::ModularRAGPipeline</scope><name>~ModularRAGPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

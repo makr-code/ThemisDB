@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GGUFSTConfig</compoundname>
+    <includes refid="gguf__st__adapter_8h" local="no">gguf_st_adapter.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>SizeMode</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::SizeMode</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41aba7de5bc6888294e5884b024a4c894f1" prot="public">
+          <name>FULL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41abbd53c25a2b976c1757ce1f9dbe8bd1f" prot="public">
+          <name>COMPACT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41a6a23e694d0ed3efab00491b9954c70fc" prot="public">
+          <name>ULTRA_COMPACT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41ab30b6bca0f10da571dfb3a51940db02f" prot="public">
+          <name>SIGNATURE_ONLY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="27" column="5" bodyfile="include/llm/gguf_st_adapter.h" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QuantizationType</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::QuantizationType</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a44ad4ef5a76e6aa6fb3e3fa079a54fda" prot="public">
+          <name>F32</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a56d8353718e6fdc78b8d69078a2cdb94" prot="public">
+          <name>F16</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a7d752b3cc49838890790999912af5a83" prot="public">
+          <name>Q8_0</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9903780fa1d9b91f0542bd40fea13f2" prot="public">
+          <name>Q4_K_M</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9a13185686539dcc9be4be36d58fb35" prot="public">
+          <name>Q2_K</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="36" column="5" bodyfile="include/llm/gguf_st_adapter.h" bodystart="36" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a38a24e1d0b8c7c2796b4f141f6b493fe" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" kindref="member">SizeMode</ref></type>
+        <definition>SizeMode themis::llm::GGUFSTConfig::size_mode</definition>
+        <argsstring></argsstring>
+        <name>size_mode</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::size_mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41abbd53c25a2b976c1757ce1f9dbe8bd1f" kindref="member">SizeMode::COMPACT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="34" column="14" bodyfile="include/llm/gguf_st_adapter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a9fa376c3e25bd2b4c8dd14303722bce5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">QuantizationType</ref></type>
+        <definition>QuantizationType themis::llm::GGUFSTConfig::quantization</definition>
+        <argsstring></argsstring>
+        <name>quantization</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::quantization</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9903780fa1d9b91f0542bd40fea13f2" kindref="member">QuantizationType::Q4_K_M</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="44" column="22" bodyfile="include/llm/gguf_st_adapter.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a07694c65cb26a69d94a44bd337a5252f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFSTConfig::compress_manifest</definition>
+        <argsstring></argsstring>
+        <name>compress_manifest</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::compress_manifest</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="46" column="10" bodyfile="include/llm/gguf_st_adapter.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a14caec5b6a738058718c162449c3e692" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFSTConfig::compress_safetensors</definition>
+        <argsstring></argsstring>
+        <name>compress_safetensors</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::compress_safetensors</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="47" column="10" bodyfile="include/llm/gguf_st_adapter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ac43c0af423b37286cf4e7b76899a276d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::GGUFSTConfig::zstd_level</definition>
+        <argsstring></argsstring>
+        <name>zstd_level</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::zstd_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="49" column="9" bodyfile="include/llm/gguf_st_adapter.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ace271ccd35003e05f44e3117155464af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFSTConfig::embed_safetensors</definition>
+        <argsstring></argsstring>
+        <name>embed_safetensors</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::embed_safetensors</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="51" column="10" bodyfile="include/llm/gguf_st_adapter.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a3735d4853f498d7bc2911ffeb4ce5f60" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFSTConfig::include_signature</definition>
+        <argsstring></argsstring>
+        <name>include_signature</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::include_signature</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="53" column="10" bodyfile="include/llm/gguf_st_adapter.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a2825034784039fb701b4cbd659236fd7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFSTConfig::include_manifest</definition>
+        <argsstring></argsstring>
+        <name>include_manifest</name>
+        <qualifiedname>themis::llm::GGUFSTConfig::include_manifest</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="55" column="10" bodyfile="include/llm/gguf_st_adapter.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gguf_st_adapter.h" line="26" column="1" bodyfile="include/llm/gguf_st_adapter.h" bodystart="26" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a07694c65cb26a69d94a44bd337a5252f" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>compress_manifest</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a14caec5b6a738058718c162449c3e692" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>compress_safetensors</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ace271ccd35003e05f44e3117155464af" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>embed_safetensors</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a2825034784039fb701b4cbd659236fd7" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>include_manifest</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a3735d4853f498d7bc2911ffeb4ce5f60" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>include_signature</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a9fa376c3e25bd2b4c8dd14303722bce5" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>QuantizationType</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a38a24e1d0b8c7c2796b4f141f6b493fe" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>size_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>SizeMode</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ac43c0af423b37286cf4e7b76899a276d" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTConfig</scope><name>zstd_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

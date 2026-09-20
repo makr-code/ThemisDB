@@ -1,0 +1,346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__llm__streaming__dedicated__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_llm_streaming_dedicated_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp</label>
+        <link refid="bench__llm__streaming__dedicated__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>deque</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_stub_token_stream_bench" prot="public">StubTokenStreamBench</innerclass>
+    <innerclass refid="class_stub_backpressure_bench" prot="public">StubBackpressureBench</innerclass>
+    <innerclass refid="class_stub_chunk_assembler_bench" prot="public">StubChunkAssemblerBench</innerclass>
+    <innerclass refid="class_stub_stream_session_bench" prot="public">StubStreamSessionBench</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1ad0074e079194d39c148ff3a09775e262" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LS_BM_01_Token_Send_Throughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>LS_BM_01_Token_Send_Throughput</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="89" column="13" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="89" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1ac294cb60b53602cbd4d092cd6f968dde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(LS_BM_01_Token_Send_Throughput) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>LS_BM_01_Token_Send_Throughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="99" column="1" declfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" declline="99" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1a698c817eeda0952aed8ded88b530346f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LS_BM_02_Backpressure_Push_Latency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>LS_BM_02_Backpressure_Push_Latency</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="104" column="13" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="104" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1a97b21f84fd193943442fb3c50bf28a4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(LS_BM_02_Backpressure_Push_Latency) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>LS_BM_02_Backpressure_Push_Latency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="118" column="1" declfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" declline="118" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1aed068237599ac4fd27c7376907f56678" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LS_BM_03_ChunkAssembler_Receive_Throughput</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>LS_BM_03_ChunkAssembler_Receive_Throughput</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="123" column="13" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="123" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1a58fe66fd2e40f397b809db7f6cf6af2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(LS_BM_03_ChunkAssembler_Receive_Throughput) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>LS_BM_03_ChunkAssembler_Receive_Throughput</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="134" column="1" declfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" declline="134" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1acc034a950fe89a615b092e7c1a2cb041" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void LS_BM_04_StreamSession_Create_Latency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>LS_BM_04_StreamSession_Create_Latency</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="139" column="13" bodyfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" bodystart="139" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1a3671e08cd9e3ba97e4af3647a933a1f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(LS_BM_04_StreamSession_Create_Latency) -&gt; Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>LS_BM_04_StreamSession_Create_Latency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="149" column="1" declfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" declline="149" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__llm__streaming__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" line="151" column="1" declfile="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp" declline="151" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave D — LLM Streaming Dedicated Benchmark Gates. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Benchmark gates LS-BM-01..04 for the llm_streaming module.</para>
+<para>Gates: LS-BM-01 Token_Send_Throughput — ≥ 10 000 tokens/sec LS-BM-02 Backpressure_Push_Latency — p99 ≤ 100 µs LS-BM-03 ChunkAssembler_Receive_Throughput — ≥ 50 000 chunks/sec LS-BM-04 StreamSession_Create_Latency — p99 ≤ 1 ms</para>
+<para>SIMULATION NOTE: All token streaming, backpressure, and chunk assembly operations use in-process stubs that model the production hot paths without requiring gRPC, HTTP, or LLM inference backends. These stubs MUST NOT be used in production code paths.</para>
+<para><simplesect kind="see"><para>docs/operability/RUNBOOK_LLM_STREAMING.md </para>
+</simplesect>
+<simplesect kind="see"><para>src/llm_streaming/ROADMAP.md — Wave D </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SIMULATION<sp/>NOTE<sp/>—<sp/>in-process<sp/>LLM<sp/>streaming<sp/>stubs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="class_stub_token_stream_bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_token_stream_bench" kindref="compound">StubTokenStreamBench</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_token_stream_bench_1af2b01171372c4688b036e5e242214818" kindref="member">sendToken</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)token;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="class_stub_token_stream_bench_1a04f32f23432174e5ebd92eb6f85f80eb" kindref="member">count</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>count_{0};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="class_stub_backpressure_bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_backpressure_bench_1a64f363328dedaa25a54b9cc6fa2c8f56" kindref="member">StubBackpressureBench</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_stub_backpressure_bench_1a64f363328dedaa25a54b9cc6fa2c8f56" kindref="member">StubBackpressureBench</ref>(std::size_t<sp/>cap)<sp/>:<sp/>cap_(cap)<sp/>{}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_stub_backpressure_bench_1ac929c022b01ee787f67e9d108cd75533" kindref="member">push</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(buf_.size()<sp/>&gt;=<sp/>cap_)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buf_.push_back(chunk);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_stub_backpressure_bench_1aac596ab4a759ceb0f3174868f20b288b" kindref="member">pop</ref>(std::string&amp;<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::lock_guard&lt;std::mutex&gt;<sp/>lk(mu_);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(buf_.empty())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out<sp/>=<sp/>buf_.front();<sp/>buf_.pop_front();<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>mu_;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;std::string&gt;<sp/>buf_;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>cap_;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="class_stub_chunk_assembler_bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_chunk_assembler_bench" kindref="compound">StubChunkAssemblerBench</ref><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_chunk_assembler_bench_1a87349b18a42f875be1318ff308f465a0" kindref="member">receive</ref>(uint64_t<sp/>seq,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chunk)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>count_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)seq;<sp/>(void)chunk;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="class_stub_chunk_assembler_bench_1a286ae96509d8fbcdece010cb3f5acb3d" kindref="member">count</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>count_{0};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="class_stub_stream_session_bench" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_stream_session_bench" kindref="compound">StubStreamSessionBench</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_stream_session_bench_1a6382b7b4e0e5a77ba0bdb1103ec7bb17" kindref="member">open</ref>(uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{<sp/>id_<sp/>=<sp/>id;<sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_stream_session_bench_1a269e061037efc2ae0161e82e1161d0bf" kindref="member">close</ref>()<sp/>{<sp/>id_<sp/>=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>id_{0};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LS-BM-01:<sp/>Token<sp/>Send<sp/>Throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>LS_BM_01_Token_Send_Throughput(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_token_stream_bench" kindref="compound">StubTokenStreamBench</ref><sp/>stream;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>idx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stream.<ref refid="class_stub_token_stream_bench_1af2b01171372c4688b036e5e242214818" kindref="member">sendToken</ref>(</highlight><highlight class="stringliteral">&quot;tok_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(idx++));</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;LS-BM-01<sp/>gate:<sp/>≥10000<sp/>tokens/sec&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="bench__llm__streaming__dedicated__gates_8cpp_1ac294cb60b53602cbd4d092cd6f968dde" kindref="member">BENCHMARK</ref>(LS_BM_01_Token_Send_Throughput)-&gt;Repetitions(5)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LS-BM-02:<sp/>Backpressure<sp/>Push<sp/>Latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>LS_BM_02_Backpressure_Push_Latency(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_backpressure_bench" kindref="compound">StubBackpressureBench</ref><sp/>bp(65536);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>idx<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!bp.push(</highlight><highlight class="stringliteral">&quot;chunk_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(idx)))<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>out;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bp.pop(out);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bp.push(</highlight><highlight class="stringliteral">&quot;chunk_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(idx));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++idx;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;LS-BM-02<sp/>gate:<sp/>p99<sp/>≤<sp/>100µs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="bench__llm__streaming__dedicated__gates_8cpp_1ac294cb60b53602cbd4d092cd6f968dde" kindref="member">BENCHMARK</ref>(LS_BM_02_Backpressure_Push_Latency)-&gt;Repetitions(5)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LS-BM-03:<sp/>Chunk<sp/>Assembler<sp/>Receive<sp/>Throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>LS_BM_03_ChunkAssembler_Receive_Throughput(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_chunk_assembler_bench" kindref="compound">StubChunkAssemblerBench</ref><sp/>assembler;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>seq<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>assembler.<ref refid="class_stub_chunk_assembler_bench_1a87349b18a42f875be1318ff308f465a0" kindref="member">receive</ref>(seq,<sp/></highlight><highlight class="stringliteral">&quot;chunk_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(seq));</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++seq;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::ClobberMemory();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;LS-BM-03<sp/>gate:<sp/>≥50000<sp/>chunks/sec&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><ref refid="bench__llm__streaming__dedicated__gates_8cpp_1ac294cb60b53602cbd4d092cd6f968dde" kindref="member">BENCHMARK</ref>(LS_BM_03_ChunkAssembler_Receive_Throughput)-&gt;Repetitions(5)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LS-BM-04:<sp/>Stream<sp/>Session<sp/>Create<sp/>Latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>LS_BM_04_StreamSession_Create_Latency(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_stub_stream_session_bench" kindref="compound">StubStreamSessionBench</ref><sp/>sess;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sess.<ref refid="class_stub_stream_session_bench_1a6382b7b4e0e5a77ba0bdb1103ec7bb17" kindref="member">open</ref>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">++);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sess.<ref refid="class_stub_stream_session_bench_1a269e061037efc2ae0161e82e1161d0bf" kindref="member">close</ref>();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(sess);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;LS-BM-04<sp/>gate:<sp/>p99<sp/>≤<sp/>1ms&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="bench__llm__streaming__dedicated__gates_8cpp_1ac294cb60b53602cbd4d092cd6f968dde" kindref="member">BENCHMARK</ref>(LS_BM_04_StreamSession_Create_Latency)-&gt;Repetitions(5)-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="bench__llm__streaming__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/llm_streaming/bench_llm_streaming_dedicated_gates.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1600 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__base__interfaces_8cpp" kind="file" language="C++">
+    <compoundname>test_base_interfaces.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">themis/base/interfaces/storage_interface.h</includes>
+    <includes local="yes">themis/base/interfaces/query_interface.h</includes>
+    <includes local="yes">themis/base/interfaces/index_interface.h</includes>
+    <includes local="yes">themis/base/interfaces/security_interface.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/base/test_base_interfaces.cpp</label>
+        <link refid="test__base__interfaces_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="10">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="12">
+        <label>themis/base/interfaces/security_interface.h</label>
+      </node>
+      <node id="9">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="7">
+        <label>type_traits</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_mock_storage_engine" prot="public">MockStorageEngine</innerclass>
+    <innerclass refid="class_mock_expression_evaluator" prot="public">MockExpressionEvaluator</innerclass>
+    <innerclass refid="class_mock_query_engine" prot="public">MockQueryEngine</innerclass>
+    <innerclass refid="class_mock_field_encryption" prot="public">MockFieldEncryption</innerclass>
+    <innerclass refid="class_mock_key_provider" prot="public">MockKeyProvider</innerclass>
+    <innerclass refid="class_mock_secondary_index" prot="public">MockSecondaryIndex</innerclass>
+    <innerclass refid="class_mock_vector_index" prot="public">MockVectorIndex</innerclass>
+    <innerclass refid="class_mock_graph_index" prot="public">MockGraphIndex</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BaseInterfaces, StorageInterfaceIsAbstract)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BaseInterfaces</type>
+        </param>
+        <param>
+          <type>StorageInterfaceIsAbstract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="30" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a7784fe7141cdaec7cd7b50a08e4d68e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BaseInterfaces, QueryInterfaceIsAbstract)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BaseInterfaces</type>
+        </param>
+        <param>
+          <type>QueryInterfaceIsAbstract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="35" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a726af28909d3bef693ba55000d3fb381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BaseInterfaces, IndexInterfaceIsAbstract)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BaseInterfaces</type>
+        </param>
+        <param>
+          <type>IndexInterfaceIsAbstract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="41" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1af2ee20d114f6e96e2d9d50f2fcf8b1b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BaseInterfaces, SecurityInterfaceIsAbstract)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BaseInterfaces</type>
+        </param>
+        <param>
+          <type>SecurityInterfaceIsAbstract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="48" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="48" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1aea211df4e7e3d1eb3902a6245c16907c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BaseInterfaces, HasVirtualDestructors)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BaseInterfaces</type>
+        </param>
+        <param>
+          <type>HasVirtualDestructors</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="55" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a1999362fde920bad1a1e04e993003f23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockStorageEngine, OpenAndClose)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref></type>
+        </param>
+        <param>
+          <type>OpenAndClose</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="347" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="347" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1acf427572994e0209ad80e774b02ed96e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockStorageEngine, PutAndGet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref></type>
+        </param>
+        <param>
+          <type>PutAndGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="356" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="356" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a2bbcb426b6a78e29534e01e08938e3b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockStorageEngine, GetNonexistentReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref></type>
+        </param>
+        <param>
+          <type>GetNonexistentReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="366" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="366" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a5614a7da75c57438735ec020dbaa4ebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockStorageEngine, DeleteExistingKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref></type>
+        </param>
+        <param>
+          <type>DeleteExistingKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="372" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="372" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a41c5222e3cc2b75bb6e57877207ba511" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockStorageEngine, DeleteNonexistentReturnsError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref></type>
+        </param>
+        <param>
+          <type>DeleteNonexistentReturnsError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="382" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="382" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1abbc82ae31af2f1e2f96c12d86b2372e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockStorageEngine, ScanRangeDefaultImplementation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref></type>
+        </param>
+        <param>
+          <type>ScanRangeDefaultImplementation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="388" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="388" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a2fd7f216251d6bda4041ed177ae2b675" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockStorageEngine, ScanPrefixDefaultImplementation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref></type>
+        </param>
+        <param>
+          <type>ScanPrefixDefaultImplementation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="398" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="398" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1ada4bbe8e20239ff36eec6ac918479dd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockStorageEngine, PolymorphicUsage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref></type>
+        </param>
+        <param>
+          <type>PolymorphicUsage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="407" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="407" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1aac14a12a722f6877630df799a199dd8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockQueryEngine, Execute)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref></type>
+        </param>
+        <param>
+          <type>Execute</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="421" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="421" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a8e9fc4a91fc76ab89b6fdb0dcddfddc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockQueryEngine, Validate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref></type>
+        </param>
+        <param>
+          <type>Validate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="428" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="428" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a1969bc045013d5e5a5d2b5baab1ea6bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockQueryEngine, CreateExpressionEvaluator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref></type>
+        </param>
+        <param>
+          <type>CreateExpressionEvaluator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="434" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="434" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a76026a0869a00538dc5cf8e884d42e84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockQueryEngine, ExplainQuery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref></type>
+        </param>
+        <param>
+          <type>ExplainQuery</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="443" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="443" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a144a48d5d41d6f46292b4bc895e46bcc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResult, DefaultState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResult</type>
+        </param>
+        <param>
+          <type>DefaultState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="450" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="450" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a07eb8aae6f50fa0a055fd5f8df13ad98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(QueryResult, ErrorState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>QueryResult</type>
+        </param>
+        <param>
+          <type>ErrorState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="456" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="456" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1aeb71f122326a829a0a290d5adbad74c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockFieldEncryption, EncryptDecryptRoundTrip)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_field_encryption" kindref="compound">MockFieldEncryption</ref></type>
+        </param>
+        <param>
+          <type>EncryptDecryptRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="466" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="466" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1afdab3e06e1f38d16d8aac660b90b8991" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockFieldEncryption, ShouldEncryptSelectedFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_field_encryption" kindref="compound">MockFieldEncryption</ref></type>
+        </param>
+        <param>
+          <type>ShouldEncryptSelectedFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="477" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="477" bodyend="481"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1ae5553b81be00c9553b17a79eb0e8063d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockKeyProvider, GetKeyReturnsBytes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref></type>
+        </param>
+        <param>
+          <type>GetKeyReturnsBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="487" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="487" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1ad963f72b9a872c7257821ee40b7ad6bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockKeyProvider, RotateKeyReturnsDifferentBytes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref></type>
+        </param>
+        <param>
+          <type>RotateKeyReturnsDifferentBytes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="494" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="494" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1afcc290bb7d0b0a109313ed5969f2a510" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockSecondaryIndex, InsertAndLookup)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref></type>
+        </param>
+        <param>
+          <type>InsertAndLookup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="506" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="506" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1ac246d98b068003481e6058d1ba89d20d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockSecondaryIndex, LookupMissingValue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref></type>
+        </param>
+        <param>
+          <type>LookupMissingValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="515" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="515" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1ad32f9e7859521bc3f223b123f9b5f5e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockSecondaryIndex, RemoveEntry)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref></type>
+        </param>
+        <param>
+          <type>RemoveEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="521" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="521" bodyend="526"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a0070d59218bef59ec165f4d16a76dd4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockSecondaryIndex, RemoveNonexistentReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref></type>
+        </param>
+        <param>
+          <type>RemoveNonexistentReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="528" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="528" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1ae10b870af8b22e162dfdc86d24051213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockSecondaryIndex, RangeScan)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref></type>
+        </param>
+        <param>
+          <type>RangeScan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="533" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="533" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1aadec49dd3276b990cc8000bd2ccd5875" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockSecondaryIndex, Metadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref></type>
+        </param>
+        <param>
+          <type>Metadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="543" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="543" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a4159532a6568e5fd35e1a8fdcaa0709b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockVectorIndex, InsertAndSearch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref></type>
+        </param>
+        <param>
+          <type>InsertAndSearch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="554" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="554" bodyend="561"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1abd16d4d11e95a1f61fe5c1d1f70eb652" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockVectorIndex, RangeSearch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref></type>
+        </param>
+        <param>
+          <type>RangeSearch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="563" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="563" bodyend="569"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a3d22145fc8c4604a7f1dc64ff544f9ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockVectorIndex, RemoveVector)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref></type>
+        </param>
+        <param>
+          <type>RemoveVector</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="571" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="571" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1ae24f8ec7a31b80940a51d3f32b8d0741" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockVectorIndex, Metadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref></type>
+        </param>
+        <param>
+          <type>Metadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="578" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="578" bodyend="583"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1aa78415d7e4f62b8ea57a93a19d3e85a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(VectorSearchResult, Construction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>VectorSearchResult</type>
+        </param>
+        <param>
+          <type>Construction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="585" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="585" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1afaeba48caaa96a498ca8e5ceb0195f00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockGraphIndex, InsertEdge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref></type>
+        </param>
+        <param>
+          <type>InsertEdge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="595" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="595" bodyend="598"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a917a3ed0de908af2ed82032084930df7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockGraphIndex, GetOutgoingEdges)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref></type>
+        </param>
+        <param>
+          <type>GetOutgoingEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="600" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="600" bodyend="607"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a1634c5ca1c8826884ee6babc641bdc2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockGraphIndex, GetOutgoingEdgesFilteredByType)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref></type>
+        </param>
+        <param>
+          <type>GetOutgoingEdgesFilteredByType</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="609" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="609" bodyend="617"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a79e5f4ec0956bbd0c28d3c0a46862b7e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockGraphIndex, GetIncomingEdges)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref></type>
+        </param>
+        <param>
+          <type>GetIncomingEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="619" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="619" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a2d3f6de284e84715b888b31cb973c7a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockGraphIndex, RemoveEdge)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref></type>
+        </param>
+        <param>
+          <type>RemoveEdge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="628" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="628" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a7ec633a3bbd8bd327d71a303d486be79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockGraphIndex, FindShortestPathDirect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref></type>
+        </param>
+        <param>
+          <type>FindShortestPathDirect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="635" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="635" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1ab1ec435024f1a59b7b1d6b8f4f2715ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockGraphIndex, FindShortestPathNoPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref></type>
+        </param>
+        <param>
+          <type>FindShortestPathNoPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="644" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="644" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a1c501adeb07450b01e4dce33d5d920c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MockGraphIndex, Metadata)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref></type>
+        </param>
+        <param>
+          <type>Metadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="650" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="650" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a4765fe925ab7ffe2f1212a5acb7396eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphEdge, Construction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphEdge</type>
+        </param>
+        <param>
+          <type>Construction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="656" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="656" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="test__base__interfaces_8cpp_1a5115af3ece1b4bfcf8c0c44d2a4db768" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GraphEdge, DefaultWeight)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GraphEdge</type>
+        </param>
+        <param>
+          <type>DefaultWeight</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_interfaces.cpp" line="664" column="1" bodyfile="tests/base/test_base_interfaces.cpp" bodystart="664" bodyend="668"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for base interface definitions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These tests verify that the interfaces:<itemizedlist>
+<listitem><para>Compile correctly with the current Result&lt;T&gt; API</para>
+</listitem><listitem><para>Have pure virtual methods</para>
+</listitem><listitem><para>Can be subclassed</para>
+</listitem><listitem><para>Have proper virtual destructors</para>
+</listitem><listitem><para>Behave correctly through polymorphism </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/storage_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/query_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/index_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/base/interfaces/security_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Compile-time<sp/>/<sp/>abstract-class<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(BaseInterfaces,<sp/>StorageInterfaceIsAbstract)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IStorageEngine&gt;);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IStorageEngineFactory&gt;);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(BaseInterfaces,<sp/>QueryInterfaceIsAbstract)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IExpressionEvaluator&gt;);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IQueryEngine&gt;);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IQueryEngineFactory&gt;);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(BaseInterfaces,<sp/>IndexInterfaceIsAbstract)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;ISecondaryIndex&gt;);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IVectorIndex&gt;);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IGraphIndex&gt;);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IIndexManager&gt;);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(BaseInterfaces,<sp/>SecurityInterfaceIsAbstract)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IKeyProvider&gt;);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IFieldEncryption&gt;);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IFieldEncryptionFactory&gt;);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_abstract_v&lt;IKeyProviderFactory&gt;);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(BaseInterfaces,<sp/>HasVirtualDestructors)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::has_virtual_destructor_v&lt;IStorageEngine&gt;);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::has_virtual_destructor_v&lt;IQueryEngine&gt;);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::has_virtual_destructor_v&lt;ISecondaryIndex&gt;);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::has_virtual_destructor_v&lt;IKeyProvider&gt;);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>Implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>IStorageEngine<sp/>mock<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="class_mock_storage_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IStorageEngine<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="class_mock_storage_engine_1a8b8135040df0d4d5cb1a6d3898bb8975" kindref="member">open</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*db_path*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine_1a65451f36b79f43d51d13f43a4da2a28f" kindref="member">opened_</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>OkVoid();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_mock_storage_engine_1a7c5a21a290a56361591818858e684311" kindref="member">close</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{<sp/><ref refid="class_mock_storage_engine_1a65451f36b79f43d51d13f43a4da2a28f" kindref="member">opened_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="class_mock_storage_engine_1a1960ab71800cecf343630f92cbe54c29" kindref="member">put</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data_[key]<sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>OkVoid();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="class_mock_storage_engine_1abb16ae7300858914ef6b4f7a5ce69ea8" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>data_.find(key);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>!=<sp/>data_.end())<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Ok(it-&gt;second);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Err&lt;std::string&gt;(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,<sp/>key);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="class_mock_storage_engine_1a9a341c240a5fe33deee754917c385893" kindref="member">del</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(data_.erase(key)<sp/>&gt;<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>OkVoid();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ErrVoid(errors::ErrorCode::ERR_STORAGE_FILE_NOT_FOUND,<sp/>key);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_storage_engine_1a65451f36b79f43d51d13f43a4da2a28f" kindref="member">opened_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/>data_;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>IExpressionEvaluator<sp/>mock<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="class_mock_expression_evaluator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_expression_evaluator" kindref="compound">MockExpressionEvaluator</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IExpressionEvaluator<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_expression_evaluator_1ad60066c1932cba9232c51f993b0af542" kindref="member">evaluate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*expression*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/></highlight><highlight class="comment">/*context*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_mock_expression_evaluator_1ab2a6b31b11221ee376ca799492144c86" kindref="member">get_expression_type</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;MOCK&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>IQueryEngine<sp/>mock<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="class_mock_query_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IQueryEngine<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="class_mock_query_engine_1a4d285ddb31e0a8c4cdf23b220e247f90" kindref="member">execute</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*query*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Ok(std::string{</highlight><highlight class="stringliteral">&quot;mock<sp/>result&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="class_mock_query_engine_1a8434d278915aa6de24ca9458245a78c4" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*query*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>OkVoid();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::unique_ptr&lt;IExpressionEvaluator&gt;&gt;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_query_engine_1a44d30e47b23dd9d9f0dbe67f6ca4991b" kindref="member">createExpressionEvaluator</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Ok&lt;std::unique_ptr&lt;IExpressionEvaluator&gt;&gt;(</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_unique&lt;MockExpressionEvaluator&gt;());</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;std::string&gt;<sp/><ref refid="class_mock_query_engine_1aed6cd4bb98fa2130eccd5d46f70188dd" kindref="member">explainQuery</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*query*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>Ok(std::string{</highlight><highlight class="stringliteral">&quot;mock<sp/>plan&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>IFieldEncryption<sp/>mock<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="class_mock_field_encryption" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_field_encryption" kindref="compound">MockFieldEncryption</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IFieldEncryption<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_mock_field_encryption_1af2b9337aca5f5b7ee30dadafe22ceb0b" kindref="member">encrypt_field</ref>(</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*field_name*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>plaintext)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>XOR<sp/>each<sp/>byte<sp/>with<sp/>0xFF<sp/>as<sp/>a<sp/>trivial<sp/>mock<sp/>cipher</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>out(plaintext);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b<sp/>:<sp/>out)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>b<sp/>^=<sp/>0xFF;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_mock_field_encryption_1a31305b07344a053f9cbc575d580e9d2d" kindref="member">decrypt_field</ref>(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_name,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>ciphertext)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_mock_field_encryption_1af2b9337aca5f5b7ee30dadafe22ceb0b" kindref="member">encrypt_field</ref>(field_name,<sp/>ciphertext);<sp/></highlight><highlight class="comment">//<sp/>symmetric</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_field_encryption_1a9f8041b3a109012a70f70bd5519f4c88" kindref="member">should_encrypt</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_name)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>field_name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>IKeyProvider<sp/>mock<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164" refid="class_mock_key_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IKeyProvider<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_mock_key_provider_1a4f087c8b9f9eebfb33b679dbb485eb7a" kindref="member">get_key</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*key_id*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0x00,<sp/>0x11,<sp/>0x22,<sp/>0x33};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="class_mock_key_provider_1a40550a14dc36a96ba9911404edbe3b6d" kindref="member">rotate_key</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*key_id*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{0xAA,<sp/>0xBB,<sp/>0xCC,<sp/>0xDD};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>ISecondaryIndex<sp/>mock<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="class_mock_secondary_index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>ISecondaryIndex<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" kindref="member">insert</ref>(std::string_view<sp/>indexed_value,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>primary_key)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>index_[std::string(indexed_value)].push_back(std::string(primary_key));</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_secondary_index_1a28ade6eeca06b4db89d65b21e24f5c16" kindref="member">remove</ref>(std::string_view<sp/>indexed_value,</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>primary_key)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>index_.find(std::string(indexed_value));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>index_.end())<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>vec<sp/>=<sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pos<sp/>=<sp/>std::find(vec.begin(),<sp/>vec.end(),<sp/>std::string(primary_key));</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(pos<sp/>==<sp/>vec.end())<sp/>{</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vec.erase(pos);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_mock_secondary_index_1afcd18bd6ab573f4991a173462cf357c7" kindref="member">lookup</ref>(std::string_view<sp/>value)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>index_.find(std::string(value));</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>index_.end())<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_mock_secondary_index_1a884cba0d85e12f4212ae5e7e70a31803" kindref="member">rangeScan</ref>(</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>start,<sp/>std::string_view<sp/>end,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ScanOrder<sp/></highlight><highlight class="comment">/*order*/</highlight><highlight class="normal"><sp/>=<sp/>ScanOrder::ASCENDING)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>s(start),<sp/>e(end);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[k,<sp/>pks]<sp/>:<sp/>index_)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(k<sp/>&gt;=<sp/>s<sp/>&amp;&amp;<sp/>k<sp/>&lt;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.insert(result.end(),<sp/>pks.begin(),<sp/>pks.end());</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_mock_secondary_index_1a2d275e51601fad6563c7806f66a70a53" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;mock_secondary&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_mock_secondary_index_1a2a8c5e3b230b973f90e565b000882dfa" kindref="member">getFieldName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;mock_field&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_mock_secondary_index_1ae93f50ccc3eab6b3674dee69ce3dc7ce" kindref="member">getStatistics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/>index_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>IVectorIndex<sp/>mock<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229" refid="class_mock_vector_index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IVectorIndex<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_vector_index_1aa78fe123b54f88cfafb4642fe3c0d5c9" kindref="member">insert</ref>(std::string_view<sp/>primary_key,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>vector)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vectors_[std::string(primary_key)]<sp/>=<sp/>vector;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_vector_index_1a69ad87a4820934cb4603f3c1755ce38e" kindref="member">remove</ref>(std::string_view<sp/>primary_key)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vectors_.erase(std::string(primary_key))<sp/>&gt;<sp/>0;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VectorSearchResult&gt;<sp/><ref refid="class_mock_vector_index_1a54c5755e440e2ea3616733547e19ff33" kindref="member">search</ref>(</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/></highlight><highlight class="comment">/*query*/</highlight><highlight class="normal">,<sp/>uint32_t<sp/>k,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IExpressionEvaluator*<sp/></highlight><highlight class="comment">/*filter*/</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VectorSearchResult&gt;<sp/>results<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[pk,<sp/>_]<sp/>:<sp/>vectors_)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(results.size()<sp/>&gt;=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(k))<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.emplace_back(pk,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>results;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;VectorSearchResult&gt;<sp/><ref refid="class_mock_vector_index_1a08bd20abea0dd0c3d1ff9195f2ac625b" kindref="member">rangeSearch</ref>(</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/></highlight><highlight class="comment">/*query*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*max_distance*/</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IExpressionEvaluator*<sp/></highlight><highlight class="comment">/*filter*/</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;VectorSearchResult&gt;<sp/>results<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[pk,<sp/>_]<sp/>:<sp/>vectors_)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>results.emplace_back(pk,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>results;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_mock_vector_index_1a56c2aba456ec5361a6720bada1a79b8e" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;mock_vector&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="class_mock_vector_index_1a1d287649cdd3179ff258a2f5c428a5af" kindref="member">getDimension</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>3;<sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_mock_vector_index_1a0d46dab69bc439474867b668b09a6692" kindref="member">getStatistics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::vector&lt;float&gt;&gt;<sp/>vectors_;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---<sp/>IGraphIndex<sp/>mock<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="class_mock_graph_index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IGraphIndex<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphEdge&amp;<sp/>edge)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges_.push_back(edge);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_graph_index_1ac2450af55ac403a90a54f07adc7d30c5" kindref="member">removeEdge</ref>(std::string_view<sp/>from,<sp/>std::string_view<sp/>to,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>edge_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>std::remove_if(edges_.begin(),<sp/>edges_.end(),</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GraphEdge&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>return<sp/>e.from_node<sp/>==<sp/>std::string(from)<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.to_node<sp/><sp/><sp/>==<sp/>std::string(to)<sp/><sp/><sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(edge_type.empty()<sp/>||<sp/>e.edge_type<sp/>==<sp/>std::string(edge_type));</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>it<sp/>!=<sp/>edges_.end();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>edges_.erase(it,<sp/>edges_.end());</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>removed;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GraphEdge&gt;<sp/><ref refid="class_mock_graph_index_1ad7767dd270f780c2c45288dd6f7a8165" kindref="member">getOutgoingEdges</ref>(</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>node_id,<sp/>std::string_view<sp/>edge_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;GraphEdge&gt;<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>edges_)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.from_node<sp/>==<sp/>std::string(node_id)<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(edge_type.empty()<sp/>||<sp/>e.edge_type<sp/>==<sp/>std::string(edge_type)))<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(e);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GraphEdge&gt;<sp/><ref refid="class_mock_graph_index_1addfeb4076c61d61bcb15f170c4f5e4e8" kindref="member">getIncomingEdges</ref>(</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>node_id,<sp/>std::string_view<sp/>edge_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;GraphEdge&gt;<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>edges_)<sp/>{</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.to_node<sp/>==<sp/>std::string(node_id)<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(edge_type.empty()<sp/>||<sp/>e.edge_type<sp/>==<sp/>std::string(edge_type)))<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(e);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_mock_graph_index_1a2423aa9ab5c14d3dcca94bc7515976ee" kindref="member">findShortestPath</ref>(</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>from,<sp/>std::string_view<sp/>to,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/></highlight><highlight class="comment">/*edge_type*/</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/></highlight><highlight class="comment">/*max_depth*/</highlight><highlight class="normal"><sp/>=<sp/>0)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>mock:<sp/>direct<sp/>edge<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>e<sp/>:<sp/>edges_)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.from_node<sp/>==<sp/>std::string(from)<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.to_node<sp/><sp/><sp/>==<sp/>std::string(to))<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{std::string(from),<sp/>std::string(to)};</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_mock_graph_index_1a7fa2ab1eb7f520a8fc834845e3e1b38f" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;mock_graph&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_mock_graph_index_1a1d2458f9fe2cc75f8dc559bb80183094" kindref="member">getStatistics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;{}&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GraphEdge&gt;<sp/>edges_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IStorageEngine<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref>,<sp/>OpenAndClose)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.open(</highlight><highlight class="stringliteral">&quot;/tmp/test_db&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.opened_);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.close();</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.opened_);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref>,<sp/>PutAndGet)<sp/>{</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>;</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>put_res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.put(</highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;value1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(put_res.has_value());</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.get(</highlight><highlight class="stringliteral">&quot;key1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(get_res.has_value());</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(get_res.value(),<sp/></highlight><highlight class="stringliteral">&quot;value1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref>,<sp/>GetNonexistentReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>;</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.get(</highlight><highlight class="stringliteral">&quot;no_such_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref>,<sp/>DeleteExistingKey)<sp/>{</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>;</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.put(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>del_res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.del(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(del_res.has_value());</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>get_res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.get(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(get_res.has_value());</highlight></codeline>
+<codeline lineno="380"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref>,<sp/>DeleteNonexistentReturnsError)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.del(</highlight><highlight class="stringliteral">&quot;ghost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());</highlight></codeline>
+<codeline lineno="386"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref>,<sp/>ScanRangeDefaultImplementation)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>scanRange<sp/>returns<sp/>error<sp/>(not<sp/>implemented<sp/>in<sp/>base)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.scanRange(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;z&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](std::string_view,<sp/>std::string_view)<sp/>{<sp/>++count;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());<sp/></highlight><highlight class="comment">//<sp/>default<sp/>impl<sp/>returns<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>0);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref>,<sp/>ScanPrefixDefaultImplementation)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.scanPrefix(</highlight><highlight class="stringliteral">&quot;user:&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](std::string_view,<sp/>std::string_view)<sp/>{<sp/>++count;<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value());<sp/></highlight><highlight class="comment">//<sp/>default<sp/>impl<sp/>returns<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>0);</highlight></codeline>
+<codeline lineno="405"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref>,<sp/>PolymorphicUsage)<sp/>{</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref><sp/>mock;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>IStorageEngine*<sp/>engine<sp/>=<sp/>&amp;mock;</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(engine-&gt;put(</highlight><highlight class="stringliteral">&quot;poly_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;poly_val&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>engine-&gt;get(</highlight><highlight class="stringliteral">&quot;poly_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.value(),<sp/></highlight><highlight class="stringliteral">&quot;poly_val&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IQueryEngine<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"></highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref>,<sp/>Execute)<sp/>{</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>engine.<ref refid="class_mock_query_engine_1a4d285ddb31e0a8c4cdf23b220e247f90" kindref="member">execute</ref>(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.value().empty());</highlight></codeline>
+<codeline lineno="426"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref>,<sp/>Validate)<sp/>{</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>engine.<ref refid="class_mock_query_engine_1a8434d278915aa6de24ca9458245a78c4" kindref="member">validate</ref>(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="432"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"></highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref>,<sp/>CreateExpressionEvaluator)<sp/>{</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>engine.<ref refid="class_mock_query_engine_1a44d30e47b23dd9d9f0dbe67f6ca4991b" kindref="member">createExpressionEvaluator</ref>();</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(res.value().get(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.value()-&gt;get_expression_type(),<sp/></highlight><highlight class="stringliteral">&quot;MOCK&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.value()-&gt;evaluate(</highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="441"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref>,<sp/>ExplainQuery)<sp/>{</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_query_engine" kindref="compound">MockQueryEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>engine.<ref refid="class_mock_query_engine_1aed6cd4bb98fa2130eccd5d46f70188dd" kindref="member">explainQuery</ref>(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.value().empty());</highlight></codeline>
+<codeline lineno="448"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(QueryResult,<sp/>DefaultState)<sp/>{</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryResult<sp/>qr;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(qr.success);</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(qr.hasError());</highlight></codeline>
+<codeline lineno="454"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(QueryResult,<sp/>ErrorState)<sp/>{</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryResult<sp/>qr;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>qr.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;something<sp/>went<sp/>wrong&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(qr.hasError());</highlight></codeline>
+<codeline lineno="460"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IFieldEncryption<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_field_encryption" kindref="compound">MockFieldEncryption</ref>,<sp/>EncryptDecryptRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_field_encryption" kindref="compound">MockFieldEncryption</ref><sp/>enc;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>plaintext<sp/>=<sp/>{0x01,<sp/>0x02,<sp/>0x03};</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ciphertext<sp/>=<sp/>enc.<ref refid="class_mock_field_encryption_1af2b9337aca5f5b7ee30dadafe22ceb0b" kindref="member">encrypt_field</ref>(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">,<sp/>plaintext);</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ciphertext.size(),<sp/>plaintext.size());</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ciphertext,<sp/>plaintext);</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recovered<sp/>=<sp/>enc.<ref refid="class_mock_field_encryption_1a31305b07344a053f9cbc575d580e9d2d" kindref="member">decrypt_field</ref>(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">,<sp/>ciphertext);</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recovered,<sp/>plaintext);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_field_encryption" kindref="compound">MockFieldEncryption</ref>,<sp/>ShouldEncryptSelectedFields)<sp/>{</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_field_encryption" kindref="compound">MockFieldEncryption</ref><sp/>enc;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(enc.<ref refid="class_mock_field_encryption_1a9f8041b3a109012a70f70bd5519f4c88" kindref="member">should_encrypt</ref>(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(enc.<ref refid="class_mock_field_encryption_1a9f8041b3a109012a70f70bd5519f4c88" kindref="member">should_encrypt</ref>(</highlight><highlight class="stringliteral">&quot;public_name&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="481"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IKeyProvider<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref>,<sp/>GetKeyReturnsBytes)<sp/>{</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref><sp/>provider;</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>key<sp/>=<sp/>provider.<ref refid="class_mock_key_provider_1a4f087c8b9f9eebfb33b679dbb485eb7a" kindref="member">get_key</ref>(</highlight><highlight class="stringliteral">&quot;my_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(key.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(key[0],<sp/>0x00);</highlight></codeline>
+<codeline lineno="492"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref>,<sp/>RotateKeyReturnsDifferentBytes)<sp/>{</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_key_provider" kindref="compound">MockKeyProvider</ref><sp/>provider;</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>original<sp/>=<sp/>provider.<ref refid="class_mock_key_provider_1a4f087c8b9f9eebfb33b679dbb485eb7a" kindref="member">get_key</ref>(</highlight><highlight class="stringliteral">&quot;my_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rotated<sp/><sp/>=<sp/>provider.<ref refid="class_mock_key_provider_1a40550a14dc36a96ba9911404edbe3b6d" kindref="member">rotate_key</ref>(</highlight><highlight class="stringliteral">&quot;my_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(original,<sp/>rotated);</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rotated.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="500"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"></highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ISecondaryIndex<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="505"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref>,<sp/>InsertAndLookup)<sp/>{</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pk1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pk2&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pks<sp/>=<sp/>idx.<ref refid="class_mock_secondary_index_1afcd18bd6ab573f4991a173462cf357c7" kindref="member">lookup</ref>(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(pks.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="513"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"></highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref>,<sp/>LookupMissingValue)<sp/>{</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pks<sp/>=<sp/>idx.<ref refid="class_mock_secondary_index_1afcd18bd6ab573f4991a173462cf357c7" kindref="member">lookup</ref>(</highlight><highlight class="stringliteral">&quot;ghost&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pks.empty());</highlight></codeline>
+<codeline lineno="519"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref>,<sp/>RemoveEntry)<sp/>{</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pk10&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_secondary_index_1a28ade6eeca06b4db89d65b21e24f5c16" kindref="member">remove</ref>(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pk10&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_secondary_index_1afcd18bd6ab573f4991a173462cf357c7" kindref="member">lookup</ref>(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="526"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref>,<sp/>RemoveNonexistentReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="class_mock_secondary_index_1a28ade6eeca06b4db89d65b21e24f5c16" kindref="member">remove</ref>(</highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pk0&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="531"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref>,<sp/>RangeScan)<sp/>{</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;b_entry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pk1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;c_entry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pk2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_secondary_index_1a72c4844a70c5b83c2ac68cf279ff65cd" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;z_entry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;pk3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="538"><highlight class="normal"></highlight></codeline>
+<codeline lineno="539"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>idx.<ref refid="class_mock_secondary_index_1a884cba0d85e12f4212ae5e7e70a31803" kindref="member">rangeScan</ref>(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;d&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="541"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref>,<sp/>Metadata)<sp/>{</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_secondary_index" kindref="compound">MockSecondaryIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="class_mock_secondary_index_1a2d275e51601fad6563c7806f66a70a53" kindref="member">getName</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;mock_secondary&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="class_mock_secondary_index_1a2a8c5e3b230b973f90e565b000882dfa" kindref="member">getFieldName</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;mock_field&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="class_mock_secondary_index_1ae93f50ccc3eab6b3674dee69ce3dc7ce" kindref="member">getStatistics</ref>().empty());</highlight></codeline>
+<codeline lineno="548"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="549"><highlight class="normal"></highlight></codeline>
+<codeline lineno="550"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IVectorIndex<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="552"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="553"><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref>,<sp/>InsertAndSearch)<sp/>{</highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_vector_index_1aa78fe123b54f88cfafb4642fe3c0d5c9" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>{1.0f,<sp/>0.0f,<sp/>0.0f}));</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_vector_index_1aa78fe123b54f88cfafb4642fe3c0d5c9" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;doc2&quot;</highlight><highlight class="normal">,<sp/>{0.0f,<sp/>1.0f,<sp/>0.0f}));</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"></highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="class_mock_vector_index_1a54c5755e440e2ea3616733547e19ff33" kindref="member">search</ref>({1.0f,<sp/>0.0f,<sp/>0.0f},<sp/>1);</highlight></codeline>
+<codeline lineno="560"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(results.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="561"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref>,<sp/>RangeSearch)<sp/>{</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_vector_index_1aa78fe123b54f88cfafb4642fe3c0d5c9" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">,<sp/>{1.0f,<sp/>0.0f,<sp/>0.0f});</highlight></codeline>
+<codeline lineno="566"><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>idx.<ref refid="class_mock_vector_index_1a08bd20abea0dd0c3d1ff9195f2ac625b" kindref="member">rangeSearch</ref>({1.0f,<sp/>0.0f,<sp/>0.0f},<sp/>1.0f);</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(results.empty());</highlight></codeline>
+<codeline lineno="569"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"></highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref>,<sp/>RemoveVector)<sp/>{</highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_vector_index_1aa78fe123b54f88cfafb4642fe3c0d5c9" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>{1.0f,<sp/>2.0f,<sp/>3.0f});</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_vector_index_1a69ad87a4820934cb4603f3c1755ce38e" kindref="member">remove</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="class_mock_vector_index_1a69ad87a4820934cb4603f3c1755ce38e" kindref="member">remove</ref>(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">));<sp/></highlight><highlight class="comment">//<sp/>already<sp/>removed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="576"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="577"><highlight class="normal"></highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref>,<sp/>Metadata)<sp/>{</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_vector_index" kindref="compound">MockVectorIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="class_mock_vector_index_1a56c2aba456ec5361a6720bada1a79b8e" kindref="member">getName</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;mock_vector&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="class_mock_vector_index_1a1d287649cdd3179ff258a2f5c428a5af" kindref="member">getDimension</ref>(),<sp/>3u);</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="class_mock_vector_index_1a0d46dab69bc439474867b668b09a6692" kindref="member">getStatistics</ref>().empty());</highlight></codeline>
+<codeline lineno="583"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"></highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(VectorSearchResult,<sp/>Construction)<sp/>{</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/>VectorSearchResult<sp/>r(</highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.primary_key,<sp/></highlight><highlight class="stringliteral">&quot;doc1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(r.distance,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="589"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"></highlight></codeline>
+<codeline lineno="591"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="592"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IGraphIndex<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="593"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="594"><highlight class="normal"></highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref>,<sp/>InsertEdge)<sp/>{</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">,<sp/>1.0}));</highlight></codeline>
+<codeline lineno="598"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref>,<sp/>GetOutgoingEdges)<sp/>{</highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"></highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>edges<sp/>=<sp/>idx.<ref refid="class_mock_graph_index_1ad7767dd270f780c2c45288dd6f7a8165" kindref="member">getOutgoingEdges</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(edges.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="607"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"></highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref>,<sp/>GetOutgoingEdgesFilteredByType)<sp/>{</highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;likes&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="613"><highlight class="normal"></highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>edges<sp/>=<sp/>idx.<ref refid="class_mock_graph_index_1ad7767dd270f780c2c45288dd6f7a8165" kindref="member">getOutgoingEdges</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(edges.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="616"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(edges[0].to_node,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="617"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="618"><highlight class="normal"></highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref>,<sp/>GetIncomingEdges)<sp/>{</highlight></codeline>
+<codeline lineno="620"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="623"><highlight class="normal"></highlight></codeline>
+<codeline lineno="624"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>edges<sp/>=<sp/>idx.<ref refid="class_mock_graph_index_1addfeb4076c61d61bcb15f170c4f5e4e8" kindref="member">getIncomingEdges</ref>(</highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(edges.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="626"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="627"><highlight class="normal"></highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref>,<sp/>RemoveEdge)<sp/>{</highlight></codeline>
+<codeline lineno="629"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="631"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_graph_index_1ac2450af55ac403a90a54f07adc7d30c5" kindref="member">removeEdge</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;knows&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="632"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(idx.<ref refid="class_mock_graph_index_1ad7767dd270f780c2c45288dd6f7a8165" kindref="member">getOutgoingEdges</ref>(</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">).empty());</highlight></codeline>
+<codeline lineno="633"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="634"><highlight class="normal"></highlight></codeline>
+<codeline lineno="635"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref>,<sp/>FindShortestPathDirect)<sp/>{</highlight></codeline>
+<codeline lineno="636"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="637"><highlight class="normal"><sp/><sp/><sp/><sp/>idx.<ref refid="class_mock_graph_index_1a27e9a31e046302709c8e1552a8ff101b" kindref="member">insertEdge</ref>(GraphEdge{</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="638"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>idx.<ref refid="class_mock_graph_index_1a2423aa9ab5c14d3dcca94bc7515976ee" kindref="member">findShortestPath</ref>(</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="639"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(path.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="640"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(path[0],<sp/></highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="641"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(path[1],<sp/></highlight><highlight class="stringliteral">&quot;Y&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="642"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="643"><highlight class="normal"></highlight></codeline>
+<codeline lineno="644"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref>,<sp/>FindShortestPathNoPath)<sp/>{</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="646"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>idx.<ref refid="class_mock_graph_index_1a2423aa9ab5c14d3dcca94bc7515976ee" kindref="member">findShortestPath</ref>(</highlight><highlight class="stringliteral">&quot;X&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Z&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="647"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(path.empty());</highlight></codeline>
+<codeline lineno="648"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="649"><highlight class="normal"></highlight></codeline>
+<codeline lineno="650"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(<ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref>,<sp/>Metadata)<sp/>{</highlight></codeline>
+<codeline lineno="651"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_mock_graph_index" kindref="compound">MockGraphIndex</ref><sp/>idx;</highlight></codeline>
+<codeline lineno="652"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(idx.<ref refid="class_mock_graph_index_1a7fa2ab1eb7f520a8fc834845e3e1b38f" kindref="member">getName</ref>(),<sp/></highlight><highlight class="stringliteral">&quot;mock_graph&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="653"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(idx.<ref refid="class_mock_graph_index_1a1d2458f9fe2cc75f8dc559bb80183094" kindref="member">getStatistics</ref>().empty());</highlight></codeline>
+<codeline lineno="654"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="655"><highlight class="normal"></highlight></codeline>
+<codeline lineno="656"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(GraphEdge,<sp/>Construction)<sp/>{</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"><sp/><sp/><sp/><sp/>GraphEdge<sp/>e{</highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;link&quot;</highlight><highlight class="normal">,<sp/>2.5};</highlight></codeline>
+<codeline lineno="658"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.from_node,<sp/></highlight><highlight class="stringliteral">&quot;from&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="659"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.to_node,<sp/></highlight><highlight class="stringliteral">&quot;to&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="660"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e.edge_type,<sp/></highlight><highlight class="stringliteral">&quot;link&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="661"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(e.weight,<sp/>2.5);</highlight></codeline>
+<codeline lineno="662"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="663"><highlight class="normal"></highlight></codeline>
+<codeline lineno="664"><highlight class="normal"><ref refid="test__base__interfaces_8cpp_1a3631162d7035d26e9f0724e21d804554" kindref="member">TEST</ref>(GraphEdge,<sp/>DefaultWeight)<sp/>{</highlight></codeline>
+<codeline lineno="665"><highlight class="normal"><sp/><sp/><sp/><sp/>GraphEdge<sp/>e{</highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="666"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(e.weight,<sp/>1.0);</highlight></codeline>
+<codeline lineno="667"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(e.edge_type.empty());</highlight></codeline>
+<codeline lineno="668"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/base/test_base_interfaces.cpp"/>
+  </compounddef>
+</doxygen>

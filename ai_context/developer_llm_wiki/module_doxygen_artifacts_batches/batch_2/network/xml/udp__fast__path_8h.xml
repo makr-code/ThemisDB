@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="udp__fast__path_8h" kind="file" language="C++">
+    <compoundname>udp_fast_path.h</compoundname>
+    <includes local="no">boost/asio.hpp</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">thread</includes>
+    <includedby refid="udp__fast__path_8cpp" local="yes">src/network/udp_fast_path.cpp</includedby>
+    <includedby refid="test__udp__fast__path_8cpp" local="yes">tests/network/test_udp_fast_path.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/network/udp_fast_path.h</label>
+        <link refid="udp__fast__path_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/network/udp_fast_path.h</label>
+        <link refid="udp__fast__path_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/network/udp_fast_path.cpp</label>
+        <link refid="udp__fast__path_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/network/test_udp_fast_path.cpp</label>
+        <link refid="test__udp__fast__path_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1network_1_1_u_d_p_fast_path" prot="public">themis::network::UDPFastPath</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" prot="public">themis::network::UDPFastPath::Config</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats" prot="public">themis::network::UDPFastPath::Stats</innerclass>
+    <innerclass refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_rate_limit_entry" prot="private">themis::network::UDPFastPath::RateLimitEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1network">themis::network</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>UDP<sp/>Fast-Path<sp/>for<sp/>Read-Only<sp/>Queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Connectionless,<sp/>low-overhead<sp/>alternative<sp/>transport<sp/>for<sp/>GET/QUERY/VECTOR_SEARCH.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Packet<sp/>format<sp/>(request):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[0-1]<sp/><sp/>Magic:<sp/><sp/><sp/><sp/><sp/><sp/>0x54<sp/>0x55<sp/>(&quot;TU&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[2]<sp/><sp/><sp/><sp/>Version:<sp/><sp/><sp/><sp/>0x01</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[3]<sp/><sp/><sp/><sp/>OpCode:<sp/><sp/><sp/><sp/><sp/>0x10<sp/>GET<sp/>|<sp/>0x20<sp/>QUERY<sp/>|<sp/>0x40<sp/>VECTOR_SEARCH<sp/>|<sp/>0xFE<sp/>PING</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[4-7]<sp/><sp/>RequestID:<sp/><sp/>caller-generated<sp/>uint32_t<sp/>(big-endian),<sp/>echoed<sp/>in<sp/>response</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[8-9]<sp/><sp/>PayloadLen:<sp/>uint16_t<sp/>(big-endian),<sp/>length<sp/>of<sp/>payload<sp/>that<sp/>follows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[10+]<sp/><sp/>Payload:<sp/><sp/><sp/><sp/>JSON-encoded<sp/>parameters<sp/>for<sp/>the<sp/>given<sp/>OpCode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Packet<sp/>format<sp/>(response):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[0-1]<sp/><sp/>Magic:<sp/><sp/><sp/><sp/><sp/><sp/>0x54<sp/>0x52<sp/>(&quot;TR&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[2]<sp/><sp/><sp/><sp/>Version:<sp/><sp/><sp/><sp/>0x01</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[3]<sp/><sp/><sp/><sp/>Status:<sp/><sp/><sp/><sp/><sp/>0x00<sp/>OK<sp/>|<sp/>0x01<sp/>ERROR<sp/>|<sp/>0x02<sp/>NOT_FOUND<sp/>|<sp/>0x03<sp/>RATE_LIMITED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[4-7]<sp/><sp/>RequestID:<sp/><sp/>echoed<sp/>from<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[8-9]<sp/><sp/>PayloadLen:<sp/>uint16_t<sp/>(big-endian)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>[10+]<sp/><sp/>Payload:<sp/><sp/><sp/><sp/>JSON<sp/>result<sp/>or<sp/>error<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Only<sp/>read-only<sp/>opcodes<sp/>are<sp/>accepted.<sp/><sp/>Write<sp/>opcodes<sp/>are<sp/>rejected<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>status<sp/>ERROR<sp/>and<sp/>an<sp/>explanatory<sp/>payload.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">network</ref><sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">net<sp/>=<sp/>boost::asio;</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1network_1a8b5471801a985375c3c18dbbc02fbff1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network_1a8b5471801a985375c3c18dbbc02fbff1" kindref="member">udp</ref><sp/>=<sp/>net::ip::udp;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Packet-format<sp/>constants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1network_1afff0ebecba609d994089ecff70065d1d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="namespacethemis_1_1network_1afff0ebecba609d994089ecff70065d1d" kindref="member">kUdpFastPathReqMagic0</ref><sp/>=<sp/>0x54;<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;T&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1network_1a0fdc81e994823ced52e1c098430b026d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="namespacethemis_1_1network_1a0fdc81e994823ced52e1c098430b026d" kindref="member">kUdpFastPathReqMagic1</ref><sp/>=<sp/>0x55;<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;U&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1network_1a02a9803f3005cd034c201790e80ef40b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="namespacethemis_1_1network_1a02a9803f3005cd034c201790e80ef40b" kindref="member">kUdpFastPathRespMagic0</ref><sp/>=<sp/>0x54;<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;T&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1network_1a2247b7de5ed6d0c44afbed9e6bde77eb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="namespacethemis_1_1network_1a2247b7de5ed6d0c44afbed9e6bde77eb" kindref="member">kUdpFastPathRespMagic1</ref><sp/>=<sp/>0x52;<sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;R&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1network_1ac5f17282cf4d05fc59f1f78213155c56" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="namespacethemis_1_1network_1ac5f17282cf4d05fc59f1f78213155c56" kindref="member">kUdpFastPathVersion</ref><sp/>=<sp/>0x01;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1network_1aa0e4a4377550d93fe48cb33eacde13af" kindref="member">kUdpFastPathHeaderSize</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1network_1a493b81c8b89cb5cd3f54130a69fefe84" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1network_1a493b81c8b89cb5cd3f54130a69fefe84" kindref="member">kUdpFastPathMaxPacketSize</ref><sp/>=<sp/>65507;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73" kindref="member">UdpOpCode</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a7528035a93ee69cedb1dbddb2f0bfcc8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a7528035a93ee69cedb1dbddb2f0bfcc8" kindref="member">GET</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x10,</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a8e39e3d976c02a5a5e002795e11c076a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a8e39e3d976c02a5a5e002795e11c076a" kindref="member">QUERY_AQL</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0x20,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a4939a0c5f946aa98a33244d2f3cfef58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73a4939a0c5f946aa98a33244d2f3cfef58" kindref="member">VECTOR_SEARCH</ref><sp/>=<sp/>0x40,</highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1ad83c3078561db07ee955388f6a096b73ae07ff41a486c27c095a15898dcca34d1" kindref="member">PING</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0xFE,</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770" kindref="member">UdpStatus</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x00,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>ERROR</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770abb1ca97ec761fc37101737ba0aa2e7c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770abb1ca97ec761fc37101737ba0aa2e7c5" kindref="member">ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0x01,</highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a8c02547a8a3b02382bac3557bcb2280d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a8c02547a8a3b02382bac3557bcb2280d" kindref="member">NOT_FOUND</ref><sp/><sp/><sp/><sp/>=<sp/>0x02,</highlight></codeline>
+<codeline lineno="91" refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770a0b481e215c9fdd207e9d14f6a0cc228f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a0b481e215c9fdd207e9d14f6a0cc228f" kindref="member">RATE_LIMITED</ref><sp/>=<sp/>0x03,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>UDPFastPath</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1network_1_1_u_d_p_fast_path" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a969442f0a63cae998e8e2a568e12c41f" kindref="member">UDPFastPath</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a057b1dac2de65ffac5c76e7fd72cd9c5" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a87d19c1f0a0585aa97264811f27ade1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a87d19c1f0a0585aa97264811f27ade1a" kindref="member">host</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;0.0.0.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a9910b6cd9290f9126e305d56be49f885" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a9910b6cd9290f9126e305d56be49f885" kindref="member">port</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8769;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dedicated<sp/>UDP<sp/>port</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a30f241ff1f578815f58670fd50411046" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a30f241ff1f578815f58670fd50411046" kindref="member">num_threads</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>I/O<sp/>+<sp/>dispatch<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1ac8f8718de97df2c0608f70c8cc1b8b8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1ac8f8718de97df2c0608f70c8cc1b8b8a" kindref="member">max_packet_size</ref><sp/>=<sp/><ref refid="namespacethemis_1_1network_1a493b81c8b89cb5cd3f54130a69fefe84" kindref="member">kUdpFastPathMaxPacketSize</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1accc26f50a85c4840d9d0f5ad38de496f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1accc26f50a85c4840d9d0f5ad38de496f" kindref="member">max_packets_per_second_per_ip</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a057b1dac2de65ffac5c76e7fd72cd9c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a057b1dac2de65ffac5c76e7fd72cd9c5" kindref="member">Config</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Statistics<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1aca0991606b52f7de5081976e5cdc10a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1aca0991606b52f7de5081976e5cdc10a8" kindref="member">packets_received</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a0ccbe1b48012c0b7b553f4327d6eb6bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a0ccbe1b48012c0b7b553f4327d6eb6bf" kindref="member">packets_dropped</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1abee178ae2f2ad062bf0523f2efc2d435" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1abee178ae2f2ad062bf0523f2efc2d435" kindref="member">packets_sent</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a03309c036696340d66e5ddf3b227e113" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a03309c036696340d66e5ddf3b227e113" kindref="member">bytes_received</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1aa37194010a97e9a54e87857503f0f2e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1aa37194010a97e9a54e87857503f0f2e0" kindref="member">bytes_sent</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1ad19d34470d1a933a221ad96abe5b8dfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1ad19d34470d1a933a221ad96abe5b8dfa" kindref="member">parse_errors</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a21526aa27e6a09987497eb117a7d9a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1a21526aa27e6a09987497eb117a7d9a1e" kindref="member">write_op_rejections</ref><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1ae67ef7937319e5aa86e55330d538a3d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_stats_1ae67ef7937319e5aa86e55330d538a3d9" kindref="member">rate_limit_drops</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Lifecycle<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a969442f0a63cae998e8e2a568e12c41f" kindref="member">UDPFastPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>storage<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1aac6fcd853ee91d8e001ac85c91acf196" kindref="member">~UDPFastPath</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1aeeda5dbf2905a93e34bfb8020b5cbdbb" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a7b7391f819e0bc01740e852d36668275" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a6b0583c5ad881cb1c1a0c347a307cb4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a6b0583c5ad881cb1c1a0c347a307cb4b" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_.load(std::memory_order_acquire);<sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a281bb00bc6e78a481a547da69fce415d" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Packet<sp/>helpers<sp/>(public<sp/>for<sp/>unit-test<sp/>access)<sp/>──────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a842b6ebcb295a85fe1f72de8bc15f7fc" kindref="member">validatePacket</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1ad6f800706ff1057762003ab0a764fcb2" kindref="member">isReadOnlyOpCode</ref>(uint8_t<sp/>opcode);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1network_1_1_u_d_p_fast_path_1a652982edf86b2a24113d06fd0c9a7e7b" kindref="member">buildResponse</ref>(uint32_t<sp/><sp/><sp/><sp/>request_id,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1afeccf2096a3dcf40e84ee4d242dbb770" kindref="member">UdpStatus</ref><sp/><sp/><sp/>status,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Internal<sp/>helpers<sp/>─────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>doReceive();</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handleDatagram(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>udp::endpoint&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sender,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkRateLimit(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ip);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>dispatchGet(uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>request_id,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload_json);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>dispatchQuery(uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>request_id,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload_json);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>dispatchVectorSearch(uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>request_id,</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload_json);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>dispatchPing(uint32_t<sp/>request_id);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Members<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>storage_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;net::io_context&gt;<sp/>io_ctx_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;udp::socket&gt;<sp/><sp/><sp/><sp/><sp/>socket_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Receive<sp/>staging<sp/>buffer<sp/>(reused<sp/>across<sp/>receives;<sp/>single<sp/>receive<sp/>at<sp/>a<sp/>time)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>recv_buf_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>udp::endpoint<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sender_endpoint_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-IP<sp/>rate-limit<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">RateLimitEntry<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>window_start_ms<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>count<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>rate_mutex_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>RateLimitEntry&gt;<sp/>rate_limits_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>network</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/network/udp_fast_path.h"/>
+  </compounddef>
+</doxygen>

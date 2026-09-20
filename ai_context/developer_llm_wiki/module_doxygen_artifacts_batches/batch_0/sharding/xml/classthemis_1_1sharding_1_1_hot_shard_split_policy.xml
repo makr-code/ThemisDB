@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_hot_shard_split_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::HotShardSplitPolicy</compoundname>
+    <includes refid="auto__rebalancer_8h" local="no">auto_rebalancer.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config" prot="public">themis::sharding::HotShardSplitPolicy::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal" prot="public">themis::sharding::HotShardSplitPolicy::SplitProposal</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_shard_split_policy_1a99e36f54f4d478dcf9d7e8493c788f92" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardLoadDetector&gt; themis::sharding::HotShardSplitPolicy::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="154" column="21" bodyfile="include/sharding/auto_rebalancer.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_shard_split_policy_1a3c8442465979daeec8a092033c8b0038" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::HotShardSplitPolicy::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="155" column="12" bodyfile="include/sharding/auto_rebalancer.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hot_shard_split_policy_1a6346c921c559a7180289d2f7d81c4a03" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector" kindref="compound">themisdb::sharding::PredictiveFailureDetector</ref> *</type>
+        <definition>themisdb::sharding::PredictiveFailureDetector* themis::sharding::HotShardSplitPolicy::predictive_detector_</definition>
+        <argsstring></argsstring>
+        <name>predictive_detector_</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::predictive_detector_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="157" column="51" bodyfile="include/sharding/auto_rebalancer.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_shard_split_policy_1a5b3f7a9ddd43bd28db802417dc6873df" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HotShardSplitPolicy::HotShardSplitPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; ShardLoadDetector &gt; detector)</argsstring>
+        <name>HotShardSplitPolicy</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::HotShardSplitPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> &gt;</type>
+          <declname>detector</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="122" column="14" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="37" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ac3b359761a214d363118c84ffe74d343" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HotShardSplitPolicy::HotShardSplitPolicy</definition>
+        <argsstring>(std::shared_ptr&lt; ShardLoadDetector &gt; detector, const Config &amp;config)</argsstring>
+        <name>HotShardSplitPolicy</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::HotShardSplitPolicy</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> &gt;</type>
+          <declname>detector</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="124" column="5" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ab8df66389abf51fe87cffee85a06f54b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HotShardSplitPolicy::setPredictiveDetector</definition>
+        <argsstring>(themisdb::sharding::PredictiveFailureDetector *pd)</argsstring>
+        <name>setPredictiveDetector</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::setPredictiveDetector</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_predictive_failure_detector" kindref="compound">themisdb::sharding::PredictiveFailureDetector</ref> *</type>
+          <declname>pd</declname>
+        </param>
+        <briefdescription>
+<para>Set Predictive Detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Attach a PredictiveFailureDetector for ML-based predictive splitting.</para>
+<para>When set, <computeroutput><ref refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ad6dd2adbb10bd59c44bffa5081b2e141" kindref="member">evaluate()</ref></computeroutput> will call <computeroutput>detector-&gt;predictShard()</computeroutput> for every tracked shard and emit a split proposal when the failure probability meets or exceeds <computeroutput><ref refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config_1abaf0fbccd903ec3008facba8198007d0" kindref="member">Config::failure_probability_threshold</ref></computeroutput>.</para>
+<para>The detector is held as a raw pointer (non-owning) because PredictiveFailureDetector is constructed with non-ownable references (<ref refid="classthemis_1_1sharding_1_1_redundancy_strategy" kindref="compound">RedundancyStrategy</ref>&amp;, <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref>&amp;) and typically has a longer lifetime than <ref refid="classthemis_1_1sharding_1_1_hot_shard_split_policy" kindref="compound">HotShardSplitPolicy</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer; pass nullptr to disable ML-based path.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">pd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setPredictiveDetector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="143" column="10" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="50" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ad6dd2adbb10bd59c44bffa5081b2e141" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal" kindref="compound">SplitProposal</ref> &gt;</type>
+        <definition>std::vector&lt; HotShardSplitPolicy::SplitProposal &gt; themis::sharding::HotShardSplitPolicy::evaluate</definition>
+        <argsstring>() const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::evaluate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate current and forecasted shard load and return all split proposals. <simplesect kind="return"><para>Zero or more proposals; empty when no shards require splitting. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="149" column="17" bodyfile="src/sharding/auto_rebalancer.cpp" bodystart="58" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hot_shard_split_policy_1abd1e1a89110559c8345714c5a0570158" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::sharding::HotShardSplitPolicy::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::sharding::HotShardSplitPolicy::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_rebalancer.h" line="151" column="18" bodyfile="include/sharding/auto_rebalancer.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Policy for detecting hot (overloaded) shards and proposing splits.</para>
+<para>Evaluates current and predicted load from <ref refid="classthemis_1_1sharding_1_1_shard_load_detector" kindref="compound">ShardLoadDetector</ref> and produces <ref refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_split_proposal" kindref="compound">SplitProposal</ref> objects when a shard exceeds configured thresholds.</para>
+<para>Three detection modes:<orderedlist>
+<listitem><para>Reactive – current CPU or storage already exceeds the threshold.</para>
+</listitem><listitem><para>Statistical – <computeroutput><ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1af729f9db96ed459ae7b14a9ca1b62de1" kindref="member">ShardLoadDetector::forecastLoad()</ref></computeroutput> (linear regression) projects load &gt; <computeroutput>predictive_load_threshold</computeroutput> within the configured horizon (default 5 min).</para>
+</listitem><listitem><para>ML-based – <computeroutput>PredictiveFailureDetector::predictShard()</computeroutput> (ONNX-backed ML) reports failure probability ≥ <computeroutput>failure_probability_threshold</computeroutput>; high failure probability is treated as a pre-emptive split trigger because it indicates the shard is under excessive stress.</para>
+</listitem></orderedlist>
+</para>
+<para>Mode 3 requires calling <computeroutput><ref refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ab8df66389abf51fe87cffee85a06f54b" kindref="member">setPredictiveDetector()</ref></computeroutput> before <computeroutput><ref refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ad6dd2adbb10bd59c44bffa5081b2e141" kindref="member">evaluate()</ref></computeroutput>.</para>
+<para>Example: <ref refid="structthemis_1_1sharding_1_1_hot_shard_split_policy_1_1_config" kindref="compound">HotShardSplitPolicy::Config</ref> cfg; cfg.cpu_split_threshold = 0.80; <ref refid="classthemis_1_1sharding_1_1_hot_shard_split_policy" kindref="compound">HotShardSplitPolicy</ref> policy(load_detector, cfg); policy.setPredictiveDetector(failure_detector); auto proposals = policy.evaluate(); </para>
+    </detaileddescription>
+    <location file="include/sharding/auto_rebalancer.h" line="73" column="1" bodyfile="include/sharding/auto_rebalancer.h" bodystart="73" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1a3c8442465979daeec8a092033c8b0038" prot="private" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1a99e36f54f4d478dcf9d7e8493c788f92" prot="private" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy</scope><name>detector_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ad6dd2adbb10bd59c44bffa5081b2e141" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1abd1e1a89110559c8345714c5a0570158" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1a5b3f7a9ddd43bd28db802417dc6873df" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy</scope><name>HotShardSplitPolicy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ac3b359761a214d363118c84ffe74d343" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy</scope><name>HotShardSplitPolicy</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1a6346c921c559a7180289d2f7d81c4a03" prot="private" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy</scope><name>predictive_detector_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hot_shard_split_policy_1ab8df66389abf51fe87cffee85a06f54b" prot="public" virt="non-virtual"><scope>themis::sharding::HotShardSplitPolicy</scope><name>setPredictiveDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

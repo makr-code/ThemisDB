@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="audit__batch__writer_8h" kind="file" language="C++">
+    <compoundname>audit_batch_writer.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="governance__audit__integrity_8h" local="yes">governance/governance_audit_integrity.h</includes>
+    <includedby refid="bench__audit__export__high__volume_8cpp" local="yes">benchmarks/governance/bench_audit_export_high_volume.cpp</includedby>
+    <includedby refid="audit__batch__writer_8cpp" local="yes">src/governance/audit_batch_writer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/governance/audit_batch_writer.h</label>
+        <link refid="audit__batch__writer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>governance/governance_audit_integrity.h</label>
+        <link refid="governance__audit__integrity_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="10">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>queue</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/governance/bench_audit_export_high_volume.cpp</label>
+        <link refid="bench__audit__export__high__volume_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/governance/audit_batch_writer.h</label>
+        <link refid="audit__batch__writer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/governance/audit_batch_writer.cpp</label>
+        <link refid="audit__batch__writer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" prot="public">themis::governance::AuditBatchCheckpoint</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_idempotency_token" prot="public">themis::governance::IdempotencyToken</innerclass>
+    <innerclass refid="classthemis_1_1governance_1_1_audit_batch_writer" prot="public">themis::governance::AuditBatchWriter</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" prot="public">themis::governance::AuditBatchWriter::Config</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" prot="public">themis::governance::AuditBatchWriter::WriteResult</innerclass>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_metrics" prot="private">themis::governance::AuditBatchWriter::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <briefdescription>
+<para>High-volume, concurrent audit entry writer with batching and crash recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟡 BETA (Wave C — Security Production Validation)</para>
+</simplesect>
+This module provides:<itemizedlist>
+<listitem><para>Lock-free entry submission for high-volume workloads (1000+ events/sec)</para>
+</listitem><listitem><para>Automatic batching with periodic flush and timeout mechanisms</para>
+</listitem><listitem><para>Crash-recovery checkpoints with sequence numbers and hashes</para>
+</listitem><listitem><para>Idempotency token tracking to prevent duplicate entries</para>
+</listitem><listitem><para>Atomic batch writes to AuditIntegrityManager</para>
+</listitem><listitem><para>Backpressure handling when buffer is full</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance Targets (Wave C Exit Criteria):<itemizedlist>
+<listitem><para>Entry submission: ≤100µs p95, ≤500µs p99</para>
+</listitem><listitem><para>Batch write throughput: ≥10k entries/sec</para>
+</listitem><listitem><para>Crash recovery overhead: ≤50ms per recovery cycle</para>
+</listitem><listitem><para>Idempotency check: ≤10µs per token lookup </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="governance__audit__integrity_8h" kindref="compound">governance/governance_audit_integrity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1governance" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Crash<sp/>Recovery<sp/>and<sp/>Idempotency<sp/>Support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a84c4c522a0f9c77dbf20e234649ec871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a84c4c522a0f9c77dbf20e234649ec871" kindref="member">checkpoint_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>checkpoint<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1ad4199b75fddfce7356ca39d2b14bbc6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1ad4199b75fddfce7356ca39d2b14bbc6c" kindref="member">batch_sequence_number</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequence<sp/>of<sp/>batch<sp/>being<sp/>flushed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a78286953e249fe6f778b2b59f10633a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a78286953e249fe6f778b2b59f10633a2" kindref="member">first_entry_sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>entry<sp/>sequence<sp/>in<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a06fe4196846e4d504ba09dedf04d7a65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a06fe4196846e4d504ba09dedf04d7a65" kindref="member">last_entry_sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Last<sp/>entry<sp/>sequence<sp/>in<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a3b5d10ee7340082ad4a2f92501a2f43c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a3b5d10ee7340082ad4a2f92501a2f43c" kindref="member">entry_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>entries<sp/>in<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a5f065bee03c62049a6d675af94279028" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a5f065bee03c62049a6d675af94279028" kindref="member">batch_hash</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA-256<sp/>hash<sp/>of<sp/>batch<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1ad8da19c494a4416c035aacd67672abd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1ad8da19c494a4416c035aacd67672abd6" kindref="member">checkpoint_time_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>checkpoint<sp/>was<sp/>created</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1ae94ceabd98672693124ac7f44dafd4c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1ae94ceabd98672693124ac7f44dafd4c8" kindref="member">state</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;pending&quot;,<sp/>&quot;flushed&quot;,<sp/>&quot;verified&quot;,<sp/>&quot;failed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a92eadaf62aabc88e9d5eee95e65120bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a92eadaf62aabc88e9d5eee95e65120bc" kindref="member">error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>info<sp/>if<sp/>state<sp/>==<sp/>&quot;failed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a1f206ba239edc23cdd39b2e7d0560775" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint_1a0422a8588cc5d34e998c64616c761325" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1governance_1_1_idempotency_token" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_idempotency_token" kindref="compound">IdempotencyToken</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1governance_1_1_idempotency_token_1a74a5ad93fe81b8ee6c213100b4fb9cb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_idempotency_token_1a74a5ad93fe81b8ee6c213100b4fb9cb7" kindref="member">token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>token<sp/>(client-provided<sp/>or<sp/>generated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1governance_1_1_idempotency_token_1afecad1ed0e7fb625e6d93853c9c6ddf0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_idempotency_token_1afecad1ed0e7fb625e6d93853c9c6ddf0" kindref="member">entry_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ID<sp/>of<sp/>entry<sp/>for<sp/>this<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1governance_1_1_idempotency_token_1a54e1422fa9f49cdefe1c892a3207e9ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_idempotency_token_1a54e1422fa9f49cdefe1c892a3207e9ff" kindref="member">submitted_at_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>token<sp/>was<sp/>first<sp/>submitted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1governance_1_1_idempotency_token_1a05de7c8e094d55ca2d6e6ce183f15121" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_idempotency_token_1a05de7c8e094d55ca2d6e6ce183f15121" kindref="member">state</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;pending&quot;,<sp/>&quot;committed&quot;,<sp/>&quot;failed&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_idempotency_token_1ad6708ca40a7a264b10624d9fbf47df3d" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_idempotency_token" kindref="compound">IdempotencyToken</ref><sp/><ref refid="structthemis_1_1governance_1_1_idempotency_token_1ad60639a392e20a054858b6e760317a6f" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>High-Volume<sp/>Audit<sp/>Batch<sp/>Writer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1governance_1_1_audit_batch_writer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1aeca4cfde74cc2fe5364af3bae10f2956" kindref="member">AuditBatchWriter</ref><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>and<sp/>batching<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a861baf0cd339187f5ea54bfc018a35dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a861baf0cd339187f5ea54bfc018a35dc" kindref="member">buffer_size</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>entries<sp/>in<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a6395e7122b945a5a74f9f03c55dba103" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a6395e7122b945a5a74f9f03c55dba103" kindref="member">batch_size</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>batch<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a507101890c77cde468ac0decff5d0ae2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a507101890c77cde468ac0decff5d0ae2" kindref="member">flush_interval_ms</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Flush<sp/>timeout<sp/>(ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Crash<sp/>recovery<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1adee686a23b9df82af1afa665a78c245e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1adee686a23b9df82af1afa665a78c245e" kindref="member">enable_checkpoints</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>crash-recovery<sp/>checkpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a81ffc04a7a85864ba991315a4235b1fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a81ffc04a7a85864ba991315a4235b1fc" kindref="member">checkpoint_dir</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./audit_checkpoints&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Checkpoint<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a3fc381be91dcb61a0d2a6c38cec189f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a3fc381be91dcb61a0d2a6c38cec189f2" kindref="member">checkpoint_retention_ms</ref><sp/>=<sp/>86400000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>checkpoints<sp/>24h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Performance<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1aa3b86f2f34e6c254bcafb6400a74a819" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1aa3b86f2f34e6c254bcafb6400a74a819" kindref="member">enable_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Track<sp/>performance<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a2060b9e835afe7e289b798623f65611e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a2060b9e835afe7e289b798623f65611e" kindref="member">metrics_interval_ms</ref><sp/>=<sp/>60000;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>metrics<sp/>interval<sp/>(ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backpressure<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a1036c54785a8ee4443b9065920be811f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1a1036c54785a8ee4443b9065920be811f" kindref="member">enable_backpressure</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backpressure<sp/>when<sp/>buffer<sp/>full</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1ab46dfeb8dc62cf53d63bac440a15c364" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config_1ab46dfeb8dc62cf53d63bac440a15c364" kindref="member">backpressure_wait_ms</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>time<sp/>before<sp/>backpressure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" kindref="compound">WriteResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a92484e30f554ab0e64bd79db0d3664ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a92484e30f554ab0e64bd79db0d3664ad" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a3102b1a2e118b8fcf14ae6181fd4e8ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a3102b1a2e118b8fcf14ae6181fd4e8ba" kindref="member">entries_written</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a28d23dbc16601381be415678ecdad6af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1a28d23dbc16601381be415678ecdad6af" kindref="member">entries_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1ae1131b6bc716934f1b5f92f2e798fbbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1ae1131b6bc716934f1b5f92f2e798fbbb" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1aa422fdb4ebc563c753bf9298dc0ccdde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result_1aa422fdb4ebc563c753bf9298dc0ccdde" kindref="member">metrics</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>timing<sp/>info</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1aeca4cfde74cc2fe5364af3bae10f2956" kindref="member">AuditBatchWriter</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AuditIntegrityManager&gt;<sp/>manager,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kindref="compound">Config</ref>{}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1ad139d895d6d9e65fa457e4d28f7fdcc7" kindref="member">~AuditBatchWriter</ref>();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a03df4220ac25ae1be128fc50acb1c17c" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a6f8ed4deef8fee57f3c69a6baea2b5c3" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1ad33bab94e118b0caf22ab1bb15abca16" kindref="member">submitEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a77342b183eb5a47f8ea24fad39390d2f" kindref="member">submitEntryIdempotent</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref>&amp;<sp/>entry,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>idempotency_token</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>WriteResult<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a31f2360bf4f731e74589956d111cfee1" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>WriteResult<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a1ceace2eb1545b0cc2c1c523df6b39c0" kindref="member">forceFlush</ref>();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1ae655399391d8ff6d15a1203bfbf18aae" kindref="member">getBufferStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1aa4df75bcec02183f025ceba016283b89" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditBatchCheckpoint&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a11b9826025d2950caa654308a8f87a6a" kindref="member">getCheckpoints</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a893bed736b4f8f97027e97c7537c7127" kindref="member">verifyCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref>&amp;<sp/>checkpoint)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>WriteResult<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1ae097fd9d60ccf07cbaa45a5d9e30e3bd" kindref="member">recoverFromCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_checkpoint" kindref="compound">AuditBatchCheckpoint</ref>&amp;<sp/>checkpoint);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;IdempotencyToken&gt;<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1aa074eee378f2906dde107fd04a69ca73" kindref="member">getTokenStatus</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211" refid="classthemis_1_1governance_1_1_audit_batch_writer_1ac6d35cfea7f586713fee22561280f530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1ac6d35cfea7f586713fee22561280f530" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213" refid="classthemis_1_1governance_1_1_audit_batch_writer_1a1b7d22d7d57bb972526f10f70cbdd00c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1governance_1_1_audit_batch_writer_1a1b7d22d7d57bb972526f10f70cbdd00c" kindref="member">isRunning</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>running_.load();<sp/>}</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AuditIntegrityManager&gt;<sp/>manager_;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>buffer_mutex_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ImmutableAuditEntry&gt;<sp/>pending_entries_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>entry_sequence_counter_{0};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int64_t&gt;<sp/>batch_sequence_counter_{0};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Crash<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>AuditBatchCheckpoint&gt;<sp/>checkpoints_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditBatchCheckpoint&gt;<sp/>checkpoint_history_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Idempotency<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IdempotencyToken&gt;<sp/>idempotency_tokens_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>idempotency_mutex_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>flushing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;std::thread&gt;<sp/>flush_thread_;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>shutdown_requested_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Metrics<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>total_entries_submitted<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>total_entries_flushed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>total_batches_flushed<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>total_errors<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>avg_submission_latency_us<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p95_submission_latency_us<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p99_submission_latency_us<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>metrics_mutex_;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>Metrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>latency_samples_us_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>flushThread();</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_audit_batch_writer_1_1_write_result" kindref="compound">WriteResult</ref><sp/>flushBatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ImmutableAuditEntry&gt;&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>computeBatchHash(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ImmutableAuditEntry&gt;&amp;<sp/>batch)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>AuditBatchCheckpoint<sp/>createCheckpoint(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ImmutableAuditEntry&gt;&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>state</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>persistCheckpoint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AuditBatchCheckpoint&amp;<sp/>checkpoint);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordMetrics(int64_t<sp/>submission_latency_us);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/governance/audit_batch_writer.h"/>
+  </compounddef>
+</doxygen>

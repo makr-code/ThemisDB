@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_ada_lora_export_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::AdaLoraExportReport</compoundname>
+    <includes refid="huggingface__ingest__plugin_8h" local="no">huggingface_ingest_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_report_1aa828212007b6773584ab02fd92ac010c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::AdaLoraExportReport::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::importers::AdaLoraExportReport::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="85" column="10" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_report_1a2c0f3df414dba88ee0f0874cf50c2c01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::AdaLoraExportReport::output_path</definition>
+        <argsstring></argsstring>
+        <name>output_path</name>
+        <qualifiedname>themis::importers::AdaLoraExportReport::output_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="86" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_report_1a9b2e42b6fb173df3d7ceb07f4f3bc035" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::importers::AdaLoraExportReport::exported_examples</definition>
+        <argsstring></argsstring>
+        <name>exported_examples</name>
+        <qualifiedname>themis::importers::AdaLoraExportReport::exported_examples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="87" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_ada_lora_export_report_1a21329d8387e69096d10765673408d456" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::AdaLoraExportReport::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::importers::AdaLoraExportReport::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/huggingface_ingest_plugin.h" line="88" column="17" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/huggingface_ingest_plugin.h" line="84" column="1" bodyfile="include/importers/huggingface_ingest_plugin.h" bodystart="84" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a21329d8387e69096d10765673408d456" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportReport</scope><name>errors</name></member>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a9b2e42b6fb173df3d7ceb07f4f3bc035" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportReport</scope><name>exported_examples</name></member>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_report_1a2c0f3df414dba88ee0f0874cf50c2c01" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportReport</scope><name>output_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_ada_lora_export_report_1aa828212007b6773584ab02fd92ac010c" prot="public" virt="non-virtual"><scope>themis::importers::AdaLoraExportReport</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

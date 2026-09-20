@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_explain_mock_index_manager" kind="class" language="C++" prot="public">
+    <compoundname>ExplainMockIndexManager</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IIndexManager</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_explain_mock_index_manager_1ab1f28188a91b6aa5abe8d450fae8592d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; ISecondaryIndex * &gt;</type>
+        <definition>Result&lt; ISecondaryIndex * &gt; ExplainMockIndexManager::createSecondaryIndex</definition>
+        <argsstring>(std::string_view, std::string_view, const std::string &amp;) override</argsstring>
+        <name>createSecondaryIndex</name>
+        <qualifiedname>ExplainMockIndexManager::createSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="38" column="12" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="38" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_index_manager_1a20d2ad2d0b23e6ca52183a405b0c2623" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IVectorIndex * &gt;</type>
+        <definition>Result&lt; IVectorIndex * &gt; ExplainMockIndexManager::createVectorIndex</definition>
+        <argsstring>(std::string_view, uint32_t, const std::string &amp;) override</argsstring>
+        <name>createVectorIndex</name>
+        <qualifiedname>ExplainMockIndexManager::createVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>uint32_t</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="42" column="12" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="42" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_index_manager_1a821372213e9769484bf59a1037bfc25b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IGraphIndex * &gt;</type>
+        <definition>Result&lt; IGraphIndex * &gt; ExplainMockIndexManager::createGraphIndex</definition>
+        <argsstring>(std::string_view, const std::string &amp;) override</argsstring>
+        <name>createGraphIndex</name>
+        <qualifiedname>ExplainMockIndexManager::createGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="46" column="12" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_index_manager_1a0e0b55d8bf4280f7492150bd6a3bac14" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; ISecondaryIndex * &gt;</type>
+        <definition>Result&lt; ISecondaryIndex * &gt; ExplainMockIndexManager::getSecondaryIndex</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>getSecondaryIndex</name>
+        <qualifiedname>ExplainMockIndexManager::getSecondaryIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="50" column="12" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_index_manager_1aeb9c2e76ba73c741ca4dd5bc95e6f914" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IVectorIndex * &gt;</type>
+        <definition>Result&lt; IVectorIndex * &gt; ExplainMockIndexManager::getVectorIndex</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>getVectorIndex</name>
+        <qualifiedname>ExplainMockIndexManager::getVectorIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="53" column="12" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_index_manager_1aa41b2806c1e1b1f7e0e78f4eb5b28055" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IGraphIndex * &gt;</type>
+        <definition>Result&lt; IGraphIndex * &gt; ExplainMockIndexManager::getGraphIndex</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>getGraphIndex</name>
+        <qualifiedname>ExplainMockIndexManager::getGraphIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="56" column="12" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="56" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_index_manager_1a67b17e43379c2414b27a7f749ebc52bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; ExplainMockIndexManager::dropIndex</definition>
+        <argsstring>(std::string_view) override</argsstring>
+        <name>dropIndex</name>
+        <qualifiedname>ExplainMockIndexManager::dropIndex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="59" column="25" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_index_manager_1aa3f617016130f4d746c9bd56f8994f55" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; ExplainMockIndexManager::listIndexes</definition>
+        <argsstring>() const override</argsstring>
+        <name>listIndexes</name>
+        <qualifiedname>ExplainMockIndexManager::listIndexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="60" column="18" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_explain_mock_index_manager_1adb0466f6a14f1593e8d6247a4c66df5d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; IndexType &gt;</type>
+        <definition>Result&lt; IndexType &gt; ExplainMockIndexManager::getIndexType</definition>
+        <argsstring>(std::string_view) const override</argsstring>
+        <name>getIndexType</name>
+        <qualifiedname>ExplainMockIndexManager::getIndexType</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_explain.cpp" line="61" column="20" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ExplainMockIndexManager</label>
+        <link refid="class_explain_mock_index_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IIndexManager</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ExplainMockIndexManager</label>
+        <link refid="class_explain_mock_index_manager"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>IIndexManager</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_explain.cpp" line="36" column="1" bodyfile="tests/aql/test_aql_explain.cpp" bodystart="36" bodyend="64"/>
+    <listofallmembers>
+      <member refid="class_explain_mock_index_manager_1a821372213e9769484bf59a1037bfc25b" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>createGraphIndex</name></member>
+      <member refid="class_explain_mock_index_manager_1ab1f28188a91b6aa5abe8d450fae8592d" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>createSecondaryIndex</name></member>
+      <member refid="class_explain_mock_index_manager_1a20d2ad2d0b23e6ca52183a405b0c2623" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>createVectorIndex</name></member>
+      <member refid="class_explain_mock_index_manager_1a67b17e43379c2414b27a7f749ebc52bf" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>dropIndex</name></member>
+      <member refid="class_explain_mock_index_manager_1aa41b2806c1e1b1f7e0e78f4eb5b28055" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>getGraphIndex</name></member>
+      <member refid="class_explain_mock_index_manager_1adb0466f6a14f1593e8d6247a4c66df5d" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>getIndexType</name></member>
+      <member refid="class_explain_mock_index_manager_1a0e0b55d8bf4280f7492150bd6a3bac14" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>getSecondaryIndex</name></member>
+      <member refid="class_explain_mock_index_manager_1aeb9c2e76ba73c741ca4dd5bc95e6f914" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>getVectorIndex</name></member>
+      <member refid="class_explain_mock_index_manager_1aa3f617016130f4d746c9bd56f8994f55" prot="public" virt="non-virtual"><scope>ExplainMockIndexManager</scope><name>listIndexes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

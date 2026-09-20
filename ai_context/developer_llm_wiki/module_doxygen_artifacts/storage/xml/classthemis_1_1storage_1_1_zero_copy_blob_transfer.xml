@@ -1,0 +1,463 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_zero_copy_blob_transfer" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::ZeroCopyBlobTransfer</compoundname>
+    <includes refid="zero__copy__blob__transfer_8h" local="no">zero_copy_blob_transfer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a9d9f4b50640b1ce7868a1110697ad02e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_zero_copy_transfer_config" kindref="compound">ZeroCopyTransferConfig</ref></type>
+        <definition>ZeroCopyTransferConfig themis::storage::ZeroCopyBlobTransfer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="254" column="28" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1afb3464ada7597843187b78037148f475" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ZeroCopyBlobTransfer::ZeroCopyBlobTransfer</definition>
+        <argsstring>(const ZeroCopyTransferConfig &amp;config=ZeroCopyTransferConfig{})</argsstring>
+        <name>ZeroCopyBlobTransfer</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::ZeroCopyBlobTransfer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_zero_copy_transfer_config" kindref="compound">ZeroCopyTransferConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1storage_1_1_zero_copy_transfer_config" kindref="compound">ZeroCopyTransferConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="175" column="14" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="444" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a0870828d0cffad430fdfa1b31128f56c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ZeroCopyBlobTransfer::~ZeroCopyBlobTransfer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ZeroCopyBlobTransfer</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::~ZeroCopyBlobTransfer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="178" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a9ca5dd7cb0b2fa8b8b13fa04f868628f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats" kindref="compound">ZeroCopyTransferStats</ref> &gt;</type>
+        <definition>Result&lt; ZeroCopyTransferStats &gt; themis::storage::ZeroCopyBlobTransfer::sendfileTransfer</definition>
+        <argsstring>(const std::string &amp;source_path, int dest_fd, int64_t offset=0, int64_t length=0)</argsstring>
+        <name>sendfileTransfer</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::sendfileTransfer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dest_fd</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>offset</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>length</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Transfer bytes from <computeroutput>source_path</computeroutput> to <computeroutput>dest_fd</computeroutput> via sendfile(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sendfile Transfer.</para>
+<para>On Linux the transfer is performed entirely in kernel space. On other platforms a portable read+write fallback is used automatically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the source blob file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dest_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Open, writable file descriptor to receive the data. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Byte offset in source_path to start from (0 = BOF). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes to transfer (0 = full file). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;ZeroCopyTransferStats&gt; ERR_STORAGE_FILE_NOT_FOUND – source file missing ERR_UTIL_FILE_OPERATION_FAILED – sendfile/write syscall error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dest_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="196" column="12" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="495" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a42ecc1ab647a9203ef2dc996a0d45cf9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_mmap_blob_view" kindref="compound">MmapBlobView</ref></type>
+        <definition>MmapBlobView themis::storage::ZeroCopyBlobTransfer::openMmap</definition>
+        <argsstring>(const std::string &amp;file_path) const</argsstring>
+        <name>openMmap</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::openMmap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <briefdescription>
+<para>Open a read-only, memory-mapped view of <computeroutput>file_path</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The caller should check <ref refid="classthemis_1_1storage_1_1_mmap_blob_view_1ab8b5e9f9fc41241807c1c0ba07196f18" kindref="member">MmapBlobView::valid()</ref> before dereferencing the data pointer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the blob file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1storage_1_1_mmap_blob_view" kindref="compound">MmapBlobView</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="214" column="18" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="693" bodyend="695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a6cbe81833f373602278b8554a0e78ddf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats" kindref="compound">ZeroCopyTransferStats</ref> &gt;</type>
+        <definition>Result&lt; ZeroCopyTransferStats &gt; themis::storage::ZeroCopyBlobTransfer::s3MultipartUpload</definition>
+        <argsstring>(const std::string &amp;bucket, const std::string &amp;s3_key, const std::string &amp;source_path, const std::string &amp;blob_id)</argsstring>
+        <name>s3MultipartUpload</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::s3MultipartUpload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bucket</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s3_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+<para>Upload <computeroutput>source_path</computeroutput> to S3 using multipart streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>S3 Multipart Upload.</para>
+<para>The file is read in parts of <computeroutput>config.s3_multipart_part_size_bytes</computeroutput> (minimum 5 MB as required by S3). Each part is uploaded independently; the multipart upload is finalised once all parts succeed.</para>
+<para>Available only when THEMIS_HAS_AWS_SDK is defined. Returns ERR_UTIL_FILE_OPERATION_FAILED with a descriptive message otherwise.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bucket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>S3 bucket name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>s3_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>S3 object key (e.g. &quot;prefix/blob_id.blob&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute path to the local blob file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical blob ID (stored in <ref refid="structthemis_1_1storage_1_1_blob_ref_1aee8e0ab57630baddb77b617ae206291b" kindref="member">BlobRef.id</ref>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;ZeroCopyTransferStats&gt;</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bucket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">s3_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the blob. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="234" column="12" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="709" bodyend="923"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a41ddb699702182a6b073246862ba6884" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ZeroCopyBlobTransfer::shouldUseZeroCopy</definition>
+        <argsstring>(int64_t size_bytes) const noexcept</argsstring>
+        <name>shouldUseZeroCopy</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::shouldUseZeroCopy</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true when <computeroutput>size_bytes</computeroutput> is above the configured threshold and therefore qualifies for zero-copy treatment. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="247" column="10" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="247" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a075bf39022c87778e2dae47a75ef09eb" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_zero_copy_transfer_config" kindref="compound">ZeroCopyTransferConfig</ref> &amp;</type>
+        <definition>const ZeroCopyTransferConfig &amp; themis::storage::ZeroCopyBlobTransfer::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="251" column="34" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a2796fa8e69f4c32f9401fe0e4eabbb68" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_zero_copy_transfer_stats" kindref="compound">ZeroCopyTransferStats</ref> &gt;</type>
+        <definition>Result&lt; ZeroCopyTransferStats &gt; themis::storage::ZeroCopyBlobTransfer::fallbackTransfer</definition>
+        <argsstring>(const std::string &amp;source_path, int dest_fd, int64_t offset, int64_t length)</argsstring>
+        <name>fallbackTransfer</name>
+        <qualifiedname>themis::storage::ZeroCopyBlobTransfer::fallbackTransfer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>dest_fd</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>length</declname>
+        </param>
+        <briefdescription>
+<para>Portable fallback used when sendfile() is not available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Fallback Transfer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dest_fd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">length</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">binary</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Buf. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">BUF_SIZE</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/zero_copy_blob_transfer.h" line="257" column="12" bodyfile="src/storage/zero_copy_blob_transfer.cpp" bodystart="595" bodyend="687"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Zero-Copy Blob Transfer Utility (v1.7.0, Issue #231). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Eliminates memory copies when transferring blobs between storage backends using three complementary techniques:</para>
+<para><orderedlist>
+<listitem><para><bold>sendfile()</bold> — kernel-level copy from a blob file to any writable fd without staging data in user space. Falls back to a read+write loop on platforms where sendfile() is unavailable (macOS, Windows).</para>
+</listitem><listitem><para><bold>Memory-mapped reads</bold> — maps the blob file into the process address space via mmap(2) so the kernel&apos;s page cache is accessed directly. Avoids an extra heap allocation for blobs above the configurable threshold (default: 4 MB).</para>
+</listitem><listitem><para><bold>S3 multipart upload</bold> — streams a local blob file to S3 in parallel parts without first loading the entire file into a single buffer. Each part is either mmap-ed or read in a fixed-size chunk (default: 5 MB, the S3 minimum part size).</para>
+</listitem></orderedlist>
+</para>
+<para>Expected improvement: <bold>40-60% faster blob transfers</bold> compared with the baseline read-into-vector → write path.</para>
+<para>Thread-Safety: <ref refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer" kindref="compound">ZeroCopyBlobTransfer</ref> itself is stateless after construction and therefore safe to share across threads. </para>
+    </detaileddescription>
+    <location file="include/storage/zero_copy_blob_transfer.h" line="173" column="1" bodyfile="include/storage/zero_copy_blob_transfer.h" bodystart="173" bodyend="263"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a075bf39022c87778e2dae47a75ef09eb" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>config</name></member>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a9d9f4b50640b1ce7868a1110697ad02e" prot="private" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a2796fa8e69f4c32f9401fe0e4eabbb68" prot="private" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>fallbackTransfer</name></member>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a42ecc1ab647a9203ef2dc996a0d45cf9" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>openMmap</name></member>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a6cbe81833f373602278b8554a0e78ddf" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>s3MultipartUpload</name></member>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a9ca5dd7cb0b2fa8b8b13fa04f868628f" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>sendfileTransfer</name></member>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a41ddb699702182a6b073246862ba6884" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>shouldUseZeroCopy</name></member>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1afb3464ada7597843187b78037148f475" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>ZeroCopyBlobTransfer</name></member>
+      <member refid="classthemis_1_1storage_1_1_zero_copy_blob_transfer_1a0870828d0cffad430fdfa1b31128f56c" prot="public" virt="non-virtual"><scope>themis::storage::ZeroCopyBlobTransfer</scope><name>~ZeroCopyBlobTransfer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

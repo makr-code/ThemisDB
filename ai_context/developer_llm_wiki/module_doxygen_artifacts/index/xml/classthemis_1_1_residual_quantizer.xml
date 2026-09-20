@@ -1,0 +1,487 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_residual_quantizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::ResidualQuantizer</compoundname>
+    <includes refid="residual__quantizer_8h" local="no">residual_quantizer.h</includes>
+    <innerclass refid="structthemis_1_1_residual_quantizer_1_1_config" prot="public">themis::ResidualQuantizer::Config</innerclass>
+    <innerclass refid="structthemis_1_1_residual_quantizer_1_1_status" prot="public">themis::ResidualQuantizer::Status</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_residual_quantizer_1a4cbdca69e28c3febe3d391a419b1f45c" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ResidualQuantizer::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::ResidualQuantizer::dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="164" column="9" bodyfile="include/index/residual_quantizer.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_residual_quantizer_1a0241cc27b396aac06d6169b06c9530d8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_residual_quantizer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::ResidualQuantizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ResidualQuantizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="165" column="12" bodyfile="include/index/residual_quantizer.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_residual_quantizer_1adca3ef248308053b7aa20b0d9f7e25e3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ResidualQuantizer::trained_</definition>
+        <argsstring></argsstring>
+        <name>trained_</name>
+        <qualifiedname>themis::ResidualQuantizer::trained_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="166" column="10" bodyfile="include/index/residual_quantizer.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_residual_quantizer_1ae791c9f268e99fecbfba04606f325f10" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1_product_quantizer" kindref="compound">ProductQuantizer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;ProductQuantizer&gt; &gt; themis::ResidualQuantizer::stage_quantizers_</definition>
+        <argsstring></argsstring>
+        <name>stage_quantizers_</name>
+        <qualifiedname>themis::ResidualQuantizer::stage_quantizers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="169" column="17" bodyfile="include/index/residual_quantizer.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1ad16eee0ef6cc51ef6881bca815ada554" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ResidualQuantizer::ResidualQuantizer</definition>
+        <argsstring>(int dimension, const Config &amp;config)</argsstring>
+        <name>ResidualQuantizer</name>
+        <qualifiedname>themis::ResidualQuantizer::ResidualQuantizer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_residual_quantizer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a new Residual Quantizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector dimension (must be divisible by num_subquantizers) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration parameters </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="90" column="14" bodyfile="src/index/residual_quantizer.cpp" bodystart="20" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a3ae000ac3e2ba27808a4bb386ced86f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_residual_quantizer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>ResidualQuantizer::Status themis::ResidualQuantizer::train</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;training_vectors)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::ResidualQuantizer::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>training_vectors</declname>
+        </param>
+        <briefdescription>
+<para>Train multi-stage quantizer Trains each stage sequentially on the residuals from the previous stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>training_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Training data (num_vectors x dimension) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1_residual_quantizer_1_1_status" kindref="compound">Status</ref> indicating success or failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_residual_quantizer_1_1_status_1ac3d77c1190e961c1f1c62b9bc0e5fef0" kindref="member">Status::Error()</ref>, size(), THEMIS_INFO(), reserve(), std::to_string(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="98" column="12" bodyfile="src/index/residual_quantizer.cpp" bodystart="46" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a1bffa0a9073fec7503fa592c8696fae6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::ResidualQuantizer::encode</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vector) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::ResidualQuantizer::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Encode a vector through all stages Returns concatenated codes from all stages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vector (dimension floats) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Quantized codes (num_stages * num_subquantizers bytes) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="106" column="17" bodyfile="src/index/residual_quantizer.cpp" bodystart="131" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a02032425c4c0befd39215ea8da3f7752" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::ResidualQuantizer::decode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;codes) const</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::ResidualQuantizer::decode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes</declname>
+        </param>
+        <briefdescription>
+<para>Decode quantized codes by summing all stage reconstructions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>codes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantized codes (num_stages * num_subquantizers bytes) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reconstructed vector (dimension floats) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="113" column="17" bodyfile="src/index/residual_quantizer.cpp" bodystart="166" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a15a6fa9763398ca5e7d632c345d98017" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::ResidualQuantizer::asymmetricDistance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, const std::vector&lt; uint8_t &gt; &amp;codes) const</argsstring>
+        <name>asymmetricDistance</name>
+        <qualifiedname>themis::ResidualQuantizer::asymmetricDistance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes</declname>
+        </param>
+        <briefdescription>
+<para>Compute asymmetric distance between query and quantized codes Computes distance contribution from each stage and sums them. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query vector (dimension floats) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>codes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantized codes (num_stages * num_subquantizers bytes) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Approximate L2 distance </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="122" column="11" bodyfile="src/index/residual_quantizer.cpp" bodystart="205" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a0534cd2e61c68c371d8068268bb7947e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ResidualQuantizer::isTrained</definition>
+        <argsstring>() const</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::ResidualQuantizer::isTrained</qualifiedname>
+        <briefdescription>
+<para>Check if quantizer is trained. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="128" column="10" bodyfile="include/index/residual_quantizer.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a1864cf5f21253602b8fb5440f5542823" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::ResidualQuantizer::getCompressionRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressionRatio</name>
+        <qualifiedname>themis::ResidualQuantizer::getCompressionRatio</qualifiedname>
+        <briefdescription>
+<para>Get compression ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Ratio of original size to compressed size </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="134" column="11" bodyfile="src/index/residual_quantizer.cpp" bodystart="266" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a4e89151040068de468ed4853284ffe4c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ResidualQuantizer::getEncodedSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getEncodedSize</name>
+        <qualifiedname>themis::ResidualQuantizer::getEncodedSize</qualifiedname>
+        <briefdescription>
+<para>Get encoded size in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="139" column="12" bodyfile="include/index/residual_quantizer.h" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a17d5eb52a911b3afbb6d571c7fd57dee" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ResidualQuantizer::getMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryUsage</name>
+        <qualifiedname>themis::ResidualQuantizer::getMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Get memory usage for quantizer codebooks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="146" column="12" bodyfile="src/index/residual_quantizer.cpp" bodystart="272" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1afd288c7de9befbb68e25aadd7c3d9a47" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ResidualQuantizer::getDimension</definition>
+        <argsstring>() const</argsstring>
+        <name>getDimension</name>
+        <qualifiedname>themis::ResidualQuantizer::getDimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="149" column="9" bodyfile="include/index/residual_quantizer.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1afc3bb74f1bed6245ed16950468e5279a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ResidualQuantizer::getNumStages</definition>
+        <argsstring>() const</argsstring>
+        <name>getNumStages</name>
+        <qualifiedname>themis::ResidualQuantizer::getNumStages</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="150" column="9" bodyfile="include/index/residual_quantizer.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a8c7dedefe9adef612e1207ac5b6c293b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ResidualQuantizer::getCodesPerStage</definition>
+        <argsstring>() const</argsstring>
+        <name>getCodesPerStage</name>
+        <qualifiedname>themis::ResidualQuantizer::getCodesPerStage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="151" column="9" bodyfile="include/index/residual_quantizer.h" bodystart="151" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1a437093e2764fb0ed4c6d53432ebeb5c3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1_product_quantizer" kindref="compound">ProductQuantizer</ref> *</type>
+        <definition>const ProductQuantizer * themis::ResidualQuantizer::getStageQuantizer</definition>
+        <argsstring>(int stage) const</argsstring>
+        <name>getStageQuantizer</name>
+        <qualifiedname>themis::ResidualQuantizer::getStageQuantizer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>stage</declname>
+        </param>
+        <briefdescription>
+<para>Get a specific stage quantizer (for inspection/testing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="156" column="28" bodyfile="include/index/residual_quantizer.h" bodystart="156" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_residual_quantizer_1aa6ee1b1f81e141d7d04026f95378db17" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::vector&lt; std::vector&lt; float &gt; &gt; themis::ResidualQuantizer::computeResiduals</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;vectors, const ProductQuantizer *stage_quantizer) const</argsstring>
+        <name>computeResiduals</name>
+        <qualifiedname>themis::ResidualQuantizer::computeResiduals</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>vectors</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1_product_quantizer" kindref="compound">ProductQuantizer</ref> *</type>
+          <declname>stage_quantizer</declname>
+        </param>
+        <briefdescription>
+<para>Compute residuals after quantizing with a specific stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input vectors </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stage_quantizer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quantizer for this stage </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Residual vectors </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Compute residual: original - approximation <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/residual_quantizer.h" line="177" column="17" bodyfile="src/index/residual_quantizer.cpp" bodystart="103" bodyend="129"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Residual Quantization for High-Accuracy Vector Compression. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>v1.5.0 - Multi-stage quantization with FAISS-accelerated <ref refid="classthemis_1_1_product_quantizer" kindref="compound">ProductQuantizer</ref></para>
+<para>Implements multi-stage residual quantization that iteratively quantizes the residual (error) from the previous stage. This hierarchical approach achieves better accuracy than single-stage quantization at the same compression ratio.</para>
+<para>Each stage uses <ref refid="classthemis_1_1_product_quantizer" kindref="compound">ProductQuantizer</ref>, which can leverage FAISS K-means clustering when THEMIS_HAS_FAISS is defined and prefer_faiss is true, providing 20-30% faster training per stage.</para>
+<para>Sources:<itemizedlist>
+<listitem><para>Algorithm: Residual Vector Quantization (RVQ)</para>
+</listitem><listitem><para>Paper: Chen, Y., Guan, T., &amp; Wang, C. (2010). &quot;Approximate Nearest Neighbor Search by Residual Vector Quantization&quot; Sensors 10(12)</para>
+</listitem><listitem><para>DOI: 10.3390/s101211259</para>
+</listitem><listitem><para>Paper: Subramanya, S. J., et al. (2019). &quot;DiskANN: Fast Accurate Billion-point Nearest Neighbor Search on a Single Node&quot; Neural Information Processing Systems (NeurIPS)</para>
+</listitem><listitem><para>Paper: Gao, J., &amp; Long, C. (2024). &quot;RaBitQ: Quantizing High-Dimensional Vectors with a Theoretical Error Bound&quot; ACM SIGMOD (extensions for multi-stage)</para>
+</listitem><listitem><para>Implementation: Optimized for ThemisDB using ProductQuantization per stage</para>
+</listitem></itemizedlist>
+</para>
+<para>Features:<itemizedlist>
+<listitem><para>Multi-stage iterative quantization (default 2 stages)</para>
+</listitem><listitem><para>Each stage uses ProductQuantization (with optional FAISS acceleration)</para>
+</listitem><listitem><para>Progressive refinement for higher accuracy</para>
+</listitem><listitem><para>97-99% recall@10 vs 95-98% for single-stage PQ</para>
+</listitem><listitem><para>Used in production systems (DiskANN, FAISS)</para>
+</listitem></itemizedlist>
+</para>
+<para>Part of ThemisDB v1.5.0 - Complete FAISS Migration (#1079) </para>
+    </detaileddescription>
+    <location file="include/index/residual_quantizer.h" line="58" column="1" bodyfile="include/index/residual_quantizer.h" bodystart="58" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_residual_quantizer_1a15a6fa9763398ca5e7d632c345d98017" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>asymmetricDistance</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1aa6ee1b1f81e141d7d04026f95378db17" prot="private" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>computeResiduals</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a0241cc27b396aac06d6169b06c9530d8" prot="private" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a02032425c4c0befd39215ea8da3f7752" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>decode</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a4cbdca69e28c3febe3d391a419b1f45c" prot="private" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a1bffa0a9073fec7503fa592c8696fae6" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>encode</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a8c7dedefe9adef612e1207ac5b6c293b" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>getCodesPerStage</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a1864cf5f21253602b8fb5440f5542823" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>getCompressionRatio</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1afd288c7de9befbb68e25aadd7c3d9a47" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>getDimension</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a4e89151040068de468ed4853284ffe4c" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>getEncodedSize</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a17d5eb52a911b3afbb6d571c7fd57dee" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>getMemoryUsage</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1afc3bb74f1bed6245ed16950468e5279a" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>getNumStages</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a437093e2764fb0ed4c6d53432ebeb5c3" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>getStageQuantizer</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a0534cd2e61c68c371d8068268bb7947e" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1ad16eee0ef6cc51ef6881bca815ada554" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>ResidualQuantizer</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1ae791c9f268e99fecbfba04606f325f10" prot="private" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>stage_quantizers_</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1a3ae000ac3e2ba27808a4bb386ced86f3" prot="public" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>train</name></member>
+      <member refid="classthemis_1_1_residual_quantizer_1adca3ef248308053b7aa20b0d9f7e25e3" prot="private" virt="non-virtual"><scope>themis::ResidualQuantizer</scope><name>trained_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_zip_bomb_protection_test" kind="class" language="C++" prot="public">
+    <compoundname>ZipBombProtectionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_zip_bomb_protection_test_1a089168c8ac5e94d2ebc087a974258411" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref></type>
+        <definition>ContentSecurityConfig ZipBombProtectionTest::default_config_</definition>
+        <argsstring></argsstring>
+        <name>default_config_</name>
+        <qualifiedname>ZipBombProtectionTest::default_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_security.cpp" line="461" column="27" bodyfile="tests/content/test_content_security.cpp" bodystart="461" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ZipBombProtectionTest</label>
+        <link refid="class_zip_bomb_protection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ZipBombProtectionTest</label>
+        <link refid="class_zip_bomb_protection_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>default_config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::content::ContentSecurityConfig</label>
+        <link refid="structthemis_1_1content_1_1_content_security_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_security.cpp" line="458" column="1" bodyfile="tests/content/test_content_security.cpp" bodystart="458" bodyend="462"/>
+    <listofallmembers>
+      <member refid="class_zip_bomb_protection_test_1a089168c8ac5e94d2ebc087a974258411" prot="protected" virt="non-virtual"><scope>ZipBombProtectionTest</scope><name>default_config_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

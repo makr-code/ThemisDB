@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_i_query_limit_policy" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::IQueryLimitPolicy</compoundname>
+    <includes refid="iquery__limit__policy_8h" local="no">iquery_limit_policy.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a8c926544ca3aa7dff27734f3540d0df8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::IQueryLimitPolicy::~IQueryLimitPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IQueryLimitPolicy</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::~IQueryLimitPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="49" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::IQueryLimitPolicy::IQueryLimitPolicy</definition>
+        <argsstring>(const IQueryLimitPolicy &amp;)=delete</argsstring>
+        <name>IQueryLimitPolicy</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::IQueryLimitPolicy</qualifiedname>
+        <param>
+          <type>const IQueryLimitPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a46f67fb86398cbf5eedcd080afdf838f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref> &amp;</type>
+        <definition>IQueryLimitPolicy &amp; themis::query::IQueryLimitPolicy::operator=</definition>
+        <argsstring>(const IQueryLimitPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="53" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a3fc0c2e182d496385a6b1cf0e6f04883" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IQueryLimitPolicy::isDepthAllowed</definition>
+        <argsstring>(uint32_t depth) const =0</argsstring>
+        <name>isDepthAllowed</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::isDepthAllowed</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff a query with <computeroutput>depth</computeroutput> nesting levels is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed query AST depth (number of nested selection levels). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when depth ≤ <ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1aa85ba7f826c8e09000c2423e14f8a39c" kindref="member">maxGraphQLDepth()</ref> or <ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1aa85ba7f826c8e09000c2423e14f8a39c" kindref="member">maxGraphQLDepth()</ref> == 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="65" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1aa85ba7f826c8e09000c2423e14f8a39c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::query::IQueryLimitPolicy::maxGraphQLDepth</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxGraphQLDepth</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::maxGraphQLDepth</qualifiedname>
+        <briefdescription>
+<para>Maximum allowed query nesting depth; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="70" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a771d8fd6ee3146543d5e08b84d326121" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IQueryLimitPolicy::isComplexityAllowed</definition>
+        <argsstring>(uint32_t complexity) const =0</argsstring>
+        <name>isComplexityAllowed</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::isComplexityAllowed</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>complexity</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff a query with <computeroutput>complexity</computeroutput> score is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>complexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Computed query complexity (resolver-weighted node count). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when complexity ≤ <ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1abcf918b7d2abcf1e2cf8f04676dc6455" kindref="member">maxGraphQLComplexity()</ref> or limit is 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="82" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1abcf918b7d2abcf1e2cf8f04676dc6455" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::query::IQueryLimitPolicy::maxGraphQLComplexity</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxGraphQLComplexity</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::maxGraphQLComplexity</qualifiedname>
+        <briefdescription>
+<para>Maximum allowed query complexity score; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="87" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a3392f2acf9c0f29be55c787b41ff7db0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IQueryLimitPolicy::isPayloadAllowed</definition>
+        <argsstring>(uint64_t payload_bytes) const =0</argsstring>
+        <name>isPayloadAllowed</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::isPayloadAllowed</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>payload_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff a request body of <computeroutput>payload_bytes</computeroutput> is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>payload_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of the incoming request body in bytes. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when payload_bytes ≤ <ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a6f1143b1195b2141a6dca160ffcd0db6" kindref="member">maxPayloadBytes()</ref> or limit is 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="99" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a6f1143b1195b2141a6dca160ffcd0db6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::query::IQueryLimitPolicy::maxPayloadBytes</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxPayloadBytes</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::maxPayloadBytes</qualifiedname>
+        <briefdescription>
+<para>Maximum allowed request payload in bytes; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="104" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a04a49167145cc75e29e9ed62b515c685" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IQueryLimitPolicy::isResultSizeAllowed</definition>
+        <argsstring>(uint64_t row_count) const =0</argsstring>
+        <name>isResultSizeAllowed</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::isResultSizeAllowed</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>row_count</declname>
+        </param>
+        <briefdescription>
+<para>Return true iff returning <computeroutput>row_count</computeroutput> rows is permitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Should be checked at the result-serialisation exit to enforce server-side row caps independent of client-supplied LIMIT clauses.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>row_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of rows the executor intends to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when row_count ≤ <ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1adf2d8e7ce688077a3fdc7f63a032b1f5" kindref="member">maxResultRows()</ref> or limit is 0. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="119" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1adf2d8e7ce688077a3fdc7f63a032b1f5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::query::IQueryLimitPolicy::maxResultRows</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>maxResultRows</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::maxResultRows</qualifiedname>
+        <briefdescription>
+<para>Maximum rows returned per query execution; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="124" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a71c61c29b26b5b3c5dd5c1624520c812" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::query::IQueryLimitPolicy::isEnforced</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>isEnforced</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::isEnforced</qualifiedname>
+        <briefdescription>
+<para>Return true when any query-limit enforcement is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implementations should return false when all limits are 0 (unlimited) so that callers may bypass the check on hot paths. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="136" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a61ca9dfa67ddc13b67d6a9d05a8461e2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::IQueryLimitPolicy::IQueryLimitPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>IQueryLimitPolicy</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::IQueryLimitPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="139" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a7bed6ba9170f56081b0581d557d6e221" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::IQueryLimitPolicy::IQueryLimitPolicy</definition>
+        <argsstring>(IQueryLimitPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>IQueryLimitPolicy</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::IQueryLimitPolicy</qualifiedname>
+        <param>
+          <type>IQueryLimitPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_i_query_limit_policy_1a72a647f168c50e66dd97c38fa4ddec19" prot="protected" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref> &amp;</type>
+        <definition>IQueryLimitPolicy &amp; themis::query::IQueryLimitPolicy::operator=</definition>
+        <argsstring>(IQueryLimitPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::query::IQueryLimitPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" kindref="member">IQueryLimitPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/query/iquery_limit_policy.h" line="141" column="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract query-safety limit policy. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls four axes that constrain potentially expensive or abusive queries:<itemizedlist>
+<listitem><para><bold>GraphQL/AQL depth</bold> — maximum query nesting level.</para>
+</listitem><listitem><para><bold>GraphQL/AQL complexity</bold> — maximum computed complexity score.</para>
+</listitem><listitem><para><bold>Payload size</bold> — maximum HTTP request body in bytes.</para>
+</listitem><listitem><para><bold>Result rows</bold> — maximum rows returned by a single query execution.</para>
+</listitem></itemizedlist>
+</para>
+<para>Implementations are installed into EditionManager via <computeroutput>EditionManager::installQueryLimitPolicy()</computeroutput> and are consulted by both the HTTP handler and the query executor. </para>
+    </detaileddescription>
+    <location file="include/themis/query/iquery_limit_policy.h" line="47" column="1" bodyfile="include/themis/query/iquery_limit_policy.h" bodystart="47" bodyend="142"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a22b014553923a987338fc5481de4847c" prot="public" virt="non-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>IQueryLimitPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a61ca9dfa67ddc13b67d6a9d05a8461e2" prot="protected" virt="non-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>IQueryLimitPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a7bed6ba9170f56081b0581d557d6e221" prot="protected" virt="non-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>IQueryLimitPolicy</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a771d8fd6ee3146543d5e08b84d326121" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>isComplexityAllowed</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a3fc0c2e182d496385a6b1cf0e6f04883" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>isDepthAllowed</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a71c61c29b26b5b3c5dd5c1624520c812" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>isEnforced</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a3392f2acf9c0f29be55c787b41ff7db0" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>isPayloadAllowed</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a04a49167145cc75e29e9ed62b515c685" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>isResultSizeAllowed</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1abcf918b7d2abcf1e2cf8f04676dc6455" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>maxGraphQLComplexity</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1aa85ba7f826c8e09000c2423e14f8a39c" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>maxGraphQLDepth</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a6f1143b1195b2141a6dca160ffcd0db6" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>maxPayloadBytes</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1adf2d8e7ce688077a3fdc7f63a032b1f5" prot="public" virt="pure-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>maxResultRows</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a46f67fb86398cbf5eedcd080afdf838f" prot="public" virt="non-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a72a647f168c50e66dd97c38fa4ddec19" prot="protected" virt="non-virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1query_1_1_i_query_limit_policy_1a8c926544ca3aa7dff27734f3540d0df8" prot="public" virt="virtual"><scope>themis::query::IQueryLimitPolicy</scope><name>~IQueryLimitPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

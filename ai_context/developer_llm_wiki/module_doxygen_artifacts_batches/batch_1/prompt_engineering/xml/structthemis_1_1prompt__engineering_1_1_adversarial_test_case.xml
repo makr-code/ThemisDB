@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_adversarial_test_case" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::AdversarialTestCase</compoundname>
+    <includes refid="adversarial__prompt__tester_8h" local="no">adversarial_prompt_tester.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_case_1a58ec331004bf8e55ca06ff42a4153b9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::AdversarialTestCase::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestCase::id</qualifiedname>
+        <briefdescription>
+<para>Stable identifier, e.g. &quot;APT-01&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="44" column="20" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_case_1a4670bc4567f3bc2db1b936302d808f61" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1prompt__engineering_1a1882c8dd0cc312b457bbf2c8038cd1a0" kindref="member">AttackCategory</ref></type>
+        <definition>AttackCategory themis::prompt_engineering::AdversarialTestCase::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestCase::category</qualifiedname>
+        <briefdescription>
+<para>Attack category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="45" column="20" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_case_1a2ab4a33189450b2006b1f925c9169029" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::AdversarialTestCase::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestCase::payload</qualifiedname>
+        <briefdescription>
+<para>The adversarial prompt text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="46" column="20" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_adversarial_test_case_1a29ab2e7ab43220652e596f623b6bdb9a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::AdversarialTestCase::expected_blocked</definition>
+        <argsstring></argsstring>
+        <name>expected_blocked</name>
+        <qualifiedname>themis::prompt_engineering::AdversarialTestCase::expected_blocked</qualifiedname>
+        <briefdescription>
+<para><computeroutput>true</computeroutput> if the payload should be detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="47" column="20" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single adversarial test case. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/adversarial_prompt_tester.h" line="43" column="1" bodyfile="include/prompt_engineering/adversarial_prompt_tester.h" bodystart="43" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case_1a4670bc4567f3bc2db1b936302d808f61" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestCase</scope><name>category</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case_1a29ab2e7ab43220652e596f623b6bdb9a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestCase</scope><name>expected_blocked</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case_1a58ec331004bf8e55ca06ff42a4153b9a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestCase</scope><name>id</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_adversarial_test_case_1a2ab4a33189450b2006b1f925c9169029" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::AdversarialTestCase</scope><name>payload</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

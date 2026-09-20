@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_circuit_breaker_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CircuitBreaker::Config</compoundname>
+    <includes refid="cache__metrics_8h" local="no">cache_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1a3002630ecfae34ea708d30685d4a88d8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CircuitBreaker::Config::failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>failure_threshold</name>
+        <qualifiedname>themis::cache::CircuitBreaker::Config::failure_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="277" column="18" bodyfile="include/cache/cache_metrics.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1aec6e23cd62f57734ac30fc5f4aecb086" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CircuitBreaker::Config::success_threshold</definition>
+        <argsstring></argsstring>
+        <name>success_threshold</name>
+        <qualifiedname>themis::cache::CircuitBreaker::Config::success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="278" column="18" bodyfile="include/cache/cache_metrics.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1ad8b4d93cc4afa159243d2e192c74773a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CircuitBreaker::Config::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::cache::CircuitBreaker::Config::timeout_ms</qualifiedname>
+        <initializer>= 60000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="279" column="18" bodyfile="include/cache/cache_metrics.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1a99be36c22dd1e261ab83ed8efdf8ef6c" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::CircuitBreaker::Config::half_open_max_calls</definition>
+        <argsstring></argsstring>
+        <name>half_open_max_calls</name>
+        <qualifiedname>themis::cache::CircuitBreaker::Config::half_open_max_calls</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="280" column="18" bodyfile="include/cache/cache_metrics.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1a16da34b5acd92e0c1d0c7226075664f7" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::cache::CircuitBreaker::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::cache::CircuitBreaker::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_metrics.h" line="286" column="23" bodyfile="include/cache/cache_metrics.h" bodystart="286" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_metrics.h" line="276" column="5" bodyfile="include/cache/cache_metrics.h" bodystart="276" bodyend="287"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1a16da34b5acd92e0c1d0c7226075664f7" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1a3002630ecfae34ea708d30685d4a88d8" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker::Config</scope><name>failure_threshold</name></member>
+      <member refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1a99be36c22dd1e261ab83ed8efdf8ef6c" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker::Config</scope><name>half_open_max_calls</name></member>
+      <member refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1aec6e23cd62f57734ac30fc5f4aecb086" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker::Config</scope><name>success_threshold</name></member>
+      <member refid="structthemis_1_1cache_1_1_circuit_breaker_1_1_config_1ad8b4d93cc4afa159243d2e192c74773a" prot="public" virt="non-virtual"><scope>themis::cache::CircuitBreaker::Config</scope><name>timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

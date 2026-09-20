@@ -1,0 +1,652 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_health_check_system" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::HealthCheckSystem</compoundname>
+    <includes refid="health__check_8h" local="no">health_check.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config" prot="public">themis::sharding::HealthCheckSystem::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1sharding_1_1_health_check_system_1ad28507e03ba8e93aa9d7eb9f126d8866" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref> &amp;)&gt;</type>
+        <definition>using themis::sharding::HealthCheckSystem::HealthCheckCallback = std::function&lt;void(const ClusterHealthInfo&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>HealthCheckCallback</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::HealthCheckCallback</qualifiedname>
+        <briefdescription>
+<para>Callback signature for periodic cluster-health updates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="115" column="5" bodyfile="include/sharding/health_check.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1a79f9ad54022f71c69bfa6725c9c8fdb8" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::HealthCheckSystem::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="143" column="12" bodyfile="include/sharding/health_check.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1ac095d038cf50ad77adc8fcc198d5c2a7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HealthCheckSystem::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="144" column="24" bodyfile="include/sharding/health_check.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1ada0ce430ee99cd4b30ee02165d0b49c2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_health_check_system_1ad28507e03ba8e93aa9d7eb9f126d8866" kindref="member">HealthCheckCallback</ref></type>
+        <definition>HealthCheckCallback themis::sharding::HealthCheckSystem::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="145" column="25" bodyfile="include/sharding/health_check.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1ad14bcfea14a62ca2665bea81edb78a7d" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref></type>
+        <definition>ClusterHealthInfo themis::sharding::HealthCheckSystem::current_health_</definition>
+        <argsstring></argsstring>
+        <name>current_health_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::current_health_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="146" column="23" bodyfile="include/sharding/health_check.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1a4408e416a984518ce26f7986fff11efd" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::sharding::HealthCheckSystem::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="147" column="17" bodyfile="include/sharding/health_check.h" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1a30142bceeea285053510dd68624a158a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HealthCheckSystem::lifecycle_mutex_</definition>
+        <argsstring></argsstring>
+        <name>lifecycle_mutex_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::lifecycle_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="148" column="24" bodyfile="include/sharding/health_check.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1a681c0272e84345cd5a44bc28c959935e" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::sharding::HealthCheckSystem::periodic_thread_</definition>
+        <argsstring></argsstring>
+        <name>periodic_thread_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::periodic_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="149" column="17" bodyfile="include/sharding/health_check.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1aea86627d4f7677e71bcc6a93ed5b6143" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HealthCheckSystem::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::cv_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="150" column="24" bodyfile="include/sharding/health_check.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_health_check_system_1aafc0d5eb502d6b0036892542bda4aaa7" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::sharding::HealthCheckSystem::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="151" column="29" bodyfile="include/sharding/health_check.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1a0d0f44227d51f61f211e875ea3877590" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HealthCheckSystem::HealthCheckSystem</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>HealthCheckSystem</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::HealthCheckSystem</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct health-check system with provided runtime config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="118" column="14" bodyfile="src/sharding/health_check.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1acfd3acb65d6fcb973f66a1a2cdc85467" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HealthCheckSystem::~HealthCheckSystem</definition>
+        <argsstring>()</argsstring>
+        <name>~HealthCheckSystem</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::~HealthCheckSystem</qualifiedname>
+        <briefdescription>
+<para>Destructor stops periodic checks and joins worker thread. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="120" column="5" bodyfile="src/sharding/health_check.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1acd5ff595e8b5e99359105c5f60f9d4c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_health_info" kindref="compound">ShardHealthInfo</ref></type>
+        <definition>ShardHealthInfo themis::sharding::HealthCheckSystem::checkShardHealth</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;endpoint, const std::string &amp;cert_path)</argsstring>
+        <name>checkShardHealth</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::checkShardHealth</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_path</declname>
+        </param>
+        <briefdescription>
+<para>Perform one full health check for a specific shard endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Shard Health.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: checkCertificateValidity(), push_back(), std::to_string(), checkStorageCapacity(), checkNetworkConnectivity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="123" column="21" bodyfile="src/sharding/health_check.cpp" bodystart="43" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1a8322f9a1d7eb283a39fa7ce67a0b00d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref></type>
+        <definition>ClusterHealthInfo themis::sharding::HealthCheckSystem::checkClusterHealth</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;shard_endpoints)</argsstring>
+        <name>checkClusterHealth</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::checkClusterHealth</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>shard_endpoints</declname>
+        </param>
+        <briefdescription>
+<para>Perform health checks for all shards and aggregate cluster status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="128" column="23" bodyfile="src/sharding/health_check.cpp" bodystart="92" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1a88197d9139db4bbeca3447c77e4db819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthCheckSystem::registerCallback</definition>
+        <argsstring>(HealthCheckCallback callback)</argsstring>
+        <name>registerCallback</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::registerCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1sharding_1_1_health_check_system_1ad28507e03ba8e93aa9d7eb9f126d8866" kindref="member">HealthCheckCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register callback invoked after each periodic cluster check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Callback.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="131" column="10" bodyfile="src/sharding/health_check.cpp" bodystart="139" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1ad2635d4ea169bdd471d74863f5b67ff2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthCheckSystem::startPeriodicChecks</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;shard_endpoints)</argsstring>
+        <name>startPeriodicChecks</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::startPeriodicChecks</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>shard_endpoints</declname>
+        </param>
+        <briefdescription>
+<para>Start background periodic health-check loop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lifecycle lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lifecycle_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lifecycle lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lifecycle_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cv_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="134" column="10" bodyfile="src/sharding/health_check.cpp" bodystart="144" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1ab129248596937791c7ebfb68e7f16bcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HealthCheckSystem::stopPeriodicChecks</definition>
+        <argsstring>()</argsstring>
+        <name>stopPeriodicChecks</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::stopPeriodicChecks</qualifiedname>
+        <briefdescription>
+<para>Stop background periodic health-check loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Periodic Checks.</para>
+<para>Calls: lifecycle_lock(), store(), notify_all(), joinable(), get_id(), std::this_thread::get_id(), std::move(), themis::utils::joinThreadWithin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="137" column="10" bodyfile="src/sharding/health_check.cpp" bodystart="220" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1aadd53402c8c0641afea37711cd6a4c9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_cluster_health_info" kindref="compound">ClusterHealthInfo</ref></type>
+        <definition>ClusterHealthInfo themis::sharding::HealthCheckSystem::getCurrentHealth</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentHealth</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::getCurrentHealth</qualifiedname>
+        <briefdescription>
+<para>Return latest cluster health snapshot from periodic checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="140" column="23" bodyfile="src/sharding/health_check.cpp" bodystart="242" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1af274ff2065d85306831e97cd78117683" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthCheckSystem::checkCertificateValidity</definition>
+        <argsstring>(const std::string &amp;cert_path, int64_t &amp;seconds_until_expiry)</argsstring>
+        <name>checkCertificateValidity</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::checkCertificateValidity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_path</declname>
+        </param>
+        <param>
+          <type>int64_t &amp;</type>
+          <declname>seconds_until_expiry</declname>
+        </param>
+        <briefdescription>
+<para>Validate certificate file and compute remaining lifetime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Certificate Validity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the cert. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">seconds_until_expiry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: fopen(), c_str(), PEM_read_X509(), fclose(), X509_get0_notAfter(), X509_free(), ASN1_TIME_diff(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="154" column="10" bodyfile="src/sharding/health_check.cpp" bodystart="259" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1a2bb9b332746c33452a51095fe0f54aa7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthCheckSystem::checkStorageCapacity</definition>
+        <argsstring>(const std::string &amp;endpoint, double &amp;usage_percent)</argsstring>
+        <name>checkStorageCapacity</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::checkStorageCapacity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>usage_percent</declname>
+        </param>
+        <briefdescription>
+<para>Probe storage usage for a shard endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Storage Capacity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">usage_percent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), client(), get(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="156" column="10" bodyfile="src/sharding/health_check.cpp" bodystart="309" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1aeec2b7b692325692a43617f877fd6a2e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthCheckSystem::checkNetworkConnectivity</definition>
+        <argsstring>(const std::string &amp;endpoint, double &amp;response_time_ms)</argsstring>
+        <name>checkNetworkConnectivity</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::checkNetworkConnectivity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <param>
+          <type>double &amp;</type>
+          <declname>response_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Probe network connectivity and measure response latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Network Connectivity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">response_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), client(), std::chrono::steady_clock::now(), get(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="158" column="10" bodyfile="src/sharding/health_check.cpp" bodystart="370" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1aa24916fcd319f8ee8c1e0af295cf9076" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1sharding_1ae1eab07d10949d0a0e025259600721f7" kindref="member">HealthStatus</ref></type>
+        <definition>HealthStatus themis::sharding::HealthCheckSystem::aggregateHealth</definition>
+        <argsstring>(const std::vector&lt; ShardHealthInfo &gt; &amp;shard_health)</argsstring>
+        <name>aggregateHealth</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::aggregateHealth</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_shard_health_info" kindref="compound">ShardHealthInfo</ref> &gt; &amp;</type>
+          <declname>shard_health</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate per-shard statuses into one cluster-level status. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Aggregate Health.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_health</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements aggregateHealth without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="161" column="18" bodyfile="src/sharding/health_check.cpp" bodystart="412" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_health_check_system_1a3a22f97e0ca0c478140bf9f845b85c81" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthCheckSystem::hasQuorum</definition>
+        <argsstring>(int healthy_shards, int total_shards)</argsstring>
+        <name>hasQuorum</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::hasQuorum</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>healthy_shards</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate strict-majority quorum condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Has Quorum.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">healthy_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements hasQuorum without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="163" column="10" bodyfile="src/sharding/health_check.cpp" bodystart="452" bodyend="457"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Health check system for monitoring shard and cluster health.</para>
+<para>Performs periodic health checks on shards including:<itemizedlist>
+<listitem><para>Certificate validity and expiration</para>
+</listitem><listitem><para>Storage capacity</para>
+</listitem><listitem><para>Network connectivity</para>
+</listitem><listitem><para>Response time</para>
+</listitem></itemizedlist>
+</para>
+<para>Aggregates shard health into cluster-wide status. </para>
+    </detaileddescription>
+    <location file="include/sharding/health_check.h" line="92" column="1" bodyfile="include/sharding/health_check.h" bodystart="92" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1aa24916fcd319f8ee8c1e0af295cf9076" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>aggregateHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1ada0ce430ee99cd4b30ee02165d0b49c2" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1af274ff2065d85306831e97cd78117683" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>checkCertificateValidity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a8322f9a1d7eb283a39fa7ce67a0b00d2" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>checkClusterHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1aeec2b7b692325692a43617f877fd6a2e" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>checkNetworkConnectivity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1acd5ff595e8b5e99359105c5f60f9d4c3" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>checkShardHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a2bb9b332746c33452a51095fe0f54aa7" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>checkStorageCapacity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a79f9ad54022f71c69bfa6725c9c8fdb8" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1ad14bcfea14a62ca2665bea81edb78a7d" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>current_health_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1aafc0d5eb502d6b0036892542bda4aaa7" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1aea86627d4f7677e71bcc6a93ed5b6143" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>cv_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1aadd53402c8c0641afea37711cd6a4c9f" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>getCurrentHealth</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a3a22f97e0ca0c478140bf9f845b85c81" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>hasQuorum</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1ad28507e03ba8e93aa9d7eb9f126d8866" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>HealthCheckCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a0d0f44227d51f61f211e875ea3877590" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>HealthCheckSystem</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a30142bceeea285053510dd68624a158a" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>lifecycle_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a681c0272e84345cd5a44bc28c959935e" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>periodic_thread_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a88197d9139db4bbeca3447c77e4db819" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>registerCallback</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1a4408e416a984518ce26f7986fff11efd" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>running_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1ad2635d4ea169bdd471d74863f5b67ff2" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>startPeriodicChecks</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1ac095d038cf50ad77adc8fcc198d5c2a7" prot="private" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>state_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1ab129248596937791c7ebfb68e7f16bcf" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>stopPeriodicChecks</name></member>
+      <member refid="classthemis_1_1sharding_1_1_health_check_system_1acfd3acb65d6fcb973f66a1a2cdc85467" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem</scope><name>~HealthCheckSystem</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

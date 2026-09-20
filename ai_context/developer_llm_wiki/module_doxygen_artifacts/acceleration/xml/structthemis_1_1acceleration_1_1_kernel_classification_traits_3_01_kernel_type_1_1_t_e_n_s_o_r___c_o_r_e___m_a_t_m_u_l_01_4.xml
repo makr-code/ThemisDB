@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</compoundname>
+    <includes refid="graph__kernel__classification_8h" local="no">graph_kernel_classification.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a3e31456897d550860e7d19c99357bb94" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2c" kindref="member">KernelCategory</ref></type>
+        <definition>KernelCategory themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::category</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2ca4368681a340ce211526318d301164fb7" kindref="member">KernelCategory::ACCELERATION_ELIGIBLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="155" column="37" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a8e6ab34292296ba0aee604ff216ff873" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::name</qualifiedname>
+        <initializer>= &quot;TENSOR_CORE_MATMUL&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="156" column="39" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a7781f0e969fb69d819516c3ab8265b1d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::requires_input_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_input_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::requires_input_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="157" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a5727d82f7016b235d51ca5e8bfe7357d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::requires_output_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_output_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::requires_output_validation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="158" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1ae8fa160cbe9a36d6d0d452ceb6ac5a4b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::has_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>has_cpu_fallback</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::has_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="159" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1ac8c78672b6159cf2abb6ab80912129f8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::gpu_execution_bounded</definition>
+        <argsstring></argsstring>
+        <name>gpu_execution_bounded</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::gpu_execution_bounded</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="160" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a252263e9e7ff048b608f4f18415b249c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::max_gpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_time_ms</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::max_gpu_time_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="161" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1ae57201061c9d9e66b8b63936bb34814b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::is_advisory_only</definition>
+        <argsstring></argsstring>
+        <name>is_advisory_only</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::is_advisory_only</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="162" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a53977860fc46553d45a852d36f69336f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::gpu_may_parallelize</definition>
+        <argsstring></argsstring>
+        <name>gpu_may_parallelize</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::gpu_may_parallelize</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="163" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::acceleration::KernelClassificationTraits&lt; KT &gt;::max_output_size</definition>
+        <argsstring></argsstring>
+        <name>max_output_size</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;::max_output_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="76" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/graph_kernel_classification.h" line="154" column="1" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="154" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a3e31456897d550860e7d19c99357bb94" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>category</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1ac8c78672b6159cf2abb6ab80912129f8" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>gpu_execution_bounded</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a53977860fc46553d45a852d36f69336f" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>gpu_may_parallelize</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1ae8fa160cbe9a36d6d0d452ceb6ac5a4b" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>has_cpu_fallback</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1ae57201061c9d9e66b8b63936bb34814b" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>is_advisory_only</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a252263e9e7ff048b608f4f18415b249c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>max_gpu_time_ms</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>max_output_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a8e6ab34292296ba0aee604ff216ff873" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a7781f0e969fb69d819516c3ab8265b1d" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>requires_input_validation</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_t_e_n_s_o_r___c_o_r_e___m_a_t_m_u_l_01_4_1a5727d82f7016b235d51ca5e8bfe7357d" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::TENSOR_CORE_MATMUL &gt;</scope><name>requires_output_validation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

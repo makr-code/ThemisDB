@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAProvenanceRecord</compoundname>
+    <includes refid="lora__provenance_8h" local="no">lora_provenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1ac9f8f263ff24488bb1cdcfaa51a1751d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::dataset_hash</definition>
+        <argsstring></argsstring>
+        <name>dataset_hash</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::dataset_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the training dataset content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="33" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a869b4dabca24bd9fa34840cf2da65b19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::base_model_hash</definition>
+        <argsstring></argsstring>
+        <name>base_model_hash</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::base_model_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the base LLM weights. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="34" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1af42b613bf0e166463ef907429c927cfc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::hyperparameter_hash</definition>
+        <argsstring></argsstring>
+        <name>hyperparameter_hash</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::hyperparameter_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the serialised hyperparameter block. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="35" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a8154c2fc2e0a8a43ee7087f763911152" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::adapter_weights_hash</definition>
+        <argsstring></argsstring>
+        <name>adapter_weights_hash</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::adapter_weights_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the trained adapter weights. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="36" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a97e8dfb12c7a0d9dc2d450fafb668a2b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::trainer_id</definition>
+        <argsstring></argsstring>
+        <name>trainer_id</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::trainer_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the entity that ran training. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="39" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1aa930c6b5a57590de635a70d30811558f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::ca_chain</definition>
+        <argsstring></argsstring>
+        <name>ca_chain</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::ca_chain</qualifiedname>
+        <briefdescription>
+<para>PEM-encoded CA / eIDAS certificate chain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="40" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1afbbe414486928ff42d3c3cfbe1159522" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::signature</qualifiedname>
+        <briefdescription>
+<para>Ed25519 / ECDSA signature over the record fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="41" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a28389f2475c9fc1a535197b440438336" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC timestamp (wall-clock). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="44" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a9dda4cfcc296920f8f4f991f596aa041" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAProvenanceRecord::rfc3161_timestamp</definition>
+        <argsstring></argsstring>
+        <name>rfc3161_timestamp</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::rfc3161_timestamp</qualifiedname>
+        <briefdescription>
+<para>Base64-encoded RFC 3161 timestamp token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="45" column="17" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a5880c5c7c9a17f9027144bab97cddf79" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::lora::LoRAProvenanceRecord::training_duration_secs</definition>
+        <argsstring></argsstring>
+        <name>training_duration_secs</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::training_duration_secs</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock training time in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="48" column="12" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1abb57fc58ca60a232e50cb0c38abc8f85" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAProvenanceRecord::hardware_info</definition>
+        <argsstring></argsstring>
+        <name>hardware_info</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::hardware_info</qualifiedname>
+        <briefdescription>
+<para>GPU model, VRAM, CPU, RAM, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="49" column="12" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a58692cc60a97075fd93ca31747813d99" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAProvenanceRecord::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::custom_metadata</qualifiedname>
+        <briefdescription>
+<para>Application-specific extensions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="50" column="12" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a60e993564e0ef99032d0333acdb77a26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAProvenanceRecord::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="56" column="10" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="94" bodyend="109"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a1e075cc7ec7ef3ce6e45cb4383d57b9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">LoRAProvenanceRecord</ref></type>
+        <definition>LoRAProvenanceRecord themis::llm::lora::LoRAProvenanceRecord::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAProvenanceRecord::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(), is_string(), get_str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_provenance.h" line="62" column="33" bodyfile="src/llm/lora_framework/lora_provenance.cpp" bodystart="117" bodyend="142"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_provenance.h" line="31" column="1" bodyfile="include/llm/lora_framework/lora_provenance.h" bodystart="31" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a8154c2fc2e0a8a43ee7087f763911152" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>adapter_weights_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a869b4dabca24bd9fa34840cf2da65b19" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>base_model_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1aa930c6b5a57590de635a70d30811558f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>ca_chain</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a28389f2475c9fc1a535197b440438336" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a58692cc60a97075fd93ca31747813d99" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1ac9f8f263ff24488bb1cdcfaa51a1751d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>dataset_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a1e075cc7ec7ef3ce6e45cb4383d57b9b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1abb57fc58ca60a232e50cb0c38abc8f85" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>hardware_info</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1af42b613bf0e166463ef907429c927cfc" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>hyperparameter_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a9dda4cfcc296920f8f4f991f596aa041" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>rfc3161_timestamp</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1afbbe414486928ff42d3c3cfbe1159522" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>signature</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a60e993564e0ef99032d0333acdb77a26" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a97e8dfb12c7a0d9dc2d450fafb668a2b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>trainer_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record_1a5880c5c7c9a17f9027144bab97cddf79" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAProvenanceRecord</scope><name>training_duration_secs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

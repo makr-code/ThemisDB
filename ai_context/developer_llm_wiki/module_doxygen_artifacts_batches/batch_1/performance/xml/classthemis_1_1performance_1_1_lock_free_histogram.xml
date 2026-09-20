@@ -1,0 +1,395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_lock_free_histogram" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::LockFreeHistogram</compoundname>
+    <includes refid="lockfree__histogram_8h" local="no">lockfree_histogram.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_lock_free_histogram_1_1_aligned_counter" prot="private">themis::performance::LockFreeHistogram::AlignedCounter</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+        <defval>uint64_t</defval>
+      </param>
+      <param>
+        <type>std::size_t</type>
+        <declname>NumBuckets</declname>
+        <defname>NumBuckets</defname>
+        <defval>32</defval>
+      </param>
+      <param>
+        <type><ref refid="namespacethemis_1_1performance_1a3ca0eec9f6a15a00c1b98c06ec6be8b1" kindref="member">HistogramMode</ref></type>
+        <declname>Mode</declname>
+        <defname>Mode</defname>
+        <defval><ref refid="namespacethemis_1_1performance_1a3ca0eec9f6a15a00c1b98c06ec6be8b1ac1e19c09f700938f0ff7f1fd4722a3ac" kindref="member">HistogramMode::Exponential</ref></defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_lock_free_histogram_1a150e9b8dc1115d9ae2b4a184a835d4a8" prot="private" static="no" mutable="no">
+        <type>std::array&lt; AlignedCounter, NumBuckets &gt;</type>
+        <definition>std::array&lt;AlignedCounter, NumBuckets&gt; themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::buckets_</definition>
+        <argsstring></argsstring>
+        <name>buckets_</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="230" column="16" bodyfile="include/performance/lockfree_histogram.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_lock_free_histogram_1a1e518181559f301b6eb5a0d22329d2fe" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::total_</definition>
+        <argsstring></argsstring>
+        <name>total_</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="231" column="34" bodyfile="include/performance/lockfree_histogram.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_lock_free_histogram_1a2733bc27bfc26228907a4b174d328396" prot="private" static="no" mutable="no">
+        <type>T</type>
+        <definition>T themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::max_value_</definition>
+        <argsstring></argsstring>
+        <name>max_value_</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::max_value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="232" column="44" bodyfile="include/performance/lockfree_histogram.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1a995275a64ad8a1dd39f5294335eb8190" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::LockFreeHistogram</definition>
+        <argsstring>(T max_value=T{1}) noexcept</argsstring>
+        <name>LockFreeHistogram</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::LockFreeHistogram</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>max_value</declname>
+          <defval>T{1}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with an optional maximum value (Linear mode only). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>In Linear mode: the upper bound mapped to the last bucket. Ignored in Exponential mode. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="93" column="14" bodyfile="include/performance/lockfree_histogram.h" bodystart="93" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1a4b6816788bd43dd2868bd44cf2eca619" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::LockFreeHistogram</definition>
+        <argsstring>(const LockFreeHistogram &amp;)=delete</argsstring>
+        <name>LockFreeHistogram</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::LockFreeHistogram</qualifiedname>
+        <param>
+          <type>const LockFreeHistogram &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="103" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1a21b5f450df604489a3c4fc17a6fd8fdb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1_lock_free_histogram_1a995275a64ad8a1dd39f5294335eb8190" kindref="member">LockFreeHistogram</ref> &amp;</type>
+        <definition>LockFreeHistogram &amp; themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::operator=</definition>
+        <argsstring>(const LockFreeHistogram &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1_lock_free_histogram_1a995275a64ad8a1dd39f5294335eb8190" kindref="member">LockFreeHistogram</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="104" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1ac0cf86d489a5bf7d4b5c5cf737a7cc90" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::record</definition>
+        <argsstring>(T value) noexcept</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::record</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Record a single sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Hot-path. Performs exactly one <computeroutput>fetch_add(1, relaxed)</computeroutput> on the target bucket plus one <computeroutput>fetch_add(1, relaxed)</computeroutput> on the global counter.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sample to record. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="114" column="10" bodyfile="include/performance/lockfree_histogram.h" bodystart="114" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1a1e577bfe507b00adf233b189ce128e21" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::percentile</definition>
+        <argsstring>(double p) const</argsstring>
+        <name>percentile</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::percentile</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Compute the p-th percentile from the current bucket counts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the <emphasis>lower bound</emphasis> of the bucket that contains the p-th percentile sample. In Linear mode this is <computeroutput>bucket_index * bucket_width</computeroutput>. In Exponential mode this is <computeroutput>2^(bucket_index-1)</computeroutput> (or 0 for bucket 0).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Percentile in the range [0, 100]. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Approximate lower-bound value of the percentile bucket, as a <computeroutput>double</computeroutput>. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>p</computeroutput> is outside [0, 100]. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the histogram is empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="133" column="12" bodyfile="include/performance/lockfree_histogram.h" bodystart="133" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1a35bc7aa9efa0fc9cd359c2e2cff91c5c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::count</qualifiedname>
+        <briefdescription>
+<para>Total number of recorded samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="169" column="14" bodyfile="include/performance/lockfree_histogram.h" bodystart="169" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1a754b7666a8f8e87695855f9edb40a66d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::bucket_count</definition>
+        <argsstring>(std::size_t idx) const</argsstring>
+        <name>bucket_count</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::bucket_count</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Count of samples in a specific bucket (0-indexed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>idx &gt;= NumBuckets</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="178" column="14" bodyfile="include/performance/lockfree_histogram.h" bodystart="178" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1aec3d0e11f76c1e3940188a432ca7d913" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all bucket counts and the total counter to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Not snapshot-atomic. Safe to call when all writers have quiesced. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="190" column="10" bodyfile="include/performance/lockfree_histogram.h" bodystart="190" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1aca6efcec429e7bfe3d903bf54d666579" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::bucketLowerBound</definition>
+        <argsstring>(std::size_t idx) const noexcept</argsstring>
+        <name>bucketLowerBound</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::bucketLowerBound</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>idx</declname>
+        </param>
+        <briefdescription>
+<para>Lower bound of bucket <computeroutput>idx</computeroutput> in the original value domain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="205" column="12" bodyfile="include/performance/lockfree_histogram.h" bodystart="205" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1a4dc306c3a6dbf419a7cd465af04aae66" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>static constexpr std::size_t themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::num_buckets</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>num_buckets</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::num_buckets</qualifiedname>
+        <briefdescription>
+<para>Number of buckets (compile-time constant). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="200" column="34" bodyfile="include/performance/lockfree_histogram.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_lock_free_histogram_1a4379d39985c6b0d12afcf29b43969372" prot="private" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::performance::LockFreeHistogram&lt; T, NumBuckets, Mode &gt;::mapToBucket</definition>
+        <argsstring>(T value) const noexcept</argsstring>
+        <name>mapToBucket</name>
+        <qualifiedname>themis::performance::LockFreeHistogram::mapToBucket</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_histogram.h" line="234" column="17" bodyfile="include/performance/lockfree_histogram.h" bodystart="234" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lock-free fixed-bucket histogram. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value type (must be an unsigned integral or floating-point type that can be converted to uint64_t). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NumBuckets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of buckets (compile-time constant, must be ≥ 2). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>Mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bucket-mapping strategy (default: Exponential).</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<heading level="3">Linear mode</heading>
+</para>
+<para>Every bucket covers a range of <computeroutput>max_value / NumBuckets</computeroutput> units. Values that exceed <computeroutput>max_value</computeroutput> are clamped into the last bucket (overflow bucket).</para>
+<para><heading level="3">Exponential mode</heading>
+</para>
+<para>Bucket <computeroutput>i</computeroutput> covers values in the range <computeroutput>[2^(i-1), 2^i)</computeroutput>. Bucket 0 always counts the value 0. Values that exceed <computeroutput>2^(NumBuckets-1)</computeroutput> are clamped into the last bucket. This distribution matches typical latency profiles where most values cluster at the low end.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All operations are thread-safe and lock-free. <computeroutput><ref refid="classthemis_1_1performance_1_1_lock_free_histogram_1ac0cf86d489a5bf7d4b5c5cf737a7cc90" kindref="member">record()</ref></computeroutput> is wait-free (single <computeroutput>fetch_add</computeroutput>). <computeroutput><ref refid="classthemis_1_1performance_1_1_lock_free_histogram_1a1e577bfe507b00adf233b189ce128e21" kindref="member">percentile()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1performance_1_1_lock_free_histogram_1a35bc7aa9efa0fc9cd359c2e2cff91c5c" kindref="member">count()</ref></computeroutput> use relaxed reads. <computeroutput><ref refid="classthemis_1_1performance_1_1_lock_free_histogram_1aec3d0e11f76c1e3940188a432ca7d913" kindref="member">reset()</ref></computeroutput> is not globally atomic — use it only when no concurrent <computeroutput><ref refid="classthemis_1_1performance_1_1_lock_free_histogram_1ac0cf86d489a5bf7d4b5c5cf737a7cc90" kindref="member">record()</ref></computeroutput> calls are in progress (e.g., at metric export time).</para>
+<para><heading level="3">Example — latency histogram (µs, exponential buckets)</heading>
+</para>
+<para><programlisting><codeline><highlight class="keyword">using<sp/></highlight><highlight class="normal">LatencyHist<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_lock_free_histogram_1a995275a64ad8a1dd39f5294335eb8190" kindref="member">LockFreeHistogram&lt;uint64_t, 32&gt;</ref>;</highlight></codeline>
+<codeline><highlight class="normal">LatencyHist<sp/>hist;</highlight></codeline>
+<codeline><highlight class="normal">hist.record(elapsed_us);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>p99<sp/>=<sp/>hist.percentile(99.0);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/performance/lockfree_histogram.h" line="82" column="1" bodyfile="include/performance/lockfree_histogram.h" bodystart="82" bodyend="256"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a754b7666a8f8e87695855f9edb40a66d" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>bucket_count</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1aca6efcec429e7bfe3d903bf54d666579" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>bucketLowerBound</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a150e9b8dc1115d9ae2b4a184a835d4a8" prot="private" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>buckets_</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a35bc7aa9efa0fc9cd359c2e2cff91c5c" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>count</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a995275a64ad8a1dd39f5294335eb8190" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>LockFreeHistogram</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a4b6816788bd43dd2868bd44cf2eca619" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>LockFreeHistogram</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a4379d39985c6b0d12afcf29b43969372" prot="private" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>mapToBucket</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a2733bc27bfc26228907a4b174d328396" prot="private" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>max_value_</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a4dc306c3a6dbf419a7cd465af04aae66" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>num_buckets</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a21b5f450df604489a3c4fc17a6fd8fdb" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a1e577bfe507b00adf233b189ce128e21" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>percentile</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1ac0cf86d489a5bf7d4b5c5cf737a7cc90" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>record</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1aec3d0e11f76c1e3940188a432ca7d913" prot="public" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>reset</name></member>
+      <member refid="classthemis_1_1performance_1_1_lock_free_histogram_1a1e518181559f301b6eb5a0d22329d2fe" prot="private" virt="non-virtual"><scope>themis::performance::LockFreeHistogram</scope><name>total_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

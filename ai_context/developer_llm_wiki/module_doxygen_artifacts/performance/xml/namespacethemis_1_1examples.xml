@@ -1,0 +1,465 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1examples" kind="namespace" language="C++">
+    <compoundname>themis::examples</compoundname>
+    <innerclass refid="classthemis_1_1examples_1_1_allocator_example" prot="public">themis::examples::AllocatorExample</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_batch_metadata" prot="public">themis::examples::BatchMetadata</innerclass>
+    <innerclass refid="classthemis_1_1examples_1_1_cache_example" prot="public">themis::examples::CacheExample</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_cache_line_aligned_counter" prot="public">themis::examples::CacheLineAlignedCounter</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_file_header" prot="public">themis::examples::FileHeader</innerclass>
+    <innerclass refid="classthemis_1_1examples_1_1_index_example" prot="public">themis::examples::IndexExample</innerclass>
+    <innerclass refid="classthemis_1_1examples_1_1_monitoring_example" prot="public">themis::examples::MonitoringExample</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_packet_header" prot="public">themis::examples::PacketHeader</innerclass>
+    <innerclass refid="classthemis_1_1examples_1_1_server_startup_example" prot="public">themis::examples::ServerStartupExample</innerclass>
+    <innerclass refid="classthemis_1_1examples_1_1_storage_example" prot="public">themis::examples::StorageExample</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_vec16f" prot="public">themis::examples::Vec16f</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_vec2d" prot="public">themis::examples::Vec2d</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_vec4f" prot="public">themis::examples::Vec4f</innerclass>
+    <innerclass refid="structthemis_1_1examples_1_1_vec8f" prot="public">themis::examples::Vec8f</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1examples_1ac80097ef090c838fe8d4ff800d6538e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</definition>
+        <argsstring>(CacheLineAlignedCounter, 64)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_ALIGNED</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_cache_line_aligned_counter" kindref="compound">CacheLineAlignedCounter</ref></type>
+        </param>
+        <param>
+          <type>64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="52" column="1" declfile="include/performance/alignment_examples.h" declline="52" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a78032bedd5a1c273ec124cdeb656a81a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_SIZE</definition>
+        <argsstring>(CacheLineAlignedCounter, 64)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_SIZE</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_SIZE</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_cache_line_aligned_counter" kindref="compound">CacheLineAlignedCounter</ref></type>
+        </param>
+        <param>
+          <type>64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="53" column="1" declfile="include/performance/alignment_examples.h" declline="53" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1ad34142f9084f45ef1846f63c91ae106d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</definition>
+        <argsstring>(Vec4f, 16)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_ALIGNED</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_vec4f" kindref="compound">Vec4f</ref></type>
+        </param>
+        <param>
+          <type>16</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="79" column="1" declfile="include/performance/alignment_examples.h" declline="79" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1ae83eb991958ad3feca2174ecea67814d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_SIZE</definition>
+        <argsstring>(Vec4f, 16)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_SIZE</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_SIZE</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_vec4f" kindref="compound">Vec4f</ref></type>
+        </param>
+        <param>
+          <type>16</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="80" column="1" declfile="include/performance/alignment_examples.h" declline="80" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a20045a9be7c12aea79ac285ef80d75db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</definition>
+        <argsstring>(Vec2d, 16)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_ALIGNED</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_vec2d" kindref="compound">Vec2d</ref></type>
+        </param>
+        <param>
+          <type>16</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="94" column="1" declfile="include/performance/alignment_examples.h" declline="94" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a3c5d9b1c7ef464f7a95de9efcb37fec6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_SIZE</definition>
+        <argsstring>(Vec2d, 16)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_SIZE</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_SIZE</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_vec2d" kindref="compound">Vec2d</ref></type>
+        </param>
+        <param>
+          <type>16</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="95" column="1" declfile="include/performance/alignment_examples.h" declline="95" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1ae3e3eaa3e40cdbc61dd321b7d19f01ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</definition>
+        <argsstring>(Vec8f, 32)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_ALIGNED</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_vec8f" kindref="compound">Vec8f</ref></type>
+        </param>
+        <param>
+          <type>32</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="115" column="1" declfile="include/performance/alignment_examples.h" declline="115" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a141cef1b22b2f8bbaf8cd233734ac8d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_SIZE</definition>
+        <argsstring>(Vec8f, 32)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_SIZE</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_SIZE</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_vec8f" kindref="compound">Vec8f</ref></type>
+        </param>
+        <param>
+          <type>32</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="116" column="1" declfile="include/performance/alignment_examples.h" declline="116" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a336c468a9e38c3a3668e9533e29cfd05" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</definition>
+        <argsstring>(Vec16f, 64)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_ALIGNED</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_vec16f" kindref="compound">Vec16f</ref></type>
+        </param>
+        <param>
+          <type>64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="135" column="1" declfile="include/performance/alignment_examples.h" declline="135" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1af58c65df34d47b3cf6e9468af0a6af3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_SIZE</definition>
+        <argsstring>(Vec16f, 64)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_SIZE</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_SIZE</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_vec16f" kindref="compound">Vec16f</ref></type>
+        </param>
+        <param>
+          <type>64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="136" column="1" declfile="include/performance/alignment_examples.h" declline="136" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a430fe1079a086a03cb453fa8b973c398" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</definition>
+        <argsstring>(BatchMetadata, 64)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_ALIGNED</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_ALIGNED</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_batch_metadata" kindref="compound">BatchMetadata</ref></type>
+        </param>
+        <param>
+          <type>64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="156" column="1" declfile="include/performance/alignment_examples.h" declline="156" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1af5c0c4fa336fdbdbfb333c86f942b39f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_SIZE</definition>
+        <argsstring>(BatchMetadata, 64)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_SIZE</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_SIZE</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_batch_metadata" kindref="compound">BatchMetadata</ref></type>
+        </param>
+        <param>
+          <type>64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="157" column="1" declfile="include/performance/alignment_examples.h" declline="157" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a20ea2d51aac92accacae340899fdf0bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1examples_1_1_packet_header" kindref="compound">PacketHeader</ref></type>
+        <definition>PacketHeader themis::examples::parse_packet_header</definition>
+        <argsstring>(const uint8_t *buffer)</argsstring>
+        <name>parse_packet_header</name>
+        <qualifiedname>themis::examples::parse_packet_header</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="178" column="21" bodyfile="include/performance/alignment_examples.h" bodystart="178" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1ac70887cf7408f917237b9ae35d4ad14a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::examples::is_simd_safe</definition>
+        <argsstring>(const float *data, size_t size)</argsstring>
+        <name>is_simd_safe</name>
+        <qualifiedname>themis::examples::is_simd_safe</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Verify pointer alignment before SIMD operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to float array </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if safe for aligned SIMD operations </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="201" column="13" bodyfile="include/performance/alignment_examples.h" bodystart="201" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a68a1b0c42804aeb98227ca9d37be4dfd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float *</type>
+        <definition>float * themis::examples::align_for_simd</definition>
+        <argsstring>(float *buffer, size_t size)</argsstring>
+        <name>align_for_simd</name>
+        <qualifiedname>themis::examples::align_for_simd</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Align pointer for SIMD operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input buffer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer size </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aligned pointer within buffer (or nullptr if not enough space) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="225" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="225" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a4e21bb37ccb1f21ce57616e0f3d0154e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1examples_1_1_vec4f" kindref="compound">Vec4f</ref> *</type>
+        <definition>Vec4f * themis::examples::safe_cast_to_vec4f</definition>
+        <argsstring>(void *ptr)</argsstring>
+        <name>safe_cast_to_vec4f</name>
+        <qualifiedname>themis::examples::safe_cast_to_vec4f</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Safely cast void* to Vec4f* with alignment verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generic pointer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vec4f* if properly aligned, nullptr otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="251" column="14" bodyfile="include/performance/alignment_examples.h" bodystart="251" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1a12aac60a504bf3038362d2f96d154829" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::examples::process_vectors</definition>
+        <argsstring>(void *data, size_t count)</argsstring>
+        <name>process_vectors</name>
+        <qualifiedname>themis::examples::process_vectors</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Process vector data with alignment checking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generic pointer to vector data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of vectors </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if processing succeeded </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="262" column="13" bodyfile="include/performance/alignment_examples.h" bodystart="262" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1examples_1ae66454b188daf1687de8acc9aa0f48cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::examples::THEMIS_STATIC_ASSERT_SIZE</definition>
+        <argsstring>(FileHeader, 64)</argsstring>
+        <name>THEMIS_STATIC_ASSERT_SIZE</name>
+        <qualifiedname>themis::examples::THEMIS_STATIC_ASSERT_SIZE</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1examples_1_1_file_header" kindref="compound">FileHeader</ref></type>
+        </param>
+        <param>
+          <type>64</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/alignment_examples.h" line="302" column="1" declfile="include/performance/alignment_examples.h" declline="302" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/alignment_examples.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_example" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::aql_helpers::MockFewShotLibrary::Example</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_example_1a86a3886ce8dc550ba06c8f6edbc7b69e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::aql_helpers::MockFewShotLibrary::Example::nl</definition>
+        <argsstring></argsstring>
+        <name>nl</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::Example::nl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="99" column="21" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_example_1a7901cf4cbbfb8e23f16bd38c7acf4c3a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::bench::aql_helpers::MockFewShotLibrary::Example::aql</definition>
+        <argsstring></argsstring>
+        <name>aql</name>
+        <qualifiedname>themis::bench::aql_helpers::MockFewShotLibrary::Example::aql</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="100" column="21" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/aql/bench_aql_helper_paths.cpp" line="98" column="5" bodyfile="benchmarks/aql/bench_aql_helper_paths.cpp" bodystart="98" bodyend="101"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_example_1a7901cf4cbbfb8e23f16bd38c7acf4c3a" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary::Example</scope><name>aql</name></member>
+      <member refid="structthemis_1_1bench_1_1aql__helpers_1_1_mock_few_shot_library_1_1_example_1a86a3886ce8dc550ba06c8f6edbc7b69e" prot="public" virt="non-virtual"><scope>themis::bench::aql_helpers::MockFewShotLibrary::Example</scope><name>nl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUMemoryPool::DefragResult</compoundname>
+    <includes refid="memory__pool_8h" local="no">memory_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1a801a2ae21eee820c6e135642cdf0888c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::DefragResult::slabs_moved</definition>
+        <argsstring></argsstring>
+        <name>slabs_moved</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::DefragResult::slabs_moved</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of occupied slabs relocated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="61" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1a53624267ace85581efc8ad63f553b5d3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUMemoryPool::DefragResult::bytes_compacted</definition>
+        <argsstring></argsstring>
+        <name>bytes_compacted</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::DefragResult::bytes_compacted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total bytes in relocated slabs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="62" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1ac05a2fc6fa78d62e6216e1863f98d742" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUMemoryPool::DefragResult::frag_before</definition>
+        <argsstring></argsstring>
+        <name>frag_before</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::DefragResult::frag_before</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Fragmentation ratio before defrag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="63" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1ad2df6f1df476532cbe7156bb4b528407" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUMemoryPool::DefragResult::frag_after</definition>
+        <argsstring></argsstring>
+        <name>frag_after</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::DefragResult::frag_after</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Fragmentation ratio after defrag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="64" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1a97ddcfe9a7e95816eb981640ce0980bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUMemoryPool::DefragResult::ran</definition>
+        <argsstring></argsstring>
+        <name>ran</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::DefragResult::ran</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if defrag ran (threshold met) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="65" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1a2cc83707d5954f724840f40184f912f8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUMemoryPool::DefragResult::data_move_errors</definition>
+        <argsstring></argsstring>
+        <name>data_move_errors</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::DefragResult::data_move_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>CUDA/HIP device-copy failures (0 on success) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="66" column="18" bodyfile="include/themis/gpu/memory_pool.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1afca40553d196f836e139cebc41b985df" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, uint64_t &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, uint64_t&gt; themis::gpu::GPUMemoryPool::DefragResult::offset_map</definition>
+        <argsstring></argsstring>
+        <name>offset_map</name>
+        <qualifiedname>themis::gpu::GPUMemoryPool::DefragResult::offset_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Old-offset → new-offset map for each relocated slab. Callers that hold raw device pointers (base + old_offset) must remap them to (base + new_offset) after a successful <ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a59d093c3215d73554a2947f408b51621" kindref="member">defragment()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/memory_pool.h" line="70" column="28" bodyfile="include/themis/gpu/memory_pool.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/memory_pool.h" line="60" column="5" bodyfile="include/themis/gpu/memory_pool.h" bodystart="60" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1a53624267ace85581efc8ad63f553b5d3" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::DefragResult</scope><name>bytes_compacted</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1a2cc83707d5954f724840f40184f912f8" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::DefragResult</scope><name>data_move_errors</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1ad2df6f1df476532cbe7156bb4b528407" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::DefragResult</scope><name>frag_after</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1ac05a2fc6fa78d62e6216e1863f98d742" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::DefragResult</scope><name>frag_before</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1afca40553d196f836e139cebc41b985df" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::DefragResult</scope><name>offset_map</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1a97ddcfe9a7e95816eb981640ce0980bd" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::DefragResult</scope><name>ran</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_memory_pool_1_1_defrag_result_1a801a2ae21eee820c6e135642cdf0888c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUMemoryPool::DefragResult</scope><name>slabs_moved</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

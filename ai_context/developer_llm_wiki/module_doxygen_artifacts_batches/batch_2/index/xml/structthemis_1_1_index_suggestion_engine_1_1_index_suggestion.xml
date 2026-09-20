@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion" kind="struct" language="C++" prot="public">
+    <compoundname>themis::IndexSuggestionEngine::IndexSuggestion</compoundname>
+    <includes refid="adaptive__index_8h" local="no">adaptive_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1acd3738b85fa874a62640c29f373cf848" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexSuggestionEngine::IndexSuggestion::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="167" column="21" bodyfile="include/index/adaptive_index.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a8c6c77354cabf7e3f61d9d1ab4a230af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexSuggestionEngine::IndexSuggestion::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="168" column="21" bodyfile="include/index/adaptive_index.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a86af6356e708dc50607a2e29d820cbc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexSuggestionEngine::IndexSuggestion::index_type</definition>
+        <argsstring></argsstring>
+        <name>index_type</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::index_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="169" column="21" bodyfile="include/index/adaptive_index.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ac7773482ec9f99e7bb36aee2ffdec115" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::IndexSuggestionEngine::IndexSuggestion::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="170" column="16" bodyfile="include/index/adaptive_index.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1abd606767d37482ac7e081efc3ff6c0de" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::IndexSuggestionEngine::IndexSuggestion::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="171" column="21" bodyfile="include/index/adaptive_index.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a729e879a252df2d4b95eeb9b2a063765" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::IndexSuggestionEngine::IndexSuggestion::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="172" column="24" bodyfile="include/index/adaptive_index.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a6ec2f7023ce7391b5b5a01eff325127e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::IndexSuggestionEngine::IndexSuggestion::queries_affected</definition>
+        <argsstring></argsstring>
+        <name>queries_affected</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::queries_affected</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="175" column="17" bodyfile="include/index/adaptive_index.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ada32f1a7ab2eb46c35b50e7679e46363" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::IndexSuggestionEngine::IndexSuggestion::estimated_speedup_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_speedup_ms</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::estimated_speedup_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="176" column="17" bodyfile="include/index/adaptive_index.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ab6eca2633b41ce7b21da993a7fa709be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::IndexSuggestionEngine::IndexSuggestion::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="182" column="24" bodyfile="src/index/adaptive_index.cpp" bodystart="561" bodyend="572"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1afa0d8b89898d35487421d623a30ba130" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion" kindref="compound">IndexSuggestion</ref></type>
+        <definition>IndexSuggestionEngine::IndexSuggestion themis::IndexSuggestionEngine::IndexSuggestion::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::IndexSuggestionEngine::IndexSuggestion::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/adaptive_index.h" line="188" column="32" bodyfile="src/index/adaptive_index.cpp" bodystart="575" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/adaptive_index.h" line="166" column="5" bodyfile="include/index/adaptive_index.h" bodystart="166" bodyend="189"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1acd3738b85fa874a62640c29f373cf848" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>collection</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ada32f1a7ab2eb46c35b50e7679e46363" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>estimated_speedup_ms</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a8c6c77354cabf7e3f61d9d1ab4a230af" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>field</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1afa0d8b89898d35487421d623a30ba130" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a86af6356e708dc50607a2e29d820cbc9" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>index_type</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a729e879a252df2d4b95eeb9b2a063765" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1a6ec2f7023ce7391b5b5a01eff325127e" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>queries_affected</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1abd606767d37482ac7e081efc3ff6c0de" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>reason</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ac7773482ec9f99e7bb36aee2ffdec115" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>score</name></member>
+      <member refid="structthemis_1_1_index_suggestion_engine_1_1_index_suggestion_1ab6eca2633b41ce7b21da993a7fa709be" prot="public" virt="non-virtual"><scope>themis::IndexSuggestionEngine::IndexSuggestion</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

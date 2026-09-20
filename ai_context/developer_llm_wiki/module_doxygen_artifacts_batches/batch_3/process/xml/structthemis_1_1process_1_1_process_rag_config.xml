@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_rag_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessRagConfig</compoundname>
+    <includes refid="process__graph__rag_8h" local="no">process_graph_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1a55f0dc8ff93a726a6b1f30ac5c7ea085" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::ProcessRagConfig::max_subgraph_depth</definition>
+        <argsstring></argsstring>
+        <name>max_subgraph_depth</name>
+        <qualifiedname>themis::process::ProcessRagConfig::max_subgraph_depth</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+<para>BFS depth from the current node(s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="51" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1a226c29e87d3af86533c0c8532d778b3b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::process::ProcessRagConfig::max_similar_cases</definition>
+        <argsstring></argsstring>
+        <name>max_similar_cases</name>
+        <qualifiedname>themis::process::ProcessRagConfig::max_similar_cases</qualifiedname>
+        <initializer>{5}</initializer>
+        <briefdescription>
+<para>Max similar historical cases to include. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="52" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1ade1a6b5be2fd452c05a1f57c21cb81bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessRagConfig::include_attachments</definition>
+        <argsstring></argsstring>
+        <name>include_attachments</name>
+        <qualifiedname>themis::process::ProcessRagConfig::include_attachments</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Include attached documents in context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="53" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1a4aef5e38cdf9c9ae20bcc66e22e1a1b9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessRagConfig::include_history</definition>
+        <argsstring></argsstring>
+        <name>include_history</name>
+        <qualifiedname>themis::process::ProcessRagConfig::include_history</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Include token traversal history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="54" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1a625833bdcd4073fa14658b45cecc4df0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessRagConfig::include_missing_docs</definition>
+        <argsstring></argsstring>
+        <name>include_missing_docs</name>
+        <qualifiedname>themis::process::ProcessRagConfig::include_missing_docs</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Check for missing required documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="55" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1a016a0d72b11c45b127200ab61ff8a957" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessRagConfig::include_compliance</definition>
+        <argsstring></argsstring>
+        <name>include_compliance</name>
+        <qualifiedname>themis::process::ProcessRagConfig::include_compliance</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Include compliance tags and rules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="56" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1aae9d93534f8c4a65fb2da12c37e2876a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::process::ProcessRagConfig::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::process::ProcessRagConfig::similarity_threshold</qualifiedname>
+        <initializer>{0.7f}</initializer>
+        <briefdescription>
+<para>Minimum similarity score for similar cases. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="57" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1a61c62d48eb5717ff7853e1689219c369" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::process::ProcessRagConfig::max_prompt_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_prompt_tokens</name>
+        <qualifiedname>themis::process::ProcessRagConfig::max_prompt_tokens</qualifiedname>
+        <initializer>{3000}</initializer>
+        <briefdescription>
+<para>Approximate token budget for the LLM prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="58" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1ae9b02065e582047707ed1caf8518b22a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessRagConfig::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::process::ProcessRagConfig::language</qualifiedname>
+        <initializer>{&quot;de&quot;}</initializer>
+        <briefdescription>
+<para>Output language: &quot;de&quot; (German) or &quot;en&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="59" column="17" bodyfile="include/process/process_graph_rag.h" bodystart="59" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_rag_config_1a052967179857fba7fd4e1ed307b8c380" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::ProcessRagConfig::use_ppr</definition>
+        <argsstring></argsstring>
+        <name>use_ppr</name>
+        <qualifiedname>themis::process::ProcessRagConfig::use_ppr</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Use Personalized PageRank instead of BFS. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_graph_rag.h" line="60" column="12" bodyfile="include/process/process_graph_rag.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tuning parameters for Graph-RAG retrieval over process instances. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/process_graph_rag.h" line="50" column="1" bodyfile="include/process/process_graph_rag.h" bodystart="50" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1ade1a6b5be2fd452c05a1f57c21cb81bf" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>include_attachments</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1a016a0d72b11c45b127200ab61ff8a957" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>include_compliance</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1a4aef5e38cdf9c9ae20bcc66e22e1a1b9" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>include_history</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1a625833bdcd4073fa14658b45cecc4df0" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>include_missing_docs</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1ae9b02065e582047707ed1caf8518b22a" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>language</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1a61c62d48eb5717ff7853e1689219c369" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>max_prompt_tokens</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1a226c29e87d3af86533c0c8532d778b3b" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>max_similar_cases</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1a55f0dc8ff93a726a6b1f30ac5c7ea085" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>max_subgraph_depth</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1aae9d93534f8c4a65fb2da12c37e2876a" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1process_1_1_process_rag_config_1a052967179857fba7fd4e1ed307b8c380" prot="public" virt="non-virtual"><scope>themis::process::ProcessRagConfig</scope><name>use_ppr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

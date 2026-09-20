@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_butterfly_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::ButterflyConfig</compoundname>
+    <includes refid="tensor__butterfly__operator_8h" local="no">tensor_butterfly_operator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_butterfly_config_1a85b0a70600ac0025d11a246972682b7b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221" kindref="member">OperatorType</ref></type>
+        <definition>OperatorType themis::tensor::ButterflyConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::tensor::ButterflyConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1tensor_1af047ac11b132f1fc9a4c2504516b9221a667d9ad5dc062018cfdc1ec703400be5" kindref="member">OperatorType::FOURIER</ref></initializer>
+        <briefdescription>
+<para>Operator family to build. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="48" column="18" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_butterfly_config_1a5a659964534dcc1053fdc598862b5fac" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt;std::size_t&gt; themis::tensor::ButterflyConfig::grid_shape</definition>
+        <argsstring></argsstring>
+        <name>grid_shape</name>
+        <qualifiedname>themis::tensor::ButterflyConfig::grid_shape</qualifiedname>
+        <briefdescription>
+<para>Mode sizes for the operator domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must match the <computeroutput>mode_sizes</computeroutput> of the TTTrain passed to <computeroutput>apply()</computeroutput>. For FOURIER: each element must be a power of 2 (WHT constraint). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="56" column="17" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_butterfly_config_1a618efd2ad5124362ad9d465a1e6a4199" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::tensor::ButterflyConfig::precision</definition>
+        <argsstring></argsstring>
+        <name>precision</name>
+        <qualifiedname>themis::tensor::ButterflyConfig::precision</qualifiedname>
+        <initializer>= 1e-6f</initializer>
+        <briefdescription>
+<para>Numerical precision tolerance (relative reconstruction error). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used only by adaptive modes (e.g. truncated butterfly bond dimensions). Default 1e-6 satisfies the ≤ 1e-6 relative-error acceptance criterion from the ROADMAP. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_butterfly_operator.h" line="65" column="11" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration passed to <computeroutput><ref refid="classthemis_1_1tensor_1_1_tensor_butterfly_operator_1a7e150d44e081f9ac164131af3d54260a" kindref="member">TensorButterflyOperator::build()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/tensor_butterfly_operator.h" line="46" column="1" bodyfile="include/tensor/tensor_butterfly_operator.h" bodystart="46" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_butterfly_config_1a5a659964534dcc1053fdc598862b5fac" prot="public" virt="non-virtual"><scope>themis::tensor::ButterflyConfig</scope><name>grid_shape</name></member>
+      <member refid="structthemis_1_1tensor_1_1_butterfly_config_1a618efd2ad5124362ad9d465a1e6a4199" prot="public" virt="non-virtual"><scope>themis::tensor::ButterflyConfig</scope><name>precision</name></member>
+      <member refid="structthemis_1_1tensor_1_1_butterfly_config_1a85b0a70600ac0025d11a246972682b7b" prot="public" virt="non-virtual"><scope>themis::tensor::ButterflyConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

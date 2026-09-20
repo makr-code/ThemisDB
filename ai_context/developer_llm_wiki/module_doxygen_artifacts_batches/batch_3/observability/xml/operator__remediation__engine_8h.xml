@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="operator__remediation__engine_8h" kind="file" language="C++">
+    <compoundname>operator_remediation_engine.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="operator__remediation__engine_8cpp" local="yes">src/observability/operator_remediation_engine.cpp</includedby>
+    <includedby refid="test__observability__phase3__continuation__focused_8cpp" local="yes">tests/observability/test_observability_phase3_continuation_focused.cpp</includedby>
+    <includedby refid="test__operator__remediation__engine_8cpp" local="yes">tests/observability/test_operator_remediation_engine.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/observability/operator_remediation_engine.h</label>
+        <link refid="operator__remediation__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/observability/operator_remediation_engine.h</label>
+        <link refid="operator__remediation__engine_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/observability/operator_remediation_engine.cpp</label>
+        <link refid="operator__remediation__engine_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/observability/test_observability_phase3_continuation_focused.cpp</label>
+        <link refid="test__observability__phase3__continuation__focused_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/observability/test_operator_remediation_engine.cpp</label>
+        <link refid="test__operator__remediation__engine_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_remediation_action" prot="public">themis::observability::RemediationAction</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_remediation_hint" prot="public">themis::observability::RemediationHint</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_i_remediation_hint_listener" prot="public">themis::observability::IRemediationHintListener</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_remediation_pattern" prot="public">themis::observability::RemediationPattern</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_operator_remediation_engine" prot="public">themis::observability::OperatorRemediationEngine</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Automated incident diagnostics and remediation hints for observability issues. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="operator__remediation__engine_8h_1purpose">
+<title>Purpose</title><para>The Operator Remediation Engine provides utilities for automatically detecting common observability problems from metric patterns and generating actionable remediation hints for operators. It enables:<itemizedlist>
+<listitem><para>Automated problem detection via pattern matching</para>
+</listitem><listitem><para>Actionable remediation suggestions with priority and risk assessment</para>
+</listitem><listitem><para>Hint tracking, deduplication, and lifecycle management</para>
+</listitem><listitem><para>Custom pattern registration for domain-specific problems</para>
+</listitem><listitem><para>Thread-safe listener notifications for hint events</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="operator__remediation__engine_8h_1thread_safety">
+<title>Thread Safety</title><para><bold>All public methods are thread-safe.</bold> The engine uses:<itemizedlist>
+<listitem><para>Atomic operations for generation counters and flags</para>
+</listitem><listitem><para>Reader-writer locks for hint store and pattern registry</para>
+</listitem><listitem><para>Weak pointer tracking for listener lifecycle safety (Phase 3 hardening)</para>
+</listitem><listitem><para>Lock-free reads where possible for performance-critical paths</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="operator__remediation__engine_8h_1listener_lifecycle">
+<title>Listener Lifecycle &amp; Weak Pointer Semantics</title><para>Listeners are stored as weak pointers to prevent circular references. The engine:<itemizedlist>
+<listitem><para>Uses a generation counter to detect stale weak_ptr instances</para>
+</listitem><listitem><para>Upgrades weak_ptr to shared_ptr during notification</para>
+</listitem><listitem><para>Automatically evicts dead listeners (those that have been deallocated)</para>
+</listitem><listitem><para>Handles concurrent listener addition/removal without blocking notifications</para>
+</listitem><listitem><para>Limits listener count to prevent unbounded growth (default: 10k max listeners)</para>
+</listitem></itemizedlist>
+</para>
+<para>When a listener is deallocated externally, the next notification attempt will silently skip it (weak_ptr upgrade fails). Stale entries are periodically cleaned up or evicted on memory pressure.</para>
+</sect1>
+<sect1 id="operator__remediation__engine_8h_1memory_bounds">
+<title>Memory Pressure &amp; Listener Eviction</title><para>Under memory pressure scenarios:<itemizedlist>
+<listitem><para>Active listener count is capped (default: 10k)</para>
+</listitem><listitem><para>When cap is exceeded, oldest listeners are evicted in FIFO order</para>
+</listitem><listitem><para>Evicted listeners are notified via onHintResolved() before removal</para>
+</listitem><listitem><para>Memory usage stays bounded even under sustained listener registration attempts</para>
+</listitem><listitem><para>Statistics API reports listener count and eviction events</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="operator__remediation__engine_8h_1error_codes">
+<title>Error Codes</title><para>ORE (Operator Remediation Engine) error codes:<itemizedlist>
+<listitem><para>ORE_PATTERN_MATCH_ERROR = 26: Pattern matching failed</para>
+</listitem><listitem><para>ORE_INVALID_METRIC_DATA = 27: Malformed metric input (null name, invalid category)</para>
+</listitem><listitem><para>ORE_LISTENER_NOTIFICATION_FAILED = 28: Listener notification failed (listener deallocated)</para>
+</listitem><listitem><para>ORE_DUPLICATE_PATTERN = 29: Pattern name already registered</para>
+</listitem><listitem><para>ORE_INTERNAL_ERROR = 30: Unexpected internal error</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="operator__remediation__engine_8h_1version">
+<title>Version &amp; Maturity</title><para><bold>Version:</bold> 2.0 (Phase 3/5/6 Continuation) <linebreak/>
+ <bold>Maturity:</bold> 🟢 PRODUCTION (Phase 1-6 Hardening Complete) <linebreak/>
+ <bold>Score:</bold> 92/100 (Phases 1-6 acceptance verified 2026-08-15) <linebreak/>
+ <bold>Status:</bold> Phase 3 edge-case hardening, Phase 5 performance validation, Phase 6 documentation complete</para>
+<para><simplesect kind="see"><para><ref refid="observability__api__contract_8h" kindref="compound">include/observability/observability_api_contract.h</ref> for unified error taxonomy </para>
+</simplesect>
+<simplesect kind="see"><para>src/observability/ROADMAP.md for Phase 3/5/6 completion details </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__observability__phase2__exporter__stress_8cpp" kindref="compound">benchmarks/observability/bench_observability_phase2_exporter_stress.cpp</ref> for performance gates </para>
+</simplesect>
+<simplesect kind="see"><para>tests/observability/test_observability_operator_remediation_focused.cpp for edge-case tests </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2" kindref="member">RemediationSeverity</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2a551b723eafd6a31d444fcb2f5920fbd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2fa551b723eafd6a31d444fcb2f5920fbd3" kindref="member">INFO</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2a059e9861e0400dfbe05c98a841f3f96b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2fa059e9861e0400dfbe05c98a841f3f96b" kindref="member">WARNING</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2a99cd1c61610c76a57cb8d10d6df6b870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2fa99cd1c61610c76a57cb8d10d6df6b870" kindref="member">CRITICAL</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref><sp/>{</highlight></codeline>
+<codeline lineno="94" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a4889b90662de61d43013da7256b62bc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a4889b90662de61d43013da7256b62bc7" kindref="member">CARDINALITY_EXPLOSION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a1cc8d6981287c1f0769c386bb2ee8fa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a5c2fa0e6594db1412c172ddd26b13fe5a1cc8d6981287c1f0769c386bb2ee8fa5" kindref="member">EXPORTER_UNAVAILABLE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a22be0dae72d713ad97345960d0a55098" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a22be0dae72d713ad97345960d0a55098" kindref="member">HIGH_LATENCY</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a44f3f7f07b99bd9bf164011f82d16f2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a841324aa4ef1fa0bf512adb875f80831a44f3f7f07b99bd9bf164011f82d16f2e" kindref="member">MEMORY_PRESSURE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a1caaf6db9e61678e6be065f59894daad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a1caaf6db9e61678e6be065f59894daad" kindref="member">QUEUE_OVERFLOW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8ab0b60f6cf509f53b10eb371106c47f6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8ab0b60f6cf509f53b10eb371106c47f6d" kindref="member">SPAN_LOSS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a54caf47715b5f75f6dbd1c41982c4f8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a54caf47715b5f75f6dbd1c41982c4f8b" kindref="member">METRIC_LOSS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a0d66a0be739637348589c95077cde692" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a0d66a0be739637348589c95077cde692" kindref="member">CLOCK_SKEW</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8ac8203d488ba59660eca72fe689fe13e6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8ac8203d488ba59660eca72fe689fe13e6" kindref="member">BACKEND_DEGRADATION</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8aaa595e66a778dba96326c52f53662bb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8aaa595e66a778dba96326c52f53662bb6" kindref="member">CONFIGURATION_ERROR</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a696b031073e74bf2cb98e5ef201d4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1observability_1_1_remediation_action" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_remediation_action" kindref="compound">RemediationAction</ref><sp/>{</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1observability_1_1_remediation_action_1ab253953b3717f58db6703a6578c0c93d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_remediation_action_1ab253953b3717f58db6703a6578c0c93d" kindref="member">action_name</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1observability_1_1_remediation_action_1a8becb87872aff0fa47934ab248fc01cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_remediation_action_1a8becb87872aff0fa47934ab248fc01cc" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1observability_1_1_remediation_action_1ac50ee4abb5dc86125d2d0fa852dcb69b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_remediation_action_1ac50ee4abb5dc86125d2d0fa852dcb69b" kindref="member">priority</ref>{1};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1observability_1_1_remediation_action_1a31bef0dda3af0e12b42d21c11cb4e666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint32_t<sp/><ref refid="structthemis_1_1observability_1_1_remediation_action_1a31bef0dda3af0e12b42d21c11cb4e666" kindref="member">estimated_duration_seconds</ref>{0};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1observability_1_1_remediation_action_1ad3a6b3463acc6ddf68f83bf9655b9baa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_remediation_action_1ad3a6b3463acc6ddf68f83bf9655b9baa" kindref="member">is_safe_to_automate</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1observability_1_1_remediation_action_1a3596525b77c323d7cbb62db08919c42d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_remediation_action_1a3596525b77c323d7cbb62db08919c42d" kindref="member">automation_command</ref>;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1observability_1_1_remediation_action_1a4e07604f04f2f4b4d11f29d12fd38988" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_remediation_action_1a4e07604f04f2f4b4d11f29d12fd38988" kindref="member">expected_outcome</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="classthemis_1_1observability_1_1_remediation_hint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182" refid="classthemis_1_1observability_1_1_remediation_hint_1a7b4b6826bbb627d6e9e98f5a21bd76b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a7b4b6826bbb627d6e9e98f5a21bd76b9" kindref="member">problemCategory</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a2e64b56e6147fe5e4e90f43497161c25" kindref="member">category_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1observability_1_1_remediation_hint_1a6e73f5f750bafe9f4d756680063bb626" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a6e73f5f750bafe9f4d756680063bb626" kindref="member">problemTitle</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1aa5670f9359e430463c4366f7c3d52b95" kindref="member">title_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1observability_1_1_remediation_hint_1a3595b3aa6dacc70c901510d7178a450b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a3595b3aa6dacc70c901510d7178a450b" kindref="member">problemDescription</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1aecff61fc3df03e61a0de575d2e26f6a4" kindref="member">description_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1observability_1_1_remediation_hint_1a25870b619ce45ea76a1f773bfd6d4062" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2" kindref="member">RemediationSeverity</ref><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a25870b619ce45ea76a1f773bfd6d4062" kindref="member">severity</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a2ae23ffe60d0c5b5ca7ca54d7485e2b7" kindref="member">severity_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1observability_1_1_remediation_hint_1abfbfaefdb65cfcb54271d3b5e914cfb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1abfbfaefdb65cfcb54271d3b5e914cfb8" kindref="member">confidenceScore</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1aa959c5aecd299f682f53ef3516468d47" kindref="member">confidence_score_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1observability_1_1_remediation_hint_1ad44d4a663f2b14d04dfc875560c3f6e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1ad44d4a663f2b14d04dfc875560c3f6e2" kindref="member">generatedAt</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a161bcd667216e530fb4c6b6830929684" kindref="member">generated_at_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1observability_1_1_remediation_hint_1a25f86faffb922c14bb47da9a95e03148" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a25f86faffb922c14bb47da9a95e03148" kindref="member">detectionWindow</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a030550c6ab9a9b7983828ad50cdcc0f1" kindref="member">detection_window_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="classthemis_1_1observability_1_1_remediation_hint_1ad97dafac9be255fd3f76dbc088a72913" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;RemediationAction&gt;&amp;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1ad97dafac9be255fd3f76dbc088a72913" kindref="member">suggestedActions</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a08b2b1f43f8b63b98b7b8def6546017c" kindref="member">actions_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1observability_1_1_remediation_hint_1af1c21478aa554d25724165f9c54ecb68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>double&gt;&amp;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1af1c21478aa554d25724165f9c54ecb68" kindref="member">diagnosticMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a6be10ddcec58a50b2457f6c7ad6c7e97" kindref="member">metrics_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="classthemis_1_1observability_1_1_remediation_hint_1a7c3a48f9abaf6060a19aa323d10d5ab2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a7c3a48f9abaf6060a19aa323d10d5ab2" kindref="member">documentationLink</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a034d295b334c234265e739e31c591f79" kindref="member">doc_link_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="classthemis_1_1observability_1_1_remediation_hint_1a5bf563407bf0c97feb30770741ad3377" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a5bf563407bf0c97feb30770741ad3377" kindref="member">exampleLink</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1aa0723f0b0b80a85b1ee7a8089fc8d6fd" kindref="member">example_link_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="classthemis_1_1observability_1_1_remediation_hint_1a2a4c98bcb4260f27abfbfb33c6802a06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a2a4c98bcb4260f27abfbfb33c6802a06" kindref="member">hintId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a6d66a08b9eb527f9d9335ed980f8992a" kindref="member">hint_id_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1observability_1_1_remediation_hint_1a52f465c016d8b979b4b2d3dc11386956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a52f465c016d8b979b4b2d3dc11386956" kindref="member">tags</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a9704f553c107fcfaf9619226521ca650" kindref="member">tags_</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>members<sp/>(used<sp/>by<sp/>OperatorRemediationEngine<sp/>implementation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="classthemis_1_1observability_1_1_remediation_hint_1a2e64b56e6147fe5e4e90f43497161c25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a2e64b56e6147fe5e4e90f43497161c25" kindref="member">category_</ref>;</highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1observability_1_1_remediation_hint_1aa5670f9359e430463c4366f7c3d52b95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1aa5670f9359e430463c4366f7c3d52b95" kindref="member">title_</ref>;</highlight></codeline>
+<codeline lineno="247" refid="classthemis_1_1observability_1_1_remediation_hint_1aecff61fc3df03e61a0de575d2e26f6a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1aecff61fc3df03e61a0de575d2e26f6a4" kindref="member">description_</ref>;</highlight></codeline>
+<codeline lineno="248" refid="classthemis_1_1observability_1_1_remediation_hint_1a2ae23ffe60d0c5b5ca7ca54d7485e2b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2" kindref="member">RemediationSeverity</ref><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a2ae23ffe60d0c5b5ca7ca54d7485e2b7" kindref="member">severity_</ref>;</highlight></codeline>
+<codeline lineno="249" refid="classthemis_1_1observability_1_1_remediation_hint_1aa959c5aecd299f682f53ef3516468d47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1aa959c5aecd299f682f53ef3516468d47" kindref="member">confidence_score_</ref>{0.0};</highlight></codeline>
+<codeline lineno="250" refid="classthemis_1_1observability_1_1_remediation_hint_1a161bcd667216e530fb4c6b6830929684" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a161bcd667216e530fb4c6b6830929684" kindref="member">generated_at_</ref>;</highlight></codeline>
+<codeline lineno="251" refid="classthemis_1_1observability_1_1_remediation_hint_1a030550c6ab9a9b7983828ad50cdcc0f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a030550c6ab9a9b7983828ad50cdcc0f1" kindref="member">detection_window_</ref>{0};</highlight></codeline>
+<codeline lineno="252" refid="classthemis_1_1observability_1_1_remediation_hint_1a08b2b1f43f8b63b98b7b8def6546017c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RemediationAction&gt;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a08b2b1f43f8b63b98b7b8def6546017c" kindref="member">actions_</ref>;</highlight></codeline>
+<codeline lineno="253" refid="classthemis_1_1observability_1_1_remediation_hint_1a6be10ddcec58a50b2457f6c7ad6c7e97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a6be10ddcec58a50b2457f6c7ad6c7e97" kindref="member">metrics_</ref>;</highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1observability_1_1_remediation_hint_1a034d295b334c234265e739e31c591f79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a034d295b334c234265e739e31c591f79" kindref="member">doc_link_</ref>;</highlight></codeline>
+<codeline lineno="255" refid="classthemis_1_1observability_1_1_remediation_hint_1aa0723f0b0b80a85b1ee7a8089fc8d6fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1aa0723f0b0b80a85b1ee7a8089fc8d6fd" kindref="member">example_link_</ref>;</highlight></codeline>
+<codeline lineno="256" refid="classthemis_1_1observability_1_1_remediation_hint_1a6d66a08b9eb527f9d9335ed980f8992a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a6d66a08b9eb527f9d9335ed980f8992a" kindref="member">hint_id_</ref>;</highlight></codeline>
+<codeline lineno="257" refid="classthemis_1_1observability_1_1_remediation_hint_1a9704f553c107fcfaf9619226521ca650" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_hint_1a9704f553c107fcfaf9619226521ca650" kindref="member">tags_</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266" refid="classthemis_1_1observability_1_1_i_remediation_hint_listener" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener" kindref="compound">IRemediationHintListener</ref><sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="272" refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a1e7664dfc660d09faee35862099a9cbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a1e7664dfc660d09faee35862099a9cbe" kindref="member">onNewHint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;RemediationHint&gt;&amp;<sp/>hint)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a9544f536f3992d9d20835af017e49ffd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a9544f536f3992d9d20835af017e49ffd" kindref="member">onHintResolved</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hint_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283" refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a335101d74a632de770f83cef9bf15130" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_i_remediation_hint_listener_1a335101d74a632de770f83cef9bf15130" kindref="member">~IRemediationHintListener</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292" refid="classthemis_1_1observability_1_1_remediation_pattern" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_remediation_pattern" kindref="compound">RemediationPattern</ref><sp/>{</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="303" refid="classthemis_1_1observability_1_1_remediation_pattern_1a358e2e610e0386e20e6c14c3f8d5f94f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;RemediationHint&gt;<sp/><ref refid="classthemis_1_1observability_1_1_remediation_pattern_1a358e2e610e0386e20e6c14c3f8d5f94f" kindref="member">match</ref>(</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>double&gt;&amp;<sp/>metrics)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="classthemis_1_1observability_1_1_remediation_pattern_1a04381c9a08f895967e235a17475ade8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1observability_1_1_remediation_pattern_1a04381c9a08f895967e235a17475ade8b" kindref="member">patternName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314" refid="classthemis_1_1observability_1_1_remediation_pattern_1a7ca40bd797729ca36c8c6ed231c8bfb3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref><sp/><ref refid="classthemis_1_1observability_1_1_remediation_pattern_1a7ca40bd797729ca36c8c6ed231c8bfb3" kindref="member">problemCategory</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319" refid="classthemis_1_1observability_1_1_remediation_pattern_1abb24feca3fdb9e8087a53f15aa37a2c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_remediation_pattern_1abb24feca3fdb9e8087a53f15aa37a2c7" kindref="member">~RemediationPattern</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496" refid="classthemis_1_1observability_1_1_operator_remediation_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a34ac9076b6a96b9815a039202ae1f681" kindref="member">OperatorRemediationEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="501" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a34ac9076b6a96b9815a039202ae1f681" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a34ac9076b6a96b9815a039202ae1f681" kindref="member">OperatorRemediationEngine</ref>();</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"></highlight></codeline>
+<codeline lineno="506" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1aa8fd2bc945cd383e61f73a15ff0b9ace" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1aa8fd2bc945cd383e61f73a15ff0b9ace" kindref="member">~OperatorRemediationEngine</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight></codeline>
+<codeline lineno="532" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4801783ecdf10debd1b0fa3a38734c82" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4801783ecdf10debd1b0fa3a38734c82" kindref="member">addListener</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;IRemediationHintListener&gt;&amp;<sp/>listener)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"></highlight></codeline>
+<codeline lineno="553" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1ae622ce3cf9c123474f48a862b1e08a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1ae622ce3cf9c123474f48a862b1e08a58" kindref="member">removeListener</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;IRemediationHintListener&gt;&amp;<sp/>listener)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight></codeline>
+<codeline lineno="563" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a47658658004fdc1add05783e654b47a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a47658658004fdc1add05783e654b47a4" kindref="member">registerPattern</ref>(std::unique_ptr&lt;RemediationPattern&gt;<sp/>pattern)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"></highlight></codeline>
+<codeline lineno="573" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1afed3ca11f767e7a9e2579aecd75fb05a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1afed3ca11f767e7a9e2579aecd75fb05a" kindref="member">unregisterPattern</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern_name)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"></highlight></codeline>
+<codeline lineno="605" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4a5f19e87225e13e4c18df1d5e12776f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;RemediationHint&gt;&gt;<sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4a5f19e87225e13e4c18df1d5e12776f" kindref="member">analyzeAndGenerateHints</ref>(</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>double&gt;&amp;<sp/>metrics)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"></highlight></codeline>
+<codeline lineno="624" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1aea805f1c017b5a659d430b15e6c2cc8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;RemediationHint&gt;&gt;<sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1aea805f1c017b5a659d430b15e6c2cc8b" kindref="member">getActiveHints</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"></highlight></codeline>
+<codeline lineno="634" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1abc6fd467a1095286c2b04d3ac529c92e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;RemediationHint&gt;<sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1abc6fd467a1095286c2b04d3ac529c92e" kindref="member">getHintById</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hint_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="635"><highlight class="normal"></highlight></codeline>
+<codeline lineno="644" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4b03459297d68022a6c7cb8ba2784dfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a4b03459297d68022a6c7cb8ba2784dfa" kindref="member">resolveHint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>hint_id)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="645"><highlight class="normal"></highlight></codeline>
+<codeline lineno="655" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a217df7acc0e4ad0e52e2346f39e98632" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;RemediationHint&gt;&gt;<sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a217df7acc0e4ad0e52e2346f39e98632" kindref="member">getHintsByCategory</ref>(</highlight></codeline>
+<codeline lineno="656"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref><sp/>category)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="657"><highlight class="normal"></highlight></codeline>
+<codeline lineno="667" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a59a6b9418b5f5e06a6c28dadad3f1ae2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::shared_ptr&lt;RemediationHint&gt;&gt;<sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a59a6b9418b5f5e06a6c28dadad3f1ae2" kindref="member">getHintsBySeverity</ref>(</highlight></codeline>
+<codeline lineno="668"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2" kindref="member">RemediationSeverity</ref><sp/>severity)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="669"><highlight class="normal"></highlight></codeline>
+<codeline lineno="679" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a59a6221c8c44c9a76d65c1cc392231b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a59a6221c8c44c9a76d65c1cc392231b3" kindref="member">setHintGenerationEnabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="680"><highlight class="normal"></highlight></codeline>
+<codeline lineno="688" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a506c4d16b6f68d91236364c9afddc500" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a506c4d16b6f68d91236364c9afddc500" kindref="member">isHintGenerationEnabled</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="689"><highlight class="normal"></highlight></codeline>
+<codeline lineno="712" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a046fd4dbb93467d642db6cf61cf3e568" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a046fd4dbb93467d642db6cf61cf3e568" kindref="member">setDeduplicationWindow</ref>(std::chrono::seconds<sp/>window)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="713"><highlight class="normal"></highlight></codeline>
+<codeline lineno="721" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a50f6d2e7bcfb45cbeb8367f8dfbb7b4f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a50f6d2e7bcfb45cbeb8367f8dfbb7b4f" kindref="member">getDeduplicationWindow</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="722"><highlight class="normal"></highlight></codeline>
+<codeline lineno="730" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a5e2a8e066e97ab87fa2dda9298240ab2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a5e2a8e066e97ab87fa2dda9298240ab2" kindref="member">clearAllHints</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="731"><highlight class="normal"></highlight></codeline>
+<codeline lineno="754" refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a2b0a7e7b7a04e797fbb093ff864ae7f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="classthemis_1_1observability_1_1_operator_remediation_engine_1a2b0a7e7b7a04e797fbb093ff864ae7f2" kindref="member">getStatistics</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="755"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="756"><highlight class="normal"></highlight></codeline>
+<codeline lineno="763"><highlight class="normal">std::unique_ptr&lt;OperatorRemediationEngine&gt;<sp/><ref refid="namespacethemis_1_1observability_1a2d8d5cdeaf4420b5f62859fb9ec0ad85" kindref="member">createOperatorRemediationEngine</ref>();</highlight></codeline>
+<codeline lineno="764"><highlight class="normal"></highlight></codeline>
+<codeline lineno="765"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="766"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/operator_remediation_engine.h"/>
+  </compounddef>
+</doxygen>

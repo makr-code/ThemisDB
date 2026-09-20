@@ -1,0 +1,740 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cache_1_1_predictive_prefetcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::cache::PredictivePrefetcher</compoundname>
+    <includes refid="predictive__prefetcher_8h" local="no">predictive_prefetcher.h</includes>
+    <innerclass refid="structthemis_1_1cache_1_1_predictive_prefetcher_1_1_config" prot="public">themis::cache::PredictivePrefetcher::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1aa06db77de27af56a657fab7ec2c3872b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_predictive_prefetcher_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::cache::PredictivePrefetcher::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="105" column="12" bodyfile="include/cache/predictive_prefetcher.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1ae9103e53454718c6ad131dd240c5a3b9" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, uint32_t &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, uint32_t&gt; &gt; themis::cache::PredictivePrefetcher::transitions_</definition>
+        <argsstring></argsstring>
+        <name>transitions_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::transitions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="110" column="2" bodyfile="include/cache/predictive_prefetcher.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a498acb856260fd3c7753cff78d5c5488" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::cache::PredictivePrefetcher::ordered_keys_</definition>
+        <argsstring></argsstring>
+        <name>ordered_keys_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::ordered_keys_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="111" column="17" bodyfile="include/cache/predictive_prefetcher.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a04c4b3cbb6afe6c8df1946ffbe7aa8d6" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::cache::PredictivePrefetcher::last_fingerprint_</definition>
+        <argsstring></argsstring>
+        <name>last_fingerprint_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::last_fingerprint_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="114" column="24" bodyfile="include/cache/predictive_prefetcher.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1ab36ba33c7d35ab7a42e300a59a69bc87" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_map&lt; std::string, std::array&lt; uint32_t, 24 &gt; &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, std::array&lt;uint32_t, 24&gt; &gt; &gt; themis::cache::PredictivePrefetcher::tod_buckets_</definition>
+        <argsstring></argsstring>
+        <name>tod_buckets_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::tod_buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="120" column="2" bodyfile="include/cache/predictive_prefetcher.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a7072dbc802fd6aa6ee6ce5853e044c21" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cache::PredictivePrefetcher::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="122" column="24" bodyfile="include/cache/predictive_prefetcher.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a1884911c2d7ad6d718ffaf1f56cc50c4" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::total_transitions_recorded_</definition>
+        <argsstring></argsstring>
+        <name>total_transitions_recorded_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::total_transitions_recorded_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="125" column="14" bodyfile="include/cache/predictive_prefetcher.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a5cc75b549d825f5146c7dd7bb15935b2" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::candidates_generated_</definition>
+        <argsstring></argsstring>
+        <name>candidates_generated_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::candidates_generated_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="126" column="14" bodyfile="include/cache/predictive_prefetcher.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a4cf0626197a9c3ebcbed7f59da9f9432" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::prefetch_hits_</definition>
+        <argsstring></argsstring>
+        <name>prefetch_hits_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::prefetch_hits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="127" column="14" bodyfile="include/cache/predictive_prefetcher.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a38b30d92b2a2020776d3e5867b74edc3" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::overhead_bytes_</definition>
+        <argsstring></argsstring>
+        <name>overhead_bytes_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::overhead_bytes_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="128" column="14" bodyfile="include/cache/predictive_prefetcher.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a97668bafc30d580913fa3ff9746d79d2" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::ab_markov_hits_</definition>
+        <argsstring></argsstring>
+        <name>ab_markov_hits_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::ab_markov_hits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="132" column="22" bodyfile="include/cache/predictive_prefetcher.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a39e32bc19678a6ceb60e361e875143d0" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::ab_markov_generated_</definition>
+        <argsstring></argsstring>
+        <name>ab_markov_generated_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::ab_markov_generated_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="133" column="22" bodyfile="include/cache/predictive_prefetcher.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a5f72fd67c6235dd096365f1e90927768" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::ab_baseline_hits_</definition>
+        <argsstring></argsstring>
+        <name>ab_baseline_hits_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::ab_baseline_hits_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="134" column="22" bodyfile="include/cache/predictive_prefetcher.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cache_1_1_predictive_prefetcher_1ae598ab59b2dddf9f8cd5172497e7534c" prot="private" static="no" mutable="yes">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::ab_baseline_generated_</definition>
+        <argsstring></argsstring>
+        <name>ab_baseline_generated_</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::ab_baseline_generated_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="135" column="22" bodyfile="include/cache/predictive_prefetcher.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1aa4e4983813eb2be88ee9893235ab577e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::PredictivePrefetcher::PredictivePrefetcher</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>PredictivePrefetcher</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::PredictivePrefetcher</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cache_1_1_predictive_prefetcher_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1cache_1_1_predictive_prefetcher_1_1_config_1a6df7c9209cfae3140eb416809d630e6f" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="57" column="14" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a277bc0c2899c529a3c89020fd95649b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::PredictivePrefetcher::~PredictivePrefetcher</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PredictivePrefetcher</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::~PredictivePrefetcher</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="58" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1abfbafca32f2522001364c36fa1416669" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::PredictivePrefetcher::PredictivePrefetcher</definition>
+        <argsstring>(const PredictivePrefetcher &amp;)=delete</argsstring>
+        <name>PredictivePrefetcher</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::PredictivePrefetcher</qualifiedname>
+        <param>
+          <type>const PredictivePrefetcher &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a3f3a45e79d2345d0d886ce742e24754b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cache_1_1_predictive_prefetcher_1aa4e4983813eb2be88ee9893235ab577e" kindref="member">PredictivePrefetcher</ref> &amp;</type>
+        <definition>PredictivePrefetcher &amp; themis::cache::PredictivePrefetcher::operator=</definition>
+        <argsstring>(const PredictivePrefetcher &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cache_1_1_predictive_prefetcher_1aa4e4983813eb2be88ee9893235ab577e" kindref="member">PredictivePrefetcher</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="61" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a828b268770f53aff249174ba19eb2657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::PredictivePrefetcher::recordQueryAccess</definition>
+        <argsstring>(const std::string &amp;fingerprint, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordQueryAccess</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::recordQueryAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record Query Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fingerprint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), find(), end(), size(), front(), erase(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="63" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="117" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a63dbb9fd65e605e7cb95441285c71907" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::cache::PredictivePrefetcher::getPrefetchCandidates</definition>
+        <argsstring>(const std::string &amp;fingerprint, const std::string &amp;tenant_id=&quot;&quot;) const</argsstring>
+        <name>getPrefetchCandidates</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::getPrefetchCandidates</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fingerprint</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="66" column="17" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="161" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a10f7b8ffb45b3f9fa44dbc61d548a76f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::PredictivePrefetcher::recordPrefetchHit</definition>
+        <argsstring>(const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordPrefetchHit</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::recordPrefetchHit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record Prefetch Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), useToDWeighting(), emitMetrics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="70" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="260" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a929ee6b049a2d71fb6d9565043995538" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::PredictivePrefetcher::recordCandidatesGenerated</definition>
+        <argsstring>(size_t count=1, const std::string &amp;tenant_id=&quot;&quot;)</argsstring>
+        <name>recordCandidatesGenerated</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::recordCandidatesGenerated</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Record Candidates Generated. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), emitMetrics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="72" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="279" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a3a2d1e21b5ebf8f2282cf1438e1f800e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::PredictivePrefetcher::recordOverheadBytes</definition>
+        <argsstring>(uint64_t bytes)</argsstring>
+        <name>recordOverheadBytes</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::recordOverheadBytes</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Overhead Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), emitMetrics(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="79" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="294" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a105f2c1f97783d1bb1111e8f0d090c32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::PredictivePrefetcher::saveModel</definition>
+        <argsstring>(RocksDBWrapper *db)</argsstring>
+        <name>saveModel</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::saveModel</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Save Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), scanPrefix(), emplace_back(), empty(), createWriteBatch(), THEMIS_WARN(), del(), commit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="85" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="365" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a984dd1b9c6e631be56073db6abd1748b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::PredictivePrefetcher::loadModel</definition>
+        <argsstring>(RocksDBWrapper *db)</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::loadModel</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <briefdescription>
+<para>Load Model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), substr(), pair_str(), find(), empty(), nlohmann::json::parse(), THEMIS_WARN(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="91" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="434" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a88e786d96dd11349a755571eab3c69d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::PredictivePrefetcher::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="96" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="304" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1ac25cc4680a1133623ffb94e46b176172" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::PredictivePrefetcher::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::getStats</qualifiedname>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="102" column="20" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="320" bodyend="354"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1aac07c5c5b393aad2794641f2292900b0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cache::PredictivePrefetcher::useToDWeighting</definition>
+        <argsstring>(const std::string &amp;tenant_id) const</argsstring>
+        <name>useToDWeighting</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::useToDWeighting</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant_id</declname>
+        </param>
+        <briefdescription>
+<para>Use To DWeighting. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tenant_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the tenant. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="143" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="37" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a963f71c38f1c60808c1d005b5dedd237" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cache::PredictivePrefetcher::emitMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>emitMetrics</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::emitMetrics</qualifiedname>
+        <briefdescription>
+<para>Emit Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="161" column="10" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="84" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a5ff7035f25748635e2e5b119fb4b986c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::PredictivePrefetcher::fnv1aHash</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>fnv1aHash</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::fnv1aHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Fnv1a Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements fnv1aHash without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="150" column="21" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="56" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cache_1_1_predictive_prefetcher_1a9bb381c1dd5b6ad8ba19333a65eeda24" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::cache::PredictivePrefetcher::currentHour</definition>
+        <argsstring>()</argsstring>
+        <name>currentHour</name>
+        <qualifiedname>themis::cache::PredictivePrefetcher::currentHour</qualifiedname>
+        <briefdescription>
+<para>Current Hour. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::time(), localtime_s(), localtime_r(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/predictive_prefetcher.h" line="156" column="16" bodyfile="src/cache/predictive_prefetcher.cpp" bodystart="73" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/predictive_prefetcher.h" line="32" column="1" bodyfile="include/cache/predictive_prefetcher.h" bodystart="32" bodyend="162"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1ae598ab59b2dddf9f8cd5172497e7534c" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>ab_baseline_generated_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a5f72fd67c6235dd096365f1e90927768" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>ab_baseline_hits_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a39e32bc19678a6ceb60e361e875143d0" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>ab_markov_generated_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a97668bafc30d580913fa3ff9746d79d2" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>ab_markov_hits_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a5cc75b549d825f5146c7dd7bb15935b2" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>candidates_generated_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a88e786d96dd11349a755571eab3c69d0" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>clear</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1aa06db77de27af56a657fab7ec2c3872b" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>config_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a9bb381c1dd5b6ad8ba19333a65eeda24" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>currentHour</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a963f71c38f1c60808c1d005b5dedd237" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>emitMetrics</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a5ff7035f25748635e2e5b119fb4b986c" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>fnv1aHash</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a63dbb9fd65e605e7cb95441285c71907" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>getPrefetchCandidates</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1ac25cc4680a1133623ffb94e46b176172" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a04c4b3cbb6afe6c8df1946ffbe7aa8d6" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>last_fingerprint_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a984dd1b9c6e631be56073db6abd1748b" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a7072dbc802fd6aa6ee6ce5853e044c21" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a3f3a45e79d2345d0d886ce742e24754b" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a498acb856260fd3c7753cff78d5c5488" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>ordered_keys_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a38b30d92b2a2020776d3e5867b74edc3" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>overhead_bytes_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1aa4e4983813eb2be88ee9893235ab577e" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>PredictivePrefetcher</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1abfbafca32f2522001364c36fa1416669" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>PredictivePrefetcher</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a4cf0626197a9c3ebcbed7f59da9f9432" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>prefetch_hits_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a929ee6b049a2d71fb6d9565043995538" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>recordCandidatesGenerated</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a3a2d1e21b5ebf8f2282cf1438e1f800e" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>recordOverheadBytes</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a10f7b8ffb45b3f9fa44dbc61d548a76f" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>recordPrefetchHit</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a828b268770f53aff249174ba19eb2657" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>recordQueryAccess</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a105f2c1f97783d1bb1111e8f0d090c32" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>saveModel</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1ab36ba33c7d35ab7a42e300a59a69bc87" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>tod_buckets_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a1884911c2d7ad6d718ffaf1f56cc50c4" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>total_transitions_recorded_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1ae9103e53454718c6ad131dd240c5a3b9" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>transitions_</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1aac07c5c5b393aad2794641f2292900b0" prot="private" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>useToDWeighting</name></member>
+      <member refid="classthemis_1_1cache_1_1_predictive_prefetcher_1a277bc0c2899c529a3c89020fd95649b7" prot="public" virt="non-virtual"><scope>themis::cache::PredictivePrefetcher</scope><name>~PredictivePrefetcher</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

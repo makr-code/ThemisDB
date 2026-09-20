@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_active_range" kind="struct" language="C++" prot="private">
+    <compoundname>themis::gpu::GPUProfiler::ActiveRange</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_active_range_1a0d538dd1a1c742fd4570be300d63c9e4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::GPUProfiler::ActiveRange::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::gpu::GPUProfiler::ActiveRange::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="158" column="21" bodyfile="include/themis/gpu/profiler.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_active_range_1abe26121d47c9b8e5cc127116c0209307" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUProfiler::ActiveRange::start_ns</definition>
+        <argsstring></argsstring>
+        <name>start_ns</name>
+        <qualifiedname>themis::gpu::GPUProfiler::ActiveRange::start_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="159" column="21" bodyfile="include/themis/gpu/profiler.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_active_range_1ad0a62b950c5b555fcd87e6af5825e056" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUProfiler::ActiveRange::color</definition>
+        <argsstring></argsstring>
+        <name>color</name>
+        <qualifiedname>themis::gpu::GPUProfiler::ActiveRange::color</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/profiler.h" line="160" column="21" bodyfile="include/themis/gpu/profiler.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/profiler.h" line="157" column="5" bodyfile="include/themis/gpu/profiler.h" bodystart="157" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_active_range_1ad0a62b950c5b555fcd87e6af5825e056" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler::ActiveRange</scope><name>color</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_active_range_1a0d538dd1a1c742fd4570be300d63c9e4" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler::ActiveRange</scope><name>name</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_profiler_1_1_active_range_1abe26121d47c9b8e5cc127116c0209307" prot="public" virt="non-virtual"><scope>themis::gpu::GPUProfiler::ActiveRange</scope><name>start_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

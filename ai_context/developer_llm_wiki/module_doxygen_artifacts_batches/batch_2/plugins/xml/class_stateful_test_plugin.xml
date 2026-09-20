@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stateful_test_plugin" kind="class" language="C++" prot="public">
+    <compoundname>StatefulTestPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_stateful_plugin" prot="public" virt="non-virtual">themis::plugins::IStatefulPlugin</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stateful_test_plugin_1a0b512ee214136f4db8faba8c08cdfbb3" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool StatefulTestPlugin::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>StatefulTestPlugin::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="28" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stateful_test_plugin_1aff27358ea2c8d3095f28cea3774639a3" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StatefulTestPlugin::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <qualifiedname>StatefulTestPlugin::counter_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="29" column="9" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stateful_test_plugin_1a8afadd2a99bedeb77cdb1b1d6ae0df7c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StatefulTestPlugin::saved_data_</definition>
+        <argsstring></argsstring>
+        <name>saved_data_</name>
+        <qualifiedname>StatefulTestPlugin::saved_data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="30" column="17" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stateful_test_plugin_1acd4d90f9b2b37e3fbb8cadebfced545f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * StatefulTestPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>StatefulTestPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba">getName</reimplements>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="33" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1a0ac34ccdfd4b95c812ecf8930aa3bb35" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * StatefulTestPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>StatefulTestPlugin::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f">getVersion</reimplements>
+        <briefdescription>
+<para>Get plugin version (semantic versioning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="34" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1aa7c645cb6f911c3e320cd37839207074" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+        <definition>PluginType StatefulTestPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>StatefulTestPlugin::getType</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209">getType</reimplements>
+        <briefdescription>
+<para>Get plugin type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="36" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1a31f9ea51ad79204a84e032314966abcc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities StatefulTestPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>StatefulTestPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31">getCapabilities</reimplements>
+        <briefdescription>
+<para>Get plugin capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="40" column="24" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="40" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1a0dbf942f5e5055fcae997b0b8208dbc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StatefulTestPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>StatefulTestPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035">initialize</reimplements>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize plugin with configuration JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration as JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialized successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="46" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="46" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1ad205818d165d2fbff582c795c8d3ec67" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void StatefulTestPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>StatefulTestPlugin::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown plugin and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="69" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1a74d8459ca360cd84d6fbc463d7ef6b7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void *</type>
+        <definition>void * StatefulTestPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>StatefulTestPlugin::getInstance</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc">getInstance</reimplements>
+        <briefdescription>
+<para>Get plugin instance (type-specific). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to plugin implementation (must be cast to specific type)</para>
+</simplesect>
+For COMPUTE_BACKEND: Cast to acceleration::BackendPlugin* For BLOB_STORAGE: Cast to storage::IBlobStorageBackend* For IMPORTER: Cast to importers::IImporter* </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="73" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1af6700061f24d0473b10f65207548922d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string StatefulTestPlugin::saveState</definition>
+        <argsstring>() override</argsstring>
+        <name>saveState</name>
+        <qualifiedname>StatefulTestPlugin::saveState</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_stateful_plugin_1a0b6fdbe8a9b9246d48c8784b07b69f4a">saveState</reimplements>
+        <briefdescription>
+<para>Save plugin state before reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called by <ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> before unloading during hot-reload. The returned state will be passed back to <ref refid="class_stateful_test_plugin_1a3514b4612d971a6cf585b65d975c5537" kindref="member">restoreState()</ref> after reload.</para>
+<para><simplesect kind="return"><para>Serialized state as JSON string, or empty string if no state </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on serialization error (will be logged, not fatal) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="78" column="17" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="78" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1a3514b4612d971a6cf585b65d975c5537" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StatefulTestPlugin::restoreState</definition>
+        <argsstring>(const std::string &amp;state) override</argsstring>
+        <name>restoreState</name>
+        <qualifiedname>StatefulTestPlugin::restoreState</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_stateful_plugin_1a70cffac1f390d0b4f53a5b48146849d2">restoreState</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Restore plugin state after reload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called by <ref refid="class_plugin_manager" kindref="compound">PluginManager</ref> after successful reload. The plugin should restore its internal state from the provided data.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Previously saved state from <ref refid="class_stateful_test_plugin_1af6700061f24d0473b10f65207548922d" kindref="member">saveState()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if state restored successfully, false otherwise </para>
+</simplesect>
+<simplesect kind="note"><para>If restoration fails, plugin remains loaded with default state </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="85" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="85" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1ac182798e007141145b7d285dfe3876da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StatefulTestPlugin::incrementCounter</definition>
+        <argsstring>()</argsstring>
+        <name>incrementCounter</name>
+        <qualifiedname>StatefulTestPlugin::incrementCounter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="97" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1a6385ca603c5858cc66ce1f20aebb4499" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int StatefulTestPlugin::getCounter</definition>
+        <argsstring>() const</argsstring>
+        <name>getCounter</name>
+        <qualifiedname>StatefulTestPlugin::getCounter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="98" column="9" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1ab04f4bf181ad11eeac88628b8ec56d20" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StatefulTestPlugin::setSavedData</definition>
+        <argsstring>(const std::string &amp;data)</argsstring>
+        <name>setSavedData</name>
+        <qualifiedname>StatefulTestPlugin::setSavedData</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="99" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1a8af32ea6b2b17615100a103601667f37" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StatefulTestPlugin::getSavedData</definition>
+        <argsstring>() const</argsstring>
+        <name>getSavedData</name>
+        <qualifiedname>StatefulTestPlugin::getSavedData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="100" column="17" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stateful_test_plugin_1a7524c4afd549ed7cc054ee73c8324b1a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StatefulTestPlugin::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>StatefulTestPlugin::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="101" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stateful test plugin that implements <ref refid="classthemis_1_1plugins_1_1_i_stateful_plugin" kindref="compound">IStatefulPlugin</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StatefulTestPlugin</label>
+        <link refid="class_stateful_test_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IStatefulPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_stateful_plugin"/>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StatefulTestPlugin</label>
+        <link refid="class_stateful_test_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::IStatefulPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_stateful_plugin"/>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="26" column="1" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="26" bodyend="102"/>
+    <listofallmembers>
+      <member refid="class_stateful_test_plugin_1aff27358ea2c8d3095f28cea3774639a3" prot="private" virt="non-virtual"><scope>StatefulTestPlugin</scope><name>counter_</name></member>
+      <member refid="class_stateful_test_plugin_1a31f9ea51ad79204a84e032314966abcc" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_stateful_test_plugin_1a6385ca603c5858cc66ce1f20aebb4499" prot="public" virt="non-virtual"><scope>StatefulTestPlugin</scope><name>getCounter</name></member>
+      <member refid="class_stateful_test_plugin_1a74d8459ca360cd84d6fbc463d7ef6b7a" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>getInstance</name></member>
+      <member refid="class_stateful_test_plugin_1acd4d90f9b2b37e3fbb8cadebfced545f" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>getName</name></member>
+      <member refid="class_stateful_test_plugin_1a8af32ea6b2b17615100a103601667f37" prot="public" virt="non-virtual"><scope>StatefulTestPlugin</scope><name>getSavedData</name></member>
+      <member refid="class_stateful_test_plugin_1aa7c645cb6f911c3e320cd37839207074" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>getType</name></member>
+      <member refid="class_stateful_test_plugin_1a0ac34ccdfd4b95c812ecf8930aa3bb35" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>getVersion</name></member>
+      <member refid="class_stateful_test_plugin_1ac182798e007141145b7d285dfe3876da" prot="public" virt="non-virtual"><scope>StatefulTestPlugin</scope><name>incrementCounter</name></member>
+      <member refid="class_stateful_test_plugin_1a0dbf942f5e5055fcae997b0b8208dbc3" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>initialize</name></member>
+      <member refid="class_stateful_test_plugin_1a0b512ee214136f4db8faba8c08cdfbb3" prot="private" virt="non-virtual"><scope>StatefulTestPlugin</scope><name>initialized_</name></member>
+      <member refid="class_stateful_test_plugin_1a7524c4afd549ed7cc054ee73c8324b1a" prot="public" virt="non-virtual"><scope>StatefulTestPlugin</scope><name>isInitialized</name></member>
+      <member refid="class_stateful_test_plugin_1a3514b4612d971a6cf585b65d975c5537" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>restoreState</name></member>
+      <member refid="class_stateful_test_plugin_1a8afadd2a99bedeb77cdb1b1d6ae0df7c" prot="private" virt="non-virtual"><scope>StatefulTestPlugin</scope><name>saved_data_</name></member>
+      <member refid="class_stateful_test_plugin_1af6700061f24d0473b10f65207548922d" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>saveState</name></member>
+      <member refid="class_stateful_test_plugin_1ab04f4bf181ad11eeac88628b8ec56d20" prot="public" virt="non-virtual"><scope>StatefulTestPlugin</scope><name>setSavedData</name></member>
+      <member refid="class_stateful_test_plugin_1ad205818d165d2fbff582c795c8d3ec67" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_stateful_plugin_1a170384bc3c40e85f08d1f27aede53e83" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>~IStatefulPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>StatefulTestPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

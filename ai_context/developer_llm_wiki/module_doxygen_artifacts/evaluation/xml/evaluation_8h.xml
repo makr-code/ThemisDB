@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="evaluation_8h" kind="file" language="C++">
+    <compoundname>evaluation.h</compoundname>
+    <briefdescription>
+<para>Umbrella include for the ThemisDB evaluation and benchmarking module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stable public entry-point for the evaluation module. Include this header to access the benchmark matrix, metric collectors, and scoring primitives. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ThemisDB<sp/>—<sp/>EPIC<sp/>2<sp/>Evaluation<sp/>&amp;<sp/>Benchmarking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Canonical<sp/>umbrella<sp/>header:<sp/>include/evaluation/evaluation.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>header<sp/>is<sp/>the<sp/>stable<sp/>public<sp/>entry-point<sp/>for<sp/>the<sp/>evaluation<sp/>module.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implementation<sp/>headers<sp/>are<sp/>in<sp/>src/evaluation/include/<sp/>and<sp/>exposed<sp/>via<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>themis_evaluation<sp/>CMake<sp/>target<sp/>(THEMIS_BUILD_EVALUATION=ON).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Usage:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>#include<sp/>&quot;evaluation/evaluation.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>#include<sp/>&quot;evaluation/benchmark_matrix.h&quot;<sp/><sp/><sp/>//<sp/>direct<sp/>implementation<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>#include<sp/>&quot;evaluation/hardware_profile.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>#include<sp/>&quot;evaluation/query_planner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-include<sp/>implementation<sp/>headers:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#include<sp/>&quot;evaluation/benchmark_matrix.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#include<sp/>&quot;evaluation/hardware_profile.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#include<sp/>&quot;evaluation/query_planner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/evaluation/evaluation.h"/>
+  </compounddef>
+</doxygen>

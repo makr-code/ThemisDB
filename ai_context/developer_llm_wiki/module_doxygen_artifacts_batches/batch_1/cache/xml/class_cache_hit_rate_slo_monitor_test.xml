@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_cache_hit_rate_slo_monitor_test" kind="class" language="C++" prot="public">
+    <compoundname>CacheHitRateSloMonitorTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_cache_hit_rate_slo_monitor_test_1a3e3d93ab2a90725574e308964a464ab1" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config" kindref="compound">CacheHitRateSloMonitor::Config</ref></type>
+        <definition>CacheHitRateSloMonitor::Config CacheHitRateSloMonitorTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>CacheHitRateSloMonitorTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_hit_rate_slo_monitor.cpp" line="66" column="36" bodyfile="tests/cache/test_cache_hit_rate_slo_monitor.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_cache_hit_rate_slo_monitor_test_1a11e729cd541cd661a18faf1dfa354fbb" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; MockAlertmanager &gt;</type>
+        <definition>std::shared_ptr&lt;MockAlertmanager&gt; CacheHitRateSloMonitorTest::mock_</definition>
+        <argsstring></argsstring>
+        <name>mock_</name>
+        <qualifiedname>CacheHitRateSloMonitorTest::mock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_hit_rate_slo_monitor.cpp" line="67" column="21" bodyfile="tests/cache/test_cache_hit_rate_slo_monitor.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_cache_hit_rate_slo_monitor_test_1a2bba37ae8b7b6e2f0e7c7d75ecc5482c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CacheHitRateSloMonitorTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CacheHitRateSloMonitorTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_hit_rate_slo_monitor.cpp" line="56" column="10" bodyfile="tests/cache/test_cache_hit_rate_slo_monitor.cpp" bodystart="56" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CacheHitRateSloMonitorTest</label>
+        <link refid="class_cache_hit_rate_slo_monitor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CacheHitRateSloMonitorTest</label>
+        <link refid="class_cache_hit_rate_slo_monitor_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::cache::CacheHitRateSloMonitor::Config</label>
+        <link refid="structthemis_1_1cache_1_1_cache_hit_rate_slo_monitor_1_1_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/cache/test_cache_hit_rate_slo_monitor.cpp" line="54" column="1" bodyfile="tests/cache/test_cache_hit_rate_slo_monitor.cpp" bodystart="54" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_cache_hit_rate_slo_monitor_test_1a3e3d93ab2a90725574e308964a464ab1" prot="protected" virt="non-virtual"><scope>CacheHitRateSloMonitorTest</scope><name>config_</name></member>
+      <member refid="class_cache_hit_rate_slo_monitor_test_1a11e729cd541cd661a18faf1dfa354fbb" prot="protected" virt="non-virtual"><scope>CacheHitRateSloMonitorTest</scope><name>mock_</name></member>
+      <member refid="class_cache_hit_rate_slo_monitor_test_1a2bba37ae8b7b6e2f0e7c7d75ecc5482c" prot="protected" virt="non-virtual"><scope>CacheHitRateSloMonitorTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

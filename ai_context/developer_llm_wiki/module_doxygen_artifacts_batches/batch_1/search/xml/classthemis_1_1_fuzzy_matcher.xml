@@ -1,0 +1,535 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_fuzzy_matcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::FuzzyMatcher</compoundname>
+    <includes refid="fuzzy__matcher_8h" local="no">fuzzy_matcher.h</includes>
+    <innerclass refid="structthemis_1_1_fuzzy_matcher_1_1_config" prot="public">themis::FuzzyMatcher::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Algorithm</name>
+        <qualifiedname>themis::FuzzyMatcher::Algorithm</qualifiedname>
+        <enumvalue id="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaa676541db1e06e88852a9c8cf5b458898" prot="public">
+          <name>LEVENSHTEIN</name>
+          <briefdescription>
+<para>Edit-distance (default). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaae2744e955416ab9e8325be7ab73e7dbf" prot="public">
+          <name>SOUNDEX</name>
+          <briefdescription>
+<para>Phonetic – English; supplements Levenshtein pre-filter. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaabc78ab5e0f31955033ec303e5f187ecb" prot="public">
+          <name>METAPHONE</name>
+          <briefdescription>
+<para>Phonetic – better vowel handling than Soundex. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaa5f342f7fd378ae64ff475384e1ece8b7" prot="public">
+          <name>NGRAM</name>
+          <briefdescription>
+<para>Bigram overlap score; useful for very short strings. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="55" column="5" bodyfile="include/search/fuzzy_matcher.h" bodystart="55" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_fuzzy_matcher_1abf6c77fdfe68475b2c41c86b619fcefd" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager *</type>
+        <definition>SecondaryIndexManager* themis::FuzzyMatcher::index_</definition>
+        <argsstring></argsstring>
+        <name>index_</name>
+        <qualifiedname>themis::FuzzyMatcher::index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="138" column="27" bodyfile="include/search/fuzzy_matcher.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_fuzzy_matcher_1a42304bf789d49c153fccf334b635b34c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_fuzzy_matcher_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::FuzzyMatcher::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::FuzzyMatcher::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="139" column="12" bodyfile="include/search/fuzzy_matcher.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1a7db889c624da50c81448f6bea80c2d07" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FuzzyMatcher::FuzzyMatcher</definition>
+        <argsstring>(SecondaryIndexManager *index)</argsstring>
+        <name>FuzzyMatcher</name>
+        <qualifiedname>themis::FuzzyMatcher::FuzzyMatcher</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager. Must outlive this. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid <ref refid="structthemis_1_1_fuzzy_matcher_1_1_config" kindref="compound">Config</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="73" column="14" bodyfile="src/search/fuzzy_matcher.cpp" bodystart="28" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1a08f644ae2cf8a40fa05ba07de259eb89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::FuzzyMatcher::FuzzyMatcher</definition>
+        <argsstring>(SecondaryIndexManager *index, const Config &amp;config)</argsstring>
+        <name>FuzzyMatcher</name>
+        <qualifiedname>themis::FuzzyMatcher::FuzzyMatcher</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager *</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_fuzzy_matcher_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning pointer to a SecondaryIndexManager. Must outlive this. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fuzzy search configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on invalid <ref refid="structthemis_1_1_fuzzy_matcher_1_1_config" kindref="compound">Config</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="79" column="5" bodyfile="src/search/fuzzy_matcher.cpp" bodystart="31" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1a716125c313fff5669def6009a64a64be" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; <ref refid="structthemis_1_1_fuzzy_match" kindref="compound">FuzzyMatch</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; SecondaryIndexManager::Status, std::vector&lt; FuzzyMatch &gt; &gt; themis::FuzzyMatcher::search</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;table, const std::string &amp;column, size_t limit=100) const</argsstring>
+        <name>search</name>
+        <qualifiedname>themis::FuzzyMatcher::search</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Run fuzzy search on a fulltext-indexed column. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query string (one or more tokens). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name (must have a fulltext index on <computeroutput>column</computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>column</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Column name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pair of Status and list of <ref refid="structthemis_1_1_fuzzy_match" kindref="compound">FuzzyMatch</ref>, sorted by score descending. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="94" column="15" bodyfile="src/search/fuzzy_matcher.cpp" bodystart="46" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1ae9415ca0677bfbe40e846db7a482b959" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_fuzzy_matcher_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::FuzzyMatcher::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::FuzzyMatcher::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="135" column="18" bodyfile="include/search/fuzzy_matcher.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1aaedf9d28bf6c99062ae0d6838d24051f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::FuzzyMatcher::levenshtein</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b)</argsstring>
+        <name>levenshtein</name>
+        <qualifiedname>themis::FuzzyMatcher::levenshtein</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Compute Levenshtein edit distance between two strings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Levenshtein.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), prev(), curr(), std::min(), std::swap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="108" column="16" bodyfile="src/search/fuzzy_matcher.cpp" bodystart="136" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1a46f41d65aab5d04959474266669e93d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::FuzzyMatcher::soundex</definition>
+        <argsstring>(const std::string &amp;word)</argsstring>
+        <name>soundex</name>
+        <qualifiedname>themis::FuzzyMatcher::soundex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Compute the Soundex code for a word (American Soundex). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Soundex.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::toupper(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="113" column="24" bodyfile="src/search/fuzzy_matcher.cpp" bodystart="165" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1af02deb17c865263a72f886ee952d9009" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::FuzzyMatcher::metaphone</definition>
+        <argsstring>(const std::string &amp;word)</argsstring>
+        <name>metaphone</name>
+        <qualifiedname>themis::FuzzyMatcher::metaphone</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>word</declname>
+        </param>
+        <briefdescription>
+<para>Compute a simple Metaphone code for a word. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Metaphone.</para>
+<para>Implements a simplified (single) Metaphone that handles common English consonant transformations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">word</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::toupper(), size(), isVowel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="121" column="24" bodyfile="src/search/fuzzy_matcher.cpp" bodystart="204" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1afa07e1e0410a348a054296b768497c6b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::FuzzyMatcher::ngramSimilarity</definition>
+        <argsstring>(const std::string &amp;a, const std::string &amp;b, size_t n=2)</argsstring>
+        <name>ngramSimilarity</name>
+        <qualifiedname>themis::FuzzyMatcher::ngramSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+<para>Compute bigram (or n-gram) overlap similarity in [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Ngram Similarity.</para>
+<para>Uses the Dice coefficient: 2 * |intersection| / (|ngrams_a| + |ngrams_b|).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second string. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>N-gram size (default 2). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dice coefficient in [0,1].</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), insert(), substr(), ngrams(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="133" column="19" bodyfile="src/search/fuzzy_matcher.cpp" bodystart="296" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_fuzzy_matcher_1aeea317e205a6d56cc54d9d11d57a51ae" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::FuzzyMatcher::distanceToScore</definition>
+        <argsstring>(int distance, size_t query_len)</argsstring>
+        <name>distanceToScore</name>
+        <qualifiedname>themis::FuzzyMatcher::distanceToScore</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>distance</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>query_len</declname>
+        </param>
+        <briefdescription>
+<para>Distance To Score. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">distance</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query_len</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/fuzzy_matcher.h" line="142" column="19" bodyfile="src/search/fuzzy_matcher.cpp" bodystart="351" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Enhanced fuzzy search with Levenshtein, Soundex, and Metaphone algorithms. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_fuzzy_matcher" kindref="compound">FuzzyMatcher</ref> is a thin, algorithm-aware wrapper around SecondaryIndexManager::scanFulltextFuzzy(). It adds:<itemizedlist>
+<listitem><para>Phonetic pre-filtering (Soundex / Metaphone) to reduce the candidate set before computing full edit distance.</para>
+</listitem><listitem><para>N-gram token overlap scoring as a complementary similarity signal.</para>
+</listitem><listitem><para>A unified, normalized [0,1] similarity score.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Usage</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal">FuzzyMatcher::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.algorithm<sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aaa676541db1e06e88852a9c8cf5b458898" kindref="member">FuzzyMatcher::Algorithm::LEVENSHTEIN</ref>;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_distance<sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_fuzzy_matcher_1a7db889c624da50c81448f6bea80c2d07" kindref="member">FuzzyMatcher</ref><sp/>matcher(&amp;secondary_index_mgr,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[status,<sp/>matches]<sp/>=<sp/>matcher.search(</highlight><highlight class="stringliteral">&quot;douments&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;docs&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="note"><para>Thread Safety: A single <ref refid="classthemis_1_1_fuzzy_matcher" kindref="compound">FuzzyMatcher</ref> instance is NOT thread-safe. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception Safety: <ref refid="namespacethemis_1_1search" kindref="compound">search()</ref> never throws; errors are returned via Status. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/search/fuzzy_matcher.h" line="53" column="1" bodyfile="include/search/fuzzy_matcher.h" bodystart="53" bodyend="143"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_fuzzy_matcher_1ade872a1e213d619ab6d65988306428aa" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>Algorithm</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1a42304bf789d49c153fccf334b635b34c" prot="private" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1aeea317e205a6d56cc54d9d11d57a51ae" prot="private" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>distanceToScore</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1a7db889c624da50c81448f6bea80c2d07" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>FuzzyMatcher</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1a08f644ae2cf8a40fa05ba07de259eb89" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>FuzzyMatcher</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1ae9415ca0677bfbe40e846db7a482b959" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1abf6c77fdfe68475b2c41c86b619fcefd" prot="private" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>index_</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1aaedf9d28bf6c99062ae0d6838d24051f" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>levenshtein</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1af02deb17c865263a72f886ee952d9009" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>metaphone</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1afa07e1e0410a348a054296b768497c6b" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>ngramSimilarity</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1a716125c313fff5669def6009a64a64be" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>search</name></member>
+      <member refid="classthemis_1_1_fuzzy_matcher_1a46f41d65aab5d04959474266669e93d4" prot="public" virt="non-virtual"><scope>themis::FuzzyMatcher</scope><name>soundex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AttentionLoRA</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer" prot="public" virt="non-virtual">themis::llm::lora::ITrainableLayer</basecompoundref>
+    <includes refid="lora__layers_8h" local="no">lora_layers.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a2f6db94a0961d4ec8d167633f5c8b90d" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_layer" kindref="compound">LoRALayer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRALayer&gt; themis::llm::lora::AttentionLoRA::q_lora_</definition>
+        <argsstring></argsstring>
+        <name>q_lora_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::q_lora_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="109" column="21" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1ae5289ed21492787ec088696dcd3de2d3" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_layer" kindref="compound">LoRALayer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRALayer&gt; themis::llm::lora::AttentionLoRA::k_lora_</definition>
+        <argsstring></argsstring>
+        <name>k_lora_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::k_lora_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="110" column="21" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1abd0bf13becde9f223bbde2a7299c07d4" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_layer" kindref="compound">LoRALayer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRALayer&gt; themis::llm::lora::AttentionLoRA::v_lora_</definition>
+        <argsstring></argsstring>
+        <name>v_lora_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::v_lora_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="111" column="21" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a5a794bd962f6928d660be35143e96f82" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_layer" kindref="compound">LoRALayer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;LoRALayer&gt; themis::llm::lora::AttentionLoRA::o_lora_</definition>
+        <argsstring></argsstring>
+        <name>o_lora_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::o_lora_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="112" column="21" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a85dc618f45e3af62ce78df9d0653c146" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AttentionLoRA::dim_</definition>
+        <argsstring></argsstring>
+        <name>dim_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::dim_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="114" column="12" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1ad1b96e83a9b3e7de458d11fb11703a44" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AttentionLoRA::rank_</definition>
+        <argsstring></argsstring>
+        <name>rank_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::rank_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="115" column="12" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a0d9ed3b636993ce9b5a87fb59f1cfb36" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AttentionLoRA::apply_to_q_</definition>
+        <argsstring></argsstring>
+        <name>apply_to_q_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::apply_to_q_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="116" column="10" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1ac25faa0c883e6fc59f855d7f27cecdcc" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AttentionLoRA::apply_to_k_</definition>
+        <argsstring></argsstring>
+        <name>apply_to_k_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::apply_to_k_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="117" column="10" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a61b97d3892db579596d8a5ee5730f27a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AttentionLoRA::apply_to_v_</definition>
+        <argsstring></argsstring>
+        <name>apply_to_v_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::apply_to_v_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="118" column="10" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a2efcdc82f8346b7d64621b0eb89e1e8a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::AttentionLoRA::apply_to_o_</definition>
+        <argsstring></argsstring>
+        <name>apply_to_o_</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::apply_to_o_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="119" column="10" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a190bdf15a57e0cb748e5f29c971aa9c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AttentionLoRA::AttentionLoRA</definition>
+        <argsstring>(size_t dim, size_t rank, bool apply_to_q=true, bool apply_to_k=true, bool apply_to_v=true, bool apply_to_o=true)</argsstring>
+        <name>AttentionLoRA</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::AttentionLoRA</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>apply_to_q</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>apply_to_k</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>apply_to_v</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>apply_to_o</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="91" column="5" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="415" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1abde3ae26143c991c68d06a476a312863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::AttentionLoRA::~AttentionLoRA</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~AttentionLoRA</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::~AttentionLoRA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a0dcb61b539f7c447ec4f9418ac83cf09" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::AttentionLoRA::forward</definition>
+        <argsstring>(const Tensor &amp;input) override</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::forward</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a067d7137466574460364f35b5d305e4a">forward</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), shape(), size(), clone(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="98" column="12" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="463" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a211bdaed103c6a00dacb237df5f8f9de" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::AttentionLoRA::backward</definition>
+        <argsstring>(const Tensor &amp;grad_output) override</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::backward</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a57a5225cbf7698cf6c0b566265fb887f">backward</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> &amp;</type>
+          <declname>grad_output</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::debug(), shape(), size(), clone(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="99" column="12" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="493" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a2c0d4ce20203f8e64b7880df49ca44e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref> * &gt;</type>
+        <definition>std::vector&lt; Tensor * &gt; themis::llm::lora::AttentionLoRA::parameters</definition>
+        <argsstring>() override</argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::parameters</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a81e0dc53a421d747cc4b9bd1e6ccca50">parameters</reimplements>
+        <briefdescription>
+<para>Parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), end(), begin(), spdlog::debug(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="101" column="17" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="521" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1ab27de807fd8adf0a59b86091a8ec2a18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AttentionLoRA::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::name</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a23e09154b435de5c4db3954492f50bf1">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="103" column="17" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1addbeff72d5a818f7a3c32af0516bdd1f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AttentionLoRA::parameter_count</definition>
+        <argsstring>() const override</argsstring>
+        <name>parameter_count</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::parameter_count</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1abcd644a77d1bd33245d85cd8929b2231">parameter_count</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="104" column="12" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="545" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a8463710d7227fe3f9741525b5105a62e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AttentionLoRA::memory_bytes</definition>
+        <argsstring>() const override</argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::llm::lora::AttentionLoRA::memory_bytes</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1a8848c531c76dc46133aa60a6326fde5c">memory_bytes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_layers.h" line="105" column="12" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="562" bodyend="564"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::llm::lora::AttentionLoRA</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::ITrainableLayer</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::AttentionLoRA</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::ITrainableLayer</label>
+        <link refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_layers.h" line="89" column="1" bodyfile="include/llm/lora_framework/lora_layers.h" bodystart="89" bodyend="120"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1ac25faa0c883e6fc59f855d7f27cecdcc" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>apply_to_k_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a2efcdc82f8346b7d64621b0eb89e1e8a" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>apply_to_o_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a0d9ed3b636993ce9b5a87fb59f1cfb36" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>apply_to_q_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a61b97d3892db579596d8a5ee5730f27a" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>apply_to_v_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a190bdf15a57e0cb748e5f29c971aa9c1" prot="public" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>AttentionLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a211bdaed103c6a00dacb237df5f8f9de" prot="public" virt="virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a85dc618f45e3af62ce78df9d0653c146" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>dim_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a0dcb61b539f7c447ec4f9418ac83cf09" prot="public" virt="virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1ae5289ed21492787ec088696dcd3de2d3" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>k_lora_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a8463710d7227fe3f9741525b5105a62e" prot="public" virt="virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>memory_bytes</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1ab27de807fd8adf0a59b86091a8ec2a18" prot="public" virt="virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>name</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a5a794bd962f6928d660be35143e96f82" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>o_lora_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1addbeff72d5a818f7a3c32af0516bdd1f" prot="public" virt="virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>parameter_count</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a2c0d4ce20203f8e64b7880df49ca44e1" prot="public" virt="virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1a2f6db94a0961d4ec8d167633f5c8b90d" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>q_lora_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1ad1b96e83a9b3e7de458d11fb11703a44" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>rank_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1abd0bf13becde9f223bbde2a7299c07d4" prot="private" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>v_lora_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_attention_lo_r_a_1abde3ae26143c991c68d06a476a312863" prot="public" virt="non-virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>~AttentionLoRA</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_i_trainable_layer_1ad1779604a4815ddb99b250270bbc499c" prot="public" virt="virtual"><scope>themis::llm::lora::AttentionLoRA</scope><name>~ITrainableLayer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

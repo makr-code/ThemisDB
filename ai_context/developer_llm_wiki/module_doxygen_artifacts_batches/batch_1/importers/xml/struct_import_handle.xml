@@ -1,0 +1,257 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_import_handle" kind="struct" language="C++" prot="public">
+    <compoundname>ImportHandle</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_import_handle_1a93e29d65c606de4272dcc1d3dc6c82e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ImportHandle::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>ImportHandle::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="85" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_handle_1afdfd546eb81fb2f4b0b6cf49aa7a853a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; ImportHandle::current_records</definition>
+        <argsstring></argsstring>
+        <name>current_records</name>
+        <qualifiedname>ImportHandle::current_records</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="86" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_handle_1ad4e9dd30d823495ad987de5a304fe3d6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; ImportHandle::total_records</definition>
+        <argsstring></argsstring>
+        <name>total_records</name>
+        <qualifiedname>ImportHandle::total_records</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="87" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_handle_1a2522aaeba2fbe8f93460e81f9ac8d32b" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; ImportHandle::running</definition>
+        <argsstring></argsstring>
+        <name>running</name>
+        <qualifiedname>ImportHandle::running</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="88" column="19" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_handle_1a4961affc421536a9db6854cb261e406d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ImportHandle::stage</definition>
+        <argsstring></argsstring>
+        <name>stage</name>
+        <qualifiedname>ImportHandle::stage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="89" column="25" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_handle_1a7d8e90ee1f132de6d251251c4ffd2afa" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex ImportHandle::stage_mutex</definition>
+        <argsstring></argsstring>
+        <name>stage_mutex</name>
+        <qualifiedname>ImportHandle::stage_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="90" column="25" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_handle_1a00f5dcdbc200037361755c7635e5bc96" prot="public" static="no" mutable="no">
+        <type>std::shared_future&lt; <ref refid="struct_import_stats" kindref="compound">ImportStats</ref> &gt;</type>
+        <definition>std::shared_future&lt;ImportStats&gt; ImportHandle::future</definition>
+        <argsstring></argsstring>
+        <name>future</name>
+        <qualifiedname>ImportHandle::future</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="91" column="24" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_handle_1aaf2006e194d64b8ca437ddd9384f23d0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ImportHandle::started_at_ms</definition>
+        <argsstring></argsstring>
+        <name>started_at_ms</name>
+        <qualifiedname>ImportHandle::started_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="92" column="13" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_handle_1ae7fc350e207b70c4c67979afa441cb0b" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ImportHandle::finished_at_ms</definition>
+        <argsstring></argsstring>
+        <name>finished_at_ms</name>
+        <qualifiedname>ImportHandle::finished_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="93" column="13" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_import_handle_1a319525ae4468a49088b94c98935e85a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ImportHandle::ImportHandle</definition>
+        <argsstring>()=default</argsstring>
+        <name>ImportHandle</name>
+        <qualifiedname>ImportHandle::ImportHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="95" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_import_handle_1a9bd766b51124c5e6eecb0a7863343410" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ImportHandle::ImportHandle</definition>
+        <argsstring>(const ImportHandle &amp;)=delete</argsstring>
+        <name>ImportHandle</name>
+        <qualifiedname>ImportHandle::ImportHandle</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="96" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_import_handle_1abff80346fb29c4cc2f4e6a4dc7ee468d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &amp;</type>
+        <definition>ImportHandle &amp; ImportHandle::operator=</definition>
+        <argsstring>(const ImportHandle &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>ImportHandle::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_import_handle" kindref="compound">ImportHandle</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="97" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_import_handle_1a452d8e0147cb7688a65902bdf464cdf8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="test__importer__async__api_8cpp_1ae7713c0808e148edc2ae303916330752" kindref="member">ImportStatus</ref></type>
+        <definition>ImportStatus ImportHandle::getStatus</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatus</name>
+        <qualifiedname>ImportHandle::getStatus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="99" column="18" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="99" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_import_handle_1a5d10ff4459066bff11ec063e7575c0d5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ImportHandle::getStage</definition>
+        <argsstring>() const</argsstring>
+        <name>getStage</name>
+        <qualifiedname>ImportHandle::getStage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="111" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_import_handle_1af663e7a465343b5e56fa18ab56fd3528" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ImportHandle::setStage</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>setStage</name>
+        <qualifiedname>ImportHandle::setStage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="115" column="10" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/test_importer_async_api.cpp" line="84" column="1" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="84" bodyend="119"/>
+    <listofallmembers>
+      <member refid="struct_import_handle_1afdfd546eb81fb2f4b0b6cf49aa7a853a" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>current_records</name></member>
+      <member refid="struct_import_handle_1ae7fc350e207b70c4c67979afa441cb0b" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>finished_at_ms</name></member>
+      <member refid="struct_import_handle_1a00f5dcdbc200037361755c7635e5bc96" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>future</name></member>
+      <member refid="struct_import_handle_1a5d10ff4459066bff11ec063e7575c0d5" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>getStage</name></member>
+      <member refid="struct_import_handle_1a452d8e0147cb7688a65902bdf464cdf8" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>getStatus</name></member>
+      <member refid="struct_import_handle_1a93e29d65c606de4272dcc1d3dc6c82e6" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>id</name></member>
+      <member refid="struct_import_handle_1a319525ae4468a49088b94c98935e85a9" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>ImportHandle</name></member>
+      <member refid="struct_import_handle_1a9bd766b51124c5e6eecb0a7863343410" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>ImportHandle</name></member>
+      <member refid="struct_import_handle_1abff80346fb29c4cc2f4e6a4dc7ee468d" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>operator=</name></member>
+      <member refid="struct_import_handle_1a2522aaeba2fbe8f93460e81f9ac8d32b" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>running</name></member>
+      <member refid="struct_import_handle_1af663e7a465343b5e56fa18ab56fd3528" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>setStage</name></member>
+      <member refid="struct_import_handle_1a4961affc421536a9db6854cb261e406d" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>stage</name></member>
+      <member refid="struct_import_handle_1a7d8e90ee1f132de6d251251c4ffd2afa" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>stage_mutex</name></member>
+      <member refid="struct_import_handle_1aaf2006e194d64b8ca437ddd9384f23d0" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>started_at_ms</name></member>
+      <member refid="struct_import_handle_1ad4e9dd30d823495ad987de5a304fe3d6" prot="public" virt="non-virtual"><scope>ImportHandle</scope><name>total_records</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

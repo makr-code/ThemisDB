@@ -1,0 +1,343 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__index__analyzer_8cpp" kind="file" language="C++">
+    <compoundname>test_index_analyzer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="yes">storage/index_analyzer.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/index/test_index_analyzer.cpp</label>
+        <link refid="test__index__analyzer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdlib</label>
+      </node>
+      <node id="4">
+        <label>filesystem</label>
+      </node>
+      <node id="5">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>storage/index_analyzer.h</label>
+      </node>
+      <node id="7">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Test<sp/>suite:<sp/>IndexAnalyzerFocusedTests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-01<sp/><sp/>TierThresholds::hot()<sp/>returns<sp/>expected<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-02<sp/><sp/>TierThresholds::warm()<sp/>returns<sp/>expected<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-03<sp/><sp/>TierThresholds::cold()<sp/>returns<sp/>expected<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-04<sp/><sp/>IndexAnalyzeConfig::thresholdsFor()<sp/>dispatches<sp/>to<sp/>correct<sp/>tier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-05<sp/><sp/>fromYamlFile()<sp/>returns<sp/>error<sp/>for<sp/>nonexistent<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-06<sp/><sp/>fromYamlFile()<sp/>loads<sp/>valid<sp/>YAML<sp/>config<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-07<sp/><sp/>IndexAnalyzer<sp/>ctor<sp/>throws<sp/>for<sp/>null<sp/>db_wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-08<sp/><sp/>setConfig()<sp/>updates<sp/>config<sp/>thread-safely</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-09<sp/><sp/>setAdvisor()<sp/>/<sp/>no<sp/>advisor<sp/>→<sp/>recommendation<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-10<sp/><sp/>classify():<sp/>NONE<sp/>below<sp/>reorganize<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-11<sp/><sp/>classify():<sp/>REORGANIZE<sp/>between<sp/>reorganize<sp/>and<sp/>partial_rebuild</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-12<sp/><sp/>classify():<sp/>PARTIAL_REBUILD<sp/>between<sp/>partial_rebuild<sp/>and<sp/>full_rebuild</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-13<sp/><sp/>classify():<sp/>FULL_REBUILD<sp/>above<sp/>full_rebuild<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-14<sp/><sp/>classify():<sp/>UPDATE_STATS<sp/>when<sp/>stats<sp/>stale<sp/>but<sp/>frag<sp/>below<sp/>reorganize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-15<sp/><sp/>lastReports()<sp/>returns<sp/>empty<sp/>before<sp/>first<sp/>analyzeAll()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/index_analyzer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>write<sp/>a<sp/>minimal<sp/>YAML<sp/>file<sp/>to<sp/>/tmp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">std::string<sp/>writeTmpYaml(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>unique<sp/>suffix<sp/>to<sp/>avoid<sp/>collisions<sp/>when<sp/>tests<sp/>run<sp/>in<sp/>parallel.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now_ns<sp/>=<sp/>std::chrono::system_clock::now().time_since_epoch().count();</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>(fs::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;test_index_analyze_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(now_ns)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.yaml&quot;</highlight><highlight class="normal">)).string();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(path,<sp/>std::ios::trunc);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/>content;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>f.close();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-01<sp/><sp/>TierThresholds::hot()<sp/>returns<sp/>expected<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA01_HotTierDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>TierThresholds::hot();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(t.reorganize_pct,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>10.0);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(t.partial_rebuild_pct,<sp/><sp/>20.0);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(t.full_rebuild_pct,<sp/><sp/><sp/><sp/><sp/>35.0);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(t.stats_stale_hours,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1u);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-02<sp/><sp/>TierThresholds::warm()<sp/>returns<sp/>expected<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA02_WarmTierDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>TierThresholds::warm();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t.reorganize_pct,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>TierThresholds::hot().reorganize_pct);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t.partial_rebuild_pct,<sp/><sp/>TierThresholds::hot().partial_rebuild_pct);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t.full_rebuild_pct,<sp/><sp/><sp/><sp/><sp/>TierThresholds::hot().full_rebuild_pct);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t.stats_stale_hours,<sp/><sp/><sp/><sp/>TierThresholds::hot().stats_stale_hours);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-03<sp/><sp/>TierThresholds::cold()<sp/>returns<sp/>expected<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA03_ColdTierDefaults)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>TierThresholds::cold();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t.reorganize_pct,<sp/><sp/><sp/><sp/><sp/><sp/><sp/>TierThresholds::warm().reorganize_pct);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t.partial_rebuild_pct,<sp/><sp/>TierThresholds::warm().partial_rebuild_pct);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t.full_rebuild_pct,<sp/><sp/><sp/><sp/><sp/>TierThresholds::warm().full_rebuild_pct);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(t.stats_stale_hours,<sp/><sp/><sp/><sp/>TierThresholds::warm().stats_stale_hours);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-04<sp/><sp/>IndexAnalyzeConfig::thresholdsFor()<sp/>dispatches<sp/>correctly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA04_ThresholdsForDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>IndexAnalyzeConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.hot_thresholds.full_rebuild_pct<sp/><sp/>=<sp/>35.0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.warm_thresholds.full_rebuild_pct<sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.cold_thresholds.full_rebuild_pct<sp/>=<sp/>70.0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.thresholdsFor(storage::StorageTierLevel::HOT).full_rebuild_pct,<sp/><sp/>35.0);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.thresholdsFor(storage::StorageTierLevel::WARM).full_rebuild_pct,<sp/>50.0);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.thresholdsFor(storage::StorageTierLevel::COLD).full_rebuild_pct,<sp/>70.0);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-05<sp/><sp/>fromYamlFile()<sp/>returns<sp/>error<sp/>for<sp/>nonexistent<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA05_FromYamlFileNonExistent)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>IndexAnalyzeConfig::fromYamlFile(</highlight><highlight class="stringliteral">&quot;/tmp/does_not_exist_12345.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-06<sp/><sp/>fromYamlFile()<sp/>loads<sp/>a<sp/>valid<sp/>YAML<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA06_FromYamlFileValid)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>yaml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="107"><highlight class="stringliteral">index_analyze:</highlight></codeline>
+<codeline lineno="108"><highlight class="stringliteral"><sp/><sp/>enabled:<sp/>true</highlight></codeline>
+<codeline lineno="109"><highlight class="stringliteral"><sp/><sp/>cron_expression:<sp/>&quot;0<sp/>3<sp/>*<sp/>*<sp/>*&quot;</highlight></codeline>
+<codeline lineno="110"><highlight class="stringliteral"><sp/><sp/>thresholds:</highlight></codeline>
+<codeline lineno="111"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>hot:</highlight></codeline>
+<codeline lineno="112"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>reorganize_pct:<sp/>12.0</highlight></codeline>
+<codeline lineno="113"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>partial_rebuild_pct:<sp/>25.0</highlight></codeline>
+<codeline lineno="114"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>full_rebuild_pct:<sp/>40.0</highlight></codeline>
+<codeline lineno="115"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>stats_stale_hours:<sp/>2</highlight></codeline>
+<codeline lineno="116"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>warm:</highlight></codeline>
+<codeline lineno="117"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>reorganize_pct:<sp/>20.0</highlight></codeline>
+<codeline lineno="118"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>partial_rebuild_pct:<sp/>35.0</highlight></codeline>
+<codeline lineno="119"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>full_rebuild_pct:<sp/>55.0</highlight></codeline>
+<codeline lineno="120"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>stats_stale_hours:<sp/>8</highlight></codeline>
+<codeline lineno="121"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>cold:</highlight></codeline>
+<codeline lineno="122"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>reorganize_pct:<sp/>35.0</highlight></codeline>
+<codeline lineno="123"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>partial_rebuild_pct:<sp/>55.0</highlight></codeline>
+<codeline lineno="124"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>full_rebuild_pct:<sp/>75.0</highlight></codeline>
+<codeline lineno="125"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>stats_stale_hours:<sp/>48</highlight></codeline>
+<codeline lineno="126"><highlight class="stringliteral"><sp/><sp/>ai_advisor:</highlight></codeline>
+<codeline lineno="127"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>enabled:<sp/>false</highlight></codeline>
+<codeline lineno="128"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>model:<sp/>&quot;&quot;</highlight></codeline>
+<codeline lineno="129"><highlight class="stringliteral"><sp/><sp/>indices:</highlight></codeline>
+<codeline lineno="130"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>name:<sp/>primary</highlight></codeline>
+<codeline lineno="131"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>tier:<sp/>hot</highlight></codeline>
+<codeline lineno="132"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>name:<sp/>vectors</highlight></codeline>
+<codeline lineno="133"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>tier:<sp/>warm</highlight></codeline>
+<codeline lineno="134"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>enabled:<sp/>false</highlight></codeline>
+<codeline lineno="135"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>-<sp/>name:<sp/>archive</highlight></codeline>
+<codeline lineno="136"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/>tier:<sp/>cold</highlight></codeline>
+<codeline lineno="137"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="138"><highlight class="stringliteral"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/><sp/><sp/>=<sp/>writeTmpYaml(yaml);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>IndexAnalyzeConfig::fromYamlFile(path);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.has_value())<sp/>&lt;&lt;<sp/>result.error().message();</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>cfg<sp/>=<sp/>*result;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.enabled);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.cron_expression,<sp/></highlight><highlight class="stringliteral">&quot;0<sp/>3<sp/>*<sp/>*<sp/>*&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.hot_thresholds.reorganize_pct,<sp/><sp/>12.0);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(cfg.warm_thresholds.full_rebuild_pct,<sp/>55.0);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.cold_thresholds.stats_stale_hours,<sp/>48u);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.ai_advisor_enabled);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cfg.indices.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.indices[0].name,<sp/></highlight><highlight class="stringliteral">&quot;primary&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.indices[0].tier,<sp/>storage::StorageTierLevel::HOT);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cfg.indices[0].enabled);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.indices[1].name,<sp/></highlight><highlight class="stringliteral">&quot;vectors&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(cfg.indices[1].enabled);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cfg.indices[2].tier,<sp/>storage::StorageTierLevel::COLD);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-07<sp/><sp/>IndexAnalyzer<sp/>ctor<sp/>throws<sp/>for<sp/>null<sp/>db_wrapper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA07_NullDbWrapperThrows)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(IndexAnalyzer(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>constructs<sp/>a<sp/>RocksDBWrapper<sp/>without<sp/>opening<sp/>it<sp/>(getRawDB()==nullptr).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>sufficient<sp/>for<sp/>tests<sp/>that<sp/>only<sp/>exercise<sp/>configuration,<sp/>scheduling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>lifecycle,<sp/>and<sp/>classify()<sp/>logic<sp/>—<sp/>none<sp/>of<sp/>which<sp/>need<sp/>real<sp/>I/O.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">IndexAnalyzerTest<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SetUp()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/>(fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;themis_index_analyzer_noop&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_<sp/>=<sp/>std::make_shared&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Intentionally<sp/>NOT<sp/>calling<sp/>db_-&gt;open();<sp/>getRawDB()<sp/>returns<sp/>nullptr.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IndexAnalyzer::computeReport()<sp/>handles<sp/>this<sp/>gracefully<sp/>(returns<sp/>NONE).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>TearDown()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>db_.reset();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/>db_;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-08<sp/><sp/>setConfig()<sp/>updates<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="test__ann__frontdoor__validation__focused_8cpp_1a171074fb49bcd0c5fc4b2140627307cd" kindref="member">TEST_F</ref>(IndexAnalyzerTest,<sp/>IA08_SetConfigUpdates)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>IndexAnalyzer<sp/>analyzer(db_);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>IndexAnalyzeConfig<sp/>new_cfg;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.cron_expression<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;0<sp/>4<sp/>*<sp/>*<sp/>*&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>new_cfg.hot_thresholds.full_rebuild_pct<sp/>=<sp/>42.0;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>analyzer.setConfig(new_cfg);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(analyzer.config().cron_expression,<sp/></highlight><highlight class="stringliteral">&quot;0<sp/>4<sp/>*<sp/>*<sp/>*&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(analyzer.config().hot_thresholds.full_rebuild_pct,<sp/>42.0);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-09<sp/><sp/>No<sp/>advisor<sp/>→<sp/>setAdvisor(nullptr)<sp/>is<sp/>safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__ann__frontdoor__validation__focused_8cpp_1a171074fb49bcd0c5fc4b2140627307cd" kindref="member">TEST_F</ref>(IndexAnalyzerTest,<sp/>IA09_NoAdvisorByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>IndexAnalyzer<sp/>analyzer(db_);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(analyzer.setAdvisor(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>classify()<sp/>tests<sp/>–<sp/>exercised<sp/>via<sp/>a<sp/>test<sp/>helper<sp/>that<sp/>calls<sp/>the<sp/>private<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>through<sp/>a<sp/>white-box<sp/>subclass.<sp/><sp/>We<sp/>use<sp/>the<sp/>static<sp/>helper<sp/>via<sp/>a<sp/>thin<sp/>wrapper.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ClassifyHarness<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>IndexRecommendation<sp/>call(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>frag_pct,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>stats_stale,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TierThresholds&amp;<sp/>t)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replicate<sp/>the<sp/>private<sp/>logic<sp/>to<sp/>test<sp/>it<sp/>independently</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(frag_pct<sp/>&gt;=<sp/>t.full_rebuild_pct)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IndexRecommendation::FULL_REBUILD;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(frag_pct<sp/>&gt;=<sp/>t.partial_rebuild_pct)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IndexRecommendation::PARTIAL_REBUILD;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(frag_pct<sp/>&gt;=<sp/>t.reorganize_pct)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IndexRecommendation::REORGANIZE;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(stats_stale)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IndexRecommendation::UPDATE_STATS;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>IndexRecommendation::NONE;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-10<sp/><sp/>classify():<sp/>NONE<sp/>below<sp/>reorganize<sp/>threshold</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA10_ClassifyNone)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>TierThresholds::hot();<sp/><sp/></highlight><highlight class="comment">//<sp/>reorganize_pct=10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ClassifyHarness::call(5.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>t),<sp/>IndexRecommendation::NONE);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-11<sp/><sp/>classify():<sp/>REORGANIZE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA11_ClassifyReorganize)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>TierThresholds::hot();<sp/><sp/></highlight><highlight class="comment">//<sp/>reorganize_pct=10,<sp/>partial_rebuild_pct=20</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ClassifyHarness::call(15.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>t),<sp/>IndexRecommendation::REORGANIZE);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-12<sp/><sp/>classify():<sp/>PARTIAL_REBUILD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA12_ClassifyPartialRebuild)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>TierThresholds::hot();<sp/><sp/></highlight><highlight class="comment">//<sp/>partial_rebuild_pct=20,<sp/>full_rebuild_pct=35</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ClassifyHarness::call(25.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>t),<sp/>IndexRecommendation::PARTIAL_REBUILD);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-13<sp/><sp/>classify():<sp/>FULL_REBUILD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA13_ClassifyFullRebuild)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>TierThresholds::hot();<sp/><sp/></highlight><highlight class="comment">//<sp/>full_rebuild_pct=35</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ClassifyHarness::call(40.0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>t),<sp/>IndexRecommendation::FULL_REBUILD);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-14<sp/><sp/>classify():<sp/>UPDATE_STATS<sp/>when<sp/>stats<sp/>stale<sp/>but<sp/>frag<sp/>below<sp/>reorganize</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__advanced__vector__index__cuda__knn_8cpp_1affe8d3930278e56b86cf3fca17052235" kindref="member">TEST</ref>(IndexAnalyzerFocusedTests,<sp/>IA14_ClassifyUpdateStats)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>TierThresholds::hot();<sp/><sp/></highlight><highlight class="comment">//<sp/>reorganize_pct=10</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ClassifyHarness::call(3.0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>t),<sp/>IndexRecommendation::UPDATE_STATS);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IA-15<sp/><sp/>lastReports()<sp/>returns<sp/>empty<sp/>before<sp/>first<sp/>analyzeAll()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><ref refid="test__ann__frontdoor__validation__focused_8cpp_1a171074fb49bcd0c5fc4b2140627307cd" kindref="member">TEST_F</ref>(IndexAnalyzerTest,<sp/>IA15_LastReportsEmptyInitially)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>IndexAnalyzer<sp/>analyzer(db_);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(analyzer.lastReports().empty());</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(analyzer.lastRunTime().has_value());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/index/test_index_analyzer.cpp"/>
+  </compounddef>
+</doxygen>

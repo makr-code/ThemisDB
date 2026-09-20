@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ab81dbb0f463d5cdf92fa6eaa1a71c29" kind="dir">
+    <compoundname>benchmarks/chaos</compoundname>
+    <innerfile refid="bench__chaos__microbenchmarks_8cpp">bench_chaos_microbenchmarks.cpp</innerfile>
+    <innerfile refid="bench__chaos__release__gates_8cpp">bench_chaos_release_gates.cpp</innerfile>
+    <innerfile refid="bench__chaos__stress_8cpp">bench_chaos_stress.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/chaos/"/>
+  </compounddef>
+</doxygen>

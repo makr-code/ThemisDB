@@ -1,0 +1,751 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_shard_load_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardLoadDetector</compoundname>
+    <includes refid="shard__load__detector_8h" local="no">shard_load_detector.h</includes>
+    <innerclass refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" prot="public">themis::sharding::ShardLoadDetector::Config</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1a8c72cee1d16cdc102fae1d11317749c5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ShardLoadDetector::kMaxHistorySamples</definition>
+        <argsstring></argsstring>
+        <name>kMaxHistorySamples</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::kMaxHistorySamples</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+<para>Maximum retained history samples per shard for regression forecast. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="235" column="29" bodyfile="include/sharding/shard_load_detector.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1ac819bd613616f3a41371202860fe4605" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::sharding::ShardLoadDetector::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="238" column="21" bodyfile="include/sharding/shard_load_detector.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1a6a8d8ec749b2b166cb123d1d75431829" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PrometheusMetrics&gt; themis::sharding::ShardLoadDetector::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="239" column="21" bodyfile="include/sharding/shard_load_detector.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1ab73c22efa44c03c393453574fd732113" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::sharding::ShardLoadDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="240" column="12" bodyfile="include/sharding/shard_load_detector.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1a8a6e6808cdc6dad01225664fdbcc59c4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ShardLoadDetector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::mutex_</qualifiedname>
+        <briefdescription>
+<para>LOCK ORDERING (CANONICAL): Single-lock design: mutex_ protects all shared state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><itemizedlist>
+<listitem><para>No other locks used; acquires are strictly linearized</para>
+</listitem><listitem><para>Caller responsibility: hold mutex_ for full duration of multi-operation sequences </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="246" column="24" bodyfile="include/sharding/shard_load_detector.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1a2b67075e94923fd3d2dfeb815e837b45" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ShardLoadMetrics&gt; themis::sharding::ShardLoadDetector::shard_loads_</definition>
+        <argsstring></argsstring>
+        <name>shard_loads_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::shard_loads_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="249" column="14" bodyfile="include/sharding/shard_load_detector.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1a7f67d3e999db1220feb8f43dc3492f13" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::deque&lt; <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::deque&lt;ShardLoadMetrics&gt; &gt; themis::sharding::ShardLoadDetector::shard_load_history_</definition>
+        <argsstring></argsstring>
+        <name>shard_load_history_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::shard_load_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="252" column="14" bodyfile="include/sharding/shard_load_detector.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1ace4a60617da58cedf5c9058ab9add066" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::ShardLoadDetector::last_rebalance_time_</definition>
+        <argsstring></argsstring>
+        <name>last_rebalance_time_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::last_rebalance_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="255" column="43" bodyfile="include/sharding/shard_load_detector.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1a175f4a444d0042fc4a556d78b0440ecb" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardLoadDetector::total_detections_</definition>
+        <argsstring></argsstring>
+        <name>total_detections_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::total_detections_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="258" column="25" bodyfile="include/sharding/shard_load_detector.h" bodystart="258" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1a9cccfaecbdc0070990c900687db4a1e0" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardLoadDetector::imbalance_detections_</definition>
+        <argsstring></argsstring>
+        <name>imbalance_detections_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::imbalance_detections_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="259" column="25" bodyfile="include/sharding/shard_load_detector.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_shard_load_detector_1a1d3143b53b24920a423e6c0c81b7e1fc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::sharding::ShardLoadDetector::rebalance_triggers_</definition>
+        <argsstring></argsstring>
+        <name>rebalance_triggers_</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::rebalance_triggers_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="260" column="17" bodyfile="include/sharding/shard_load_detector.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a63f1db083def5593155b6687e649117b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardLoadDetector::ShardLoadDetector</definition>
+        <argsstring>(std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; PrometheusMetrics &gt; metrics)</argsstring>
+        <name>ShardLoadDetector</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::ShardLoadDetector</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Construct detector with default detection configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="162" column="14" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="57" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1aeee4d36e399430d62491a6c9e84dc63f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardLoadDetector::ShardLoadDetector</definition>
+        <argsstring>(std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; PrometheusMetrics &gt; metrics, const Config &amp;config)</argsstring>
+        <name>ShardLoadDetector</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::ShardLoadDetector</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct detector with explicit configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="168" column="5" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="62" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1ae1d4380b849b101e4c1eb5fa2b5f1287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardLoadDetector::updateShardLoad</definition>
+        <argsstring>(const std::string &amp;shard_id, const ShardLoadMetrics &amp;metrics)</argsstring>
+        <name>updateShardLoad</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::updateShardLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+          <defname>load</defname>
+        </param>
+        <briefdescription>
+<para>Update latest load snapshot for one shard and append history sample. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Shard Load.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stable shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Latest observed metrics for that shard.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">load</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), size(), pop_front(), setGauge(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="179" column="10" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="81" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a27a24dfac1a385b76a02eedc65ec48e4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref></type>
+        <definition>LoadImbalanceResult themis::sharding::ShardLoadDetector::detectImbalance</definition>
+        <argsstring>() const</argsstring>
+        <name>detectImbalance</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::detectImbalance</qualifiedname>
+        <briefdescription>
+<para>Run all configured imbalance heuristics over current shard snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Detection result with reason string, hotspots/cold-shards and recommendations. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="185" column="25" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="121" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a8d1514826359fa3114f9fbcc917f0894" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt;</type>
+        <definition>std::optional&lt; ShardLoadMetrics &gt; themis::sharding::ShardLoadDetector::getShardLoad</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>getShardLoad</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::getShardLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Get latest metrics for one shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stable shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Metrics snapshot, or std::nullopt if the shard has no tracked sample. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="192" column="19" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="443" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1ab65ff9aaf58bb6046a88c5fe6f9f1181" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt;</type>
+        <definition>std::map&lt; std::string, ShardLoadMetrics &gt; themis::sharding::ShardLoadDetector::getAllShardLoads</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllShardLoads</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::getAllShardLoads</qualifiedname>
+        <briefdescription>
+<para>Get latest metrics for all currently tracked shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map shard_id -&gt; metrics snapshot. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="198" column="14" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="459" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a95309d30c7676785fe4e92b8c72b42ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardLoadDetector::recordRebalanceTriggered</definition>
+        <argsstring>()</argsstring>
+        <name>recordRebalanceTriggered</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::recordRebalanceTriggered</qualifiedname>
+        <briefdescription>
+<para>Record a rebalance trigger and start cooldown suppression window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Rebalance Triggered.</para>
+<para>Calls: lock(), std::chrono::system_clock::now(), incrementCounter(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="203" column="10" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="473" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1add1ef5fe080334777e7754d3d3cccf8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardLoadDetector::isInCooldown</definition>
+        <argsstring>() const</argsstring>
+        <name>isInCooldown</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::isInCooldown</qualifiedname>
+        <briefdescription>
+<para>Check whether rebalance cooldown is currently active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true while cooldown window is active; false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="209" column="10" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="487" bodyend="505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1aedffb33fb82eda5eaf7767b94cf95114" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::ShardLoadDetector::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Export detector counters and freshness diagnostics as JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with detection counters, tracked shard count and staleness info. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="215" column="20" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="507" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1af729f9db96ed459ae7b14a9ca1b62de1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_load_forecast" kindref="compound">LoadForecast</ref> &gt;</type>
+        <definition>std::optional&lt; LoadForecast &gt; themis::sharding::ShardLoadDetector::forecastLoad</definition>
+        <argsstring>(const std::string &amp;shard_id, std::chrono::minutes horizon=std::chrono::minutes{5}) const</argsstring>
+        <name>forecastLoad</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::forecastLoad</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::minutes</type>
+          <declname>horizon</declname>
+          <defval>std::chrono::minutes{5}</defval>
+        </param>
+        <briefdescription>
+<para>Forecast shard load at a future horizon via linear trend extrapolation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requires at least <ref refid="structthemis_1_1sharding_1_1_shard_load_detector_1_1_config_1af435f28d7c6ffc09a0471d5d0695a3d5" kindref="member">Config::min_samples_per_shard</ref> history points for a confidence-qualified forecast. With less history, the method returns a best-effort forecast based on the latest sample and marks <ref refid="structthemis_1_1sharding_1_1_load_forecast_1aa393656361663906b0caf50b2a936d3b" kindref="member">LoadForecast::has_sufficient_history</ref> as false.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard identifier to forecast. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>horizon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Future horizon to project (defaults to 5 minutes). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Forecast payload or std::nullopt when shard is unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="229" column="19" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="579" bodyend="677"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a36241465a10488e3f638dbcff43e961d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardLoadDetector::detectStorageImbalance</definition>
+        <argsstring>(const std::map&lt; std::string, ShardLoadMetrics &gt; &amp;loads, LoadImbalanceResult &amp;result) const</argsstring>
+        <name>detectStorageImbalance</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::detectStorageImbalance</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt; &amp;</type>
+          <declname>loads</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Detect shard byte-footprint skew beyond configured threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="264" column="10" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="176" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a394186d98b94eaa3621cbdcb8005a09d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardLoadDetector::detectRequestImbalance</definition>
+        <argsstring>(const std::map&lt; std::string, ShardLoadMetrics &gt; &amp;loads, LoadImbalanceResult &amp;result) const</argsstring>
+        <name>detectRequestImbalance</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::detectRequestImbalance</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt; &amp;</type>
+          <declname>loads</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Detect request-rate skew beyond configured threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="270" column="10" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="228" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a5ba0aa4b66715ab6f7d12233974f921a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardLoadDetector::detectLatencyDegradation</definition>
+        <argsstring>(const std::map&lt; std::string, ShardLoadMetrics &gt; &amp;loads, LoadImbalanceResult &amp;result) const</argsstring>
+        <name>detectLatencyDegradation</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::detectLatencyDegradation</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt; &amp;</type>
+          <declname>loads</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Detect p99 latency outliers relative to cluster average. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="276" column="10" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="280" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1adbec8939167fb2e976c8fd4f93ac7a6e" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardLoadDetector::detectResourceExhaustion</definition>
+        <argsstring>(const std::map&lt; std::string, ShardLoadMetrics &gt; &amp;loads, LoadImbalanceResult &amp;result) const</argsstring>
+        <name>detectResourceExhaustion</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::detectResourceExhaustion</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt; &amp;</type>
+          <declname>loads</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Detect shards above configured CPU/storage exhaustion thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="282" column="10" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="326" bodyend="359"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a8f5288195b1525011525eac59f5500fc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardLoadDetector::generateRebalanceRecommendations</definition>
+        <argsstring>(const std::map&lt; std::string, ShardLoadMetrics &gt; &amp;loads, LoadImbalanceResult &amp;result) const</argsstring>
+        <name>generateRebalanceRecommendations</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::generateRebalanceRecommendations</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &gt; &amp;</type>
+          <declname>loads</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1sharding_1_1_load_imbalance_result" kindref="compound">LoadImbalanceResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Build rebalance recommendations from hotspot/cold-shard analysis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="288" column="10" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="361" bodyend="404"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a2bc53cbf3066ba8ffb91b782b65fd49b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadDetector::calculateLoad</definition>
+        <argsstring>(const ShardLoadMetrics &amp;metrics) const</argsstring>
+        <name>calculateLoad</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::calculateLoad</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_shard_load_metrics" kindref="compound">ShardLoadMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Collapse multi-signal shard metrics into one weighted load score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="294" column="12" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="406" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a309a2b5947b6a4abd47bf0e2e20f9de0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::sharding::ShardLoadDetector::calculateVariance</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values) const</argsstring>
+        <name>calculateVariance</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::calculateVariance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Compute standard deviation of value vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="296" column="12" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="425" bodyend="441"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_shard_load_detector_1a77f02998dff51b7665b468e5af4b5b37" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; double, double &gt;</type>
+        <definition>std::pair&lt; double, double &gt; themis::sharding::ShardLoadDetector::linearRegression</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;values)</argsstring>
+        <name>linearRegression</name>
+        <qualifiedname>themis::sharding::ShardLoadDetector::linearRegression</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Fit simple linear regression against sample series. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pair (slope_per_sample, intercept). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_load_detector.h" line="302" column="22" bodyfile="src/sharding/shard_load_detector.cpp" bodystart="553" bodyend="577"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Shard Load Detector</para>
+<para>Monitors shard load metrics and detects imbalances that require rebalancing.</para>
+<para>Detection criteria:<itemizedlist>
+<listitem><para>Storage imbalance: &gt;30% difference between shards</para>
+</listitem><listitem><para>Request imbalance: &gt;50% difference in request rates</para>
+</listitem><listitem><para>Latency degradation: p99 &gt; 2x cluster average</para>
+</listitem><listitem><para>Resource exhaustion: CPU &gt;80% or storage &gt;85%</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: auto detector = std::make_unique&lt;ShardLoadDetector&gt;(topology, metrics); detector-&gt;updateShardLoad(&quot;shard001&quot;, load_metrics);</para>
+<para>auto imbalance = detector-&gt;<ref refid="classthemis_1_1sharding_1_1_shard_load_detector_1a27a24dfac1a385b76a02eedc65ec48e4" kindref="member">detectImbalance()</ref>; if (imbalance.is_imbalanced) { for (const auto&amp; rec : imbalance.recommendations) { rebalancer-&gt;scheduleRebalance(rec); } } </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_load_detector.h" line="139" column="1" bodyfile="include/sharding/shard_load_detector.h" bodystart="139" bodyend="303"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a2bc53cbf3066ba8ffb91b782b65fd49b" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>calculateLoad</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a309a2b5947b6a4abd47bf0e2e20f9de0" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>calculateVariance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1ab73c22efa44c03c393453574fd732113" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a27a24dfac1a385b76a02eedc65ec48e4" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>detectImbalance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a5ba0aa4b66715ab6f7d12233974f921a" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>detectLatencyDegradation</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a394186d98b94eaa3621cbdcb8005a09d" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>detectRequestImbalance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1adbec8939167fb2e976c8fd4f93ac7a6e" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>detectResourceExhaustion</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a36241465a10488e3f638dbcff43e961d" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>detectStorageImbalance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1af729f9db96ed459ae7b14a9ca1b62de1" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>forecastLoad</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a8f5288195b1525011525eac59f5500fc" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>generateRebalanceRecommendations</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1ab65ff9aaf58bb6046a88c5fe6f9f1181" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>getAllShardLoads</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a8d1514826359fa3114f9fbcc917f0894" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>getShardLoad</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1aedffb33fb82eda5eaf7767b94cf95114" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a9cccfaecbdc0070990c900687db4a1e0" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>imbalance_detections_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1add1ef5fe080334777e7754d3d3cccf8e" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>isInCooldown</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a8c72cee1d16cdc102fae1d11317749c5" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>kMaxHistorySamples</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1ace4a60617da58cedf5c9058ab9add066" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>last_rebalance_time_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a77f02998dff51b7665b468e5af4b5b37" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>linearRegression</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a6a8d8ec749b2b166cb123d1d75431829" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a8a6e6808cdc6dad01225664fdbcc59c4" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a1d3143b53b24920a423e6c0c81b7e1fc" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>rebalance_triggers_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a95309d30c7676785fe4e92b8c72b42ba" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>recordRebalanceTriggered</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a7f67d3e999db1220feb8f43dc3492f13" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>shard_load_history_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a2b67075e94923fd3d2dfeb815e837b45" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>shard_loads_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a63f1db083def5593155b6687e649117b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>ShardLoadDetector</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1aeee4d36e399430d62491a6c9e84dc63f" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>ShardLoadDetector</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1ac819bd613616f3a41371202860fe4605" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1a175f4a444d0042fc4a556d78b0440ecb" prot="private" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>total_detections_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_shard_load_detector_1ae1d4380b849b101e4c1eb5fa2b5f1287" prot="public" virt="non-virtual"><scope>themis::sharding::ShardLoadDetector</scope><name>updateShardLoad</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

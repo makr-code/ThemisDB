@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_idempotency_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::IdempotencyCache</compoundname>
+    <includes refid="wire__protocol__server_8h" local="no">wire_protocol_server.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_idempotency_cache_1_1_entry" prot="public">themis::network::IdempotencyCache::Entry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_idempotency_cache_1a1760c3ad7695ddc2ab9e60c750f73acf" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::IdempotencyCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::network::IdempotencyCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="236" column="44" bodyfile="include/network/wire_protocol_server.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_idempotency_cache_1a3cfcea4d52f4895257c5abaa2977d3d4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::IdempotencyCache::window_size_</definition>
+        <argsstring></argsstring>
+        <name>window_size_</name>
+        <qualifiedname>themis::network::IdempotencyCache::window_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="237" column="44" bodyfile="include/network/wire_protocol_server.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_idempotency_cache_1ab7af12a1031fc69fcb619509c48c1c42" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1network_1_1_idempotency_cache_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Entry&gt; themis::network::IdempotencyCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::network::IdempotencyCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="238" column="24" bodyfile="include/network/wire_protocol_server.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_idempotency_cache_1a7152a46cb37545a82c347ea5395c9d06" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; themis::network::IdempotencyCache::insertion_order_</definition>
+        <argsstring></argsstring>
+        <name>insertion_order_</name>
+        <qualifiedname>themis::network::IdempotencyCache::insertion_order_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="239" column="31" bodyfile="include/network/wire_protocol_server.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_idempotency_cache_1a50a37e01aa06c6c75bee02d18b320e52" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::IdempotencyCache::IdempotencyCache</definition>
+        <argsstring>(size_t window_size=256) noexcept</argsstring>
+        <name>IdempotencyCache</name>
+        <qualifiedname>themis::network::IdempotencyCache::IdempotencyCache</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>window_size</declname>
+          <defval>256</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of distinct request IDs retained. Oldest entries are evicted when the window is full. A value of zero disables retention. Defaults to 256. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="190" column="14" bodyfile="include/network/wire_protocol_server.h" bodystart="190" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_idempotency_cache_1ad3cf1ffa00648b2c8806d1cc352caffb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1network_1_1_idempotency_cache_1_1_entry" kindref="compound">Entry</ref> *</type>
+        <definition>const IdempotencyCache::Entry * themis::network::IdempotencyCache::lookup</definition>
+        <argsstring>(const std::string &amp;request_id) const</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::network::IdempotencyCache::lookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>@brief Retrieve a cached result using legacy pointer semantics.
+</verbatim> <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique request identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to a thread-local snapshot of the cached <computeroutput><ref refid="structthemis_1_1network_1_1_idempotency_cache_1_1_entry" kindref="compound">Entry</ref></computeroutput>, or <computeroutput>nullptr</computeroutput> on a cache miss.</para>
+</simplesect>
+The returned pointer remains valid until the next successful same-thread <computeroutput><ref refid="classthemis_1_1network_1_1_idempotency_cache_1ad3cf1ffa00648b2c8806d1cc352caffb" kindref="member">lookup()</ref></computeroutput> for the same cache/request-id pair, even if the underlying cache is mutated or cleared by another thread after the call returns. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="204" column="21" bodyfile="src/network/retry_policy.cpp" bodystart="68" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_idempotency_cache_1ac2e7259e189245a0f74d672ad17d86e5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1network_1_1_idempotency_cache_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::optional&lt; IdempotencyCache::Entry &gt; themis::network::IdempotencyCache::lookupSnapshot</definition>
+        <argsstring>(const std::string &amp;request_id) const</argsstring>
+        <name>lookupSnapshot</name>
+        <qualifiedname>themis::network::IdempotencyCache::lookupSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a cached result snapshot by value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique request identifier. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Copy of the cached <computeroutput><ref refid="structthemis_1_1network_1_1_idempotency_cache_1_1_entry" kindref="compound">Entry</ref></computeroutput>, or <computeroutput>std::nullopt</computeroutput> on a cache miss.</para>
+</simplesect>
+The returned snapshot remains valid even if the cache is mutated or cleared by another thread after the call returns. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="214" column="24" bodyfile="src/network/retry_policy.cpp" bodystart="88" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_idempotency_cache_1a542e829c8070bc9b4e9bc118be49df6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::IdempotencyCache::store</definition>
+        <argsstring>(const std::string &amp;request_id, std::string result)</argsstring>
+        <name>store</name>
+        <qualifiedname>themis::network::IdempotencyCache::store</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Insert a result into the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Store.</para>
+<para>If an entry for <computeroutput>request_id</computeroutput> already exists it is left unchanged (first-write-wins). When the cache is full, the oldest entry is evicted before inserting the new one.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique request identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialised response to cache.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the request. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), <ref refid="classthemis_1_1network_1_1_idempotency_cache_1ae36ce0d73634dfcf81e515bf9481fdb4" kindref="member">size()</ref>, front(), erase(), pop_front(), std::move(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="226" column="10" bodyfile="src/network/retry_policy.cpp" bodystart="108" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_idempotency_cache_1a92f904144a4ffad51cc87656402ac2d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::IdempotencyCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::network::IdempotencyCache::clear</qualifiedname>
+        <briefdescription>
+<para>Remove all cached entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="229" column="10" bodyfile="src/network/retry_policy.cpp" bodystart="136" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_idempotency_cache_1ae36ce0d73634dfcf81e515bf9481fdb4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::IdempotencyCache::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::network::IdempotencyCache::size</qualifiedname>
+        <briefdescription>
+<para>Return current number of entries in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of entries currently stored. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_server.h" line="233" column="13" bodyfile="src/network/retry_policy.cpp" bodystart="142" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-session idempotency window for deduplicating retried requests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each request is assigned a unique <computeroutput>request_id</computeroutput> (typically a combination of session-id and a per-session monotonic sequence number). The cache stores the serialised result of the first successful execution; subsequent submissions of the same id within the window return the cached result without re-executing the handler (first-write-wins semantics).</para>
+<para>Oldest entries are evicted in insertion order once the window is full. A <computeroutput>window_size</computeroutput> of zero disables retention entirely so retry deduplication fails safe instead of growing unbounded state.</para>
+<para>All methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_server.h" line="177" column="1" bodyfile="include/network/wire_protocol_server.h" bodystart="177" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1ab7af12a1031fc69fcb619509c48c1c42" prot="private" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1a92f904144a4ffad51cc87656402ac2d5" prot="public" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1a50a37e01aa06c6c75bee02d18b320e52" prot="public" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>IdempotencyCache</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1a7152a46cb37545a82c347ea5395c9d06" prot="private" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>insertion_order_</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1ad3cf1ffa00648b2c8806d1cc352caffb" prot="public" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1ac2e7259e189245a0f74d672ad17d86e5" prot="public" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>lookupSnapshot</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1a1760c3ad7695ddc2ab9e60c750f73acf" prot="private" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1ae36ce0d73634dfcf81e515bf9481fdb4" prot="public" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1a542e829c8070bc9b4e9bc118be49df6c" prot="public" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>store</name></member>
+      <member refid="classthemis_1_1network_1_1_idempotency_cache_1a3cfcea4d52f4895257c5abaa2977d3d4" prot="private" virt="non-virtual"><scope>themis::network::IdempotencyCache</scope><name>window_size_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

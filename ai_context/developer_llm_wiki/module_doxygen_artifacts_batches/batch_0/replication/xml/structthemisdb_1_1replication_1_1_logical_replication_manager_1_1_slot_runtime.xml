@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::replication::LogicalReplicationManager::SlotRuntime</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1a56f11cd60b911f4a4921a364c9674857" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref></type>
+        <definition>LogicalReplicationSlot themisdb::replication::LogicalReplicationManager::SlotRuntime::meta</definition>
+        <argsstring></argsstring>
+        <name>meta</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::SlotRuntime::meta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="352" column="32" bodyfile="include/replication/logical_replication.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1a2b00f958cf13646dd52bfd1bbd401917" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref> &gt;</type>
+        <definition>std::deque&lt;LogicalChange&gt; themisdb::replication::LogicalReplicationManager::SlotRuntime::buffer</definition>
+        <argsstring></argsstring>
+        <name>buffer</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::SlotRuntime::buffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="353" column="20" bodyfile="include/replication/logical_replication.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1a6475dcc1f51e2323d5fe3a29e80d0de3" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; themisdb::replication::LogicalReplicationManager::SlotRuntime::snapshot_keys</definition>
+        <argsstring></argsstring>
+        <name>snapshot_keys</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::SlotRuntime::snapshot_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="354" column="28" bodyfile="include/replication/logical_replication.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1a66a9757a75a3e216c1c355d3309b80ef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::LogicalReplicationManager::SlotRuntime::initial_sync_pending</definition>
+        <argsstring></argsstring>
+        <name>initial_sync_pending</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::SlotRuntime::initial_sync_pending</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="355" column="14" bodyfile="include/replication/logical_replication.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1aef556bf42cdcede847baf0616f6a188d" prot="public" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::replication::LogicalReplicationManager::SlotRuntime::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themisdb::replication::LogicalReplicationManager::SlotRuntime::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/logical_replication.h" line="356" column="20" bodyfile="include/replication/logical_replication.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</label>
+        <link refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>filter</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::LogicalReplicationManager::ReplicationFilter</label>
+        <link refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter"/>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::LogicalReplicationManager::SlotRuntime</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>meta</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/logical_replication.h" line="351" column="5" bodyfile="include/replication/logical_replication.h" bodystart="351" bodyend="357"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1a2b00f958cf13646dd52bfd1bbd401917" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::SlotRuntime</scope><name>buffer</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1a66a9757a75a3e216c1c355d3309b80ef" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::SlotRuntime</scope><name>initial_sync_pending</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1a56f11cd60b911f4a4921a364c9674857" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::SlotRuntime</scope><name>meta</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1aef556bf42cdcede847baf0616f6a188d" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::SlotRuntime</scope><name>mutex</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime_1a6475dcc1f51e2323d5fe3a29e80d0de3" prot="public" virt="non-virtual"><scope>themisdb::replication::LogicalReplicationManager::SlotRuntime</scope><name>snapshot_keys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

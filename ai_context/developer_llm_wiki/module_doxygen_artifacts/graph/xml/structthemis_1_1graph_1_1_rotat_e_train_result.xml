@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_rotat_e_train_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::RotatETrainResult</compoundname>
+    <includes refid="rotate__completion_8h" local="no">rotate_completion.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_train_result_1accb605b5c694f50e495feb10b0e80f1b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::RotatETrainResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::graph::RotatETrainResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="52" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_train_result_1a96c2c062f4109f17d81c5375bf1f05d1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::RotatETrainResult::final_loss</definition>
+        <argsstring></argsstring>
+        <name>final_loss</name>
+        <qualifiedname>themis::graph::RotatETrainResult::final_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="53" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_train_result_1a0d54fb53aa25703f297ab85bafa5abbe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatETrainResult::epochs_run</definition>
+        <argsstring></argsstring>
+        <name>epochs_run</name>
+        <qualifiedname>themis::graph::RotatETrainResult::epochs_run</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="54" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_train_result_1afc1519da76e8bd4dd665567a6bd3f220" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatETrainResult::entities</definition>
+        <argsstring></argsstring>
+        <name>entities</name>
+        <qualifiedname>themis::graph::RotatETrainResult::entities</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="55" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_train_result_1a3a153daf605bae85606b768cc8d6c1eb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatETrainResult::relations</definition>
+        <argsstring></argsstring>
+        <name>relations</name>
+        <qualifiedname>themis::graph::RotatETrainResult::relations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="56" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_rotat_e_train_result_1a65f3792fc73528c19a7bed1e81f43ee6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::RotatETrainResult::triples</definition>
+        <argsstring></argsstring>
+        <name>triples</name>
+        <qualifiedname>themis::graph::RotatETrainResult::triples</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/rotate_completion.h" line="57" column="12" bodyfile="include/graph/rotate_completion.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/rotate_completion.h" line="51" column="1" bodyfile="include/graph/rotate_completion.h" bodystart="51" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_train_result_1afc1519da76e8bd4dd665567a6bd3f220" prot="public" virt="non-virtual"><scope>themis::graph::RotatETrainResult</scope><name>entities</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_train_result_1a0d54fb53aa25703f297ab85bafa5abbe" prot="public" virt="non-virtual"><scope>themis::graph::RotatETrainResult</scope><name>epochs_run</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_train_result_1a96c2c062f4109f17d81c5375bf1f05d1" prot="public" virt="non-virtual"><scope>themis::graph::RotatETrainResult</scope><name>final_loss</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_train_result_1a3a153daf605bae85606b768cc8d6c1eb" prot="public" virt="non-virtual"><scope>themis::graph::RotatETrainResult</scope><name>relations</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_train_result_1accb605b5c694f50e495feb10b0e80f1b" prot="public" virt="non-virtual"><scope>themis::graph::RotatETrainResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1graph_1_1_rotat_e_train_result_1a65f3792fc73528c19a7bed1e81f43ee6" prot="public" virt="non-virtual"><scope>themis::graph::RotatETrainResult</scope><name>triples</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

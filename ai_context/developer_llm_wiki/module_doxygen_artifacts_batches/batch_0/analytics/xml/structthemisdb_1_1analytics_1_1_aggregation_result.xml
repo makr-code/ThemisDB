@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_aggregation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::AggregationResult</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_result_1aa6e1559483f347937b5b07a68f19bee2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::AggregationResult::aggregation_id</definition>
+        <argsstring></argsstring>
+        <name>aggregation_id</name>
+        <qualifiedname>themisdb::analytics::AggregationResult::aggregation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="271" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_result_1a3ecd3debc4ab06599c5737628ad06a1b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1ab46e2c7fce605c0fa70e351411207f7d" kindref="member">AggregationType</ref></type>
+        <definition>AggregationType themisdb::analytics::AggregationResult::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::AggregationResult::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="272" column="21" bodyfile="include/analytics/cep_engine.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_result_1a1245adb46353cf137fb4c15be2c6ec0f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" kindref="member">CepFieldValue</ref></type>
+        <definition>CepFieldValue themisdb::analytics::AggregationResult::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themisdb::analytics::AggregationResult::result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="273" column="19" bodyfile="include/analytics/cep_engine.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_result_1abba40eeaa053aa23ec582933ccc3b8b3" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::AggregationResult::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themisdb::analytics::AggregationResult::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="274" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_result_1ab75d99505d93ae4820c81e64cea10b1e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::AggregationResult::window_start</definition>
+        <argsstring></argsstring>
+        <name>window_start</name>
+        <qualifiedname>themisdb::analytics::AggregationResult::window_start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="275" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_result_1ad2ff684886bb21f27ebd5b8a8b6ef1ab" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::analytics::AggregationResult::window_end</definition>
+        <argsstring></argsstring>
+        <name>window_end</name>
+        <qualifiedname>themisdb::analytics::AggregationResult::window_end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="276" column="43" bodyfile="include/analytics/cep_engine.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_aggregation_result_1a5a72510bbaf291b934cae13dee93758c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1analytics_1a67926481b5ed676de498c44c9531342b" kindref="member">CepFieldValue</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CepFieldValue&gt; themisdb::analytics::AggregationResult::group_by_values</definition>
+        <argsstring></argsstring>
+        <name>group_by_values</name>
+        <qualifiedname>themisdb::analytics::AggregationResult::group_by_values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="277" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="270" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="270" bodyend="278"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_result_1aa6e1559483f347937b5b07a68f19bee2" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationResult</scope><name>aggregation_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_result_1abba40eeaa053aa23ec582933ccc3b8b3" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationResult</scope><name>count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_result_1a5a72510bbaf291b934cae13dee93758c" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationResult</scope><name>group_by_values</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_result_1a1245adb46353cf137fb4c15be2c6ec0f" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationResult</scope><name>result</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_result_1a3ecd3debc4ab06599c5737628ad06a1b" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationResult</scope><name>type</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_result_1ad2ff684886bb21f27ebd5b8a8b6ef1ab" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationResult</scope><name>window_end</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_aggregation_result_1ab75d99505d93ae4820c81e64cea10b1e" prot="public" virt="non-virtual"><scope>themisdb::analytics::AggregationResult</scope><name>window_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

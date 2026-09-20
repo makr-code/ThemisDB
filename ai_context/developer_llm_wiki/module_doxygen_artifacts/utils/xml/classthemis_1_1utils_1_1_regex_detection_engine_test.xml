@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_regex_detection_engine_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::RegexDetectionEngineTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_regex_detection_engine_test_1a41fdfba5b78a2dd88c182d1b8b5442f6" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_regex_detection_engine" kindref="compound">RegexDetectionEngine</ref></type>
+        <definition>RegexDetectionEngine themis::utils::RegexDetectionEngineTest::engine</definition>
+        <argsstring></argsstring>
+        <name>engine</name>
+        <qualifiedname>themis::utils::RegexDetectionEngineTest::engine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_regex_detection_engine.cpp" line="25" column="26" bodyfile="tests/utils/test_regex_detection_engine.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_regex_detection_engine_test_1a5ff03c7e09f22cfb92ffb886e26c6bc5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::RegexDetectionEngineTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::utils::RegexDetectionEngineTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_regex_detection_engine.cpp" line="27" column="10" bodyfile="tests/utils/test_regex_detection_engine.cpp" bodystart="27" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::utils::RegexDetectionEngineTest</label>
+        <link refid="classthemis_1_1utils_1_1_regex_detection_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::utils::IPIIDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_i_p_i_i_detection_engine"/>
+      </node>
+      <node id="3">
+        <label>themis::utils::RegexDetectionEngine</label>
+        <link refid="classthemis_1_1utils_1_1_regex_detection_engine"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::utils::RegexDetectionEngineTest</label>
+        <link refid="classthemis_1_1utils_1_1_regex_detection_engine_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>engine</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/test_regex_detection_engine.cpp" line="23" column="1" bodyfile="tests/utils/test_regex_detection_engine.cpp" bodystart="23" bodyend="33"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_test_1a41fdfba5b78a2dd88c182d1b8b5442f6" prot="protected" virt="non-virtual"><scope>themis::utils::RegexDetectionEngineTest</scope><name>engine</name></member>
+      <member refid="classthemis_1_1utils_1_1_regex_detection_engine_test_1a5ff03c7e09f22cfb92ffb886e26c6bc5" prot="protected" virt="non-virtual"><scope>themis::utils::RegexDetectionEngineTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

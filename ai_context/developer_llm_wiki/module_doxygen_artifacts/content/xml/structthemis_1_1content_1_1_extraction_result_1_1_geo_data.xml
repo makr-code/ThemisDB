@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_extraction_result_1_1_geo_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::ExtractionResult::GeoData</compoundname>
+    <includes refid="content__processor_8h" local="no">content_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_geo_data_1a7b2a59ad026618f7cf94f02045fed9da" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; double, double &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;double, double&gt; &gt; themis::content::ExtractionResult::GeoData::coordinates</definition>
+        <argsstring></argsstring>
+        <name>coordinates</name>
+        <qualifiedname>themis::content::ExtractionResult::GeoData::coordinates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="41" column="21" bodyfile="include/content/content_processor.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_geo_data_1a0defddf27c1d625d12445406fa6e74fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::ExtractionResult::GeoData::projection</definition>
+        <argsstring></argsstring>
+        <name>projection</name>
+        <qualifiedname>themis::content::ExtractionResult::GeoData::projection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="42" column="21" bodyfile="include/content/content_processor.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_extraction_result_1_1_geo_data_1ae093b336ae543fff766fe56983ceeaa1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::ExtractionResult::GeoData::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::content::ExtractionResult::GeoData::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_processor.h" line="43" column="14" bodyfile="include/content/content_processor.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_processor.h" line="40" column="5" bodyfile="include/content/content_processor.h" bodystart="40" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_geo_data_1a7b2a59ad026618f7cf94f02045fed9da" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::GeoData</scope><name>coordinates</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_geo_data_1a0defddf27c1d625d12445406fa6e74fd" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::GeoData</scope><name>projection</name></member>
+      <member refid="structthemis_1_1content_1_1_extraction_result_1_1_geo_data_1ae093b336ae543fff766fe56983ceeaa1" prot="public" virt="non-virtual"><scope>themis::content::ExtractionResult::GeoData</scope><name>properties</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

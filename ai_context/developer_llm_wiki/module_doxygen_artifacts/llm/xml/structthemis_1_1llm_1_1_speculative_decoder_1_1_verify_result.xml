@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SpeculativeDecoder::VerifyResult</compoundname>
+    <includes refid="speculative__decoder_8h" local="no">speculative_decoder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1a9e390114d154314f82a5dada1bc1d9c9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::SpeculativeDecoder::VerifyResult::accepted_tokens</definition>
+        <argsstring></argsstring>
+        <name>accepted_tokens</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::VerifyResult::accepted_tokens</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="45" column="21" bodyfile="include/llm/speculative_decoder.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1ab2f3eb436cf6cb23046ff2529e09921e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SpeculativeDecoder::VerifyResult::bonus_token</definition>
+        <argsstring></argsstring>
+        <name>bonus_token</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::VerifyResult::bonus_token</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="47" column="13" bodyfile="include/llm/speculative_decoder.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1a3c88f2911f80c6114991c8953deb0b44" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::SpeculativeDecoder::VerifyResult::num_accepted</definition>
+        <argsstring></argsstring>
+        <name>num_accepted</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::VerifyResult::num_accepted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="49" column="16" bodyfile="include/llm/speculative_decoder.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1ae8414cf8b56a9bfbb78d4da4a4e8673e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SpeculativeDecoder::VerifyResult::all_accepted</definition>
+        <argsstring></argsstring>
+        <name>all_accepted</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::VerifyResult::all_accepted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="51" column="14" bodyfile="include/llm/speculative_decoder.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1aab2e542cb8aa686763e24f4bfce3f792" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::SpeculativeDecoder::VerifyResult::acceptance_rate</definition>
+        <argsstring></argsstring>
+        <name>acceptance_rate</name>
+        <qualifiedname>themis::llm::SpeculativeDecoder::VerifyResult::acceptance_rate</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/speculative_decoder.h" line="53" column="15" bodyfile="include/llm/speculative_decoder.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/speculative_decoder.h" line="44" column="5" bodyfile="include/llm/speculative_decoder.h" bodystart="44" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1aab2e542cb8aa686763e24f4bfce3f792" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::VerifyResult</scope><name>acceptance_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1a9e390114d154314f82a5dada1bc1d9c9" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::VerifyResult</scope><name>accepted_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1ae8414cf8b56a9bfbb78d4da4a4e8673e" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::VerifyResult</scope><name>all_accepted</name></member>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1ab2f3eb436cf6cb23046ff2529e09921e" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::VerifyResult</scope><name>bonus_token</name></member>
+      <member refid="structthemis_1_1llm_1_1_speculative_decoder_1_1_verify_result_1a3c88f2911f80c6114991c8953deb0b44" prot="public" virt="non-virtual"><scope>themis::llm::SpeculativeDecoder::VerifyResult</scope><name>num_accepted</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

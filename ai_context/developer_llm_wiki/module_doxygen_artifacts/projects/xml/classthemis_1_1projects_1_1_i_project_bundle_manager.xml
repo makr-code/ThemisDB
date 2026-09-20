@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1projects_1_1_i_project_bundle_manager" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::projects::IProjectBundleManager</compoundname>
+    <includes refid="project__bundle_8h" local="no">project_bundle.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_bundle_manager_1a9da2543d2521a69446678650f768719c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::projects::IProjectBundleManager::~IProjectBundleManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IProjectBundleManager</name>
+        <qualifiedname>themis::projects::IProjectBundleManager::~IProjectBundleManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="49" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_bundle_manager_1ac52d7bed32ce39b223c8daf4bc714b26" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::projects::IProjectBundleManager::exportToZip</definition>
+        <argsstring>(const std::string &amp;project_id, const std::string &amp;output_path, const BundleExportOptions &amp;options={})=0</argsstring>
+        <name>exportToZip</name>
+        <qualifiedname>themis::projects::IProjectBundleManager::exportToZip</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>project_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1projects_1_1_bundle_export_options" kindref="compound">BundleExportOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="50" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_bundle_manager_1acc1012f4f75e9f3b2dd7bfb18c6e1cd8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_bundle_import_result" kindref="compound">BundleImportResult</ref></type>
+        <definition>virtual BundleImportResult themis::projects::IProjectBundleManager::importFromZip</definition>
+        <argsstring>(const std::string &amp;bundle_path, const std::string &amp;target_project_id=&quot;&quot;)=0</argsstring>
+        <name>importFromZip</name>
+        <qualifiedname>themis::projects::IProjectBundleManager::importFromZip</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bundle_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_project_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="53" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_bundle_manager_1adf1de52ed84f498733cd3b661f4ba4aa" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1projects_1_1_project_bundle_manifest" kindref="compound">ProjectBundleManifest</ref></type>
+        <definition>virtual ProjectBundleManifest themis::projects::IProjectBundleManager::readManifest</definition>
+        <argsstring>(const std::string &amp;bundle_path)=0</argsstring>
+        <name>readManifest</name>
+        <qualifiedname>themis::projects::IProjectBundleManager::readManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bundle_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="55" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1projects_1_1_i_project_bundle_manager_1a9c6a5ce5ecb6046b32bef83d5b83f779" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::projects::IProjectBundleManager::validateBundle</definition>
+        <argsstring>(const std::string &amp;bundle_path, std::vector&lt; std::string &gt; &amp;errors)=0</argsstring>
+        <name>validateBundle</name>
+        <qualifiedname>themis::projects::IProjectBundleManager::validateBundle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bundle_path</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_bundle.h" line="56" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>I project bundle manager component. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/project_bundle.h" line="47" column="1" bodyfile="include/projects/project_bundle.h" bodystart="47" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1projects_1_1_i_project_bundle_manager_1ac52d7bed32ce39b223c8daf4bc714b26" prot="public" virt="pure-virtual"><scope>themis::projects::IProjectBundleManager</scope><name>exportToZip</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_bundle_manager_1acc1012f4f75e9f3b2dd7bfb18c6e1cd8" prot="public" virt="pure-virtual"><scope>themis::projects::IProjectBundleManager</scope><name>importFromZip</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_bundle_manager_1adf1de52ed84f498733cd3b661f4ba4aa" prot="public" virt="pure-virtual"><scope>themis::projects::IProjectBundleManager</scope><name>readManifest</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_bundle_manager_1a9c6a5ce5ecb6046b32bef83d5b83f779" prot="public" virt="pure-virtual"><scope>themis::projects::IProjectBundleManager</scope><name>validateBundle</name></member>
+      <member refid="classthemis_1_1projects_1_1_i_project_bundle_manager_1a9da2543d2521a69446678650f768719c" prot="public" virt="virtual"><scope>themis::projects::IProjectBundleManager</scope><name>~IProjectBundleManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

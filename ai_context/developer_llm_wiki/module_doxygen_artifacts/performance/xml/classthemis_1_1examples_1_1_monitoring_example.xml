@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1examples_1_1_monitoring_example" kind="class" language="C++" prot="public">
+    <compoundname>themis::examples::MonitoringExample</compoundname>
+    <includes refid="feature__flags__examples_8h" local="no">feature_flags_examples.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1examples_1_1_monitoring_example_1ac037201656cde9c7ab6636ee6488f7f4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::examples::MonitoringExample::report_feature_flags_status</definition>
+        <argsstring>()</argsstring>
+        <name>report_feature_flags_status</name>
+        <qualifiedname>themis::examples::MonitoringExample::report_feature_flags_status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/feature_flags_examples.h" line="227" column="17" bodyfile="include/performance/feature_flags_examples.h" bodystart="227" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Example 6: Runtime Monitoring. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/feature_flags_examples.h" line="225" column="1" bodyfile="include/performance/feature_flags_examples.h" bodystart="225" bodyend="236"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1examples_1_1_monitoring_example_1ac037201656cde9c7ab6636ee6488f7f4" prot="public" virt="non-virtual"><scope>themis::examples::MonitoringExample</scope><name>report_feature_flags_status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

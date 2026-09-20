@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1_0d155370034123005054270240263075320123044354122303" kind="namespace" language="C++">
+    <compoundname>themis::@155370034123005054270240263075320123044354122303</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1_0d155370034123005054270240263075320123044354122303_1a7932fa0fed76945149af0f8d752f2d94" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>OpType</name>
+        <qualifiedname>themis::@155370034123005054270240263075320123044354122303::OpType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1_0d155370034123005054270240263075320123044354122303_1a7932fa0fed76945149af0f8d752f2d94a3e75383a5992a6d15fb81e872e46e256" prot="public">
+          <name>PUT</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1_0d155370034123005054270240263075320123044354122303_1a7932fa0fed76945149af0f8d752f2d94a78baf367c4626442174307cdf41c6538" prot="public">
+          <name>REMOVE</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wom_tree.cpp" line="75" column="1" bodyfile="src/storage/wom_tree.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/wom_tree.cpp" line="73" column="1"/>
+  </compounddef>
+</doxygen>

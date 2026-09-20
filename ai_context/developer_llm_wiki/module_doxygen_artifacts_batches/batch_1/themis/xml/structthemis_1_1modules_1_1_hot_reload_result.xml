@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_hot_reload_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::HotReloadResult</compoundname>
+    <includes refid="hot__reload__manager_8h" local="no">hot_reload_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_result_1af21d46a68b8a80741ac2efe9edcc09bb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::HotReloadResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::modules::HotReloadResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="89" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_result_1a443c91f55fb64edd67256f6658c449f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::HotReloadResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::modules::HotReloadResult::errorMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="90" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_result_1aa688b82ae1319218b78b948a4df6f173" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::HotReloadResult::previousVersion</definition>
+        <argsstring></argsstring>
+        <name>previousVersion</name>
+        <qualifiedname>themis::modules::HotReloadResult::previousVersion</qualifiedname>
+        <briefdescription>
+<para>Version before the reload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="91" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_result_1a691905cdd4416161da6f8435f5966992" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::HotReloadResult::newVersion</definition>
+        <argsstring></argsstring>
+        <name>newVersion</name>
+        <qualifiedname>themis::modules::HotReloadResult::newVersion</qualifiedname>
+        <briefdescription>
+<para>Version after the reload (empty on failure). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="92" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_result_1a8f7b2022c8d844c9588b90c34df5df26" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::HotReloadResult::rollbackAvailable</definition>
+        <argsstring></argsstring>
+        <name>rollbackAvailable</name>
+        <qualifiedname>themis::modules::HotReloadResult::rollbackAvailable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether a rollback is now possible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="93" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_hot_reload_result_1a79989d617a6bb36df6a5b3043f001161" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::HotReloadResult::reloadDurationMs</definition>
+        <argsstring></argsstring>
+        <name>reloadDurationMs</name>
+        <qualifiedname>themis::modules::HotReloadResult::reloadDurationMs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time for the operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/hot_reload_manager.h" line="94" column="17" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a hot-reload or rollback operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/hot_reload_manager.h" line="88" column="1" bodyfile="include/themis/base/hot_reload_manager.h" bodystart="88" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_result_1a443c91f55fb64edd67256f6658c449f7" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_result_1a691905cdd4416161da6f8435f5966992" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadResult</scope><name>newVersion</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_result_1aa688b82ae1319218b78b948a4df6f173" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadResult</scope><name>previousVersion</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_result_1a79989d617a6bb36df6a5b3043f001161" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadResult</scope><name>reloadDurationMs</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_result_1a8f7b2022c8d844c9588b90c34df5df26" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadResult</scope><name>rollbackAvailable</name></member>
+      <member refid="structthemis_1_1modules_1_1_hot_reload_result_1af21d46a68b8a80741ac2efe9edcc09bb" prot="public" virt="non-virtual"><scope>themis::modules::HotReloadResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

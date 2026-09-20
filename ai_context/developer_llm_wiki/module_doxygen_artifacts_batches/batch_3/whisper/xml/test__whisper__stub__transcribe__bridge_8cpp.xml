@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__whisper__stub__transcribe__bridge_8cpp" kind="file" language="C++">
+    <compoundname>test_whisper_stub_transcribe_bridge.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="whisper__transcriber_8h" local="yes">whisper/whisper_transcriber.h</includes>
+    <includes refid="whisper__plugin_8h" local="yes">whisper/whisper_plugin.h</includes>
+    <includes refid="whisper__config_8h" local="yes">whisper/whisper_config.h</includes>
+    <includes refid="audio__chunk__reader_8h" local="yes">whisper/audio_chunk_reader.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="17">
+        <label>whisper/audio_chunk_reader.h</label>
+        <link refid="audio__chunk__reader_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>whisper/voice_activity_detector.h</label>
+        <link refid="voice__activity__detector_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>whisper/whisper_config.h</label>
+        <link refid="whisper__config_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>whisper/whisper_plugin.h</label>
+        <link refid="whisper__plugin_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>whisper/whisper_transcriber.h</label>
+        <link refid="whisper__transcriber_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/whisper/test_whisper_stub_transcribe_bridge.cpp</label>
+        <link refid="test__whisper__stub__transcribe__bridge_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>algorithm</label>
+      </node>
+      <node id="23">
+        <label>atomic</label>
+      </node>
+      <node id="15">
+        <label>chrono</label>
+      </node>
+      <node id="22">
+        <label>cmath</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="12">
+        <label>istream</label>
+      </node>
+      <node id="19">
+        <label>map</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>ostream</label>
+      </node>
+      <node id="7">
+        <label>plugins/audio_backend_interface.h</label>
+      </node>
+      <node id="18">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__whisper__stub__transcribe__bridge_8cpp_1a40902cccc7d1325e16412af815851300" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WhisperStubTranscribeBridge, WST_01_InjectedFnCalledInsteadOfEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WhisperStubTranscribeBridge</type>
+        </param>
+        <param>
+          <type>WST_01_InjectedFnCalledInsteadOfEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_stub_transcribe_bridge.cpp" line="29" column="1" bodyfile="tests/whisper/test_whisper_stub_transcribe_bridge.cpp" bodystart="29" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__whisper__stub__transcribe__bridge_8cpp_1a825d4496aedfa7d1ab0fb02b2400c347" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WhisperStubTranscribeBridge, WST_02_NullFnRestoresEmptyResult)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WhisperStubTranscribeBridge</type>
+        </param>
+        <param>
+          <type>WST_02_NullFnRestoresEmptyResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_stub_transcribe_bridge.cpp" line="65" column="1" bodyfile="tests/whisper/test_whisper_stub_transcribe_bridge.cpp" bodystart="65" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__whisper__stub__transcribe__bridge_8cpp_1ae11cad621922d8950fd47613f795beb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WhisperStubTranscribeBridge, WST_03_ResultPropagatedThroughPlugin)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WhisperStubTranscribeBridge</type>
+        </param>
+        <param>
+          <type>WST_03_ResultPropagatedThroughPlugin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/whisper/test_whisper_stub_transcribe_bridge.cpp" line="90" column="1" bodyfile="tests/whisper/test_whisper_stub_transcribe_bridge.cpp" bodystart="90" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for the TranscribeFn injection bridge on <ref refid="class_whisper_stub_transcriber" kindref="compound">WhisperStubTranscriber</ref> (STUB #96). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: WST-01 Injected TranscribeFn is called instead of empty stub WST-02 nullptr fn restores the empty-result default WST-03 TranscribeFn result is propagated through <ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref> </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="whisper__transcriber_8h" kindref="compound">whisper/whisper_transcriber.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="whisper__plugin_8h" kindref="compound">whisper/whisper_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="whisper__config_8h" kindref="compound">whisper/whisper_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="audio__chunk__reader_8h" kindref="compound">whisper/audio_chunk_reader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1whisper" kindref="compound">themis::whisper</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::audio;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WST-01:<sp/>Injected<sp/>TranscribeFn<sp/>is<sp/>called<sp/>instead<sp/>of<sp/>empty<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__whisper__stub__transcribe__bridge_8cpp_1a40902cccc7d1325e16412af815851300" kindref="member">TEST</ref>(WhisperStubTranscribeBridge,<sp/>WST_01_InjectedFnCalledInsteadOfEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stub<sp/>=<sp/>std::make_unique&lt;WhisperStubTranscriber&gt;();</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1whisper_1_1_whisper_config" kindref="compound">WhisperConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1whisper_1_1_whisper_config_1a8b6fb71d07ccd70c5b89d6205e1c779b" kindref="member">model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/stub_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>stub-&gt;initialize(cfg);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>call_count{0};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;injected<sp/>transcription<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>expected_conf<sp/>=<sp/>0.93f;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>stub-&gt;setTranscribeFn(</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/></highlight><highlight class="comment">/*pcm*/</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*sr*/</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>-&gt;<sp/>TranscriptionResult<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++call_count;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TranscriptionResult<sp/>r;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.text<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>expected_text;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.confidence<sp/>=<sp/>expected_conf;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.success<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>pcm(1024,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>stub-&gt;transcribe(pcm,<sp/>16000.0f);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(call_count.load(),<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Injected<sp/>fn<sp/>should<sp/>be<sp/>called<sp/>once&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.text,<sp/>expected_text)</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Transcribed<sp/>text<sp/>should<sp/>match<sp/>injected<sp/>fn<sp/>output&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.confidence,<sp/>expected_conf);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Provenance<sp/>fields<sp/>should<sp/>be<sp/>overridden<sp/>by<sp/>the<sp/>stub.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.ingestion_source_type,<sp/></highlight><highlight class="stringliteral">&quot;WHISPER&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.plugin_version,<sp/></highlight><highlight class="stringliteral">&quot;2.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WST-02:<sp/>nullptr<sp/>fn<sp/>restores<sp/>the<sp/>empty-result<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><ref refid="test__whisper__stub__transcribe__bridge_8cpp_1a40902cccc7d1325e16412af815851300" kindref="member">TEST</ref>(WhisperStubTranscribeBridge,<sp/>WST_02_NullFnRestoresEmptyResult)<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stub<sp/>=<sp/>std::make_unique&lt;WhisperStubTranscriber&gt;();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1whisper_1_1_whisper_config" kindref="compound">WhisperConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>stub-&gt;initialize(cfg);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>fn<sp/>then<sp/>clear<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>stub-&gt;setTranscribeFn(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">)<sp/>-&gt;<sp/>TranscriptionResult<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TranscriptionResult<sp/>r;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;should<sp/>not<sp/>appear&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>stub-&gt;setTranscribeFn(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>pcm(512,<sp/>0.1f);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>stub-&gt;transcribe(pcm,<sp/>16000.0f);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.text,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cleared<sp/>fn<sp/>should<sp/>restore<sp/>empty-text<sp/>stub<sp/>result&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.language,<sp/></highlight><highlight class="stringliteral">&quot;unknown&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(result.confidence,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WST-03:<sp/>TranscribeFn<sp/>result<sp/>propagated<sp/>through<sp/>WhisperPlugin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__whisper__stub__transcribe__bridge_8cpp_1a40902cccc7d1325e16412af815851300" kindref="member">TEST</ref>(WhisperStubTranscribeBridge,<sp/>WST_03_ResultPropagatedThroughPlugin)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>expected_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;hello<sp/>from<sp/>injected<sp/>transcriber&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>WhisperStubTranscriber<sp/>with<sp/>a<sp/>TranscribeFn<sp/>injected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stub<sp/>=<sp/>std::make_unique&lt;WhisperStubTranscriber&gt;();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1whisper_1_1_whisper_config" kindref="compound">WhisperConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1whisper_1_1_whisper_config_1a8b6fb71d07ccd70c5b89d6205e1c779b" kindref="member">model_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/stub_model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>stub-&gt;initialize(cfg);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>stub-&gt;setTranscribeFn(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">)<sp/>-&gt;<sp/>TranscriptionResult<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TranscriptionResult<sp/>r;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.text<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>expected_text;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.success<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.confidence<sp/>=<sp/>0.85f;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>into<sp/>WhisperPlugin<sp/>via<sp/>the<sp/>injection<sp/>constructor.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>reader<sp/>=<sp/>std::make_unique&lt;WavAudioChunkReader&gt;();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1whisper_1_1_whisper_plugin" kindref="compound">WhisperPlugin</ref><sp/>plugin(std::move(stub),<sp/>std::move(reader));</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initialize<sp/>the<sp/>plugin<sp/>(model<sp/>path<sp/>arbitrary<sp/>for<sp/>stub<sp/>path).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>plugin.initialize(</highlight><highlight class="stringliteral">&quot;/tmp/stub_model&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Plugin<sp/>should<sp/>initialize<sp/>with<sp/>stub<sp/>transcriber&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>pcm(2048,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.transcribe(pcm,<sp/>16000.0f);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.text,<sp/>expected_text)</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TranscribeFn<sp/>result<sp/>should<sp/>propagate<sp/>through<sp/>WhisperPlugin&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.ingestion_source_type,<sp/></highlight><highlight class="stringliteral">&quot;WHISPER&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/whisper/test_whisper_stub_transcribe_bridge.cpp"/>
+  </compounddef>
+</doxygen>

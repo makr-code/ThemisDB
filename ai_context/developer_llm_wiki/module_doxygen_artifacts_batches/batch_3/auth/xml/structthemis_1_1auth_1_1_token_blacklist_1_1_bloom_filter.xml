@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter" kind="struct" language="C++" prot="private">
+    <compoundname>themis::auth::TokenBlacklist::BloomFilter</compoundname>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a1dd8bf0f2271fcac97827157d96fbd2e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TokenBlacklist::BloomFilter::kBitsPerEntry</definition>
+        <argsstring></argsstring>
+        <name>kBitsPerEntry</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::kBitsPerEntry</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>~1 % false-positive rate </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="184" column="33" bodyfile="include/auth/token_blacklist.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1aef23e01c9c51a4b2fb324d026e3294be" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TokenBlacklist::BloomFilter::kNumHashes</definition>
+        <argsstring></argsstring>
+        <name>kNumHashes</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::kNumHashes</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+<para>optimal for 10 bits/entry </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="185" column="33" bodyfile="include/auth/token_blacklist.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a205779396864202585674252f529d1bc" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TokenBlacklist::BloomFilter::bit_count_</definition>
+        <argsstring></argsstring>
+        <name>bit_count_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::bit_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="233" column="29" bodyfile="include/auth/token_blacklist.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a3537873f8549b8315cfbd9c515b094ef" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::auth::TokenBlacklist::BloomFilter::bits_</definition>
+        <argsstring></argsstring>
+        <name>bits_</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::bits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="234" column="21" bodyfile="include/auth/token_blacklist.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a946b95ee3c61e1c85efffd85f2aa9225" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TokenBlacklist::BloomFilter::BloomFilter</definition>
+        <argsstring>(size_t capacity)</argsstring>
+        <name>BloomFilter</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::BloomFilter</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>capacity</declname>
+        </param>
+        <briefdescription>
+<para>Bloom Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">capacity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="192" column="18" bodyfile="include/auth/token_blacklist.h" bodystart="192" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1ad64e3e3b3252ca837d638530747e079e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::BloomFilter::add</definition>
+        <argsstring>(const std::string &amp;key) noexcept</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::add</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="197" column="14" bodyfile="include/auth/token_blacklist.h" bodystart="197" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1ad3ebcaf6889172c521137561f97dc440" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::TokenBlacklist::BloomFilter::mayContain</definition>
+        <argsstring>(const std::string &amp;key) const noexcept</argsstring>
+        <name>mayContain</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::mayContain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="205" column="14" bodyfile="include/auth/token_blacklist.h" bodystart="205" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a4ac1ba76d6c02cc187d21bce36e95142" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TokenBlacklist::BloomFilter::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::reset</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="216" column="14" bodyfile="include/auth/token_blacklist.h" bodystart="216" bodyend="218"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a5aa1532c35730de0069809cf9fec59d1" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::pair&lt; size_t, size_t &gt;</type>
+        <definition>static std::pair&lt; size_t, size_t &gt; themis::auth::TokenBlacklist::BloomFilter::hashes</definition>
+        <argsstring>(const std::string &amp;key) noexcept</argsstring>
+        <name>hashes</name>
+        <qualifiedname>themis::auth::TokenBlacklist::BloomFilter::hashes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/token_blacklist.h" line="221" column="26" bodyfile="include/auth/token_blacklist.h" bodystart="221" bodyend="231"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/token_blacklist.h" line="183" column="5" bodyfile="include/auth/token_blacklist.h" bodystart="183" bodyend="235"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1ad64e3e3b3252ca837d638530747e079e" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>add</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a205779396864202585674252f529d1bc" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>bit_count_</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a3537873f8549b8315cfbd9c515b094ef" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>bits_</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a946b95ee3c61e1c85efffd85f2aa9225" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>BloomFilter</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a5aa1532c35730de0069809cf9fec59d1" prot="private" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>hashes</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a1dd8bf0f2271fcac97827157d96fbd2e" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>kBitsPerEntry</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1aef23e01c9c51a4b2fb324d026e3294be" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>kNumHashes</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1ad3ebcaf6889172c521137561f97dc440" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>mayContain</name></member>
+      <member refid="structthemis_1_1auth_1_1_token_blacklist_1_1_bloom_filter_1a4ac1ba76d6c02cc187d21bce36e95142" prot="public" virt="non-virtual"><scope>themis::auth::TokenBlacklist::BloomFilter</scope><name>reset</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

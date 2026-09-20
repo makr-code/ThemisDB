@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::test::ArchiveProcessorValidationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1a3d22a8c5b7f5445abc04c2bd35c9b743" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_archive_processor_config" kindref="compound">ArchiveProcessorConfig</ref></type>
+        <definition>ArchiveProcessorConfig themis::content::test::ArchiveProcessorValidationTest::createDefaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>createDefaultConfig</name>
+        <qualifiedname>themis::content::test::ArchiveProcessorValidationTest::createDefaultConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="37" column="28" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="37" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1ab85566e08bfd6d3e52b1512011b889d1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::test::ArchiveProcessorValidationTest::createZipBlob</definition>
+        <argsstring>()</argsstring>
+        <name>createZipBlob</name>
+        <qualifiedname>themis::content::test::ArchiveProcessorValidationTest::createZipBlob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="47" column="17" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="47" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1a4e14e16859922ce44ea01c11fc8f96cc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::test::ArchiveProcessorValidationTest::createTarBlob</definition>
+        <argsstring>()</argsstring>
+        <name>createTarBlob</name>
+        <qualifiedname>themis::content::test::ArchiveProcessorValidationTest::createTarBlob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="52" column="17" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1a4df50102b4ba6ef6f715bea284d0d798" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::test::ArchiveProcessorValidationTest::create7ZipBlob</definition>
+        <argsstring>()</argsstring>
+        <name>create7ZipBlob</name>
+        <qualifiedname>themis::content::test::ArchiveProcessorValidationTest::create7ZipBlob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="59" column="17" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1a14cc9a5057bfcbf379305b32bc3e68cd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::test::ArchiveProcessorValidationTest::createGzipBlob</definition>
+        <argsstring>()</argsstring>
+        <name>createGzipBlob</name>
+        <qualifiedname>themis::content::test::ArchiveProcessorValidationTest::createGzipBlob</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_archive_processor_validation.cpp" line="64" column="17" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::ArchiveProcessorValidationTest</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::ArchiveProcessorValidationTest</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_archive_processor_validation.cpp" line="35" column="1" bodyfile="tests/content/test_archive_processor_validation.cpp" bodystart="35" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1a4df50102b4ba6ef6f715bea284d0d798" prot="protected" virt="non-virtual"><scope>themis::content::test::ArchiveProcessorValidationTest</scope><name>create7ZipBlob</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1a3d22a8c5b7f5445abc04c2bd35c9b743" prot="protected" virt="non-virtual"><scope>themis::content::test::ArchiveProcessorValidationTest</scope><name>createDefaultConfig</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1a14cc9a5057bfcbf379305b32bc3e68cd" prot="protected" virt="non-virtual"><scope>themis::content::test::ArchiveProcessorValidationTest</scope><name>createGzipBlob</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1a4e14e16859922ce44ea01c11fc8f96cc" prot="protected" virt="non-virtual"><scope>themis::content::test::ArchiveProcessorValidationTest</scope><name>createTarBlob</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_archive_processor_validation_test_1ab85566e08bfd6d3e52b1512011b889d1" prot="protected" virt="non-virtual"><scope>themis::content::test::ArchiveProcessorValidationTest</scope><name>createZipBlob</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

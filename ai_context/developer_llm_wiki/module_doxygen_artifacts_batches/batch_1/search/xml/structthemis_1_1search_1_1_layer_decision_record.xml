@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1search_1_1_layer_decision_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::search::LayerDecisionRecord</compoundname>
+    <includes refid="layered__retrieval__orchestrator_8h" local="no">layered_retrieval_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layer_decision_record_1accb04a9b033eb84f2c531ef0b5512b8f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayerDecisionRecord::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::search::LayerDecisionRecord::layer_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="90" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layer_decision_record_1abfe84a6f9ce16cb2413f042aa2a3699d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5de" kindref="member">LayerRoutingDecision</ref></type>
+        <definition>LayerRoutingDecision themis::search::LayerDecisionRecord::decision</definition>
+        <argsstring></argsstring>
+        <name>decision</name>
+        <qualifiedname>themis::search::LayerDecisionRecord::decision</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1search_1aa0833abcac903a54180616e04b39e5dea055c1a591abb0e8cd86dc969727bcc0b" kindref="member">LayerRoutingDecision::DISABLED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="91" column="26" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layer_decision_record_1afd63f3a8400aa3b3a4ff8690d70a8a34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::LayerDecisionRecord::detail</definition>
+        <argsstring></argsstring>
+        <name>detail</name>
+        <qualifiedname>themis::search::LayerDecisionRecord::detail</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="92" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layer_decision_record_1a0b558b9cbc93500647e2ff7731256ee7" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::search::LayerDecisionRecord::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::search::LayerDecisionRecord::latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="93" column="19" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layer_decision_record_1ace9feca4a1f1f1e4e161e9fe415bd744" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::search::LayerDecisionRecord::input_count</definition>
+        <argsstring></argsstring>
+        <name>input_count</name>
+        <qualifiedname>themis::search::LayerDecisionRecord::input_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="94" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_layer_decision_record_1a9ede64a7e4493c0b338c1f5acc5e4f6b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::search::LayerDecisionRecord::output_count</definition>
+        <argsstring></argsstring>
+        <name>output_count</name>
+        <qualifiedname>themis::search::LayerDecisionRecord::output_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="95" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-layer execution metadata recorded by the orchestrator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/layered_retrieval_orchestrator.h" line="89" column="1" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="89" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1search_1_1_layer_decision_record_1abfe84a6f9ce16cb2413f042aa2a3699d" prot="public" virt="non-virtual"><scope>themis::search::LayerDecisionRecord</scope><name>decision</name></member>
+      <member refid="structthemis_1_1search_1_1_layer_decision_record_1afd63f3a8400aa3b3a4ff8690d70a8a34" prot="public" virt="non-virtual"><scope>themis::search::LayerDecisionRecord</scope><name>detail</name></member>
+      <member refid="structthemis_1_1search_1_1_layer_decision_record_1ace9feca4a1f1f1e4e161e9fe415bd744" prot="public" virt="non-virtual"><scope>themis::search::LayerDecisionRecord</scope><name>input_count</name></member>
+      <member refid="structthemis_1_1search_1_1_layer_decision_record_1a0b558b9cbc93500647e2ff7731256ee7" prot="public" virt="non-virtual"><scope>themis::search::LayerDecisionRecord</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1search_1_1_layer_decision_record_1accb04a9b033eb84f2c531ef0b5512b8f" prot="public" virt="non-virtual"><scope>themis::search::LayerDecisionRecord</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1search_1_1_layer_decision_record_1a9ede64a7e4493c0b338c1f5acc5e4f6b" prot="public" virt="non-virtual"><scope>themis::search::LayerDecisionRecord</scope><name>output_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

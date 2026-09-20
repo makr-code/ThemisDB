@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::NCCLVectorBackend::Statistics</compoundname>
+    <includes refid="nccl__vector__backend_8h" local="no">nccl_vector_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1a8aa51432e09d051d547855334e8e69ef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::NCCLVectorBackend::Statistics::totalBytesSent</definition>
+        <argsstring></argsstring>
+        <name>totalBytesSent</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Statistics::totalBytesSent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="161" column="16" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1a391bff90787b232c8de0a25235cafa58" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::NCCLVectorBackend::Statistics::totalBytesReceived</definition>
+        <argsstring></argsstring>
+        <name>totalBytesReceived</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Statistics::totalBytesReceived</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="162" column="16" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1a24c8333d5b29265d37b5cd2af6349d9a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::NCCLVectorBackend::Statistics::numCollectives</definition>
+        <argsstring></argsstring>
+        <name>numCollectives</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Statistics::numCollectives</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="163" column="16" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1ac11b3b4b8c8c85d76f4d9852aac4a540" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::NCCLVectorBackend::Statistics::numP2PTransfers</definition>
+        <argsstring></argsstring>
+        <name>numP2PTransfers</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Statistics::numP2PTransfers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="164" column="16" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1ab5d954398f61da13d1a67df741db61c8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::NCCLVectorBackend::Statistics::avgCollectiveTimeMs</definition>
+        <argsstring></argsstring>
+        <name>avgCollectiveTimeMs</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Statistics::avgCollectiveTimeMs</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="165" column="16" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1ac7ce56394552e828f921878a764d0d85" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::acceleration::NCCLVectorBackend::Statistics::avgP2PTimeMs</definition>
+        <argsstring></argsstring>
+        <name>avgP2PTimeMs</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Statistics::avgP2PTimeMs</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="166" column="16" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1ad8774f5e3a4ea48c2d047526420d9dbc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::NCCLVectorBackend::Statistics::nvlinkAvailable</definition>
+        <argsstring></argsstring>
+        <name>nvlinkAvailable</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Statistics::nvlinkAvailable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="167" column="14" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1a664b095e10910d8db431ac0f19795ad1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::NCCLVectorBackend::Statistics::numNVLinks</definition>
+        <argsstring></argsstring>
+        <name>numNVLinks</name>
+        <qualifiedname>themis::acceleration::NCCLVectorBackend::Statistics::numNVLinks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/nccl_vector_backend.h" line="168" column="13" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/nccl_vector_backend.h" line="160" column="5" bodyfile="include/acceleration/nccl_vector_backend.h" bodystart="160" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1ab5d954398f61da13d1a67df741db61c8" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Statistics</scope><name>avgCollectiveTimeMs</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1ac7ce56394552e828f921878a764d0d85" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Statistics</scope><name>avgP2PTimeMs</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1a24c8333d5b29265d37b5cd2af6349d9a" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Statistics</scope><name>numCollectives</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1a664b095e10910d8db431ac0f19795ad1" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Statistics</scope><name>numNVLinks</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1ac11b3b4b8c8c85d76f4d9852aac4a540" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Statistics</scope><name>numP2PTransfers</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1ad8774f5e3a4ea48c2d047526420d9dbc" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Statistics</scope><name>nvlinkAvailable</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1a391bff90787b232c8de0a25235cafa58" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Statistics</scope><name>totalBytesReceived</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_n_c_c_l_vector_backend_1_1_statistics_1a8aa51432e09d051d547855334e8e69ef" prot="public" virt="non-virtual"><scope>themis::acceleration::NCCLVectorBackend::Statistics</scope><name>totalBytesSent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

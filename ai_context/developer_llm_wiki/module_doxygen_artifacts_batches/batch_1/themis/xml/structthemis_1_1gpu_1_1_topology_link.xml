@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_topology_link" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::TopologyLink</compoundname>
+    <includes refid="cluster__topology_8h" local="no">cluster_topology.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_topology_link_1a8348b4aefb27f0b5e8a2847c9f854b9a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1gpu_1a881a53e5711d7e5964bc051f1f346882" kindref="member">InterconnectType</ref></type>
+        <definition>InterconnectType themis::gpu::TopologyLink::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::gpu::TopologyLink::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1gpu_1a881a53e5711d7e5964bc051f1f346882a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">InterconnectType::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="49" column="22" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_topology_link_1a781044771384f22df527e93431ef9b38" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::TopologyLink::bandwidth_gbps</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_gbps</name>
+        <qualifiedname>themis::gpu::TopologyLink::bandwidth_gbps</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Peak measured or estimated bandwidth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="50" column="22" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_topology_link_1a625a40b84346b2220f6ae6d71f928068" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::TopologyLink::latency_us</definition>
+        <argsstring></argsstring>
+        <name>latency_us</name>
+        <qualifiedname>themis::gpu::TopologyLink::latency_us</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Round-trip latency in microseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="51" column="22" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_topology_link_1aa7b0925675d7121f94fac653f40cd8eb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::TopologyLink::src_device_index</definition>
+        <argsstring></argsstring>
+        <name>src_device_index</name>
+        <qualifiedname>themis::gpu::TopologyLink::src_device_index</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="54" column="9" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_topology_link_1aa845ab8483284c277fcd14cca6d91fd9" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::TopologyLink::dst_device_index</definition>
+        <argsstring></argsstring>
+        <name>dst_device_index</name>
+        <qualifiedname>themis::gpu::TopologyLink::dst_device_index</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="55" column="9" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_topology_link_1a5583e53ad7e3ead56ea81d98f5d4f0a5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::TopologyLink::src_node_id</definition>
+        <argsstring></argsstring>
+        <name>src_node_id</name>
+        <qualifiedname>themis::gpu::TopologyLink::src_node_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="58" column="17" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_topology_link_1afb1bbfdf9d5d68ced8e8221c4833691c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::TopologyLink::dst_node_id</definition>
+        <argsstring></argsstring>
+        <name>dst_node_id</name>
+        <qualifiedname>themis::gpu::TopologyLink::dst_node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="59" column="17" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_topology_link_1ad43e01d63f6d5ca24c2169d0f8c2e96a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::TopologyLink::is_inter_node</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_inter_node</name>
+        <qualifiedname>themis::gpu::TopologyLink::is_inter_node</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/cluster_topology.h" line="61" column="10" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Directed link between two GPU devices (intra-node) or two nodes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>For intra-node links src_device_index and dst_device_index are driver device ordinals. For inter-node links src_node_id / dst_node_id identify the participating cluster nodes; device indices are set to -1. </para>
+    </detaileddescription>
+    <location file="include/themis/gpu/cluster_topology.h" line="48" column="1" bodyfile="include/themis/gpu/cluster_topology.h" bodystart="48" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_topology_link_1a781044771384f22df527e93431ef9b38" prot="public" virt="non-virtual"><scope>themis::gpu::TopologyLink</scope><name>bandwidth_gbps</name></member>
+      <member refid="structthemis_1_1gpu_1_1_topology_link_1aa845ab8483284c277fcd14cca6d91fd9" prot="public" virt="non-virtual"><scope>themis::gpu::TopologyLink</scope><name>dst_device_index</name></member>
+      <member refid="structthemis_1_1gpu_1_1_topology_link_1afb1bbfdf9d5d68ced8e8221c4833691c" prot="public" virt="non-virtual"><scope>themis::gpu::TopologyLink</scope><name>dst_node_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_topology_link_1ad43e01d63f6d5ca24c2169d0f8c2e96a" prot="public" virt="non-virtual"><scope>themis::gpu::TopologyLink</scope><name>is_inter_node</name></member>
+      <member refid="structthemis_1_1gpu_1_1_topology_link_1a625a40b84346b2220f6ae6d71f928068" prot="public" virt="non-virtual"><scope>themis::gpu::TopologyLink</scope><name>latency_us</name></member>
+      <member refid="structthemis_1_1gpu_1_1_topology_link_1aa7b0925675d7121f94fac653f40cd8eb" prot="public" virt="non-virtual"><scope>themis::gpu::TopologyLink</scope><name>src_device_index</name></member>
+      <member refid="structthemis_1_1gpu_1_1_topology_link_1a5583e53ad7e3ead56ea81d98f5d4f0a5" prot="public" virt="non-virtual"><scope>themis::gpu::TopologyLink</scope><name>src_node_id</name></member>
+      <member refid="structthemis_1_1gpu_1_1_topology_link_1a8348b4aefb27f0b5e8a2847c9f854b9a" prot="public" virt="non-virtual"><scope>themis::gpu::TopologyLink</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

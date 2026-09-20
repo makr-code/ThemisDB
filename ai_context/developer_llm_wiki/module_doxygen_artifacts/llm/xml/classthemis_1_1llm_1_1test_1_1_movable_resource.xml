@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_movable_resource" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::MovableResource</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_movable_resource_1a4427b4d639f2c1fdd45079c1e77e9828" prot="private" static="no" mutable="no">
+        <type>int *</type>
+        <definition>int* themis::llm::test::MovableResource::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::llm::test::MovableResource::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="309" column="7" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="309" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_movable_resource_1a0e437fb6e3801a7760b5bf188ab74660" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::MovableResource::MovableResource</definition>
+        <argsstring>()</argsstring>
+        <name>MovableResource</name>
+        <qualifiedname>themis::llm::test::MovableResource::MovableResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="277" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="277" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_movable_resource_1aa6f2a0dcfed2cfc35c63a320008c84b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::MovableResource::~MovableResource</definition>
+        <argsstring>()</argsstring>
+        <name>~MovableResource</name>
+        <qualifiedname>themis::llm::test::MovableResource::~MovableResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="279" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="279" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_movable_resource_1afbc8d74c95770cdbc0308684e9b0f32f" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::MovableResource::MovableResource</definition>
+        <argsstring>(MovableResource &amp;&amp;other) noexcept</argsstring>
+        <name>MovableResource</name>
+        <qualifiedname>themis::llm::test::MovableResource::MovableResource</qualifiedname>
+        <param>
+          <type>MovableResource &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="287" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="287" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_movable_resource_1a3374bb464d65db6d6da76cab2e6b0d6d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a0e437fb6e3801a7760b5bf188ab74660" kindref="member">MovableResource</ref> &amp;</type>
+        <definition>MovableResource &amp; themis::llm::test::MovableResource::operator=</definition>
+        <argsstring>(MovableResource &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::test::MovableResource::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a0e437fb6e3801a7760b5bf188ab74660" kindref="member">MovableResource</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="291" column="19" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="291" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_movable_resource_1a546704e0336d7dcf3170f5b545a531d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::MovableResource::MovableResource</definition>
+        <argsstring>(const MovableResource &amp;)=delete</argsstring>
+        <name>MovableResource</name>
+        <qualifiedname>themis::llm::test::MovableResource::MovableResource</qualifiedname>
+        <param>
+          <type>const MovableResource &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="303" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_movable_resource_1a0b3c1752c2cc011984921e8e3ffed5e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a0e437fb6e3801a7760b5bf188ab74660" kindref="member">MovableResource</ref> &amp;</type>
+        <definition>MovableResource &amp; themis::llm::test::MovableResource::operator=</definition>
+        <argsstring>(const MovableResource &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::test::MovableResource::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a0e437fb6e3801a7760b5bf188ab74660" kindref="member">MovableResource</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="304" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_movable_resource_1a099257fc2faede3bc11e68d24bac5416" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::test::MovableResource::getValue</definition>
+        <argsstring>() const</argsstring>
+        <name>getValue</name>
+        <qualifiedname>themis::llm::test::MovableResource::getValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="306" column="7" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="306" bodyend="306"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="275" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="275" bodyend="310"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a4427b4d639f2c1fdd45079c1e77e9828" prot="private" virt="non-virtual"><scope>themis::llm::test::MovableResource</scope><name>data_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a099257fc2faede3bc11e68d24bac5416" prot="public" virt="non-virtual"><scope>themis::llm::test::MovableResource</scope><name>getValue</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a0e437fb6e3801a7760b5bf188ab74660" prot="public" virt="non-virtual"><scope>themis::llm::test::MovableResource</scope><name>MovableResource</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1afbc8d74c95770cdbc0308684e9b0f32f" prot="public" virt="non-virtual"><scope>themis::llm::test::MovableResource</scope><name>MovableResource</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a546704e0336d7dcf3170f5b545a531d9" prot="public" virt="non-virtual"><scope>themis::llm::test::MovableResource</scope><name>MovableResource</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a3374bb464d65db6d6da76cab2e6b0d6d" prot="public" virt="non-virtual"><scope>themis::llm::test::MovableResource</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1a0b3c1752c2cc011984921e8e3ffed5e4" prot="public" virt="non-virtual"><scope>themis::llm::test::MovableResource</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_movable_resource_1aa6f2a0dcfed2cfc35c63a320008c84b4" prot="public" virt="non-virtual"><scope>themis::llm::test::MovableResource</scope><name>~MovableResource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

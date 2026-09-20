@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_time_series_aggregates_1_1_aggregate_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TimeSeriesAggregates::AggregateResult</compoundname>
+    <includes refid="aggregates_8h" local="no">aggregates.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_time_series_aggregates_1_1_aggregate_result_1ad77a629b45c5b7dacdcf5af926e519a2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themis::TimeSeriesAggregates::AggregateResult::timestamps</definition>
+        <argsstring></argsstring>
+        <name>timestamps</name>
+        <qualifiedname>themis::TimeSeriesAggregates::AggregateResult::timestamps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="67" column="21" bodyfile="include/timeseries/aggregates.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_aggregates_1_1_aggregate_result_1a1fbfe8515c883b61a824ade26091a2d0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::TimeSeriesAggregates::AggregateResult::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::TimeSeriesAggregates::AggregateResult::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="68" column="21" bodyfile="include/timeseries/aggregates.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_time_series_aggregates_1_1_aggregate_result_1a22cb3dc5a5044e193800bdbd8ce537e2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TimeSeriesAggregates::AggregateResult::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::TimeSeriesAggregates::AggregateResult::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="69" column="16" bodyfile="include/timeseries/aggregates.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/aggregates.h" line="66" column="5" bodyfile="include/timeseries/aggregates.h" bodystart="66" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_time_series_aggregates_1_1_aggregate_result_1a22cb3dc5a5044e193800bdbd8ce537e2" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates::AggregateResult</scope><name>count</name></member>
+      <member refid="structthemis_1_1_time_series_aggregates_1_1_aggregate_result_1ad77a629b45c5b7dacdcf5af926e519a2" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates::AggregateResult</scope><name>timestamps</name></member>
+      <member refid="structthemis_1_1_time_series_aggregates_1_1_aggregate_result_1a1fbfe8515c883b61a824ade26091a2d0" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates::AggregateResult</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

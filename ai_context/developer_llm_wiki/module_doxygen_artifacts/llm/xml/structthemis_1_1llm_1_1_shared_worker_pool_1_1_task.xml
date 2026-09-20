@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_task" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::SharedWorkerPool::Task</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_task_1a8c24c509d51695bf0fe1b66681ab0900" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SharedWorkerPool::Task::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::Task::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="86" column="30" bodyfile="include/llm/shared_worker_pool.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_task_1a5d9967f8abf71ed758ed4b1e16c22ffd" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>std::function&lt;void()&gt; themis::llm::SharedWorkerPool::Task::callable</definition>
+        <argsstring></argsstring>
+        <name>callable</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::Task::callable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="87" column="23" bodyfile="include/llm/shared_worker_pool.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_task_1aa7f0f1b526c905e764f9bfbcd4159524" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::SharedWorkerPool::Task::operator&lt;</definition>
+        <argsstring>(const Task &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::Task::operator&lt;</qualifiedname>
+        <param>
+          <type>const Task &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="90" column="9" bodyfile="include/llm/shared_worker_pool.h" bodystart="90" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/shared_worker_pool.h" line="85" column="5" bodyfile="include/llm/shared_worker_pool.h" bodystart="85" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_task_1a5d9967f8abf71ed758ed4b1e16c22ffd" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool::Task</scope><name>callable</name></member>
+      <member refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_task_1aa7f0f1b526c905e764f9bfbcd4159524" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool::Task</scope><name>operator&lt;</name></member>
+      <member refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_task_1a8c24c509d51695bf0fe1b66681ab0900" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool::Task</scope><name>priority</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

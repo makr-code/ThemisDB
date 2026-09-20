@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RubricEvaluator::Config</compoundname>
+    <includes refid="rubric__evaluator_8h" local="no">rubric_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1a8728c9eef7489409818e5cf0faa46364" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RubricEvaluator::Config::strict_level_matching</definition>
+        <argsstring></argsstring>
+        <name>strict_level_matching</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Config::strict_level_matching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Require exact level match. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="78" column="14" bodyfile="include/rag/rubric_evaluator.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1abac0f99ba16c1bdc18385f6e3c871e3b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::RubricEvaluator::Config::enable_consistency_check</definition>
+        <argsstring></argsstring>
+        <name>enable_consistency_check</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Config::enable_consistency_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="79" column="14" bodyfile="include/rag/rubric_evaluator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1a05617924630bdd00208c88dc9bddfd7f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RubricEvaluator::Config::consistency_threshold</definition>
+        <argsstring></argsstring>
+        <name>consistency_threshold</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluator::Config::consistency_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="80" column="16" bodyfile="include/rag/rubric_evaluator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for rubric evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rubric_evaluator.h" line="77" column="5" bodyfile="include/rag/rubric_evaluator.h" bodystart="77" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1a05617924630bdd00208c88dc9bddfd7f" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Config</scope><name>consistency_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1abac0f99ba16c1bdc18385f6e3c871e3b" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Config</scope><name>enable_consistency_check</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluator_1_1_config_1a8728c9eef7489409818e5cf0faa46364" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluator::Config</scope><name>strict_level_matching</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

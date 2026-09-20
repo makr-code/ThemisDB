@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_40b95b7c801a7215e05232e218643275" kind="dir">
+    <compoundname>tests/llama_cpp</compoundname>
+    <innerfile refid="test__llama__cpp__highcardinality__stress_8cpp">test_llama_cpp_highcardinality_stress.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llama_cpp/"/>
+  </compounddef>
+</doxygen>

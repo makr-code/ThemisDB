@@ -1,0 +1,755 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::MultiTierReplicationManager</compoundname>
+    <includes refid="multi__tier__replication_8h" local="no">multi_tier_replication.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a29cf7025a9cf5a30d17a6812d7939505" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_multi_tier_config" kindref="compound">MultiTierConfig</ref></type>
+        <definition>MultiTierConfig themisdb::replication::MultiTierReplicationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="292" column="21" bodyfile="include/replication/multi_tier_replication.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a2851bf416631219d165f1011be82f9fd" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::MultiTierReplicationManager::assignments_mutex_</definition>
+        <argsstring></argsstring>
+        <name>assignments_mutex_</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::assignments_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="294" column="31" bodyfile="include/replication/multi_tier_replication.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a9ff1846d014a4a88c00c6eccc7746a4f" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ReplicationTier&gt; themisdb::replication::MultiTierReplicationManager::tier_assignments_</definition>
+        <argsstring></argsstring>
+        <name>tier_assignments_</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::tier_assignments_</qualifiedname>
+        <briefdescription>
+<para>collection → tier </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="295" column="14" bodyfile="include/replication/multi_tier_replication.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af15ab42b603ec0efe056acec77fd08bb" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::MultiTierReplicationManager::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="297" column="31" bodyfile="include/replication/multi_tier_replication.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ae74681eff1eb14861bdb90fb9c9b5bc4" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemisdb_1_1replication_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref> &gt;</type>
+        <definition>std::map&lt;std::string, CollectionAccessStats&gt; themisdb::replication::MultiTierReplicationManager::access_stats_</definition>
+        <argsstring></argsstring>
+        <name>access_stats_</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::access_stats_</qualifiedname>
+        <briefdescription>
+<para>collection → stats </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="298" column="14" bodyfile="include/replication/multi_tier_replication.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a40d5a4e78aefaf75a2f762870e66fd3e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themisdb::replication::MultiTierReplicationManager::auto_tiering_</definition>
+        <argsstring></argsstring>
+        <name>auto_tiering_</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::auto_tiering_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="300" column="21" bodyfile="include/replication/multi_tier_replication.h" bodystart="300" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ae60328b6d410cfe51000d12ad9d52df3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::MultiTierReplicationManager::total_promotions_</definition>
+        <argsstring></argsstring>
+        <name>total_promotions_</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::total_promotions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="301" column="17" bodyfile="include/replication/multi_tier_replication.h" bodystart="301" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a206d2cddab7483c083f49cbfec2f048a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::MultiTierReplicationManager::total_demotions_</definition>
+        <argsstring></argsstring>
+        <name>total_demotions_</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::total_demotions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="302" column="17" bodyfile="include/replication/multi_tier_replication.h" bodystart="302" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::MultiTierReplicationManager::MultiTierReplicationManager</definition>
+        <argsstring>(const MultiTierConfig &amp;config={})</argsstring>
+        <name>MultiTierReplicationManager</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::MultiTierReplicationManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_multi_tier_config" kindref="compound">MultiTierConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="174" column="14" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="118" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a28072b567e2078557881d450f0d5ed71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::MultiTierReplicationManager::~MultiTierReplicationManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MultiTierReplicationManager</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::~MultiTierReplicationManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="175" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a8e3aca84ad03baafa08176812b4da38c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::MultiTierReplicationManager::MultiTierReplicationManager</definition>
+        <argsstring>(const MultiTierReplicationManager &amp;)=delete</argsstring>
+        <name>MultiTierReplicationManager</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::MultiTierReplicationManager</qualifiedname>
+        <param>
+          <type>const MultiTierReplicationManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="178" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1aa788fd84dc96eb36df66a24fb6253fb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" kindref="member">MultiTierReplicationManager</ref> &amp;</type>
+        <definition>MultiTierReplicationManager &amp; themisdb::replication::MultiTierReplicationManager::operator=</definition>
+        <argsstring>(const MultiTierReplicationManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" kindref="member">MultiTierReplicationManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="179" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1adc6a30f56ef49a9b3337d9292320b3ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::MultiTierReplicationManager::assignTier</definition>
+        <argsstring>(const std::string &amp;collection, ReplicationTier tier)</argsstring>
+        <name>assignTier</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::assignTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+<para>Assign Tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Assign a collection to the specified replication tier.</para>
+<para>If the collection is already assigned to a different tier the assignment is updated in-place.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">assignments_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="189" column="10" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="133" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a0a3b043c453e05746df25605f92d3708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::MultiTierReplicationManager::removeTier</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>removeTier</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::removeTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Remove Tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a collection&apos;s explicit tier assignment.</para>
+<para>After removal <ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a5c4d9b6148d962d29de810e3222d4d08" kindref="member">getTier()</ref> returns the default_tier from the config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">assignments_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="196" column="10" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="173" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a5c4d9b6148d962d29de810e3222d4d08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref></type>
+        <definition>ReplicationTier themisdb::replication::MultiTierReplicationManager::getTier</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>getTier</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::getTier</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the current replication tier for a collection.</para>
+<para>Returns the explicitly assigned tier if one exists, otherwise the default_tier from the <ref refid="structthemisdb_1_1replication_1_1_multi_tier_config" kindref="compound">MultiTierConfig</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">assignments_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="204" column="21" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="199" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a7e939bb1485b965482bf10a24ade4a74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_tier_config" kindref="compound">TierConfig</ref></type>
+        <definition>TierConfig themisdb::replication::MultiTierReplicationManager::getTierConfig</definition>
+        <argsstring>(const std::string &amp;collection) const</argsstring>
+        <name>getTierConfig</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::getTierConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get the full <ref refid="structthemisdb_1_1replication_1_1_tier_config" kindref="compound">TierConfig</ref> for a collection&apos;s current tier. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="209" column="16" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="215" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a654bb56ebd765bdc4c3b2a3e787007ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_tier_config" kindref="compound">TierConfig</ref></type>
+        <definition>TierConfig themisdb::replication::MultiTierReplicationManager::getDefaultTierConfig</definition>
+        <argsstring>(ReplicationTier tier) const</argsstring>
+        <name>getDefaultTierConfig</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::getDefaultTierConfig</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the built-in (or overridden) <ref refid="structthemisdb_1_1replication_1_1_tier_config" kindref="compound">TierConfig</ref> for the given tier. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="214" column="16" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="221" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af2ac0f1766c5ef99e7bf755413944ebb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::MultiTierReplicationManager::enableAutoTiering</definition>
+        <argsstring>(bool enabled)</argsstring>
+        <name>enableAutoTiering</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::enableAutoTiering</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+        </param>
+        <briefdescription>
+<para>Enable Auto Tiering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable or disable automatic tier promotion/demotion based on access patterns.</para>
+<para>When enabled, <computeroutput><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1acb852a0b22eb910b138058ac48b9db8c" kindref="member">recordAccess()</ref></computeroutput> updates per-collection counters and <computeroutput><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a149926f48c6975b9acd7f0a12d69201f" kindref="member">evaluateTierPromotion()</ref></computeroutput> applies the promotion/demotion rules.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="225" column="10" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="245" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a3e10155420a18b882d971d22efb521d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::MultiTierReplicationManager::isAutoTieringEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isAutoTieringEnabled</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::isAutoTieringEnabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns true when auto-tiering is currently enabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="228" column="10" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="254" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1acb852a0b22eb910b138058ac48b9db8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::MultiTierReplicationManager::recordAccess</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>recordAccess</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::recordAccess</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Record Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record a single access to the collection.</para>
+<para>Has no effect when auto-tiering is disabled. Thread-safe.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="235" column="10" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="263" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a149926f48c6975b9acd7f0a12d69201f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref></type>
+        <definition>ReplicationTier themisdb::replication::MultiTierReplicationManager::evaluateTierPromotion</definition>
+        <argsstring>(const std::string &amp;collection)</argsstring>
+        <name>evaluateTierPromotion</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::evaluateTierPromotion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Tier Promotion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate and (if necessary) change the tier for the given collection based on accumulated access statistics.</para>
+<para>Promotion rule: access_rate &gt;= hot_access_threshold → TIER_1_CRITICAL Demotion rule: access_rate &lt; cold_access_threshold → TIER_3_ARCHIVAL Otherwise: no change (or revert to TIER_2_STANDARD if currently 1 or 3)</para>
+<para>Returns the new tier (which may be the same as the current tier). Returns the current tier unchanged when auto-tiering is disabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="248" column="21" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="306" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a36cb18b5af4e32fb40a329df014b7a05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_multi_tier_stats" kindref="compound">MultiTierStats</ref></type>
+        <definition>MultiTierStats themisdb::replication::MultiTierReplicationManager::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return aggregate tier statistics. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">assignments_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="253" column="20" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="364" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ab96769a67983c9148d84a8f086966c82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref> &gt;</type>
+        <definition>std::vector&lt; CollectionAccessStats &gt; themisdb::replication::MultiTierReplicationManager::getCollectionStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getCollectionStats</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::getCollectionStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return per-collection access statistics.</para>
+<para>Only collections that have had at least one access recorded or an explicit tier assignment are included. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="261" column="17" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="388" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a5aeef9ba5951a6c823b423cdcf6bf11e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themisdb::replication::MultiTierReplicationManager::getCollectionsForTier</definition>
+        <argsstring>(ReplicationTier tier) const</argsstring>
+        <name>getCollectionsForTier</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::getCollectionsForTier</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return all collections currently assigned to the given tier.</para>
+<para>Collections relying on the default tier are NOT included unless they have been explicitly assigned. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">assignments_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="269" column="17" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="406" bodyend="422"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1acc32ffb788d0fd81cc5844e6c91f589a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::MultiTierReplicationManager::refreshAccessRate</definition>
+        <argsstring>(CollectionAccessStats &amp;stats) const</argsstring>
+        <name>refreshAccessRate</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::refreshAccessRate</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1replication_1_1_collection_access_stats" kindref="compound">CollectionAccessStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Expire old timestamps outside the rolling window and recompute access_rate_per_min and recent_accesses. Must be called while holding the stats write lock. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="279" column="10" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="428" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ae483234af809d49f6956eec9a73a91de" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::MultiTierReplicationManager::applyTierChange</definition>
+        <argsstring>(const std::string &amp;collection, ReplicationTier old_tier, ReplicationTier new_tier)</argsstring>
+        <name>applyTierChange</name>
+        <qualifiedname>themisdb::replication::MultiTierReplicationManager::applyTierChange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref></type>
+          <declname>old_tier</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" kindref="member">ReplicationTier</ref></type>
+          <declname>new_tier</declname>
+        </param>
+        <briefdescription>
+<para>Apply Tier Change. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply a tier change and update promotion/demotion counters. Acquires assignments_mutex_ and stats_mutex_ internally. Must NOT be called while holding either lock.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">old_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">assignments_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="286" column="10" bodyfile="src/replication/multi_tier_replication.cpp" bodystart="463" bodyend="522"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager" kindref="compound">MultiTierReplicationManager</ref> (v1.8.0)</para>
+<para>Manages hierarchical replication with three durability/consistency tiers.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">MultiTierConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.auto_tiering_enabled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" kindref="member">MultiTierReplicationManager</ref><sp/>mgr(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.assignTier(</highlight><highlight class="stringliteral">&quot;financial_transactions&quot;</highlight><highlight class="normal">,<sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87a27d3e561fdae26c0039edeb79f93fd90" kindref="member">ReplicationTier::TIER_1_CRITICAL</ref>);</highlight></codeline>
+<codeline><highlight class="normal">mgr.assignTier(</highlight><highlight class="stringliteral">&quot;user_profiles&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87aeef767dda7ea588f055c8a1e2b8556bc" kindref="member">ReplicationTier::TIER_2_STANDARD</ref>);</highlight></codeline>
+<codeline><highlight class="normal">mgr.assignTier(</highlight><highlight class="stringliteral">&quot;audit_logs&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87a58f29658223afe57eb6e7db22d54d400" kindref="member">ReplicationTier::TIER_3_ARCHIVAL</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Record<sp/>accesses<sp/>for<sp/>auto-tiering</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.recordAccess(</highlight><highlight class="stringliteral">&quot;audit_logs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Evaluate<sp/>and<sp/>apply<sp/>tier<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.evaluateTierPromotion(</highlight><highlight class="stringliteral">&quot;audit_logs&quot;</highlight><highlight class="normal">);</highlight></codeline>
+</programlisting></para>
+<para>Thread safety: all public methods are thread-safe. </para>
+    </detaileddescription>
+    <location file="include/replication/multi_tier_replication.h" line="170" column="1" bodyfile="include/replication/multi_tier_replication.h" bodystart="170" bodyend="303"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ae74681eff1eb14861bdb90fb9c9b5bc4" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>access_stats_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ae483234af809d49f6956eec9a73a91de" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>applyTierChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a2851bf416631219d165f1011be82f9fd" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>assignments_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1adc6a30f56ef49a9b3337d9292320b3ee" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>assignTier</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a40d5a4e78aefaf75a2f762870e66fd3e" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>auto_tiering_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a29cf7025a9cf5a30d17a6812d7939505" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>config_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af2ac0f1766c5ef99e7bf755413944ebb" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>enableAutoTiering</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a149926f48c6975b9acd7f0a12d69201f" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>evaluateTierPromotion</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a5aeef9ba5951a6c823b423cdcf6bf11e" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>getCollectionsForTier</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ab96769a67983c9148d84a8f086966c82" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>getCollectionStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a654bb56ebd765bdc4c3b2a3e787007ab" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>getDefaultTierConfig</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a36cb18b5af4e32fb40a329df014b7a05" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a5c4d9b6148d962d29de810e3222d4d08" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>getTier</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a7e939bb1485b965482bf10a24ade4a74" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>getTierConfig</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a3e10155420a18b882d971d22efb521d8" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>isAutoTieringEnabled</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af503eba79d95bf3a7e195df27e06e8a4" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>MultiTierReplicationManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a8e3aca84ad03baafa08176812b4da38c" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>MultiTierReplicationManager</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1aa788fd84dc96eb36df66a24fb6253fb0" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1acb852a0b22eb910b138058ac48b9db8c" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>recordAccess</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1acc32ffb788d0fd81cc5844e6c91f589a" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>refreshAccessRate</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a0a3b043c453e05746df25605f92d3708" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>removeTier</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1af15ab42b603ec0efe056acec77fd08bb" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>stats_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a9ff1846d014a4a88c00c6eccc7746a4f" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>tier_assignments_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a206d2cddab7483c083f49cbfec2f048a" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>total_demotions_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1ae60328b6d410cfe51000d12ad9d52df3" prot="private" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>total_promotions_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager_1a28072b567e2078557881d450f0d5ed71" prot="public" virt="non-virtual"><scope>themisdb::replication::MultiTierReplicationManager</scope><name>~MultiTierReplicationManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_duplicate_of" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::DuplicateOf</compoundname>
+    <includes refid="deduplication__checker_8h" local="no">deduplication_checker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_duplicate_of_1adc9df265f191d70bce61c459b5f44055" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::DuplicateOf::existing_id</definition>
+        <argsstring></argsstring>
+        <name>existing_id</name>
+        <qualifiedname>themis::content::DuplicateOf::existing_id</qualifiedname>
+        <briefdescription>
+<para>Content ID of the existing near-duplicate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="26" column="17" bodyfile="include/content/deduplication_checker.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_duplicate_of_1ac50c85b39647329336bb4713875357f5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::content::DuplicateOf::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::content::DuplicateOf::similarity</qualifiedname>
+        <briefdescription>
+<para>Estimated similarity in [0, 1]; 1 = identical. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/deduplication_checker.h" line="27" column="12" bodyfile="include/content/deduplication_checker.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/deduplication_checker.h" line="25" column="1" bodyfile="include/content/deduplication_checker.h" bodystart="25" bodyend="28"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_duplicate_of_1adc9df265f191d70bce61c459b5f44055" prot="public" virt="non-virtual"><scope>themis::content::DuplicateOf</scope><name>existing_id</name></member>
+      <member refid="structthemis_1_1content_1_1_duplicate_of_1ac50c85b39647329336bb4713875357f5" prot="public" virt="non-virtual"><scope>themis::content::DuplicateOf</scope><name>similarity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,667 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__streaming__handler_8cpp" kind="file" language="C++">
+    <compoundname>test_streaming_handler.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">stdexcept</includes>
+    <includes refid="streaming__handler_8h" local="yes">llm/streaming_handler.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>llm/streaming_handler.h</label>
+        <link refid="streaming__handler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_streaming_handler.cpp</label>
+        <link refid="test__streaming__handler_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_streaming_handler_test" prot="public">StreamingHandlerTest</innerclass>
+    <innerclass refid="class_streaming_handler" prot="public">StreamingHandler</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatSseEvent_WireFormat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatSseEvent_WireFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Basic SSE event must start with &quot;data: &quot; and end with double newline. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="42" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="42" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1aee11ed5603e92e82d72ef5816da3394c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatSseEvent_JsonFields)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatSseEvent_JsonFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The JSON payload must contain the expected fields. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="54" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="54" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1af7100830147e7046d3e5c360bd65902c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatSseEvent_DoneFlag)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatSseEvent_DoneFlag</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When done=true the payload must reflect that. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="70" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="70" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a942510b7c84b38e7b39b702106c0dce2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatSseEvent_JsonEscaping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatSseEvent_JsonEscaping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Tokens containing JSON-special characters must be escaped. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="80" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="80" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a478f10ab972d314dbf960c7cd563e1a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatSseEvent_JsonEscaping_RAndT)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatSseEvent_JsonEscaping_RAndT</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Carriage return and tab characters must use their named JSON escapes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="95" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="95" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1ad2b8c75e645a5e4465c93024e3b59f73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatSseEvent_JsonEscaping_BAndF)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatSseEvent_JsonEscaping_BAndF</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Backspace (\b) and form-feed (\f) must use their named JSON escapes. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="108" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="108" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a90da5dbffc49b6013abc5bf98d345690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatSseEvent_JsonEscaping_ControlChars)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatSseEvent_JsonEscaping_ControlChars</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Other C0 control characters (&lt; 0x20 and not named) must be \uXXXX encoded. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="124" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="124" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a7121f1a82bdfdd27234f1deb71c9d0d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatSseEvent_EmptyToken)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatSseEvent_EmptyToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Empty token produces a valid event without errors. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="137" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="137" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a2685012642dfe26e75355e40ab0da65f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatDoneEvent_SentinelFormat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatDoneEvent_SentinelFormat</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>The done sentinel must be the canonical OpenAI-compatible [DONE] line. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="151" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="151" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a894cf6006918cc27af2c75d83a5e0bde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatDoneEvent_EmptyRequestId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatDoneEvent_EmptyRequestId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Works with an empty request_id (should not crash). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="161" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="161" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a6847d14d15d07d0d15c1edeefb6c35d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatChunkedData_NonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatChunkedData_NonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Non-empty data chunk must follow hex-len\r\ndata\r<linebreak/>
+ pattern. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="175" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="175" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1ac4191761384179e346403713c4a6273d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatChunkedData_TerminalChunk)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatChunkedData_TerminalChunk</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Empty string produces the terminal zero-length chunk. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="185" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="185" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1ad2d113bdc09ffa80276e74634a96bdb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, FormatChunkedData_HexLength)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>FormatChunkedData_HexLength</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Length field must be the correct hex representation. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="195" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="195" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a3f8eb739fcabd390538522335d55ed4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, MakeStreamCallback_DeliverTokens)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>MakeStreamCallback_DeliverTokens</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Each token is forwarded to the sink as a valid SSE event. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="211" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="211" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1a07ac66bcc96fa494dc3b6f8277518340" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, MakeStreamCallback_IndexIncrements)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>MakeStreamCallback_IndexIncrements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Token index increments monotonically starting from zero. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="232" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="232" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1ae9281c14e76949d9f083b058a9514646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, MakeStreamCallback_RequestIdPropagated)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>MakeStreamCallback_RequestIdPropagated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Events embed the correct request_id. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="252" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="252" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1ae5bfc0c18885485997e01e9b404e3c07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, MakeStreamCallback_NullSinkThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>MakeStreamCallback_NullSinkThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>A null sink must be rejected immediately at construction time. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="268" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="268" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="test__streaming__handler_8cpp_1ada65090af2c9c1d8c0c5b95717b2b0de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(StreamingHandlerTest, MakeStreamCallback_EmptyRequestId)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref></type>
+        </param>
+        <param>
+          <type>MakeStreamCallback_EmptyRequestId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Callback with empty request_id still functions correctly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_streaming_handler.cpp" line="277" column="1" bodyfile="tests/llm/test_streaming_handler.cpp" bodystart="277" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="class_streaming_handler" kindref="compound">StreamingHandler</ref> (SSE / chunked-response formatting). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests:<itemizedlist>
+<listitem><para>formatSseEvent — correct SSE wire format and JSON payload</para>
+</listitem><listitem><para>formatDoneEvent — correct [DONE] sentinel</para>
+</listitem><listitem><para>formatChunkedData — HTTP chunked-transfer encoding</para>
+</listitem><listitem><para>makeStreamCallback — token delivery via sink, index incrementing, null-sink rejection</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="author"><para>ThemisDB Team </para>
+</simplesect>
+<simplesect kind="date"><para>February 2026 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="streaming__handler_8h" kindref="compound">llm/streaming_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_streaming_handler" kindref="compound">themis::llm::StreamingHandler</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="class_streaming_handler_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_streaming_handler_test_1a8eee9819eab5c7ddb3d7f0f0ff874c3b" kindref="member">kRequestId</ref>{</highlight><highlight class="stringliteral">&quot;req-test-001&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>formatSseEvent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatSseEvent_WireFormat)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" kindref="member">StreamingHandler::formatSseEvent</ref>(</highlight><highlight class="stringliteral">&quot;Hello&quot;</highlight><highlight class="normal">,<sp/>kRequestId,<sp/>0);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(event.substr(0,<sp/>6),<sp/></highlight><highlight class="stringliteral">&quot;data:<sp/>&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;SSE<sp/>events<sp/>must<sp/>begin<sp/>with<sp/>&apos;data:<sp/>&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(event.substr(event.size()<sp/>-<sp/>2),<sp/></highlight><highlight class="stringliteral">&quot;\n\n&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;SSE<sp/>events<sp/>must<sp/>end<sp/>with<sp/>double<sp/>newline&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatSseEvent_JsonFields)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" kindref="member">StreamingHandler::formatSseEvent</ref>(</highlight><highlight class="stringliteral">&quot;world&quot;</highlight><highlight class="normal">,<sp/>kRequestId,<sp/>3);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\&quot;id\&quot;:\&quot;&quot;</highlight><highlight class="normal"><sp/>+<sp/>kRequestId<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Payload<sp/>must<sp/>contain<sp/>the<sp/>request<sp/>id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\&quot;token\&quot;:\&quot;world\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Payload<sp/>must<sp/>contain<sp/>the<sp/>token<sp/>text&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\&quot;index\&quot;:3&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Payload<sp/>must<sp/>contain<sp/>the<sp/>zero-based<sp/>token<sp/>index&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\&quot;done\&quot;:false&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Non-terminal<sp/>event<sp/>must<sp/>have<sp/>done=false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatSseEvent_DoneFlag)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" kindref="member">StreamingHandler::formatSseEvent</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>kRequestId,<sp/>5,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\&quot;done\&quot;:true&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Terminal<sp/>token<sp/>event<sp/>must<sp/>have<sp/>done=true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatSseEvent_JsonEscaping)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" kindref="member">StreamingHandler::formatSseEvent</ref>(</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;say<sp/>\&quot;hello\&quot;\nworld\\end&quot;</highlight><highlight class="normal">,<sp/>kRequestId,<sp/>0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\\\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Double-quote<sp/>must<sp/>be<sp/>escaped<sp/>as<sp/>\\\&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\\n&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Newline<sp/>must<sp/>be<sp/>escaped<sp/>as<sp/>\\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\\\\&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Backslash<sp/>must<sp/>be<sp/>escaped<sp/>as<sp/>\\\\&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatSseEvent_JsonEscaping_RAndT)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" kindref="member">StreamingHandler::formatSseEvent</ref>(</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;line\r\nnext\tcol&quot;</highlight><highlight class="normal">,<sp/>kRequestId,<sp/>0);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\\r&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Carriage<sp/>return<sp/>must<sp/>be<sp/>escaped<sp/>as<sp/>\\r&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\\t&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Tab<sp/>must<sp/>be<sp/>escaped<sp/>as<sp/>\\t&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatSseEvent_JsonEscaping_BAndF)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>token<sp/>+=<sp/></highlight><highlight class="stringliteral">&apos;\x08&apos;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>backspace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>token<sp/>+=<sp/></highlight><highlight class="stringliteral">&apos;\x0C&apos;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>form<sp/>feed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" kindref="member">StreamingHandler::formatSseEvent</ref>(token,<sp/>kRequestId,<sp/>0);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\\b&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Backspace<sp/>(0x08)<sp/>must<sp/>be<sp/>escaped<sp/>as<sp/>\\b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\\f&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Form<sp/>feed<sp/>(0x0C)<sp/>must<sp/>be<sp/>escaped<sp/>as<sp/>\\f&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatSseEvent_JsonEscaping_ControlChars)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>token<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>token<sp/>+=<sp/></highlight><highlight class="stringliteral">&apos;\x01&apos;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>SOH<sp/>—<sp/>not<sp/>a<sp/>named<sp/>escape</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" kindref="member">StreamingHandler::formatSseEvent</ref>(token,<sp/>kRequestId,<sp/>0);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\\u0001&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;SOH<sp/>(0x01)<sp/>must<sp/>be<sp/>encoded<sp/>as<sp/>\\u0001&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatSseEvent_EmptyToken)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/><ref refid="class_streaming_handler_1a604c10c69b1664e71fb5072f9813013d" kindref="member">StreamingHandler::formatSseEvent</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>kRequestId,<sp/>0);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(event.find(</highlight><highlight class="stringliteral">&quot;\&quot;token\&quot;:\&quot;\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>formatDoneEvent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatDoneEvent_SentinelFormat)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>done<sp/>=<sp/><ref refid="class_streaming_handler_1abdd5d9260f32263a9d0626e787e18487" kindref="member">StreamingHandler::formatDoneEvent</ref>(kRequestId);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(done,<sp/></highlight><highlight class="stringliteral">&quot;data:<sp/>[DONE]\n\n&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Done<sp/>event<sp/>must<sp/>be<sp/>exactly<sp/>&apos;data:<sp/>[DONE]\\n\\n&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatDoneEvent_EmptyRequestId)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>done<sp/>=<sp/><ref refid="class_streaming_handler_1abdd5d9260f32263a9d0626e787e18487" kindref="member">StreamingHandler::formatDoneEvent</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(done,<sp/></highlight><highlight class="stringliteral">&quot;data:<sp/>[DONE]\n\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>formatChunkedData</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatChunkedData_NonEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>chunk<sp/>=<sp/><ref refid="class_streaming_handler_1a819a95439b97fa49f3ee0e474af1b345" kindref="member">StreamingHandler::formatChunkedData</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;hello&quot;<sp/>is<sp/>5<sp/>bytes<sp/>→<sp/>hex<sp/>&quot;5&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunk,<sp/></highlight><highlight class="stringliteral">&quot;5\r\nhello\r\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatChunkedData_TerminalChunk)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>terminal<sp/>=<sp/><ref refid="class_streaming_handler_1a819a95439b97fa49f3ee0e474af1b345" kindref="member">StreamingHandler::formatChunkedData</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(terminal,<sp/></highlight><highlight class="stringliteral">&quot;0\r\n\r\n&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Empty<sp/>input<sp/>must<sp/>produce<sp/>the<sp/>HTTP<sp/>terminal<sp/>chunk<sp/>&apos;0\\r\\n\\r\\n&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>FormatChunkedData_HexLength)<sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>bytes<sp/>→<sp/>hex<sp/>&quot;10&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>data(16,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>chunk<sp/>=<sp/><ref refid="class_streaming_handler_1a819a95439b97fa49f3ee0e474af1b345" kindref="member">StreamingHandler::formatChunkedData</ref>(data);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(chunk.substr(0,<sp/>4),<sp/></highlight><highlight class="stringliteral">&quot;10\r\n&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Chunk<sp/>length<sp/>for<sp/>16<sp/>bytes<sp/>must<sp/>be<sp/>&apos;10&apos;<sp/>in<sp/>hex&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>makeStreamCallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>MakeStreamCallback_DeliverTokens)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>received;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/><ref refid="class_streaming_handler_1ac152d67baa59d5eac046a68308b54bfc" kindref="member">StreamingHandler::makeStreamCallback</ref>(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;received](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>evt)<sp/>{<sp/>received.push_back(evt);<sp/>},</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kRequestId);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>cb(</highlight><highlight class="stringliteral">&quot;token_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>cb(</highlight><highlight class="stringliteral">&quot;token_b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>cb(</highlight><highlight class="stringliteral">&quot;token_c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(received.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>evt<sp/>:<sp/>received)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(evt.substr(0,<sp/>6),<sp/></highlight><highlight class="stringliteral">&quot;data:<sp/>&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(evt.substr(evt.size()<sp/>-<sp/>2),<sp/></highlight><highlight class="stringliteral">&quot;\n\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>MakeStreamCallback_IndexIncrements)<sp/>{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>received;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/><ref refid="class_streaming_handler_1ac152d67baa59d5eac046a68308b54bfc" kindref="member">StreamingHandler::makeStreamCallback</ref>(</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;received](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>evt)<sp/>{<sp/>received.push_back(evt);<sp/>},</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kRequestId);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>cb(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>cb(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>cb(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(received.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(received[0].find(</highlight><highlight class="stringliteral">&quot;\&quot;index\&quot;:0&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(received[1].find(</highlight><highlight class="stringliteral">&quot;\&quot;index\&quot;:1&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(received[2].find(</highlight><highlight class="stringliteral">&quot;\&quot;index\&quot;:2&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>MakeStreamCallback_RequestIdPropagated)<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/><ref refid="class_streaming_handler_1ac152d67baa59d5eac046a68308b54bfc" kindref="member">StreamingHandler::makeStreamCallback</ref>(</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;captured](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>evt)<sp/>{<sp/>captured<sp/>=<sp/>evt;<sp/>},</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;my-req-42&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>cb(</highlight><highlight class="stringliteral">&quot;tok&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured.find(</highlight><highlight class="stringliteral">&quot;\&quot;id\&quot;:\&quot;my-req-42\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Request<sp/>id<sp/>must<sp/>appear<sp/>in<sp/>every<sp/>SSE<sp/>event&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>MakeStreamCallback_NullSinkThrows)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_streaming_handler_1ac152d67baa59d5eac046a68308b54bfc" kindref="member">StreamingHandler::makeStreamCallback</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>kRequestId),</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><ref refid="test__streaming__handler_8cpp_1a681a298d1efdf005c4408612a4187249" kindref="member">TEST_F</ref>(<ref refid="class_streaming_handler_test" kindref="compound">StreamingHandlerTest</ref>,<sp/>MakeStreamCallback_EmptyRequestId)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>captured<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cb<sp/>=<sp/><ref refid="class_streaming_handler_1ac152d67baa59d5eac046a68308b54bfc" kindref="member">StreamingHandler::makeStreamCallback</ref>(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;captured](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>evt)<sp/>{<sp/>captured<sp/>=<sp/>evt;<sp/>},</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(cb(</highlight><highlight class="stringliteral">&quot;tok&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(captured.find(</highlight><highlight class="stringliteral">&quot;\&quot;id\&quot;:\&quot;\&quot;&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_streaming_handler.cpp"/>
+  </compounddef>
+</doxygen>

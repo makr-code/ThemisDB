@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats" kind="struct" language="C++" prot="private">
+    <compoundname>themis::prompt_engineering::RewriteEngine::Stats</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1abc471540e6928b15594cc7abf5b09d88" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteEngine::Stats::total_rules_registered</definition>
+        <argsstring></argsstring>
+        <name>total_rules_registered</name>
+        <qualifiedname>themis::prompt_engineering::RewriteEngine::Stats::total_rules_registered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_engine.cpp" line="337" column="18" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a532dd6937fec1060382a21a5de8ed74d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteEngine::Stats::total_rewrites</definition>
+        <argsstring></argsstring>
+        <name>total_rewrites</name>
+        <qualifiedname>themis::prompt_engineering::RewriteEngine::Stats::total_rewrites</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_engine.cpp" line="338" column="18" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="338" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a7a3dc27ec344126c783e708b2b028569" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteEngine::Stats::total_rules_evaluated</definition>
+        <argsstring></argsstring>
+        <name>total_rules_evaluated</name>
+        <qualifiedname>themis::prompt_engineering::RewriteEngine::Stats::total_rules_evaluated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_engine.cpp" line="339" column="18" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1ac7288267d8dcf70f03c41fc06e4fb51c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteEngine::Stats::total_rules_applied</definition>
+        <argsstring></argsstring>
+        <name>total_rules_applied</name>
+        <qualifiedname>themis::prompt_engineering::RewriteEngine::Stats::total_rules_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_engine.cpp" line="340" column="18" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a1390dba8982faab84e8819ddac8091a5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteEngine::Stats::max_steps_exceeded</definition>
+        <argsstring></argsstring>
+        <name>max_steps_exceeded</name>
+        <qualifiedname>themis::prompt_engineering::RewriteEngine::Stats::max_steps_exceeded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_engine.cpp" line="341" column="18" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a87a31025f0bb6a6d3f1dc07c8c838903" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteEngine::Stats::total_latency_micros</definition>
+        <argsstring></argsstring>
+        <name>total_latency_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteEngine::Stats::total_latency_micros</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_engine.cpp" line="342" column="18" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="342" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a21a24ccf40f343faa4be348f4bc74f27" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::prompt_engineering::RewriteEngine::Stats::total_rule_latency_micros</definition>
+        <argsstring></argsstring>
+        <name>total_rule_latency_micros</name>
+        <qualifiedname>themis::prompt_engineering::RewriteEngine::Stats::total_rule_latency_micros</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_engine.cpp" line="343" column="18" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="343" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/rewrite_engine.cpp" line="336" column="5" bodyfile="src/prompt_engineering/rewrite_engine.cpp" bodystart="336" bodyend="344"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a1390dba8982faab84e8819ddac8091a5" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteEngine::Stats</scope><name>max_steps_exceeded</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a87a31025f0bb6a6d3f1dc07c8c838903" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteEngine::Stats</scope><name>total_latency_micros</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a532dd6937fec1060382a21a5de8ed74d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteEngine::Stats</scope><name>total_rewrites</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a21a24ccf40f343faa4be348f4bc74f27" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteEngine::Stats</scope><name>total_rule_latency_micros</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1ac7288267d8dcf70f03c41fc06e4fb51c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteEngine::Stats</scope><name>total_rules_applied</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1a7a3dc27ec344126c783e708b2b028569" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteEngine::Stats</scope><name>total_rules_evaluated</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_rewrite_engine_1_1_stats_1abc471540e6928b15594cc7abf5b09d88" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteEngine::Stats</scope><name>total_rules_registered</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

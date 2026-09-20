@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1detail_1_1_table_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::detail::TableBlock</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1detail_1_1_table_block_1a7adbdbb48b947e2d9e46db0a57fa2e1c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::detail::TableBlock::first_line</definition>
+        <argsstring></argsstring>
+        <name>first_line</name>
+        <qualifiedname>themis::training::detail::TableBlock::first_line</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>First line index (inclusive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="244" column="12" bodyfile="src/training/modality_parser.cpp" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1detail_1_1_table_block_1af7042e40eca15fefdbeeb861fa9d6f4d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::detail::TableBlock::last_line</definition>
+        <argsstring></argsstring>
+        <name>last_line</name>
+        <qualifiedname>themis::training::detail::TableBlock::last_line</qualifiedname>
+        <briefdescription>
+<para>Last line index (inclusive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="245" column="12" bodyfile="src/training/modality_parser.cpp" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1detail_1_1_table_block_1aa85d729e135e7c01d3fd299c116604cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::detail::TableBlock::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::training::detail::TableBlock::content</qualifiedname>
+        <briefdescription>
+<para>Raw table text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/training/modality_parser.cpp" line="246" column="17" bodyfile="src/training/modality_parser.cpp" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/training/modality_parser.cpp" line="243" column="1" bodyfile="src/training/modality_parser.cpp" bodystart="243" bodyend="247"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1detail_1_1_table_block_1aa85d729e135e7c01d3fd299c116604cb" prot="public" virt="non-virtual"><scope>themis::training::detail::TableBlock</scope><name>content</name></member>
+      <member refid="structthemis_1_1training_1_1detail_1_1_table_block_1a7adbdbb48b947e2d9e46db0a57fa2e1c" prot="public" virt="non-virtual"><scope>themis::training::detail::TableBlock</scope><name>first_line</name></member>
+      <member refid="structthemis_1_1training_1_1detail_1_1_table_block_1af7042e40eca15fefdbeeb861fa9d6f4d" prot="public" virt="non-virtual"><scope>themis::training::detail::TableBlock</scope><name>last_line</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

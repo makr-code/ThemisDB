@@ -1,0 +1,314 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gradient__utils_8h" kind="file" language="C++">
+    <compoundname>gradient_utils.h</compoundname>
+    <includes refid="lora__layers_8h" local="yes">lora_layers.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="lora__training__service_8h" local="yes">include/llm/lora_framework/lora_training_service.h</includedby>
+    <includedby refid="gradient__utils_8cpp" local="yes">src/llm/lora_framework/gradient_utils.cpp</includedby>
+    <includedby refid="lora__training__service_8cpp" local="yes">src/llm/lora_framework/lora_training_service.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/gradient_utils.h</label>
+        <link refid="gradient__utils_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/llm/bench_lora_framework.cpp</label>
+        <link refid="bench__lora__framework_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/llm/applications/themis_help_lora.h</label>
+        <link refid="themis__help__lora_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/gradient_utils.h</label>
+        <link refid="gradient__utils_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/llm/lora_framework/lora_orchestrator.h</label>
+        <link refid="lora__orchestrator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_framework/lora_training_service.h</label>
+        <link refid="lora__training__service_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/llm/api/themis_help_lora_adapter.cpp</label>
+        <link refid="themis__help__lora__adapter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/llm/applications/themis_help_lora.cpp</label>
+        <link refid="themis__help__lora_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/lora_framework/gradient_utils.cpp</label>
+        <link refid="gradient__utils_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/lora_framework/lora_orchestrator.cpp</label>
+        <link refid="lora__orchestrator_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/llm/lora_framework/lora_training_service.cpp</label>
+        <link refid="lora__training__service_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" prot="public">themis::llm::lora::GradientClippingConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" prot="public">themis::llm::lora::GradientAccumulationConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats" prot="public">themis::llm::lora::GradientStats</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils" prot="public">themis::llm::lora::GradientUtils</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator" prot="public">themis::llm::lora::GradientAccumulator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__layers_8h" kindref="compound">lora_layers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707" kindref="member">ClippingMethod</ref><sp/>{</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a15af5ed9d1ed933b614c0c6a083d5953ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>clipping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a365ce42cc86cc29984bb10d375fa2c92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a365ce42cc86cc29984bb10d375fa2c92" kindref="member">BY_NORM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clip<sp/>by<sp/>global<sp/>norm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a2091ed77fa12bad89bfddc1a504e9cfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a2091ed77fa12bad89bfddc1a504e9cfe" kindref="member">BY_VALUE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Clip<sp/>by<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a2ec907e964516eee4fd3b4eba7c4f275" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707a2ec907e964516eee4fd3b4eba7c4f275" kindref="member">BY_GLOBAL_NORM</ref><sp/><sp/></highlight><highlight class="comment">//<sp/>Clip<sp/>by<sp/>global<sp/>norm<sp/>(all<sp/>gradients)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" kindref="compound">GradientClippingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a1b0f5ca6de3d8d24077de41fb23e7188" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707" kindref="member">ClippingMethod</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a1b0f5ca6de3d8d24077de41fb23e7188" kindref="member">method</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707ab50339a10e1de285ac99d4c3990b8693" kindref="member">ClippingMethod::NONE</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a2254d8acc4053df0651f1fd2a841d308" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a2254d8acc4053df0651f1fd2a841d308" kindref="member">max_norm</ref><sp/>=<sp/>1.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>gradient<sp/>norm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a9fbf4bd0ed93d47c3e7ee0f4ff77bc1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a9fbf4bd0ed93d47c3e7ee0f4ff77bc1c" kindref="member">clip_value</ref><sp/>=<sp/>10.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>absolute<sp/>gradient<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1abcff96cf0a61e03ac1d7642b2a2bfe5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1abcff96cf0a61e03ac1d7642b2a2bfe5a" kindref="member">adaptive</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptive<sp/>clipping<sp/>based<sp/>on<sp/>gradient<sp/>history</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a162d3d3e89981e67923c6b3891fbb384" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a162d3d3e89981e67923c6b3891fbb384" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;method&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a1b0f5ca6de3d8d24077de41fb23e7188" kindref="member">method</ref>)},</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_norm&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a2254d8acc4053df0651f1fd2a841d308" kindref="member">max_norm</ref>},</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;clip_value&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a9fbf4bd0ed93d47c3e7ee0f4ff77bc1c" kindref="member">clip_value</ref>},</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;adaptive&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1abcff96cf0a61e03ac1d7642b2a2bfe5a" kindref="member">adaptive</ref>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1ad0b8f8e848556ef7181b5c34989ca455" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" kindref="compound">GradientClippingConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1ad0b8f8e848556ef7181b5c34989ca455" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" kindref="compound">GradientClippingConfig</ref><sp/>config<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;method&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a1b0f5ca6de3d8d24077de41fb23e7188" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1a33bb469a2abb3a823c15a56f1c6ed707" kindref="member">ClippingMethod</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(j[</highlight><highlight class="stringliteral">&quot;method&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;());</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;max_norm&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a2254d8acc4053df0651f1fd2a841d308" kindref="member">max_norm</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;max_norm&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;clip_value&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1a9fbf4bd0ed93d47c3e7ee0f4ff77bc1c" kindref="member">clip_value</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;clip_value&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;adaptive&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config_1abcff96cf0a61e03ac1d7642b2a2bfe5a" kindref="member">adaptive</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;adaptive&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kindref="compound">GradientAccumulationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a7598314022ed7b1d1758be094d892206" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a7598314022ed7b1d1758be094d892206" kindref="member">accumulation_steps</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>steps<sp/>to<sp/>accumulate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1aee876bb3cf54caf7dc19de8b041471f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1aee876bb3cf54caf7dc19de8b041471f3" kindref="member">normalize</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normalize<sp/>by<sp/>accumulation<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a98abc4ee7b9fafc1343a663e73ce8f83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a98abc4ee7b9fafc1343a663e73ce8f83" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;accumulation_steps&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a7598314022ed7b1d1758be094d892206" kindref="member">accumulation_steps</ref>},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;normalize&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1aee876bb3cf54caf7dc19de8b041471f3" kindref="member">normalize</ref>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1ab1cd459f4f06567c3c545d88918819b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kindref="compound">GradientAccumulationConfig</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1ab1cd459f4f06567c3c545d88918819b7" kindref="member">fromJSON</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>&amp;<sp/>j)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kindref="compound">GradientAccumulationConfig</ref><sp/>config<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;accumulation_steps&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1a7598314022ed7b1d1758be094d892206" kindref="member">accumulation_steps</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;accumulation_steps&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(j.contains(</highlight><highlight class="stringliteral">&quot;normalize&quot;</highlight><highlight class="normal">))<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config_1aee876bb3cf54caf7dc19de8b041471f3" kindref="member">normalize</ref><sp/>=<sp/>j[</highlight><highlight class="stringliteral">&quot;normalize&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats" kindref="compound">GradientStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a4fee37179f493d50cc36446ccc61e38d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a4fee37179f493d50cc36446ccc61e38d" kindref="member">~GradientStats</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ab708bb6e5da0c061779a54b0fa21cd9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ab708bb6e5da0c061779a54b0fa21cd9d" kindref="member">global_norm</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>L2<sp/>norm<sp/>of<sp/>all<sp/>gradients</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a55be047b99046f7a3bcee43a04ef4552" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a55be047b99046f7a3bcee43a04ef4552" kindref="member">max_gradient</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>absolute<sp/>gradient<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a15e37506b606273c549ce807e55194b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a15e37506b606273c549ce807e55194b5" kindref="member">min_gradient</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>gradient<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ae87dbf6054431240614cdb3fecf24df6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ae87dbf6054431240614cdb3fecf24df6" kindref="member">mean_gradient</ref><sp/>=<sp/>0.0f;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mean<sp/>gradient<sp/>value</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2d4ce8d8a6af7d6010020c66c2fb31bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2d4ce8d8a6af7d6010020c66c2fb31bb" kindref="member">num_clipped</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>times<sp/>clipping<sp/>was<sp/>applied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2bb41f4be67461ca5b9c954e2c704672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2bb41f4be67461ca5b9c954e2c704672" kindref="member">num_overflows</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Number<sp/>of<sp/>overflow/underflow<sp/>detections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1abb29052bf818682f7c8e933bb1405548" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1abb29052bf818682f7c8e933bb1405548" kindref="member">toJSON</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;global_norm&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ab708bb6e5da0c061779a54b0fa21cd9d" kindref="member">global_norm</ref>},</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;max_gradient&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a55be047b99046f7a3bcee43a04ef4552" kindref="member">max_gradient</ref>},</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;min_gradient&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a15e37506b606273c549ce807e55194b5" kindref="member">min_gradient</ref>},</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;mean_gradient&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1ae87dbf6054431240614cdb3fecf24df6" kindref="member">mean_gradient</ref>},</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;num_clipped&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2d4ce8d8a6af7d6010020c66c2fb31bb" kindref="member">num_clipped</ref>},</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;num_overflows&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats_1a2bb41f4be67461ca5b9c954e2c704672" kindref="member">num_overflows</ref>}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils" kindref="compound">GradientUtils</ref><sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ad755e9510899e485648f8f172b080924" kindref="member">compute_global_norm</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Tensor*&gt;&amp;<sp/>gradients);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a6c392e0cede2dfebb3c95f36b609ee8d" kindref="member">clip_by_norm</ref>(std::vector&lt;Tensor*&gt;&amp;<sp/>gradients,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>max_norm);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a8d5514fdcda27295c10ad5c0fb90a905" kindref="member">clip_by_value</ref>(std::vector&lt;Tensor*&gt;&amp;<sp/>gradients,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>clip_value);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats" kindref="compound">GradientStats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ab5f5ed9b55e82f571fb0adf956e372a9" kindref="member">apply_clipping</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Tensor*&gt;&amp;<sp/>gradients,<sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_clipping_config" kindref="compound">GradientClippingConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a9f73dcf8c78365b4bc89ffb50fc04435" kindref="member">accumulate_gradients</ref>(</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Tensor&gt;&amp;<sp/>accumulated,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Tensor*&gt;&amp;<sp/>new_gradients</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ad0e45ba74c635c9f2ff8d2524ada84de" kindref="member">normalize_gradients</ref>(</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Tensor&gt;&amp;<sp/>accumulated,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_steps</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_stats" kindref="compound">GradientStats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1ae48c951c6bff29be38fa7c9423ce628f" kindref="member">compute_stats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Tensor*&gt;&amp;<sp/>gradients);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1a12db55b3e54a30a66d2d09db4e9bca7f" kindref="member">has_invalid_gradients</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Tensor*&gt;&amp;<sp/>gradients);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_utils_1aab16dd0446c3d680591bb03bbbcf164b" kindref="member">zero_gradients</ref>(std::vector&lt;Tensor*&gt;&amp;<sp/>gradients);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201" refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1a6f92b0ee963b247a1361a521f0a68851" kindref="member">GradientAccumulator</ref><sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1a6f92b0ee963b247a1361a521f0a68851" kindref="member">GradientAccumulator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kindref="compound">GradientAccumulationConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1ad66a79b36b853b8065456cf1eaa58d55" kindref="member">config</ref>);</highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1ad5f305d981cbe146329e306e41bdc822" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1ad5f305d981cbe146329e306e41bdc822" kindref="member">~GradientAccumulator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1af39c6ab999730896444c5c0ae5efb81e" kindref="member">accumulate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Tensor*&gt;&amp;<sp/>gradients);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1a042991aff033007b8205d9564275fef8" kindref="member">should_step</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Tensor*&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1a2a496ff0d1420d23613949d030a70514" kindref="member">get_accumulated_gradients</ref>();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1a434eb9d4ad40e6359c803a29e28d0386" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234" refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1a7674f15ce6c4e0e55d421d0d666aa73d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1a7674f15ce6c4e0e55d421d0d666aa73d" kindref="member">current_step</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_step_;<sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="236" refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1ad66a79b36b853b8065456cf1eaa58d55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kindref="compound">GradientAccumulationConfig</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_gradient_accumulator_1ad66a79b36b853b8065456cf1eaa58d55" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_gradient_accumulation_config" kindref="compound">GradientAccumulationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Tensor&gt;<sp/>accumulated_gradients_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>current_step_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initialized_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/gradient_utils.h"/>
+  </compounddef>
+</doxygen>

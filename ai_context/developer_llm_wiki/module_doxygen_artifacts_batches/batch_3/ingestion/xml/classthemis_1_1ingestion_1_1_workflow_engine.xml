@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_workflow_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::WorkflowEngine</compoundname>
+    <includes refid="workflow__engine_8h" local="no">workflow_engine.h</includes>
+    <innerclass refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl" prot="public">themis::ingestion::WorkflowEngine::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_workflow_engine_1a9d7753344300b37a865085434c363e22" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::ingestion::WorkflowEngine::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="323" column="21" bodyfile="include/ingestion/workflow_engine.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a2e722607e4ada8aafe7dbb7099e1ee38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::WorkflowEngine::WorkflowEngine</definition>
+        <argsstring>()</argsstring>
+        <name>WorkflowEngine</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::WorkflowEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="243" column="5" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="741" bodyend="741"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a7b4dd69865d4f5515b7a4ec594950b9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::WorkflowEngine::~WorkflowEngine</definition>
+        <argsstring>()</argsstring>
+        <name>~WorkflowEngine</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::~WorkflowEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="244" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1abbe1143bdb4ee59aab58bede20cc2dd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::WorkflowEngine::WorkflowEngine</definition>
+        <argsstring>(const WorkflowEngine &amp;)=delete</argsstring>
+        <name>WorkflowEngine</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::WorkflowEngine</qualifiedname>
+        <param>
+          <type>const WorkflowEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="247" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a7dd52f1a7ced4d1cc3ab38b554dc1ec3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1a2e722607e4ada8aafe7dbb7099e1ee38" kindref="member">WorkflowEngine</ref> &amp;</type>
+        <definition>WorkflowEngine &amp; themis::ingestion::WorkflowEngine::operator=</definition>
+        <argsstring>(const WorkflowEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1a2e722607e4ada8aafe7dbb7099e1ee38" kindref="member">WorkflowEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="248" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a15df54dcfd765b209f981520f00d7c4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::ingestion::WorkflowEngine::loadProfile</definition>
+        <argsstring>(const std::string &amp;yaml_path)</argsstring>
+        <name>loadProfile</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::loadProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>yaml_path</declname>
+        </param>
+        <briefdescription>
+<para>Load and validate a YAML workflow profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Profile.</para>
+<para>If a profile with the same name is already loaded the call is a no-op.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Absolute filesystem path to the profile YAML. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Error on I/O failure, YAML parse failure, or schema violation.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">yaml_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the yaml. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: file(), is_open(), tl::make_unexpected(), rdbuf(), str(), YAML::Load(), IsScalar(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="260" column="12" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="750" bodyend="820"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a57e0795c9598f0a138d20f5cfe2fbafe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::WorkflowEngine::loadProfilesFromDirectory</definition>
+        <argsstring>(const std::string &amp;directory_path)</argsstring>
+        <name>loadProfilesFromDirectory</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::loadProfilesFromDirectory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>directory_path</declname>
+        </param>
+        <briefdescription>
+<para>Load all <computeroutput>*.yaml</computeroutput> profile files from a directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Profiles From Directory.</para>
+<para>Calls <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1a15df54dcfd765b209f981520f00d7c4c" kindref="member">loadProfile()</ref></computeroutput> for each file; errors per-file are logged as warnings and do not abort the batch.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>directory_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory to scan. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of profiles successfully loaded.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">directory_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the directory. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fs::directory_iterator(), is_regular_file(), path(), extension(), string(), <ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1a15df54dcfd765b209f981520f00d7c4c" kindref="member">loadProfile()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="271" column="17" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="828" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a646c2632fc6c31e2af7bee562640e528" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1ingestion_1_1_workflow_profile" kindref="compound">WorkflowProfile</ref> *</type>
+        <definition>const WorkflowProfile * themis::ingestion::WorkflowEngine::selectProfile</definition>
+        <argsstring>(const std::string &amp;mime, const std::string &amp;filename) const</argsstring>
+        <name>selectProfile</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::selectProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Return the loaded profile that best matches <computeroutput>mime</computeroutput> and <computeroutput>filename</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns nullptr when no profile matches and no &quot;default&quot; profile exists. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="278" column="27" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="852" bodyend="864"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a612f16cb6e4ea732d0ca4d77682f637f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::ingestion::WorkflowEngine::listProfiles</definition>
+        <argsstring>() const</argsstring>
+        <name>listProfiles</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::listProfiles</qualifiedname>
+        <briefdescription>
+<para>List the names of all loaded profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="284" column="17" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="866" bodyend="875"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a7ee89525e0a03b5a069ed62b3ebc7345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1ingestion_1_1_step_registry" kindref="compound">StepRegistry</ref> &amp;</type>
+        <definition>StepRegistry &amp; themis::ingestion::WorkflowEngine::stepRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>stepRegistry</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::stepRegistry</qualifiedname>
+        <briefdescription>
+<para>Access the underlying step registry for custom registrations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Step Registry.</para>
+<para>Primarily used by tests and bootstrap code.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stepRegistry without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="293" column="18" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="882" bodyend="884"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a0e9182cde9ef1b75019c24cc66a34eff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1ingestion_1_1_step_registry" kindref="compound">StepRegistry</ref> &amp;</type>
+        <definition>const StepRegistry &amp; themis::ingestion::WorkflowEngine::stepRegistry</definition>
+        <argsstring>() const</argsstring>
+        <name>stepRegistry</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::stepRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="294" column="24" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="886" bodyend="888"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1aa1bd0a39afd49a9e37bc83ae688331ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> &gt;</type>
+        <definition>Result&lt; BaseEntitySet &gt; themis::ingestion::WorkflowEngine::execute</definition>
+        <argsstring>(ExtractionContext &amp;ctx)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::execute</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Run the workflow against an already-constructed <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute.</para>
+<para>The engine selects a profile based on <computeroutput>ctx.manifest.detected_mime</computeroutput> and <computeroutput>ctx.manifest.filename_stem + ctx.manifest.extension</computeroutput>, then executes each step in order.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pipeline context carrying the <computeroutput><ref refid="structthemis_1_1ingestion_1_1_file_manifest" kindref="compound">FileManifest</ref></computeroutput>. Modified in-place by each executed step. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assembled <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> on success, or an error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1a646c2632fc6c31e2af7bee562640e528" kindref="member">selectProfile()</ref>, tl::make_unexpected(), runProfile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="309" column="12" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="896" bodyend="907"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_workflow_engine_1a0265a30a62b2babe50e318577695dc20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref> &gt;</type>
+        <definition>Result&lt; BaseEntitySet &gt; themis::ingestion::WorkflowEngine::executeWithProfile</definition>
+        <argsstring>(const std::string &amp;profile_name, ExtractionContext &amp;ctx)</argsstring>
+        <name>executeWithProfile</name>
+        <qualifiedname>themis::ingestion::WorkflowEngine::executeWithProfile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile_name</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Run the workflow using an explicitly named profile (bypass auto-select). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute With Profile.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>profile_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the profile to use (must be loaded). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pipeline context. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assembled <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> on success, or an error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the profile. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), findProfileByName(), tl::make_unexpected(), unlock(), runProfile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/workflow_engine.h" line="318" column="12" bodyfile="src/ingestion/workflow_engine.cpp" bodystart="916" bodyend="928"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>YAML-driven workflow orchestrator for the ingestion pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine" kindref="compound">WorkflowEngine</ref></computeroutput> is the core of the v2.0 ingestion architecture. It:<orderedlist>
+<listitem><para>Loads and validates YAML workflow profiles from disk.</para>
+</listitem><listitem><para>Selects the best-matching profile for each incoming file.</para>
+</listitem><listitem><para>Executes the ordered step list, passing an <computeroutput><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></computeroutput> through each step.</para>
+</listitem><listitem><para>Returns a <computeroutput><ref refid="structthemis_1_1ingestion_1_1_base_entity_set" kindref="compound">BaseEntitySet</ref></computeroutput> ready for writing to the sinks.</para>
+</listitem></orderedlist>
+</para>
+<para>Built-in steps are registered automatically during construction. Additional built-ins and DLL steps can be registered at any time before execution.</para>
+<para>Dependency injection ──────────────────── The engine itself has no knowledge of LLM backends, document stores, or graph writers. Steps receive what they need through <computeroutput><ref refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" kindref="member">StepConfig::config</ref></computeroutput> (for static YAML parameters) or through their own DI mechanism. The <computeroutput><ref refid="classthemis_1_1ingestion_1_1_ingestion_manager" kindref="compound">IngestionManager</ref></computeroutput> wires the LLM backend into steps that require it via <computeroutput>setTextGenerationBackend()</computeroutput> before calling <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1aa1bd0a39afd49a9e37bc83ae688331ae" kindref="member">WorkflowEngine::execute()</ref></computeroutput>.</para>
+<para>Thread-safety ───────────── <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1a15df54dcfd765b209f981520f00d7c4c" kindref="member">loadProfile()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1aa1bd0a39afd49a9e37bc83ae688331ae" kindref="member">execute()</ref></computeroutput> are safe to call concurrently from multiple threads. Profile loading is idempotent when called with the same path (the second call is a no-op).</para>
+<para>Profile selection ───────────────── Profiles are evaluated in registration order; the first matching profile wins. If none match, the profile named &quot;default&quot; is used. If no default is loaded, <computeroutput><ref refid="classthemis_1_1ingestion_1_1_workflow_engine_1aa1bd0a39afd49a9e37bc83ae688331ae" kindref="member">execute()</ref></computeroutput> returns <computeroutput>ERR_WORKFLOW_NO_MATCHING_PROFILE</computeroutput>.</para>
+<para>Example bootstrap ───────────────── <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>engine<sp/>=<sp/>std::make_shared&lt;WorkflowEngine&gt;();</highlight></codeline>
+<codeline><highlight class="normal">engine-&gt;loadProfile(</highlight><highlight class="stringliteral">&quot;/config/ingestion/workflows/legal-document-de.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">engine-&gt;loadProfile(</highlight><highlight class="stringliteral">&quot;/config/ingestion/workflows/default.yaml&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">mgr.setWorkflowEngine(engine);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/ingestion/workflow_engine.h" line="241" column="1" bodyfile="include/ingestion/workflow_engine.h" bodystart="241" bodyend="324"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1aa1bd0a39afd49a9e37bc83ae688331ae" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>execute</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a0265a30a62b2babe50e318577695dc20" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>executeWithProfile</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a9d7753344300b37a865085434c363e22" prot="private" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a612f16cb6e4ea732d0ca4d77682f637f" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>listProfiles</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a15df54dcfd765b209f981520f00d7c4c" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>loadProfile</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a57e0795c9598f0a138d20f5cfe2fbafe" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>loadProfilesFromDirectory</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a7dd52f1a7ced4d1cc3ab38b554dc1ec3" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a646c2632fc6c31e2af7bee562640e528" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>selectProfile</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a7ee89525e0a03b5a069ed62b3ebc7345" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>stepRegistry</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a0e9182cde9ef1b75019c24cc66a34eff" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>stepRegistry</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a2e722607e4ada8aafe7dbb7099e1ee38" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>WorkflowEngine</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1abbe1143bdb4ee59aab58bede20cc2dd6" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>WorkflowEngine</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_workflow_engine_1a7b4dd69865d4f5515b7a4ec594950b9a" prot="public" virt="non-virtual"><scope>themis::ingestion::WorkflowEngine</scope><name>~WorkflowEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

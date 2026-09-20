@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1a6393dade0fd201a6cc3bf54b42a1d0da" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8" kindref="member">ModuleHealthStatus</ref></type>
+        <definition>ModuleHealthStatus themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::overall_status</definition>
+        <argsstring></argsstring>
+        <name>overall_status</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::overall_status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1a31774e6f12fd5f6d867fdba553378fe8a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ModuleHealthStatus::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="125" column="33" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ad9f1439f557c009182c59295a2322c3d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_module_health_signal" kindref="compound">ModuleHealthSignal</ref> &gt;</type>
+        <definition>std::vector&lt;ModuleHealthSignal&gt; themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::module_signals</definition>
+        <argsstring></argsstring>
+        <name>module_signals</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::module_signals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="126" column="17" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ae95081e8319586d10a208fac5e9f0ead" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::generated_at_ms</definition>
+        <argsstring></argsstring>
+        <name>generated_at_ms</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::generated_at_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="127" column="33" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ad28f9ec8d4dccfd2e106143bd0624973" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::active_jobs</definition>
+        <argsstring></argsstring>
+        <name>active_jobs</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::active_jobs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="130" column="10" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1a644cca940b2d0c76eb72b82a84d12c08" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::total_schedules</definition>
+        <argsstring></argsstring>
+        <name>total_schedules</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::total_schedules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="131" column="10" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1abae0df02c38fc8c9bba8b8ae0cd3d2d5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::enabled_schedules</definition>
+        <argsstring></argsstring>
+        <name>enabled_schedules</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::enabled_schedules</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="132" column="10" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1aee9cb5262aa686730e62fb7c1ee88808" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::failed_jobs_24h</definition>
+        <argsstring></argsstring>
+        <name>failed_jobs_24h</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::failed_jobs_24h</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Failed jobs in the last 24 hours. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="133" column="10" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1afabcf42e737047a77d37a668a790cd70" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::success_jobs_24h</definition>
+        <argsstring></argsstring>
+        <name>success_jobs_24h</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::success_jobs_24h</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Successful jobs in the last 24 hours. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="134" column="10" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ada2b3ae58f6e7c7a239db358383e19d3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_dispatch_outcome" kindref="compound">DispatchOutcome</ref> &gt;</type>
+        <definition>std::vector&lt;DispatchOutcome&gt; themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::recent_dispatch_outcomes</definition>
+        <argsstring></argsstring>
+        <name>recent_dispatch_outcomes</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::recent_dispatch_outcomes</qualifiedname>
+        <briefdescription>
+<para>Ring-buffer snapshot of recent dispatch outcomes (Phase 4). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="137" column="17" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ade87b5ce9b9bf513f92b95837deead42" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::dispatch_outcome_ring_buffer_capacity</definition>
+        <argsstring></argsstring>
+        <name>dispatch_outcome_ring_buffer_capacity</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::dispatch_outcome_ring_buffer_capacity</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+<para>Configured ring buffer capacity (default 256). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="140" column="9" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1afbbf31fb9c67ba30e3196db38fed401a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_health_report.h" line="142" column="20" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="142" bodyend="163"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated maintenance health report. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The overall status is the worst status across all registered modules. </para>
+    </detaileddescription>
+    <location file="include/maintenance/maintenance_health_report.h" line="124" column="1" bodyfile="benchmarks/maintenance/bench_maintenance_release_gates.cpp" bodystart="124" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ad28f9ec8d4dccfd2e106143bd0624973" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>active_jobs</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ade87b5ce9b9bf513f92b95837deead42" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>dispatch_outcome_ring_buffer_capacity</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1abae0df02c38fc8c9bba8b8ae0cd3d2d5" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>enabled_schedules</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1aee9cb5262aa686730e62fb7c1ee88808" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>failed_jobs_24h</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ae95081e8319586d10a208fac5e9f0ead" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>generated_at_ms</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ad9f1439f557c009182c59295a2322c3d" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>module_signals</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1a6393dade0fd201a6cc3bf54b42a1d0da" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>overall_status</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1ada2b3ae58f6e7c7a239db358383e19d3" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>recent_dispatch_outcomes</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1afabcf42e737047a77d37a668a790cd70" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>success_jobs_24h</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1afbbf31fb9c67ba30e3196db38fed401a" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1bench_1_1mtn_1_1themis_1_1maintenance_1_1_maintenance_health_report_1a644cca940b2d0c76eb72b82a84d12c08" prot="public" virt="non-virtual"><scope>themis::bench::mtn::themis::maintenance::MaintenanceHealthReport</scope><name>total_schedules</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

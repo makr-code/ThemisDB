@@ -1,0 +1,157 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_task_decomposer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::TaskDecomposerConfig</compoundname>
+    <includes refid="task__decomposer_8h" local="no">task_decomposer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1a9c1acbb056d986f1f3eff30fbc35049b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689" kindref="member">DecompositionStrategy</ref></type>
+        <definition>DecompositionStrategy themis::llm::TaskDecomposerConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a18196b2fdf0c91096814f118c7042689ad1871a9d0879c32b26d56c5db6a020c2" kindref="member">DecompositionStrategy::ChainOfThought</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="79" column="27" bodyfile="include/llm/task_decomposer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1a3dc8ca6b603a0befa523034105a37069" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TaskDecomposerConfig::max_subtasks</definition>
+        <argsstring></argsstring>
+        <name>max_subtasks</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::max_subtasks</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="81" column="9" bodyfile="include/llm/task_decomposer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1a3df8a8c792f231877f467af2293c51f0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TaskDecomposerConfig::min_subtasks</definition>
+        <argsstring></argsstring>
+        <name>min_subtasks</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::min_subtasks</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="83" column="9" bodyfile="include/llm/task_decomposer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1ac94804e071a068b930293854c525c8a4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TaskDecomposerConfig::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::max_tokens</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="85" column="9" bodyfile="include/llm/task_decomposer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1a4a5361d82326b4483674f4400c403419" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::TaskDecomposerConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::temperature</qualifiedname>
+        <initializer>= 0.2f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="87" column="11" bodyfile="include/llm/task_decomposer.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1aed6aa29b4b35824736140126cf1c3133" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecomposerConfig::domain_context</definition>
+        <argsstring></argsstring>
+        <name>domain_context</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::domain_context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="89" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1ab675250f655c775725539de597146bf1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::TaskDecomposerConfig::output_language</definition>
+        <argsstring></argsstring>
+        <name>output_language</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::output_language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="91" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1af11cc875aa22713cf1ba55e6b3a7fc6b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_decomposition_example" kindref="compound">DecompositionExample</ref> &gt;</type>
+        <definition>std::vector&lt;DecompositionExample&gt; themis::llm::TaskDecomposerConfig::few_shot_examples</definition>
+        <argsstring></argsstring>
+        <name>few_shot_examples</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::few_shot_examples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="93" column="17" bodyfile="include/llm/task_decomposer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_task_decomposer_config_1a390aed7e3b4b5542abf52a7efa548f09" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::TaskDecomposerConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::llm::TaskDecomposerConfig::max_retries</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/task_decomposer.h" line="95" column="9" bodyfile="include/llm/task_decomposer.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/task_decomposer.h" line="78" column="1" bodyfile="include/llm/task_decomposer.h" bodystart="78" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1aed6aa29b4b35824736140126cf1c3133" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>domain_context</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1af11cc875aa22713cf1ba55e6b3a7fc6b" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>few_shot_examples</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1a390aed7e3b4b5542abf52a7efa548f09" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1a3dc8ca6b603a0befa523034105a37069" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>max_subtasks</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1ac94804e071a068b930293854c525c8a4" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1a3df8a8c792f231877f467af2293c51f0" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>min_subtasks</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1ab675250f655c775725539de597146bf1" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>output_language</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1a9c1acbb056d986f1f3eff30fbc35049b" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_task_decomposer_config_1a4a5361d82326b4483674f4400c403419" prot="public" virt="non-virtual"><scope>themis::llm::TaskDecomposerConfig</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

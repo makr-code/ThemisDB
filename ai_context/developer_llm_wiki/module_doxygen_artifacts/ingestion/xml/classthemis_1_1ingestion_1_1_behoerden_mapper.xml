@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_behoerden_mapper" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::BehoerdenMapper</compoundname>
+    <includes refid="legal__domain_8h" local="no">legal_domain.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_behoerden_mapper_1ad235f37828c6941d21ba973325e9fa4f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::ingestion::BehoerdenMapper::builtin_</definition>
+        <argsstring></argsstring>
+        <name>builtin_</name>
+        <qualifiedname>themis::ingestion::BehoerdenMapper::builtin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="213" column="31" bodyfile="include/ingestion/legal_domain.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_behoerden_mapper_1aea7e1497c1d9bf9078240a3f9a7c6c49" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::ingestion::BehoerdenMapper::custom_</definition>
+        <argsstring></argsstring>
+        <name>custom_</name>
+        <qualifiedname>themis::ingestion::BehoerdenMapper::custom_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="214" column="31" bodyfile="include/ingestion/legal_domain.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_behoerden_mapper_1a91901108ac0910736a0e521bf5ec3bc6" prot="private" static="no" mutable="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const std::string&amp;)&gt; themis::ingestion::BehoerdenMapper::fallback_</definition>
+        <argsstring></argsstring>
+        <name>fallback_</name>
+        <qualifiedname>themis::ingestion::BehoerdenMapper::fallback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="215" column="24" bodyfile="include/ingestion/legal_domain.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_behoerden_mapper_1a5d67c19993dbc0aec3240af75a47f468" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::BehoerdenMapper::BehoerdenMapper</definition>
+        <argsstring>()</argsstring>
+        <name>BehoerdenMapper</name>
+        <qualifiedname>themis::ingestion::BehoerdenMapper::BehoerdenMapper</qualifiedname>
+        <briefdescription>
+<para>Loads built-in mappings. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="183" column="5" bodyfile="src/ingestion/legal_domain.cpp" bodystart="534" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_behoerden_mapper_1a1b15c8512f6641e790c97161debf6fb4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::ingestion::BehoerdenMapper::lookupAuthority</definition>
+        <argsstring>(const std::string &amp;norm_abbreviation) const</argsstring>
+        <name>lookupAuthority</name>
+        <qualifiedname>themis::ingestion::BehoerdenMapper::lookupAuthority</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>norm_abbreviation</declname>
+        </param>
+        <briefdescription>
+<para>Return the responsible authority for a norm abbreviation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Lookup order: (1) custom mappings, (2) built-in table, (3) injected fallback function.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>norm_abbreviation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>e.g. &quot;BImSchG&quot;, &quot;DSGVO&quot;, &quot;GG&quot; </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Authority name or nullopt when unknown. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="194" column="19" bodyfile="src/ingestion/legal_domain.cpp" bodystart="570" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_behoerden_mapper_1ab0d058c03dd3b9496ad74a3ff6a485ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::BehoerdenMapper::addMapping</definition>
+        <argsstring>(const std::string &amp;norm, const std::string &amp;authority)</argsstring>
+        <name>addMapping</name>
+        <qualifiedname>themis::ingestion::BehoerdenMapper::addMapping</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>norm</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>authority</declname>
+        </param>
+        <briefdescription>
+<para>Register or override a norm → authority mapping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Mapping.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">norm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">authority</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addMapping without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="200" column="10" bodyfile="src/ingestion/legal_domain.cpp" bodystart="602" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_behoerden_mapper_1a42fafe2c30a7fc2af22d79f7834cf31f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::BehoerdenMapper::setFallback</definition>
+        <argsstring>(std::function&lt; std::string(const std::string &amp;)&gt; fn)</argsstring>
+        <name>setFallback</name>
+        <qualifiedname>themis::ingestion::BehoerdenMapper::setFallback</qualifiedname>
+        <param>
+          <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set a fallback function called when built-in lookup fails. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Returns authority string or empty string on miss. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="207" column="10" bodyfile="src/ingestion/legal_domain.cpp" bodystart="607" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_behoerden_mapper_1a5319a2717126268a26c3f4b1844c781d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::ingestion::BehoerdenMapper::mappingCount</definition>
+        <argsstring>() const</argsstring>
+        <name>mappingCount</name>
+        <qualifiedname>themis::ingestion::BehoerdenMapper::mappingCount</qualifiedname>
+        <briefdescription>
+<para>Number of entries in the combined table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/legal_domain.h" line="210" column="17" bodyfile="src/ingestion/legal_domain.cpp" bodystart="612" bodyend="614"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Maps a German norm abbreviation to the responsible authority. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Bundles a static lookup table covering the 30 most common Federal laws and supports injection of custom mappings and a fallback lookup function.</para>
+<para>Thread-safety: all const methods are thread-safe after construction. </para>
+    </detaileddescription>
+    <location file="include/ingestion/legal_domain.h" line="181" column="1" bodyfile="include/ingestion/legal_domain.h" bodystart="181" bodyend="216"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1ab0d058c03dd3b9496ad74a3ff6a485ef" prot="public" virt="non-virtual"><scope>themis::ingestion::BehoerdenMapper</scope><name>addMapping</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a5d67c19993dbc0aec3240af75a47f468" prot="public" virt="non-virtual"><scope>themis::ingestion::BehoerdenMapper</scope><name>BehoerdenMapper</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1ad235f37828c6941d21ba973325e9fa4f" prot="private" virt="non-virtual"><scope>themis::ingestion::BehoerdenMapper</scope><name>builtin_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1aea7e1497c1d9bf9078240a3f9a7c6c49" prot="private" virt="non-virtual"><scope>themis::ingestion::BehoerdenMapper</scope><name>custom_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a91901108ac0910736a0e521bf5ec3bc6" prot="private" virt="non-virtual"><scope>themis::ingestion::BehoerdenMapper</scope><name>fallback_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a1b15c8512f6641e790c97161debf6fb4" prot="public" virt="non-virtual"><scope>themis::ingestion::BehoerdenMapper</scope><name>lookupAuthority</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a5319a2717126268a26c3f4b1844c781d" prot="public" virt="non-virtual"><scope>themis::ingestion::BehoerdenMapper</scope><name>mappingCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_behoerden_mapper_1a42fafe2c30a7fc2af22d79f7834cf31f" prot="public" virt="non-virtual"><scope>themis::ingestion::BehoerdenMapper</scope><name>setFallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

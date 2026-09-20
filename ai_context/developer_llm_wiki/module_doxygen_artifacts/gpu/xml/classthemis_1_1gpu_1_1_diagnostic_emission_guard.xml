@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_diagnostic_emission_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::DiagnosticEmissionGuard</compoundname>
+    <includes refid="gpu__backend__dispatch__diagnostics_8h" local="no">gpu_backend_dispatch_diagnostics.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_diagnostic_emission_guard_1a608ffa6eea3e5dc3d8e653c0317e8c13" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::gpu::DiagnosticEmissionGuard::description_</definition>
+        <argsstring></argsstring>
+        <name>description_</name>
+        <qualifiedname>themis::gpu::DiagnosticEmissionGuard::description_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="104" column="17" bodyfile="include/gpu/gpu_backend_dispatch_diagnostics.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_diagnostic_emission_guard_1a0c96e0a5ac7f70c78ae3efa6c40f8e9e" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::DiagnosticEmissionGuard::start_time_us_</definition>
+        <argsstring></argsstring>
+        <name>start_time_us_</name>
+        <qualifiedname>themis::gpu::DiagnosticEmissionGuard::start_time_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="105" column="14" bodyfile="include/gpu/gpu_backend_dispatch_diagnostics.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_diagnostic_emission_guard_1ac50e9cf3afd911bc1b928cbc3618824d" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::DiagnosticEmissionGuard::DiagnosticEmissionGuard</definition>
+        <argsstring>(const std::string &amp;description) noexcept</argsstring>
+        <name>DiagnosticEmissionGuard</name>
+        <qualifiedname>themis::gpu::DiagnosticEmissionGuard::DiagnosticEmissionGuard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+        </param>
+        <briefdescription>
+<para>Diagnostic Emission Guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="99" column="14" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="227" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_diagnostic_emission_guard_1ac267a31938c0a2db20d646a2322c748b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::DiagnosticEmissionGuard::~DiagnosticEmissionGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~DiagnosticEmissionGuard</name>
+        <qualifiedname>themis::gpu::DiagnosticEmissionGuard::~DiagnosticEmissionGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="101" column="5" bodyfile="src/gpu/gpu_backend_dispatch_diagnostics.cpp" bodystart="233" bodyend="255"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_backend_dispatch_diagnostics.h" line="91" column="1" bodyfile="include/gpu/gpu_backend_dispatch_diagnostics.h" bodystart="91" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_diagnostic_emission_guard_1a608ffa6eea3e5dc3d8e653c0317e8c13" prot="private" virt="non-virtual"><scope>themis::gpu::DiagnosticEmissionGuard</scope><name>description_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_diagnostic_emission_guard_1ac50e9cf3afd911bc1b928cbc3618824d" prot="public" virt="non-virtual"><scope>themis::gpu::DiagnosticEmissionGuard</scope><name>DiagnosticEmissionGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_diagnostic_emission_guard_1a0c96e0a5ac7f70c78ae3efa6c40f8e9e" prot="private" virt="non-virtual"><scope>themis::gpu::DiagnosticEmissionGuard</scope><name>start_time_us_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_diagnostic_emission_guard_1ac267a31938c0a2db20d646a2322c748b" prot="public" virt="non-virtual"><scope>themis::gpu::DiagnosticEmissionGuard</scope><name>~DiagnosticEmissionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

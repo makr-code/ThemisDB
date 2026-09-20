@@ -1,0 +1,434 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceEngineEnhanced::Config</compoundname>
+    <includes refid="inference__engine__enhanced_8h" local="no">inference_engine_enhanced.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ad42e62483aa209914545f5c28bc324fc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LoadBalanceStrategy</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::LoadBalanceStrategy</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ad42e62483aa209914545f5c28bc324fca1ebd8dbf8c34e255f5cbf28f35860b71" prot="public">
+          <name>ROUND_ROBIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ad42e62483aa209914545f5c28bc324fca6e5249bcb29f2a8b79c3f1342577f5f3" prot="public">
+          <name>LEAST_LOADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ad42e62483aa209914545f5c28bc324fcab57ae221c32fbef5aaf2b7ada21c30ac" prot="public">
+          <name>RESPONSE_TIME_WEIGHTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="66" column="9" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="66" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a0806ca69628e3b0830f85da63fd52eda" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::Config::enable_context_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_context_caching</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::enable_context_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="46" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a22a17c7d29bfe7ca56d2d0292e1524fa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::max_cache_entries</definition>
+        <argsstring></argsstring>
+        <name>max_cache_entries</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::max_cache_entries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="47" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ae9f9c61439368c5c238c86caa4ff823e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::InferenceEngineEnhanced::Config::cache_similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>cache_similarity_threshold</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::cache_similarity_threshold</qualifiedname>
+        <initializer>= 0.95</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="48" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1af58a684db9776d86e07cc8288d768098" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::InferenceEngineEnhanced::Config::cache_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl_seconds</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::cache_ttl_seconds</qualifiedname>
+        <initializer>= 7200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="49" column="13" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a99a45c4a913b53336968d06a055d5a5f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::Config::enable_batch_processing</definition>
+        <argsstring></argsstring>
+        <name>enable_batch_processing</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::enable_batch_processing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="52" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a7e87bde1f125bc153db2b248b2da24d4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::min_batch_size</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="53" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ade24b5b249a5df7308ce07c58897798a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::max_batch_size</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="54" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a87924400c26409e77aa34e7c55529c24" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::batch_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>batch_timeout_ms</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::batch_timeout_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="55" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a1e2d32ed38cff116ab55ae8b8cc16e81" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::max_tokens_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_batch</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::max_tokens_per_batch</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="56" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ade44bbea85b234a879eb0138eb99b07f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::Config::enable_adaptive_batch_retry</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_batch_retry</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::enable_adaptive_batch_retry</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="57" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ac0b057216ca1d41ea43cc4645b2edb57" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::max_queue_size</definition>
+        <argsstring></argsstring>
+        <name>max_queue_size</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::max_queue_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="60" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a4ef38a60a452a020eabbffed88ddefd2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::request_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>request_timeout_ms</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::request_timeout_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="61" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1af606f75ba477c3bf9d43ad4c51edc0d5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::Config::enable_priority_scheduling</definition>
+        <argsstring></argsstring>
+        <name>enable_priority_scheduling</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::enable_priority_scheduling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="62" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a378fe65a519213e8fae3fad843f2e6ca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::Config::enable_load_balancing</definition>
+        <argsstring></argsstring>
+        <name>enable_load_balancing</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::enable_load_balancing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="65" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a48d0371064c0ecd62bbfc575cc71a195" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ad42e62483aa209914545f5c28bc324fc" kindref="member">LoadBalanceStrategy</ref></type>
+        <definition>LoadBalanceStrategy themis::llm::InferenceEngineEnhanced::Config::load_balance_strategy</definition>
+        <argsstring></argsstring>
+        <name>load_balance_strategy</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::load_balance_strategy</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ad42e62483aa209914545f5c28bc324fca6e5249bcb29f2a8b79c3f1342577f5f3" kindref="member">LoadBalanceStrategy::LEAST_LOADED</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="71" column="29" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1aebfce81c19ceb9e532eed77488c4da0b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::num_worker_threads</definition>
+        <argsstring></argsstring>
+        <name>num_worker_threads</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::num_worker_threads</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="74" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a35b9baa90e664da766401fd416c30378" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::Config::enable_speculative_decoding</definition>
+        <argsstring></argsstring>
+        <name>enable_speculative_decoding</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::enable_speculative_decoding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="79" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a05e608401b8db133362bb25696e9c072" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::speculative_draft_tokens</definition>
+        <argsstring></argsstring>
+        <name>speculative_draft_tokens</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::speculative_draft_tokens</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="80" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ac94fb626c076d020c5624860129b2fa7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::Config::speculative_draft_model_id</definition>
+        <argsstring></argsstring>
+        <name>speculative_draft_model_id</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::speculative_draft_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="81" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a323d022df68596af4a1ff980cb802912" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceEngineEnhanced::Config::speculative_remote_draft_shard_id</definition>
+        <argsstring></argsstring>
+        <name>speculative_remote_draft_shard_id</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::speculative_remote_draft_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="83" column="21" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a2dd345e8c75759e0b3b8811ed804b7f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceEngineEnhanced::Config::enable_lookup_decoding</definition>
+        <argsstring></argsstring>
+        <name>enable_lookup_decoding</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::enable_lookup_decoding</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="86" column="14" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ac4c8f4c15152e15e01bdcbb171415234" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::lookup_ngram_min</definition>
+        <argsstring></argsstring>
+        <name>lookup_ngram_min</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::lookup_ngram_min</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="87" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a08573b3a2a77d6a21e090423b77f03e6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::lookup_ngram_max</definition>
+        <argsstring></argsstring>
+        <name>lookup_ngram_max</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::lookup_ngram_max</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="88" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ae0697e65966767a493e5db9d07947250" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::InferenceEngineEnhanced::Config::lookup_max_draft_tokens</definition>
+        <argsstring></argsstring>
+        <name>lookup_max_draft_tokens</name>
+        <qualifiedname>themis::llm::InferenceEngineEnhanced::Config::lookup_max_draft_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_engine_enhanced.h" line="89" column="16" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inference_engine_enhanced.h" line="44" column="5" bodyfile="include/llm/inference_engine_enhanced.h" bodystart="44" bodyend="90"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a87924400c26409e77aa34e7c55529c24" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>batch_timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ae9f9c61439368c5c238c86caa4ff823e" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>cache_similarity_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1af58a684db9776d86e07cc8288d768098" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>cache_ttl_seconds</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ade44bbea85b234a879eb0138eb99b07f" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>enable_adaptive_batch_retry</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a99a45c4a913b53336968d06a055d5a5f" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>enable_batch_processing</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a0806ca69628e3b0830f85da63fd52eda" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>enable_context_caching</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a378fe65a519213e8fae3fad843f2e6ca" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>enable_load_balancing</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a2dd345e8c75759e0b3b8811ed804b7f8" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>enable_lookup_decoding</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1af606f75ba477c3bf9d43ad4c51edc0d5" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>enable_priority_scheduling</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a35b9baa90e664da766401fd416c30378" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>enable_speculative_decoding</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a48d0371064c0ecd62bbfc575cc71a195" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>load_balance_strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ad42e62483aa209914545f5c28bc324fc" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>LoadBalanceStrategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ae0697e65966767a493e5db9d07947250" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>lookup_max_draft_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a08573b3a2a77d6a21e090423b77f03e6" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>lookup_ngram_max</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ac4c8f4c15152e15e01bdcbb171415234" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>lookup_ngram_min</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ade24b5b249a5df7308ce07c58897798a" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a22a17c7d29bfe7ca56d2d0292e1524fa" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>max_cache_entries</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ac0b057216ca1d41ea43cc4645b2edb57" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>max_queue_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a1e2d32ed38cff116ab55ae8b8cc16e81" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>max_tokens_per_batch</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a7e87bde1f125bc153db2b248b2da24d4" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>min_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1aebfce81c19ceb9e532eed77488c4da0b" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>num_worker_threads</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a4ef38a60a452a020eabbffed88ddefd2" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>request_timeout_ms</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1ac94fb626c076d020c5624860129b2fa7" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>speculative_draft_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a05e608401b8db133362bb25696e9c072" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>speculative_draft_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_inference_engine_enhanced_1_1_config_1a323d022df68596af4a1ff980cb802912" prot="public" virt="non-virtual"><scope>themis::llm::InferenceEngineEnhanced::Config</scope><name>speculative_remote_draft_shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

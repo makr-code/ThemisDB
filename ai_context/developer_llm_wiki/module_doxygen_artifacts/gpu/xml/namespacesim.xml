@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacesim" kind="namespace" language="C++">
+    <compoundname>sim</compoundname>
+    <innerclass refid="structsim_1_1_device_info" prot="public">sim::DeviceInfo</innerclass>
+    <innerclass refid="structsim_1_1_transfer_request" prot="public">sim::TransferRequest</innerclass>
+    <innerclass refid="structsim_1_1_transfer_result" prot="public">sim::TransferResult</innerclass>
+    <innerclass refid="structsim_1_1_p2_p_stats" prot="public">sim::P2PStats</innerclass>
+    <innerclass refid="classsim_1_1_p2_p_manager" prot="public">sim::P2PManager</innerclass>
+    <innerclass refid="structsim_1_1_topology_link" prot="public">sim::TopologyLink</innerclass>
+    <innerclass refid="structsim_1_1_topology" prot="public">sim::Topology</innerclass>
+    <innerclass refid="classsim_1_1_load_balancer" prot="public">sim::LoadBalancer</innerclass>
+    <innerclass refid="structsim_1_1_hardware_capability" prot="public">sim::HardwareCapability</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacesim_1a83a7d1e04cc90419e113695137e2302a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>InterconnectType</name>
+        <qualifiedname>sim::InterconnectType</qualifiedname>
+        <enumvalue id="namespacesim_1a83a7d1e04cc90419e113695137e2302aa3b2913aa1f8221c1febc72dfd9b2bcb8" prot="public">
+          <name>NVLINK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesim_1a83a7d1e04cc90419e113695137e2302aa5970940a689f2be8d774153e6438a7d5" prot="public">
+          <name>PCIE_P2P</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacesim_1a83a7d1e04cc90419e113695137e2302aa2b55387dd066c5bac646ac61543d152d" prot="public">
+          <name>CPU</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="144" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacesim_1a73b4c527449748aae1520d46d4e5dcdf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structsim_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt;</type>
+        <definition>static std::vector&lt; DeviceInfo &gt; sim::makeDevices</definition>
+        <argsstring>(int n, uint64_t vram=8ULL *1024 *1024 *1024)</argsstring>
+        <name>makeDevices</name>
+        <qualifiedname>sim::makeDevices</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>vram</declname>
+          <defval>8ULL *1024 *1024 *1024</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="49" column="20" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="49" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesim_1a493c523177456e4f32d71333ce5eb2e8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structsim_1_1_topology" kindref="compound">Topology</ref></type>
+        <definition>static Topology sim::makeNVLinkTopo</definition>
+        <argsstring>(int n, float bw_gbps=300.0f)</argsstring>
+        <name>makeNVLinkTopo</name>
+        <qualifiedname>sim::makeNVLinkTopo</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>bw_gbps</declname>
+          <defval>300.0f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="189" column="17" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="189" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacesim_1a3bdf3eaf104239b723221130c1544e89" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structsim_1_1_hardware_capability" kindref="compound">HardwareCapability</ref></type>
+        <definition>static HardwareCapability sim::probeCapability</definition>
+        <argsstring>(const std::vector&lt; DeviceInfo &gt; &amp;devs)</argsstring>
+        <name>probeCapability</name>
+        <qualifiedname>sim::probeCapability</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structsim_1_1_device_info" kindref="compound">DeviceInfo</ref> &gt; &amp;</type>
+          <declname>devs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="308" column="27" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="308" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="34" column="1"/>
+  </compounddef>
+</doxygen>

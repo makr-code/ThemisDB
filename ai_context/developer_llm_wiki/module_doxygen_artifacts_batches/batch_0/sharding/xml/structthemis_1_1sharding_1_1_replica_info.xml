@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_replica_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ReplicaInfo</compoundname>
+    <includes refid="wal__shipper_8h" local="no">wal_shipper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replica_info_1aa9cbd1b64921af9cb7b525b9761a16ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ReplicaInfo::replica_id</definition>
+        <argsstring></argsstring>
+        <name>replica_id</name>
+        <qualifiedname>themis::sharding::ReplicaInfo::replica_id</qualifiedname>
+        <briefdescription>
+<para>Eindeutige Replika-ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="43" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replica_info_1abd421dfa5fd92637dc3ee49a6b3e4219" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ReplicaInfo::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::sharding::ReplicaInfo::endpoint</qualifiedname>
+        <briefdescription>
+<para>Ziel-Endpoint fuer WAL-Batches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="44" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replica_info_1ae6e70724423f157682e37ca498fb6c01" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::ReplicaInfo::last_confirmed_lsn</definition>
+        <argsstring></argsstring>
+        <name>last_confirmed_lsn</name>
+        <qualifiedname>themis::sharding::ReplicaInfo::last_confirmed_lsn</qualifiedname>
+        <briefdescription>
+<para>Letzte durch Replika bestaetigte <ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="45" column="9" bodyfile="include/sharding/wal_shipper.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replica_info_1a21a4e854fb7f80705caa25f22fa7b6ec" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ReplicaInfo::lag_bytes</definition>
+        <argsstring></argsstring>
+        <name>lag_bytes</name>
+        <qualifiedname>themis::sharding::ReplicaInfo::lag_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Replikationsrueckstand in Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="46" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replica_info_1a51025558ad540a29b3e8c849dfddd64a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ReplicaInfo::lag_ms</definition>
+        <argsstring></argsstring>
+        <name>lag_ms</name>
+        <qualifiedname>themis::sharding::ReplicaInfo::lag_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Replikationsrueckstand in Millisekunden. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="47" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replica_info_1a454f7db87df70214aae1a6cb2340259f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReplicaInfo::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::sharding::ReplicaInfo::is_healthy</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Letztes Health-/Retry-Ergebnis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="48" column="10" bodyfile="include/sharding/wal_shipper.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replica_info_1a726df0a2efd832c99a64fa8131dc2464" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ReplicaInfo::last_success_ts</definition>
+        <argsstring></argsstring>
+        <name>last_success_ts</name>
+        <qualifiedname>themis::sharding::ReplicaInfo::last_success_ts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix-Zeit ms des letzten erfolgreichen Shipments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="49" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replica_info_1ab42db90e3e9bfd8fab610c7833ac8940" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ReplicaInfo::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::sharding::ReplicaInfo::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Aufeinanderfolgende fehlgeschlagene Shipments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="50" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime replication health/lag snapshot for one replica target. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>WAL Shipper</para>
+<para>Asynchronously ships WAL entries to replica shards for replication. Inspired by PostgreSQL&apos;s WAL sender process.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Background thread for continuous shipping</para>
+</listitem><listitem><para>Retry logic with exponential backoff</para>
+</listitem><listitem><para>Replication lag monitoring</para>
+</listitem><listitem><para>Batch shipping for efficiency</para>
+</listitem><listitem><para>Automatic recovery from network failures </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::ReplicaInfo</label>
+        <link refid="structthemis_1_1sharding_1_1_replica_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>last_confirmed_lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/wal_shipper.h" line="42" column="1" bodyfile="include/sharding/wal_shipper.h" bodystart="42" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_replica_info_1ab42db90e3e9bfd8fab610c7833ac8940" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaInfo</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replica_info_1abd421dfa5fd92637dc3ee49a6b3e4219" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaInfo</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replica_info_1a454f7db87df70214aae1a6cb2340259f" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaInfo</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replica_info_1a21a4e854fb7f80705caa25f22fa7b6ec" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaInfo</scope><name>lag_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replica_info_1a51025558ad540a29b3e8c849dfddd64a" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaInfo</scope><name>lag_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replica_info_1ae6e70724423f157682e37ca498fb6c01" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaInfo</scope><name>last_confirmed_lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replica_info_1a726df0a2efd832c99a64fa8131dc2464" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaInfo</scope><name>last_success_ts</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replica_info_1aa9cbd1b64921af9cb7b525b9761a16ad" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicaInfo</scope><name>replica_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

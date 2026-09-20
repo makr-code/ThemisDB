@@ -1,0 +1,804 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_wasm_plugin_sandbox" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::WasmPluginSandbox</compoundname>
+    <includes refid="wasm__plugin__sandbox_8h" local="no">wasm_plugin_sandbox.h</includes>
+    <innerclass refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config" prot="public">themis::modules::WasmPluginSandbox::Config</innerclass>
+    <innerclass refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats" prot="public">themis::modules::WasmPluginSandbox::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a57b14f7792dc7856c97a8162a03310cf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::modules::WasmPluginSandbox::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="404" column="38" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a23fcfdc0456d9a72a8fa4f012e922652" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1modules_1_1_wasm_runtime" kindref="compound">WasmRuntime</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;WasmRuntime&gt; themis::modules::WasmPluginSandbox::runtime_</definition>
+        <argsstring></argsstring>
+        <name>runtime_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::runtime_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="405" column="25" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="405" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a47b44fa848346a88a48ba56fec22b702" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_wasm_host_function" kindref="compound">WasmHostFunction</ref> &gt;</type>
+        <definition>std::vector&lt;WasmHostFunction&gt; themis::modules::WasmPluginSandbox::host_fns_</definition>
+        <argsstring></argsstring>
+        <name>host_fns_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::host_fns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="406" column="20" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="406" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3bb0014cd1506c1ad694194c3332b140" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_wasm_module_info" kindref="compound">WasmModuleInfo</ref></type>
+        <definition>WasmModuleInfo themis::modules::WasmPluginSandbox::module_info_</definition>
+        <argsstring></argsstring>
+        <name>module_info_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::module_info_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="407" column="38" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a297bae6d0198d4d4daade5145cf98a78" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::modules::WasmPluginSandbox::wasm_bytes_</definition>
+        <argsstring></argsstring>
+        <name>wasm_bytes_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::wasm_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="408" column="29" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a585471b452982d62cfe30609c7760f95" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; uint8_t[]&gt;</type>
+        <definition>std::unique_ptr&lt;uint8_t[]&gt; themis::modules::WasmPluginSandbox::linear_memory_</definition>
+        <argsstring></argsstring>
+        <name>linear_memory_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::linear_memory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="409" column="27" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a85dc102f742bb53339e01fd15e4353e5" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::modules::WasmPluginSandbox::linear_memory_size_</definition>
+        <argsstring></argsstring>
+        <name>linear_memory_size_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::linear_memory_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="410" column="38" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="410" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a8177537c1dade3c7846d8e887b39f4d8" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::loaded_</definition>
+        <argsstring></argsstring>
+        <name>loaded_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::loaded_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="411" column="38" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="411" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1af1f93d47f48855db67ab17da1c3ba288" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmPluginSandbox::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="412" column="38" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="412" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad6d904fa0d0ffc1545e0b8a2c021de94" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::modules::WasmPluginSandbox::load_warnings_</definition>
+        <argsstring></argsstring>
+        <name>load_warnings_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::load_warnings_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="413" column="25" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="413" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad97218c8470e97d786b02f9c1305b42a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::modules::WasmPluginSandbox::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::stats_</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="414" column="38" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="414" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1adcd45cd3cc65317e3f21c98143986a73" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1modules_1_1_module_sandbox" kindref="compound">ModuleSandbox</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleSandbox&gt; themis::modules::WasmPluginSandbox::os_sandbox_</definition>
+        <argsstring></argsstring>
+        <name>os_sandbox_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::os_sandbox_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="415" column="23" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ae2ac2f461aa14d3e9b26a1560aed52df" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmPluginSandbox::fuel_remaining_</definition>
+        <argsstring></argsstring>
+        <name>fuel_remaining_</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::fuel_remaining_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Remaining fuel units (UINT64_MAX when unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="416" column="38" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad1e2c9ef696f934bd4ca2bb44ae4ab2b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::WasmPluginSandbox::WasmPluginSandbox</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>WasmPluginSandbox</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::WasmPluginSandbox</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1afa780cffe9dc2bcff67c023979eb05e2" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="266" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ac0c2012e27229d4a4eed25fe63b6b884" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::WasmPluginSandbox::~WasmPluginSandbox</definition>
+        <argsstring>()</argsstring>
+        <name>~WasmPluginSandbox</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::~WasmPluginSandbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="267" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3c953aad459490557e6e495b7936330b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::WasmPluginSandbox::WasmPluginSandbox</definition>
+        <argsstring>(const WasmPluginSandbox &amp;)=delete</argsstring>
+        <name>WasmPluginSandbox</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::WasmPluginSandbox</qualifiedname>
+        <param>
+          <type>const WasmPluginSandbox &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="269" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a67b7304cc5a9d7616036358dd11b2480" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad1e2c9ef696f934bd4ca2bb44ae4ab2b" kindref="member">WasmPluginSandbox</ref> &amp;</type>
+        <definition>WasmPluginSandbox &amp; themis::modules::WasmPluginSandbox::operator=</definition>
+        <argsstring>(const WasmPluginSandbox &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad1e2c9ef696f934bd4ca2bb44ae4ab2b" kindref="member">WasmPluginSandbox</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="270" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3fa31a72ef5001bec9a4d20cfafe74df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::WasmPluginSandbox::setRuntime</definition>
+        <argsstring>(std::unique_ptr&lt; WasmRuntime &gt; runtime)</argsstring>
+        <name>setRuntime</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::setRuntime</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1modules_1_1_wasm_runtime" kindref="compound">WasmRuntime</ref> &gt;</type>
+          <declname>runtime</declname>
+        </param>
+        <briefdescription>
+<para>Inject a concrete WASM execution engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If no runtime is set the sandbox operates in <bold>validation-only mode</bold>: it validates the binary and the host-function allowlist but <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3522c0e7d5df1b7c190356cf05c0a502" kindref="member">callExport()</ref> will return an error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>runtime</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owning pointer to the runtime. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="283" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ae1084e06106ed22099b379ae11bc43a9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::hasRuntime</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hasRuntime</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::hasRuntime</qualifiedname>
+        <briefdescription>
+<para>Return true if a runtime has been injected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="286" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a6fe7a502453a72f9bed59099e5e65e50" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WasmPluginSandbox::engineName</definition>
+        <argsstring>() const</argsstring>
+        <name>engineName</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::engineName</qualifiedname>
+        <briefdescription>
+<para>Return the engine name (empty string if no runtime). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="289" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a4ae9027551ad5371eee69bec4ec37815" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::WasmPluginSandbox::addHostFunction</definition>
+        <argsstring>(WasmHostFunction fn)</argsstring>
+        <name>addHostFunction</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::addHostFunction</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_wasm_host_function" kindref="compound">WasmHostFunction</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a host function that the WASM plugin is allowed to call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must be called <emphasis>before</emphasis> <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1af5e7edb2ca886d594ba6c7f96c690c6e" kindref="member">loadFromFile()</ref> / <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3666105322951a023efee80a5c01cb4f" kindref="member">loadFromBytes()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="298" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1abf8d2455581ace4dbdbf662840840cfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::WasmPluginSandbox::clearHostFunctions</definition>
+        <argsstring>()</argsstring>
+        <name>clearHostFunctions</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::clearHostFunctions</qualifiedname>
+        <briefdescription>
+<para>Remove all registered host functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="303" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a4ef936198f43681434459397603733cc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::modules::WasmPluginSandbox::hostFunctionCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hostFunctionCount</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::hostFunctionCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of registered host functions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="306" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1af5e7edb2ca886d594ba6c7f96c690c6e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::loadFromFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Validate and load a .wasm plugin from a file path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Steps:<orderedlist>
+<listitem><para>Read the file into memory.</para>
+</listitem><listitem><para>Validate the WASM magic bytes and version.</para>
+</listitem><listitem><para>Parse import/export sections to check against the allowlist.</para>
+</listitem><listitem><para>Allocate the linear memory arena.</para>
+</listitem><listitem><para>Instantiate via the injected <ref refid="classthemis_1_1modules_1_1_wasm_runtime" kindref="compound">WasmRuntime</ref> (if any).</para>
+</listitem><listitem><para>Launch the inner <ref refid="classthemis_1_1modules_1_1_module_sandbox" kindref="compound">ModuleSandbox</ref> resource limits.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="323" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3666105322951a023efee80a5c01cb4f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::loadFromBytes</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes, const std::string &amp;module_name=&quot;anonymous&quot;)</argsstring>
+        <name>loadFromBytes</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::loadFromBytes</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+          <defval>&quot;anonymous&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Validate and load a .wasm plugin from an in-memory byte buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Same steps as <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1af5e7edb2ca886d594ba6c7f96c690c6e" kindref="member">loadFromFile()</ref> but reads from <computeroutput>bytes</computeroutput> directly.</para>
+<para><simplesect kind="return"><para>true on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="332" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ab28b41c1ed05cadb309583b041c29708" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::WasmPluginSandbox::unload</definition>
+        <argsstring>()</argsstring>
+        <name>unload</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::unload</qualifiedname>
+        <briefdescription>
+<para>Unload the plugin and release all resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="338" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3522c0e7d5df1b7c190356cf05c0a502" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_wasm_call_result" kindref="compound">WasmCallResult</ref></type>
+        <definition>WasmCallResult themis::modules::WasmPluginSandbox::callExport</definition>
+        <argsstring>(const std::string &amp;export_name, const std::vector&lt; uint8_t &gt; &amp;args={})</argsstring>
+        <name>callExport</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::callExport</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>export_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>args</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Call a named export in the loaded WASM plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requires a runtime to be injected; otherwise returns an error result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>export_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the WASM export function. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Serialised argument blob (format is plugin-defined). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1modules_1_1_wasm_call_result" kindref="compound">WasmCallResult</ref> describing success, output, duration. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="351" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a593a9a73ae87e74b86ddd969367a88f6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::isLoaded</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isLoaded</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::isLoaded</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="356" column="11" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="356" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a1961d96510d210f861b53c9f2bf5ee60" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::modules::WasmPluginSandbox::lastError</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lastError</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::lastError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="357" column="24" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="357" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a97b00653e9b7091607c8dbafc47bde58" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1modules_1_1_wasm_module_info" kindref="compound">WasmModuleInfo</ref> &amp;</type>
+        <definition>const WasmModuleInfo &amp; themis::modules::WasmPluginSandbox::moduleInfo</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>moduleInfo</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::moduleInfo</qualifiedname>
+        <briefdescription>
+<para>Metadata parsed from the loaded .wasm binary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="360" column="27" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="360" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a7e732aefae8d57c4cefdae829f23a717" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::modules::WasmPluginSandbox::loadWarnings</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>loadWarnings</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::loadWarnings</qualifiedname>
+        <briefdescription>
+<para>Warnings produced during load (e.g. sandbox limitations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="363" column="24" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="363" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1aa60bea3f6d84e677954ea6a1fc88d15b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const uint8_t *</type>
+        <definition>const uint8_t * themis::modules::WasmPluginSandbox::linearMemory</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>linearMemory</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::linearMemory</qualifiedname>
+        <briefdescription>
+<para>Return a pointer to the plugin&apos;s linear memory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>nullptr if not loaded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="373" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1aaca4a82c0f6ed3a4dedcdfe8d9632482" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint8_t *</type>
+        <definition>uint8_t * themis::modules::WasmPluginSandbox::linearMemory</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>linearMemory</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::linearMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="374" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a995a0212ddc3133461a7693ad8e066a2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::modules::WasmPluginSandbox::linearMemorySize</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>linearMemorySize</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::linearMemorySize</qualifiedname>
+        <briefdescription>
+<para>Byte size of the linear memory arena. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="377" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ac37e87519211b176b9e2074c625a138d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::modules::WasmPluginSandbox::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="388" column="12" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="388" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a09d9e37ab86680c730d982214fa7a5bd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WasmPluginSandbox::remainingFuel</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>remainingFuel</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::remainingFuel</qualifiedname>
+        <briefdescription>
+<para>Return the number of fuel units remaining in the sandbox budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When <ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1ac59427ce4c15df955e0f8d2a52586920" kindref="member">Config::max_instructions</ref> is 0 (unlimited), this always returns <computeroutput>UINT64_MAX</computeroutput>. After a fuel-exhaustion error the value is 0.</para>
+<para>Fuel is reset to <ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config_1ac59427ce4c15df955e0f8d2a52586920" kindref="member">Config::max_instructions</ref> when a new module is loaded via <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3666105322951a023efee80a5c01cb4f" kindref="member">loadFromBytes()</ref> / <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1af5e7edb2ca886d594ba6c7f96c690c6e" kindref="member">loadFromFile()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="401" column="15"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a4550055d73504c0b8a0e9c45b63ec7be" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::validateWasmHeader</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>validateWasmHeader</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::validateWasmHeader</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="419" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a266a5e7206430dc4ad6dffdb90a98313" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::parseImportsExports</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;bytes)</argsstring>
+        <name>parseImportsExports</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::parseImportsExports</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="420" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1aea83f7c0e89f963a1cf2964c2ed92751" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::checkImportAllowlist</definition>
+        <argsstring>()</argsstring>
+        <name>checkImportAllowlist</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::checkImportAllowlist</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="421" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ac052687a3781dcf965d77f57c2ceb561" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::allocateLinearMemory</definition>
+        <argsstring>()</argsstring>
+        <name>allocateLinearMemory</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::allocateLinearMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="422" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1afb25f5fcc86a3a1cdc7ac9e17f637fbe" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::WasmPluginSandbox::launchOsSandbox</definition>
+        <argsstring>(const std::string &amp;module_name)</argsstring>
+        <name>launchOsSandbox</name>
+        <qualifiedname>themis::modules::WasmPluginSandbox::launchOsSandbox</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/wasm_plugin_sandbox.h" line="423" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Isolates an untrusted plugin inside a WASM sandbox with an explicit capability model and OS-level resource limits. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1autotoc_md0_1s1"><sect2 id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1autotoc_md0">
+<title>Isolation guarantees</title><para><orderedlist>
+<listitem><para><bold>Memory isolation</bold> – the plugin operates only within its own linear memory; host addresses are never reachable.</para>
+</listitem><listitem><para><bold>Capability model</bold> – the plugin can call only the host functions explicitly registered via <ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a4ae9027551ad5371eee69bec4ec37815" kindref="member">addHostFunction()</ref>.</para>
+</listitem><listitem><para><bold>Resource limits</bold> – a <ref refid="classthemis_1_1modules_1_1_module_sandbox" kindref="compound">ModuleSandbox</ref> is created internally; CPU and memory limits from <ref refid="structthemis_1_1modules_1_1_wasm_plugin_sandbox_1_1_config" kindref="compound">WasmPluginSandbox::Config</ref> are applied at the OS level in addition to the WASM linear-memory bound.</para>
+</listitem><listitem><para><bold>Format validation</bold> – non-WASM binaries are rejected before loading.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1autotoc_md1_1s1"><sect2 id="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1autotoc_md1">
+<title>Usage</title><para><programlisting><codeline><highlight class="normal">WasmPluginSandbox::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.linear_memory_pages<sp/>=<sp/>16;<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>MiB<sp/>(16<sp/>×<sp/>64<sp/>KiB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">cfg.max_memory_mb<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>64;<sp/><sp/></highlight><highlight class="comment">//<sp/>OS<sp/>hard<sp/>cap</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad1e2c9ef696f934bd4ca2bb44ae4ab2b" kindref="member">WasmPluginSandbox</ref><sp/>sandbox(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Register<sp/>allowed<sp/>host<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">sandbox.addHostFunction({</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;themis&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;log&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>[](uint8_t*<sp/>mem,<sp/>size_t,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>args,<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>out)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>safe:<sp/>args<sp/>contains<sp/>plugin-owned<sp/>string<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Write<sp/>a<sp/>log<sp/>message&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">});</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Load<sp/>the<sp/>plugin<sp/>binary</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>sandbox.loadFromFile(</highlight><highlight class="stringliteral">&quot;/plugins/my_plugin.wasm&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;WASM<sp/>load<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>sandbox.lastError());</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Call<sp/>an<sp/>export</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">WasmCallResult<sp/>r<sp/>=<sp/>sandbox.callExport(</highlight><highlight class="stringliteral">&quot;process&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!r.success)<sp/>{<sp/>LOG_ERROR(</highlight><highlight class="stringliteral">&quot;Call<sp/>failed:<sp/>{}&quot;</highlight><highlight class="normal">,<sp/>r.error);<sp/>}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">sandbox.unload();</highlight></codeline>
+</programlisting> </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/base/wasm_plugin_sandbox.h" line="218" column="1" bodyfile="include/themis/base/wasm_plugin_sandbox.h" bodystart="218" bodyend="424"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a4ae9027551ad5371eee69bec4ec37815" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>addHostFunction</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ac052687a3781dcf965d77f57c2ceb561" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>allocateLinearMemory</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3522c0e7d5df1b7c190356cf05c0a502" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>callExport</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1aea83f7c0e89f963a1cf2964c2ed92751" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>checkImportAllowlist</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1abf8d2455581ace4dbdbf662840840cfb" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>clearHostFunctions</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a57b14f7792dc7856c97a8162a03310cf" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>config_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a6fe7a502453a72f9bed59099e5e65e50" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>engineName</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ae2ac2f461aa14d3e9b26a1560aed52df" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>fuel_remaining_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ae1084e06106ed22099b379ae11bc43a9" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>hasRuntime</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a47b44fa848346a88a48ba56fec22b702" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>host_fns_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a4ef936198f43681434459397603733cc" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>hostFunctionCount</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a593a9a73ae87e74b86ddd969367a88f6" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>isLoaded</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1af1f93d47f48855db67ab17da1c3ba288" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a1961d96510d210f861b53c9f2bf5ee60" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>lastError</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1afb25f5fcc86a3a1cdc7ac9e17f637fbe" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>launchOsSandbox</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a585471b452982d62cfe30609c7760f95" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>linear_memory_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a85dc102f742bb53339e01fd15e4353e5" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>linear_memory_size_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1aa60bea3f6d84e677954ea6a1fc88d15b" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>linearMemory</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1aaca4a82c0f6ed3a4dedcdfe8d9632482" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>linearMemory</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a995a0212ddc3133461a7693ad8e066a2" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>linearMemorySize</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad6d904fa0d0ffc1545e0b8a2c021de94" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>load_warnings_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a8177537c1dade3c7846d8e887b39f4d8" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>loaded_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3666105322951a023efee80a5c01cb4f" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>loadFromBytes</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1af5e7edb2ca886d594ba6c7f96c690c6e" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a7e732aefae8d57c4cefdae829f23a717" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>loadWarnings</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3bb0014cd1506c1ad694194c3332b140" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>module_info_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a97b00653e9b7091607c8dbafc47bde58" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>moduleInfo</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a67b7304cc5a9d7616036358dd11b2480" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1adcd45cd3cc65317e3f21c98143986a73" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>os_sandbox_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a266a5e7206430dc4ad6dffdb90a98313" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>parseImportsExports</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a09d9e37ab86680c730d982214fa7a5bd" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>remainingFuel</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a23fcfdc0456d9a72a8fa4f012e922652" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>runtime_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3fa31a72ef5001bec9a4d20cfafe74df" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>setRuntime</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ac37e87519211b176b9e2074c625a138d" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>stats</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad97218c8470e97d786b02f9c1305b42a" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ab28b41c1ed05cadb309583b041c29708" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>unload</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a4550055d73504c0b8a0e9c45b63ec7be" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>validateWasmHeader</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a297bae6d0198d4d4daade5145cf98a78" prot="private" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>wasm_bytes_</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ad1e2c9ef696f934bd4ca2bb44ae4ab2b" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>WasmPluginSandbox</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1a3c953aad459490557e6e495b7936330b" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>WasmPluginSandbox</name></member>
+      <member refid="classthemis_1_1modules_1_1_wasm_plugin_sandbox_1ac0c2012e27229d4a4eed25fe63b6b884" prot="public" virt="non-virtual"><scope>themis::modules::WasmPluginSandbox</scope><name>~WasmPluginSandbox</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

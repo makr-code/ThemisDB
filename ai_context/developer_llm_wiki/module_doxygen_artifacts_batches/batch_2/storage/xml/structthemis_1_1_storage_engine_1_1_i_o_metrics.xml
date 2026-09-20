@@ -1,0 +1,325 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_storage_engine_1_1_i_o_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::StorageEngine::IOMetrics</compoundname>
+    <includes refid="storage__engine_8h" local="no">storage_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a63dc7326a72c6a2c74326b99bc0dbcab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::put_ops</definition>
+        <argsstring></argsstring>
+        <name>put_ops</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::put_ops</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total successful <ref refid="classthemis_1_1_storage_engine_1a70d15024623c43df79a3a47b2824b16a" kindref="member">put()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="83" column="18" bodyfile="include/storage/storage_engine.h" bodystart="83" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a1c37631d5b1554b9514f50e359f3526b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::put_errors</definition>
+        <argsstring></argsstring>
+        <name>put_errors</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::put_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total failed <ref refid="classthemis_1_1_storage_engine_1a70d15024623c43df79a3a47b2824b16a" kindref="member">put()</ref> calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="84" column="18" bodyfile="include/storage/storage_engine.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1aa3e603205c28231ee7702c6fe96a54c1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::put_latency_us</definition>
+        <argsstring></argsstring>
+        <name>put_latency_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::put_latency_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Cumulative latency of successful puts (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="85" column="18" bodyfile="include/storage/storage_engine.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a2466e641d3f15029eafdd4f937e09dab" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::put_latency_min_us</definition>
+        <argsstring></argsstring>
+        <name>put_latency_min_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::put_latency_min_us</qualifiedname>
+        <initializer>{UINT64_MAX}</initializer>
+        <briefdescription>
+<para>Min put latency (µs); UINT64_MAX = no data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="86" column="18" bodyfile="include/storage/storage_engine.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a78c6eff89adbfad1a67f135ebdf17c31" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::put_latency_max_us</definition>
+        <argsstring></argsstring>
+        <name>put_latency_max_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::put_latency_max_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Max put latency (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="87" column="18" bodyfile="include/storage/storage_engine.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a23dd1a6a10ed4d3632f0522e90873329" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::get_ops</definition>
+        <argsstring></argsstring>
+        <name>get_ops</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::get_ops</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="90" column="18" bodyfile="include/storage/storage_engine.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a3622b5df9a130095f2841578c883489e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::get_errors</definition>
+        <argsstring></argsstring>
+        <name>get_errors</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::get_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="91" column="18" bodyfile="include/storage/storage_engine.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a57fd07a151bbfbe87ebb789741f0a437" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::get_latency_us</definition>
+        <argsstring></argsstring>
+        <name>get_latency_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::get_latency_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="92" column="18" bodyfile="include/storage/storage_engine.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a11a995089569a3f82d91875a48339551" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::get_latency_min_us</definition>
+        <argsstring></argsstring>
+        <name>get_latency_min_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::get_latency_min_us</qualifiedname>
+        <initializer>{UINT64_MAX}</initializer>
+        <briefdescription>
+<para>UINT64_MAX = no data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="93" column="18" bodyfile="include/storage/storage_engine.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a3d8e1d53b1a506911c5599dd61fae07f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::get_latency_max_us</definition>
+        <argsstring></argsstring>
+        <name>get_latency_max_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::get_latency_max_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="94" column="18" bodyfile="include/storage/storage_engine.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a96615f0b68639d9a7cd1b3e52cfbce7b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::del_ops</definition>
+        <argsstring></argsstring>
+        <name>del_ops</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::del_ops</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="97" column="18" bodyfile="include/storage/storage_engine.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a55229882c2b8b3cf9f27bea002d59265" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::del_errors</definition>
+        <argsstring></argsstring>
+        <name>del_errors</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::del_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="98" column="18" bodyfile="include/storage/storage_engine.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ad78a6be44763c964d86eae932ec5d69b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::del_latency_us</definition>
+        <argsstring></argsstring>
+        <name>del_latency_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::del_latency_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="99" column="18" bodyfile="include/storage/storage_engine.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ae7292935775b5696ee878d668388ca15" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::del_latency_min_us</definition>
+        <argsstring></argsstring>
+        <name>del_latency_min_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::del_latency_min_us</qualifiedname>
+        <initializer>{UINT64_MAX}</initializer>
+        <briefdescription>
+<para>UINT64_MAX = no data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="100" column="18" bodyfile="include/storage/storage_engine.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1abf70d2658781ea81a808060fb6ad54cc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageEngine::IOMetrics::del_latency_max_us</definition>
+        <argsstring></argsstring>
+        <name>del_latency_max_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::del_latency_max_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="101" column="18" bodyfile="include/storage/storage_engine.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1afe2d011733ec07c9b3aae2a539eb36c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::StorageEngine::IOMetrics::avg_put_latency_us</definition>
+        <argsstring>() const</argsstring>
+        <name>avg_put_latency_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::avg_put_latency_us</qualifiedname>
+        <briefdescription>
+<para>Return the average successful put latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Average put latency in microseconds, or 0.0 if no puts were recorded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="107" column="16" bodyfile="include/storage/storage_engine.h" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a32be4e6d109533fc21de843503d99ac8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::StorageEngine::IOMetrics::avg_get_latency_us</definition>
+        <argsstring>() const</argsstring>
+        <name>avg_get_latency_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::avg_get_latency_us</qualifiedname>
+        <briefdescription>
+<para>Return the average successful get latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Average get latency in microseconds, or 0.0 if no gets were recorded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="115" column="16" bodyfile="include/storage/storage_engine.h" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a771aa2d8c992c4ea373e6c240fa834bd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::StorageEngine::IOMetrics::avg_del_latency_us</definition>
+        <argsstring>() const</argsstring>
+        <name>avg_del_latency_us</name>
+        <qualifiedname>themis::StorageEngine::IOMetrics::avg_del_latency_us</qualifiedname>
+        <briefdescription>
+<para>Return the average successful delete latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Average delete latency in microseconds, or 0.0 if no deletes were recorded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_engine.h" line="123" column="16" bodyfile="include/storage/storage_engine.h" bodystart="123" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Cumulative per-operation latency and throughput metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All latency fields are in <bold>microseconds</bold>. Counters are monotonically increasing from the moment the engine was last opened.</para>
+<para><bold>Sentinel values for min latency fields:</bold> <computeroutput><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a2466e641d3f15029eafdd4f937e09dab" kindref="member">put_latency_min_us</ref></computeroutput>, <computeroutput><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a11a995089569a3f82d91875a48339551" kindref="member">get_latency_min_us</ref></computeroutput>, and <computeroutput><ref refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ae7292935775b5696ee878d668388ca15" kindref="member">del_latency_min_us</ref></computeroutput> are initialised to <computeroutput>UINT64_MAX</computeroutput> (no operations observed yet). Callers should check the corresponding <computeroutput>_ops</computeroutput> counter and treat <computeroutput>UINT64_MAX</computeroutput> as &quot;no data&quot;. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_engine.h" line="81" column="5" bodyfile="include/storage/storage_engine.h" bodystart="81" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a771aa2d8c992c4ea373e6c240fa834bd" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>avg_del_latency_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a32be4e6d109533fc21de843503d99ac8" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>avg_get_latency_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1afe2d011733ec07c9b3aae2a539eb36c9" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>avg_put_latency_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a55229882c2b8b3cf9f27bea002d59265" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>del_errors</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1abf70d2658781ea81a808060fb6ad54cc" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>del_latency_max_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ae7292935775b5696ee878d668388ca15" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>del_latency_min_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1ad78a6be44763c964d86eae932ec5d69b" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>del_latency_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a96615f0b68639d9a7cd1b3e52cfbce7b" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>del_ops</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a3622b5df9a130095f2841578c883489e" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>get_errors</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a3d8e1d53b1a506911c5599dd61fae07f" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>get_latency_max_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a11a995089569a3f82d91875a48339551" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>get_latency_min_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a57fd07a151bbfbe87ebb789741f0a437" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>get_latency_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a23dd1a6a10ed4d3632f0522e90873329" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>get_ops</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a1c37631d5b1554b9514f50e359f3526b" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>put_errors</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a78c6eff89adbfad1a67f135ebdf17c31" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>put_latency_max_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a2466e641d3f15029eafdd4f937e09dab" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>put_latency_min_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1aa3e603205c28231ee7702c6fe96a54c1" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>put_latency_us</name></member>
+      <member refid="structthemis_1_1_storage_engine_1_1_i_o_metrics_1a63dc7326a72c6a2c74326b99bc0dbcab" prot="public" virt="non-virtual"><scope>themis::StorageEngine::IOMetrics</scope><name>put_ops</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

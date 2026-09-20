@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator" kind="class" language="C++" prot="public">
+    <compoundname>themis::graphql::GraphQLComplexityEstimator</compoundname>
+    <includes refid="graphql__aql__resolver_8h" local="no">graphql_aql_resolver.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1a1ba0071ea7be09c570739fb980d5a3dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graphql::GraphQLComplexityEstimator::estimate</definition>
+        <argsstring>(const std::shared_ptr&lt; Document &gt; &amp;doc)</argsstring>
+        <name>estimate</name>
+        <qualifiedname>themis::graphql::GraphQLComplexityEstimator::estimate</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1graphql_1_1_document" kindref="compound">Document</ref> &gt; &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>Estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), checkedAdd(), scoreFieldsBounded(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_aql_resolver.h" line="127" column="21" bodyfile="src/api/graphql_aql_resolver.cpp" bodystart="115" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1ab429dabfcea39d62ad811d46e643b38b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>::themis::query::QueryResourceLimits</type>
+        <definition>themis::query::QueryResourceLimits themis::graphql::GraphQLComplexityEstimator::limitsFor</definition>
+        <argsstring>(uint32_t complexity)</argsstring>
+        <name>limitsFor</name>
+        <qualifiedname>themis::graphql::GraphQLComplexityEstimator::limitsFor</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>complexity</declname>
+        </param>
+        <briefdescription>
+<para>Limits For. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">complexity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_aql_resolver.h" line="134" column="49" bodyfile="src/api/graphql_aql_resolver.cpp" bodystart="127" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1aeca9e7c4ad8f1964123ad587e078721f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::graphql::GraphQLComplexityEstimator::scoreSelectionSet</definition>
+        <argsstring>(const std::shared_ptr&lt; SelectionSet &gt; &amp;set, uint32_t depth)</argsstring>
+        <name>scoreSelectionSet</name>
+        <qualifiedname>themis::graphql::GraphQLComplexityEstimator::scoreSelectionSet</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; SelectionSet &gt; &amp;</type>
+          <declname>set</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>depth</declname>
+        </param>
+        <briefdescription>
+<para>Score Selection Set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">set</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements scoreSelectionSet without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_aql_resolver.h" line="143" column="21" bodyfile="src/api/graphql_aql_resolver.cpp" bodystart="160" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql_aql_resolver.h" line="120" column="1" bodyfile="include/api/graphql_aql_resolver.h" bodystart="120" bodyend="145"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1a1ba0071ea7be09c570739fb980d5a3dc" prot="public" virt="non-virtual"><scope>themis::graphql::GraphQLComplexityEstimator</scope><name>estimate</name></member>
+      <member refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1ab429dabfcea39d62ad811d46e643b38b" prot="public" virt="non-virtual"><scope>themis::graphql::GraphQLComplexityEstimator</scope><name>limitsFor</name></member>
+      <member refid="classthemis_1_1graphql_1_1_graph_q_l_complexity_estimator_1aeca9e7c4ad8f1964123ad587e078721f" prot="private" virt="non-virtual"><scope>themis::graphql::GraphQLComplexityEstimator</scope><name>scoreSelectionSet</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

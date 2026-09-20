@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::FederatedImportCoordinator::FederatedAggregator</compoundname>
+    <includes refid="federated__learning_8h" local="no">federated_learning.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update" prot="public">themis::importers::FederatedImportCoordinator::FederatedAggregator::ParticipantUpdate</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1aa06ed0327f0e312af8d0acbc5d8a21a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::FederatedImportCoordinator::FederatedAggregator::aggregateUpdates</definition>
+        <argsstring>(const std::vector&lt; ParticipantUpdate &gt; &amp;updates, const std::string &amp;aggregation_algorithm=&quot;FedAvg&quot;)</argsstring>
+        <name>aggregateUpdates</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::FederatedAggregator::aggregateUpdates</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1_1_participant_update" kindref="compound">ParticipantUpdate</ref> &gt; &amp;</type>
+          <declname>updates</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aggregation_algorithm</declname>
+          <defval>&quot;FedAvg&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Aggregate Updates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">updates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">aggregation_algorithm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), json::object(), is_object(), begin(), end(), key(), value(), is_number(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="38" column="14" bodyfile="src/importers/federated_learning.cpp" bodystart="140" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/federated_learning.h" line="29" column="5" bodyfile="include/importers/federated_learning.h" bodystart="29" bodyend="42"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_federated_aggregator_1aa06ed0327f0e312af8d0acbc5d8a21a6" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::FederatedAggregator</scope><name>aggregateUpdates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

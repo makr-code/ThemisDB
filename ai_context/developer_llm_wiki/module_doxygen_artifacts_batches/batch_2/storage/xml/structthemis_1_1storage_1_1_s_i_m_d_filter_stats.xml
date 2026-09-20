@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_s_i_m_d_filter_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SIMDFilterStats</compoundname>
+    <includes refid="simd__filter_8h" local="no">simd_filter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_s_i_m_d_filter_stats_1a72ef8dbdc05c6c3e11bbc492a032d632" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7" kindref="member">SIMDLevel</ref></type>
+        <definition>SIMDLevel themis::storage::SIMDFilterStats::simd_level</definition>
+        <argsstring></argsstring>
+        <name>simd_level</name>
+        <qualifiedname>themis::storage::SIMDFilterStats::simd_level</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1storage_1a2a7ea5c8595efff1d92de948cb65ebe7a8f3d9a4b6a7b7f2c7afa61ca113d0db9" kindref="member">SIMDLevel::SCALAR</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="106" column="15" bodyfile="include/storage/simd_filter.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_s_i_m_d_filter_stats_1aebcef43225421049aad45fd26642a0c9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::SIMDFilterStats::rows_processed</definition>
+        <argsstring></argsstring>
+        <name>rows_processed</name>
+        <qualifiedname>themis::storage::SIMDFilterStats::rows_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="107" column="15" bodyfile="include/storage/simd_filter.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_s_i_m_d_filter_stats_1a303a7ab84a8f6664dd7a79957a52f8ae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::SIMDFilterStats::rows_matched</definition>
+        <argsstring></argsstring>
+        <name>rows_matched</name>
+        <qualifiedname>themis::storage::SIMDFilterStats::rows_matched</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="108" column="15" bodyfile="include/storage/simd_filter.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_s_i_m_d_filter_stats_1afeacbc563cdbfcf4cf07abcebb601a6d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::SIMDFilterStats::elapsed_us</definition>
+        <argsstring></argsstring>
+        <name>elapsed_us</name>
+        <qualifiedname>themis::storage::SIMDFilterStats::elapsed_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>wall-clock microseconds for last scan </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/simd_filter.h" line="109" column="15" bodyfile="include/storage/simd_filter.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Statistics collected during a vectorized scan. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/simd_filter.h" line="105" column="1" bodyfile="include/storage/simd_filter.h" bodystart="105" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_s_i_m_d_filter_stats_1afeacbc563cdbfcf4cf07abcebb601a6d" prot="public" virt="non-virtual"><scope>themis::storage::SIMDFilterStats</scope><name>elapsed_us</name></member>
+      <member refid="structthemis_1_1storage_1_1_s_i_m_d_filter_stats_1a303a7ab84a8f6664dd7a79957a52f8ae" prot="public" virt="non-virtual"><scope>themis::storage::SIMDFilterStats</scope><name>rows_matched</name></member>
+      <member refid="structthemis_1_1storage_1_1_s_i_m_d_filter_stats_1aebcef43225421049aad45fd26642a0c9" prot="public" virt="non-virtual"><scope>themis::storage::SIMDFilterStats</scope><name>rows_processed</name></member>
+      <member refid="structthemis_1_1storage_1_1_s_i_m_d_filter_stats_1a72ef8dbdc05c6c3e11bbc492a032d632" prot="public" virt="non-virtual"><scope>themis::storage::SIMDFilterStats</scope><name>simd_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

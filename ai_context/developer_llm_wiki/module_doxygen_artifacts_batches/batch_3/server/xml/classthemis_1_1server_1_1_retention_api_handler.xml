@@ -1,0 +1,398 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_retention_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::RetentionApiHandler</compoundname>
+    <includes refid="retention__api__handler_8h" local="no">retention_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_retention_api_handler_1ae2ab6a7466f616afe9a31ea0e9fb6a81" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; vcc::RetentionManager &gt;</type>
+        <definition>std::shared_ptr&lt;vcc::RetentionManager&gt; themis::server::RetentionApiHandler::retention_manager_</definition>
+        <argsstring></argsstring>
+        <name>retention_manager_</name>
+        <qualifiedname>themis::server::RetentionApiHandler::retention_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="64" column="21" bodyfile="include/server/retention_api_handler.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1a69b39e8a7fc9f4316e26aea231089082" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::RetentionApiHandler::RetentionApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; vcc::RetentionManager &gt; retention_manager=nullptr)</argsstring>
+        <name>RetentionApiHandler</name>
+        <qualifiedname>themis::server::RetentionApiHandler::RetentionApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; vcc::RetentionManager &gt;</type>
+          <declname>retention_manager</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="31" column="14" bodyfile="src/server/retention_api_handler.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1ae2ba6f3968177e3b25cc954666cbc819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::RetentionApiHandler::listPolicies</definition>
+        <argsstring>(const RetentionQueryFilter &amp;filter)</argsstring>
+        <name>listPolicies</name>
+        <qualifiedname>themis::server::RetentionApiHandler::listPolicies</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_retention_query_filter" kindref="compound">RetentionQueryFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>List Policies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), isValidRetentionTextField(), getPolicies(), reserve(), size(), Tracer::startSpan(), find(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="38" column="20" bodyfile="src/server/retention_api_handler.cpp" bodystart="73" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1a42162b5eacfe4cc01a3870cf1e4c9b91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::RetentionApiHandler::createOrUpdatePolicy</definition>
+        <argsstring>(const nlohmann::json &amp;policy_json)</argsstring>
+        <name>createOrUpdatePolicy</name>
+        <qualifiedname>themis::server::RetentionApiHandler::createOrUpdatePolicy</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>policy_json</declname>
+        </param>
+        <briefdescription>
+<para>Create Or Update Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), jsonToPolicy(), isValidPolicyName(), isValidRetentionTextField(), getPolicy(), has_value(), value(), registerPolicy(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="45" column="20" bodyfile="src/server/retention_api_handler.cpp" bodystart="142" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1afed83c510b13330078db4b70b6face01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::RetentionApiHandler::deletePolicy</definition>
+        <argsstring>(const std::string &amp;policy_name)</argsstring>
+        <name>deletePolicy</name>
+        <qualifiedname>themis::server::RetentionApiHandler::deletePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Delete Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: isValidPolicyName(), removePolicy(), Tracer::startSpan(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="52" column="20" bodyfile="src/server/retention_api_handler.cpp" bodystart="188" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1a1aced5ae037ae1e71289fff5f7a7edfc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::RetentionApiHandler::getHistory</definition>
+        <argsstring>(size_t limit=100)</argsstring>
+        <name>getHistory</name>
+        <qualifiedname>themis::server::RetentionApiHandler::getHistory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Return a bounded slice of the recent retention action history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of history entries to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Most recent actions, or the full history when the limit is zero or oversized.</para>
+</simplesect>
+Calls: json::array(), Tracer::startSpan(), push_back(), actionToJson(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="54" column="20" bodyfile="src/server/retention_api_handler.cpp" bodystart="220" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1ab3de502eec7c3290d578f774cd723f19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::RetentionApiHandler::getPolicyStats</definition>
+        <argsstring>(const std::string &amp;policy_name)</argsstring>
+        <name>getPolicyStats</name>
+        <qualifiedname>themis::server::RetentionApiHandler::getPolicyStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>policy_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the stored statistics for a retention policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy to query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Stored statistics, or a default-initialized record if the policy is unknown.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the retention policy to query. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Stored statistics, or a default-initialized record if the policy is unknown.</para>
+</simplesect>
+Calls: Tracer::startSpan(), isValidPolicyName(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="61" column="20" bodyfile="src/server/retention_api_handler.cpp" bodystart="246" bodyend="268"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1a369d5f6da409eb37e8bf4f016ff45346" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::RetentionApiHandler::policyToJson</definition>
+        <argsstring>(const vcc::RetentionManager::RetentionPolicy &amp;policy)</argsstring>
+        <name>policyToJson</name>
+        <qualifiedname>themis::server::RetentionApiHandler::policyToJson</qualifiedname>
+        <param>
+          <type>const vcc::RetentionManager::RetentionPolicy &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Policy To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="71" column="20" bodyfile="src/server/retention_api_handler.cpp" bodystart="278" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1a2d67c57504a7b22cb80894316e278181" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>vcc::RetentionManager::RetentionPolicy</type>
+        <definition>vcc::RetentionManager::RetentionPolicy themis::server::RetentionApiHandler::jsonToPolicy</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>jsonToPolicy</name>
+        <qualifiedname>themis::server::RetentionApiHandler::jsonToPolicy</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Json To Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: at(), std::chrono::seconds(), contains(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="78" column="44" bodyfile="src/server/retention_api_handler.cpp" bodystart="298" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_retention_api_handler_1a077e8b50955f92f8cdbbacda062f509d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::server::RetentionApiHandler::actionToJson</definition>
+        <argsstring>(const vcc::RetentionManager::RetentionAction &amp;action)</argsstring>
+        <name>actionToJson</name>
+        <qualifiedname>themis::server::RetentionApiHandler::actionToJson</qualifiedname>
+        <param>
+          <type>const vcc::RetentionManager::RetentionAction &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Action To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::chrono::system_clock::to_time_t(), localtime_s(), localtime_r(), std::strftime(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/retention_api_handler.h" line="85" column="20" bodyfile="src/server/retention_api_handler.cpp" bodystart="339" bodyend="366"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/retention_api_handler.h" line="29" column="1" bodyfile="include/server/retention_api_handler.h" bodystart="29" bodyend="86"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1a077e8b50955f92f8cdbbacda062f509d" prot="private" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>actionToJson</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1a42162b5eacfe4cc01a3870cf1e4c9b91" prot="public" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>createOrUpdatePolicy</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1afed83c510b13330078db4b70b6face01" prot="public" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>deletePolicy</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1a1aced5ae037ae1e71289fff5f7a7edfc" prot="public" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>getHistory</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1ab3de502eec7c3290d578f774cd723f19" prot="public" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>getPolicyStats</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1a2d67c57504a7b22cb80894316e278181" prot="private" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>jsonToPolicy</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1ae2ba6f3968177e3b25cc954666cbc819" prot="public" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>listPolicies</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1a369d5f6da409eb37e8bf4f016ff45346" prot="private" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>policyToJson</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1ae2ab6a7466f616afe9a31ea0e9fb6a81" prot="private" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>retention_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_retention_api_handler_1a69b39e8a7fc9f4316e26aea231089082" prot="public" virt="non-virtual"><scope>themis::server::RetentionApiHandler</scope><name>RetentionApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

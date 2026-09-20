@@ -1,0 +1,1965 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_voice_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::VoiceApiHandler</compoundname>
+    <includes refid="voice__api__handler_8h" local="no">voice_api_handler.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_voice_api_handler_1ad102171695a6b8e013c19feb24ddac69" prot="public" static="no">
+        <type>std::function&lt; bool(std::string_view)&gt;</type>
+        <definition>using themis::server::VoiceApiHandler::TokenValidatorFn = std::function&lt;bool(std::string_view)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TokenValidatorFn</name>
+        <qualifiedname>themis::server::VoiceApiHandler::TokenValidatorFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="53" column="5" bodyfile="include/server/voice_api_handler.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_voice_api_handler_1aeb03b421b94f4827bb84b82041ae11d3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; voice::VoiceAssistant &gt;</type>
+        <definition>std::shared_ptr&lt;voice::VoiceAssistant&gt; themis::server::VoiceApiHandler::voice_assistant_</definition>
+        <argsstring></argsstring>
+        <name>voice_assistant_</name>
+        <qualifiedname>themis::server::VoiceApiHandler::voice_assistant_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="380" column="21" bodyfile="include/server/voice_api_handler.h" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_voice_api_handler_1a6a07c3c13ec7e9eee48df833d83f8094" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; utils::HTTPClientPool &gt;</type>
+        <definition>std::shared_ptr&lt;utils::HTTPClientPool&gt; themis::server::VoiceApiHandler::http_client_pool_</definition>
+        <argsstring></argsstring>
+        <name>http_client_pool_</name>
+        <qualifiedname>themis::server::VoiceApiHandler::http_client_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="381" column="21" bodyfile="include/server/voice_api_handler.h" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_voice_api_handler_1a2e2d4c02a9e0a49dbca12710eb24e7bb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::VoiceApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::VoiceApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="382" column="21" bodyfile="include/server/voice_api_handler.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a0d5416d661331c95546ea3c58db477f2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::VoiceApiHandler::VoiceApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; voice::VoiceAssistant &gt; voice_assistant, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth=nullptr)</argsstring>
+        <name>VoiceApiHandler</name>
+        <qualifiedname>themis::server::VoiceApiHandler::VoiceApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; voice::VoiceAssistant &gt;</type>
+          <declname>voice_assistant</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="41" column="14" bodyfile="src/server/voice_api_handler.cpp" bodystart="137" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1aeb7c2947daa178dd28aae7d035ddf304" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleRequest</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleRequest</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), createErrorResponse(), validateBearerToken(), std::string(), target(), find(), substr(), method(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="50" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="228" bodyend="409"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1ac9374986784c73a2891d7c767f442c15" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::VoiceApiHandler::setTokenValidatorFn</definition>
+        <argsstring>(TokenValidatorFn fn)</argsstring>
+        <name>setTokenValidatorFn</name>
+        <qualifiedname>themis::server::VoiceApiHandler::setTokenValidatorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_voice_api_handler_1ad102171695a6b8e013c19feb24ddac69" kindref="member">TokenValidatorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Token Validator Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="59" column="17" bodyfile="src/server/voice_api_handler.cpp" bodystart="2769" bodyend="2777"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a2864e3694874e1fc0bfcc82db8fafd5d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleTranscribe</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleTranscribe</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleTranscribe</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Transcribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), empty(), decodeBase64(), downloadAudioFromUrl(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="68" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="417" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1ad649639f2c2dc6939e9ec5bae1dda8a3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleSynthesize</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSynthesize</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleSynthesize</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Synthesize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), empty(), is_number(), is_boolean(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="76" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="533" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1ac91221d8895ac2f314c8ced557159f9d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleVoiceCommand</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleVoiceCommand</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleVoiceCommand</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Voice Command. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), value(), empty(), isValidVoicePathIdentifier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="84" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="659" bodyend="754"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a06b3904a422d923166c13f95e1cdb964" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleStreamCommand</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStreamCommand</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleStreamCommand</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stream Command. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), empty(), value(), isValidVoicePathIdentifier(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="92" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="762" bodyend="857"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a37944444611fd2ccb009582128dc4aec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleWakeWordDetect</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleWakeWordDetect</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleWakeWordDetect</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Wake Word Detect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), extractAudioData(), empty(), createErrorResponse(), detectWakeWord(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="100" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="865" bodyend="887"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a9b0ac3c0dcc97960c0183bff66684e88" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleRecordCall</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRecordCall</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleRecordCall</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Record Call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), decodeBase64(), empty(), is_number_integer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="109" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="895" bodyend="1018"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1ae7526a2de17af49ca0f023c47825f325" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleGenerateProtocol</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGenerateProtocol</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleGenerateProtocol</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Generate Protocol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), decodeBase64(), empty(), is_number_integer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="118" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1026" bodyend="1161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a94a3bcd9712ad80ce9296b3733dd71ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleGetSession</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;session_id)</argsstring>
+        <name>handleGetSession</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleGetSession</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), getSession(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="128" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1170" bodyend="1187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a1fd97f57f871fb300994de911dbd3c7a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleUpdateSessionContext</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;session_id)</argsstring>
+        <name>handleUpdateSessionContext</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleUpdateSessionContext</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Session Context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), contains(), createErrorResponse(), is_object(), updateSession(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="138" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1196" bodyend="1224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a376c24f6a2a2be76e7c39796f073ca06" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleDeleteSession</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;session_id)</argsstring>
+        <name>handleDeleteSession</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleDeleteSession</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete Session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), deleteSession(), createErrorResponse(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="148" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1233" bodyend="1253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a93a40a1f2faa39b981beb1b24b559180" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleGetVoices</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetVoices</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleGetVoices</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Voices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), getAvailableVoices(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="158" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1261" bodyend="1269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1aa83c90ec6e777858c35722af30b0527f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleGetLanguages</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetLanguages</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleGetLanguages</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Languages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), json::array(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="166" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1277" bodyend="1288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a010146958608eb8debac885f8f504d26" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleCreateMacro</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCreateMacro</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleCreateMacro</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create Macro. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_string(), empty(), is_array(), validateMacroStepJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="174" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1422" bodyend="1551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a5dd7e483c2a09d585279b72766f8f2f9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleListMacros</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListMacros</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleListMacros</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Macros. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseQueryParam(), std::string(), target(), empty(), ss(), std::getline(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="182" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1559" bodyend="1588"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1aceee226505a0e2df542ddc3a191715ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleGetMacro</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;macro_id)</argsstring>
+        <name>handleGetMacro</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleGetMacro</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>macro_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Macro. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), macroManager(), getMacro(), createErrorResponse(), createJsonResponse(), macroInfoToResponseJson(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="191" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1597" bodyend="1610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1ab4e2e1f1f2474d40fdbeb45d59c29312" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleUpdateMacro</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;macro_id)</argsstring>
+        <name>handleUpdateMacro</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleUpdateMacro</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>macro_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Macro. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseRequestBody(), createErrorResponse(), contains(), is_array(), validateMacroStepJson(), has_value(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="201" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1619" bodyend="1741"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a1e3d974698c5fe8e4afa9e34657f41c2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleDeleteMacro</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;macro_id)</argsstring>
+        <name>handleDeleteMacro</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleDeleteMacro</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>macro_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete Macro. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">macro_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the macro. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), macroManager(), deleteMacro(), createErrorResponse(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="211" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1750" bodyend="1766"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1ab0869a0054903fda2712b8890f5dbf2b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleListRecordings</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListRecordings</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleListRecordings</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Recordings. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseQueryParam(), std::string(), target(), empty(), createErrorResponse(), std::stoll(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="220" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1774" bodyend="1829"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a06b6ffa76939d17442e0f0889641d296" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleGetRecording</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;record_id)</argsstring>
+        <name>handleGetRecording</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleGetRecording</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>record_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Recording. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the record. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the record. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseQueryParam(), std::string(), target(), empty(), createErrorResponse(), audioStorage(), getRecord(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="229" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1838" bodyend="1887"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a8b59dc833b94ecfb56731caabfb80471" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleSearchTranscripts</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSearchTranscripts</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleSearchTranscripts</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Search Transcripts. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), parseQueryParam(), std::string(), target(), empty(), createErrorResponse(), std::stoll(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="238" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1895" bodyend="1944"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a46915021a7a3befc25413401191b9691" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleAuthEnroll</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAuthEnroll</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleAuthEnroll</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Auth Enroll. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="246" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2385" bodyend="2498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a09ad18b5972adc19d3cab486dbb78da3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleAuthVerify</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAuthVerify</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleAuthVerify</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Auth Verify. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="254" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2505" bodyend="2560"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a7fbbe0f32815018a3bc280deeef40323" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleAuthAuthenticate</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAuthAuthenticate</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleAuthAuthenticate</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Auth Authenticate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="262" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2567" bodyend="2628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a68aca08cbf828543e212426ef22603c6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleAuthIdentify</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAuthIdentify</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleAuthIdentify</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Auth Identify. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="270" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2635" bodyend="2712"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a4c3c573a061d37a59c65d7c20c45e617" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleAuthListProfiles</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleAuthListProfiles</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleAuthListProfiles</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Auth List Profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="278" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2719" bodyend="2732"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a27a0dc03d4ff9576dc755d1ce5505119" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleAuthDeleteProfile</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;profile_id)</argsstring>
+        <name>handleAuthDeleteProfile</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleAuthDeleteProfile</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Auth Delete Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="287" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2740" bodyend="2760"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a82c5bd45e5b1929ef0195ea9b632121e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStats</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), getStatistics(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="297" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1952" bodyend="1959"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a1b8c10502990e496b4e0ad73e395d984" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::handleHealth</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleHealth</name>
+        <qualifiedname>themis::server::VoiceApiHandler::handleHealth</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), std::chrono::system_clock::now(), time_since_epoch(), count(), createJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="305" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="1967" bodyend="1978"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1ab8ad9d5f3ac34fc43e755cb57444c4b7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::VoiceApiHandler::validateBearerToken</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>validateBearerToken</name>
+        <qualifiedname>themis::server::VoiceApiHandler::validateBearerToken</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Validate Bearer Token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), THEMIS_DEBUG(), <ref refid="classthemis_1_1_auth_middleware_1afd9141c415789d07acb119a78724d28b" kindref="member">themis::AuthMiddleware::extractBearerToken()</ref>, std::string_view(), data(), size(), lock(), s_token_validator_fn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="314" column="10" bodyfile="src/server/voice_api_handler.cpp" bodystart="1988" bodyend="2040"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a84ec3ac2a126bf1728adb0906eb8814c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::createErrorResponse</definition>
+        <argsstring>(http::status status, std::string_view error, std::string_view details=&quot;&quot;)</argsstring>
+        <name>createErrorResponse</name>
+        <qualifiedname>themis::server::VoiceApiHandler::createErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>details</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), set(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="316" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2050" bodyend="2066"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a07e55766020753e4a5270a25dd40c3e9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::createJsonResponse</definition>
+        <argsstring>(const json &amp;data, http::status status=http::status::ok)</argsstring>
+        <name>createJsonResponse</name>
+        <qualifiedname>themis::server::VoiceApiHandler::createJsonResponse</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+          <defval>http::status::ok</defval>
+        </param>
+        <briefdescription>
+<para>Create Json <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), set(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="321" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2075" bodyend="2085"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1ad0c025a4edd812157182526ef2a9bec8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::VoiceApiHandler::createAudioResponse</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;audio_data, const std::string &amp;mime_type)</argsstring>
+        <name>createAudioResponse</name>
+        <qualifiedname>themis::server::VoiceApiHandler::createAudioResponse</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>audio_data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Create Audio <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">audio_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), set(), body(), std::string(), begin(), end(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="331" column="20" bodyfile="src/server/voice_api_handler.cpp" bodystart="2094" bodyend="2104"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a89fe52927eef0539f8324f8433e1eeca" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &gt;</type>
+        <definition>std::optional&lt; json &gt; themis::server::VoiceApiHandler::parseRequestBody</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>parseRequestBody</name>
+        <qualifiedname>themis::server::VoiceApiHandler::parseRequestBody</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1server_1_1_request" kindref="compound">Request</ref> Body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::parse(), body(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="340" column="19" bodyfile="src/server/voice_api_handler.cpp" bodystart="2112" bodyend="2121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a2dd33e6b7c6a0a882608dfd079c23fa2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::VoiceApiHandler::extractAudioData</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>extractAudioData</name>
+        <qualifiedname>themis::server::VoiceApiHandler::extractAudioData</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Extract Audio Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), parseRequestBody(), is_object(), end(), is_string(), decodeBase64(), downloadAudioFromUrl(), body(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="348" column="17" bodyfile="src/server/voice_api_handler.cpp" bodystart="2129" bodyend="2155"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a65598ecc93d16fc28cfd6c3de02cffb4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::VoiceApiHandler::decodeBase64</definition>
+        <argsstring>(const std::string &amp;encoded)</argsstring>
+        <name>decodeBase64</name>
+        <qualifiedname>themis::server::VoiceApiHandler::decodeBase64</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Decode Base64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="356" column="17" bodyfile="src/server/voice_api_handler.cpp" bodystart="2163" bodyend="2202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a1d62e4fe9c00413525ae20d5d6d65ef9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::VoiceApiHandler::encodeBase64</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>encodeBase64</name>
+        <qualifiedname>themis::server::VoiceApiHandler::encodeBase64</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Encode Base64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="363" column="17" bodyfile="src/server/voice_api_handler.cpp" bodystart="2210" bodyend="2241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1aa58f9adbe3453c64139213efd805d295" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::VoiceApiHandler::downloadAudioFromUrl</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>downloadAudioFromUrl</name>
+        <qualifiedname>themis::server::VoiceApiHandler::downloadAudioFromUrl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Download Audio From Url. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), utils::parseURL(), THEMIS_DEBUG(), std::transform(), begin(), end(), find(), parseIPv4(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="370" column="17" bodyfile="src/server/voice_api_handler.cpp" bodystart="2251" bodyend="2342"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_voice_api_handler_1a8384b24bdaa339175796ba0f40b8371f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::VoiceApiHandler::parseQueryParam</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;key)</argsstring>
+        <name>parseQueryParam</name>
+        <qualifiedname>themis::server::VoiceApiHandler::parseQueryParam</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Parse Query Param. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/voice_api_handler.h" line="378" column="24" bodyfile="src/server/voice_api_handler.cpp" bodystart="2350" bodyend="2374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/voice_api_handler.h" line="39" column="1" bodyfile="include/server/voice_api_handler.h" bodystart="39" bodyend="383"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a2e2d4c02a9e0a49dbca12710eb24e7bb" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ad0c025a4edd812157182526ef2a9bec8" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>createAudioResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a84ec3ac2a126bf1728adb0906eb8814c" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>createErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a07e55766020753e4a5270a25dd40c3e9" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>createJsonResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a65598ecc93d16fc28cfd6c3de02cffb4" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>decodeBase64</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1aa58f9adbe3453c64139213efd805d295" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>downloadAudioFromUrl</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a1d62e4fe9c00413525ae20d5d6d65ef9" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>encodeBase64</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a2dd33e6b7c6a0a882608dfd079c23fa2" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>extractAudioData</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a7fbbe0f32815018a3bc280deeef40323" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleAuthAuthenticate</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a27a0dc03d4ff9576dc755d1ce5505119" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleAuthDeleteProfile</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a46915021a7a3befc25413401191b9691" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleAuthEnroll</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a68aca08cbf828543e212426ef22603c6" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleAuthIdentify</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a4c3c573a061d37a59c65d7c20c45e617" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleAuthListProfiles</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a09ad18b5972adc19d3cab486dbb78da3" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleAuthVerify</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a010146958608eb8debac885f8f504d26" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleCreateMacro</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a1e3d974698c5fe8e4afa9e34657f41c2" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleDeleteMacro</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a376c24f6a2a2be76e7c39796f073ca06" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleDeleteSession</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ae7526a2de17af49ca0f023c47825f325" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleGenerateProtocol</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1aa83c90ec6e777858c35722af30b0527f" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleGetLanguages</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1aceee226505a0e2df542ddc3a191715ea" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleGetMacro</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a06b6ffa76939d17442e0f0889641d296" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleGetRecording</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a94a3bcd9712ad80ce9296b3733dd71ee" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleGetSession</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a93a40a1f2faa39b981beb1b24b559180" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleGetVoices</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a1b8c10502990e496b4e0ad73e395d984" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleHealth</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a5dd7e483c2a09d585279b72766f8f2f9" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleListMacros</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ab0869a0054903fda2712b8890f5dbf2b" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleListRecordings</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a9b0ac3c0dcc97960c0183bff66684e88" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleRecordCall</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1aeb7c2947daa178dd28aae7d035ddf304" prot="public" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleRequest</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a8b59dc833b94ecfb56731caabfb80471" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleSearchTranscripts</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a82c5bd45e5b1929ef0195ea9b632121e" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleStats</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a06b3904a422d923166c13f95e1cdb964" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleStreamCommand</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ad649639f2c2dc6939e9ec5bae1dda8a3" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleSynthesize</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a2864e3694874e1fc0bfcc82db8fafd5d" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleTranscribe</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ab4e2e1f1f2474d40fdbeb45d59c29312" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleUpdateMacro</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a1fd97f57f871fb300994de911dbd3c7a" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleUpdateSessionContext</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ac91221d8895ac2f314c8ced557159f9d" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleVoiceCommand</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a37944444611fd2ccb009582128dc4aec" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>handleWakeWordDetect</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a6a07c3c13ec7e9eee48df833d83f8094" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>http_client_pool_</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a8384b24bdaa339175796ba0f40b8371f" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>parseQueryParam</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a89fe52927eef0539f8324f8433e1eeca" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>parseRequestBody</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ac9374986784c73a2891d7c767f442c15" prot="public" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>setTokenValidatorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ad102171695a6b8e013c19feb24ddac69" prot="public" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>TokenValidatorFn</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1ab8ad9d5f3ac34fc43e755cb57444c4b7" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>validateBearerToken</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1aeb03b421b94f4827bb84b82041ae11d3" prot="private" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>voice_assistant_</name></member>
+      <member refid="classthemis_1_1server_1_1_voice_api_handler_1a0d5416d661331c95546ea3c58db477f2" prot="public" virt="non-virtual"><scope>themis::server::VoiceApiHandler</scope><name>VoiceApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::test::HotReloadIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test_1a879d31c6ee541c2b129bc0d97e85bf76" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::config::test::HotReloadIntegrationTest::watch_dir_</definition>
+        <argsstring></argsstring>
+        <name>watch_dir_</name>
+        <qualifiedname>themis::config::test::HotReloadIntegrationTest::watch_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_file_watcher.cpp" line="238" column="27" bodyfile="tests/config/test_config_file_watcher.cpp" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test_1a529bf9b650be317b0178b6fe2ce13212" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::HotReloadIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::config::test::HotReloadIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_file_watcher.cpp" line="224" column="10" bodyfile="tests/config/test_config_file_watcher.cpp" bodystart="224" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test_1a9d9ab47e3d30a15393c350ec286ddb13" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::config::test::HotReloadIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::config::test::HotReloadIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/config/test_config_file_watcher.cpp" line="233" column="10" bodyfile="tests/config/test_config_file_watcher.cpp" bodystart="233" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::HotReloadIntegrationTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::config::test::HotReloadIntegrationTest</label>
+        <link refid="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/config/test_config_file_watcher.cpp" line="222" column="1" bodyfile="tests/config/test_config_file_watcher.cpp" bodystart="222" bodyend="239"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test_1a529bf9b650be317b0178b6fe2ce13212" prot="protected" virt="non-virtual"><scope>themis::config::test::HotReloadIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test_1a9d9ab47e3d30a15393c350ec286ddb13" prot="protected" virt="non-virtual"><scope>themis::config::test::HotReloadIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1config_1_1test_1_1_hot_reload_integration_test_1a879d31c6ee541c2b129bc0d97e85bf76" prot="protected" virt="non-virtual"><scope>themis::config::test::HotReloadIntegrationTest</scope><name>watch_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

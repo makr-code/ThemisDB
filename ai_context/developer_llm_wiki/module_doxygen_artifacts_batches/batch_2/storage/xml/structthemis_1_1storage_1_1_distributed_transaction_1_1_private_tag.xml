@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::DistributedTransaction::PrivateTag</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag_1adfb0aef69fa9def8fe8d9487eaf5c451" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DistributedTransaction::PrivateTag::PrivateTag</definition>
+        <argsstring>()=default</argsstring>
+        <name>PrivateTag</name>
+        <qualifiedname>themis::storage::DistributedTransaction::PrivateTag::PrivateTag</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="281" column="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tag type that gates direct construction to the manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers outside <ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager" kindref="compound">DistributedTransactionManager</ref> cannot construct <ref refid="classthemis_1_1storage_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> directly because they cannot create <ref refid="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag" kindref="compound">PrivateTag</ref>. </para>
+    </detaileddescription>
+    <location file="include/storage/distributed_transaction_manager.h" line="281" column="5" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="281" bodyend="281"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_distributed_transaction_1_1_private_tag_1adfb0aef69fa9def8fe8d9487eaf5c451" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransaction::PrivateTag</scope><name>PrivateTag</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__system__versioned__table_8cpp" kind="file" language="C++">
+    <compoundname>test_system_versioned_table.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="system__versioned__table_8h" local="yes">temporal/system_versioned_table.h</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>temporal/system_versioned_table.h</label>
+        <link refid="system__versioned__table_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>temporal/temporal_types.h</label>
+        <link refid="temporal__types_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/temporal/test_system_versioned_table.cpp</label>
+        <link refid="test__system__versioned__table_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>limits</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="15">
+        <label>thread</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_system_versioned_table_test" prot="public">SystemVersionedTableTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Insert_NewKey_Succeeds)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_NewKey_Succeeds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="21" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="21" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1ad12b789705401f0bc0f262321409ccfd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Insert_DuplicateKey_Fails)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Insert_DuplicateKey_Fails</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="27" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1aca5b5f4f2df9ff297a8c44fc671be4d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, GetCurrent_ExistingKey_ReturnsCurrentVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>GetCurrent_ExistingKey_ReturnsCurrentVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="35" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a1b499b7a84a756b41429bad99abff793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, GetCurrent_MissingKey_ReturnsNullopt)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>GetCurrent_MissingKey_ReturnsNullopt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="43" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1acb4c6aea242d00283db4ee0ac8421d2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Update_ExistingKey_CreatesNewVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Update_ExistingKey_CreatesNewVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="49" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="49" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1abfef6e942b7e6ff8bb555c87305ff0f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Update_MissingKey_ReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Update_MissingKey_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="62" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a980adf1bae42e8b1fc38e1babd847c95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Update_ClosesOldVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Update_ClosesOldVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="66" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="66" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a7b1777a98d016408098e50a97c0949bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Delete_ExistingKey_ClosesVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Delete_ExistingKey_ClosesVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="85" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="85" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1aaae17d70dbdae062f1179dffecbc2fe8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Delete_MissingKey_ReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Delete_MissingKey_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="98" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="98" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a791cdfeba35e6955a0e9f6fbe235e675" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, GetAsOf_AfterInsert_ReturnsVersion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>GetAsOf_AfterInsert_ReturnsVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="104" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="104" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a56c2f207f8d7466087de100c8ff694a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, GetHistoryInRange_OverlapsInsertTime)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>GetHistoryInRange_OverlapsInsertTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="120" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="120" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a9ae76d8323c9907554c01986c52964c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Scan_Default_ReturnCurrentRows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Scan_Default_ReturnCurrentRows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="133" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="133" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a8f09a104fb125d617f2e2b8c30edf310" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Scan_AsOf_ReturnsHistoricalRows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Scan_AsOf_ReturnsHistoricalRows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="143" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="143" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a59ac025372d5c74997229c850ff7dd57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, Statistics_ReflectsState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>Statistics_ReflectsState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="160" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="160" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a30e9d0d20f5c2b831c1dcba81a5081c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, GetAllKeys_IncludesDeletedKeys)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>GetAllKeys_IncludesDeletedKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="174" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="174" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a90ae78eeb11e325708db424021a61705" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, GetAllKeys_EmptyTable_ReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>GetAllKeys_EmptyTable_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="185" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="185" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1ad7f814529b87fc543f5d8d6576a88d92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, PurgeHistorical_RemovesMatchingVersions)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>PurgeHistorical_RemovesMatchingVersions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="191" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="191" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a617fed385c21e53f5688c315d5fd0a43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, PurgeHistorical_CurrentVersionNeverRemoved)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>PurgeHistorical_CurrentVersionNeverRemoved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="211" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="211" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a6c1b1d33343866c4ede6adbde13fd1a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(SystemVersionedTableTest, PurgeHistorical_AllKeys_GlobalPurge)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref></type>
+        </param>
+        <param>
+          <type>PurgeHistorical_AllKeys_GlobalPurge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="223" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="223" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableConfigTest, DefaultConfig_HistoryTableNameDerived)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableConfigTest</type>
+        </param>
+        <param>
+          <type>DefaultConfig_HistoryTableNameDerived</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="243" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="243" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1ab7a81b28809e19328edc249d14a40a7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableConfigTest, ExplicitConfig_Stored)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableConfigTest</type>
+        </param>
+        <param>
+          <type>ExplicitConfig_Stored</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="251" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="251" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a007285901b1cdc5145981651b2cabb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableConfigTest, CreateVersionedTable_SetsSchemaInStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableConfigTest</type>
+        </param>
+        <param>
+          <type>CreateVersionedTable_SetsSchemaInStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="265" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="265" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1ac43f83f1d15d591cbb8c4b75b73f0415" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableConfigTest, CreateVersionedTable_CustomConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableConfigTest</type>
+        </param>
+        <param>
+          <type>CreateVersionedTable_CustomConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="285" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="285" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a31287088eddccebe0f5c4d45081d8429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableUpsertTest, Upsert_NewKey_ActsAsInsert)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableUpsertTest</type>
+        </param>
+        <param>
+          <type>Upsert_NewKey_ActsAsInsert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="297" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="297" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1ab4172ef4b15ab05ae39b7a85ccf4c010" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableUpsertTest, Upsert_ExistingKey_ActsAsUpdate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableUpsertTest</type>
+        </param>
+        <param>
+          <type>Upsert_ExistingKey_ActsAsUpdate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="307" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="307" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a0626a426da551566caf2a9d70bbddf41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableUpsertTest, Upsert_AfterDelete_ActsAsInsert)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableUpsertTest</type>
+        </param>
+        <param>
+          <type>Upsert_AfterDelete_ActsAsInsert</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="321" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="321" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1afb116426bda08d616f0f9136c3de2b3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableConfigTest, TrackUserIdTrue_SetsModifiedBy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableConfigTest</type>
+        </param>
+        <param>
+          <type>TrackUserIdTrue_SetsModifiedBy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="336" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="336" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a9a382c9e8b5c64aaaf993738c6514d34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableConfigTest, TrackUserIdFalse_ModifiedByEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableConfigTest</type>
+        </param>
+        <param>
+          <type>TrackUserIdFalse_ModifiedByEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="347" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="347" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a062877f7947d89042defb93e7d52c689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableRetentionTest, EnforceRetention_YoungVersionsNotPurged)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableRetentionTest</type>
+        </param>
+        <param>
+          <type>EnforceRetention_YoungVersionsNotPurged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="360" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="360" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a774dc955399e8c10119efbf576d17dc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableRetentionTest, EnforceRetention_ZeroPeriod_IsNoop)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableRetentionTest</type>
+        </param>
+        <param>
+          <type>EnforceRetention_ZeroPeriod_IsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="382" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="382" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1aae4e1e4a59c7bb4cc0eb4c165abd0493" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableRetentionTest, EnforceRetention_CurrentNeverPurged)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableRetentionTest</type>
+        </param>
+        <param>
+          <type>EnforceRetention_CurrentNeverPurged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="396" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="396" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="test__system__versioned__table_8cpp_1a2ca0ca6f7d5f20451221b8466542796b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SystemVersionedTableConfigTest, Statistics_IncludesConfigFields)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SystemVersionedTableConfigTest</type>
+        </param>
+        <param>
+          <type>Statistics_IncludesConfigFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/temporal/test_system_versioned_table.cpp" line="413" column="1" bodyfile="tests/temporal/test_system_versioned_table.cpp" bodystart="413" bodyend="429"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="system__versioned__table_8h" kindref="compound">temporal/system_versioned_table.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1temporal" kindref="compound">themisdb::temporal</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="class_system_versioned_table_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/><ref refid="class_system_versioned_table_test_1a22a38c9332c76bed9f5bf8df4e63b919" kindref="member">table</ref>{</highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;node_a&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Insert<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Insert_NewKey_Succeeds)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>50000}}));</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.keyCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.versionCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Insert_DuplicateKey_Fails)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">}}));</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.versionCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GetCurrent<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>GetCurrent_ExistingKey_ReturnsCurrentVersion)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>50000}});</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>table.getCurrent(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(current.has_value());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current-&gt;sys_time.end,<sp/>kMaxTimestamp);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>GetCurrent_MissingKey_ReturnsNullopt)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(table.getCurrent(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Update<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Update_ExistingKey_CreatesNewVersion)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>50000}});</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(table.update(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>55000}}));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>versions:<sp/>historical<sp/>+<sp/>current</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.versionCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>table.getCurrent(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(current.has_value());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">],<sp/>55000);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>Unchanged<sp/>field<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Update_MissingKey_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(table.update(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>50000}}));</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Update_ClosesOldVersion)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>50000}});</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history_before<sp/>=<sp/>table.getHistory(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history_before.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history_before[0].sys_time.end,<sp/>kMaxTimestamp);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>table.update(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>55000}});</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history_after<sp/>=<sp/>table.getHistory(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history_after.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>version<sp/>should<sp/>be<sp/>closed<sp/>now</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(history_after[0].sys_time.end,<sp/>kMaxTimestamp);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>(current)<sp/>version<sp/>should<sp/>be<sp/>open</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history_after[1].sys_time.end,<sp/>kMaxTimestamp);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Delete<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Delete_ExistingKey_ClosesVersion)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(table.deleteRow(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Row<sp/>deleted<sp/>→<sp/>no<sp/>current<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(table.getCurrent(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>But<sp/>history<sp/>still<sp/>accessible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>table.getHistory(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(history.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(history[0].sys_time.end,<sp/>kMaxTimestamp);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Delete_MissingKey_ReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(table.deleteRow(</highlight><highlight class="stringliteral">&quot;nonexistent&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GetAsOf<sp/>──────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>GetAsOf_AfterInsert_ReturnsVersion)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>before<sp/>=<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>50000}});</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>after<sp/>=<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref>();</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>table.getAsOf(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>(before<sp/>+<sp/>after)<sp/>/<sp/>2);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>sys_start<sp/>of<sp/>the<sp/>inserted<sp/>version<sp/>should<sp/>be<sp/>&lt;=<sp/>mid<sp/>and<sp/>sys_end<sp/>=<sp/>MAX</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>holds<sp/>if<sp/>we<sp/>query<sp/>at<sp/>a<sp/>time<sp/>after<sp/>the<sp/>insert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>&apos;after&apos;<sp/>to<sp/>be<sp/>sure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>table.getAsOf(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>after);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result2.has_value());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result2-&gt;data[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GetHistoryInRange<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>GetHistoryInRange_OverlapsInsertTime)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>the<sp/>full<sp/>time<sp/>range<sp/>to<sp/>avoid<sp/>timing<sp/>precision<sp/>issues</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>table.update(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alicia&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>from<sp/>the<sp/>beginning<sp/>of<sp/>time<sp/>to<sp/>ensure<sp/>both<sp/>versions<sp/>are<sp/>included</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref><sp/>range{kMinTimestamp,<sp/>kMaxTimestamp};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>table.getHistoryInRange(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>range);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(history.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Scan<sp/>─────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Scan_Default_ReturnCurrentRows)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>table.deleteRow(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>table.scan();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current[0].data[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Scan_AsOf_ReturnsHistoricalRows)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Capture<sp/>a<sp/>timestamp<sp/>after<sp/>the<sp/>insert<sp/>so<sp/>we<sp/>can<sp/>use<sp/>it<sp/>as<sp/>the<sp/>AS-OF<sp/>point.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>add<sp/>a<sp/>1<sp/>ms<sp/>sleep<sp/>to<sp/>ensure<sp/>the<sp/>update<sp/>receives<sp/>a<sp/>strictly<sp/>later</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>sys_start<sp/>timestamp,<sp/>which<sp/>is<sp/>the<sp/>minimal<sp/>sleep<sp/>needed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref><sp/>before_update<sp/>=<sp/><ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(2));</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>table.update(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alicia&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>at<sp/>before_update<sp/>→<sp/>the<sp/>version<sp/>current<sp/>at<sp/>that<sp/>instant<sp/>is<sp/>Alice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rows_at_before<sp/>=<sp/>table.scan(before_update);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rows_at_before.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(rows_at_before[0].data[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Statistics<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>Statistics_ReflectsState)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>table.update(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">,<sp/>50000}});</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>table.getStatistics();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;key_count&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;current_rows&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;historical_rows&quot;</highlight><highlight class="normal">],<sp/>1);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;total_versions&quot;</highlight><highlight class="normal">],<sp/>2);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>getAllKeys<sp/>────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>GetAllKeys_IncludesDeletedKeys)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>table.deleteRow(</highlight><highlight class="stringliteral">&quot;emp2&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>fully<sp/>deleted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>keys<sp/>=<sp/>table.getAllKeys();</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(keys.size(),<sp/>2u);<sp/></highlight><highlight class="comment">//<sp/>both<sp/>keys<sp/>must<sp/>be<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(keys.begin(),<sp/>keys.end(),<sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>keys.end());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::find(keys.begin(),<sp/>keys.end(),<sp/></highlight><highlight class="stringliteral">&quot;emp2&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>keys.end());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>GetAllKeys_EmptyTable_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(table.getAllKeys().empty());</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>purgeHistoricalVersions<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>PurgeHistorical_RemovesMatchingVersions)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(2));</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>table.update(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alicia&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>versions;<sp/>only<sp/>one<sp/>historical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.versionCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Purge<sp/>everything<sp/>that<sp/>is<sp/>closed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>table.purgeHistoricalVersions(</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>1u);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.versionCount(),<sp/>1u);<sp/></highlight><highlight class="comment">//<sp/>current<sp/>still<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>table.getCurrent(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(current.has_value());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;Alicia&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>PurgeHistorical_CurrentVersionNeverRemoved)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>to<sp/>purge<sp/>even<sp/>current<sp/>versions<sp/>via<sp/>predicate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>table.purgeHistoricalVersions(</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>0u);<sp/></highlight><highlight class="comment">//<sp/>current<sp/>version<sp/>is<sp/>protected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.versionCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1ad083a958c998f4c7bf5a985812d55836" kindref="member">TEST_F</ref>(<ref refid="class_system_versioned_table_test" kindref="compound">SystemVersionedTableTest</ref>,<sp/>PurgeHistorical_AllKeys_GlobalPurge)<sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(2));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>table.update(</highlight><highlight class="stringliteral">&quot;emp1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alicia&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>table.insert(</highlight><highlight class="stringliteral">&quot;emp2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(2));</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>table.update(</highlight><highlight class="stringliteral">&quot;emp2&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bobby&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4<sp/>total<sp/>versions,<sp/>2<sp/>historical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.versionCount(),<sp/>4u);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>table.purgeHistoricalVersions(</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>&amp;)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>2u);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.versionCount(),<sp/>2u);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Config<sp/>/<sp/>createVersionedTable<sp/>────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableConfigTest,<sp/>DefaultConfig_HistoryTableNameDerived)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.getConfig().history_table_name,<sp/></highlight><highlight class="stringliteral">&quot;orders_history&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tbl.getConfig().compress_history);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tbl.getConfig().track_user_id);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(tbl.getConfig().retention_period.count(),<sp/>0);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableConfigTest,<sp/>ExplicitConfig_Stored)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a72244110acc809bef484c8ccd05d34e9" kindref="member">history_table_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders_hist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a169bd54e3f4261504c33dfbf931a3659" kindref="member">compress_history</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a9f071134273f85cc824899d8979790a6" kindref="member">retention_period</ref><sp/><sp/><sp/>=<sp/>std::chrono::seconds{90<sp/>*<sp/>24<sp/>*<sp/>3600};</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a0b0926e0343bce3442218fe64b48f638" kindref="member">track_user_id</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl(</highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">,<sp/>cfg,<sp/></highlight><highlight class="stringliteral">&quot;node_x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.getConfig().history_table_name,<sp/></highlight><highlight class="stringliteral">&quot;orders_hist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tbl.getConfig().compress_history);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(tbl.getConfig().track_user_id);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.getConfig().retention_period,<sp/>std::chrono::seconds{90<sp/>*<sp/>24<sp/>*<sp/>3600});</highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableConfigTest,<sp/>CreateVersionedTable_SetsSchemaInStats)<sp/>{</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1temporal_1a00c22a4045b18e63643ee17fded088a0" kindref="member">Document</ref><sp/>schema<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;columns&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;INTEGER&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;primary_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;VARCHAR&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;salary&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DECIMAL&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;system_time&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;start&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sys_start&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;end&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;sys_end&quot;</highlight><highlight class="normal">}}}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tbl<sp/>=<sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad1ec51851f8fdd20016173cb9c66f6a2" kindref="member">SystemVersionedTable::createVersionedTable</ref>(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>schema,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;node_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad43eeddbc5f7025de556a24e3502a678" kindref="member">getStatistics</ref>();</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;history_table&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;employees_history&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(stats.contains(</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;schema&quot;</highlight><highlight class="normal">][</highlight><highlight class="stringliteral">&quot;columns&quot;</highlight><highlight class="normal">].size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableConfigTest,<sp/>CreateVersionedTable_CustomConfig)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a72244110acc809bef484c8ccd05d34e9" kindref="member">history_table_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;emp_hist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tbl<sp/>=<sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad1ec51851f8fdd20016173cb9c66f6a2" kindref="member">SystemVersionedTable::createVersionedTable</ref>(</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;employees&quot;</highlight><highlight class="normal">,<sp/>{},<sp/>cfg,<sp/></highlight><highlight class="stringliteral">&quot;node_b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.getConfig().history_table_name,<sp/></highlight><highlight class="stringliteral">&quot;emp_hist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Upsert<sp/>───────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableUpsertTest,<sp/>Upsert_NewKey_ActsAsInsert)<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl{</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>was_insert<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a384a260d6808e1877fa115ffb0a3e053" kindref="member">upsert</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>9.99}});</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(was_insert);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a60ef8f55a5b2ace79ae54cc4548a0aba" kindref="member">versionCount</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa928d37b7f54dbd48bbd07dadc85cc6b" kindref="member">getCurrent</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(current.has_value());</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;(),<sp/>9.99);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableUpsertTest,<sp/>Upsert_ExistingKey_ActsAsUpdate)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl{</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>9.99},<sp/>{</highlight><highlight class="stringliteral">&quot;stock&quot;</highlight><highlight class="normal">,<sp/>100}});</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>was_insert<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a384a260d6808e1877fa115ffb0a3e053" kindref="member">upsert</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>12.50}});</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(was_insert);<sp/></highlight><highlight class="comment">//<sp/>update,<sp/>not<sp/>insert</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a60ef8f55a5b2ace79ae54cc4548a0aba" kindref="member">versionCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa928d37b7f54dbd48bbd07dadc85cc6b" kindref="member">getCurrent</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(current.has_value());</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;(),<sp/>12.50);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;stock&quot;</highlight><highlight class="normal">],<sp/>100);<sp/></highlight><highlight class="comment">//<sp/>unchanged<sp/>field<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableUpsertTest,<sp/>Upsert_AfterDelete_ActsAsInsert)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl{</highlight><highlight class="stringliteral">&quot;products&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>9.99}});</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac295dca38abcef86836ce6bbfd9faff8" kindref="member">deleteRow</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>was_insert<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a384a260d6808e1877fa115ffb0a3e053" kindref="member">upsert</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">,<sp/>15.00}});</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(was_insert);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>current<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa928d37b7f54dbd48bbd07dadc85cc6b" kindref="member">getCurrent</ref>(</highlight><highlight class="stringliteral">&quot;p1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(current.has_value());</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(current-&gt;data[</highlight><highlight class="stringliteral">&quot;price&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;(),<sp/>15.00);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>track_user_id<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableConfigTest,<sp/>TrackUserIdTrue_SetsModifiedBy)<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a0b0926e0343bce3442218fe64b48f638" kindref="member">track_user_id</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>cfg,<sp/></highlight><highlight class="stringliteral">&quot;admin_node&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>1}});</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa928d37b7f54dbd48bbd07dadc85cc6b" kindref="member">getCurrent</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(doc.has_value());</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(doc-&gt;modified_by,<sp/></highlight><highlight class="stringliteral">&quot;admin_node&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableConfigTest,<sp/>TrackUserIdFalse_ModifiedByEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a0b0926e0343bce3442218fe64b48f638" kindref="member">track_user_id</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>cfg,<sp/></highlight><highlight class="stringliteral">&quot;admin_node&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>1}});</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>doc<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa928d37b7f54dbd48bbd07dadc85cc6b" kindref="member">getCurrent</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(doc.has_value());</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(doc-&gt;modified_by.empty());</highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>enforceRetentionPolicy<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableRetentionTest,<sp/>EnforceRetention_YoungVersionsNotPurged)<sp/>{</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>non-zero<sp/>retention<sp/>period<sp/>to<sp/>exercise<sp/>the<sp/>retention<sp/>logic.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>advancing<sp/>time,<sp/>recently<sp/>closed<sp/>versions<sp/>are<sp/>&quot;young&quot;<sp/>and<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>not<sp/>be<sp/>removed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a9f071134273f85cc824899d8979790a6" kindref="member">retention_period</ref><sp/>=<sp/>std::chrono::milliseconds{50};</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>cfg,<sp/></highlight><highlight class="stringliteral">&quot;node&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>1}});</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a7f55f529bd04be9e771588c2f5f54b6b" kindref="member">update</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>2}});<sp/><sp/></highlight><highlight class="comment">//<sp/>closes<sp/>old<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a7f55f529bd04be9e771588c2f5f54b6b" kindref="member">update</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>3}});<sp/><sp/></highlight><highlight class="comment">//<sp/>closes<sp/>second<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>total<sp/>versions;<sp/>2<sp/>are<sp/>historical,<sp/>but<sp/>they<sp/>are<sp/>too<sp/>&quot;young&quot;<sp/>to<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>retention<sp/>window<sp/>when<sp/>we<sp/>enforce<sp/>immediately.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a60ef8f55a5b2ace79ae54cc4548a0aba" kindref="member">versionCount</ref>(),<sp/>3u);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a9bf8871767a2c8732408cf04fce92f27" kindref="member">enforceRetentionPolicy</ref>();</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>advancing<sp/>time,<sp/>no<sp/>versions<sp/>should<sp/>be<sp/>removed<sp/>yet.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>0u);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a60ef8f55a5b2ace79ae54cc4548a0aba" kindref="member">versionCount</ref>(),<sp/>3u);</highlight></codeline>
+<codeline lineno="380"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableRetentionTest,<sp/>EnforceRetention_ZeroPeriod_IsNoop)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a9f071134273f85cc824899d8979790a6" kindref="member">retention_period</ref><sp/>=<sp/>std::chrono::milliseconds{0};</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>cfg,<sp/></highlight><highlight class="stringliteral">&quot;node&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>1}});</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a7f55f529bd04be9e771588c2f5f54b6b" kindref="member">update</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>2}});</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a60ef8f55a5b2ace79ae54cc4548a0aba" kindref="member">versionCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a9bf8871767a2c8732408cf04fce92f27" kindref="member">enforceRetentionPolicy</ref>();</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>0u);</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a60ef8f55a5b2ace79ae54cc4548a0aba" kindref="member">versionCount</ref>(),<sp/>2u);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableRetentionTest,<sp/>EnforceRetention_CurrentNeverPurged)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>current<sp/>(open-ended)<sp/>version<sp/>must<sp/>survive<sp/>even<sp/>when<sp/>a<sp/>large</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>retention<sp/>window<sp/>is<sp/>configured:<sp/>sys_end<sp/>==<sp/>kMaxTimestamp<sp/>is<sp/>always</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>≥<sp/>any<sp/>finite<sp/>cutoff,<sp/>so<sp/>the<sp/>predicate<sp/>never<sp/>matches<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a9f071134273f85cc824899d8979790a6" kindref="member">retention_period</ref><sp/>=<sp/>std::chrono::milliseconds{50};</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl(</highlight><highlight class="stringliteral">&quot;t&quot;</highlight><highlight class="normal">,<sp/>cfg,<sp/></highlight><highlight class="stringliteral">&quot;node&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"></highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">,<sp/>1}});</highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>one<sp/>version<sp/>exists<sp/>(current);<sp/>enforcing<sp/>retention<sp/>must<sp/>be<sp/>a<sp/>no-op.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>removed<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1a9bf8871767a2c8732408cf04fce92f27" kindref="member">enforceRetentionPolicy</ref>();</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(removed,<sp/>0u);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1aa928d37b7f54dbd48bbd07dadc85cc6b" kindref="member">getCurrent</ref>(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">).has_value());</highlight></codeline>
+<codeline lineno="409"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Statistics<sp/>includes<sp/>config<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><ref refid="test__system__versioned__table_8cpp_1a4c0f6e2be3c5a304672b46d626d57da8" kindref="member">TEST</ref>(SystemVersionedTableConfigTest,<sp/>Statistics_IncludesConfigFields)<sp/>{</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config" kindref="compound">SystemVersionedTable::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a72244110acc809bef484c8ccd05d34e9" kindref="member">history_table_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;emp_hist&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a169bd54e3f4261504c33dfbf931a3659" kindref="member">compress_history</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a0b0926e0343bce3442218fe64b48f638" kindref="member">track_user_id</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemisdb_1_1temporal_1_1_system_versioned_table_1_1_config_1a9f071134273f85cc824899d8979790a6" kindref="member">retention_period</ref><sp/><sp/><sp/>=<sp/>std::chrono::milliseconds{60000};<sp/></highlight><highlight class="comment">//<sp/>60<sp/>seconds<sp/>in<sp/>ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref><sp/>tbl(</highlight><highlight class="stringliteral">&quot;emp&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ac6b4537f4c39d584a45c94215f5aa208" kindref="member">insert</ref>(</highlight><highlight class="stringliteral">&quot;e1&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>tbl.<ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table_1ad43eeddbc5f7025de556a24e3502a678" kindref="member">getStatistics</ref>();</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;table_name&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;emp&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;history_table&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;emp_hist&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;compress_history&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;track_user_id&quot;</highlight><highlight class="normal">],<sp/><sp/><sp/><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats[</highlight><highlight class="stringliteral">&quot;retention_period_ms&quot;</highlight><highlight class="normal">],<sp/>60000);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/temporal/test_system_versioned_table.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_i_utils_pipeline" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::utils::IUtilsPipeline</compoundname>
+    <derivedcompoundref refid="classthemis_1_1utils_1_1_sequential_utils_pipeline" prot="public" virt="non-virtual">themis::utils::SequentialUtilsPipeline</derivedcompoundref>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_utils_pipeline_1a8b955ce6a1b4fa5bcd8eeb66bc13767a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::IUtilsPipeline::~IUtilsPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IUtilsPipeline</name>
+        <qualifiedname>themis::utils::IUtilsPipeline::~IUtilsPipeline</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="581" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_utils_pipeline_1a391f8abf12fa3f9d105216cc8002a01b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::utils::IUtilsPipeline::registerStage</definition>
+        <argsstring>(std::unique_ptr&lt; IUtilsStage &gt; stage)=0</argsstring>
+        <name>registerStage</name>
+        <qualifiedname>themis::utils::IUtilsPipeline::registerStage</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1a6410b947059845521096e25da2fa4033">registerStage</reimplementedby>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1utils_1_1_i_utils_stage" kindref="compound">IUtilsStage</ref> &gt;</type>
+          <declname>stage</declname>
+        </param>
+        <briefdescription>
+<para>Register a stage to be executed by <ref refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a0b7f975d7f4ccd1236857638c9db89c5" kindref="member">run()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stages are executed in the order they are registered.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owning pointer to the stage. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="590" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_utils_pipeline_1a0b7f975d7f4ccd1236857638c9db89c5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1utils_1_1_pipeline_result" kindref="compound">PipelineResult</ref> &gt;</type>
+        <definition>virtual std::future&lt; PipelineResult &gt; themis::utils::IUtilsPipeline::run</definition>
+        <argsstring>()=0</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::utils::IUtilsPipeline::run</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ab236008e7ac64b8acc5045c57d35e417">run</reimplementedby>
+        <briefdescription>
+<para>Execute all registered stages in order. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Future that resolves to a <ref refid="structthemis_1_1utils_1_1_pipeline_result" kindref="compound">PipelineResult</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="597" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_i_utils_pipeline_1aaa60dead0702b55c6778f322aa6779dc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::utils::IUtilsPipeline::shutdown</definition>
+        <argsstring>() noexcept=0</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::utils::IUtilsPipeline::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1utils_1_1_sequential_utils_pipeline_1ad6b83e113080a043b1ab01fe2a723bbb">shutdown</reimplementedby>
+        <briefdescription>
+<para>Tear down all registered stages (reverse registration order). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Must not throw. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="604" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Composable utility-stage lifecycle manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stages are registered in order; <ref refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a0b7f975d7f4ccd1236857638c9db89c5" kindref="member">run()</ref> executes them sequentially. <ref refid="classthemis_1_1utils_1_1_i_utils_pipeline_1aaa60dead0702b55c6778f322aa6779dc" kindref="member">shutdown()</ref> tears down all registered stages in reverse registration order. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::utils::IUtilsPipeline</label>
+        <link refid="classthemis_1_1utils_1_1_i_utils_pipeline"/>
+      </node>
+      <node id="2">
+        <label>themis::utils::SequentialUtilsPipeline</label>
+        <link refid="classthemis_1_1utils_1_1_sequential_utils_pipeline"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/utils/utils_interfaces.h" line="579" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="579" bodyend="605"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a391f8abf12fa3f9d105216cc8002a01b" prot="public" virt="pure-virtual"><scope>themis::utils::IUtilsPipeline</scope><name>registerStage</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a0b7f975d7f4ccd1236857638c9db89c5" prot="public" virt="pure-virtual"><scope>themis::utils::IUtilsPipeline</scope><name>run</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_utils_pipeline_1aaa60dead0702b55c6778f322aa6779dc" prot="public" virt="pure-virtual"><scope>themis::utils::IUtilsPipeline</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a8b955ce6a1b4fa5bcd8eeb66bc13767a" prot="public" virt="virtual"><scope>themis::utils::IUtilsPipeline</scope><name>~IUtilsPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

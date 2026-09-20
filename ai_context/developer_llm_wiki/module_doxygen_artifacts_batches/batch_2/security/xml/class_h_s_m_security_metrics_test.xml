@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_h_s_m_security_metrics_test" kind="class" language="C++" prot="public">
+    <compoundname>HSMSecurityMetricsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_h_s_m_security_metrics_test_1ab13b9b6da70e05bcaa59faf597150f3a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_h_s_m_config" kindref="compound">HSMConfig</ref></type>
+        <definition>HSMConfig HSMSecurityMetricsTest::createStubConfig</definition>
+        <argsstring>()</argsstring>
+        <name>createStubConfig</name>
+        <qualifiedname>HSMSecurityMetricsTest::createStubConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_security_metrics.cpp" line="16" column="15" bodyfile="tests/security/test_hsm_security_metrics.cpp" bodystart="16" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HSM Security Metrics Tests</para>
+<para>Tests Prometheus metrics export for HSM security monitoring. Addresses FIND-002 monitoring requirements. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HSMSecurityMetricsTest</label>
+        <link refid="class_h_s_m_security_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HSMSecurityMetricsTest</label>
+        <link refid="class_h_s_m_security_metrics_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_hsm_security_metrics.cpp" line="14" column="1" bodyfile="tests/security/test_hsm_security_metrics.cpp" bodystart="14" bodyend="22"/>
+    <listofallmembers>
+      <member refid="class_h_s_m_security_metrics_test_1ab13b9b6da70e05bcaa59faf597150f3a" prot="protected" virt="non-virtual"><scope>HSMSecurityMetricsTest</scope><name>createStubConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

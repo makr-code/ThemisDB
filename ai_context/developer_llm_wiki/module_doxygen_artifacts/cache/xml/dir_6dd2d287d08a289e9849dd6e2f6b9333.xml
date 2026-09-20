@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_6dd2d287d08a289e9849dd6e2f6b9333" kind="dir">
+    <compoundname>src/cache</compoundname>
+    <innerfile refid="adaptive__query__cache_8cpp">adaptive_query_cache.cpp</innerfile>
+    <innerfile refid="bounded__lru__cache_8cpp">bounded_lru_cache.cpp</innerfile>
+    <innerfile refid="cache__eviction__policy_8cpp">cache_eviction_policy.cpp</innerfile>
+    <innerfile refid="cache__hit__rate__slo__monitor_8cpp">cache_hit_rate_slo_monitor.cpp</innerfile>
+    <innerfile refid="cache__manager_8cpp">cache_manager.cpp</innerfile>
+    <innerfile refid="cache__replication_8cpp">cache_replication.cpp</innerfile>
+    <innerfile refid="cache__replication__coordinator_8cpp">cache_replication_coordinator.cpp</innerfile>
+    <innerfile refid="distributed__cache__coordinator_8cpp">distributed_cache_coordinator.cpp</innerfile>
+    <innerfile refid="embedding__cache_8cpp">embedding_cache.cpp</innerfile>
+    <innerfile refid="eviction_8cpp">eviction.cpp</innerfile>
+    <innerfile refid="eviction__listener_8cpp">eviction_listener.cpp</innerfile>
+    <innerfile refid="grpc__remote__cache__peer_8cpp">grpc_remote_cache_peer.cpp</innerfile>
+    <innerfile refid="lru__cache_8cpp">lru_cache.cpp</innerfile>
+    <innerfile refid="predictive__prefetcher_8cpp">predictive_prefetcher.cpp</innerfile>
+    <innerfile refid="redis__cache__coordinator_8cpp">redis_cache_coordinator.cpp</innerfile>
+    <innerfile refid="semantic__cache_8cpp">semantic_cache.cpp</innerfile>
+    <innerfile refid="warmup_8cpp">warmup.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/cache/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_launcher" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPULauncher</compoundname>
+    <includes refid="launcher_8h" local="no">launcher.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" prot="public">themis::gpu::GPULauncher::WorkItem</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result" prot="public">themis::gpu::GPULauncher::WorkResult</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats" prot="public">themis::gpu::GPULauncher::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">WorkItem</ref> &amp;)&gt;</type>
+        <definition>using themis::gpu::GPULauncher::BackendFn = std::function&lt;bool(const WorkItem&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>BackendFn</name>
+        <qualifiedname>themis::gpu::GPULauncher::BackendFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="77" column="5" bodyfile="include/themis/gpu/launcher.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1adb3ab876b9c096518fb62629c654b139" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">BackendFn</ref></type>
+        <definition>BackendFn themis::gpu::GPULauncher::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::gpu::GPULauncher::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="120" column="15" bodyfile="include/themis/gpu/launcher.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1a13ef588c9f63d45b190742c50e0ad867" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPULauncher::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::gpu::GPULauncher::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="121" column="24" bodyfile="include/themis/gpu/launcher.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1aa3a802c831bb230f22e12a715af71e53" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPULauncher::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::gpu::GPULauncher::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="122" column="11" bodyfile="include/themis/gpu/launcher.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1ae24851e6f34684eabf91a8f544e5aefa" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPULauncher::GPULauncher</definition>
+        <argsstring>(BackendFn backend)</argsstring>
+        <name>GPULauncher</name>
+        <qualifiedname>themis::gpu::GPULauncher::GPULauncher</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">BackendFn</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="82" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1a0df7e00a6fff797659dfb6b3146d608b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result" kindref="compound">WorkResult</ref> &gt;</type>
+        <definition>std::future&lt; WorkResult &gt; themis::gpu::GPULauncher::submit</definition>
+        <argsstring>(WorkItem item)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::gpu::GPULauncher::submit</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">WorkItem</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+<para>Submit a single work item for asynchronous execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Future resolving to the <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result" kindref="compound">WorkResult</ref> when execution completes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="93" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1a448bdf28af4a4dc24f1e91bb4c6c4553" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result" kindref="compound">WorkResult</ref> &gt; &gt;</type>
+        <definition>std::future&lt; std::vector&lt; WorkResult &gt; &gt; themis::gpu::GPULauncher::submitBatch</definition>
+        <argsstring>(std::vector&lt; WorkItem &gt; items)</argsstring>
+        <name>submitBatch</name>
+        <qualifiedname>themis::gpu::GPULauncher::submitBatch</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">WorkItem</ref> &gt;</type>
+          <declname>items</declname>
+        </param>
+        <briefdescription>
+<para>Submit a batch of work items. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Items are executed in submission order via std::async. The returned future resolves when all items have completed.</para>
+<para><simplesect kind="return"><para>Future resolving to one <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result" kindref="compound">WorkResult</ref> per item. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="103" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1a9e760ea524d819a922f8115c5aa6359d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::GPULauncher::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::GPULauncher::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="117" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_launcher_1ad139f9161b64bc7966dce1e916ceac28" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_result" kindref="compound">WorkResult</ref></type>
+        <definition>WorkResult themis::gpu::GPULauncher::executeOne</definition>
+        <argsstring>(WorkItem item)</argsstring>
+        <name>executeOne</name>
+        <qualifiedname>themis::gpu::GPULauncher::executeOne</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">WorkItem</ref></type>
+          <declname>item</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/launcher.h" line="124" column="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Typed GPU work-item and batched async launcher. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a safe, typed API for submitting GPU work without exposing raw device handles. Work is described as <computeroutput><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">WorkItem</ref></computeroutput> descriptors; the launcher groups them into batches and executes them via a caller-supplied backend.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_launcher_1autotoc_md27_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_launcher_1autotoc_md27">
+<title>Two execution modes</title><para><orderedlist>
+<listitem><para><bold><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1a0df7e00a6fff797659dfb6b3146d608b" kindref="member">submit()</ref></bold> — submit a single work item, returns a <computeroutput>std::future&lt;bool&gt;</computeroutput>. The future resolves to true on success or false on failure/timeout.</para>
+</listitem><listitem><para><bold><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1a448bdf28af4a4dc24f1e91bb4c6c4553" kindref="member">submitBatch()</ref></bold> — submit a vector of work items, returns a <computeroutput>std::future&lt;std::vector&lt;bool&gt;&gt;</computeroutput> (one result per item).</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_launcher_1autotoc_md28_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_launcher_1autotoc_md28">
+<title>Backend integration</title><para>The actual GPU call is supplied by the caller as a <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">BackendFn</ref></computeroutput> (<computeroutput>std::function&lt;bool(const <ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">WorkItem</ref>&amp;)&gt;</computeroutput>). The launcher does not depend on any specific GPU runtime, making it testable without hardware.</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_launcher_1autotoc_md29_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_launcher_1autotoc_md29">
+<title>Timeout</title><para>If <computeroutput>timeout_ms &gt; 0</computeroutput> the future is abandoned and the work item counted as failed after the timeout elapses. This is implemented using <computeroutput>std::async</computeroutput>.</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/launcher.h" line="51" column="1" bodyfile="include/themis/gpu/launcher.h" bodystart="51" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1adb3ab876b9c096518fb62629c654b139" prot="private" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>BackendFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ad139f9161b64bc7966dce1e916ceac28" prot="private" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>executeOne</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1a9e760ea524d819a922f8115c5aa6359d" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ae24851e6f34684eabf91a8f544e5aefa" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>GPULauncher</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1aa3a802c831bb230f22e12a715af71e53" prot="private" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1a13ef588c9f63d45b190742c50e0ad867" prot="private" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1a0df7e00a6fff797659dfb6b3146d608b" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>submit</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1a448bdf28af4a4dc24f1e91bb4c6c4553" prot="public" virt="non-virtual"><scope>themis::gpu::GPULauncher</scope><name>submitBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

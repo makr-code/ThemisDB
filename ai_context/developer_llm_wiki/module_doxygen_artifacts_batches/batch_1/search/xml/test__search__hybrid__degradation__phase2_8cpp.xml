@@ -1,0 +1,206 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__search__hybrid__degradation__phase2_8cpp" kind="file" language="C++">
+    <compoundname>test_search_hybrid_degradation_phase2.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="hybrid__search_8h" local="yes">search/hybrid_search.h</includes>
+    <includes refid="search__error__codes_8h" local="yes">search/search_error_codes.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>search/hybrid_search.h</label>
+        <link refid="hybrid__search_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>search/search_error_codes.h</label>
+        <link refid="search__error__codes_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/search/test_search_hybrid_degradation_phase2.cpp</label>
+        <link refid="test__search__hybrid__degradation__phase2_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>themis/export.h</label>
+      </node>
+      <node id="6">
+        <label>themis/search/llm_reranker_factory.h</label>
+      </node>
+      <node id="5">
+        <label>themis/search/llm_reranker_interface.h</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search">themis::search</innernamespace>
+    <innernamespace refid="namespacethemis_1_1search_1_1testing">themis::search::testing</innernamespace>
+    <briefdescription>
+<para>Phase 2: HybridSearch Degradation Flags Tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-06</para>
+</simplesect>
+Tests for Phase 2 HybridSearch SearchStats enhancements:<itemizedlist>
+<listitem><para>primary_error_code tracking via <ref refid="search__error__codes_8h" kindref="compound">search_error_codes.h</ref></para>
+</listitem><listitem><para>Degradation flags: fusion_failed, rerank_fallback</para>
+</listitem><listitem><para>Backend health visibility: bm25_unavailable, vector_unavailable</para>
+</listitem></itemizedlist>
+</para>
+<para>Test IDs: P2H-01 through P2H-04 CTest labels: search, hybrid, phase2, degradation </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="hybrid__search_8h" kindref="compound">search/hybrid_search.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="search__error__codes_8h" kindref="compound">search/search_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1search" kindref="compound">themis::search</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing" kindref="compound">testing</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a02766dcdf2b3f8e37d97e0d471a3e9b7" kindref="member">TEST</ref>(HybridSearchDegradationPhase2,<sp/>P2H_01_SearchStatsStructure)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/>HybridSearch::SearchStats<sp/>stats;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>Phase<sp/>1<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.bm25_ok,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.vector_ok,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.partial_result,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.bm25_count,<sp/>0);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.vector_count,<sp/>0);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>Phase<sp/>2<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.primary_error_code,<sp/>0x0000);<sp/><sp/></highlight><highlight class="comment">//<sp/>SUCCESS</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.fusion_failed,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.rerank_fallback,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a02766dcdf2b3f8e37d97e0d471a3e9b7" kindref="member">TEST</ref>(HybridSearchDegradationPhase2,<sp/>P2H_02_ErrorCodeConstants)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>error<sp/>code<sp/>ranges<sp/>are<sp/>defined</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda19f97e6f53e6e387aa51e8ecabff560a" kindref="member">SearchErrorCode::BM25_NO_RESULTS</ref>)<sp/>==<sp/>0x0001);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda21155176002013a456016f838dfd876d" kindref="member">SearchErrorCode::VECTOR_BACKEND_UNAVAILABLE</ref>)<sp/>==<sp/>0x0005);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaf7b60a1ed8a1404e1dd8e39fd96f4c27" kindref="member">SearchErrorCode::RRF_FUSION_FAILED</ref>)<sp/>==<sp/>0x1001);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda85e8cb24e1d413ef772d0ef903955516" kindref="member">SearchErrorCode::SHARD_TIMEOUT</ref>)<sp/>==<sp/>0x2001);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static_assert</highlight><highlight class="normal">(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda86c95a19043e6034a30b481911bc4f18" kindref="member">SearchErrorCode::EXPANSION_LIMIT_EXCEEDED</ref>)<sp/>==<sp/>0x3001);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>error<sp/>code<sp/>conversion<sp/>function<sp/>exists</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>msg<sp/>=<sp/><ref refid="namespacethemis_1a8856cac7af9f34286e873cb0dfb163f6" kindref="member">searchErrorCodeToString</ref>(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda19f97e6f53e6e387aa51e8ecabff560a" kindref="member">SearchErrorCode::BM25_NO_RESULTS</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(msg.empty());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a02766dcdf2b3f8e37d97e0d471a3e9b7" kindref="member">TEST</ref>(HybridSearchDegradationPhase2,<sp/>P2H_03_PrimaryErrorCodeTracking)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/>HybridSearch::SearchStats<sp/>stats;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>BM25<sp/>failure<sp/>scenario</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/>stats.primary_error_code<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda19f97e6f53e6e387aa51e8ecabff560a" kindref="member">SearchErrorCode::BM25_NO_RESULTS</ref>);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/>stats.bm25_ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/>stats.partial_result<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.primary_error_code,<sp/>0x0001);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(stats.bm25_ok);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/>EXPECT_TRUE(stats.partial_result);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>vector<sp/>backend<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/>stats.primary_error_code<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1eda21155176002013a456016f838dfd876d" kindref="member">SearchErrorCode::VECTOR_BACKEND_UNAVAILABLE</ref>);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>stats.vector_ok<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>EXPECT_EQ(stats.primary_error_code,<sp/>0x0005);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>EXPECT_FALSE(stats.vector_ok);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="namespacethemis_1_1search_1_1testing_1a02766dcdf2b3f8e37d97e0d471a3e9b7" kindref="member">TEST</ref>(HybridSearchDegradationPhase2,<sp/>P2H_04_DegradationScenarios)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Scenario<sp/>1:<sp/>Fusion<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>HybridSearch::SearchStats<sp/>stats;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.fusion_failed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.primary_error_code<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1a8139ec6706efa3df4ec37242e9e7e1edaf7b60a1ed8a1404e1dd8e39fd96f4c27" kindref="member">SearchErrorCode::RRF_FUSION_FAILED</ref>);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.partial_result<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.fusion_failed);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.primary_error_code,<sp/>0x1001);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Scenario<sp/>2:<sp/>Reranker<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>HybridSearch::SearchStats<sp/>stats;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.rerank_fallback<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.partial_result<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Fallback<sp/>is<sp/>transparent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.rerank_fallback);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Scenario<sp/>3:<sp/>Multiple<sp/>degradations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>HybridSearch::SearchStats<sp/>stats;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.fusion_failed<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.rerank_fallback<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.partial_result<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.bm25_count<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.vector_count<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.fusion_failed);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.rerank_fallback);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.partial_result);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.bm25_count,<sp/>5);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.vector_count,<sp/>0);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::search</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/search/test_search_hybrid_degradation_phase2.cpp"/>
+  </compounddef>
+</doxygen>

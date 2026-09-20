@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1org_1_1_bench_span" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::org::BenchSpan</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_span_1a24a1a5e0715d42730affc99efff0c055" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::org::BenchSpan::trace_id_hi</definition>
+        <argsstring></argsstring>
+        <name>trace_id_hi</name>
+        <qualifiedname>themis::bench::org::BenchSpan::trace_id_hi</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="108" column="19" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_span_1a58b99c51aea8533c5c09bdb265db1585" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::org::BenchSpan::trace_id_lo</definition>
+        <argsstring></argsstring>
+        <name>trace_id_lo</name>
+        <qualifiedname>themis::bench::org::BenchSpan::trace_id_lo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="108" column="31" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_span_1aa0875291c15ecaa55b7337a653b86a32" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::org::BenchSpan::span_id</definition>
+        <argsstring></argsstring>
+        <name>span_id</name>
+        <qualifiedname>themis::bench::org::BenchSpan::span_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="109" column="19" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_span_1aa124539a91428f36f5d5a27cdfe884c5" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::org::BenchSpan::parent_span_id</definition>
+        <argsstring></argsstring>
+        <name>parent_span_id</name>
+        <qualifiedname>themis::bench::org::BenchSpan::parent_span_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="110" column="19" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_span_1a8a2fc946cc37694e08b93aab50dab408" prot="public" static="no" mutable="no">
+        <type>std::int64_t</type>
+        <definition>std::int64_t themis::bench::org::BenchSpan::start_ns</definition>
+        <argsstring></argsstring>
+        <name>start_ns</name>
+        <qualifiedname>themis::bench::org::BenchSpan::start_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="111" column="19" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1org_1_1_bench_span_1a6135bb0a25ef2b2fb15e0801d1bc7daf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::bench::org::BenchSpan::finished</definition>
+        <argsstring></argsstring>
+        <name>finished</name>
+        <qualifiedname>themis::bench::org::BenchSpan::finished</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="112" column="19" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1org_1_1_bench_span_1a3d356b6567c1b6ccbb591b4c1c9fcd8b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::org::BenchSpan::finish</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>finish</name>
+        <qualifiedname>themis::bench::org::BenchSpan::finish</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="114" column="10" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/observability/bench_observability_release_gates.cpp" line="107" column="1" bodyfile="benchmarks/observability/bench_observability_release_gates.cpp" bodystart="107" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a3d356b6567c1b6ccbb591b4c1c9fcd8b" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSpan</scope><name>finish</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a6135bb0a25ef2b2fb15e0801d1bc7daf" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSpan</scope><name>finished</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_span_1aa124539a91428f36f5d5a27cdfe884c5" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSpan</scope><name>parent_span_id</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_span_1aa0875291c15ecaa55b7337a653b86a32" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSpan</scope><name>span_id</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a8a2fc946cc37694e08b93aab50dab408" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSpan</scope><name>start_ns</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a24a1a5e0715d42730affc99efff0c055" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSpan</scope><name>trace_id_hi</name></member>
+      <member refid="structthemis_1_1bench_1_1org_1_1_bench_span_1a58b99c51aea8533c5c09bdb265db1585" prot="public" virt="non-virtual"><scope>themis::bench::org::BenchSpan</scope><name>trace_id_lo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphConnectionPool::ScopedResource</compoundname>
+    <includes refid="graph__resource__pool_8h" local="no">graph_resource_pool.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1ac002c3462e4efbb0cbac0c13e4cd777b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; T &gt;</type>
+        <definition>std::shared_ptr&lt;T&gt; themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::res_</definition>
+        <argsstring></argsstring>
+        <name>res_</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::res_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="91" column="30" bodyfile="include/graph/graph_resource_pool.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a0a72ffcdb2c6ce548f2e2d659ef1fcc2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1a0abb7eed5a981029899e9cefb8d59962" kindref="member">GraphConnectionPool</ref>&lt; T &gt; *</type>
+        <definition>GraphConnectionPool&lt;T&gt;* themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::pool_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="92" column="29" bodyfile="include/graph/graph_resource_pool.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a3031c49448b71e98779edb7b2adfff1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::ScopedResource</definition>
+        <argsstring>()=default</argsstring>
+        <name>ScopedResource</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::ScopedResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="47" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1aecdc8df6530d53422d53fc3f52227ab3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::ScopedResource</definition>
+        <argsstring>(std::shared_ptr&lt; T &gt; res, GraphConnectionPool&lt; T &gt; *pool)</argsstring>
+        <name>ScopedResource</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::ScopedResource</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; T &gt;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1a0abb7eed5a981029899e9cefb8d59962" kindref="member">GraphConnectionPool</ref>&lt; T &gt; *</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="49" column="9" bodyfile="include/graph/graph_resource_pool.h" bodystart="49" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1adb84235396282cff609eba7a1e8364bc" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::ScopedResource</definition>
+        <argsstring>(ScopedResource &amp;&amp;o) noexcept</argsstring>
+        <name>ScopedResource</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::ScopedResource</qualifiedname>
+        <param>
+          <type>ScopedResource &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="52" column="9" bodyfile="include/graph/graph_resource_pool.h" bodystart="52" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1ac17043ee7d762f14213d7f28ebd2dc8e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a3031c49448b71e98779edb7b2adfff1a" kindref="member">ScopedResource</ref> &amp;</type>
+        <definition>ScopedResource &amp; themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::operator=</definition>
+        <argsstring>(ScopedResource &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a3031c49448b71e98779edb7b2adfff1a" kindref="member">ScopedResource</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="57" column="24" bodyfile="include/graph/graph_resource_pool.h" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a1d708cf16bbc8baa0b89585fcd0d2f61" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::~ScopedResource</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedResource</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::~ScopedResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="67" column="9" bodyfile="include/graph/graph_resource_pool.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a7be775f10cf342958b6c50b99e7b7f4d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="74" column="11" bodyfile="include/graph/graph_resource_pool.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a3ab435efe7d0aa5c350b07558f500e7d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="75" column="17" bodyfile="include/graph/graph_resource_pool.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1ae9dda253b30bc8590202395958656ba5" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="77" column="18" bodyfile="include/graph/graph_resource_pool.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a9464eeecfd549aabba0fecd7ae221a7f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphConnectionPool&lt; T &gt;::ScopedResource::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::graph::GraphConnectionPool::ScopedResource::release</qualifiedname>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: returnResource(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="84" column="14" bodyfile="include/graph/graph_resource_pool.h" bodystart="84" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_resource_pool.h" line="45" column="5" bodyfile="include/graph/graph_resource_pool.h" bodystart="45" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a7be775f10cf342958b6c50b99e7b7f4d" prot="public" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>get</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a3ab435efe7d0aa5c350b07558f500e7d" prot="public" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>get</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1ae9dda253b30bc8590202395958656ba5" prot="public" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1ac17043ee7d762f14213d7f28ebd2dc8e" prot="public" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a0a72ffcdb2c6ce548f2e2d659ef1fcc2" prot="private" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a9464eeecfd549aabba0fecd7ae221a7f" prot="private" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>release</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1ac002c3462e4efbb0cbac0c13e4cd777b" prot="private" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>res_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a3031c49448b71e98779edb7b2adfff1a" prot="public" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>ScopedResource</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1aecdc8df6530d53422d53fc3f52227ab3" prot="public" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>ScopedResource</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1adb84235396282cff609eba7a1e8364bc" prot="public" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>ScopedResource</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_connection_pool_1_1_scoped_resource_1a1d708cf16bbc8baa0b89585fcd0d2f61" prot="public" virt="non-virtual"><scope>themis::graph::GraphConnectionPool::ScopedResource</scope><name>~ScopedResource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

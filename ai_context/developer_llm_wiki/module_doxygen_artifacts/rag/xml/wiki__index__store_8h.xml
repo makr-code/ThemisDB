@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wiki__index__store_8h" kind="file" language="C++">
+    <compoundname>wiki_index_store.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="wiki__index__store_8cpp" local="yes">src/rag/wiki_index_store.cpp</includedby>
+    <includedby refid="test__wave5__rag__hardening_8cpp" local="yes">tests/rag/test_wave5_rag_hardening.cpp</includedby>
+    <includedby refid="test__wave7__bm25__positional__fts_8cpp" local="yes">tests/rag/test_wave7_bm25_positional_fts.cpp</includedby>
+    <includedby refid="test__wave8__rag__hnsw_8cpp" local="yes">tests/rag/test_wave8_rag_hnsw.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>utility</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/wiki_index_store.h</label>
+        <link refid="wiki__index__store_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/wiki_index_store.cpp</label>
+        <link refid="wiki__index__store_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_wave5_rag_hardening.cpp</label>
+        <link refid="test__wave5__rag__hardening_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/rag/test_wave7_bm25_positional_fts.cpp</label>
+        <link refid="test__wave7__bm25__positional__fts_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/rag/test_wave8_rag_hnsw.cpp</label>
+        <link refid="test__wave8__rag__hnsw_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1_index_result" prot="public">themis::rag::IndexResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_wiki_index_store_config" prot="public">themis::rag::WikiIndexStoreConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1_wiki_index_store" prot="public">themis::rag::WikiIndexStore</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <briefdescription>
+<para>WikiIndexStore — BM25+, RRF fusion, HNSW (hnswlib or fallback), and RocksDB-backed persistent embedding cache. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Production-ready components: BM25+ scoring, RRF fusion, positional index, phrase queries, proximity queries (Wave 7). </para>
+</simplesect>
+<simplesect kind="note"><para>HNSW: wired against hnswlib when THEMIS_HNSW_ENABLED is set by the build system; falls back to exhaustive cosine scan otherwise. </para>
+</simplesect>
+<simplesect kind="note"><para>Persistent cache: RocksDB CF &quot;embedding_cache&quot; used when THEMIS_ROCKSDB_AVAILABLE and WikiIndexStoreConfig::cache_dir is set; in-memory LRU always active when max_cache_size &gt; 0.</para>
+</simplesect>
+Thread-safety: All public methods are thread-safe via internal mutex. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag" kindref="compound">themis::rag</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_index_result_1aef531567ec3b25b46a338f905cd8a2a2" kindref="member">doc_id</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1rag_1_1_index_result_1a4d4100b645495645c5192bfd9363b5dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_index_result_1a4d4100b645495645c5192bfd9363b5dc" kindref="member">score</ref>{0.0f};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM25+<sp/>scoring<sp/>(production-ready)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1a778fe1c61d8ef9e066047d286db8662d" kindref="member">bm25PlusScore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_terms,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>doc_text,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>avg_doc_len,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>float&gt;&amp;<sp/>idf_map);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reciprocal<sp/>Rank<sp/>Fusion<sp/>(production-ready)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">std::vector&lt;IndexResult&gt;<sp/><ref refid="namespacethemis_1_1rag_1a5368f92484946e08001f5c12d0b25b4e" kindref="member">rrfFusion</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::vector&lt;std::string&gt;&gt;&amp;<sp/>ranked_lists,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k<sp/>=<sp/>60);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>WikiIndexStore<sp/>—<sp/>composite<sp/>index<sp/>façade</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1rag_1_1_wiki_index_store_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config" kindref="compound">WikiIndexStoreConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a4ab3b33dbef51fcab978ff36beeb2c20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a4ab3b33dbef51fcab978ff36beeb2c20" kindref="member">avg_doc_len</ref>{128.0f};<sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a07c6d297183a799a7385bc0ecdfc69ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a07c6d297183a799a7385bc0ecdfc69ca" kindref="member">rrf_k</ref>{60};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>W8-20:<sp/>HNSW<sp/>parameters<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ade6fc0f3ec0a5313c5baa1e7a9527521" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ade6fc0f3ec0a5313c5baa1e7a9527521" kindref="member">enable_hnsw</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a9625a90e372c7ff32d8b4632924fe68b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a9625a90e372c7ff32d8b4632924fe68b" kindref="member">hnsw_ef</ref>{200};</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ad0cb688e9a33be57c0d2194f5bf4db90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ad0cb688e9a33be57c0d2194f5bf4db90" kindref="member">hnsw_m</ref>{16};</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a2a09355c893dfbbff3bdcc058b3c3870" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a2a09355c893dfbbff3bdcc058b3c3870" kindref="member">hnsw_max_m0</ref>{32};</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ab4d89911c861dd243aa2ce6820b8504a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ab4d89911c861dd243aa2ce6820b8504a" kindref="member">hnsw_ef_construction</ref>{200};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>W8-20:<sp/>Persistent<sp/>embedding<sp/>cache<sp/>parameters<sp/>─────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a6bd6289a121f2f218bed990608d7a599" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a6bd6289a121f2f218bed990608d7a599" kindref="member">cache_dir</ref>{};</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ac02510c19d1cd806c786d68958c7be5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1ac02510c19d1cd806c786d68958c7be5a" kindref="member">cache_ttl_seconds</ref>{3600};</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a9ea03b14f006e8630d0fa66a630f14f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config_1a9ea03b14f006e8630d0fa66a630f14f8" kindref="member">max_cache_size</ref>{10000};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1rag_1_1_wiki_index_store" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" kindref="member">Config</ref><sp/>=<sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_config" kindref="compound">WikiIndexStoreConfig</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref>(<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" kindref="member">Config</ref><sp/>cfg<sp/>=<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1afc955bc478e27ce364faff8f2fd688b1" kindref="member">Config</ref>{});</highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1rag_1_1_wiki_index_store_1a89e40120ce6a013da37e40dc7a8cfabb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a89e40120ce6a013da37e40dc7a8cfabb" kindref="member">~WikiIndexStore</ref>();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1rag_1_1_wiki_index_store_1a8ae40548773ed24d0e9083a7c3f1309e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a8ae40548773ed24d0e9083a7c3f1309e" kindref="member">WikiIndexStore</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1rag_1_1_wiki_index_store_1a385ca8ec1ec5d9f9980b010c9bcf34b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a385ca8ec1ec5d9f9980b010c9bcf34b0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124" refid="classthemis_1_1rag_1_1_wiki_index_store_1a20477dd28534b98a041de895c0f5b34f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a20477dd28534b98a041de895c0f5b34f" kindref="member">WikiIndexStore</ref>(<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1rag_1_1_wiki_index_store_1ac22e510335bd4174f7a1d9e191cce83b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a60c952fdcb58e0c6015ba33d685f1b01" kindref="member">WikiIndexStore</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ae88caeb1aeafa0014084d0254f88c0cf" kindref="member">addDocument</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>doc_id,<sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>&gt;<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ad3cb30be102a90f28a1b86f31de9cb33" kindref="member">searchBM25</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&amp;<sp/>query_terms,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10)<sp/>const;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>&gt;<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a94210a9579e690216e27d1b417c70776" kindref="member">searchPhrase</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>phrase,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10)<sp/>const;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>&gt;<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a78de316f31f92b97500dea573f75616c" kindref="member">searchProximity</ref>(</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>term1,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>term2,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>distance,</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10)<sp/>const;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>&gt;<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a6a70ba484d01572533618d9cdc369dca" kindref="member">fuseRRF</ref>(</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&gt;&amp;<sp/>ranked_lists)<sp/>const;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a311f1c574ee76d2090d5c92f4347dc63" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a408ce02a73085a41f39e7cf5c6dec7d8" kindref="member">size</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>W8-18:<sp/>HNSW<sp/>vector<sp/>index<sp/>─────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1a5a4d2656325aa11ef2dbdca1d3454d4f" kindref="member">addVector</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>doc_id,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&amp;<sp/>embedding);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>&gt;<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1aaf33ecd36162a1f79c25c6a615d9a4d1" kindref="member">searchHNSW</ref>(</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&amp;<sp/>query_embedding,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k<sp/>=<sp/>10)<sp/>const;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>W8-19:<sp/>Persistent<sp/>embedding<sp/>cache<sp/>────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1ac809644e624a37662ff34a46d8916f9d" kindref="member">cacheEmbedding</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&amp;<sp/>embedding);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1aecc8bb9c737868dd008224564e952d34" kindref="member">retrieveEmbedding</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key)<sp/>const;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>W8-21:<sp/>Hybrid<sp/>retrieval<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1_index_result" kindref="compound">IndexResult</ref>&gt;<sp/><ref refid="classthemis_1_1rag_1_1_wiki_index_store_1af993386d8f91496537070a0c1214991e" kindref="member">searchHybrid</ref>(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;&amp;<sp/>query_terms,</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="normal">&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>query_embedding,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>top_k<sp/>=<sp/>10)<sp/>const;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1rag_1_1_wiki_index_store_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/wiki_index_store.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1graph_1_1_0d047117107270124316353363301354304250071202200261" kind="namespace" language="C++">
+    <compoundname>themis::graph::@047117107270124316353363301354304250071202200261</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/graph/gpu_traversal.cpp" line="49" column="1"/>
+  </compounddef>
+</doxygen>

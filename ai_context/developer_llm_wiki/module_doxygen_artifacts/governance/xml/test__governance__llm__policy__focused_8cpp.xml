@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__governance__llm__policy__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_governance_llm_policy_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="policy__engine_8h" local="yes">governance/policy_engine.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>governance/data_masker.h</label>
+        <link refid="data__masker_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>governance/governance_diagnostics.h</label>
+        <link refid="governance__diagnostics_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>governance/policy_engine.h</label>
+        <link refid="policy__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/governance/test_governance_llm_policy_focused.cpp</label>
+        <link refid="test__governance__llm__policy__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>themis/export.h</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>unordered_set</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__governance__llm__policy__focused_8cpp_1a98ed94bec568b1a9366ade460d5754d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GovernanceLlmPolicyFocused, GP1_EmptyHeaders_ReturnsResult_NoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GovernanceLlmPolicyFocused</type>
+        </param>
+        <param>
+          <type>GP1_EmptyHeaders_ReturnsResult_NoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_llm_policy_focused.cpp" line="15" column="1" bodyfile="tests/governance/test_governance_llm_policy_focused.cpp" bodystart="15" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__llm__policy__focused_8cpp_1ac2a2738255b76488616a06ac5a96b839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GovernanceLlmPolicyFocused, GP2_NoApiKey_DefaultDenyOrAllow_DoesNotCrash)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GovernanceLlmPolicyFocused</type>
+        </param>
+        <param>
+          <type>GP2_NoApiKey_DefaultDenyOrAllow_DoesNotCrash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_llm_policy_focused.cpp" line="26" column="1" bodyfile="tests/governance/test_governance_llm_policy_focused.cpp" bodystart="26" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__llm__policy__focused_8cpp_1a4a60a7e67559e445902849883dcdbfa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GovernanceLlmPolicyFocused, GP3_AllowedResult_DenialFieldsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GovernanceLlmPolicyFocused</type>
+        </param>
+        <param>
+          <type>GP3_AllowedResult_DenialFieldsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_llm_policy_focused.cpp" line="39" column="1" bodyfile="tests/governance/test_governance_llm_policy_focused.cpp" bodystart="39" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__llm__policy__focused_8cpp_1aba4dca0fa3b452e484fd963ce2b63099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GovernanceLlmPolicyFocused, GP4_DeniedResult_HttpStatusIs401Or403)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GovernanceLlmPolicyFocused</type>
+        </param>
+        <param>
+          <type>GP4_DeniedResult_HttpStatusIs401Or403</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_llm_policy_focused.cpp" line="51" column="1" bodyfile="tests/governance/test_governance_llm_policy_focused.cpp" bodystart="51" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__llm__policy__focused_8cpp_1a6eed921afe0a48de163ec6642bbe0d0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GovernanceLlmPolicyFocused, GP5_WithAuthHeader_NoThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GovernanceLlmPolicyFocused</type>
+        </param>
+        <param>
+          <type>GP5_WithAuthHeader_NoThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_llm_policy_focused.cpp" line="62" column="1" bodyfile="tests/governance/test_governance_llm_policy_focused.cpp" bodystart="62" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__llm__policy__focused_8cpp_1a0a169a57e2a2a55562644dcbf54528b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GovernanceLlmPolicyFocused, GP6_MultipleCallsConsistent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GovernanceLlmPolicyFocused</type>
+        </param>
+        <param>
+          <type>GP6_MultipleCallsConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_llm_policy_focused.cpp" line="71" column="1" bodyfile="tests/governance/test_governance_llm_policy_focused.cpp" bodystart="71" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Group GP — <ref refid="class_policy_engine" kindref="compound">PolicyEngine</ref> LLM inference-permission path tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="policy__engine_8h" kindref="compound">governance/policy_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">themis::governance</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GP1:<sp/>Default<sp/>PolicyEngine<sp/>—<sp/>checkInferencePermission<sp/>with<sp/>empty<sp/>headers<sp/>───</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><ref refid="test__governance__llm__policy__focused_8cpp_1a98ed94bec568b1a9366ade460d5754d0" kindref="member">TEST</ref>(GovernanceLlmPolicyFocused,<sp/>GP1_EmptyHeaders_ReturnsResult_NoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>headers;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_inference_permission_result" kindref="compound">InferencePermissionResult</ref><sp/>result;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>result<sp/>=<sp/>engine.<ref refid="classthemis_1_1governance_1_1_policy_engine_1a0c191551779ca1de04f58893550c330a" kindref="member">checkInferencePermission</ref>(headers);<sp/>});</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>policies<sp/>loaded:<sp/>default<sp/>behaviour<sp/>must<sp/>not<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)result;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GP2:<sp/>No<sp/>API<sp/>key<sp/>in<sp/>headers<sp/>→<sp/>not<sp/>allowed<sp/>(HTTP<sp/>401<sp/>expected)<sp/>──────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__governance__llm__policy__focused_8cpp_1a98ed94bec568b1a9366ade460d5754d0" kindref="member">TEST</ref>(GovernanceLlmPolicyFocused,<sp/>GP2_NoApiKey_DefaultDenyOrAllow_DoesNotCrash)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>headers;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine.<ref refid="classthemis_1_1governance_1_1_policy_engine_1a0c191551779ca1de04f58893550c330a" kindref="member">checkInferencePermission</ref>(headers);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>no<sp/>policies<sp/>loaded<sp/>the<sp/>engine<sp/>may<sp/>default<sp/>to<sp/>deny<sp/>or<sp/>allow<sp/>—</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>what<sp/>matters<sp/>is<sp/>that<sp/>the<sp/>result<sp/>struct<sp/>is<sp/>well-formed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a02f9f3d7b39b8156c9a206e0c9e682b8" kindref="member">allowed</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a4ae52c0af2a0cae5becaa83ce489666f" kindref="member">http_status</ref><sp/>==<sp/>401<sp/>||<sp/>result.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a4ae52c0af2a0cae5becaa83ce489666f" kindref="member">http_status</ref><sp/>==<sp/>403);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GP3:<sp/>InferencePermissionResult<sp/>allowed=true<sp/>→<sp/>no<sp/>denial<sp/>fields<sp/>set<sp/>────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><ref refid="test__governance__llm__policy__focused_8cpp_1a98ed94bec568b1a9366ade460d5754d0" kindref="member">TEST</ref>(GovernanceLlmPolicyFocused,<sp/>GP3_AllowedResult_DenialFieldsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construct<sp/>an<sp/>allowed<sp/>result<sp/>directly<sp/>to<sp/>verify<sp/>struct<sp/>invariant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_inference_permission_result" kindref="compound">InferencePermissionResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a02f9f3d7b39b8156c9a206e0c9e682b8" kindref="member">allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a02f9f3d7b39b8156c9a206e0c9e682b8" kindref="member">allowed</ref>);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>denial_reason<sp/>and<sp/>http_status<sp/>are<sp/>undefined<sp/>for<sp/>allowed<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>but<sp/>the<sp/>struct<sp/>must<sp/>not<sp/>segfault<sp/>when<sp/>read</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a4ae52c0af2a0cae5becaa83ce489666f" kindref="member">http_status</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)r.denial_reason;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GP4:<sp/>InferencePermissionResult<sp/>allowed=false<sp/>→<sp/>http_status<sp/>is<sp/>401<sp/>or<sp/>403<sp/>─</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__governance__llm__policy__focused_8cpp_1a98ed94bec568b1a9366ade460d5754d0" kindref="member">TEST</ref>(GovernanceLlmPolicyFocused,<sp/>GP4_DeniedResult_HttpStatusIs401Or403)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_inference_permission_result" kindref="compound">InferencePermissionResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a02f9f3d7b39b8156c9a206e0c9e682b8" kindref="member">allowed</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a4ae52c0af2a0cae5becaa83ce489666f" kindref="member">http_status</ref><sp/><sp/>=<sp/>401;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1aa9b36f71e467f80ed2953c4076c3cfc6" kindref="member">denial_reason</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;missing<sp/>API<sp/>key&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a02f9f3d7b39b8156c9a206e0c9e682b8" kindref="member">allowed</ref>);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a4ae52c0af2a0cae5becaa83ce489666f" kindref="member">http_status</ref><sp/>==<sp/>401<sp/>||<sp/>r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1a4ae52c0af2a0cae5becaa83ce489666f" kindref="member">http_status</ref><sp/>==<sp/>403);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1governance_1_1_inference_permission_result_1aa9b36f71e467f80ed2953c4076c3cfc6" kindref="member">denial_reason</ref>.empty());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GP5:<sp/>checkInferencePermission<sp/>with<sp/>Authorization<sp/>header<sp/>does<sp/>not<sp/>crash<sp/>────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="test__governance__llm__policy__focused_8cpp_1a98ed94bec568b1a9366ade460d5754d0" kindref="member">TEST</ref>(GovernanceLlmPolicyFocused,<sp/>GP5_WithAuthHeader_NoThrow)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>headers;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;Authorization&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;******&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>engine.<ref refid="classthemis_1_1governance_1_1_policy_engine_1a0c191551779ca1de04f58893550c330a" kindref="member">checkInferencePermission</ref>(headers);<sp/>});</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>GP6:<sp/>Multiple<sp/>consecutive<sp/>calls<sp/>produce<sp/>consistent<sp/>result<sp/>type<sp/>────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><ref refid="test__governance__llm__policy__focused_8cpp_1a98ed94bec568b1a9366ade460d5754d0" kindref="member">TEST</ref>(GovernanceLlmPolicyFocused,<sp/>GP6_MultipleCallsConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine" kindref="compound">PolicyEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>headers;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;Authorization&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;******&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>engine.<ref refid="classthemis_1_1governance_1_1_policy_engine_1a0c191551779ca1de04f58893550c330a" kindref="member">checkInferencePermission</ref>(headers);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>engine.<ref refid="classthemis_1_1governance_1_1_policy_engine_1a0c191551779ca1de04f58893550c330a" kindref="member">checkInferencePermission</ref>(headers);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.allowed,<sp/>r2.allowed);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.http_status,<sp/>r2.http_status);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/governance/test_governance_llm_policy_focused.cpp"/>
+  </compounddef>
+</doxygen>

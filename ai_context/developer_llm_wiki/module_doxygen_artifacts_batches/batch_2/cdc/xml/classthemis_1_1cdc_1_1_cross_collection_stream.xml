@@ -1,0 +1,450 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_cross_collection_stream" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::CrossCollectionStream</compoundname>
+    <includes refid="cross__collection__stream_8h" local="no">cross_collection_stream.h</includes>
+    <innerclass refid="structthemis_1_1cdc_1_1_cross_collection_stream_1_1_stream_options" prot="public">themis::cdc::CrossCollectionStream::StreamOptions</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_cross_collection_stream_1aedc2f7e548137ccb8c7e09708e511729" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::CrossCollectionStream::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="121" column="24" bodyfile="include/cdc/cross_collection_stream.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_cross_collection_stream_1abab97dc8d8b8850580d82157050db59c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="class_changefeed" kindref="compound">Changefeed</ref> * &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Changefeed*&gt; themis::cdc::CrossCollectionStream::feeds_</definition>
+        <argsstring></argsstring>
+        <name>feeds_</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::feeds_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="122" column="24" bodyfile="include/cdc/cross_collection_stream.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1abcb655b550666b62f11042ffb2ea3429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CrossCollectionStream::CrossCollectionStream</definition>
+        <argsstring>()=default</argsstring>
+        <name>CrossCollectionStream</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::CrossCollectionStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="60" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1aebbd8559f3b324c963963f3ed6536a36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CrossCollectionStream::~CrossCollectionStream</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CrossCollectionStream</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::~CrossCollectionStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="61" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1acd6d34b0505377ba5df0229800e6fa4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CrossCollectionStream::CrossCollectionStream</definition>
+        <argsstring>(const CrossCollectionStream &amp;)=delete</argsstring>
+        <name>CrossCollectionStream</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::CrossCollectionStream</qualifiedname>
+        <param>
+          <type>const CrossCollectionStream &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="64" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a4c6079f2844dbd3e88b3c188d46eabf3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_cross_collection_stream_1abcb655b550666b62f11042ffb2ea3429" kindref="member">CrossCollectionStream</ref> &amp;</type>
+        <definition>CrossCollectionStream &amp; themis::cdc::CrossCollectionStream::operator=</definition>
+        <argsstring>(const CrossCollectionStream &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cdc_1_1_cross_collection_stream_1abcb655b550666b62f11042ffb2ea3429" kindref="member">CrossCollectionStream</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="65" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a6a325e359298e8b68f0cdf8fbd302648" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::CrossCollectionStream::CrossCollectionStream</definition>
+        <argsstring>(CrossCollectionStream &amp;&amp;)=delete</argsstring>
+        <name>CrossCollectionStream</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::CrossCollectionStream</qualifiedname>
+        <param>
+          <type>CrossCollectionStream &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="67" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a686d273cb6a7789d2788fa3c6bcfe35f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_cross_collection_stream_1abcb655b550666b62f11042ffb2ea3429" kindref="member">CrossCollectionStream</ref> &amp;</type>
+        <definition>CrossCollectionStream &amp; themis::cdc::CrossCollectionStream::operator=</definition>
+        <argsstring>(CrossCollectionStream &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_cross_collection_stream_1abcb655b550666b62f11042ffb2ea3429" kindref="member">CrossCollectionStream</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="68" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1af484f1e0cdd39f8819a269a246dde604" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CrossCollectionStream::addCollection</definition>
+        <argsstring>(const std::string &amp;name, Changefeed *feed)</argsstring>
+        <name>addCollection</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::addCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+          <declname>feed</declname>
+        </param>
+        <briefdescription>
+<para>Add Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">feed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">feed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lock(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="79" column="10" bodyfile="src/cdc/cross_collection_stream.cpp" bodystart="43" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a295bb690b87f8fedc8e16a4cd9f26727" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::cdc::CrossCollectionStream::removeCollection</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>removeCollection</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::removeCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Remove Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="85" column="10" bodyfile="src/cdc/cross_collection_stream.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1aa9deaffc9d10400e2c7bc4a44641dec0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::CrossCollectionStream::hasCollection</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasCollection</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::hasCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="92" column="10" bodyfile="src/cdc/cross_collection_stream.cpp" bodystart="68" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a514e77c757c3eb22b9c794b3b83d30e1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::cdc::CrossCollectionStream::collectionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>collectionCount</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::collectionCount</qualifiedname>
+        <briefdescription>
+<para>Collection Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="98" column="12" bodyfile="src/cdc/cross_collection_stream.cpp" bodystart="78" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a7e226e374e4e722d00abe1c2122ae9d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::cdc::CrossCollectionStream::listCollections</definition>
+        <argsstring>() const</argsstring>
+        <name>listCollections</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::listCollections</qualifiedname>
+        <briefdescription>
+<para>List Collections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="104" column="17" bodyfile="src/cdc/cross_collection_stream.cpp" bodystart="88" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a64f0424e4b46150aed6a88b902b42dd5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_aggregated_event" kindref="compound">AggregatedEvent</ref> &gt;</type>
+        <definition>std::vector&lt; AggregatedEvent &gt; themis::cdc::CrossCollectionStream::listEvents</definition>
+        <argsstring>(const StreamOptions &amp;options=StreamOptions::defaults()) const</argsstring>
+        <name>listEvents</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::listEvents</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1cdc_1_1_cross_collection_stream_1_1_stream_options" kindref="compound">StreamOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval><ref refid="structthemis_1_1cdc_1_1_cross_collection_stream_1_1_stream_options_1a3004924a8ce0389569d6ef3d8ab1d675" kindref="member">StreamOptions::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="110" column="17" bodyfile="src/cdc/cross_collection_stream.cpp" bodystart="133" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a64f4cc721b16e77739dacf006ec1bf89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1cdc_1_1_aggregated_event" kindref="compound">AggregatedEvent</ref> &gt;</type>
+        <definition>std::vector&lt; AggregatedEvent &gt; themis::cdc::CrossCollectionStream::listEventsFor</definition>
+        <argsstring>(const std::set&lt; std::string &gt; &amp;collection_names, size_t limit=100) const</argsstring>
+        <name>listEventsFor</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::listEventsFor</qualifiedname>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>collection_names</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="113" column="17" bodyfile="src/cdc/cross_collection_stream.cpp" bodystart="207" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_cross_collection_stream_1a7895a900dd975a498eb359524c267dcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::CrossCollectionStream::getHighWatermark</definition>
+        <argsstring>(const std::set&lt; std::string &gt; &amp;collection_names={}) const</argsstring>
+        <name>getHighWatermark</name>
+        <qualifiedname>themis::cdc::CrossCollectionStream::getHighWatermark</qualifiedname>
+        <param>
+          <type>const std::set&lt; std::string &gt; &amp;</type>
+          <declname>collection_names</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/cross_collection_stream.h" line="117" column="14" bodyfile="src/cdc/cross_collection_stream.cpp" bodystart="220" bodyend="250"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/cross_collection_stream.h" line="39" column="1" bodyfile="include/cdc/cross_collection_stream.h" bodystart="39" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1af484f1e0cdd39f8819a269a246dde604" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>addCollection</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a514e77c757c3eb22b9c794b3b83d30e1" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>collectionCount</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1abcb655b550666b62f11042ffb2ea3429" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>CrossCollectionStream</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1acd6d34b0505377ba5df0229800e6fa4f" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>CrossCollectionStream</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a6a325e359298e8b68f0cdf8fbd302648" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>CrossCollectionStream</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1abab97dc8d8b8850580d82157050db59c" prot="private" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>feeds_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a7895a900dd975a498eb359524c267dcd" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>getHighWatermark</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1aa9deaffc9d10400e2c7bc4a44641dec0" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>hasCollection</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a7e226e374e4e722d00abe1c2122ae9d1" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>listCollections</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a64f0424e4b46150aed6a88b902b42dd5" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>listEvents</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a64f4cc721b16e77739dacf006ec1bf89" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>listEventsFor</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1aedc2f7e548137ccb8c7e09708e511729" prot="private" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a4c6079f2844dbd3e88b3c188d46eabf3" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a686d273cb6a7789d2788fa3c6bcfe35f" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1a295bb690b87f8fedc8e16a4cd9f26727" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>removeCollection</name></member>
+      <member refid="classthemis_1_1cdc_1_1_cross_collection_stream_1aebbd8559f3b324c963963f3ed6536a36" prot="public" virt="non-virtual"><scope>themis::cdc::CrossCollectionStream</scope><name>~CrossCollectionStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

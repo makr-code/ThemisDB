@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_sla_monitoring_test" kind="class" language="C++" prot="public">
+    <compoundname>SlaMonitoringTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_sla_monitoring_test_1a9ea0d13ebadb3307247b4fabebd85628" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string SlaMonitoringTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>SlaMonitoringTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="82" column="17" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sla_monitoring_test_1a53ac84eb8325f17d55a56d5d19e6c047" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; SlaMonitoringTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>SlaMonitoringTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="83" column="35" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sla_monitoring_test_1acafa4855a6e9f6ba82202f1b93381435" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_model_manager" kindref="compound">themis::process::ProcessModelManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessModelManager&gt; SlaMonitoringTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>SlaMonitoringTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="84" column="21" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sla_monitoring_test_1a6a6f3cff27c21b5147552dc4898436f0" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_linker" kindref="compound">themis::process::ProcessLinker</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessLinker&gt; SlaMonitoringTest::linker_</definition>
+        <argsstring></argsstring>
+        <name>linker_</name>
+        <qualifiedname>SlaMonitoringTest::linker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="85" column="27" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sla_monitoring_test_1a3af99e9058c60963684b854e8614a70d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::ProcessGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::ProcessGraphManager&gt; SlaMonitoringTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>SlaMonitoringTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="86" column="30" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_sla_monitoring_test_1a51b938c01892f51eef38cd9fb2129b80" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_process_graph_rag" kindref="compound">themis::process::ProcessGraphRag</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::process::ProcessGraphRag&gt; SlaMonitoringTest::rag_</definition>
+        <argsstring></argsstring>
+        <name>rag_</name>
+        <qualifiedname>SlaMonitoringTest::rag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="87" column="25" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_sla_monitoring_test_1aaff2dc2ec3578739515b4db65b330a86" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SlaMonitoringTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SlaMonitoringTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="30" column="10" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="30" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_sla_monitoring_test_1a1d51fabe5babacc0976faf96d6af9d7f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SlaMonitoringTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SlaMonitoringTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="55" column="10" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="55" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_sla_monitoring_test_1a8894de4f4eb6106f2d70c345578a851e" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>CEPEngine &amp;</type>
+        <definition>static CEPEngine &amp; SlaMonitoringTest::initializedCep</definition>
+        <argsstring>()</argsstring>
+        <name>initializedCep</name>
+        <qualifiedname>SlaMonitoringTest::initializedCep</qualifiedname>
+        <briefdescription>
+<para>Build an initialized CEPEngine for tests that need it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_sla_monitoring.cpp" line="69" column="22" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="69" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SlaMonitoringTest</label>
+        <link refid="class_sla_monitoring_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SlaMonitoringTest</label>
+        <link refid="class_sla_monitoring_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_sla_monitoring.cpp" line="28" column="1" bodyfile="tests/process/test_sla_monitoring.cpp" bodystart="28" bodyend="88"/>
+    <listofallmembers>
+      <member refid="class_sla_monitoring_test_1a53ac84eb8325f17d55a56d5d19e6c047" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>db_</name></member>
+      <member refid="class_sla_monitoring_test_1a9ea0d13ebadb3307247b4fabebd85628" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>db_path_</name></member>
+      <member refid="class_sla_monitoring_test_1a3af99e9058c60963684b854e8614a70d" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>engine_</name></member>
+      <member refid="class_sla_monitoring_test_1a8894de4f4eb6106f2d70c345578a851e" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>initializedCep</name></member>
+      <member refid="class_sla_monitoring_test_1a6a6f3cff27c21b5147552dc4898436f0" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>linker_</name></member>
+      <member refid="class_sla_monitoring_test_1acafa4855a6e9f6ba82202f1b93381435" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>mgr_</name></member>
+      <member refid="class_sla_monitoring_test_1a51b938c01892f51eef38cd9fb2129b80" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>rag_</name></member>
+      <member refid="class_sla_monitoring_test_1aaff2dc2ec3578739515b4db65b330a86" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>SetUp</name></member>
+      <member refid="class_sla_monitoring_test_1a1d51fabe5babacc0976faf96d6af9d7f" prot="protected" virt="non-virtual"><scope>SlaMonitoringTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

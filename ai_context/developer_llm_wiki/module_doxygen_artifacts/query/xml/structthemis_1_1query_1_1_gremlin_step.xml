@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_gremlin_step" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::GremlinStep</compoundname>
+    <includes refid="gremlin__parser_8h" local="no">gremlin_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_step_1aa5b0b335840d0b73ef09d79a2b03095a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a1070744b96d5ab4a16ed6da1ac0fefda" kindref="member">GremlinStepKind</ref></type>
+        <definition>GremlinStepKind themis::query::GremlinStep::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::query::GremlinStep::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="80" column="21" bodyfile="include/query/gremlin_parser.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_step_1a594ba7326e9dfdf681d546ede14e7fd4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::GremlinStep::strings</definition>
+        <argsstring></argsstring>
+        <name>strings</name>
+        <qualifiedname>themis::query::GremlinStep::strings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="83" column="17" bodyfile="include/query/gremlin_parser.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_step_1a3400d114d17dc90af05508dbd00a1a39" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1query_1a2d5d4167ca04545899c6c8b57ece117c" kindref="member">GremlinValue</ref> &gt;</type>
+        <definition>std::vector&lt;GremlinValue&gt; themis::query::GremlinStep::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>themis::query::GremlinStep::values</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="86" column="17" bodyfile="include/query/gremlin_parser.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_step_1a4f83926f63e6c1d82f9cf1a6cd6cdfee" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_gremlin_predicate" kindref="compound">GremlinPredicate</ref> &gt;</type>
+        <definition>std::optional&lt;GremlinPredicate&gt; themis::query::GremlinStep::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>themis::query::GremlinStep::predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="89" column="19" bodyfile="include/query/gremlin_parser.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_step_1af68ba3ed15beb7dda5125cc91806e234" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::query::GremlinStep::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::query::GremlinStep::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="92" column="19" bodyfile="include/query/gremlin_parser.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_step_1a87b7220529b3de491299b4786a7ffe43" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::query::GremlinStep::count2</definition>
+        <argsstring></argsstring>
+        <name>count2</name>
+        <qualifiedname>themis::query::GremlinStep::count2</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="93" column="19" bodyfile="include/query/gremlin_parser.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_gremlin_step_1ad9fe0ed2a03f66b0bcdf132feb6a9626" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::GremlinStep::ascending</definition>
+        <argsstring></argsstring>
+        <name>ascending</name>
+        <qualifiedname>themis::query::GremlinStep::ascending</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/gremlin_parser.h" line="96" column="10" bodyfile="include/query/gremlin_parser.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/gremlin_parser.h" line="79" column="1" bodyfile="include/query/gremlin_parser.h" bodystart="79" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_gremlin_step_1ad9fe0ed2a03f66b0bcdf132feb6a9626" prot="public" virt="non-virtual"><scope>themis::query::GremlinStep</scope><name>ascending</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_step_1af68ba3ed15beb7dda5125cc91806e234" prot="public" virt="non-virtual"><scope>themis::query::GremlinStep</scope><name>count</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_step_1a87b7220529b3de491299b4786a7ffe43" prot="public" virt="non-virtual"><scope>themis::query::GremlinStep</scope><name>count2</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_step_1aa5b0b335840d0b73ef09d79a2b03095a" prot="public" virt="non-virtual"><scope>themis::query::GremlinStep</scope><name>kind</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_step_1a4f83926f63e6c1d82f9cf1a6cd6cdfee" prot="public" virt="non-virtual"><scope>themis::query::GremlinStep</scope><name>predicate</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_step_1a594ba7326e9dfdf681d546ede14e7fd4" prot="public" virt="non-virtual"><scope>themis::query::GremlinStep</scope><name>strings</name></member>
+      <member refid="structthemis_1_1query_1_1_gremlin_step_1a3400d114d17dc90af05508dbd00a1a39" prot="public" virt="non-virtual"><scope>themis::query::GremlinStep</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

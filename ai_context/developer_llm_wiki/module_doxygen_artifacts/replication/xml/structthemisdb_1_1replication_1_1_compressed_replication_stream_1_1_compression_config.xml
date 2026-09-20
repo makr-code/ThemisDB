@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::CompressedReplicationStream::CompressionConfig</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config_1a919d11b06f6cdeafd2d56e965f2c66df" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1" kindref="member">CompressionAlgorithm</ref></type>
+        <definition>CompressionAlgorithm themisdb::replication::CompressedReplicationStream::CompressionConfig::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::CompressionConfig::algorithm</qualifiedname>
+        <initializer>= <ref refid="classthemisdb_1_1replication_1_1_compressed_replication_stream_1a0dad850eeae957f30d50cd7a5260c5e1ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">CompressionAlgorithm::AUTO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1310" column="30" bodyfile="include/replication/replication_manager.h" bodystart="1310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config_1a6bc1158734b14c3cc0feed92e45fe412" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::replication::CompressedReplicationStream::CompressionConfig::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::CompressionConfig::compression_level</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1311" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config_1a8c124fca2472263d1323af43383e5135" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::CompressedReplicationStream::CompressionConfig::adaptive</definition>
+        <argsstring></argsstring>
+        <name>adaptive</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::CompressionConfig::adaptive</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1312" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config_1a374f3803dda8c34d8a29dacbac0d7550" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::replication::CompressedReplicationStream::CompressionConfig::min_batch_size</definition>
+        <argsstring></argsstring>
+        <name>min_batch_size</name>
+        <qualifiedname>themisdb::replication::CompressedReplicationStream::CompressionConfig::min_batch_size</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1313" column="18" bodyfile="include/replication/replication_manager.h" bodystart="1313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/replication_manager.h" line="1309" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1309" bodyend="1314"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config_1a8c124fca2472263d1323af43383e5135" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream::CompressionConfig</scope><name>adaptive</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config_1a919d11b06f6cdeafd2d56e965f2c66df" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream::CompressionConfig</scope><name>algorithm</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config_1a6bc1158734b14c3cc0feed92e45fe412" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream::CompressionConfig</scope><name>compression_level</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_compressed_replication_stream_1_1_compression_config_1a374f3803dda8c34d8a29dacbac0d7550" prot="public" virt="non-virtual"><scope>themisdb::replication::CompressedReplicationStream::CompressionConfig</scope><name>min_batch_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

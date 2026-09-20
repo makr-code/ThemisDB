@@ -1,0 +1,136 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_socket_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SocketGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_socket_guard_1a4fb977c7018588b30f49e6bec7f791ba" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a6dff2cfb2d4fe8f61cb86078a9fd2f42" kindref="member">socket_handle</ref></type>
+        <definition>socket_handle themis::security::SocketGuard::sock_</definition>
+        <argsstring></argsstring>
+        <name>sock_</name>
+        <qualifiedname>themis::security::SocketGuard::sock_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="103" column="19" bodyfile="src/security/malware_scanner.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_socket_guard_1a1541f0824410793008f5e66e4ae81448" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SocketGuard::SocketGuard</definition>
+        <argsstring>(socket_handle sock)</argsstring>
+        <name>SocketGuard</name>
+        <qualifiedname>themis::security::SocketGuard::SocketGuard</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1a6dff2cfb2d4fe8f61cb86078a9fd2f42" kindref="member">socket_handle</ref></type>
+          <declname>sock</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="78" column="14" bodyfile="src/security/malware_scanner.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_socket_guard_1a9e611b9efd0bd5b3d57f50db12227f0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SocketGuard::~SocketGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~SocketGuard</name>
+        <qualifiedname>themis::security::SocketGuard::~SocketGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="80" column="5" bodyfile="src/security/malware_scanner.cpp" bodystart="80" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_socket_guard_1aaf2ca4f4d283a6bf19e3aefef8232cce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1a6dff2cfb2d4fe8f61cb86078a9fd2f42" kindref="member">socket_handle</ref></type>
+        <definition>socket_handle themis::security::SocketGuard::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::security::SocketGuard::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="90" column="19" bodyfile="src/security/malware_scanner.cpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_socket_guard_1ac523bd44f5cc3b9335de0af72de47506" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1a6dff2cfb2d4fe8f61cb86078a9fd2f42" kindref="member">socket_handle</ref></type>
+        <definition>socket_handle themis::security::SocketGuard::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::security::SocketGuard::release</qualifiedname>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements release without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="96" column="19" bodyfile="src/security/malware_scanner.cpp" bodystart="96" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_socket_guard_1aa234d90d5f0546dbb9ae1b8764a035d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SocketGuard::SocketGuard</definition>
+        <argsstring>(const SocketGuard &amp;)=delete</argsstring>
+        <name>SocketGuard</name>
+        <qualifiedname>themis::security::SocketGuard::SocketGuard</qualifiedname>
+        <param>
+          <type>const SocketGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_socket_guard_1af2a46b6baf98f931edbb05d87131b334" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1security_1_1_socket_guard_1a1541f0824410793008f5e66e4ae81448" kindref="member">SocketGuard</ref> &amp;</type>
+        <definition>SocketGuard &amp; themis::security::SocketGuard::operator=</definition>
+        <argsstring>(const SocketGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::SocketGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1security_1_1_socket_guard_1a1541f0824410793008f5e66e4ae81448" kindref="member">SocketGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/security/malware_scanner.cpp" line="100" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/security/malware_scanner.cpp" line="76" column="1" bodyfile="src/security/malware_scanner.cpp" bodystart="76" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_socket_guard_1aaf2ca4f4d283a6bf19e3aefef8232cce" prot="public" virt="non-virtual"><scope>themis::security::SocketGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1security_1_1_socket_guard_1af2a46b6baf98f931edbb05d87131b334" prot="public" virt="non-virtual"><scope>themis::security::SocketGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_socket_guard_1ac523bd44f5cc3b9335de0af72de47506" prot="public" virt="non-virtual"><scope>themis::security::SocketGuard</scope><name>release</name></member>
+      <member refid="classthemis_1_1security_1_1_socket_guard_1a4fb977c7018588b30f49e6bec7f791ba" prot="private" virt="non-virtual"><scope>themis::security::SocketGuard</scope><name>sock_</name></member>
+      <member refid="classthemis_1_1security_1_1_socket_guard_1a1541f0824410793008f5e66e4ae81448" prot="public" virt="non-virtual"><scope>themis::security::SocketGuard</scope><name>SocketGuard</name></member>
+      <member refid="classthemis_1_1security_1_1_socket_guard_1aa234d90d5f0546dbb9ae1b8764a035d5" prot="public" virt="non-virtual"><scope>themis::security::SocketGuard</scope><name>SocketGuard</name></member>
+      <member refid="classthemis_1_1security_1_1_socket_guard_1a9e611b9efd0bd5b3d57f50db12227f0d" prot="public" virt="non-virtual"><scope>themis::security::SocketGuard</scope><name>~SocketGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

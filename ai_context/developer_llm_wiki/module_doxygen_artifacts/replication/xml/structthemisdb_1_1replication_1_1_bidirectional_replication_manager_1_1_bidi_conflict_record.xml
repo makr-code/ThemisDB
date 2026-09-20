@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</compoundname>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a51dc9c00e7e1d87b0d6683986640aabe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::conflict_id</definition>
+        <argsstring></argsstring>
+        <name>conflict_id</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::conflict_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2286" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a21ba6aa8b9c3b2ec912c0c424cb95ebb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::document_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2287" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2ccb5ce2a0489f2629083aea89883c57" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::collection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2288" column="21" bodyfile="include/replication/replication_manager.h" bodystart="2288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2b469d627d74d1d91f9552bc9fcd0974" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref></type>
+        <definition>BidiWriteEntry themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::local_write</definition>
+        <argsstring></argsstring>
+        <name>local_write</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::local_write</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2289" column="24" bodyfile="include/replication/replication_manager.h" bodystart="2289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2c81c13640d9435beb5fbeb71411ff85" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref></type>
+        <definition>BidiWriteEntry themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::remote_write</definition>
+        <argsstring></argsstring>
+        <name>remote_write</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::remote_write</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2290" column="24" bodyfile="include/replication/replication_manager.h" bodystart="2290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2f899113e6515033a495241d8d7bba98" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry" kindref="compound">BidiWriteEntry</ref></type>
+        <definition>BidiWriteEntry themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::resolved_write</definition>
+        <argsstring></argsstring>
+        <name>resolved_write</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::resolved_write</qualifiedname>
+        <briefdescription>
+<para>Winner after applying the strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2291" column="24" bodyfile="include/replication/replication_manager.h" bodystart="2291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1aba715f4225ddce6a185c012207e9e76a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::strategy_used</definition>
+        <argsstring></argsstring>
+        <name>strategy_used</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::strategy_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2292" column="28" bodyfile="include/replication/replication_manager.h" bodystart="2292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2f9c6fe2b9a6e5a6962f6acd10dd72cb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::detected_at</definition>
+        <argsstring></argsstring>
+        <name>detected_at</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::detected_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2293" column="47" bodyfile="include/replication/replication_manager.h" bodystart="2293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a614844b124f75b8d4e045fa6133a6006" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::is_ddl_conflict</definition>
+        <argsstring></argsstring>
+        <name>is_ddl_conflict</name>
+        <qualifiedname>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord::is_ddl_conflict</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="2294" column="14" bodyfile="include/replication/replication_manager.h" bodystart="2294" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Conflict record produced when two concurrent writes target the same document in the same collection. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</label>
+        <link refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>local_write</edgelabel>
+          <edgelabel>remote_write</edgelabel>
+          <edgelabel>resolved_write</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::BidirectionalReplicationManager::BidiWriteEntry</label>
+        <link refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_write_entry"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/replication_manager.h" line="2285" column="5" bodyfile="include/replication/replication_manager.h" bodystart="2285" bodyend="2295"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2ccb5ce2a0489f2629083aea89883c57" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>collection</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a51dc9c00e7e1d87b0d6683986640aabe" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>conflict_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2f9c6fe2b9a6e5a6962f6acd10dd72cb" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>detected_at</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a21ba6aa8b9c3b2ec912c0c424cb95ebb" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>document_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a614844b124f75b8d4e045fa6133a6006" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>is_ddl_conflict</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2b469d627d74d1d91f9552bc9fcd0974" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>local_write</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2c81c13640d9435beb5fbeb71411ff85" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>remote_write</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1a2f899113e6515033a495241d8d7bba98" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>resolved_write</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_bidirectional_replication_manager_1_1_bidi_conflict_record_1aba715f4225ddce6a185c012207e9e76a" prot="public" virt="non-virtual"><scope>themisdb::replication::BidirectionalReplicationManager::BidiConflictRecord</scope><name>strategy_used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

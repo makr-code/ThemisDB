@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a2dd9bd749af7d6c605a2234ff920fb3" kind="dir">
+    <compoundname>tests/storage</compoundname>
+    <innerfile refid="test__blob__backend__cloud__integration__focused_8cpp">test_blob_backend_cloud_integration_focused.cpp</innerfile>
+    <innerfile refid="test__blob__backend__gcs__focused_8cpp">test_blob_backend_gcs_focused.cpp</innerfile>
+    <innerfile refid="test__federated__blob__router__focused_8cpp">test_federated_blob_router_focused.cpp</innerfile>
+    <innerfile refid="test__mvcc__chain__pruner_8cpp">test_mvcc_chain_pruner.cpp</innerfile>
+    <innerfile refid="test__storage__audit__logger_8cpp">test_storage_audit_logger.cpp</innerfile>
+    <innerfile refid="test__storage__block3__ggml__wiring__focused_8cpp">test_storage_block3_ggml_wiring_focused.cpp</innerfile>
+    <innerfile refid="test__storage__contract__hardening__focused_8cpp">test_storage_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__storage__engine__di_8cpp">test_storage_engine_di.cpp</innerfile>
+    <innerfile refid="test__storage__engine__move__semantics_8cpp">test_storage_engine_move_semantics.cpp</innerfile>
+    <innerfile refid="test__storage__engine__prod_8cpp">test_storage_engine_prod.cpp</innerfile>
+    <innerfile refid="test__storage__fuzz_8cpp">test_storage_fuzz.cpp</innerfile>
+    <innerfile refid="test__storage__highcardinality__stress_8cpp">test_storage_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__storage__latency__bench_8cpp">test_storage_latency_bench.cpp</innerfile>
+    <innerfile refid="test__storage__layout__advisor_8cpp">test_storage_layout_advisor.cpp</innerfile>
+    <innerfile refid="test__storage__parquet__exporter_8cpp">test_storage_parquet_exporter.cpp</innerfile>
+    <innerfile refid="test__storage__phase3__error__handling__focused_8cpp">test_storage_phase3_error_handling_focused.cpp</innerfile>
+    <innerfile refid="test__storage__query__index__explicit__di_8cpp">test_storage_query_index_explicit_di.cpp</innerfile>
+    <innerfile refid="test__tensor__storage__observer_8cpp">test_tensor_storage_observer.cpp</innerfile>
+    <innerfile refid="test__tensor__train__decomposer_8cpp">test_tensor_train_decomposer.cpp</innerfile>
+    <innerfile refid="test__wave1__critical__fixes_8cpp">test_wave1_critical_fixes.cpp</innerfile>
+    <innerfile refid="test__wave3a__critical__fixes_8cpp">test_wave3a_critical_fixes.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/storage/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryCache::Config</compoundname>
+    <includes refid="query__cache_8h" local="no">query_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1af6fffd69ab72b40008e821e571e29eea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCache::Config::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::query::QueryCache::Config::max_entries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="38" column="16" bodyfile="include/query/query_cache.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1af7082b5f36be400463c0b3a2a5cc2aba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCache::Config::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::query::QueryCache::Config::max_memory_bytes</qualifiedname>
+        <initializer>= 100 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="39" column="16" bodyfile="include/query/query_cache.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1a9a4002fd0cabceea2ddbcfb0ad527c93" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCache::Config::max_entry_size</definition>
+        <argsstring></argsstring>
+        <name>max_entry_size</name>
+        <qualifiedname>themis::query::QueryCache::Config::max_entry_size</qualifiedname>
+        <initializer>= 10 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="40" column="16" bodyfile="include/query/query_cache.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1ab0920293431017319408bcb44feb7947" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_query_cache_1a25f959c1de80e402545f408da7cdce10" kindref="member">EvictionPolicy</ref></type>
+        <definition>EvictionPolicy themis::query::QueryCache::Config::eviction_policy</definition>
+        <argsstring></argsstring>
+        <name>eviction_policy</name>
+        <qualifiedname>themis::query::QueryCache::Config::eviction_policy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1query_1_1_query_cache_1a25f959c1de80e402545f408da7cdce10a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">EvictionPolicy::LRU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="43" column="24" bodyfile="include/query/query_cache.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1a6a102f2799baa71c9044a052d35a3bab" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::QueryCache::Config::default_ttl</definition>
+        <argsstring></argsstring>
+        <name>default_ttl</name>
+        <qualifiedname>themis::query::QueryCache::Config::default_ttl</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="46" column="30" bodyfile="include/query/query_cache.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1ad9c8f9811c9e1213f74c76140eb01633" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCache::Config::enable_ttl</definition>
+        <argsstring></argsstring>
+        <name>enable_ttl</name>
+        <qualifiedname>themis::query::QueryCache::Config::enable_ttl</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="47" column="14" bodyfile="include/query/query_cache.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1a7799f775351731b95e2d9712c8f51c0d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCache::Config::enable_memory_pressure_eviction</definition>
+        <argsstring></argsstring>
+        <name>enable_memory_pressure_eviction</name>
+        <qualifiedname>themis::query::QueryCache::Config::enable_memory_pressure_eviction</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="50" column="14" bodyfile="include/query/query_cache.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1aff24346100867a65b1644eb51407741b" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::query::QueryCache::Config::memory_pressure_threshold</definition>
+        <argsstring></argsstring>
+        <name>memory_pressure_threshold</name>
+        <qualifiedname>themis::query::QueryCache::Config::memory_pressure_threshold</qualifiedname>
+        <initializer>= 0.9f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="51" column="15" bodyfile="include/query/query_cache.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_cache_1_1_config_1a6e1db4fdbf02ee23ecb7ed60854611c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCache::Config::track_statistics</definition>
+        <argsstring></argsstring>
+        <name>track_statistics</name>
+        <qualifiedname>themis::query::QueryCache::Config::track_statistics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="54" column="14" bodyfile="include/query/query_cache.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_cache_1_1_config_1a5a0d30a38e8b607e4a35971d28bb7594" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCache::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::query::QueryCache::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_cache.h" line="56" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_cache.h" line="36" column="5" bodyfile="include/query/query_cache.h" bodystart="36" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1a5a0d30a38e8b607e4a35971d28bb7594" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1a6a102f2799baa71c9044a052d35a3bab" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>default_ttl</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1a7799f775351731b95e2d9712c8f51c0d" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>enable_memory_pressure_eviction</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1ad9c8f9811c9e1213f74c76140eb01633" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>enable_ttl</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1ab0920293431017319408bcb44feb7947" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>eviction_policy</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1af6fffd69ab72b40008e821e571e29eea" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1a9a4002fd0cabceea2ddbcfb0ad527c93" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>max_entry_size</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1af7082b5f36be400463c0b3a2a5cc2aba" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1aff24346100867a65b1644eb51407741b" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>memory_pressure_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_query_cache_1_1_config_1a6e1db4fdbf02ee23ecb7ed60854611c9" prot="public" virt="non-virtual"><scope>themis::query::QueryCache::Config</scope><name>track_statistics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</compoundname>
+    <includes refid="column__importance_8h" local="no">column_importance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1a79d4e2c5862892f63aff2d38b3394ef9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ColumnImportanceAnalyzer::ColumnImportance::table_name</definition>
+        <argsstring></argsstring>
+        <name>table_name</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance::table_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="27" column="21" bodyfile="include/importers/column_importance.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1af7cc5b5b3b21f745f6296e5b5a6d610a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::ColumnImportanceAnalyzer::ColumnImportance::column_name</definition>
+        <argsstring></argsstring>
+        <name>column_name</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance::column_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="28" column="21" bodyfile="include/importers/column_importance.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1ad4ab24a719b9775fb3d5521aa293c5ec" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::ColumnImportanceAnalyzer::ColumnImportance::entropy</definition>
+        <argsstring></argsstring>
+        <name>entropy</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance::entropy</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Shannon Entropy (bits). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="29" column="16" bodyfile="include/importers/column_importance.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1a8ca0e20faf33451a7a5b03a5db8f2be2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::ColumnImportanceAnalyzer::ColumnImportance::mutual_information</definition>
+        <argsstring></argsstring>
+        <name>mutual_information</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance::mutual_information</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>With target column. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="30" column="16" bodyfile="include/importers/column_importance.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1a7ae1225a8916619ce33ad9fa17e3131a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::ColumnImportanceAnalyzer::ColumnImportance::gini_impurity</definition>
+        <argsstring></argsstring>
+        <name>gini_impurity</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance::gini_impurity</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>For classification tasks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="31" column="16" bodyfile="include/importers/column_importance.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1a0c8c5436d2dd348055e8178434686f38" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::ColumnImportanceAnalyzer::ColumnImportance::information_gain</definition>
+        <argsstring></argsstring>
+        <name>information_gain</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance::information_gain</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>ID3 algorithm gain. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="32" column="16" bodyfile="include/importers/column_importance.h" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1ab8d7833e394313ca2596a5ed7420374c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::importers::ColumnImportanceAnalyzer::ColumnImportance::shap_values</definition>
+        <argsstring></argsstring>
+        <name>shap_values</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance::shap_values</qualifiedname>
+        <briefdescription>
+<para>SHAP feature importance (approximated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="33" column="21" bodyfile="include/importers/column_importance.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1afae7cafa1c958627492ea1a6029b4447" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::ColumnImportanceAnalyzer::ColumnImportance::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::ColumnImportanceAnalyzer::ColumnImportance::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/column_importance.h" line="39" column="14" bodyfile="src/importers/column_importance.cpp" bodystart="66" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/column_importance.h" line="26" column="5" bodyfile="include/importers/column_importance.h" bodystart="26" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1af7cc5b5b3b21f745f6296e5b5a6d610a" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</scope><name>column_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1ad4ab24a719b9775fb3d5521aa293c5ec" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</scope><name>entropy</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1a7ae1225a8916619ce33ad9fa17e3131a" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</scope><name>gini_impurity</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1a0c8c5436d2dd348055e8178434686f38" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</scope><name>information_gain</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1a8ca0e20faf33451a7a5b03a5db8f2be2" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</scope><name>mutual_information</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1ab8d7833e394313ca2596a5ed7420374c" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</scope><name>shap_values</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1a79d4e2c5862892f63aff2d38b3394ef9" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</scope><name>table_name</name></member>
+      <member refid="structthemis_1_1importers_1_1_column_importance_analyzer_1_1_column_importance_1afae7cafa1c958627492ea1a6029b4447" prot="public" virt="non-virtual"><scope>themis::importers::ColumnImportanceAnalyzer::ColumnImportance</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

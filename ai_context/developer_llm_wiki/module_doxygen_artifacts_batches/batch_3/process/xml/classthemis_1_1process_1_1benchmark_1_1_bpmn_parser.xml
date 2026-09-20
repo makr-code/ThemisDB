@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_bpmn_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::BpmnParser</compoundname>
+    <innerclass refid="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model" prot="public">themis::process::benchmark::BpmnParser::BpmnModel</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1a7df8134ceb8380214d8beff74d2c888a" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1_1_bpmn_model" kindref="compound">BpmnModel</ref></type>
+        <definition>static BpmnModel themis::process::benchmark::BpmnParser::parse</definition>
+        <argsstring>(const std::string &amp;xml_content)</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::process::benchmark::BpmnParser::parse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>xml_content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_parser_gates.cpp" line="37" column="22" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="37" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>BPMN XML Parser. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_parser_gates.cpp" line="27" column="1" bodyfile="benchmarks/process/bench_process_parser_gates.cpp" bodystart="27" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_bpmn_parser_1a7df8134ceb8380214d8beff74d2c888a" prot="public" virt="non-virtual"><scope>themis::process::benchmark::BpmnParser</scope><name>parse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

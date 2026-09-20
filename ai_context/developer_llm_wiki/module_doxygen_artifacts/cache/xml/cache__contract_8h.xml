@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cache__contract_8h" kind="file" language="C++">
+    <compoundname>cache_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="test__cache__contract__hardening_8cpp" local="yes">tests/cache/test_cache_contract_hardening.cpp</includedby>
+    <includedby refid="test__cache__coordinator__degradation_8cpp" local="yes">tests/cache/test_cache_coordinator_degradation.cpp</includedby>
+    <includedby refid="test__cache__tenant__isolation__hardening_8cpp" local="yes">tests/cache/test_cache_tenant_isolation_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/cache_contract.h</label>
+        <link refid="cache__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cache/cache_contract.h</label>
+        <link refid="cache__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/cache/test_cache_contract_hardening.cpp</label>
+        <link refid="test__cache__contract__hardening_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/cache/test_cache_coordinator_degradation.cpp</label>
+        <link refid="test__cache__coordinator__degradation_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/cache/test_cache_tenant_isolation_hardening.cpp</label>
+        <link refid="test__cache__tenant__isolation__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Frozen cache-module contract semantics for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This header defines the normative contract for all cache-module components:<itemizedlist>
+<listitem><para>Adaptive query cache (<ref refid="class_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref>, BoundedLRUCache, …)</para>
+</listitem><listitem><para>Embedding and semantic caches (EmbeddingCache, SemanticCache)</para>
+</listitem><listitem><para>Cache coordination and replication surfaces (ICacheCoordinator, CacheReplicationCoordinator, RedisCacheCoordinator, …)</para>
+</listitem><listitem><para>Admin and observability paths (CacheAdminApiHandler, CacheHitRateSloMonitor, …)</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="cache__contract_8h_1autotoc_md0_1s1"><sect2 id="cache__contract_8h_1autotoc_md0">
+<title>Contract Scope</title><para>The contracts below are binding for all implementations that participate in the ThemisDB cache pipeline:<itemizedlist>
+<listitem><para>get/put/invalidate operations on all tier levels (L1/L2/L3).</para>
+</listitem><listitem><para>tenant-aware keying and quota-enforcement paths.</para>
+</listitem><listitem><para>replication event propagation and invalidation delivery.</para>
+</listitem><listitem><para>coordinator degradation and fail-closed decision paths.</para>
+</listitem><listitem><para>warmup/prefetch pre-population paths.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="cache__contract_8h_1autotoc_md1_1s1"><sect2 id="cache__contract_8h_1autotoc_md1">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry before merge.</para>
+<para><simplesect kind="see"><para>src/cache/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para>src/cache/FUTURE_ENHANCEMENTS.md — Design Constraints section </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="cache__interfaces_8h" kindref="compound">include/cache/cache_interfaces.h</ref> — concrete interface declarations </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Cache<sp/>key,<sp/>value,<sp/>and<sp/>tenant-ID<sp/>size<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>These<sp/>limits<sp/>are<sp/>enforced<sp/>at<sp/>every<sp/>inbound<sp/>boundary<sp/>(API<sp/>handlers,<sp/>TCP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>streams,<sp/>gRPC<sp/>metadata,<sp/>internal<sp/>API<sp/>calls).<sp/><sp/>Inputs<sp/>exceeding<sp/>these<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>are<sp/>rejected<sp/>before<sp/>any<sp/>serialisation<sp/>or<sp/>hashing<sp/>work,<sp/>preventing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>memory-exhaustion<sp/>and<sp/>algorithmic-complexity<sp/>attacks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1cache_1ae1a1a37a29a66eaee712021c5110b65e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cache_1ae1a1a37a29a66eaee712021c5110b65e" kindref="member">kMaxCacheKeyBytes</ref><sp/>=<sp/>4&apos;096;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1cache_1a2219848df33021bbc752e33b388dd246" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cache_1a2219848df33021bbc752e33b388dd246" kindref="member">kMaxCacheValueBytes</ref><sp/>=<sp/>512ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="namespacethemis_1_1cache_1a0196a1e27223f499e1466785dc07c575" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cache_1a0196a1e27223f499e1466785dc07c575" kindref="member">kMaxTenantIdBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1cache_1aef4e6de2aef9b98ce4c9544677eca9a1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1cache_1aef4e6de2aef9b98ce4c9544677eca9a1" kindref="member">kMinTenantIdNonEmptyBytes</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Temporal<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>time<sp/>comparisons<sp/>use<sp/>steady_clock<sp/>for<sp/>duration<sp/>measurements<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>system_clock<sp/>for<sp/>TTL<sp/>expiry<sp/>evaluation.<sp/><sp/>Clock-skew<sp/>tolerance<sp/>is<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>applied<sp/>across<sp/>nodes;<sp/>operators<sp/>must<sp/>ensure<sp/>NTP<sp/>synchronisation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1cache_1ac1e801f6e526e8e5221e5e482febcd68" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1cache_1ac1e801f6e526e8e5221e5e482febcd68" kindref="member">kMaxL3RetrievalLatency</ref>{5&apos;000};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1cache_1ac049b2471b46c2731f2ca019cbe47c10" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1cache_1ac049b2471b46c2731f2ca019cbe47c10" kindref="member">kMaxCoordinatorTransitionTime</ref>{30};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1cache_1ae063895a29a195224082575d2b3949a5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1cache_1ae063895a29a195224082575d2b3949a5" kindref="member">kMaxReplicationDeliveryMs</ref>{30&apos;000};</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1cache_1a39eb21b113a20b6f3606e01396b71dc8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a39eb21b113a20b6f3606e01396b71dc8" kindref="member">kMinCacheTtlSeconds</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Failure<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>cache<sp/>components<sp/>must<sp/>map<sp/>their<sp/>internal<sp/>error<sp/>states<sp/>to<sp/>one<sp/>of<sp/>these</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>canonical<sp/>failure<sp/>classes.<sp/><sp/>This<sp/>enables<sp/>uniform<sp/>operator<sp/>diagnostics<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>consistent<sp/>fail-closed<sp/>/<sp/>fail-open<sp/>policy<sp/>enforcement.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>category<sp/>names<sp/>map<sp/>directly<sp/>to<sp/>the<sp/>`category`<sp/>field<sp/>in<sp/>the<sp/>cache<sp/>admin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>diagnostic<sp/>JSON<sp/>envelope:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>{<sp/>&quot;category&quot;:<sp/>&quot;degraded&quot;,<sp/>&quot;component&quot;:<sp/>&quot;redis&quot;,<sp/>&quot;retryable&quot;:<sp/>true,<sp/>…<sp/>}</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288f" kindref="member">CacheFailureClass</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="129" refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa7291f1f874c6a81c7ed928d01c4d4f85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa7291f1f874c6a81c7ed928d01c4d4f85" kindref="member">MalformedKey</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fab1259a7cd66512f0d2a5213e668e8832" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fab1259a7cd66512f0d2a5213e668e8832" kindref="member">MalformedValue</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa1cd5ecce6fe138df5c3f7e8854a1a66d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa1cd5ecce6fe138df5c3f7e8854a1a66d" kindref="member">InvalidOperation</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288faee209a5aaba890ae219619b5d2655417" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288faee209a5aaba890ae219619b5d2655417" kindref="member">TenantViolation</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288faed5b648f8df4459fc4ea2522fbabfb4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288faed5b648f8df4459fc4ea2522fbabfb4e" kindref="member">DegradedBackend</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa39b34ba21394611a2b75571bffb1faec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa39b34ba21394611a2b75571bffb1faec" kindref="member">PartialDelivery</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa8462b58246e70e5c83e5b939a9332cb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa8462b58246e70e5c83e5b939a9332cb5" kindref="member">InternalError</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Fail-closed<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>cache<sp/>decision<sp/>paths<sp/>MUST<sp/>default<sp/>to<sp/>denial<sp/>/<sp/>rejection<sp/>(fail-closed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>when:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>a)<sp/>The<sp/>failure<sp/>class<sp/>is<sp/>DegradedBackend<sp/>or<sp/>InternalError.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b)<sp/>A<sp/>mandatory<sp/>tenant<sp/>contract<sp/>check<sp/>cannot<sp/>be<sp/>confirmed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>c)<sp/>The<sp/>coordinator<sp/>backend<sp/>is<sp/>unreachable<sp/>and<sp/>no<sp/>locally-cached<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/>provides<sp/>a<sp/>sufficiently<sp/>fresh<sp/>confirmation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fail-OPEN<sp/>behaviour<sp/>(degraded<sp/>but<sp/>still<sp/>serving)<sp/>is<sp/>ONLY<sp/>allowed<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>explicitly<sp/>whitelisted<sp/>paths<sp/>documented<sp/>with<sp/>operator<sp/>opt-in<sp/>configuration.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="namespacethemis_1_1cache_1a7d0f141ef89c0be5010b4060d757317b" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a7d0f141ef89c0be5010b4060d757317b" kindref="member">isFailClosedClass</ref>(<ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288f" kindref="member">CacheFailureClass</ref><sp/>fc)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288faed5b648f8df4459fc4ea2522fbabfb4e" kindref="member">CacheFailureClass::DegradedBackend</ref></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa8462b58246e70e5c83e5b939a9332cb5" kindref="member">CacheFailureClass::InternalError</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="namespacethemis_1_1cache_1acaec704752332f49f373d2c2ea07400c" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1acaec704752332f49f373d2c2ea07400c" kindref="member">isMalformedInputClass</ref>(<ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288f" kindref="member">CacheFailureClass</ref><sp/>fc)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fa7291f1f874c6a81c7ed928d01c4d4f85" kindref="member">CacheFailureClass::MalformedKey</ref></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>fc<sp/>==<sp/><ref refid="namespacethemis_1_1cache_1a1173cde5cd796ae9376e6c0e314b288fab1259a7cd66512f0d2a5213e668e8832" kindref="member">CacheFailureClass::MalformedValue</ref>;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Backend<sp/>availability<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cache<sp/>tier<sp/>availability<sp/>checks<sp/>MUST<sp/>satisfy<sp/>all<sp/>of<sp/>the<sp/>following:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>L1/L2<sp/>availability<sp/>checks<sp/>are<sp/>O(1)<sp/>and<sp/>never<sp/>block<sp/>on<sp/>I/O.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>L3<sp/>(RocksDB)<sp/>and<sp/>coordinator<sp/>(Redis/gRPC)<sp/>reachability<sp/>checks<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>use<sp/>the<sp/>circuit<sp/>breaker<sp/>before<sp/>accessing<sp/>the<sp/>backend.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>If<sp/>a<sp/>backend<sp/>becomes<sp/>unavailable,<sp/>operations<sp/>requiring<sp/>that<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>return<sp/>DegradedBackend;<sp/>they<sp/>do<sp/>NOT<sp/>silently<sp/>fall<sp/>back<sp/>to<sp/>a<sp/>higher<sp/>tier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>for<sp/>write<sp/>or<sp/>invalidation<sp/>operations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Warmup/prefetch<sp/>operations<sp/>tolerate<sp/>backend<sp/>unavailability<sp/>by<sp/>skipping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>individual<sp/>entries<sp/>and<sp/>recording<sp/>them<sp/>as<sp/>skipped<sp/>in<sp/>WarmupStats.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231" refid="namespacethemis_1_1cache_1ab9ff5b69f1cd340c1ca302b5afd5f032" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1cache_1ab9ff5b69f1cd340c1ca302b5afd5f032" kindref="member">kCoordinatorCacheMaxStaleness</ref>{120};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="namespacethemis_1_1cache_1a8ce47eb291a80331b2e970be85bc9d9d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacethemis_1_1cache_1a8ce47eb291a80331b2e970be85bc9d9d" kindref="member">kCircuitBreakerDefaultFailureThreshold</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241" refid="namespacethemis_1_1cache_1aecd03485cf25a3cc9479f760bef7ceb7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1cache_1aecd03485cf25a3cc9479f760bef7ceb7" kindref="member">kCoordinatorMinRetryBackoff</ref>{100};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Coordinator<sp/>capability<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Distributed<sp/>coordinator<sp/>adapters<sp/>MUST<sp/>declare<sp/>their<sp/>capability<sp/>requirement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>before<sp/>performing<sp/>any<sp/>outbound<sp/>call.<sp/><sp/>If<sp/>the<sp/>capability<sp/>is<sp/>not<sp/>available<sp/>at</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>runtime,<sp/>the<sp/>adapter<sp/>must<sp/>surface<sp/>a<sp/>DegradedBackend<sp/>failure<sp/>class<sp/>rather</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>than<sp/>blocking<sp/>or<sp/>timing<sp/>out<sp/>silently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/>:<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="263" refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea6adf97f83acf6453d4a6a4b1070f3754" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea6adf97f83acf6453d4a6a4b1070f3754" kindref="member">None</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0u,</highlight></codeline>
+<codeline lineno="265" refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343eae111446745a1825b862f8727ae63bce4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343eae111446745a1825b862f8727ae63bce4" kindref="member">Redis</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>1u<sp/>&lt;&lt;<sp/>0,</highlight></codeline>
+<codeline lineno="267" refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea12acd14e73603d7c8860624f02021b15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea12acd14e73603d7c8860624f02021b15" kindref="member">gRPC</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1u<sp/>&lt;&lt;<sp/>1,</highlight></codeline>
+<codeline lineno="269" refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea627bbf9e0e1c51e63cf911c4e49dbeaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea627bbf9e0e1c51e63cf911c4e49dbeaa" kindref="member">LocalBus</ref><sp/><sp/>=<sp/>1u<sp/>&lt;&lt;<sp/>2,</highlight></codeline>
+<codeline lineno="271" refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea099d7d04319e5191b7473e016c55e320" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343ea099d7d04319e5191b7473e016c55e320" kindref="member">TLS</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1u<sp/>&lt;&lt;<sp/>3,</highlight></codeline>
+<codeline lineno="272"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="namespacethemis_1_1cache_1aaf7b82427b38d1c3efe8d507bcba3ef8" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/><ref refid="namespacethemis_1_1cache_1aaf7b82427b38d1c3efe8d507bcba3ef8" kindref="member">operator|</ref>(</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/>a,<sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/>b)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(a)<sp/>|<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b));</highlight></codeline>
+<codeline lineno="279"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282" refid="namespacethemis_1_1cache_1aafdba3f402b382bfcca16d2af2a2c0bb" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/><ref refid="namespacethemis_1_1cache_1aafdba3f402b382bfcca16d2af2a2c0bb" kindref="member">operator&amp;</ref>(</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/>a,<sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/>b)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(a)<sp/>&amp;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295" refid="namespacethemis_1_1cache_1a38de3689b491ba069c8fff6ee0cc4c1c" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a38de3689b491ba069c8fff6ee0cc4c1c" kindref="member">hasCoordinatorCapability</ref>(</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/>set,<sp/><ref refid="namespacethemis_1_1cache_1a4a560d2aabe79f65ad3d909a5e6e343e" kindref="member">CoordinatorCapability</ref><sp/>required)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(set)<sp/>&amp;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(required))</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>==<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(required);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Async<sp/>replication<sp/>and<sp/>invalidation<sp/>consistency<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Async<sp/>replication<sp/>paths<sp/>(CacheReplicationCoordinator,<sp/>RedisCacheCoordinator)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MUST<sp/>obey<sp/>all<sp/>of<sp/>the<sp/>following:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Exceptions<sp/>from<sp/>peer<sp/>delivery<sp/>are<sp/>caught<sp/>per-peer<sp/>and<sp/>never<sp/>propagate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>to<sp/>the<sp/>local<sp/>cache<sp/>operation<sp/>(local<sp/>operation<sp/>always<sp/>completes).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>A<sp/>per-event<sp/>timeout<sp/>(bounded<sp/>by<sp/>kMaxReplicationDeliveryMs)<sp/>fires<sp/>before</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>abandoning<sp/>a<sp/>delivery<sp/>attempt.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>After<sp/>timeout:<sp/>the<sp/>peer<sp/>is<sp/>marked<sp/>unhealthy;<sp/>the<sp/>failure<sp/>is<sp/>surfaced<sp/>in</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>diagnostics<sp/>but<sp/>does<sp/>NOT<sp/>roll<sp/>back<sp/>the<sp/>local<sp/>cache<sp/>operation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Partial<sp/>delivery<sp/>(some<sp/>peers<sp/>acked,<sp/>others<sp/>timed<sp/>out)<sp/>is<sp/>classified<sp/>as</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>PartialDelivery,<sp/>NOT<sp/>DegradedBackend;<sp/>the<sp/>operator<sp/>diagnostic<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>enumerate<sp/>which<sp/>peers<sp/>failed<sp/>and<sp/>which<sp/>succeeded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Invalidation<sp/>events<sp/>are<sp/>processed<sp/>in<sp/>sequence-number<sp/>order<sp/>on<sp/>each<sp/>peer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>to<sp/>preserve<sp/>monotonic<sp/>invalidation<sp/>semantics;<sp/>out-of-order<sp/>events<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>discarded<sp/>(not<sp/>re-applied).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322" refid="namespacethemis_1_1cache_1ae73e6e337844ac875d52d5d784f7b5ef" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1cache_1ae73e6e337844ac875d52d5d784f7b5ef" kindref="member">kAsyncReplicationDefaultTimeout</ref>{30&apos;000};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326" refid="namespacethemis_1_1cache_1a2017ac3a0bf3dbe7fabfd1eb3bf9f312" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1cache_1a2017ac3a0bf3dbe7fabfd1eb3bf9f312" kindref="member">kAsyncReplicationMaxTimeout</ref>{120&apos;000};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331" refid="namespacethemis_1_1cache_1abbcf2b43a525323484a7185cf6d4824e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="namespacethemis_1_1cache_1abbcf2b43a525323484a7185cf6d4824e" kindref="member">kUnsequencedReplicationEvent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/cache_contract.h"/>
+  </compounddef>
+</doxygen>

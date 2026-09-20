@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ReplicationCoordinator::ReplicationResult</compoundname>
+    <includes refid="replication__coordinator_8h" local="no">replication_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1a9d3d3dfc91d2a2026cb39e965c1bfc81" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReplicationCoordinator::ReplicationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::ReplicationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="44" column="14" bodyfile="include/sharding/replication_coordinator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1ac1d45af6dafef492f5482e314afee5a7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ReplicationCoordinator::ReplicationResult::replicas_acknowledged</definition>
+        <argsstring></argsstring>
+        <name>replicas_acknowledged</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::ReplicationResult::replicas_acknowledged</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="45" column="16" bodyfile="include/sharding/replication_coordinator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1a526501b421e3b576cca41afd5171aa62" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ReplicationCoordinator::ReplicationResult::replicas_required</definition>
+        <argsstring></argsstring>
+        <name>replicas_required</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::ReplicationResult::replicas_required</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="46" column="16" bodyfile="include/sharding/replication_coordinator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1a989217500cd6e48965898078db483758" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::sharding::ReplicationCoordinator::ReplicationResult::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::ReplicationResult::latency</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="47" column="35" bodyfile="include/sharding/replication_coordinator.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1a254c3364a2d684d568b742b1deb56eb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ReplicationCoordinator::ReplicationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::ReplicationCoordinator::ReplicationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replication_coordinator.h" line="48" column="21" bodyfile="include/sharding/replication_coordinator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of waitForReplication. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/replication_coordinator.h" line="43" column="5" bodyfile="include/sharding/replication_coordinator.h" bodystart="43" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1a254c3364a2d684d568b742b1deb56eb2" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::ReplicationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1a989217500cd6e48965898078db483758" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::ReplicationResult</scope><name>latency</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1ac1d45af6dafef492f5482e314afee5a7" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::ReplicationResult</scope><name>replicas_acknowledged</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1a526501b421e3b576cca41afd5171aa62" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::ReplicationResult</scope><name>replicas_required</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_coordinator_1_1_replication_result_1a9d3d3dfc91d2a2026cb39e965c1bfc81" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationCoordinator::ReplicationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

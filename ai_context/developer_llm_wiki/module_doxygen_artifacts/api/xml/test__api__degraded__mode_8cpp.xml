@@ -1,0 +1,694 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__api__degraded__mode_8cpp" kind="file" language="C++">
+    <compoundname>test_api_degraded_mode.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes refid="http__handler_8h" local="yes">api/http_handler.h</includes>
+    <includes refid="api__transport__contracts_8h" local="yes">api/api_transport_contracts.h</includes>
+    <includes refid="api__error__taxonomy_8h" local="yes">api/api_error_taxonomy.h</includes>
+    <includes refid="api__transport__policy_8h" local="yes">api/api_transport_policy.h</includes>
+    <incdepgraph>
+      <node id="18">
+        <label>api/api_error_taxonomy.h</label>
+        <link refid="api__error__taxonomy_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>api/api_transport_contracts.h</label>
+        <link refid="api__transport__contracts_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>api/api_transport_policy.h</label>
+        <link refid="api__transport__policy_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>api/http_handler.h</label>
+        <link refid="http__handler_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/api/test_api_degraded_mode.cpp</label>
+        <link refid="test__api__degraded__mode_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="21">
+        <label>cstddef</label>
+      </node>
+      <node id="17">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="9">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>thread</label>
+      </node>
+      <node id="12">
+        <label>unordered_map</label>
+      </node>
+      <node id="19">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="14">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacetesting">testing</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DegradedModeTest, CapabilityUnavailableRejectsGatedPaths)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DegradedModeTest</type>
+        </param>
+        <param>
+          <type>CapabilityUnavailableRejectsGatedPaths</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>Requests to capability-gated paths are rejected when capability is disabled</para>
+</xrefdescription></xrefsect></para>
+<para>Models gRPC streaming or WebSocket subscription unavailability in a deployment where the feature has not been enabled via configuration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_degraded_mode.cpp" line="153" column="1" bodyfile="tests/api/test_api_degraded_mode.cpp" bodystart="153" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__degraded__mode_8cpp_1aa38419e5ee2a494c246cdcc44e4e0e17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DegradedModeTest, NonGatedPathsSucceedWhenCapabilityDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DegradedModeTest</type>
+        </param>
+        <param>
+          <type>NonGatedPathsSucceedWhenCapabilityDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000032"><xreftitle>Test</xreftitle><xrefdescription><para>Non-gated paths succeed even when the optional capability is disabled </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_degraded_mode.cpp" line="173" column="1" bodyfile="tests/api/test_api_degraded_mode.cpp" bodystart="173" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__degraded__mode_8cpp_1a14e5773abb4bc8a7db7ad5c62d27d978" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DegradedModeTest, CapabilityFlagsReflectDeploymentState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DegradedModeTest</type>
+        </param>
+        <param>
+          <type>CapabilityFlagsReflectDeploymentState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000033"><xreftitle>Test</xreftitle><xrefdescription><para>Capability flags are correct when capability is enabled vs disabled </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_degraded_mode.cpp" line="189" column="1" bodyfile="tests/api/test_api_degraded_mode.cpp" bodystart="189" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__degraded__mode_8cpp_1a0c485647ee964534adbac172d9e52993" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DegradedModeTest, SubscribePathRejectedWhenCapabilityDisabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DegradedModeTest</type>
+        </param>
+        <param>
+          <type>SubscribePathRejectedWhenCapabilityDisabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000034"><xreftitle>Test</xreftitle><xrefdescription><para>Subscribe path is also rejected when capability is disabled </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_degraded_mode.cpp" line="208" column="1" bodyfile="tests/api/test_api_degraded_mode.cpp" bodystart="208" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__degraded__mode_8cpp_1aa73ab892665ba3671a5d492882ba3d7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DegradedModeTest, TransientFailureAdapterDegradationBehavior)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DegradedModeTest</type>
+        </param>
+        <param>
+          <type>TransientFailureAdapterDegradationBehavior</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000035"><xreftitle>Test</xreftitle><xrefdescription><para>Requests succeed before degradation threshold; fail after threshold</para>
+</xrefdescription></xrefsect></para>
+<para>Verifies that callers can detect degradation via error codes and that the adapter provides a well-formed error response for every post-threshold request. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_degraded_mode.cpp" line="231" column="1" bodyfile="tests/api/test_api_degraded_mode.cpp" bodystart="231" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__degraded__mode_8cpp_1a57c5d6c0f7f4cf5615a1f9e591d8ab25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DegradedModeTest, PolicyComposesWithDegradedAdapter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DegradedModeTest</type>
+        </param>
+        <param>
+          <type>PolicyComposesWithDegradedAdapter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000036"><xreftitle>Test</xreftitle><xrefdescription><para><ref refid="classthemis_1_1api_1_1_transport_policy_middleware" kindref="compound">TransportPolicyMiddleware</ref> composes correctly with a degraded inner adapter</para>
+</xrefdescription></xrefsect></para>
+<para>Valid requests pass the policy layer and hit the degraded inner adapter. Invalid requests are rejected by the policy layer without touching the adapter. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_degraded_mode.cpp" line="270" column="1" bodyfile="tests/api/test_api_degraded_mode.cpp" bodystart="270" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__degraded__mode_8cpp_1ad4cb4a4c23fac1241c682c389281cb89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DegradedModeTest, ConcurrentMixedRequestsDegradedAdapter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DegradedModeTest</type>
+        </param>
+        <param>
+          <type>ConcurrentMixedRequestsDegradedAdapter</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000037"><xreftitle>Test</xreftitle><xrefdescription><para>8 threads mix non-gated (success) and gated (failure) requests concurrently</para>
+</xrefdescription></xrefsect></para>
+<para>Validates that the degraded adapter handles mixed concurrent traffic without data races and produces the correct error vs success split. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_degraded_mode.cpp" line="318" column="1" bodyfile="tests/api/test_api_degraded_mode.cpp" bodystart="318" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="test__api__degraded__mode_8cpp_1a5f0c5db8a184bbd3e41feaa881b089f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DegradedModeDiagnosticsTest, AllFailureClassesHaveActionableMessages)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DegradedModeDiagnosticsTest</type>
+        </param>
+        <param>
+          <type>AllFailureClassesHaveActionableMessages</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000038"><xreftitle>Test</xreftitle><xrefdescription><para>Every <ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref> produces a non-empty structured message</para>
+</xrefdescription></xrefsect></para>
+<para>Validates the Q4 2026 &quot;extend integration diagnostics for protocol-level
+failure classes&quot; requirement: every failure class must produce an actionable, non-empty message string that operators can triage. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_degraded_mode.cpp" line="378" column="1" bodyfile="tests/api/test_api_degraded_mode.cpp" bodystart="378" bodyend="402"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Q4 2026 planned feature: degraded-mode handling for optional transport features. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Q4 2026 planned feature — degraded-mode hardening. </para>
+</simplesect>
+<simplesect kind="note"><para>Validates ROADMAP.md Planned Features (Q4 2026):<itemizedlist>
+<listitem><para>&quot;strengthen degraded-mode handling for optional transport features&quot;</para>
+</listitem><listitem><para>&quot;extend integration diagnostics for protocol-level failure classes&quot; </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Validates FUTURE_ENHANCEMENTS.md § Design Constraints:<itemizedlist>
+<listitem><para>&quot;adapter behavior remains fail-closed on invalid or unsupported protocol input&quot;</para>
+</listitem><listitem><para>&quot;high-concurrency paths remain bounded by explicit runtime controls&quot; </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Validates FUTURE_ENHANCEMENTS.md § Security / Reliability:<itemizedlist>
+<listitem><para>&quot;enforce fail-closed behavior for malformed payloads and unsupported protocol states&quot; </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="http__handler_8h" kindref="compound">api/http_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__transport__contracts_8h" kindref="compound">api/api_transport_contracts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__error__taxonomy_8h" kindref="compound">api/api_error_taxonomy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="api__transport__policy_8h" kindref="compound">api/api_transport_policy.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1api" kindref="compound">themis::api</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">testing;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Degraded-mode<sp/>adapter<sp/>—<sp/>simulates<sp/>an<sp/>optional<sp/>capability<sp/>being<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">DegradedCapabilityAdapter<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref>,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_transport_contract" kindref="compound">ITransportContract</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/>kStreamPath<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/stream&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::string_view<sp/>kSubscribePath<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/subscribe&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>DegradedCapabilityAdapter(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>capability_enabled)</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>capability_enabled_(capability_enabled)<sp/>{}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;HttpResponse&gt;<sp/>handle(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HttpRequest&amp;<sp/>req)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fail-closed:<sp/>reject<sp/>if<sp/>request<sp/>targets<sp/>a<sp/>path<sp/>requiring<sp/>missing<sp/>capability.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!capability_enabled_</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/>(req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/>==<sp/>kStreamPath<sp/>||<sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/>==<sp/>kSubscribePath))<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(themis::Error(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" kindref="member">ApiErrorTaxonomy::toErrorCode</ref>(</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TransportFailureClass::CapabilityUnavailable),</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a611cc652d122d129671d7e55993898f2" kindref="member">ApiErrorTaxonomy::toMessage</ref>(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TransportFailureClass::CapabilityUnavailable,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapterName())));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HttpResponse<sp/>resp;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;ok\&quot;:true}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1api_1_1_http_response_1ad5b5314e3b957451c2e6f2cdb887ee45" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;Content-Type&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resp;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937" kindref="member">TransportCapability</ref><sp/>capabilities()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(capability_enabled_)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TransportCapability::StreamingSupport</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>|<sp/>TransportCapability::SubscriptionSupport;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>TransportCapability::None;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string_view<sp/>adapterName()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;degraded-capability-adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string_view<sp/>handlerName()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;DegradedCapabilityAdapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requiresAuthentication()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>capability_enabled_;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TransientFailureAdapter<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1api_1_1_i_http_handler" kindref="compound">IHttpHandler</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>TransientFailureAdapter(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fail_after)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>fail_after_(fail_after)<sp/>{}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::Result&lt;HttpResponse&gt;<sp/>handle(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>HttpRequest&amp;<sp/></highlight><highlight class="comment">/*req*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>n<sp/>=<sp/>counter_.fetch_add(1)<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(n<sp/>&gt;<sp/>fail_after_)<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tl::unexpected(themis::Error(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ERR_DEGRADED_TRANSIENT:<sp/>adapter<sp/>in<sp/>degraded<sp/>state<sp/>after<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>std::to_string(fail_after_)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>requests&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HttpResponse<sp/>resp;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1api_1_1_http_response_1acff4ec6b8eceaf15e5edbd0fb6519c84" kindref="member">status_code</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resp.<ref refid="structthemis_1_1api_1_1_http_response_1a0da27ab24080058d5ca4ffba268f4c36" kindref="member">body</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;ok\&quot;:true}&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>resp;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string_view<sp/>handlerName()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;TransientFailureAdapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requiresAuthentication()<sp/>const<sp/>noexcept</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>counter_{0};</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fail_after_;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Degraded-mode:<sp/>capability<sp/>unavailable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>(DegradedModeTest,<sp/>CapabilityUnavailableRejectsGatedPaths)</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;DegradedCapabilityAdapter&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*<sp/>disabled<sp/>*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/>std::string(DegradedCapabilityAdapter::kStreamPath);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter-&gt;handle(req);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" kindref="member">ApiErrorTaxonomy::toErrorCode</ref>(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a31185f98fd6ab437092e213cd22aec68" kindref="member">TransportFailureClass::CapabilityUnavailable</ref>));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(result.error().message(),</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HasSubstr(</highlight><highlight class="stringliteral">&quot;ERR_TRANSPORT_CAPABILITY_UNAVAILABLE&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>(DegradedModeTest,<sp/>NonGatedPathsSucceedWhenCapabilityDisabled)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;DegradedCapabilityAdapter&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*<sp/>disabled<sp/>*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter-&gt;handle(req);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result-&gt;status_code,<sp/>200);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>(DegradedModeTest,<sp/>CapabilityFlagsReflectDeploymentState)</highlight></codeline>
+<codeline lineno="190"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>enabled<sp/><sp/>=<sp/>std::make_shared&lt;DegradedCapabilityAdapter&gt;(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>disabled<sp/>=<sp/>std::make_shared&lt;DegradedCapabilityAdapter&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a634394f8e535a8dbf24285049893e832" kindref="member">hasCapability</ref>(enabled-&gt;capabilities(),<sp/><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a650dbe1b42a95d4fc1e2b35047daf52e" kindref="member">TransportCapability::StreamingSupport</ref>));</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a634394f8e535a8dbf24285049893e832" kindref="member">hasCapability</ref>(enabled-&gt;capabilities(),<sp/><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a61dbd92f5d04630b04a92f3c2b20c71a" kindref="member">TransportCapability::SubscriptionSupport</ref>));</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a634394f8e535a8dbf24285049893e832" kindref="member">hasCapability</ref>(disabled-&gt;capabilities(),<sp/><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a650dbe1b42a95d4fc1e2b35047daf52e" kindref="member">TransportCapability::StreamingSupport</ref>));</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a634394f8e535a8dbf24285049893e832" kindref="member">hasCapability</ref>(disabled-&gt;capabilities(),<sp/><ref refid="namespacethemis_1_1api_1a0343d99372edab7f45df75439b391937a61dbd92f5d04630b04a92f3c2b20c71a" kindref="member">TransportCapability::SubscriptionSupport</ref>));</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>(DegradedModeTest,<sp/>SubscribePathRejectedWhenCapabilityDisabled)</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;DegradedCapabilityAdapter&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/>std::string(DegradedCapabilityAdapter::kSubscribePath);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter-&gt;handle(req);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a0afb2086489342df90c7c794317515d5" kindref="member">ApiErrorTaxonomy::toHttpStatus</ref>(<ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a31185f98fd6ab437092e213cd22aec68" kindref="member">TransportFailureClass::CapabilityUnavailable</ref>),<sp/>501);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Degraded-mode:<sp/>transient<sp/>failure<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>(DegradedModeTest,<sp/>TransientFailureAdapterDegradationBehavior)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kFail_after<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;TransientFailureAdapter&gt;(kFail_after);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>`kFail_after`<sp/>requests<sp/>succeed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kFail_after;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/ping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter-&gt;handle(req);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value())</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Request<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(i<sp/>+<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>succeed<sp/>before<sp/>threshold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Subsequent<sp/>requests<sp/>must<sp/>fail<sp/>with<sp/>a<sp/>well-formed<sp/>error.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/ping&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter-&gt;handle(req);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value())</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Request<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(kFail_after<sp/>+<sp/>i<sp/>+<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>should<sp/>fail<sp/>after<sp/>threshold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.error().code(),</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::errors::ErrorCode::ERR_API_INTERNAL_ERROR);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_THAT(result.error().message(),<sp/>HasSubstr(</highlight><highlight class="stringliteral">&quot;ERR_DEGRADED_TRANSIENT&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Degraded-mode:<sp/>policy<sp/>+<sp/>degraded<sp/>adapter<sp/>composition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>(DegradedModeTest,<sp/>PolicyComposesWithDegradedAdapter)</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>inner<sp/><sp/>=<sp/>std::make_shared&lt;DegradedCapabilityAdapter&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>std::make_shared&lt;TransportPolicyMiddleware&gt;(inner);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>request<sp/>to<sp/>a<sp/>non-gated<sp/>path<sp/>→<sp/>policy<sp/>passes<sp/>→<sp/>inner<sp/>succeeds.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.has_value());</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>version<sp/>→<sp/>rejected<sp/>at<sp/>policy<sp/>layer<sp/>(inner<sp/>never<sp/>called).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a4fc7a132f4fd32f465b98ebd598b5cb3" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-API-Version&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v999&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_THAT(result.error().message(),</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HasSubstr(</highlight><highlight class="stringliteral">&quot;ERR_TRANSPORT_UNSUPPORTED_VERSION&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>request<sp/>to<sp/>gated<sp/>path<sp/>→<sp/>policy<sp/>passes<sp/>→<sp/>inner<sp/>rejects<sp/>(capability<sp/>unavailable).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/>std::string(DegradedCapabilityAdapter::kStreamPath);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;handle(req);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.has_value());</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_THAT(result.error().message(),</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>HasSubstr(</highlight><highlight class="stringliteral">&quot;ERR_TRANSPORT_CAPABILITY_UNAVAILABLE&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Degraded-mode:<sp/>concurrent<sp/>requests<sp/>to<sp/>a<sp/>partially-degraded<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>(DegradedModeTest,<sp/>ConcurrentMixedRequestsDegradedAdapter)</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter<sp/>=<sp/>std::make_shared&lt;DegradedCapabilityAdapter&gt;(</highlight><highlight class="keyword">false</highlight><highlight class="normal"><sp/></highlight><highlight class="comment">/*<sp/>disabled<sp/>*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kThreads<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kRequestsPerThread<sp/>=<sp/>25;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>successes{0};</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>capability_errors{0};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>worker<sp/>=<sp/>[&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kRequestsPerThread;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>gated<sp/>=<sp/>(i<sp/>%<sp/>2<sp/>==<sp/>0);</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1api_1_1_http_request" kindref="compound">HttpRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a3d0bb728d05f727621f2337b57cbe568" kindref="member">method</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GET&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1api_1_1_http_request_1a6f6f4db194645a41adb44216577a1415" kindref="member">path</ref><sp/><sp/><sp/>=<sp/>gated</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>?<sp/>std::string(DegradedCapabilityAdapter::kStreamPath)</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;/api/v1/entities&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>adapter-&gt;handle(req);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>successes.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.error().code()</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>==<sp/><ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a9f8b22006de70fd4f1197074be27d7f5" kindref="member">ApiErrorTaxonomy::toErrorCode</ref>(</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5a31185f98fd6ab437092e213cd22aec68" kindref="member">TransportFailureClass::CapabilityUnavailable</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>capability_errors.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>threads.reserve(kThreads);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>t<sp/>=<sp/>0;<sp/>t<sp/>&lt;<sp/>kThreads;<sp/>++t)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back(worker);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>th<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>th.join();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Half<sp/>the<sp/>requests<sp/>per<sp/>thread<sp/>are<sp/>gated<sp/>(i<sp/>%<sp/>2<sp/>==<sp/>0<sp/>→<sp/>indices<sp/>0,2,4,…).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kRequestsPerThread<sp/>=<sp/>25:<sp/>indices<sp/>0,2,4,6,8,10,12,14,16,18,20,22,24<sp/>=<sp/>13<sp/>gated;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>25<sp/>-<sp/>13<sp/>=<sp/>12<sp/>non-gated.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expected_gated<sp/><sp/><sp/><sp/><sp/>=<sp/>13;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expected_non_gated<sp/>=<sp/>12;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(capability_errors.load(),<sp/>kThreads<sp/>*<sp/>expected_gated);</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(successes.load(),<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kThreads<sp/>*<sp/>expected_non_gated);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>diagnostics:<sp/>error<sp/>taxonomy<sp/>completeness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>(DegradedModeDiagnosticsTest,<sp/>AllFailureClassesHaveActionableMessages)</highlight></codeline>
+<codeline lineno="379"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">FC<sp/>=<sp/><ref refid="namespacethemis_1_1api_1a7725be3f5528117fdb79ccf1d6af0fe5" kindref="member">TransportFailureClass</ref>;</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FC<sp/>all_classes[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::MalformedRequest,</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::PayloadTooLarge,</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::UnsupportedVersion,</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::ContentTypeMissing,</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::ContentTypeMismatch,</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::Unauthorized,</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::RateLimitExceeded,</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::CapabilityUnavailable,</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FC::InternalError,</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>fc<sp/>:<sp/>all_classes)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>msg<sp/>=<sp/><ref refid="classthemis_1_1api_1_1_api_error_taxonomy_1a611cc652d122d129671d7e55993898f2" kindref="member">ApiErrorTaxonomy::toMessage</ref>(fc,<sp/></highlight><highlight class="stringliteral">&quot;test-adapter&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(msg.empty())</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failure<sp/>class<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fc)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>has<sp/>empty<sp/>message&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>message<sp/>must<sp/>contain<sp/>an<sp/>ERR_<sp/>prefix<sp/>for<sp/>traceability.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_THAT(msg,<sp/>HasSubstr(</highlight><highlight class="stringliteral">&quot;ERR_&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Failure<sp/>class<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(fc)</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>message<sp/>lacks<sp/>ERR_<sp/>prefix&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/api/test_api_degraded_mode.cpp"/>
+  </compounddef>
+</doxygen>

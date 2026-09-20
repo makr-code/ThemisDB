@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_node_embedding" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::NodeEmbedding</compoundname>
+    <includes refid="graph__embedding_8h" local="no">graph_embedding.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_node_embedding_1aae12b56052b14c75591791055402c29d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::NodeEmbedding::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::graph::NodeEmbedding::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="53" column="17" bodyfile="include/graph/graph_embedding.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_node_embedding_1ac76f1cae7ee0c5a03487db61e5c7fb27" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::graph::NodeEmbedding::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::graph::NodeEmbedding::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="54" column="17" bodyfile="include/graph/graph_embedding.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_node_embedding_1a80ef12500396cf57e390581def4d16b9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::NodeEmbedding::training_loss</definition>
+        <argsstring></argsstring>
+        <name>training_loss</name>
+        <qualifiedname>themis::graph::NodeEmbedding::training_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="55" column="12" bodyfile="include/graph/graph_embedding.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_embedding.h" line="52" column="1" bodyfile="include/graph/graph_embedding.h" bodystart="52" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_node_embedding_1ac76f1cae7ee0c5a03487db61e5c7fb27" prot="public" virt="non-virtual"><scope>themis::graph::NodeEmbedding</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1graph_1_1_node_embedding_1aae12b56052b14c75591791055402c29d" prot="public" virt="non-virtual"><scope>themis::graph::NodeEmbedding</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_node_embedding_1a80ef12500396cf57e390581def4d16b9" prot="public" virt="non-virtual"><scope>themis::graph::NodeEmbedding</scope><name>training_loss</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

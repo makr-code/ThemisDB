@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_coordinated_update_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::CoordinatedUpdateResult</compoundname>
+    <includes refid="coordinated__update__manager_8h" local="no">coordinated_update_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_coordinated_update_result_1a280774a30790d518e48dc3f52c3c6137" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::CoordinatedUpdateResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="115" column="10" bodyfile="include/updates/coordinated_update_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_coordinated_update_result_1ac105b90714d7c4af5e3227cd8fefb08d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::CoordinatedUpdateResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Human-readable error description on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="118" column="17" bodyfile="include/updates/coordinated_update_manager.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_coordinated_update_result_1a02e1159739edf846ad9a20bd13b4ee4d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1updates_1_1_node_update_status" kindref="compound">NodeUpdateStatus</ref> &gt;</type>
+        <definition>std::vector&lt;NodeUpdateStatus&gt; themis::updates::CoordinatedUpdateResult::node_statuses</definition>
+        <argsstring></argsstring>
+        <name>node_statuses</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateResult::node_statuses</qualifiedname>
+        <briefdescription>
+<para>Status of every node known to the manager. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="121" column="17" bodyfile="include/updates/coordinated_update_manager.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_coordinated_update_result_1a89316cde8c15637a2cd9dcb421028e53" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::CoordinatedUpdateResult::nodes_updated</definition>
+        <argsstring></argsstring>
+        <name>nodes_updated</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateResult::nodes_updated</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of nodes that reached COMPLETED state during this session. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="124" column="14" bodyfile="include/updates/coordinated_update_manager.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_coordinated_update_result_1ab03e8a8af80f2d5c475d324b0126bcc1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::CoordinatedUpdateResult::nodes_failed</definition>
+        <argsstring></argsstring>
+        <name>nodes_failed</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateResult::nodes_failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of nodes that reached FAILED state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="127" column="14" bodyfile="include/updates/coordinated_update_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_coordinated_update_result_1a8d4a94c378d24f2aac7e267136481468" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::updates::CoordinatedUpdateResult::nodes_rolled_back</definition>
+        <argsstring></argsstring>
+        <name>nodes_rolled_back</name>
+        <qualifiedname>themis::updates::CoordinatedUpdateResult::nodes_rolled_back</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of nodes that were rolled back. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="130" column="14" bodyfile="include/updates/coordinated_update_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Overall result of a coordinated update triggered by applyLocalUpdate(). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/coordinated_update_manager.h" line="114" column="1" bodyfile="include/updates/coordinated_update_manager.h" bodystart="114" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_coordinated_update_result_1ac105b90714d7c4af5e3227cd8fefb08d" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1updates_1_1_coordinated_update_result_1a02e1159739edf846ad9a20bd13b4ee4d" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateResult</scope><name>node_statuses</name></member>
+      <member refid="structthemis_1_1updates_1_1_coordinated_update_result_1ab03e8a8af80f2d5c475d324b0126bcc1" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateResult</scope><name>nodes_failed</name></member>
+      <member refid="structthemis_1_1updates_1_1_coordinated_update_result_1a8d4a94c378d24f2aac7e267136481468" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateResult</scope><name>nodes_rolled_back</name></member>
+      <member refid="structthemis_1_1updates_1_1_coordinated_update_result_1a89316cde8c15637a2cd9dcb421028e53" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateResult</scope><name>nodes_updated</name></member>
+      <member refid="structthemis_1_1updates_1_1_coordinated_update_result_1a280774a30790d518e48dc3f52c3c6137" prot="public" virt="non-virtual"><scope>themis::updates::CoordinatedUpdateResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

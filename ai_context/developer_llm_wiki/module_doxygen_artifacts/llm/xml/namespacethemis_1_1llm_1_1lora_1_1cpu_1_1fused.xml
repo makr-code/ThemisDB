@@ -1,0 +1,835 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1cpu_1_1fused" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::cpu::fused</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1cpu_1_1fused_1a80219b4ffdc10c4bad56f08c2f0e3e98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::cpu::fused::cpu_fused_lora_forward</definition>
+        <argsstring>(const float *input, const float *B, const float *A, float *output, size_t batch_size, size_t in_dim, size_t rank, size_t out_dim, float scaling)</argsstring>
+        <name>cpu_fused_lora_forward</name>
+        <qualifiedname>themis::llm::lora::cpu::fused::cpu_fused_lora_forward</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <briefdescription>
+<para>Cpu fused lora forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>CPU fused LoRA forward pass: Y = (X @ B^T @ A^T) * scaling This is the reference implementation that computes the entire LoRA path in a single function, keeping the intermediate result in memory.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input tensor [batch_size, in_dim]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA B matrix [in_dim, rank]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA A matrix [rank, out_dim]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output tensor [batch_size, out_dim]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Batch size</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input dimension</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA rank</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output dimension</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scaling factor Calls: intermediate(). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/cpu_fused_kernels.cpp" line="35" column="6" bodyfile="src/llm/lora_framework/kernels/cpu_fused_kernels.cpp" bodystart="35" bodyend="72" declfile="include/llm/lora_framework/cpu_fused_kernels.h" declline="33" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1cpu_1_1fused_1af0a37a82b90b3be3f6616946d399a111" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::cpu::fused::cpu_fused_lora_backward</definition>
+        <argsstring>(const float *input, const float *B, const float *A, const float *grad_output, float *grad_A, float *grad_B, float *grad_input, size_t batch_size, size_t in_dim, size_t rank, size_t out_dim, float scaling)</argsstring>
+        <name>cpu_fused_lora_backward</name>
+        <qualifiedname>themis::llm::lora::cpu::fused::cpu_fused_lora_backward</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>grad_output</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>grad_A</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>grad_B</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>grad_input</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <briefdescription>
+<para>Cpu fused lora backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>CPU fused LoRA backward pass Computes all gradients in a single function: - grad_input = (grad_output @ A) @ B * scaling - grad_A = intermediate^T @ grad_output * scaling - grad_B = input^T @ (grad_output @ A) * scaling.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input tensor [batch_size, in_dim] (from forward)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA B matrix [in_dim, rank]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA A matrix [rank, out_dim]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gradient w. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">grad_input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+r.t output [batch_size, out_dim]<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grad_A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gradient w.r.t A [rank, out_dim]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grad_B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gradient w.r.t B [in_dim, rank]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>grad_input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gradient w.r.t input [batch_size, in_dim]</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Batch size</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input dimension</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA rank</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output dimension</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scaling factor Calls: intermediate(), std::fill(), grad_intermediate(). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/cpu_fused_kernels.cpp" line="90" column="6" bodyfile="src/llm/lora_framework/kernels/cpu_fused_kernels.cpp" bodystart="90" bodyend="168" declfile="include/llm/lora_framework/cpu_fused_kernels.h" declline="60" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1cpu_1_1fused_1a42ac6556677334d41c80630761c603ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::cpu::fused::cpu_fused_lora_forward_parallel</definition>
+        <argsstring>(const float *input, const float *B, const float *A, float *output, size_t batch_size, size_t in_dim, size_t rank, size_t out_dim, float scaling)</argsstring>
+        <name>cpu_fused_lora_forward_parallel</name>
+        <qualifiedname>themis::llm::lora::cpu::fused::cpu_fused_lora_forward_parallel</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>B</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>A</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <briefdescription>
+<para>Cpu fused lora forward parallel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">B</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">A</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">batch_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_dim</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scaling</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: intermediate(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/kernels/cpu_fused_kernels.cpp" line="183" column="6" bodyfile="src/llm/lora_framework/kernels/cpu_fused_kernels.cpp" bodystart="183" bodyend="224" declfile="include/llm/lora_framework/cpu_fused_kernels.h" declline="87" declcolumn="6"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/cpu_fused_kernels.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

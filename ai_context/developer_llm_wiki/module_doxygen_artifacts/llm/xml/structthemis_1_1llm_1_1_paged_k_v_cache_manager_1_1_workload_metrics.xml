@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::PagedKVCacheManager::WorkloadMetrics</compoundname>
+    <includes refid="paged__kv__cache__manager_8h" local="no">paged_kv_cache_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1a36b72a7adadcbfb59693a81391e062ab" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::WorkloadMetrics::total_sequences</definition>
+        <argsstring></argsstring>
+        <name>total_sequences</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::WorkloadMetrics::total_sequences</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="107" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1af8a80a244bdd3404d0814621023cb9a0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PagedKVCacheManager::WorkloadMetrics::sequences_with_shared_prefix</definition>
+        <argsstring></argsstring>
+        <name>sequences_with_shared_prefix</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::WorkloadMetrics::sequences_with_shared_prefix</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="108" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1a800aa5cd16640caea5735cb6d0093d00" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PagedKVCacheManager::WorkloadMetrics::avg_prefix_length</definition>
+        <argsstring></argsstring>
+        <name>avg_prefix_length</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::WorkloadMetrics::avg_prefix_length</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="109" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1a63e0526a995d78f7f057927d1e2efca9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::PagedKVCacheManager::WorkloadMetrics::prefix_reuse_ratio</definition>
+        <argsstring></argsstring>
+        <name>prefix_reuse_ratio</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::WorkloadMetrics::prefix_reuse_ratio</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="110" column="16" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1a2b8fcc66ffe10a5ecf4cc12020635e01" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279c" kindref="member">WorkloadPattern</ref></type>
+        <definition>WorkloadPattern themis::llm::PagedKVCacheManager::WorkloadMetrics::detected_pattern</definition>
+        <argsstring></argsstring>
+        <name>detected_pattern</name>
+        <qualifiedname>themis::llm::PagedKVCacheManager::WorkloadMetrics::detected_pattern</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1llm_1_1_paged_k_v_cache_manager_1a602c66810a1fb1050dc3f944450d279ca696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadPattern::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/paged_kv_cache_manager.h" line="111" column="25" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/paged_kv_cache_manager.h" line="106" column="5" bodyfile="include/llm/paged_kv_cache_manager.h" bodystart="106" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1a800aa5cd16640caea5735cb6d0093d00" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::WorkloadMetrics</scope><name>avg_prefix_length</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1a2b8fcc66ffe10a5ecf4cc12020635e01" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::WorkloadMetrics</scope><name>detected_pattern</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1a63e0526a995d78f7f057927d1e2efca9" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::WorkloadMetrics</scope><name>prefix_reuse_ratio</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1af8a80a244bdd3404d0814621023cb9a0" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::WorkloadMetrics</scope><name>sequences_with_shared_prefix</name></member>
+      <member refid="structthemis_1_1llm_1_1_paged_k_v_cache_manager_1_1_workload_metrics_1a36b72a7adadcbfb59693a81391e062ab" prot="public" virt="non-virtual"><scope>themis::llm::PagedKVCacheManager::WorkloadMetrics</scope><name>total_sequences</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1lora_1_1tensor__utils" kind="namespace" language="C++">
+    <compoundname>themis::llm::lora::tensor_utils</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1tensor__utils_1a4ffbea5ecf0eeff530ecf8d9006f58e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::tensor_utils::randn</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, float mean, float std)</argsstring>
+        <name>randn</name>
+        <qualifiedname>themis::llm::lora::tensor_utils::randn</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>mean</declname>
+          <defval>0.0f</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>std</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Randn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mean</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">std</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: gen(), dist(), result(), data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_layers.cpp" line="205" column="8" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="205" bodyend="216" declfile="include/llm/lora_framework/lora_layers.h" declline="226" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1tensor__utils_1a27e1fdbabc47e8970c68b8cc07b97fad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::tensor_utils::xavier_uniform</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape)</argsstring>
+        <name>xavier_uniform</name>
+        <qualifiedname>themis::llm::lora::tensor_utils::xavier_uniform</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Xavier uniform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::sqrt(), <ref refid="namespacethemis_1_1llm_1_1lora_1_1tensor__utils_1a4ffbea5ecf0eeff530ecf8d9006f58e6" kindref="member">randn()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_layers.cpp" line="225" column="8" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="225" bodyend="235" declfile="include/llm/lora_framework/lora_layers.h" declline="232" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1tensor__utils_1aef42a378f21703feb61226b8bed7d977" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::tensor_utils::kaiming_uniform</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape, float a)</argsstring>
+        <name>kaiming_uniform</name>
+        <qualifiedname>themis::llm::lora::tensor_utils::kaiming_uniform</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>a</declname>
+          <defval>0.0f</defval>
+        </param>
+        <briefdescription>
+<para>Kaiming uniform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), std::sqrt(), <ref refid="namespacethemis_1_1llm_1_1lora_1_1tensor__utils_1a4ffbea5ecf0eeff530ecf8d9006f58e6" kindref="member">randn()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_layers.cpp" line="245" column="8" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="245" bodyend="254" declfile="include/llm/lora_framework/lora_layers.h" declline="233" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1tensor__utils_1ab5e2b5a8b333a79d4bf25407843b051a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::tensor_utils::zeros</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape)</argsstring>
+        <name>zeros</name>
+        <qualifiedname>themis::llm::lora::tensor_utils::zeros</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Zeros. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tensor(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_layers.cpp" line="262" column="8" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="262" bodyend="264" declfile="include/llm/lora_framework/lora_layers.h" declline="241" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1lora_1_1tensor__utils_1aa38f32e0a881cba2d968b327a17b81b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_tensor" kindref="compound">Tensor</ref></type>
+        <definition>Tensor themis::llm::lora::tensor_utils::ones</definition>
+        <argsstring>(const std::vector&lt; size_t &gt; &amp;shape)</argsstring>
+        <name>ones</name>
+        <qualifiedname>themis::llm::lora::tensor_utils::ones</qualifiedname>
+        <param>
+          <type>const std::vector&lt; size_t &gt; &amp;</type>
+          <declname>shape</declname>
+        </param>
+        <briefdescription>
+<para>Ones. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shape</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tensor(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/lora_framework/lora_layers.cpp" line="272" column="8" bodyfile="src/llm/lora_framework/lora_layers.cpp" bodystart="272" bodyend="274" declfile="include/llm/lora_framework/lora_layers.h" declline="247" declcolumn="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_layers.h" line="224" column="1"/>
+  </compounddef>
+</doxygen>

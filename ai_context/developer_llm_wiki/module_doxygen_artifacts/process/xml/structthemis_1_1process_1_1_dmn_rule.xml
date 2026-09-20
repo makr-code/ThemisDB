@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_dmn_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::DmnRule</compoundname>
+    <includes refid="dmn__evaluator_8h" local="no">dmn_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_dmn_rule_1ab26063f81448b3f550a029e34c878767" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::DmnRule::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::process::DmnRule::id</qualifiedname>
+        <briefdescription>
+<para>Optional rule ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="56" column="32" bodyfile="include/process/dmn_evaluator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_dmn_rule_1a4ec4a5a7bb4defe6c0e3c47fd1412b22" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::DmnRule::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::process::DmnRule::description</qualifiedname>
+        <briefdescription>
+<para>Optional annotation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="57" column="32" bodyfile="include/process/dmn_evaluator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_dmn_rule_1a347120aad0002cb9b11e6b129ccb0778" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::DmnRule::input_expressions</definition>
+        <argsstring></argsstring>
+        <name>input_expressions</name>
+        <qualifiedname>themis::process::DmnRule::input_expressions</qualifiedname>
+        <briefdescription>
+<para>FEEL expressions per input. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="58" column="19" bodyfile="include/process/dmn_evaluator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_dmn_rule_1a21c27178829a3ed2092bc145e75f4ed3" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::DmnRule::output_values</definition>
+        <argsstring></argsstring>
+        <name>output_values</name>
+        <qualifiedname>themis::process::DmnRule::output_values</qualifiedname>
+        <briefdescription>
+<para>Output column → value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/dmn_evaluator.h" line="59" column="32" bodyfile="include/process/dmn_evaluator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single rule row in a decision table. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each <computeroutput>input_expressions</computeroutput> element corresponds to one input column; <computeroutput>output_values</computeroutput> is a JSON object mapping output column names to values. </para>
+    </detaileddescription>
+    <location file="include/process/dmn_evaluator.h" line="55" column="1" bodyfile="include/process/dmn_evaluator.h" bodystart="55" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_dmn_rule_1a4ec4a5a7bb4defe6c0e3c47fd1412b22" prot="public" virt="non-virtual"><scope>themis::process::DmnRule</scope><name>description</name></member>
+      <member refid="structthemis_1_1process_1_1_dmn_rule_1ab26063f81448b3f550a029e34c878767" prot="public" virt="non-virtual"><scope>themis::process::DmnRule</scope><name>id</name></member>
+      <member refid="structthemis_1_1process_1_1_dmn_rule_1a347120aad0002cb9b11e6b129ccb0778" prot="public" virt="non-virtual"><scope>themis::process::DmnRule</scope><name>input_expressions</name></member>
+      <member refid="structthemis_1_1process_1_1_dmn_rule_1a21c27178829a3ed2092bc145e75f4ed3" prot="public" virt="non-virtual"><scope>themis::process::DmnRule</scope><name>output_values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

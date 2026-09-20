@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="language__detector_8h" kind="file" language="C++">
+    <compoundname>language_detector.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includedby refid="bench__toolbox__native__workloads_8cpp" local="yes">benchmarks/toolbox/bench_toolbox_native_workloads.cpp</includedby>
+    <includedby refid="language__detector_8cpp" local="yes">src/toolbox/language_detector.cpp</includedby>
+    <includedby refid="text__quality__scorer_8cpp" local="yes">src/toolbox/text_quality_scorer.cpp</includedby>
+    <includedby refid="test__toolbox__primitives_8cpp" local="yes">tests/toolbox/test_toolbox_primitives.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/toolbox/language_detector.h</label>
+        <link refid="language__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/toolbox/bench_toolbox_native_workloads.cpp</label>
+        <link refid="bench__toolbox__native__workloads_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/toolbox/language_detector.h</label>
+        <link refid="language__detector_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/toolbox/language_detector.cpp</label>
+        <link refid="language__detector_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/toolbox/text_quality_scorer.cpp</label>
+        <link refid="text__quality__scorer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/toolbox/test_toolbox_primitives.cpp</label>
+        <link refid="test__toolbox__primitives_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1toolbox_1_1_i_language_detector" prot="public">themis::toolbox::ILanguageDetector</innerclass>
+    <innerclass refid="classthemis_1_1toolbox_1_1_default_language_detector" prot="public">themis::toolbox::DefaultLanguageDetector</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1toolbox">themis::toolbox</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1toolbox" kindref="compound">toolbox</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ILanguageDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1toolbox_1_1_i_language_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_i_language_detector" kindref="compound">ILanguageDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1toolbox_1_1_i_language_detector_1aad6eb87a5311cb285cf73d0c9ce7c554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_i_language_detector_1aad6eb87a5311cb285cf73d0c9ce7c554" kindref="member">~ILanguageDetector</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1toolbox_1_1_i_language_detector_1acabdb5937c57d014ceb6dcea62122246" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1toolbox_1_1_i_language_detector_1acabdb5937c57d014ceb6dcea62122246" kindref="member">detect</ref>(std::string_view<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DefaultLanguageDetector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1toolbox_1_1_default_language_detector" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kindref="member">DefaultLanguageDetector</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_i_language_detector" kindref="compound">ILanguageDetector</ref><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kindref="member">DefaultLanguageDetector</ref>();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kindref="member">DefaultLanguageDetector</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_ratio);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1toolbox_1_1_default_language_detector_1ae1c816ec97c1d2e68bf904511d4c5d99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1ae1c816ec97c1d2e68bf904511d4c5d99" kindref="member">~DefaultLanguageDetector</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="classthemis_1_1toolbox_1_1_default_language_detector_1aad840243011ecf1e17f893bde0653e78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1aad840243011ecf1e17f893bde0653e78" kindref="member">DefaultLanguageDetector</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kindref="member">DefaultLanguageDetector</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1toolbox_1_1_default_language_detector_1ad8d2d8856b9d09c7d00658591e4f3ac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kindref="member">DefaultLanguageDetector</ref>&amp;<sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1ad8d2d8856b9d09c7d00658591e4f3ac0" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1afbff2861f702a7ce10669fce066fd5e7" kindref="member">DefaultLanguageDetector</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1toolbox_1_1_default_language_detector_1aaf55e8cd38f38dc5196013f453fb7b39" kindref="member">detect</ref>(std::string_view<sp/>text)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_ratio_;<sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Free<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal">std::string<sp/><ref refid="namespacethemis_1_1toolbox_1aba8dc3a8e9edc3223ac17422d6e56d80" kindref="member">detectLanguage</ref>(std::string_view<sp/>text);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>toolbox</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/toolbox/language_detector.h"/>
+  </compounddef>
+</doxygen>

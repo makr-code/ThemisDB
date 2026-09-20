@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::test::Coordinator3PC</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1aeceb894a76e10eedd3542e4649f5adfe" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+        <definition>SimWAL* themisdb::sharding::test::Coordinator3PC::wal_</definition>
+        <argsstring></argsstring>
+        <name>wal_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::wal_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="555" column="33" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="555" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1ac0b4b9d15bf4f4e8735a991518d6dace" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::sharding::test::Coordinator3PC::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="556" column="34" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="556" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a116ca1f1f9332d1a46efc9beeefee401" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant" kindref="compound">SimParticipant</ref> * &gt;</type>
+        <definition>std::vector&lt;SimParticipant*&gt; themisdb::sharding::test::Coordinator3PC::participants_</definition>
+        <argsstring></argsstring>
+        <name>participants_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::participants_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="557" column="17" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="557" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a8d886cffa0650483167806da530e8694" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9b" kindref="member">Coord3PCState</ref></type>
+        <definition>Coord3PCState themisdb::sharding::test::Coordinator3PC::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::state_</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9bafaee4ca3c30ee18148ce3ada37466498" kindref="member">Coord3PCState::INIT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="558" column="34" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="558" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a5eeea20bfcee5683fc94921fc13a944a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9b" kindref="member">Coord3PCState</ref> &gt;</type>
+        <definition>std::vector&lt;Coord3PCState&gt; themisdb::sharding::test::Coordinator3PC::transitions_</definition>
+        <argsstring></argsstring>
+        <name>transitions_</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::transitions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="559" column="19" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="559" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a564fea5152cfd1e4ba63ddcef41bdb54" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::test::Coordinator3PC::Coordinator3PC</definition>
+        <argsstring>(SimWAL *wal)</argsstring>
+        <name>Coordinator3PC</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::Coordinator3PC</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_w_a_l" kindref="compound">SimWAL</ref> *</type>
+          <declname>wal</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="463" column="14" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="463" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a26f4f93e70cfd37608cdd03329763725" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::Coordinator3PC::addParticipant</definition>
+        <argsstring>(SimParticipant *p)</argsstring>
+        <name>addParticipant</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::addParticipant</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1test_1_1_sim_participant" kindref="compound">SimParticipant</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="465" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="465" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a2455dc28cf1362746575c5df4b01d7ac" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9b" kindref="member">Coord3PCState</ref></type>
+        <definition>Coord3PCState themisdb::sharding::test::Coordinator3PC::state</definition>
+        <argsstring>() const</argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="470" column="19" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="470" bodyend="473"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1af7bea68b6260e1fcbced3c6126ff3e0b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9b" kindref="member">Coord3PCState</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; Coord3PCState &gt; &amp; themisdb::sharding::test::Coordinator3PC::transitions</definition>
+        <argsstring>() const</argsstring>
+        <name>transitions</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::transitions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="475" column="23" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="475" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1ae7959625d04f44b92a7709b62b3192d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::test::Coordinator3PC::execute</definition>
+        <argsstring>(const std::string &amp;txn_id, std::function&lt; bool(const std::string &amp;, const std::string &amp;)&gt; precommit_cb=nullptr, std::chrono::milliseconds timeout=500ms)</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::execute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(const std::string &amp;, const std::string &amp;)&gt;</type>
+          <declname>precommit_cb</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>500ms</defval>
+        </param>
+        <briefdescription>
+<para>Execute full 3PC returning true on COMMIT. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>precommit_cb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional per-shard pre-commit callback (returns false → abort). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout for PRE-COMMIT phase. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="482" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="482" bodyend="546"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a6325b9b6330688953a7a7804c6c936fe" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::sharding::test::Coordinator3PC::transition</definition>
+        <argsstring>(Coord3PCState next)</argsstring>
+        <name>transition</name>
+        <qualifiedname>themisdb::sharding::test::Coordinator3PC::transition</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1_1test_1a85ca1d9510bc325dd1775ec81b8d7d9b" kindref="member">Coord3PCState</ref></type>
+          <declname>next</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="549" column="10" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="549" bodyend="553"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-process 3PC coordinator with state-transition log and WAL. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/sharding/test_sharding_phase6_hardening.cpp" line="461" column="1" bodyfile="tests/sharding/test_sharding_phase6_hardening.cpp" bodystart="461" bodyend="560"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a26f4f93e70cfd37608cdd03329763725" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>addParticipant</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a564fea5152cfd1e4ba63ddcef41bdb54" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>Coordinator3PC</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1ae7959625d04f44b92a7709b62b3192d3" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1ac0b4b9d15bf4f4e8735a991518d6dace" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>mu_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a116ca1f1f9332d1a46efc9beeefee401" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>participants_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a2455dc28cf1362746575c5df4b01d7ac" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>state</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a8d886cffa0650483167806da530e8694" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>state_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a6325b9b6330688953a7a7804c6c936fe" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>transition</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1af7bea68b6260e1fcbced3c6126ff3e0b" prot="public" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>transitions</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1a5eeea20bfcee5683fc94921fc13a944a" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>transitions_</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1test_1_1_coordinator3_p_c_1aeceb894a76e10eedd3542e4649f5adfe" prot="private" virt="non-virtual"><scope>themisdb::sharding::test::Coordinator3PC</scope><name>wal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</compoundname>
+    <includes refid="graph__kernel__classification_8h" local="no">graph_kernel_classification.h</includes>
+    <templateparamlist>
+    </templateparamlist>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1ac77cd1ca18203124a0ebaaf03b5623aa" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2c" kindref="member">KernelCategory</ref></type>
+        <definition>KernelCategory themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::category</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1acceleration_1a20a4ed65dbc539c26a6c5c002c3b3b2ca4368681a340ce211526318d301164fb7" kindref="member">KernelCategory::ACCELERATION_ELIGIBLE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="115" column="37" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1a066501f1ebd6eed5b36434ff6161653a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::name</qualifiedname>
+        <initializer>= &quot;ANN_INNER_PRODUCT&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="116" column="39" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1ad9818704b8ab213a6116638321f88a53" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::requires_input_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_input_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::requires_input_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="117" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1aa42eaa5da7713cb9f99a85f9c39c9c1b" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::requires_output_validation</definition>
+        <argsstring></argsstring>
+        <name>requires_output_validation</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::requires_output_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="118" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1af72dd79325aaf554150f37ed74bc9244" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::has_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>has_cpu_fallback</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::has_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="119" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1a0db6a08eef55d3ca2d091690ba8dab5a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::gpu_execution_bounded</definition>
+        <argsstring></argsstring>
+        <name>gpu_execution_bounded</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::gpu_execution_bounded</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="120" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1a5f0482d118ccb679d30f3270d5fc2e16" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint32_t</type>
+        <definition>std::uint32_t themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::max_gpu_time_ms</definition>
+        <argsstring></argsstring>
+        <name>max_gpu_time_ms</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::max_gpu_time_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="121" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1a11da8b6ee1a7c704f8de653152a15a66" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::is_advisory_only</definition>
+        <argsstring></argsstring>
+        <name>is_advisory_only</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::is_advisory_only</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="122" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1aad584e4fdc48f12269005b4e238fafc1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::gpu_may_parallelize</definition>
+        <argsstring></argsstring>
+        <name>gpu_may_parallelize</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::gpu_may_parallelize</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="123" column="27" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::acceleration::KernelClassificationTraits&lt; KT &gt;::max_output_size</definition>
+        <argsstring></argsstring>
+        <name>max_output_size</name>
+        <qualifiedname>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;::max_output_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/graph_kernel_classification.h" line="76" column="36" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/graph_kernel_classification.h" line="114" column="1" bodyfile="include/acceleration/graph_kernel_classification.h" bodystart="114" bodyend="124"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1ac77cd1ca18203124a0ebaaf03b5623aa" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>category</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1a0db6a08eef55d3ca2d091690ba8dab5a" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>gpu_execution_bounded</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1aad584e4fdc48f12269005b4e238fafc1" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>gpu_may_parallelize</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1af72dd79325aaf554150f37ed74bc9244" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>has_cpu_fallback</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1a11da8b6ee1a7c704f8de653152a15a66" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>is_advisory_only</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1a5f0482d118ccb679d30f3270d5fc2e16" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>max_gpu_time_ms</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_1a4a8610cfa103f3514295137eb2938a4c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>max_output_size</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1a066501f1ebd6eed5b36434ff6161653a" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1ad9818704b8ab213a6116638321f88a53" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>requires_input_validation</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_classification_traits_3_01_kernel_type_1_1_a_n_n___i_n_n_e_r___p_r_o_d_u_c_t_01_4_1aa42eaa5da7713cb9f99a85f9c39c9c1b" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelClassificationTraits&lt; KernelType::ANN_INNER_PRODUCT &gt;</scope><name>requires_output_validation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

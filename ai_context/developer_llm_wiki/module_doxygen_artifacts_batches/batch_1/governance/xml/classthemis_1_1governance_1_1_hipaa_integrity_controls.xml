@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_hipaa_integrity_controls" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::governance::HipaaIntegrityControls</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_rule" prot="public" virt="non-virtual">themis::governance::IComplianceRule</basecompoundref>
+    <includes refid="hipaa__rules_8h" local="no">hipaa_rules.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_integrity_controls_1af187f1af4987a146f17cf15becaa5c21" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaIntegrityControls::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::HipaaIntegrityControls::id</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a01395f8af99fa20ce9be6b77cd3b5557">id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="91" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_integrity_controls_1add84a7822d9442ecf20a4888bb9fea2c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaIntegrityControls::framework</definition>
+        <argsstring>() const override</argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::HipaaIntegrityControls::framework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1ae95c843e2f550ded2eeb7ad923960aba">framework</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="92" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_integrity_controls_1a1acfe85f2c500457cbd35a880c94a3f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaIntegrityControls::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::HipaaIntegrityControls::description</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1af1ff57617e2151936aa46d9a4d6d39b2">description</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="93" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="93" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_integrity_controls_1a7fe0be53f4630fc6a2118901a9717d39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaIntegrityControls::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::HipaaIntegrityControls::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a96562e0417b8471400cfcf2ea185a7ea">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="100" column="10" bodyfile="src/governance/hipaa_rules.cpp" bodystart="83" bodyend="91"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::HipaaIntegrityControls</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_integrity_controls"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::HipaaIntegrityControls</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_integrity_controls"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/hipaa_rules.h" line="89" column="1" bodyfile="include/governance/hipaa_rules.h" bodystart="89" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_hipaa_integrity_controls_1a1acfe85f2c500457cbd35a880c94a3f1" prot="public" virt="virtual"><scope>themis::governance::HipaaIntegrityControls</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_integrity_controls_1a7fe0be53f4630fc6a2118901a9717d39" prot="public" virt="virtual"><scope>themis::governance::HipaaIntegrityControls</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_integrity_controls_1add84a7822d9442ecf20a4888bb9fea2c" prot="public" virt="virtual"><scope>themis::governance::HipaaIntegrityControls</scope><name>framework</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_integrity_controls_1af187f1af4987a146f17cf15becaa5c21" prot="public" virt="virtual"><scope>themis::governance::HipaaIntegrityControls</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_rule_1a6f34423b2bbde587233879f221cb63b8" prot="public" virt="virtual"><scope>themis::governance::HipaaIntegrityControls</scope><name>~IComplianceRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,678 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_c_d_c" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalCDC</compoundname>
+    <includes refid="temporal__cdc_8h" local="no">temporal_cdc.h</includes>
+    <innerclass refid="structthemisdb_1_1temporal_1_1_temporal_c_d_c_1_1_subscription" prot="private">themisdb::temporal::TemporalCDC::Subscription</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a49c7940878a8d8f8ee335499377e0113" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalCDC::kDefaultMaxLogSize</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMaxLogSize</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::kDefaultMaxLogSize</qualifiedname>
+        <initializer>= 65536</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="191" column="29" bodyfile="include/temporal/temporal_cdc.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a6c8433b7e2bcd81a5c0431a38eeea08a" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalCDC::max_log_size_</definition>
+        <argsstring></argsstring>
+        <name>max_log_size_</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::max_log_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="311" column="34" bodyfile="include/temporal/temporal_cdc.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a3fc49b82f3cf1d3fb70939f2a16744dc" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483" kindref="member">OverflowPolicy</ref></type>
+        <definition>OverflowPolicy themisdb::temporal::TemporalCDC::overflow_policy_</definition>
+        <argsstring></argsstring>
+        <name>overflow_policy_</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::overflow_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="312" column="34" bodyfile="include/temporal/temporal_cdc.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9de6b193f581734030265585eb946560" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt;ChangeEvent&gt; themisdb::temporal::TemporalCDC::log_</definition>
+        <argsstring></argsstring>
+        <name>log_</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::log_</qualifiedname>
+        <briefdescription>
+<para>Ring-buffer (front = oldest). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="313" column="21" bodyfile="include/temporal/temporal_cdc.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a1dea88d5bf8b574ba070ae8549106d4a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalCDC::total_published_</definition>
+        <argsstring></argsstring>
+        <name>total_published_</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::total_published_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="314" column="24" bodyfile="include/temporal/temporal_cdc.h" bodystart="314" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1aa7e3795b091500e190f0831621d52c5c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalCDC::overflow_count_</definition>
+        <argsstring></argsstring>
+        <name>overflow_count_</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::overflow_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Events evicted by OVERWRITE policy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="315" column="24" bodyfile="include/temporal/temporal_cdc.h" bodystart="315" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a76f8fb4c52e04576fb4b0ab6de05b258" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, Subscription &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Subscription&gt; themisdb::temporal::TemporalCDC::subscriptions_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::subscriptions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="317" column="24" bodyfile="include/temporal/temporal_cdc.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1aa47f2084702576972f44c2e4f5634ea7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::temporal::TemporalCDC::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="319" column="24" bodyfile="include/temporal/temporal_cdc.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1aaa53d62a048f2cb4b515e31b33b2b63c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::temporal::TemporalCDC::next_sub_id_</definition>
+        <argsstring></argsstring>
+        <name>next_sub_id_</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::next_sub_id_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="320" column="17" bodyfile="include/temporal/temporal_cdc.h" bodystart="320" bodyend="320"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalCDC::TemporalCDC</definition>
+        <argsstring>(size_t max_log_size=kDefaultMaxLogSize, OverflowPolicy policy=OverflowPolicy::OVERWRITE)</argsstring>
+        <name>TemporalCDC</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::TemporalCDC</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_log_size</declname>
+          <defval><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a49c7940878a8d8f8ee335499377e0113" kindref="member">kDefaultMaxLogSize</ref></defval>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483" kindref="member">OverflowPolicy</ref></type>
+          <declname>policy</declname>
+          <defval><ref refid="namespacethemisdb_1_1temporal_1a4f3a2c4128d3a55a55b7748f921e0483a1038b7c5b38b3977c52e47d18cc741ee" kindref="member">OverflowPolicy::OVERWRITE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct a CDC instance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_log_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ring-buffer capacity (number of events). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to do when the buffer is full. Defaults to OVERWRITE (circular eviction). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="200" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="119" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1afe61b53862ee5aa20100a2f97f3a5d27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalCDC::TemporalCDC</definition>
+        <argsstring>(const TemporalCDC &amp;)=delete</argsstring>
+        <name>TemporalCDC</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::TemporalCDC</qualifiedname>
+        <param>
+          <type>const TemporalCDC &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="204" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1abcd27055564ddd8de53cc078036024c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref> &amp;</type>
+        <definition>TemporalCDC &amp; themisdb::temporal::TemporalCDC::operator=</definition>
+        <argsstring>(const TemporalCDC &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="205" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2be81fab166dfdfa14d024e2a3d5ad09" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalCDC::TemporalCDC</definition>
+        <argsstring>(TemporalCDC &amp;&amp;) noexcept=default</argsstring>
+        <name>TemporalCDC</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::TemporalCDC</qualifiedname>
+        <param>
+          <type>TemporalCDC &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="206" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2b3b0e01ab1b3fad56276ef37c38b93d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref> &amp;</type>
+        <definition>TemporalCDC &amp; themisdb::temporal::TemporalCDC::operator=</definition>
+        <argsstring>(TemporalCDC &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" kindref="member">TemporalCDC</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="207" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1ab54cb1355b53fcff5042077ec6c79ee0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::TemporalCDC::~TemporalCDC</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TemporalCDC</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::~TemporalCDC</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="209" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2d922aa42751275fe9b774ae009c62fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalCDC::subscribeToChanges</definition>
+        <argsstring>(const std::string &amp;table_name, std::function&lt; void(const ChangeEvent &amp;)&gt; callback)</argsstring>
+        <name>subscribeToChanges</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::subscribeToChanges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Subscribe to change events for a specific table.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table to monitor. Pass an empty string to receive events for ALL tables. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Invoked synchronously for each matching event. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Subscription ID for use with <ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1af367fcc462efb177c4ba72aa574b0efd" kindref="member">unsubscribe()</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="221" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="129" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1af367fcc462efb177c4ba72aa574b0efd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalCDC::unsubscribe</definition>
+        <argsstring>(const std::string &amp;sub_id)</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::unsubscribe</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sub_id</declname>
+        </param>
+        <briefdescription>
+<para>Unsubscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel a subscription. <simplesect kind="return"><para>true if the subscription was found and removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sub_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sub. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="229" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="156" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a86bd9862992e65096e21b703f97f9c19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalCDC::subscriptionCount</definition>
+        <argsstring>() const</argsstring>
+        <name>subscriptionCount</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::subscriptionCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the number of active subscriptions. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="232" column="12" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="161" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9303e67bc5d3f90b7d1d1d3fe6c57603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalCDC::publishEvent</definition>
+        <argsstring>(const ChangeEvent &amp;event)</argsstring>
+        <name>publishEvent</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::publishEvent</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Publish Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Publish a change event.</para>
+<para><orderedlist>
+<listitem><para>Appends the event to the in-process log (evicting the oldest event if the ring-buffer is full).</para>
+</listitem><listitem><para>Invokes all matching subscribers synchronously.</para>
+</listitem></orderedlist>
+</para>
+<para>This method is intended to be called from write paths (insert/update/ delete) inside the temporal module.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: void(), lk(), size(), fetch_add(), erase(), begin(), push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="246" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="180" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a4dc5e59d951d137320fe38518fe68675" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_change_event" kindref="compound">ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; ChangeEvent &gt; themisdb::temporal::TemporalCDC::replayChanges</definition>
+        <argsstring>(const std::string &amp;table_name, const TimeRange &amp;range) const</argsstring>
+        <name>replayChanges</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::replayChanges</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>range</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replay historical change events from the in-process log.</para>
+<para>Returns events whose <computeroutput>transaction_time</computeroutput> falls in the half-open interval [range.start, range.end) and whose <computeroutput>table_name</computeroutput> matches. Pass an empty <computeroutput>table_name</computeroutput> to replay events for all tables.</para>
+<para><simplesect kind="note"><para>Only events retained in the ring-buffer are available. Events evicted due to log overflow are permanently lost. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="260" column="17" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="224" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a8b4ebc56aee2095428338a855e87867c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::TemporalCDC::logSize</definition>
+        <argsstring>() const</argsstring>
+        <name>logSize</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::logSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the total number of events in the log (≤ max_log_size). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="267" column="12" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="253" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a23782dc9ac2c6172934301e5a9995868" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::TemporalCDC::totalPublished</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalPublished</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::totalPublished</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the total number of events ever published (monotonically increasing, wraps on overflow). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="273" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="263" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a670e601b0577c0d9f82ec333d9bd6203" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::temporal::TemporalCDC::overflowCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>overflowCount</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::overflowCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the total number of events that have been silently discarded due to ring-buffer overflow since construction.</para>
+<para>An overflow occurs when <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9303e67bc5d3f90b7d1d1d3fe6c57603" kindref="member">publishEvent()</ref></computeroutput> is called while the in-process log already holds <computeroutput>max_log_size</computeroutput> events. The oldest event is evicted (OVERWRITE policy) and this counter is incremented.</para>
+<para>A non-zero value indicates that <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a4dc5e59d951d137320fe38518fe68675" kindref="member">replayChanges()</ref></computeroutput> may no longer return the complete history. Consumers that require guaranteed delivery should use the subscription API instead. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="287" column="14" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="267" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a26ebcf468ad03d8dfb579d88338f9b27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::temporal::TemporalCDC::clearLog</definition>
+        <argsstring>()</argsstring>
+        <name>clearLog</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::clearLog</qualifiedname>
+        <briefdescription>
+<para>Clear Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear the in-process event log. Active subscriptions are unaffected.</para>
+<para>Calls: lk(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="290" column="10" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="275" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a783ba9da898c7dd69bb919150ca2deb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::temporal::TemporalCDC::changeTypeName</definition>
+        <argsstring>(ChangeType ct)</argsstring>
+        <name>changeTypeName</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::changeTypeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref></type>
+          <declname>ct</declname>
+        </param>
+        <briefdescription>
+<para>Change Type Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert <ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref> enum to string representation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ct</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements changeTypeName without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="295" column="24" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="48" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1ab0e7696b3ad24f134c34a18ce8b152cb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref></type>
+        <definition>ChangeType themisdb::temporal::TemporalCDC::changeTypeFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>changeTypeFromString</name>
+        <qualifiedname>themisdb::temporal::TemporalCDC::changeTypeFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Change Type From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convert string to <ref refid="namespacethemisdb_1_1temporal_1ad8b41d0d86d3ac7fec625c5121aea6aa" kindref="member">ChangeType</ref> enum.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements changeTypeFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_cdc.h" line="298" column="23" bodyfile="src/temporal/temporal_cdc.cpp" bodystart="65" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-process temporal change data capture engine. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c" kindref="compound">TemporalCDC</ref></computeroutput> decouples change producers (write paths) from change consumers (replication, audit, analytics) via a pub/sub model backed by a bounded in-memory event log.</para>
+<para><heading level="3">Subscription lifecycle</heading>
+</para>
+<para><orderedlist>
+<listitem><para>Call <computeroutput>subscribeToChanges(table_name, callback)</computeroutput> → returns a <computeroutput>sub_id</computeroutput>.</para>
+</listitem><listitem><para>Events matching <computeroutput>table_name</computeroutput> (or all tables if <computeroutput>table_name</computeroutput> is empty) are delivered synchronously to <computeroutput>callback</computeroutput> from inside <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9303e67bc5d3f90b7d1d1d3fe6c57603" kindref="member">publishEvent</ref></computeroutput>.</para>
+</listitem><listitem><para>Call <computeroutput>unsubscribe(sub_id)</computeroutput> to remove the subscription.</para>
+</listitem></orderedlist>
+</para>
+<para><heading level="3">Event log</heading>
+</para>
+<para>All published events are appended to a ring-buffer with capacity <computeroutput>max_log_size</computeroutput> (default 65536). <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a4dc5e59d951d137320fe38518fe68675" kindref="member">replayChanges()</ref></computeroutput> returns matching events from this log. Events older than the ring-buffer window are lost.</para>
+<para><heading level="3">Ring-buffer overflow semantics</heading>
+</para>
+<para>The ring-buffer operates with <bold>OVERWRITE</bold> (oldest-eviction) policy:</para>
+<para><itemizedlist>
+<listitem><para>The buffer is a circular deque (<computeroutput>std::deque</computeroutput>) capped at <computeroutput>max_log_size</computeroutput> entries.</para>
+</listitem><listitem><para>When a new event arrives and the buffer is at capacity, the <bold>oldest</bold> event (front of the deque) is silently discarded to make room.</para>
+</listitem><listitem><para>There is no back-pressure on the caller, no blocking, and no error is returned from <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9303e67bc5d3f90b7d1d1d3fe6c57603" kindref="member">publishEvent()</ref></computeroutput>.</para>
+</listitem><listitem><para>Consumers that require guaranteed delivery MUST use the subscription API (<computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2d922aa42751275fe9b774ae009c62fc" kindref="member">subscribeToChanges</ref></computeroutput>) rather than <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a4dc5e59d951d137320fe38518fe68675" kindref="member">replayChanges()</ref></computeroutput>, because in-flight callbacks are invoked <emphasis>before</emphasis> the event is appended — i.e. they are unaffected by overflow.</para>
+</listitem><listitem><para>The overflow count (total events lost since construction) is available via <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a670e601b0577c0d9f82ec333d9bd6203" kindref="member">overflowCount()</ref></computeroutput>.</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>Capacity guidance</bold>:<itemizedlist>
+<listitem><para>Default capacity 65 536 events ≈ 8–16 MiB depending on payload size.</para>
+</listitem><listitem><para>Increase <computeroutput>max_log_size</computeroutput> in the constructor for replay-heavy workloads.</para>
+</listitem><listitem><para>A future version will support BLOCK and DROP policies for strict back-pressure (see <computeroutput>include/temporal/ROADMAP.md</computeroutput>, CDC v1.8.0 items).</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Thread-safety</heading>
+</para>
+<para>All public methods are thread-safe. Callbacks are invoked under a shared lock so they must not call <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2d922aa42751275fe9b774ae009c62fc" kindref="member">subscribeToChanges</ref></computeroutput> or <computeroutput><ref refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1af367fcc462efb177c4ba72aa574b0efd" kindref="member">unsubscribe</ref></computeroutput> (doing so would deadlock). </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_cdc.h" line="189" column="1" bodyfile="include/temporal/temporal_cdc.h" bodystart="189" bodyend="321"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1ab0e7696b3ad24f134c34a18ce8b152cb" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>changeTypeFromString</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a783ba9da898c7dd69bb919150ca2deb2" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>changeTypeName</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a26ebcf468ad03d8dfb579d88338f9b27" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>clearLog</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a49c7940878a8d8f8ee335499377e0113" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>kDefaultMaxLogSize</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9de6b193f581734030265585eb946560" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>log_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a8b4ebc56aee2095428338a855e87867c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>logSize</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a6c8433b7e2bcd81a5c0431a38eeea08a" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>max_log_size_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1aa47f2084702576972f44c2e4f5634ea7" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1aaa53d62a048f2cb4b515e31b33b2b63c" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>next_sub_id_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1abcd27055564ddd8de53cc078036024c0" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2b3b0e01ab1b3fad56276ef37c38b93d" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1aa7e3795b091500e190f0831621d52c5c" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>overflow_count_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a3fc49b82f3cf1d3fb70939f2a16744dc" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>overflow_policy_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a670e601b0577c0d9f82ec333d9bd6203" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>overflowCount</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a9303e67bc5d3f90b7d1d1d3fe6c57603" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>publishEvent</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a4dc5e59d951d137320fe38518fe68675" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>replayChanges</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2d922aa42751275fe9b774ae009c62fc" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>subscribeToChanges</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a86bd9862992e65096e21b703f97f9c19" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>subscriptionCount</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a76f8fb4c52e04576fb4b0ab6de05b258" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>subscriptions_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a632d3f94ac9da60d090112de16e66c1b" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>TemporalCDC</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1afe61b53862ee5aa20100a2f97f3a5d27" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>TemporalCDC</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a2be81fab166dfdfa14d024e2a3d5ad09" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>TemporalCDC</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a1dea88d5bf8b574ba070ae8549106d4a" prot="private" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>total_published_</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1a23782dc9ac2c6172934301e5a9995868" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>totalPublished</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1af367fcc462efb177c4ba72aa574b0efd" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>unsubscribe</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_c_d_c_1ab54cb1355b53fcff5042077ec6c79ee0" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalCDC</scope><name>~TemporalCDC</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

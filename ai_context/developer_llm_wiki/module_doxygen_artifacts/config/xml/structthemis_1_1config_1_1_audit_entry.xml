@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1config_1_1_audit_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::config::AuditEntry</compoundname>
+    <includes refid="config__audit__log_8h" local="no">config_audit_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_audit_entry_1adc2aec2f8fd15abb3ffca8fe1a8b5177" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::AuditEntry::requested_path</definition>
+        <argsstring></argsstring>
+        <name>requested_path</name>
+        <qualifiedname>themis::config::AuditEntry::requested_path</qualifiedname>
+        <briefdescription>
+<para>The path as requested by the caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_audit_log.h" line="26" column="17" bodyfile="include/config/config_audit_log.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_audit_entry_1a6f206ea99f35de190b7d14a41673c3ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::AuditEntry::resolved_path</definition>
+        <argsstring></argsstring>
+        <name>resolved_path</name>
+        <qualifiedname>themis::config::AuditEntry::resolved_path</qualifiedname>
+        <briefdescription>
+<para>The final resolved filesystem path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_audit_log.h" line="27" column="17" bodyfile="include/config/config_audit_log.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_audit_entry_1a9837da2f3039a1afe77b1dfc5371ab96" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::config::AuditEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::config::AuditEntry::timestamp</qualifiedname>
+        <briefdescription>
+<para>When the access occurred. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_audit_log.h" line="28" column="43" bodyfile="include/config/config_audit_log.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_audit_entry_1af091438d4f267ef5bf35f2ecab134cfe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::config::AuditEntry::is_legacy</definition>
+        <argsstring></argsstring>
+        <name>is_legacy</name>
+        <qualifiedname>themis::config::AuditEntry::is_legacy</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if the legacy fallback path was used </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_audit_log.h" line="29" column="10" bodyfile="include/config/config_audit_log.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1config_1_1_audit_entry_1ac0ebfac0d6f653800d6dbec8fe47ed58" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::config::AuditEntry::is_cache_hit</definition>
+        <argsstring></argsstring>
+        <name>is_cache_hit</name>
+        <qualifiedname>themis::config::AuditEntry::is_cache_hit</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if the result came from the LRU cache </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_audit_log.h" line="30" column="10" bodyfile="include/config/config_audit_log.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/config/config_audit_log.h" line="25" column="1" bodyfile="include/config/config_audit_log.h" bodystart="25" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1config_1_1_audit_entry_1ac0ebfac0d6f653800d6dbec8fe47ed58" prot="public" virt="non-virtual"><scope>themis::config::AuditEntry</scope><name>is_cache_hit</name></member>
+      <member refid="structthemis_1_1config_1_1_audit_entry_1af091438d4f267ef5bf35f2ecab134cfe" prot="public" virt="non-virtual"><scope>themis::config::AuditEntry</scope><name>is_legacy</name></member>
+      <member refid="structthemis_1_1config_1_1_audit_entry_1adc2aec2f8fd15abb3ffca8fe1a8b5177" prot="public" virt="non-virtual"><scope>themis::config::AuditEntry</scope><name>requested_path</name></member>
+      <member refid="structthemis_1_1config_1_1_audit_entry_1a6f206ea99f35de190b7d14a41673c3ab" prot="public" virt="non-virtual"><scope>themis::config::AuditEntry</scope><name>resolved_path</name></member>
+      <member refid="structthemis_1_1config_1_1_audit_entry_1a9837da2f3039a1afe77b1dfc5371ab96" prot="public" virt="non-virtual"><scope>themis::config::AuditEntry</scope><name>timestamp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

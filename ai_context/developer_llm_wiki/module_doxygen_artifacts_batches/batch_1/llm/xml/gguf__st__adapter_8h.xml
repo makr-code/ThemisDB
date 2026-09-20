@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gguf__st__adapter_8h" kind="file" language="C++">
+    <compoundname>gguf_st_adapter.h</compoundname>
+    <includes local="yes">storage/blob_storage_manager.h</includes>
+    <includes refid="adapter__registry_8h" local="yes">llm/adapter_registry.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">map</includes>
+    <includedby refid="aql__train__parser_8h" local="yes">include/llm/aql_train_parser.h</includedby>
+    <includedby refid="inline__training__engine_8h" local="yes">include/llm/inline_training_engine.h</includedby>
+    <includedby refid="gguf__st__adapter_8cpp" local="yes">src/llm/gguf_st_adapter.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>llm/adapter_registry.h</label>
+        <link refid="adapter__registry_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/gguf_st_adapter.h</label>
+        <link refid="gguf__st__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>storage/blob_storage_manager.h</label>
+      </node>
+      <node id="4">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/llm/aql_train_parser.h</label>
+        <link refid="aql__train__parser_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/gguf_st_adapter.h</label>
+        <link refid="gguf__st__adapter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/llm/inline_training_engine.h</label>
+        <link refid="inline__training__engine_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/llm/aql_train_parser.cpp</label>
+        <link refid="aql__train__parser_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/gguf_st_adapter.cpp</label>
+        <link refid="gguf__st__adapter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/inline_training_engine.cpp</label>
+        <link refid="inline__training__engine_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/llm/test_llm_destructor_noexcept_b1.cpp</label>
+        <link refid="test__llm__destructor__noexcept__b1_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" prot="public">themis::llm::GGUFSTConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_section_header" prot="public">themis::llm::SectionHeader</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter" prot="public">themis::llm::GGUFSTAdapter</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components" prot="public">themis::llm::GGUFSTAdapter::AdapterComponents</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result" prot="public">themis::llm::GGUFSTAdapter::VerificationResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info" prot="public">themis::llm::GGUFSTAdapter::FormatInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats" prot="public">themis::llm::GGUFSTAdapter::CompressionStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/blob_storage_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adapter__registry_8h" kindref="compound">llm/adapter_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" kindref="member">SizeMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41aba7de5bc6888294e5884b024a4c894f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41aba7de5bc6888294e5884b024a4c894f1" kindref="member">FULL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GGUF<sp/>+<sp/>SafeTensors<sp/>+<sp/>Signature<sp/>+<sp/>Manifest<sp/>(~12-20MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41abbd53c25a2b976c1757ce1f9dbe8bd1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41abbd53c25a2b976c1757ce1f9dbe8bd1f" kindref="member">COMPACT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GGUF<sp/>+<sp/>Signature<sp/>+<sp/>Manifest<sp/>(~8-16MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41a6a23e694d0ed3efab00491b9954c70fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41a6a23e694d0ed3efab00491b9954c70fc" kindref="member">ULTRA_COMPACT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GGUF<sp/>+<sp/>minimal<sp/>metadata<sp/>(~8MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41ab30b6bca0f10da571dfb3a51940db02f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41ab30b6bca0f10da571dfb3a51940db02f" kindref="member">SIGNATURE_ONLY</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>signature<sp/>+<sp/>manifest<sp/>for<sp/>registry<sp/>(~100KB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a38a24e1d0b8c7c2796b4f141f6b493fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" kindref="member">SizeMode</ref><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a38a24e1d0b8c7c2796b4f141f6b493fe" kindref="member">size_mode</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41abbd53c25a2b976c1757ce1f9dbe8bd1f" kindref="member">SizeMode::COMPACT</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">QuantizationType</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a44ad4ef5a76e6aa6fb3e3fa079a54fda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a44ad4ef5a76e6aa6fb3e3fa079a54fda" kindref="member">F32</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Full<sp/>precision<sp/>(baseline,<sp/>64MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a56d8353718e6fdc78b8d69078a2cdb94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a56d8353718e6fdc78b8d69078a2cdb94" kindref="member">F16</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Half<sp/>precision<sp/>(32MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a7d752b3cc49838890790999912af5a83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212a7d752b3cc49838890790999912af5a83" kindref="member">Q8_0</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>8-bit<sp/>quantization<sp/>(16MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9903780fa1d9b91f0542bd40fea13f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9903780fa1d9b91f0542bd40fea13f2" kindref="member">Q4_K_M</ref>,<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4-bit<sp/>K-quants<sp/>medium<sp/>(8MB)<sp/>-<sp/>RECOMMENDED</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9a13185686539dcc9be4be36d58fb35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9a13185686539dcc9be4be36d58fb35" kindref="member">Q2_K</ref><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2-bit<sp/>K-quants<sp/>(4MB,<sp/>~2%<sp/>accuracy<sp/>loss)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a9fa376c3e25bd2b4c8dd14303722bce5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">QuantizationType</ref><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a9fa376c3e25bd2b4c8dd14303722bce5" kindref="member">quantization</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212ae9903780fa1d9b91f0542bd40fea13f2" kindref="member">QuantizationType::Q4_K_M</ref>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a07694c65cb26a69d94a44bd337a5252f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a07694c65cb26a69d94a44bd337a5252f" kindref="member">compress_manifest</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a14caec5b6a738058718c162449c3e692" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a14caec5b6a738058718c162449c3e692" kindref="member">compress_safetensors</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>SafeTensors<sp/>already<sp/>efficient</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ac43c0af423b37286cf4e7b76899a276d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ac43c0af423b37286cf4e7b76899a276d" kindref="member">zstd_level</ref><sp/>=<sp/>3;<sp/><sp/></highlight><highlight class="comment">//<sp/>Fast<sp/>compression<sp/>with<sp/>good<sp/>ratio</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ace271ccd35003e05f44e3117155464af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ace271ccd35003e05f44e3117155464af" kindref="member">embed_safetensors</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Default:<sp/>COMPACT<sp/>mode</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a3735d4853f498d7bc2911ffeb4ce5f60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a3735d4853f498d7bc2911ffeb4ce5f60" kindref="member">include_signature</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a2825034784039fb701b4cbd659236fd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a2825034784039fb701b4cbd659236fd7" kindref="member">include_manifest</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_section_header" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1_section_header_1aa66ea6485554f2367a5a8563302b6fae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_section_header_1aa66ea6485554f2367a5a8563302b6fae" kindref="member">~SectionHeader</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>(<ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1_section_header_1a7cfa535bdf5301482e49c3f7ae2db7e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>&amp;<sp/>operator=(<ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1_section_header_1ad089d11424b094903045dcc1a24d98d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>(const<sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>&amp;)<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_section_header_1a5934291c8d4b56f2edde3f80c3afa75f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>&amp;<sp/>operator=(const<sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>&amp;)<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_section_header_1ad69adfdffc594936e1fef2281cc7264b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a734b0c0dff9df0beb2eb7abfd269e49c" kindref="member">SectionHeader</ref>()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1_section_header_1aeee4b74e8ce5f067b3dada130b80f757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_section_header_1aeee4b74e8ce5f067b3dada130b80f757" kindref="member">magic</ref>[4];<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Section<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_section_header_1a193f99466d004ac80cde6b52fd83569b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a193f99466d004ac80cde6b52fd83569b" kindref="member">version</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Section<sp/>format<sp/>version</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_section_header_1a52d5487b91396ea2e7e8634123b8d217" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a52d5487b91396ea2e7e8634123b8d217" kindref="member">data_size</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>of<sp/>data<sp/>following<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_section_header_1a1f28679ee8594eaa2bbf2a22ef39b770" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a1f28679ee8594eaa2bbf2a22ef39b770" kindref="member">flags</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>flags,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_section_header_1a3cdb21d5907c0850badc56bbdc118edf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1_section_header_1a3cdb21d5907c0850badc56bbdc118edf" kindref="member">reserved</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reserved<sp/>for<sp/>future<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aeef324bad0ed22d9f2448dd1336b65a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aeef324bad0ed22d9f2448dd1336b65a1" kindref="member">~GGUFSTAdapter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>(<ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a00749da304d5fa6c06308e42f8d0bc63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a3b093a857b1f359541166e61d4115852" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>(const<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a498fcde4c70f39fa6f6a478778696d55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a0153d44094a62008e2d2e8ba8df49387" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>explicit<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>::BlobStorageManager&gt;<sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref>&amp;<sp/>config<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components" kindref="compound">AdapterComponents</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a32f20facd5f775eacecaf337e87a30d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a32f20facd5f775eacecaf337e87a30d9" kindref="member">gguf_data</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GGUF<sp/>tensor<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a7b55ae89348f5dcb12114a3c8d4881b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a7b55ae89348f5dcb12114a3c8d4881b0" kindref="member">safetensors_data</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>SafeTensors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1acb55460de4a794637f972a68140f480e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1acb55460de4a794637f972a68140f480e" kindref="member">signature</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cryptographic<sp/>signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a9e2fc68d2af682ace48846e284b43ffa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components_1a9e2fc68d2af682ace48846e284b43ffa" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Complete<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a85117eefd7c2efc983e3b752c03f6a6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;storage::BlobRef&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a85117eefd7c2efc983e3b752c03f6a6c" kindref="member">writeAdapter</ref>(</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components" kindref="compound">AdapterComponents</ref>&amp;<sp/>components</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Read<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a5e35cba20ba86c2150a1945e43a300cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterComponents&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a5e35cba20ba86c2150a1945e43a300cb" kindref="member">readAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::BlobRef&amp;<sp/>ref);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1abe0eee2ac7369cce55f19cdb1d4987b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterMetadata&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1abe0eee2ac7369cce55f19cdb1d4987b1" kindref="member">readMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::BlobRef&amp;<sp/>ref);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a25d95fb7ab056aa35080a8024a582b36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterSignature&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a25d95fb7ab056aa35080a8024a582b36" kindref="member">readSignature</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::BlobRef&amp;<sp/>ref);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verification<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1af6e653476de29d0198bd23dae658469f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1af6e653476de29d0198bd23dae658469f" kindref="member">valid</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a28c37b4066d96ed6ea5bd120894f9f88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a28c37b4066d96ed6ea5bd120894f9f88" kindref="member">signature_valid</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a94823571e82a476b6eb36148d88cd682" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a94823571e82a476b6eb36148d88cd682" kindref="member">safetensors_match</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>SafeTensors<sp/>present,<sp/>does<sp/>it<sp/>match<sp/>GGUF?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a99fbe6a8c81748aa6b673081e203ecf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a99fbe6a8c81748aa6b673081e203ecf5" kindref="member">manifest_valid</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a361a123f269d4b4fc1e2b7c01ac67644" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a361a123f269d4b4fc1e2b7c01ac67644" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a82d61e20731b5f8b0122d179a8aa0873" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result_1a82d61e20731b5f8b0122d179a8aa0873" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a5aec357be04746d2955131d3dfec40fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result" kindref="compound">VerificationResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a5aec357be04746d2955131d3dfec40fe" kindref="member">verifyAdapter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::BlobRef&amp;<sp/>ref);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utility<sp/>Operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info" kindref="compound">FormatInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="169" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1aad20e461890bdf88cee1b761d866a40b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1a7b2ae7f73f109410567ce78c9182cf41" kindref="member">GGUFSTConfig::SizeMode</ref><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1aad20e461890bdf88cee1b761d866a40b" kindref="member">size_mode</ref>;</highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1abdc6b09b6cd16bd713c754c923b8ac28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">GGUFSTConfig::QuantizationType</ref><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1abdc6b09b6cd16bd713c754c923b8ac28" kindref="member">quantization</ref>;</highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1afad9eb6e7b4ab17a856fc9b495cb5e0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1afad9eb6e7b4ab17a856fc9b495cb5e0c" kindref="member">has_safetensors</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a8dddb15e2d1895c684e55a309c5081c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a8dddb15e2d1895c684e55a309c5081c6" kindref="member">has_signature</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a64352952562e3b956f64ac8161433bd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a64352952562e3b956f64ac8161433bd1" kindref="member">has_manifest</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1abb7749907ee3e548a8c29f2165dc89eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1abb7749907ee3e548a8c29f2165dc89eb" kindref="member">gguf_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="175" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a84f4dbc8464cb4fd6398b4fb7216b1e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a84f4dbc8464cb4fd6398b4fb7216b1e5" kindref="member">safetensors_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a4087846f39198171fca458d8f6c948aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a4087846f39198171fca458d8f6c948aa" kindref="member">signature_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="177" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a3b18f49c095752691cfc6f52d1800f5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a3b18f49c095752691cfc6f52d1800f5f" kindref="member">manifest_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="178" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a142fb437563cf3960a3c92ee63906e44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a142fb437563cf3960a3c92ee63906e44" kindref="member">total_size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a7c7fd042598142b29aed4e6b13e02f7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info_1a7c7fd042598142b29aed4e6b13e02f7b" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a237186eeee3ea5eb37f242c495d65848" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info" kindref="compound">FormatInfo</ref><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a237186eeee3ea5eb37f242c495d65848" kindref="member">getFormatInfo</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::BlobRef&amp;<sp/>ref);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1af84d971cbe3e581d769fa7e70292c0e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;uint8_t&gt;&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1af84d971cbe3e581d769fa7e70292c0e0" kindref="member">extractSafeTensors</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::BlobRef&amp;<sp/>ref);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a890413ffcae8acd824e02f367718dc14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;storage::BlobRef&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a890413ffcae8acd824e02f367718dc14" kindref="member">requantize</ref>(</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::BlobRef&amp;<sp/>ref,</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">GGUFSTConfig::QuantizationType</ref><sp/>target_quantization</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats" kindref="compound">CompressionStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="215" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a5c36b022a5324ad8b0aad4d0e79d337e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a5c36b022a5324ad8b0aad4d0e79d337e" kindref="member">uncompressed_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="216" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1aad70ccb433070bd0957338db5765a726" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1aad70ccb433070bd0957338db5765a726" kindref="member">compressed_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="217" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a5cf0a8c450c8758daeb2e08510c7acb2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a5cf0a8c450c8758daeb2e08510c7acb2" kindref="member">compression_ratio</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>compressed<sp/>/<sp/>uncompressed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a61720a482c64400c1a410f06ae95ccf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a61720a482c64400c1a410f06ae95ccf6" kindref="member">space_saved_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224" refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a7fa992bc6b11d76a8aa433efa1b68413" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats_1a7fa992bc6b11d76a8aa433efa1b68413" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1ae00ff36e7ee4bee8628762ee02251bd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats" kindref="compound">CompressionStats</ref><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1ae00ff36e7ee4bee8628762ee02251bd1" kindref="member">getCompressionStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>storage::BlobRef&amp;<sp/>ref);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1ab8398ac4d4719c3ca901910fc5e7ccd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1ab8398ac4d4719c3ca901910fc5e7ccd4" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="241" refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7f16aa639e9adcef0663fed918441602" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7f16aa639e9adcef0663fed918441602" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref>&amp;<sp/>config)<sp/>{<sp/>config_<sp/>=<sp/>config;<sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;storage::BlobStorageManager&gt;<sp/>storage_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>compressData(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>decompressData(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>compressed_data);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>writeSectionHeader(std::vector&lt;uint8_t&gt;&amp;<sp/>buffer,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_section_header" kindref="compound">SectionHeader</ref>&amp;<sp/>header);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SectionHeader&gt;<sp/>readSectionHeader(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>serializeMetadata(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref>&amp;<sp/>metadata);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterMetadata&gt;<sp/>deserializeMetadata(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>serializeSignature(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref>&amp;<sp/>signature);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;AdapterSignature&gt;<sp/>deserializeSignature(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Section<sp/>magic<sp/>constants<sp/>(4<sp/>bytes,<sp/>not<sp/>null-terminated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/>SAFETENSORS_MAGIC[4]<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;S&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;T&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;N&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;S&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/>SIGNATURE_MAGIC[4]<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;T&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;S&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;G&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;N&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/>MANIFEST_MAGIC[4]<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;T&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;M&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;F&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;T&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>SECTION_VERSION<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compression<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>FLAG_COMPRESSED_ZSTD<sp/>=<sp/>0x0001;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>FLAG_COMPRESSED_LZ4<sp/>=<sp/>0x0002;</highlight></codeline>
+<codeline lineno="312"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/gguf_st_adapter.h"/>
+  </compounddef>
+</doxygen>

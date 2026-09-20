@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_compression_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::CompressionConfig</compoundname>
+    <includes refid="temporal__compressor_8h" local="no">temporal_compressor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_compression_config_1a699a61c769766f5be5bb6cbf2b178890" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57" kindref="member">CompressionAlgorithm</ref></type>
+        <definition>CompressionAlgorithm themisdb::temporal::CompressionConfig::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themisdb::temporal::CompressionConfig::algorithm</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1temporal_1a8b05721af1ac0c25175e4998cb15dc57aa789408ec4ddae81bd2f72ad5ec6bf3b" kindref="member">CompressionAlgorithm::DELTA</ref>}</initializer>
+        <briefdescription>
+<para>Algorithm to apply. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="71" column="26" bodyfile="include/temporal/temporal_compressor.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_compression_config_1aac039d9bfd328cc74c48e2412adfebc1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::temporal::CompressionConfig::compression_level</definition>
+        <argsstring></argsstring>
+        <name>compression_level</name>
+        <qualifiedname>themisdb::temporal::CompressionConfig::compression_level</qualifiedname>
+        <initializer>{3}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compression level (1–9); interpreted per algorithm. For DELTA and DICTIONARY this is ignored. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="75" column="9" bodyfile="include/temporal/temporal_compressor.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_compression_config_1aba3e4cf340f7fcb74b0a74bbb1530bb9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::CompressionConfig::compress_immediately</definition>
+        <argsstring></argsstring>
+        <name>compress_immediately</name>
+        <qualifiedname>themisdb::temporal::CompressionConfig::compress_immediately</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, all versions in the range are compressed immediately regardless of age. When false, <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_compression_config_1a2a2ee9bb1ceed5f2479d670234a54d4e" kindref="member">delay_before_compression</ref></computeroutput> applies. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="79" column="10" bodyfile="include/temporal/temporal_compressor.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_compression_config_1a2a2ee9bb1ceed5f2479d670234a54d4e" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themisdb::temporal::CompressionConfig::delay_before_compression</definition>
+        <argsstring></argsstring>
+        <name>delay_before_compression</name>
+        <qualifiedname>themisdb::temporal::CompressionConfig::delay_before_compression</qualifiedname>
+        <initializer>{24 * 3600}</initializer>
+        <briefdescription>
+<para>Versions younger than this age are left untouched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_compressor.h" line="82" column="26" bodyfile="include/temporal/temporal_compressor.h" bodystart="82" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration for a single compression pass.</para>
+<para><computeroutput><ref refid="structthemisdb_1_1temporal_1_1_compression_config_1a2a2ee9bb1ceed5f2479d670234a54d4e" kindref="member">delay_before_compression</ref></computeroutput> controls a grace window: versions younger than this age are skipped so that hot / recently-written history is not compressed before it might be needed for conflict resolution. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_compressor.h" line="69" column="1" bodyfile="include/temporal/temporal_compressor.h" bodystart="69" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_compression_config_1a699a61c769766f5be5bb6cbf2b178890" prot="public" virt="non-virtual"><scope>themisdb::temporal::CompressionConfig</scope><name>algorithm</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_compression_config_1aba3e4cf340f7fcb74b0a74bbb1530bb9" prot="public" virt="non-virtual"><scope>themisdb::temporal::CompressionConfig</scope><name>compress_immediately</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_compression_config_1aac039d9bfd328cc74c48e2412adfebc1" prot="public" virt="non-virtual"><scope>themisdb::temporal::CompressionConfig</scope><name>compression_level</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_compression_config_1a2a2ee9bb1ceed5f2479d670234a54d4e" prot="public" virt="non-virtual"><scope>themisdb::temporal::CompressionConfig</scope><name>delay_before_compression</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

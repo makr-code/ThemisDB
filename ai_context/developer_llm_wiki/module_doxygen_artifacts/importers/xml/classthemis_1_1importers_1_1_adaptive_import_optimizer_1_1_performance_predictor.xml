@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_performance_predictor" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::AdaptiveImportOptimizer::PerformancePredictor</compoundname>
+    <includes refid="adaptive__import_8h" local="no">adaptive_import.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_performance_predictor_1a8784964e25424609317538709b5c95df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_predicted_metrics" kindref="compound">PredictedMetrics</ref></type>
+        <definition>AdaptiveImportOptimizer::PredictedMetrics themis::importers::AdaptiveImportOptimizer::PerformancePredictor::predictPerformance</definition>
+        <argsstring>(const ImportPlan &amp;plan, const std::vector&lt; InferenceTableSchema &gt; &amp;schemas, const std::map&lt; std::string, ColumnStatistics &gt; &amp;stats={})</argsstring>
+        <name>predictPerformance</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::PerformancePredictor::predictPerformance</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_import_plan" kindref="compound">ImportPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_inference_table_schema" kindref="compound">InferenceTableSchema</ref> &gt; &amp;</type>
+          <declname>schemas</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="structthemis_1_1importers_1_1_column_statistics" kindref="compound">ColumnStatistics</ref> &gt; &amp;</type>
+          <declname>stats</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="69" column="26" bodyfile="src/importers/adaptive_import.cpp" bodystart="151" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/adaptive_import.h" line="67" column="5" bodyfile="include/importers/adaptive_import.h" bodystart="67" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_performance_predictor_1a8784964e25424609317538709b5c95df" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer::PerformancePredictor</scope><name>predictPerformance</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

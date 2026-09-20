@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1config_1_1_config_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::config::ConfigException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::exception</basecompoundref>
+    <derivedcompoundref refid="classthemis_1_1config_1_1_config_not_found_exception" prot="public" virt="non-virtual">themis::config::ConfigNotFoundException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1config_1_1_config_permission_exception" prot="public" virt="non-virtual">themis::config::ConfigPermissionException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1config_1_1_invalid_path_exception" prot="public" virt="non-virtual">themis::config::InvalidPathException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1config_1_1_mapping_not_found_exception" prot="public" virt="non-virtual">themis::config::MappingNotFoundException</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1config_1_1_schema_validation_exception" prot="public" virt="non-virtual">themis::config::SchemaValidationException</derivedcompoundref>
+    <includes refid="config__errors_8h" local="no">config_errors.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1config_1_1_config_exception_1afc6d49065e72d36b1cedc527c69388b6" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::config::ConfigException::message_</definition>
+        <argsstring></argsstring>
+        <name>message_</name>
+        <qualifiedname>themis::config::ConfigException::message_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="27" column="17" bodyfile="include/config/config_errors.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::config::ConfigException::ConfigException</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>ConfigException</name>
+        <qualifiedname>themis::config::ConfigException::ConfigException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="23" column="14" bodyfile="include/config/config_errors.h" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1config_1_1_config_exception_1ac4a99ca1654cc6da57fb914c162bee1b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::config::ConfigException::what</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>what</name>
+        <qualifiedname>themis::config::ConfigException::what</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/config/config_errors.h" line="24" column="16" bodyfile="include/config/config_errors.h" bodystart="24" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::exception</label>
+      </node>
+      <node id="1">
+        <label>themis::config::ConfigException</label>
+        <link refid="classthemis_1_1config_1_1_config_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::config::ConfigNotFoundException</label>
+        <link refid="classthemis_1_1config_1_1_config_not_found_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::config::ConfigPermissionException</label>
+        <link refid="classthemis_1_1config_1_1_config_permission_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::config::InvalidPathException</label>
+        <link refid="classthemis_1_1config_1_1_invalid_path_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::config::MappingNotFoundException</label>
+        <link refid="classthemis_1_1config_1_1_mapping_not_found_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>themis::config::SchemaValidationException</label>
+        <link refid="classthemis_1_1config_1_1_schema_validation_exception"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::exception</label>
+      </node>
+      <node id="1">
+        <label>themis::config::ConfigException</label>
+        <link refid="classthemis_1_1config_1_1_config_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/config/config_errors.h" line="21" column="1" bodyfile="include/config/config_errors.h" bodystart="21" bodyend="28"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1config_1_1_config_exception_1a56f7a3624a61e29e784109994afcb56c" prot="public" virt="non-virtual"><scope>themis::config::ConfigException</scope><name>ConfigException</name></member>
+      <member refid="classthemis_1_1config_1_1_config_exception_1afc6d49065e72d36b1cedc527c69388b6" prot="protected" virt="non-virtual"><scope>themis::config::ConfigException</scope><name>message_</name></member>
+      <member refid="classthemis_1_1config_1_1_config_exception_1ac4a99ca1654cc6da57fb914c162bee1b" prot="public" virt="non-virtual"><scope>themis::config::ConfigException</scope><name>what</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

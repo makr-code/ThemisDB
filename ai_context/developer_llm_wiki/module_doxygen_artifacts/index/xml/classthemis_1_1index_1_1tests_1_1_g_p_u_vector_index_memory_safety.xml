@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::tests::GPUVectorIndexMemorySafety</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety_1af443e1b8e9a71d8c2f51d87a6d0ebe5f" prot="protected" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::tests::GPUVectorIndexMemorySafety::initial_free_memory_</definition>
+        <argsstring></argsstring>
+        <name>initial_free_memory_</name>
+        <qualifiedname>themis::index::tests::GPUVectorIndexMemorySafety::initial_free_memory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="95" column="12" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety_1a304c7af5d98e77d828eeac364ad77c9a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::GPUVectorIndexMemorySafety::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::index::tests::GPUVectorIndexMemorySafety::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="83" column="10" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety_1af18ae74675314a07c3747ad2dadf47fd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::tests::GPUVectorIndexMemorySafety::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::index::tests::GPUVectorIndexMemorySafety::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_gpu_memory_safety.cpp" line="89" column="10" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="89" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::index::tests::GPUVectorIndexMemorySafety</label>
+        <link refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::index::tests::GPUVectorIndexMemorySafety</label>
+        <link refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/index/test_index_gpu_memory_safety.cpp" line="81" column="1" bodyfile="tests/index/test_index_gpu_memory_safety.cpp" bodystart="81" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety_1af443e1b8e9a71d8c2f51d87a6d0ebe5f" prot="protected" virt="non-virtual"><scope>themis::index::tests::GPUVectorIndexMemorySafety</scope><name>initial_free_memory_</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety_1a304c7af5d98e77d828eeac364ad77c9a" prot="protected" virt="non-virtual"><scope>themis::index::tests::GPUVectorIndexMemorySafety</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1index_1_1tests_1_1_g_p_u_vector_index_memory_safety_1af18ae74675314a07c3747ad2dadf47fd" prot="protected" virt="non-virtual"><scope>themis::index::tests::GPUVectorIndexMemorySafety</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

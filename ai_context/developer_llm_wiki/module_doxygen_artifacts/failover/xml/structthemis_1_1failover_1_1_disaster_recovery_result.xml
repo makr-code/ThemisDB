@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1failover_1_1_disaster_recovery_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::failover::DisasterRecoveryResult</compoundname>
+    <includes refid="disaster__recovery__manager_8h" local="no">disaster_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_result_1a568560f741608d91f06f4253e562142a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::failover::DisasterRecoveryResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::failover::DisasterRecoveryResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="86" column="10" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_result_1a33ae5c0e2fb0219639e8d972fdebe4a3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326" kindref="member">DisasterRecoveryState</ref></type>
+        <definition>DisasterRecoveryState themis::failover::DisasterRecoveryResult::final_state</definition>
+        <argsstring></argsstring>
+        <name>final_state</name>
+        <qualifiedname>themis::failover::DisasterRecoveryResult::final_state</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1failover_1a78d666fa6ef141450d201ad579603326aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">DisasterRecoveryState::IDLE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="87" column="27" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_result_1ac0f9d14f56ec5cc211f54285d908615e" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::failover::DisasterRecoveryResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::failover::DisasterRecoveryResult::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="88" column="31" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_result_1ad2013a8aaf023d7b6d94f75dcedc43c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::failover::DisasterRecoveryResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::failover::DisasterRecoveryResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="89" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_result_1afa36d242c843225a4fe4abe52cfd0160" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::failover::DisasterRecoveryResult::fenced_epoch</definition>
+        <argsstring></argsstring>
+        <name>fenced_epoch</name>
+        <qualifiedname>themis::failover::DisasterRecoveryResult::fenced_epoch</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="90" column="14" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1failover_1_1_disaster_recovery_result_1abb8ecea870696a082b08cfac9329fa84" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1failover_1_1_disaster_recovery_step_result" kindref="compound">DisasterRecoveryStepResult</ref> &gt;</type>
+        <definition>std::vector&lt;DisasterRecoveryStepResult&gt; themis::failover::DisasterRecoveryResult::step_results</definition>
+        <argsstring></argsstring>
+        <name>step_results</name>
+        <qualifiedname>themis::failover::DisasterRecoveryResult::step_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/failover/disaster_recovery_manager.h" line="92" column="17" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/failover/disaster_recovery_manager.h" line="85" column="1" bodyfile="include/failover/disaster_recovery_manager.h" bodystart="85" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1ac0f9d14f56ec5cc211f54285d908615e" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryResult</scope><name>duration</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1ad2013a8aaf023d7b6d94f75dcedc43c9" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1afa36d242c843225a4fe4abe52cfd0160" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryResult</scope><name>fenced_epoch</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a33ae5c0e2fb0219639e8d972fdebe4a3" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryResult</scope><name>final_state</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1abb8ecea870696a082b08cfac9329fa84" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryResult</scope><name>step_results</name></member>
+      <member refid="structthemis_1_1failover_1_1_disaster_recovery_result_1a568560f741608d91f06f4253e562142a" prot="public" virt="non-virtual"><scope>themis::failover::DisasterRecoveryResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

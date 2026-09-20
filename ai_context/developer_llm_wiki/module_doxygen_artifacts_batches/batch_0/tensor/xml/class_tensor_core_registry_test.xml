@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_tensor_core_registry_test" kind="class" language="C++" prot="public">
+    <compoundname>TensorCoreRegistryTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_tensor_core_registry_test_1a88417ec6e6ae7280e2e1d41e512fe058" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TensorCoreRegistryTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TensorCoreRegistryTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_core_matmul.cpp" line="294" column="10" bodyfile="tests/tensor/test_tensor_core_matmul.cpp" bodystart="294" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="class_tensor_core_registry_test_1af4881814721ddf6a9d8dc3cb116d336b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TensorCoreRegistryTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TensorCoreRegistryTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_core_matmul.cpp" line="299" column="10" bodyfile="tests/tensor/test_tensor_core_matmul.cpp" bodystart="299" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TensorCoreRegistryTest</label>
+        <link refid="class_tensor_core_registry_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TensorCoreRegistryTest</label>
+        <link refid="class_tensor_core_registry_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/tensor/test_tensor_core_matmul.cpp" line="292" column="1" bodyfile="tests/tensor/test_tensor_core_matmul.cpp" bodystart="292" bodyend="302"/>
+    <listofallmembers>
+      <member refid="class_tensor_core_registry_test_1a88417ec6e6ae7280e2e1d41e512fe058" prot="protected" virt="non-virtual"><scope>TensorCoreRegistryTest</scope><name>SetUp</name></member>
+      <member refid="class_tensor_core_registry_test_1af4881814721ddf6a9d8dc3cb116d336b" prot="protected" virt="non-virtual"><scope>TensorCoreRegistryTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

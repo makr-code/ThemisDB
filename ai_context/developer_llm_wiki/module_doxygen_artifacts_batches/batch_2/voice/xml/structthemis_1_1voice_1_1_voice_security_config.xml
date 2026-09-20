@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_security_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceSecurityConfig</compoundname>
+    <includes refid="voice__security_8h" local="no">voice_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1afc44ce5e1c580840cc21217663017ac5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityConfig::enable_pii_redaction</definition>
+        <argsstring></argsstring>
+        <name>enable_pii_redaction</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::enable_pii_redaction</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="168" column="10" bodyfile="include/voice/voice_security.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1afee6a77ac9342a2d06fd999e3e3fd09d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityConfig::enable_consent_tracking</definition>
+        <argsstring></argsstring>
+        <name>enable_consent_tracking</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::enable_consent_tracking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="169" column="10" bodyfile="include/voice/voice_security.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1a32c628ab476b017f5cc1707deaef477d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityConfig::enable_audit_logging</definition>
+        <argsstring></argsstring>
+        <name>enable_audit_logging</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::enable_audit_logging</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="170" column="10" bodyfile="include/voice/voice_security.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1a9c5c3be9ac43b83c65d2a3c819ef1c48" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityConfig::enable_auto_deletion</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_deletion</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::enable_auto_deletion</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="171" column="10" bodyfile="include/voice/voice_security.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1a44b25fbb2db733a3586e43c8835e61c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityConfig::enable_rate_limiting</definition>
+        <argsstring></argsstring>
+        <name>enable_rate_limiting</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::enable_rate_limiting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="172" column="10" bodyfile="include/voice/voice_security.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1a5ea8145991660461bbe763d298cce206" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceSecurityConfig::data_retention_days</definition>
+        <argsstring></argsstring>
+        <name>data_retention_days</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::data_retention_days</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="173" column="13" bodyfile="include/voice/voice_security.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1a448d68ec7688d456d9b9ee81c9b1fb6c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827" kindref="member">PIIType</ref> &gt;</type>
+        <definition>std::vector&lt;PIIType&gt; themis::voice::VoiceSecurityConfig::pii_types_to_redact</definition>
+        <argsstring></argsstring>
+        <name>pii_types_to_redact</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::pii_types_to_redact</qualifiedname>
+        <initializer>                                = {
+    <ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a837697b230ef5a34d756f4ea8f3810bc" kindref="member">PIIType::PHONE_NUMBER</ref>, <ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827afb49ca06e9d31da1c2c1eeb7ae47a0d7" kindref="member">PIIType::EMAIL_ADDRESS</ref>,
+    <ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a23a27a41c4dad3ef8c54f896b77f9056" kindref="member">PIIType::CREDIT_CARD</ref>, <ref refid="namespacethemis_1_1voice_1ae0b7ef47450ad800b47f6f1d73215827a8fe59663630697bb628e4de0d1592cdc" kindref="member">PIIType::SSN</ref>
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="174" column="17" bodyfile="include/voice/voice_security.h" bodystart="174" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1a30aefeb17fdc8c15c180662a1d7ccd3f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityConfig::redact_in_transcripts</definition>
+        <argsstring></argsstring>
+        <name>redact_in_transcripts</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::redact_in_transcripts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="178" column="10" bodyfile="include/voice/voice_security.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1ad839d07c6d8008a020ff1d33613366c6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSecurityConfig::redact_in_summaries</definition>
+        <argsstring></argsstring>
+        <name>redact_in_summaries</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::redact_in_summaries</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="179" column="10" bodyfile="include/voice/voice_security.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_security_config_1abc907d9d854092b5e0a085052704e89e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_rate_limiter_config" kindref="compound">RateLimiterConfig</ref></type>
+        <definition>RateLimiterConfig themis::voice::VoiceSecurityConfig::rate_limiter</definition>
+        <argsstring></argsstring>
+        <name>rate_limiter</name>
+        <qualifiedname>themis::voice::VoiceSecurityConfig::rate_limiter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_security.h" line="180" column="23" bodyfile="include/voice/voice_security.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::voice::RateLimiterConfig</label>
+        <link refid="structthemis_1_1voice_1_1_rate_limiter_config"/>
+      </node>
+      <node id="1">
+        <label>themis::voice::VoiceSecurityConfig</label>
+        <link refid="structthemis_1_1voice_1_1_voice_security_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>rate_limiter</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/voice/voice_security.h" line="167" column="1" bodyfile="include/voice/voice_security.h" bodystart="167" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1a5ea8145991660461bbe763d298cce206" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>data_retention_days</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1a32c628ab476b017f5cc1707deaef477d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>enable_audit_logging</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1a9c5c3be9ac43b83c65d2a3c819ef1c48" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>enable_auto_deletion</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1afee6a77ac9342a2d06fd999e3e3fd09d" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>enable_consent_tracking</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1afc44ce5e1c580840cc21217663017ac5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>enable_pii_redaction</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1a44b25fbb2db733a3586e43c8835e61c1" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>enable_rate_limiting</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1a448d68ec7688d456d9b9ee81c9b1fb6c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>pii_types_to_redact</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1abc907d9d854092b5e0a085052704e89e" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>rate_limiter</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1ad839d07c6d8008a020ff1d33613366c6" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>redact_in_summaries</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_security_config_1a30aefeb17fdc8c15c180662a1d7ccd3f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSecurityConfig</scope><name>redact_in_transcripts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

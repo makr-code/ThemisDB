@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::EthicsProfileMeta</compoundname>
+    <includes refid="include_2ethics__ai_2ethics__profile__registry_8h" local="no">ethics_profile_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a3ffd25662a0ba7fd80b33966068f23e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsProfileMeta::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::EthicsProfileMeta::school_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier, matches YAML school_id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="24" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1ada01cd01b5eea462b4b30b19bf78b64d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsProfileMeta::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::plugins::ethics::EthicsProfileMeta::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable display name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="25" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1aa5bd8adde4d123a600b2693d8d390def" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsProfileMeta::taxonomy_class</definition>
+        <argsstring></argsstring>
+        <name>taxonomy_class</name>
+        <qualifiedname>themis::plugins::ethics::EthicsProfileMeta::taxonomy_class</qualifiedname>
+        <briefdescription>
+<para>Primary taxonomy class (see ethics_taxonomy.yaml). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="26" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a9324022790404e59e8976ebffaaf5ff7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicsProfileMeta::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::plugins::ethics::EthicsProfileMeta::tags</qualifiedname>
+        <briefdescription>
+<para>Domain / topic tags used for routing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="27" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a78fb0b0c42b31d5cf34b9ff8e98b368b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::EthicsProfileMeta::applicable_domains</definition>
+        <argsstring></argsstring>
+        <name>applicable_domains</name>
+        <qualifiedname>themis::plugins::ethics::EthicsProfileMeta::applicable_domains</qualifiedname>
+        <briefdescription>
+<para>Dilemma domains this school covers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="28" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a9404055b209e7902ca878c60f7e3c534" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsProfileMeta::yaml_path</definition>
+        <argsstring></argsstring>
+        <name>yaml_path</name>
+        <qualifiedname>themis::plugins::ethics::EthicsProfileMeta::yaml_path</qualifiedname>
+        <briefdescription>
+<para>Absolute path to the YAML file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="29" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a187d039f0ec79b58fffe906ca6e42cb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::EthicsProfileMeta::description_snippet</definition>
+        <argsstring></argsstring>
+        <name>description_snippet</name>
+        <qualifiedname>themis::plugins::ethics::EthicsProfileMeta::description_snippet</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="30" column="17" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a2694ea4c399be632b0c312bdffd01175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::EthicsProfileMeta::EthicsProfileMeta</definition>
+        <argsstring>()=default</argsstring>
+        <name>EthicsProfileMeta</name>
+        <qualifiedname>themis::plugins::ethics::EthicsProfileMeta::EthicsProfileMeta</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_profile_registry.h" line="32" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_profile_registry.h" line="23" column="1" bodyfile="include/ethics_ai/ethics_profile_registry.h" bodystart="23" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a78fb0b0c42b31d5cf34b9ff8e98b368b" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsProfileMeta</scope><name>applicable_domains</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a187d039f0ec79b58fffe906ca6e42cb8" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsProfileMeta</scope><name>description_snippet</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a2694ea4c399be632b0c312bdffd01175" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsProfileMeta</scope><name>EthicsProfileMeta</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1ada01cd01b5eea462b4b30b19bf78b64d" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsProfileMeta</scope><name>name</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a3ffd25662a0ba7fd80b33966068f23e6" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsProfileMeta</scope><name>school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a9324022790404e59e8976ebffaaf5ff7" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsProfileMeta</scope><name>tags</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1aa5bd8adde4d123a600b2693d8d390def" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsProfileMeta</scope><name>taxonomy_class</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_ethics_profile_meta_1a9404055b209e7902ca878c60f7e3c534" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::EthicsProfileMeta</scope><name>yaml_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

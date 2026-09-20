@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_command_parser" kind="class" language="C++" prot="public">
+    <compoundname>MockCommandParser</compoundname>
+    <innerclass refid="struct_mock_command_parser_1_1_parse_result" prot="public">MockCommandParser::ParseResult</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_command_parser_1a482e9fe006164be68ab16d5fb3f8bebb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_mock_command_parser_1_1_parse_result" kindref="compound">ParseResult</ref></type>
+        <definition>ParseResult MockCommandParser::parseCommand</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>parseCommand</name>
+        <qualifiedname>MockCommandParser::parseCommand</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_assistant_latency.cpp" line="35" column="17" bodyfile="benchmarks/voice/bench_voice_assistant_latency.cpp" bodystart="35" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_command_parser_1a95b324a9ebdf2cd07b9f5dbc18433af4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockCommandParser::routeCommand</definition>
+        <argsstring>(const ParseResult &amp;parse_result)</argsstring>
+        <name>routeCommand</name>
+        <qualifiedname>MockCommandParser::routeCommand</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_mock_command_parser_1_1_parse_result" kindref="compound">ParseResult</ref> &amp;</type>
+          <declname>parse_result</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_assistant_latency.cpp" line="47" column="17" bodyfile="benchmarks/voice/bench_voice_assistant_latency.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_assistant_latency.cpp" line="27" column="1" bodyfile="benchmarks/voice/bench_voice_assistant_latency.cpp" bodystart="27" bodyend="52"/>
+    <listofallmembers>
+      <member refid="class_mock_command_parser_1a482e9fe006164be68ab16d5fb3f8bebb" prot="public" virt="non-virtual"><scope>MockCommandParser</scope><name>parseCommand</name></member>
+      <member refid="class_mock_command_parser_1a95b324a9ebdf2cd07b9f5dbc18433af4" prot="public" virt="non-virtual"><scope>MockCommandParser</scope><name>routeCommand</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_x_o_e_v_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::XOEVRecord</compoundname>
+    <includes refid="xoev__importer_8h" local="no">xoev_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1adbbbdfef3a22135e4c9629d0ec9c19a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVRecord::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::importers::XOEVRecord::id</qualifiedname>
+        <briefdescription>
+<para>Internal record identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="103" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1a2f1484fc4e55a8bc7da3920e2387359f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1a60c83a4dc799cf3b4f8713e930157020" kindref="member">XOEVStandard</ref></type>
+        <definition>XOEVStandard themis::importers::XOEVRecord::standard</definition>
+        <argsstring></argsstring>
+        <name>standard</name>
+        <qualifiedname>themis::importers::XOEVRecord::standard</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1importers_1a60c83a4dc799cf3b4f8713e930157020a03570470bad94692ce93e32700d2e1cb" kindref="member">XOEVStandard::OTHER</ref>}</initializer>
+        <briefdescription>
+<para>XÖV sub-standard. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="104" column="18" bodyfile="include/importers/xoev_importer.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1a9dfc9d839ec3e0d8fb91fe1ace8d5ec2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_x_o_e_v_version" kindref="compound">XOEVVersion</ref></type>
+        <definition>XOEVVersion themis::importers::XOEVRecord::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::importers::XOEVRecord::version</qualifiedname>
+        <briefdescription>
+<para>Schema version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="105" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1a9172847aed7cbc0bb2676332be11de84" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVRecord::message_type</definition>
+        <argsstring></argsstring>
+        <name>message_type</name>
+        <qualifiedname>themis::importers::XOEVRecord::message_type</qualifiedname>
+        <briefdescription>
+<para>XÖV message type (Nachrichtentyp). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="106" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1a3429c8bcaea64c5c729317ef4c3c11e6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVRecord::source_authority</definition>
+        <argsstring></argsstring>
+        <name>source_authority</name>
+        <qualifiedname>themis::importers::XOEVRecord::source_authority</qualifiedname>
+        <briefdescription>
+<para>Sending authority (Behörde). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="107" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1a5d93f8ce107f6e90f6d5fd71a9f3efe7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVRecord::target_authority</definition>
+        <argsstring></argsstring>
+        <name>target_authority</name>
+        <qualifiedname>themis::importers::XOEVRecord::target_authority</qualifiedname>
+        <briefdescription>
+<para>Receiving authority. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="108" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1a731e8027857a7ef6257c04fc2c472276" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVRecord::transaction_id</definition>
+        <argsstring></argsstring>
+        <name>transaction_id</name>
+        <qualifiedname>themis::importers::XOEVRecord::transaction_id</qualifiedname>
+        <briefdescription>
+<para>End-to-end correlation identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="109" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1af8f2bda34afb47c6ba14bc1d152267e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVRecord::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::importers::XOEVRecord::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="110" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1a5fa43bd80fcd5f4becf0559195a3856c" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::importers::XOEVRecord::fields</definition>
+        <argsstring></argsstring>
+        <name>fields</name>
+        <qualifiedname>themis::importers::XOEVRecord::fields</qualifiedname>
+        <briefdescription>
+<para>Extracted data fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="111" column="14" bodyfile="include/importers/xoev_importer.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_x_o_e_v_record_1a6fe32e110e3a8221e7070199a180fe83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::XOEVRecord::raw_xml</definition>
+        <argsstring></argsstring>
+        <name>raw_xml</name>
+        <qualifiedname>themis::importers::XOEVRecord::raw_xml</qualifiedname>
+        <briefdescription>
+<para>Original XML source (optional). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/xoev_importer.h" line="112" column="17" bodyfile="include/importers/xoev_importer.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::importers::XOEVRecord</label>
+        <link refid="structthemis_1_1importers_1_1_x_o_e_v_record"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>version</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::XOEVVersion</label>
+        <link refid="structthemis_1_1importers_1_1_x_o_e_v_version"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/xoev_importer.h" line="102" column="1" bodyfile="include/importers/xoev_importer.h" bodystart="102" bodyend="113"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1af8f2bda34afb47c6ba14bc1d152267e7" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1a5fa43bd80fcd5f4becf0559195a3856c" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>fields</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1adbbbdfef3a22135e4c9629d0ec9c19a3" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>id</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1a9172847aed7cbc0bb2676332be11de84" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>message_type</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1a6fe32e110e3a8221e7070199a180fe83" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>raw_xml</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1a3429c8bcaea64c5c729317ef4c3c11e6" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>source_authority</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1a2f1484fc4e55a8bc7da3920e2387359f" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>standard</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1a5d93f8ce107f6e90f6d5fd71a9f3efe7" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>target_authority</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1a731e8027857a7ef6257c04fc2c472276" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>transaction_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_x_o_e_v_record_1a9dfc9d839ec3e0d8fb91fe1ace8d5ec2" prot="public" virt="non-virtual"><scope>themis::importers::XOEVRecord</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

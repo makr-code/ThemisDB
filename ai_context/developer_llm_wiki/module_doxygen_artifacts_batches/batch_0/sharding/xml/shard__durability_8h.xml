@@ -1,0 +1,220 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="shard__durability_8h" kind="file" language="C++">
+    <compoundname>shard_durability.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="shard__durability_8cpp" local="yes">src/sharding/shard_durability.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/shard_durability.h</label>
+        <link refid="shard__durability_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/shard_durability.h</label>
+        <link refid="shard__durability_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/shard_durability.cpp</label>
+        <link refid="shard__durability_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_checkpoint_info" prot="public">themisdb::sharding::CheckpointInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_recovery_stats" prot="public">themisdb::sharding::RecoveryStats</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_durability_config" prot="public">themisdb::sharding::ShardDurabilityConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_shard_durability" prot="public">themisdb::sharding::ShardDurability</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics" prot="public">themisdb::sharding::ShardDurability::Statistics</innerclass>
+    <innernamespace refid="namespacerocksdb">rocksdb</innernamespace>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacerocksdb" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacerocksdb" kindref="compound">rocksdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TransactionDB;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Checkpoint;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacesharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261a" kindref="member">DurabilityMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1ac46e7e08d4fe1244404757999de16da1ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>durability<sp/>guarantees<sp/>(fastest,<sp/>risky)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aabe553330beb7b3d994656e0a4e66cd96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aabe553330beb7b3d994656e0a4e66cd96" kindref="member">ASYNC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Async<sp/>WAL<sp/>sync<sp/>(high<sp/>performance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aa274ccef15a21e829d03293a6fd1974f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aa274ccef15a21e829d03293a6fd1974f3" kindref="member">SYNC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sync<sp/>WAL<sp/>on<sp/>every<sp/>write<sp/>(safest)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aa1a75e9de4b98edfd4eecf6dc3985df0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aa1a75e9de4b98edfd4eecf6dc3985df0e" kindref="member">GROUP_COMMIT</ref><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Group<sp/>commits<sp/>for<sp/>balanced<sp/>performance/safety</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1sharding_1_1_checkpoint_info" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info" kindref="compound">CheckpointInfo</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1ae10fa13edbcb88dd526862487a2b116e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1ae10fa13edbcb88dd526862487a2b116e" kindref="member">checkpoint_id</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a9d6f1cd3c5ee8bd34160597a84ce2641" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a9d6f1cd3c5ee8bd34160597a84ce2641" kindref="member">path</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a7ca7dc2b3adb15707d0c9407a6f982e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a7ca7dc2b3adb15707d0c9407a6f982e0" kindref="member">created_at</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a92cc89636f87ac8d6ca07c46a1a3462d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a92cc89636f87ac8d6ca07c46a1a3462d" kindref="member">sequence_number</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a538b0dd5637cd32360f69a6b07686b98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a538b0dd5637cd32360f69a6b07686b98" kindref="member">size_bytes</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a788f888782cba3dad20af3c0f4f9de24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_checkpoint_info_1a788f888782cba3dad20af3c0f4f9de24" kindref="member">is_valid</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemisdb_1_1sharding_1_1_recovery_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats" kindref="compound">RecoveryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="59" refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a42ca1c7eca094103e2d6190312cf00b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a42ca1c7eca094103e2d6190312cf00b8" kindref="member">recovery_needed</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60" refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a5177ebbcffda071e170b83a4e92ec9ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a5177ebbcffda071e170b83a4e92ec9ec" kindref="member">recovery_successful</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61" refid="structthemisdb_1_1sharding_1_1_recovery_stats_1adc37b56c6580983169ecc61dd8ad969d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats_1adc37b56c6580983169ecc61dd8ad969d" kindref="member">records_recovered</ref>{0};</highlight></codeline>
+<codeline lineno="62" refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a89e559bdf944da8df60263638995f826" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a89e559bdf944da8df60263638995f826" kindref="member">records_corrupted</ref>{0};</highlight></codeline>
+<codeline lineno="63" refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a6d42695ef3cbf748a8cc0d8e8cf5914d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats_1a6d42695ef3cbf748a8cc0d8e8cf5914d" kindref="member">recovery_duration</ref>{0};</highlight></codeline>
+<codeline lineno="64" refid="structthemisdb_1_1sharding_1_1_recovery_stats_1ab172cc6ff3458e8e6e189f5c67cdc195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats_1ab172cc6ff3458e8e6e189f5c67cdc195" kindref="member">last_error</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemisdb_1_1sharding_1_1_shard_durability_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="71" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1ad09b6b648c1ad66f49f6cf3cd0bbb81d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261a" kindref="member">DurabilityMode</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1ad09b6b648c1ad66f49f6cf3cd0bbb81d" kindref="member">mode</ref>{<ref refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aabe553330beb7b3d994656e0a4e66cd96" kindref="member">DurabilityMode::ASYNC</ref>};</highlight></codeline>
+<codeline lineno="72" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a36119a688ae6f532f26f52f613a0a335" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a36119a688ae6f532f26f52f613a0a335" kindref="member">enable_wal</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="73" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a90aa1e202a5e6384d6625bdf25c65a0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a90aa1e202a5e6384d6625bdf25c65a0a" kindref="member">sync_wal_on_commit</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a0d9f120d829c89589271a3b78e9069ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a0d9f120d829c89589271a3b78e9069ac" kindref="member">group_commit_batch_size</ref>{100};</highlight></codeline>
+<codeline lineno="75" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1ac96ab901eb8006e9e5162adce0f16b73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1ac96ab901eb8006e9e5162adce0f16b73" kindref="member">group_commit_timeout</ref>{10};</highlight></codeline>
+<codeline lineno="76" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a5ad857eb8bc727984e9e402f805641a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a5ad857eb8bc727984e9e402f805641a3" kindref="member">checkpoint_dir</ref>{</highlight><highlight class="stringliteral">&quot;./checkpoints&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a2912fcda27da12bc1f19482813fabca8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::hours<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a2912fcda27da12bc1f19482813fabca8" kindref="member">checkpoint_interval</ref>{24};</highlight></codeline>
+<codeline lineno="78" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a25315c5b5da402891145548ced65c895" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a25315c5b5da402891145548ced65c895" kindref="member">max_checkpoints</ref>{7};<sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>last<sp/>7<sp/>checkpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1afdf041af6f9aca485ab9087a3057ccb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1afdf041af6f9aca485ab9087a3057ccb7" kindref="member">enable_auto_recovery</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="classthemisdb_1_1sharding_1_1_shard_durability" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1aaa333ec953dd22cecaa25638836fb268" kindref="member">ShardDurability</ref><sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93" refid="classthemisdb_1_1sharding_1_1_shard_durability_1ad9bda6938b06c647e133e49f08d937f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ad9bda6938b06c647e133e49f08d937f2" kindref="member">RecoveryCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats" kindref="compound">RecoveryStats</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1aaa333ec953dd22cecaa25638836fb268" kindref="member">ShardDurability</ref>(</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>rocksdb_instance,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1af32a311e2dd583db4b9c1af3265b2a84" kindref="member">~ShardDurability</ref>();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a83669dc267ecff190f90a8883b019c24" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a695f89dd5bc63b64fb7b242426ffcb93" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a618d35faeb6999bd16ed2adcbc707dd2" kindref="member">syncWAL</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;CheckpointInfo&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a8fab49a55b9f96d6fde3bb348c6e80f3" kindref="member">createCheckpoint</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CheckpointInfo&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ac5a6c7009df2e08bf66372dadd2706c0" kindref="member">listCheckpoints</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ac7450abbf07992bb50aef899b1c072d9" kindref="member">restoreFromCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_id);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_recovery_stats" kindref="compound">RecoveryStats</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a642cec774e71b46f1ea87217ba37aeb7" kindref="member">performRecovery</ref>();</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1aff13a92791b48efda3bcc4df7b8b1291" kindref="member">verifyWALIntegrity</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ace4ae8359bad6410b5ecdaeb6dfb09dd" kindref="member">getCurrentSequenceNumber</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1aad47fb8cf4c67d8c0e27b58f017c4341" kindref="member">setRecoveryCallback</ref>(<ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ad9bda6938b06c647e133e49f08d937f2" kindref="member">RecoveryCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1aeaea2e99d6fb3689c9d06d4bca1254ca" kindref="member">updateConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180" refid="classthemisdb_1_1sharding_1_1_shard_durability_1a77e3ad56857d034c98219b7923fc8ba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a77e3ad56857d034c98219b7923fc8ba2" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="185" refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="186" refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1ab088a5a2b182aeedb166bbdc282b49fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1ab088a5a2b182aeedb166bbdc282b49fd" kindref="member">total_syncs</ref>{0};</highlight></codeline>
+<codeline lineno="187" refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1a37fe6d2763984c448f4187832990fb23" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1a37fe6d2763984c448f4187832990fb23" kindref="member">checkpoints_created</ref>{0};</highlight></codeline>
+<codeline lineno="188" refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1ad20d43b1c5a8dea90a965b857b3e0092" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1ad20d43b1c5a8dea90a965b857b3e0092" kindref="member">recoveries_performed</ref>{0};</highlight></codeline>
+<codeline lineno="189" refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1ab4a11e12d92a640c95a97102d40a50dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1ab4a11e12d92a640c95a97102d40a50dd" kindref="member">wal_bytes_written</ref>{0};</highlight></codeline>
+<codeline lineno="190" refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1aa533b56bf3a5cc73096c7586a81096c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1aa533b56bf3a5cc73096c7586a81096c0" kindref="member">last_sync_time</ref>;</highlight></codeline>
+<codeline lineno="191" refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1a5294276c275e1d8ce3227bb3ea1ea99b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics_1a5294276c275e1d8ce3227bb3ea1ea99b" kindref="member">last_checkpoint_time</ref>;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194" refid="classthemisdb_1_1sharding_1_1_shard_durability_1a4bf5d77399e5aa0f11a1186bf3b17c2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_1_1_statistics" kindref="compound">Statistics</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1a4bf5d77399e5aa0f11a1186bf3b17c2a" kindref="member">getStatistics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="199" refid="classthemisdb_1_1sharding_1_1_shard_durability_1aec754c9f067279fe1b98681d0e09b8e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1aec754c9f067279fe1b98681d0e09b8e0" kindref="member">isDurabilityEnabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.enable_wal;<sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>rocksdb::TransactionDB*<sp/>db_;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_shard_durability_config" kindref="compound">ShardDurabilityConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>Statistics<sp/>stats_;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_shard_durability_1ad9bda6938b06c647e133e49f08d937f2" kindref="member">RecoveryCallback</ref><sp/>recovery_callback_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;rocksdb::Checkpoint&gt;<sp/>checkpoint_manager_;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CheckpointInfo&gt;<sp/>checkpoints_;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateCheckpointId()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupOldCheckpoints();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>scanCheckpointDirectory();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateCheckpoint(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checkpoint_path)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/shard_durability.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_consensus_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ConsensusStats</compoundname>
+    <includes refid="consensus__module_8h" local="no">consensus_module.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1a95485dcd62906d68a526f89227906e5e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ConsensusStats::current_term</definition>
+        <argsstring></argsstring>
+        <name>current_term</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::current_term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="119" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1a90bf853450ee3b385ab6b9f16d6f6202" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ConsensusStats::commit_index</definition>
+        <argsstring></argsstring>
+        <name>commit_index</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::commit_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="120" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1af85572ab3888c8f409e7c97c488daf91" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ConsensusStats::last_applied</definition>
+        <argsstring></argsstring>
+        <name>last_applied</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::last_applied</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="121" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1aa9ed52be1aef9a4243f59d0e6e6ee269" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref></type>
+        <definition>ConsensusState themisdb::sharding::ConsensusStats::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="122" column="20" bodyfile="include/sharding/consensus_module.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1a052c31c808f837daf8eccd7cd1a5d941" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ConsensusStats::current_leader</definition>
+        <argsstring></argsstring>
+        <name>current_leader</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::current_leader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="123" column="17" bodyfile="include/sharding/consensus_module.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1a743769cd04f90c2bc0217052af1090c7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ConsensusStats::cluster_size</definition>
+        <argsstring></argsstring>
+        <name>cluster_size</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::cluster_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="124" column="12" bodyfile="include/sharding/consensus_module.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1aaca741ab3fcb841b205a832fb32907bc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ConsensusStats::reachable_nodes</definition>
+        <argsstring></argsstring>
+        <name>reachable_nodes</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::reachable_nodes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="125" column="12" bodyfile="include/sharding/consensus_module.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1af124a041d2dc9918a718fa3df831bc74" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ConsensusStats::average_replication_latency</definition>
+        <argsstring></argsstring>
+        <name>average_replication_latency</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::average_replication_latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="126" column="31" bodyfile="include/sharding/consensus_module.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1aec7bea46b239b92b87abac8c483ad360" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ConsensusStats::total_operations</definition>
+        <argsstring></argsstring>
+        <name>total_operations</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::total_operations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="127" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_consensus_stats_1a4eb4a98f0a49cc64545740a10c34446a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ConsensusStats::failed_operations</definition>
+        <argsstring></argsstring>
+        <name>failed_operations</name>
+        <qualifiedname>themisdb::sharding::ConsensusStats::failed_operations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/consensus_module.h" line="128" column="14" bodyfile="include/sharding/consensus_module.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Consensus statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/consensus_module.h" line="118" column="1" bodyfile="include/sharding/consensus_module.h" bodystart="118" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1af124a041d2dc9918a718fa3df831bc74" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>average_replication_latency</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a743769cd04f90c2bc0217052af1090c7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>cluster_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a90bf853450ee3b385ab6b9f16d6f6202" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>commit_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a052c31c808f837daf8eccd7cd1a5d941" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>current_leader</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a95485dcd62906d68a526f89227906e5e" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>current_term</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1a4eb4a98f0a49cc64545740a10c34446a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>failed_operations</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1af85572ab3888c8f409e7c97c488daf91" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>last_applied</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aaca741ab3fcb841b205a832fb32907bc" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>reachable_nodes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aa9ed52be1aef9a4243f59d0e6e6ee269" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>state</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_consensus_stats_1aec7bea46b239b92b87abac8c483ad360" prot="public" virt="non-virtual"><scope>themisdb::sharding::ConsensusStats</scope><name>total_operations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8e4a6604f55632ec715c0cb906e59b11" kind="dir">
+    <compoundname>tests/voice</compoundname>
+    <innerfile refid="test__phase3__error__handling_8cpp">test_phase3_error_handling.cpp</innerfile>
+    <innerfile refid="test__voice__adversarial_8cpp">test_voice_adversarial.cpp</innerfile>
+    <innerfile refid="test__voice__adversarial__anti__spoof_8cpp">test_voice_adversarial_anti_spoof.cpp</innerfile>
+    <innerfile refid="test__voice__api__handler_8cpp">test_voice_api_handler.cpp</innerfile>
+    <innerfile refid="test__voice__assistant_8cpp">test_voice_assistant.cpp</innerfile>
+    <innerfile refid="test__voice__assistant__generate_l_l_m_response__qw37_8cpp">test_voice_assistant_generateLLMResponse_qw37.cpp</innerfile>
+    <innerfile refid="test__voice__assistant__verify_identify__qw38_8cpp">test_voice_assistant_verifyIdentify_qw38.cpp</innerfile>
+    <innerfile refid="test__voice__audio__preprocessing__focused_8cpp">test_voice_audio_preprocessing_focused.cpp</innerfile>
+    <innerfile refid="test__voice__audit__logging_8cpp">test_voice_audit_logging.cpp</innerfile>
+    <innerfile refid="test__voice__auth__security__focused_8cpp">test_voice_auth_security_focused.cpp</innerfile>
+    <innerfile refid="test__voice__backend__degradation__focused_8cpp">test_voice_backend_degradation_focused.cpp</innerfile>
+    <innerfile refid="test__voice__batch__a8__focused_8cpp">test_voice_batch_a8_focused.cpp</innerfile>
+    <innerfile refid="test__voice__browser__streaming_8cpp">test_voice_browser_streaming.cpp</innerfile>
+    <innerfile refid="test__voice__coverage_8cpp">test_voice_coverage.cpp</innerfile>
+    <innerfile refid="test__voice__create__session__focused_8cpp">test_voice_create_session_focused.cpp</innerfile>
+    <innerfile refid="test__voice__e2e__journey__focused_8cpp">test_voice_e2e_journey_focused.cpp</innerfile>
+    <innerfile refid="test__voice__highcardinality__stress_8cpp">test_voice_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__voice__multi__session__teardown_8cpp">test_voice_multi_session_teardown.cpp</innerfile>
+    <innerfile refid="test__voice__production_8cpp">test_voice_production.cpp</innerfile>
+    <innerfile refid="test__voice__security__features_8cpp">test_voice_security_features.cpp</innerfile>
+    <innerfile refid="test__voice__session__chaos__isolation_8cpp">test_voice_session_chaos_isolation.cpp</innerfile>
+    <innerfile refid="test__voice__session__manager__create_session__focused_8cpp">test_voice_session_manager_createSession_focused.cpp</innerfile>
+    <innerfile refid="test__voice__session__manager__focused_8cpp">test_voice_session_manager_focused.cpp</innerfile>
+    <innerfile refid="test__voice__spoofing__adversarial__focused_8cpp">test_voice_spoofing_adversarial_focused.cpp</innerfile>
+    <innerfile refid="test__voice__stream__validation_8cpp">test_voice_stream_validation.cpp</innerfile>
+    <innerfile refid="test__voice__streaming__focused_8cpp">test_voice_streaming_focused.cpp</innerfile>
+    <innerfile refid="test__voice__telephony_8cpp">test_voice_telephony.cpp</innerfile>
+    <innerfile refid="test__voice__telephony__focused_8cpp">test_voice_telephony_focused.cpp</innerfile>
+    <innerfile refid="test__voice__wake__word__focused_8cpp">test_voice_wake_word_focused.cpp</innerfile>
+    <innerfile refid="test__voice__wave__a8__hardening__focused_8cpp">test_voice_wave_a8_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__voice__wave__a__chaos__bundle_8cpp">test_voice_wave_a_chaos_bundle.cpp</innerfile>
+    <innerfile refid="test__voice__wave__a__noisy__wakeword_8cpp">test_voice_wave_a_noisy_wakeword.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store" kind="struct" language="C++" prot="public">
+    <compoundname>themis::maintenance::test::MockScheduleStore</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a35f5b81ae3866eff1ac017ac050c3a7d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::maintenance::test::MockScheduleStore::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::maintenance::test::MockScheduleStore::data</qualifiedname>
+        <briefdescription>
+<para>key → raw JSON string </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="50" column="14" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a4bdbf9bd8846bff134b79eb7b01f5104" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::maintenance::test::MockScheduleStore::simulate_corrupt</definition>
+        <argsstring></argsstring>
+        <name>simulate_corrupt</name>
+        <qualifiedname>themis::maintenance::test::MockScheduleStore::simulate_corrupt</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>inject corrupt bytes on load </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="51" column="10" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a325693d96be94a884d84414325e24348" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::test::MockScheduleStore::save</definition>
+        <argsstring>(const MaintenanceScheduleEntry &amp;entry)</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::maintenance::test::MockScheduleStore::save</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="53" column="10" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="53" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a3472b6c7ba6053d9c049179bf1ffdc3d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::maintenance::test::MockScheduleStore::remove</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::maintenance::test::MockScheduleStore::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="57" column="10" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a7725f0fbfc0b97824fee619f021083aa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::maintenance::test::MockScheduleStore::loadAll</definition>
+        <argsstring>(std::map&lt; std::string, MaintenanceScheduleEntry &gt; &amp;out, std::string &amp;error_out)</argsstring>
+        <name>loadAll</name>
+        <qualifiedname>themis::maintenance::test::MockScheduleStore::loadAll</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, <ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_entry" kindref="compound">MaintenanceScheduleEntry</ref> &gt; &amp;</type>
+          <declname>out</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>error_out</declname>
+        </param>
+        <briefdescription>
+<para>Returns false and sets error on corruption. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="62" column="10" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="62" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/maintenance/test_maintenance_stress_focused.cpp" line="49" column="1" bodyfile="tests/maintenance/test_maintenance_stress_focused.cpp" bodystart="49" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a35f5b81ae3866eff1ac017ac050c3a7d" prot="public" virt="non-virtual"><scope>themis::maintenance::test::MockScheduleStore</scope><name>data</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a7725f0fbfc0b97824fee619f021083aa" prot="public" virt="non-virtual"><scope>themis::maintenance::test::MockScheduleStore</scope><name>loadAll</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a3472b6c7ba6053d9c049179bf1ffdc3d" prot="public" virt="non-virtual"><scope>themis::maintenance::test::MockScheduleStore</scope><name>remove</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a325693d96be94a884d84414325e24348" prot="public" virt="non-virtual"><scope>themis::maintenance::test::MockScheduleStore</scope><name>save</name></member>
+      <member refid="structthemis_1_1maintenance_1_1test_1_1_mock_schedule_store_1a4bdbf9bd8846bff134b79eb7b01f5104" prot="public" virt="non-virtual"><scope>themis::maintenance::test::MockScheduleStore</scope><name>simulate_corrupt</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

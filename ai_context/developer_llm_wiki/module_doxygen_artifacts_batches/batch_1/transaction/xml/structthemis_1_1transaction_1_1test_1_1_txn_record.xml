@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1test_1_1_txn_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::test::TxnRecord</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1test_1_1_txn_record_1a0095f0b916cb9a5882dc3165881dc472" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::test::TxnRecord::txn_id</definition>
+        <argsstring></argsstring>
+        <name>txn_id</name>
+        <qualifiedname>themis::transaction::test::TxnRecord::txn_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="56" column="17" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1test_1_1_txn_record_1acf5219107746630fd48317fcf0759753" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1transaction_1_1test_1a582fe94874dab97570c1ddc236babf16" kindref="member">TxnState</ref></type>
+        <definition>TxnState themis::transaction::test::TxnRecord::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::transaction::test::TxnRecord::state</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1transaction_1_1test_1a582fe94874dab97570c1ddc236babf16ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">TxnState::PENDING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="57" column="14" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1test_1_1_txn_record_1a02142e7d1a46cadbd779eb6e081e8622" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::transaction::test::TxnRecord::prepare_votes_received</definition>
+        <argsstring></argsstring>
+        <name>prepare_votes_received</name>
+        <qualifiedname>themis::transaction::test::TxnRecord::prepare_votes_received</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="58" column="9" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1test_1_1_txn_record_1ae8e86c334c162f8d2aead46c17ba26de" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::transaction::test::TxnRecord::in_doubt</definition>
+        <argsstring></argsstring>
+        <name>in_doubt</name>
+        <qualifiedname>themis::transaction::test::TxnRecord::in_doubt</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="59" column="10" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_wave_a_closure.cpp" line="55" column="1" bodyfile="tests/transaction/test_transaction_wave_a_closure.cpp" bodystart="55" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1test_1_1_txn_record_1ae8e86c334c162f8d2aead46c17ba26de" prot="public" virt="non-virtual"><scope>themis::transaction::test::TxnRecord</scope><name>in_doubt</name></member>
+      <member refid="structthemis_1_1transaction_1_1test_1_1_txn_record_1a02142e7d1a46cadbd779eb6e081e8622" prot="public" virt="non-virtual"><scope>themis::transaction::test::TxnRecord</scope><name>prepare_votes_received</name></member>
+      <member refid="structthemis_1_1transaction_1_1test_1_1_txn_record_1acf5219107746630fd48317fcf0759753" prot="public" virt="non-virtual"><scope>themis::transaction::test::TxnRecord</scope><name>state</name></member>
+      <member refid="structthemis_1_1transaction_1_1test_1_1_txn_record_1a0095f0b916cb9a5882dc3165881dc472" prot="public" virt="non-virtual"><scope>themis::transaction::test::TxnRecord</scope><name>txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <innerclass refid="classthemis_1_1test_1_1_alignment_conformance_test" prot="public">themis::test::AlignmentConformanceTest</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_inductive_miner_test" prot="public">themis::test::InductiveMinerTest</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" prot="public">themis::test::ProcessMiningLLMTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1a15fe9d157ebc78cf9aa1ffd8728592a9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref></type>
+        <definition>static EventLog themis::test::makeLinearLog</definition>
+        <argsstring>(int n=5)</argsstring>
+        <name>makeLinearLog</name>
+        <qualifiedname>themis::test::makeLinearLog</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+<para>Build a simple linear event log: A → B → C repeated <computeroutput>n</computeroutput> times. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="19" column="17" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="19" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aca7763dd52ac2b365f0a5be391740033" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref></type>
+        <definition>static EventLog themis::test::makeXorLog</definition>
+        <argsstring>(int n=6)</argsstring>
+        <name>makeXorLog</name>
+        <qualifiedname>themis::test::makeXorLog</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+          <defval>6</defval>
+        </param>
+        <briefdescription>
+<para>Build an XOR log: half traces A→B→D, half traces A→C→D. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="49" column="17" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="49" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a538bf66f25e0eaf23eb7dea6f55e5c0f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref></type>
+        <definition>static EventLog themis::test::makeParallelLog</definition>
+        <argsstring>(int n=4)</argsstring>
+        <name>makeParallelLog</name>
+        <qualifiedname>themis::test::makeParallelLog</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+<para>Build a parallel log: traces contain A then B and C in any order, then D. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="82" column="17" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="82" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab52b5de3c8c577409a5f8aac361dffdf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_event_log" kindref="compound">EventLog</ref></type>
+        <definition>static EventLog themis::test::makeLoopLog</definition>
+        <argsstring>(int n=6)</argsstring>
+        <name>makeLoopLog</name>
+        <qualifiedname>themis::test::makeLoopLog</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+          <defval>6</defval>
+        </param>
+        <briefdescription>
+<para>Build a loop log: A (B)* C where B repeats 0–2 times. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="116" column="17" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="116" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a5cafd761e0d1773f70880f35da9de097" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref></type>
+        <definition>static DiscoveredProcess themis::test::makeLinearModel</definition>
+        <argsstring>()</argsstring>
+        <name>makeLinearModel</name>
+        <qualifiedname>themis::test::makeLinearModel</qualifiedname>
+        <briefdescription>
+<para>Build a perfectly conforming <ref refid="structthemis_1_1_discovered_process" kindref="compound">DiscoveredProcess</ref> for A → B → C. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="152" column="26" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="152" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a681f6ef5990c6ac6f0d57c450de03b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, EmptyLogReturnsEmptyProcess)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyLogReturnsEmptyProcess</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="188" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="188" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1af127a149fcaf810230110946dab88def" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, LinearLogProducesCorrectNodeCount)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>LinearLogProducesCorrectNodeCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="206" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="206" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a25a50e14b63f3caa17ec57163989e695" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, XorLogHasTwoVariants)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>XorLogHasTwoVariants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="213" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="213" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aa4095899aaa8102aae9ae1266584ace0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, ParallelLogHasTwoVariants)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>ParallelLogHasTwoVariants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="219" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="219" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a25ecb9f3c77dd17f5a70a94f05484954" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, LoopLogHasThreeVariants)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>LoopLogHasThreeVariants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="224" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="224" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a4418bd9bd90b6456319bc833dd923c24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, MiningConfigDefaultIsHeuristic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>MiningConfigDefaultIsHeuristic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="229" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="229" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a7da11a8c8c74aedffee48092d6854d5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, InductiveMiningConfigEnum)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>InductiveMiningConfigEnum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="234" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="234" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a3a9f9f2824039d00414562d2da2dd03c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, NoiseThresholdDefault)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>NoiseThresholdDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="240" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="240" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab61035da795fde014d1e17bb845e0132" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, AlphaAlgorithmEnum)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>AlphaAlgorithmEnum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="245" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="245" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ac85698dddb641d2d2e4a6c00d15da56d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, AlphaPlusAlgorithmEnum)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>AlphaPlusAlgorithmEnum</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="251" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="251" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a0e8a50e07bd3d3dc57b165ebf3f8e74f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, LinearLogEventOrderIsPreserved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>LinearLogEventOrderIsPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="257" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="257" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ad7538d50bc8b822992537407f185ccf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, XorLogEvenTracesAreBranch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>XorLogEvenTracesAreBranch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="267" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="267" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a9f89eaf70dfc1090b4e22017a2e64eb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, ParallelLogBothOrdersPresent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>ParallelLogBothOrdersPresent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="274" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="274" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a550a2867dbf5eda53006f25a01839dc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, LoopLogZeroIterationsCase)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>LoopLogZeroIterationsCase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="290" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="290" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a858c3f36ca3e47e0d08cb087331dacba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, LoopLogOneIterationCase)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>LoopLogOneIterationCase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="297" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="297" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1afd3af49b9d937b6856458e40b0a66217" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, LoopLogTwoIterationsCase)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>LoopLogTwoIterationsCase</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="304" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="304" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aa178887f9fca8a28e1a1fae5306824fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, DiscoveredProcessNodeHasTypeField)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>DiscoveredProcessNodeHasTypeField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="312" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="312" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a7cb10e6a74531683a0f511fbbd2e44f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, DiscoveredProcessEdgeHasIdField)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>DiscoveredProcessEdgeHasIdField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="319" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="319" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aaf3725b76dd888572ed07a5e85742772" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, LinearModelHasFiveNodes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>LinearModelHasFiveNodes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="326" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="326" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a96b5682e02c1240510f1fef901d19d5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(InductiveMinerTest, LinearModelHasFourEdges)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_inductive_miner_test" kindref="compound">InductiveMinerTest</ref></type>
+        </param>
+        <param>
+          <type>LinearModelHasFourEdges</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="331" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="331" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a7a5dd911144c66802124b24c1f9b9f08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, PerfectAlignmentFitnessIsOne)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>PerfectAlignmentFitnessIsOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="382" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="382" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a8bb5bb6590f3fd0db09a87d62d9add58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, CompletelyDifferentFitnessIsZero)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>CompletelyDifferentFitnessIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="388" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="388" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a5a5a37423e15e88c62581fb1773849b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, EmptyTracePerfectIfModelEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyTracePerfectIfModelEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="394" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="394" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a6a25f86a8639e827e194dec188ed7974" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, EmptyTraceNonEmptyModelIsPartial)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyTraceNonEmptyModelIsPartial</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="398" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="398" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a67add3f9f6914c851996dc4ad7092b32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, NonEmptyTraceEmptyModelIsPartial)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>NonEmptyTraceEmptyModelIsPartial</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="403" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="403" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a8a14b207ac0e0a6ca914494b525505ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, OneMissingActivityReducesFitness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>OneMissingActivityReducesFitness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="408" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="408" bodyend="413"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ae18827ee19fc850acc8fb7a7bd235545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, SubsequenceHasPositiveFitness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>SubsequenceHasPositiveFitness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="415" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="415" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a72f8a500663fe1135315b94904ed163d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, SupersequenceHasPositiveFitness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>SupersequenceHasPositiveFitness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="422" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="422" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a8ac1094d0664fd8ffb45069b20f773ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, FitnessIsBetweenZeroAndOne)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>FitnessIsBetweenZeroAndOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="429" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="429" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a24afb2634190843e1f507b407ada7561" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, SymmetryOfPerfectMatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>SymmetryOfPerfectMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="443" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="443" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a0b21b7b66f2b8b577db5abfe7bf2eece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, SingleActivityPerfectFitness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>SingleActivityPerfectFitness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="449" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="449" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a1b158b57b3d61628fffe8f6674c444d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, TwoActivityPerfectFitness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>TwoActivityPerfectFitness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="453" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="453" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aa980450753ed65fe695998c8b995b810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, ReorderedActivitiesLowerFitness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>ReorderedActivitiesLowerFitness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="457" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="457" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a1f086d3444e958e48d1d752eb5952b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, LinearModelConformanceResult)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>LinearModelConformanceResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="463" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="463" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a634dd68d311d1b53e90f6a25b20e1557" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, ConformanceResultStructureHasFitnessAndPrecision)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>ConformanceResultStructureHasFitnessAndPrecision</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="472" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="472" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a8c85ee537a391acbf548692a68e13e8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, AlignmentResultStructureHasMoves)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>AlignmentResultStructureHasMoves</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="480" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="480" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a0a7c288b6445e71a409a9a72a86109af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, LogMoveHasCostOne)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>LogMoveHasCostOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="493" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="493" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aa747342c6dc03312a16fb460bfeeb6f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, ModelMoveHasCostOne)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>ModelMoveHasCostOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="499" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="499" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a0bb92c86a6ee63291b7e1bd1cdf6a4b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(AlignmentConformanceTest, LargerLogHigherTotalCost)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_alignment_conformance_test" kindref="compound">AlignmentConformanceTest</ref></type>
+        </param>
+        <param>
+          <type>LargerLogHigherTotalCost</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_discovery_conformance.cpp" line="505" column="1" bodyfile="tests/analytics/test_process_discovery_conformance.cpp" bodystart="505" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a7d0656831ab710eac322ab635b7724a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, AdminProcess_PerfectConformance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>AdminProcess_PerfectConformance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="67" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="67" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a47c7ee837490c28775e1145101696f20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, AdminProcess_VierAugenViolation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>AdminProcess_VierAugenViolation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="99" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="99" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a35e38f4f67fd3000a456f525c404a345" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, Healthcare_5RRule_AllCompliant)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>Healthcare_5RRule_AllCompliant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="133" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="133" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a1dfdd73ea5da7dd56e5fa91b4b1f5f48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, Healthcare_5RRule_WrongPatient)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>Healthcare_5RRule_WrongPatient</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="161" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="161" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a45a35e8c9dfc816dbc32d61112917d86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, ITService_IncidentCategorization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>ITService_IncidentCategorization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="198" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="198" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a37bbea0275594ce580d7e61bfa61c306" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, Financial_FraudDetection_Duplicate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>Financial_FraudDetection_Duplicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="223" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="223" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1abf0669139d4c9797e41ee1ff58daf0a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, Benchmark_ResponseTime_Administrative)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>Benchmark_ResponseTime_Administrative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="252" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="252" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a44dec5dcf2c8520c61d5772c5e7643fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, Benchmark_ResponseTime_Healthcare)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>Benchmark_ResponseTime_Healthcare</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="271" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="271" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1af3ca008bc6c8199b708378a51a81714f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, Benchmark_Accuracy_Healthcare)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>Benchmark_Accuracy_Healthcare</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="289" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="289" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a4a48a2c7d969ae9abeeac8a9f63a625c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, Benchmark_FalsePositiveRate_Healthcare)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>Benchmark_FalsePositiveRate_Healthcare</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="300" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="300" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ac3a62d91a2f86a2c67316bad2b757d43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(ProcessMiningLLMTest, Benchmark_Accuracy_Financial)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_process_mining_l_l_m_test" kindref="compound">ProcessMiningLLMTest</ref></type>
+        </param>
+        <param>
+          <type>Benchmark_Accuracy_Financial</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_process_mining_llm.cpp" line="311" column="1" bodyfile="tests/analytics/test_process_mining_llm.cpp" bodystart="311" bodyend="320"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/analytics/test_process_discovery_conformance.cpp" line="12" column="1"/>
+  </compounddef>
+</doxygen>

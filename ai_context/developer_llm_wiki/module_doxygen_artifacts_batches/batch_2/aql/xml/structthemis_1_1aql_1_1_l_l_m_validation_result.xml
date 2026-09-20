@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_l_l_m_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::LLMValidationResult</compoundname>
+    <includes refid="llm__validation__pipeline_8h" local="no">llm_validation_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_result_1abde0dd99e2995adca9a7b6eb13ab5247" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610" kindref="member">LLMValidationStatus</ref></type>
+        <definition>LLMValidationStatus themis::aql::LLMValidationResult::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::aql::LLMValidationResult::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1aql_1a075874574a32414fe314d928fba95610ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">LLMValidationStatus::SUCCESS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="48" column="25" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_result_1af0cdda7c0867909ab1496aa378e2ecef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMValidationResult::validated_aql</definition>
+        <argsstring></argsstring>
+        <name>validated_aql</name>
+        <qualifiedname>themis::aql::LLMValidationResult::validated_aql</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="50" column="17" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_result_1a7329a4283d8dd9f69012114c9b2bda29" prot="public" static="no" mutable="no">
+        <type>query::ParserDiagnostics</type>
+        <definition>query::ParserDiagnostics themis::aql::LLMValidationResult::parser_diagnostics</definition>
+        <argsstring></argsstring>
+        <name>parser_diagnostics</name>
+        <qualifiedname>themis::aql::LLMValidationResult::parser_diagnostics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="52" column="30" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_result_1a77e150b6e614cc569a5dba790025ce68" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMValidationResult::retry_feedback</definition>
+        <argsstring></argsstring>
+        <name>retry_feedback</name>
+        <qualifiedname>themis::aql::LLMValidationResult::retry_feedback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="54" column="17" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_result_1a389d6a0dbafb71a54a63f0e8dc4ddffe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::aql::LLMValidationResult::attempts_made</definition>
+        <argsstring></argsstring>
+        <name>attempts_made</name>
+        <qualifiedname>themis::aql::LLMValidationResult::attempts_made</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="56" column="12" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_l_l_m_validation_result_1ac83102d72ff57a9f0cee05915b23c1ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::LLMValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::aql::LLMValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/llm_validation_pipeline.h" line="58" column="17" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/llm_validation_pipeline.h" line="47" column="1" bodyfile="include/aql/llm_validation_pipeline.h" bodystart="47" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a389d6a0dbafb71a54a63f0e8dc4ddffe" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationResult</scope><name>attempts_made</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1ac83102d72ff57a9f0cee05915b23c1ec" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a7329a4283d8dd9f69012114c9b2bda29" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationResult</scope><name>parser_diagnostics</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1a77e150b6e614cc569a5dba790025ce68" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationResult</scope><name>retry_feedback</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1abde0dd99e2995adca9a7b6eb13ab5247" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationResult</scope><name>status</name></member>
+      <member refid="structthemis_1_1aql_1_1_l_l_m_validation_result_1af0cdda7c0867909ab1496aa378e2ecef" prot="public" virt="non-virtual"><scope>themis::aql::LLMValidationResult</scope><name>validated_aql</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

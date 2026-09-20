@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult</compoundname>
+    <includes refid="graph__query__optimizer_8h" local="no">graph_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result_1a88719bf80c56301959d1f59870e629bc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::unordered_map&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::unordered_map&lt;std::string, std::string&gt; &gt; themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult::matches</definition>
+        <argsstring></argsstring>
+        <name>matches</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult::matches</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="377" column="21" bodyfile="include/graph/graph_query_optimizer.h" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result_1a0506d185464ad2798b1b5ad7256556ff" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult::candidate_pairs_checked</definition>
+        <argsstring></argsstring>
+        <name>candidate_pairs_checked</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult::candidate_pairs_checked</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="378" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result_1a2e014c4e361428685118f4b4ce31d773" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult::execution_time_ms</definition>
+        <argsstring></argsstring>
+        <name>execution_time_ms</name>
+        <qualifiedname>themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult::execution_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_optimizer.h" line="379" column="16" bodyfile="include/graph/graph_query_optimizer.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_optimizer.h" line="376" column="5" bodyfile="include/graph/graph_query_optimizer.h" bodystart="376" bodyend="380"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result_1a0506d185464ad2798b1b5ad7256556ff" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult</scope><name>candidate_pairs_checked</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result_1a2e014c4e361428685118f4b4ce31d773" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult</scope><name>execution_time_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_subgraph_isomorphism_result_1a88719bf80c56301959d1f59870e629bc" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryOptimizer::SubgraphIsomorphismResult</scope><name>matches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

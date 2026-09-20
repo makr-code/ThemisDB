@@ -1,0 +1,1346 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1temporal_1_1_temporal_query_engine" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::temporal::TemporalQueryEngine</compoundname>
+    <includes refid="temporal__query__engine_8h" local="no">temporal_query_engine.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1adc025569c1727f8b2fef9f85dc59e729" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::queryAsOf</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, Timestamp as_of, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>queryAsOf</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::queryAsOf</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Query As Of. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Query all rows that were current at a specific system time.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Point-in-time (ms since epoch) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: scan(), empty(), reserve(), size(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a96cccc75a3d578e21febabcbb9a013d2" kindref="member">matchesFilters()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="166" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="37" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a64499f8a42ab7f7838887be591644dfe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::queryFromTo</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, Timestamp from, Timestamp to, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>queryFromTo</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::queryFromTo</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Query From To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Query all row versions whose sys_time overlaps [from, to).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getAllKeys(), getHistoryInRange(), empty(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a96cccc75a3d578e21febabcbb9a013d2" kindref="member">matchesFilters()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="174" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="68" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a8cdd24ae850d6f58597486cd58bbec1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::queryKeyFromTo</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const std::string &amp;key, Timestamp from, Timestamp to)</argsstring>
+        <name>queryKeyFromTo</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::queryKeyFromTo</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Query Key From To. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Query all row versions for a specific key whose sys_time overlaps [from, to).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getHistoryInRange(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="184" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="99" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a3e43ac8c4891bf2c95e21db69f38bc75" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalQueryEngine::evaluatePredicate</definition>
+        <argsstring>(TemporalOperator op, const TimeRange &amp;lhs, const TimeRange &amp;rhs) noexcept</argsstring>
+        <name>evaluatePredicate</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::evaluatePredicate</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1ac336465ec30b2c393ca5b8621bfec52b" kindref="member">TemporalOperator</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>lhs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>rhs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply a temporal predicate between two time ranges.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The temporal operator to evaluate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left-hand period </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rhs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right-hand period </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the predicate holds </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="198" column="17" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="108" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1aa9a0a8469f084aaaa1f586f7ec8995e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>, <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; VersionedDocument, VersionedDocument &gt; &gt; themisdb::temporal::TemporalQueryEngine::joinAsOf</definition>
+        <argsstring>(const SystemVersionedTable &amp;left, const SystemVersionedTable &amp;right, Timestamp as_of, const std::function&lt; bool(const VersionedDocument &amp;, const VersionedDocument &amp;)&gt; &amp;predicate)</argsstring>
+        <name>joinAsOf</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::joinAsOf</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; bool(const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;, const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;)&gt; &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Temporal AS-OF join between two tables.</para>
+<para>Returns pairs (left_row, right_row) where both rows were current at the given system time and the join predicate returns true.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left-hand table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right-hand table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Point-in-time for both tables. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Join condition evaluated on every (left, right) pair. Return true to include the pair in the result. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="214" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="140" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1ad5ec0d9224289ea9aed43a0794037e80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref>, <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; VersionedDocument, VersionedDocument &gt; &gt; themisdb::temporal::TemporalQueryEngine::joinBiTemporal</definition>
+        <argsstring>(const BiTemporalTable &amp;left, const BiTemporalTable &amp;right, Timestamp sys_as_of, Timestamp valid_at, const std::function&lt; bool(const VersionedDocument &amp;, const VersionedDocument &amp;)&gt; &amp;predicate)</argsstring>
+        <name>joinBiTemporal</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::joinBiTemporal</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> &amp;</type>
+          <declname>right</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>sys_as_of</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_at</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; bool(const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;, const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;)&gt; &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Bi-temporal join between two BiTemporalTables.</para>
+<para>Returns pairs (left_row, right_row) where:<itemizedlist>
+<listitem><para>Both rows have sys_time.contains(sys_as_of)</para>
+</listitem><listitem><para>Both rows have valid_time.contains(valid_at)</para>
+</listitem><listitem><para>predicate(left_row, right_row) returns true</para>
+</listitem></itemizedlist>
+</para>
+<para>This implements the combined transaction-time + valid-time join semantics defined in SQL:2011.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Left-hand bi-temporal table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Right-hand bi-temporal table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sys_as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>System-time point applied to both tables. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Valid-time point applied to both tables. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Join condition evaluated on every (left, right) pair. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="239" column="5" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="168" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a9eaff8dbd1a49eb5ba20f966ba89fa81" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::queryWithSemantics</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, TemporalSemantics semantics, const TimeRange &amp;period, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>queryWithSemantics</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::queryWithSemantics</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a02e8380e129c90d42cb9ff078b58d505" kindref="member">TemporalSemantics</ref></type>
+          <declname>semantics</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>period</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>============================================================================ Sequenced / Non-Sequenced query semantics ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Query a <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> with explicit SEQUENCED or NON-SEQUENCED semantics (SQL:2011 §4.16.5).</para>
+<para>SEQUENCED: Returns rows whose sys_time overlaps the given period. Temporal predicates are respected per individual period. NON_SEQUENCED: Returns all row versions regardless of sys_time, treating the table as an atemporal relation.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>semantics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SEQUENCED or NON_SEQUENCED. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>period</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference period (used for SEQUENCED filtering only). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">semantics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">period</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getAllKeys(), getHistoryInRange(), empty(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a96cccc75a3d578e21febabcbb9a013d2" kindref="member">matchesFilters()</ref>, push_back(), std::move(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a64499f8a42ab7f7838887be591644dfe" kindref="member">queryFromTo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="261" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="202" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a2afe20eb4163d5cd9613288e370736e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::queryBetween</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, Timestamp start, Timestamp end, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>queryBetween</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::queryBetween</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>start</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>end</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>============================================================================ FOR SYSTEM_TIME BETWEEN. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>FOR SYSTEM_TIME BETWEEN start AND end (SQL:2011 §7.6)</para>
+<para>Returns all row versions whose sys_time overlaps the closed interval [start, end]. This differs from <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a64499f8a42ab7f7838887be591644dfe" kindref="member">queryFromTo()</ref> which uses the half-open interval [from, to).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive range start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inclusive range end. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+..AND (SQL:2011 §7.6) ============================================================================ Calls: <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a64499f8a42ab7f7838887be591644dfe" kindref="member">queryFromTo()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="279" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="260" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a14d46470b99c0355025f39905a2f3f36" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::queryApplicationTime</definition>
+        <argsstring>(const BiTemporalTable &amp;table, Timestamp valid_at, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>queryApplicationTime</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::queryApplicationTime</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_at</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>============================================================================ FOR APPLICATION_TIME queries (SQL:2011 §7. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>FOR APPLICATION_TIME AS OF valid_at (SQL:2011 §7.6)</para>
+<para>Returns all rows from a <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> that are current in system-time (latest versions, i.e., sys_time end == kMaxTimestamp) and whose valid-time period contains valid_at. This is the application-time counterpart of <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1adc025569c1727f8b2fef9f85dc59e729" kindref="member">queryAsOf()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source bi-temporal table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Point-in-application-time to query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">valid_at</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+6) ============================================================================ Calls: scanBiTemporal(), <ref refid="namespacethemisdb_1_1temporal_1a311e9facf859fb17560854fa490c2b88" kindref="member">now()</ref>, empty(), reserve(), size(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a96cccc75a3d578e21febabcbb9a013d2" kindref="member">matchesFilters()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="297" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="284" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1ac7e0d7314636d5dabd4ec76cd7450f3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::queryApplicationTimeRange</definition>
+        <argsstring>(const BiTemporalTable &amp;table, Timestamp valid_from, Timestamp valid_to, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>queryApplicationTimeRange</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::queryApplicationTimeRange</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_from</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>valid_to</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Query Application Time Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>FOR APPLICATION_TIME FROM valid_from TO valid_to (SQL:2011 §7.6)</para>
+<para>Returns all rows from a <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> whose valid-time period overlaps the half-open interval [valid_from, valid_to). Only rows that are currently active (sys_time end == kMaxTimestamp) are returned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source bi-temporal table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid_from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of the valid-time range (inclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valid_to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of the valid-time range (exclusive). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">valid_from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">valid_to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getAllKeys(), getHistory(), isCurrent(), overlaps(), empty(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a96cccc75a3d578e21febabcbb9a013d2" kindref="member">matchesFilters()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="315" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="318" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a5369e3c7cffe1b3af5e5ad497bf27a32" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::queryAsOfWithIndex</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const TemporalIndex &amp;index, Timestamp as_of, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>queryAsOfWithIndex</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::queryAsOfWithIndex</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_temporal_index" kindref="compound">TemporalIndex</ref> &amp;</type>
+          <declname>index</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+          <declname>as_of</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>============================================================================ Index-accelerated query (query optimization) ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Index-accelerated AS-OF query (query optimization).</para>
+<para>Uses an externally managed <ref refid="classthemisdb_1_1temporal_1_1_temporal_index" kindref="compound">TemporalIndex</ref> to identify candidate keys before consulting the table, reducing the scan space for large history tables. Falls back to a full scan when the index returns no candidates.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Temporal index built over the same table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Point-in-time to query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">as_of</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: queryPoint(), empty(), size(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1adc025569c1727f8b2fef9f85dc59e729" kindref="member">queryAsOf()</ref>, reserve(), getHistoryInRange(), contains(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a96cccc75a3d578e21febabcbb9a013d2" kindref="member">matchesFilters()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="334" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="359" bodyend="402"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1ae0773a6eaea9e0e1189b31515e697149" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref></type>
+        <definition>TimeRange themisdb::temporal::TemporalQueryEngine::intersect</definition>
+        <argsstring>(const TimeRange &amp;a, const TimeRange &amp;b) noexcept</argsstring>
+        <name>intersect</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::intersect</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_time_range" kindref="compound">TimeRange</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute the overlap intersection of two time ranges. Returns an empty range (start==end) when there is no overlap. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="344" column="22" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="129" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a96cccc75a3d578e21febabcbb9a013d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::temporal::TemporalQueryEngine::matchesFilters</definition>
+        <argsstring>(const VersionedDocument &amp;doc, const std::vector&lt; RowFilter &gt; &amp;filters)</argsstring>
+        <name>matchesFilters</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::matchesFilters</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+        </param>
+        <briefdescription>
+<para>Matches Filters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply a list of field-level row filters to a document. Returns true only when the document satisfies every filter. Accessible as a public helper so that code outside the class (e.g. <ref refid="namespacethemisdb_1_1temporal_1_1detail_1a73ea2f5d7970de7d4b77d1651a280b1c" kindref="member">detail::queryAsOfCached</ref>) can reuse the same filter logic.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: matches(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="352" column="17" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="240" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a1c5b2fab036221740bce05397caa1dd3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::executeTemporalQuery</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const TemporalQuerySpec &amp;spec, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>executeTemporalQuery</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::executeTemporalQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_query_spec" kindref="compound">TemporalQuerySpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute Temporal Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute a SQL:2011 FOR SYSTEM_TIME query over a <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref>.</para>
+<para>Dispatches to the appropriate lower-level method based on spec.clause: AS_OF → queryAsOf(table, spec.start_time, filters) FROM_TO → queryFromTo(table, spec.start_time, spec.end_time, filters) BETWEEN_AND → queryBetween(table, spec.start_time, spec.end_time, filters) CONTAINED_IN → versions whose entire sys_time ⊆ [start, end) ALL → all stored versions (NON_SEQUENCED over full time range)</para>
+<para>When spec.include_deleted is false (default) rows whose data contains the field &quot;deleted&quot; with value true are excluded from the result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source system-versioned table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Temporal query specification (clause type + timestamps). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters applied after the temporal predicate.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1adc025569c1727f8b2fef9f85dc59e729" kindref="member">queryAsOf()</ref>, <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a64499f8a42ab7f7838887be591644dfe" kindref="member">queryFromTo()</ref>, <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a2afe20eb4163d5cd9613288e370736e3" kindref="member">queryBetween()</ref>, reserve(), size(), push_back(), std::move(), <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a9eaff8dbd1a49eb5ba20f966ba89fa81" kindref="member">queryWithSemantics()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="377" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="534" bodyend="578"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a91cec84cc921daa277690f104eebbbcf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::executeTemporalQuery</definition>
+        <argsstring>(const BiTemporalTable &amp;table, const TemporalQuerySpec &amp;spec, const std::vector&lt; RowFilter &gt; &amp;filters={})</argsstring>
+        <name>executeTemporalQuery</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::executeTemporalQuery</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1temporal_1_1_temporal_query_spec" kindref="compound">TemporalQuerySpec</ref> &amp;</type>
+          <declname>spec</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_row_filter" kindref="compound">RowFilter</ref> &gt; &amp;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Execute Temporal Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Execute a SQL:2011 FOR APPLICATION_TIME query over a <ref refid="classthemisdb_1_1temporal_1_1_bi_temporal_table" kindref="compound">BiTemporalTable</ref>.</para>
+<para>Dispatches based on spec.clause: AS_OF → queryApplicationTime(table, spec.start_time, filters) FROM_TO → queryApplicationTimeRange(table, spec.start_time, spec.end_time, filters) BETWEEN_AND → queryApplicationTimeRange with closed upper bound CONTAINED_IN → current rows whose valid_time ⊆ [start, end) ALL → all current rows (all valid-time periods)</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source bi-temporal table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Temporal query specification (clause type + timestamps). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional field-level row filters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">spec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a14d46470b99c0355025f39905a2f3f36" kindref="member">queryApplicationTime()</ref>, <ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1ac7e0d7314636d5dabd4ec76cd7450f3e" kindref="member">queryApplicationTimeRange()</ref>, reserve(), size(), push_back(), std::move(), applyDeletedFilter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="397" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="588" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1acdb14ce3159b4962aacb3c40638d96e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::sequencedDistinct</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const std::vector&lt; std::string &gt; &amp;compare_fields={})</argsstring>
+        <name>sequencedDistinct</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::sequencedDistinct</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>compare_fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>SQL:2011 §13.4 SEQUENCED DISTINCT — remove temporally redundant rows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sequenced Distinct.</para>
+<para>Returns the minimal set of <computeroutput><ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref></computeroutput> rows that captures the complete version history of each logical key, eliminating rows whose non-temporal data is identical to an adjacent version for the same key. Adjacent periods with identical data are merged into a single, longer interval.</para>
+<para><heading level="3">Definition (SQL:2011 §13.4)</heading>
+</para>
+<para>A row R is temporally redundant when there exists another row R&apos; for the same key such that:<itemizedlist>
+<listitem><para>R&apos;.sys_time overlaps or is immediately adjacent to R.sys_time, AND</para>
+</listitem><listitem><para>the compared fields of R&apos; are identical to those of R. The SEQUENCED DISTINCT result coalesces all such adjacent equal-data intervals into a single row whose sys_time spans the merged range.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Example</heading>
+</para>
+<para><programlisting><codeline><highlight class="normal">key=</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><sp/>data={</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">:1},<sp/><sp/>sys_time=[0,<sp/><sp/>10)</highlight></codeline>
+<codeline><highlight class="normal">key=</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><sp/>data={</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">:1},<sp/><sp/>sys_time=[10,<sp/>20)<sp/><sp/><sp/>←<sp/>same<sp/>data,<sp/>adjacent<sp/>→<sp/>merge</highlight></codeline>
+<codeline><highlight class="normal">key=</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><sp/>data={</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">:2},<sp/><sp/>sys_time=[20,<sp/>30)<sp/><sp/><sp/>←<sp/>different<sp/>data<sp/>→<sp/>keep<sp/>separate</highlight></codeline>
+</programlisting> Result: <programlisting><codeline><highlight class="normal">key=</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><sp/>data={</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">:1},<sp/><sp/>sys_time=[0,<sp/><sp/>20)</highlight></codeline>
+<codeline><highlight class="normal">key=</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/><sp/>data={</highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">:2},<sp/><sp/>sys_time=[20,<sp/>30)</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table (all historical versions are scanned). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compare_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON field names used for equality comparison. Pass an empty vector to compare the entire <computeroutput>data</computeroutput> document (all fields must match for merging). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Coalesced rows, sorted by key then sys_start.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compare_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getAllKeys(), coalesceVersions(), getHistory(), push_back(), std::move(), std::sort(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="439" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="724" bodyend="748"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a722e9546a006715095e30c09303c4e62" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1temporal_1_1_versioned_document" kindref="compound">VersionedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; VersionedDocument &gt; themisdb::temporal::TemporalQueryEngine::sequencedDistinctForKey</definition>
+        <argsstring>(const SystemVersionedTable &amp;table, const std::string &amp;key, const std::vector&lt; std::string &gt; &amp;compare_fields={})</argsstring>
+        <name>sequencedDistinctForKey</name>
+        <qualifiedname>themisdb::temporal::TemporalQueryEngine::sequencedDistinctForKey</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>compare_fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>SEQUENCED DISTINCT restricted to a single key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Sequenced Distinct For Key.</para>
+<para>Same semantics as the table-wide overload, applied only to versions of the given <computeroutput>key</computeroutput>. Useful when the caller already knows the key and wants to avoid scanning the full table.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source table. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Key whose versions should be coalesced. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>compare_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fields used for equality comparison (empty = all fields). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Coalesced rows for <computeroutput>key</computeroutput>, sorted by sys_start.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">table</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compare_fields</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: coalesceVersions(), getHistory(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_query_engine.h" line="455" column="24" bodyfile="src/temporal/temporal_query_engine.cpp" bodystart="758" bodyend="764"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1temporal_1_1_temporal_query_engine" kindref="compound">TemporalQueryEngine</ref></para>
+<para>Provides time-travel and range queries over in-memory <ref refid="classthemisdb_1_1temporal_1_1_system_versioned_table" kindref="compound">SystemVersionedTable</ref> instances.</para>
+<para>Thread-safety: const methods are thread-safe; the table data they read must remain stable for the duration of the call. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_query_engine.h" line="157" column="1" bodyfile="include/temporal/temporal_query_engine.h" bodystart="157" bodyend="459"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a3e43ac8c4891bf2c95e21db69f38bc75" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>evaluatePredicate</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a1c5b2fab036221740bce05397caa1dd3" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>executeTemporalQuery</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a91cec84cc921daa277690f104eebbbcf" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>executeTemporalQuery</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1ae0773a6eaea9e0e1189b31515e697149" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>intersect</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1aa9a0a8469f084aaaa1f586f7ec8995e1" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>joinAsOf</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1ad5ec0d9224289ea9aed43a0794037e80" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>joinBiTemporal</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a96cccc75a3d578e21febabcbb9a013d2" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>matchesFilters</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a14d46470b99c0355025f39905a2f3f36" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>queryApplicationTime</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1ac7e0d7314636d5dabd4ec76cd7450f3e" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>queryApplicationTimeRange</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1adc025569c1727f8b2fef9f85dc59e729" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>queryAsOf</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a5369e3c7cffe1b3af5e5ad497bf27a32" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>queryAsOfWithIndex</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a2afe20eb4163d5cd9613288e370736e3" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>queryBetween</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a64499f8a42ab7f7838887be591644dfe" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>queryFromTo</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a8cdd24ae850d6f58597486cd58bbec1c" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>queryKeyFromTo</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a9eaff8dbd1a49eb5ba20f966ba89fa81" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>queryWithSemantics</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1acdb14ce3159b4962aacb3c40638d96e3" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>sequencedDistinct</name></member>
+      <member refid="classthemisdb_1_1temporal_1_1_temporal_query_engine_1a722e9546a006715095e30c09303c4e62" prot="public" virt="non-virtual"><scope>themisdb::temporal::TemporalQueryEngine</scope><name>sequencedDistinctForKey</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

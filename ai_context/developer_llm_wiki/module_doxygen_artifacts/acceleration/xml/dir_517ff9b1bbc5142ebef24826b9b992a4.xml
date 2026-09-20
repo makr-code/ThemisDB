@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_517ff9b1bbc5142ebef24826b9b992a4" kind="dir">
+    <compoundname>include/acceleration/raii</compoundname>
+    <innerfile refid="cuda__raii_8h">cuda_raii.h</innerfile>
+    <innerfile refid="hip__raii_8h">hip_raii.h</innerfile>
+    <innerfile refid="opencl__raii_8h">opencl_raii.h</innerfile>
+    <innerfile refid="vulkan__raii_8h">vulkan_raii.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/raii/"/>
+  </compounddef>
+</doxygen>

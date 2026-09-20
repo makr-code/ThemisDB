@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_i_metrics" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::concerns::IMetrics</compoundname>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics" prot="public" virt="non-virtual">themis::core::concerns::LockFreeMetrics</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics" prot="public" virt="non-virtual">themis::core::concerns::NoOpMetrics</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter" prot="public" virt="non-virtual">themis::core::concerns::PrometheusMetricsAdapter</derivedcompoundref>
+    <includes refid="i__metrics_8h" local="no">i_metrics.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" prot="public" static="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>using themis::core::concerns::IMetrics::Labels = std::map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Labels</name>
+        <qualifiedname>themis::core::concerns::IMetrics::Labels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="25" column="5" bodyfile="include/core/concerns/i_metrics.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a675060462eaa14e716339b54f8358227" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::concerns::IMetrics::~IMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IMetrics</name>
+        <qualifiedname>themis::core::concerns::IMetrics::~IMetrics</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics" kindref="compound">IMetrics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="31" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ab5e2da4141f1ef00cb1f204f1bdab514" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::incrementCounter</definition>
+        <argsstring>(const std::string &amp;name, int64_t value=1, const Labels &amp;labels={})=0</argsstring>
+        <name>incrementCounter</name>
+        <qualifiedname>themis::core::concerns::IMetrics::incrementCounter</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ab7efec4ec7117fc569f03125ededfc49">incrementCounter</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1aa31b9129a9ac1cd84989b5ba11add5b3">incrementCounter</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ada55fc1367c815c788462d03a1244f06">incrementCounter</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+          <defval>1</defval>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="37" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae92ea90ef8e492892b5472d6ec2f6c8e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::setGauge</definition>
+        <argsstring>(const std::string &amp;name, double value, const Labels &amp;labels={})=0</argsstring>
+        <name>setGauge</name>
+        <qualifiedname>themis::core::concerns::IMetrics::setGauge</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a60fead0e1709409263ae48fd8e9454b4">setGauge</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a4f767c129ea06f3c1643e61499697c37">setGauge</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a2e7392a3243417010a309413baed7c02">setGauge</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="43" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa984519f2f0b13cef90250466ba68c47" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::incrementGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const Labels &amp;labels={})=0</argsstring>
+        <name>incrementGauge</name>
+        <qualifiedname>themis::core::concerns::IMetrics::incrementGauge</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2dd36d98da99bb2766d14806c07d658b">incrementGauge</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a65cec2097e10e794494fe9bd14c4920b">incrementGauge</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1abbd60dc96190ef5900f5f5683c8c68b4">incrementGauge</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="45" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a5218ccd9b66d548de08758259a4ca7d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::decrementGauge</definition>
+        <argsstring>(const std::string &amp;name, double delta, const Labels &amp;labels={})=0</argsstring>
+        <name>decrementGauge</name>
+        <qualifiedname>themis::core::concerns::IMetrics::decrementGauge</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7cb02f2a5f4246450ceab2f4db765043">decrementGauge</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a710cf499662e2996b84c62db4654a74a">decrementGauge</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a62325b85c96e238545d3eb5b469a1df6">decrementGauge</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="47" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aee67ce101bf4545e6ff4602d0de166f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::observeHistogram</definition>
+        <argsstring>(const std::string &amp;name, double value, const Labels &amp;labels={})=0</argsstring>
+        <name>observeHistogram</name>
+        <qualifiedname>themis::core::concerns::IMetrics::observeHistogram</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a7be4dfb47f3a4204c7606ccf12d02aef">observeHistogram</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1ae52432b6d40d8680d28d902c5dfa4b0a">observeHistogram</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a45fd68c6db0b65adcf3229a2ce183649">observeHistogram</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="53" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a405b7ee2f1fdc763a21f76adabacbe36" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::recordLatency</definition>
+        <argsstring>(const std::string &amp;operation, double latencyMs, const Labels &amp;labels={})=0</argsstring>
+        <name>recordLatency</name>
+        <qualifiedname>themis::core::concerns::IMetrics::recordLatency</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a4aa8966dcb6ecad38b7bac32807461b6">recordLatency</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1adecc9ab53939a0429c14c762f57d4125">recordLatency</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a1b25f3112a0b2ddea30aae910cc2040e">recordLatency</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>latencyMs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="59" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae470d0739b8826c44949bffca16e8d12" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::recordError</definition>
+        <argsstring>(const std::string &amp;operation, const Labels &amp;labels={})=0</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::core::concerns::IMetrics::recordError</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a04cdf449650d8c9a4cbdc901047aeef8">recordError</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1abf366a910de004cd20c26dc5b7f93fc5">recordError</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a783afbcd6da10d7300e55fc6666e5039">recordError</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="61" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa4737019b02468a24b15000746a332db" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::recordSuccess</definition>
+        <argsstring>(const std::string &amp;operation, const Labels &amp;labels={})=0</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::core::concerns::IMetrics::recordSuccess</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1ae9182ba9ce4feb564522d514e8ee9c35">recordSuccess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a0500c33b8c250082987ec7184aa7d3c7">recordSuccess</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a98bce4db961eae56bf4dc70058fe558e">recordSuccess</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" kindref="member">Labels</ref> &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="63" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1afc76a2a81a190436f4b76a3c043759e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::core::concerns::IMetrics::exportMetrics</definition>
+        <argsstring>() const =0</argsstring>
+        <name>exportMetrics</name>
+        <qualifiedname>themis::core::concerns::IMetrics::exportMetrics</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a08554d92df7e64091bbd69226217b87f">exportMetrics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a4e3dd8637552db1453c162ae6fb25960">exportMetrics</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ade2f8f08fff1f19433bc053b0beebb9b">exportMetrics</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="69" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad161732b3c913ef087834614d4d0fc53" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::reset</definition>
+        <argsstring>()=0</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::core::concerns::IMetrics::reset</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a66fc605da8facf07f44a517208008cc7">reset</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a38a8cf809da49641570789c794d3ff1b">reset</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a9d75c12be80e1285b46e99996bc3771a">reset</reimplementedby>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="74" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad2d7aad28e18efff00caf672e7db042d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::flush</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::IMetrics::flush</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a0e4829bdea8c8f36b53edf3bea8931f8">flush</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a75315f5f281544f3f4b7f4381f3efc86">flush</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1a8bc6bfe26eaa288d9ea0407e2734d55b">flush</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="77" column="18" bodyfile="include/core/concerns/i_metrics.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ac2a0a0c241a2d8e72930e8b9758a9f0b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::core::concerns::IMetrics::shutdown</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::IMetrics::shutdown</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a02497e7f07f00b60e75848eda662e169">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a437220ca421ce5baecd914a698b38f71">shutdown</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1ab6a969a4cdb53c6725ceb8ba4bcf7eab">shutdown</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="79" column="18" bodyfile="include/core/concerns/i_metrics.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a9e5fc304c04d9b4f302964ee36a31576" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>virtual ProbeResult themis::core::concerns::IMetrics::isHealthy</definition>
+        <argsstring>() const</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::IMetrics::isHealthy</qualifiedname>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1a2b53e0fe47e5f9bee15f636c8bba8bff">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics_1a67e0bf32663d62981daac44e5e3369dd">isHealthy</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter_1aa9eec4c3f2194954e72f3d879314efcc">isHealthy</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_metrics.h" line="81" column="25" bodyfile="include/core/concerns/i_metrics.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::core::concerns::IMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_metrics"/>
+      </node>
+      <node id="2">
+        <label>themis::core::concerns::LockFreeMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_lock_free_metrics"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::core::concerns::NoOpMetrics</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_metrics"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::core::concerns::PrometheusMetricsAdapter</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_prometheus_metrics_adapter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/core/concerns/i_metrics.h" line="23" column="1" bodyfile="include/core/concerns/i_metrics.h" bodystart="23" bodyend="82"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a5218ccd9b66d548de08758259a4ca7d6" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>decrementGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1afc76a2a81a190436f4b76a3c043759e4" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>exportMetrics</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad2d7aad28e18efff00caf672e7db042d" prot="public" virt="virtual"><scope>themis::core::concerns::IMetrics</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ab5e2da4141f1ef00cb1f204f1bdab514" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>incrementCounter</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa984519f2f0b13cef90250466ba68c47" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>incrementGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a9e5fc304c04d9b4f302964ee36a31576" prot="public" virt="virtual"><scope>themis::core::concerns::IMetrics</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a7ed4a86411bd160cc293fa08d8707e52" prot="public" virt="non-virtual"><scope>themis::core::concerns::IMetrics</scope><name>Labels</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aee67ce101bf4545e6ff4602d0de166f9" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>observeHistogram</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae470d0739b8826c44949bffca16e8d12" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a405b7ee2f1fdc763a21f76adabacbe36" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>recordLatency</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1aa4737019b02468a24b15000746a332db" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ad161732b3c913ef087834614d4d0fc53" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ae92ea90ef8e492892b5472d6ec2f6c8e" prot="public" virt="pure-virtual"><scope>themis::core::concerns::IMetrics</scope><name>setGauge</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1ac2a0a0c241a2d8e72930e8b9758a9f0b" prot="public" virt="virtual"><scope>themis::core::concerns::IMetrics</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_metrics_1a675060462eaa14e716339b54f8358227" prot="public" virt="virtual"><scope>themis::core::concerns::IMetrics</scope><name>~IMetrics</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

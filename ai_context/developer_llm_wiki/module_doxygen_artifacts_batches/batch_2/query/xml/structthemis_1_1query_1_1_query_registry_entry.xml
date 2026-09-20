@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_registry_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryRegistryEntry</compoundname>
+    <includes refid="continuous__query__engine__impl_8h" local="no">continuous_query_engine_impl.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_registry_entry_1a5b266e6048d9a63c035afb4b5ef18730" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref></type>
+        <definition>ContinuousQuerySpec themis::query::QueryRegistryEntry::spec</definition>
+        <argsstring></argsstring>
+        <name>spec</name>
+        <qualifiedname>themis::query::QueryRegistryEntry::spec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="101" column="50" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_registry_entry_1a6ce889557549dcf96d70240c3de55f0c" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_continuous_query_info" kindref="compound">ContinuousQueryInfo</ref></type>
+        <definition>ContinuousQueryInfo themis::query::QueryRegistryEntry::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>themis::query::QueryRegistryEntry::info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="102" column="50" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_registry_entry_1a90e20cf50bf8ff5305b0b9207bf19a89" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_continuous_plan" kindref="compound">ContinuousPlan</ref></type>
+        <definition>ContinuousPlan themis::query::QueryRegistryEntry::plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <qualifiedname>themis::query::QueryRegistryEntry::plan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="103" column="50" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_registry_entry_1ae06a55c2d90e62c396456d4988c124e4" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_synopsis_store" kindref="compound">SynopsisStore</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SynopsisStore&gt; themis::query::QueryRegistryEntry::synopsis</definition>
+        <argsstring></argsstring>
+        <name>synopsis</name>
+        <qualifiedname>themis::query::QueryRegistryEntry::synopsis</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="104" column="35" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_registry_entry_1a41719a4da20d72ea71ce8f94e76abc0f" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_c_q_watermark" kindref="compound">CQWatermark</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CQWatermark&gt; themis::query::QueryRegistryEntry::watermark</definition>
+        <argsstring></argsstring>
+        <name>watermark</name>
+        <qualifiedname>themis::query::QueryRegistryEntry::watermark</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="105" column="37" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_registry_entry_1a5282970ad5955b9c8c2b69bd871affb2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_result_queue" kindref="compound">ResultQueue</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;ResultQueue&gt; &gt; themis::query::QueryRegistryEntry::subscribers</definition>
+        <argsstring></argsstring>
+        <name>subscribers</name>
+        <qualifiedname>themis::query::QueryRegistryEntry::subscribers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine_impl.h" line="106" column="20" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="5">
+        <label>themis::query::ContinuousPlan</label>
+        <link refid="structthemis_1_1query_1_1_continuous_plan"/>
+      </node>
+      <node id="4">
+        <label>themis::query::ContinuousQueryInfo</label>
+        <link refid="structthemis_1_1query_1_1_continuous_query_info"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>window</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::ContinuousQuerySpec</label>
+        <link refid="structthemis_1_1query_1_1_continuous_query_spec"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>window</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryRegistryEntry</label>
+        <link refid="structthemis_1_1query_1_1_query_registry_entry"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>spec</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>info</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>plan</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::query::WindowSpec</label>
+        <link refid="structthemis_1_1query_1_1_window_spec"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/continuous_query_engine_impl.h" line="100" column="1" bodyfile="include/query/continuous_query_engine_impl.h" bodystart="100" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_registry_entry_1a6ce889557549dcf96d70240c3de55f0c" prot="public" virt="non-virtual"><scope>themis::query::QueryRegistryEntry</scope><name>info</name></member>
+      <member refid="structthemis_1_1query_1_1_query_registry_entry_1a90e20cf50bf8ff5305b0b9207bf19a89" prot="public" virt="non-virtual"><scope>themis::query::QueryRegistryEntry</scope><name>plan</name></member>
+      <member refid="structthemis_1_1query_1_1_query_registry_entry_1a5b266e6048d9a63c035afb4b5ef18730" prot="public" virt="non-virtual"><scope>themis::query::QueryRegistryEntry</scope><name>spec</name></member>
+      <member refid="structthemis_1_1query_1_1_query_registry_entry_1a5282970ad5955b9c8c2b69bd871affb2" prot="public" virt="non-virtual"><scope>themis::query::QueryRegistryEntry</scope><name>subscribers</name></member>
+      <member refid="structthemis_1_1query_1_1_query_registry_entry_1ae06a55c2d90e62c396456d4988c124e4" prot="public" virt="non-virtual"><scope>themis::query::QueryRegistryEntry</scope><name>synopsis</name></member>
+      <member refid="structthemis_1_1query_1_1_query_registry_entry_1a41719a4da20d72ea71ce8f94e76abc0f" prot="public" virt="non-virtual"><scope>themis::query::QueryRegistryEntry</scope><name>watermark</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

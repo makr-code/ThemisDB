@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__deployment__plugin_8h" kind="file" language="C++">
+    <compoundname>llm_deployment_plugin.h</compoundname>
+    <includes refid="model__downloader_8h" local="yes">llm/model_downloader.h</includes>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes refid="llm__model__storage_8h" local="yes">llm/llm_model_storage.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="llm__deployment__plugin_8cpp" local="yes">src/llm/llm_deployment_plugin.cpp</includedby>
+    <includedby refid="test__llm__deployment__plugin_8cpp" local="yes">tests/llm/test_llm_deployment_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="8">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/llm_deployment_plugin.h</label>
+        <link refid="llm__deployment__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>llm/llm_model_storage.h</label>
+        <link refid="llm__model__storage_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/model_downloader.h</label>
+        <link refid="model__downloader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="21">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="12">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="20">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="16">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="18">
+        <label>storage/blob_storage_manager.h</label>
+      </node>
+      <node id="17">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="19">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/llm_deployment_plugin.h</label>
+        <link refid="llm__deployment__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/llm_deployment_plugin.cpp</label>
+        <link refid="llm__deployment__plugin_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/llm/test_llm_deployment_plugin.cpp</label>
+        <link refid="test__llm__deployment__plugin_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_model_source" prot="public">themis::llm::ModelSource</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_deployment_config" prot="public">themis::llm::DeploymentConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_model_status" prot="public">themis::llm::ModelStatus</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_audit_entry" prot="public">themis::llm::AuditEntry</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin" prot="public">themis::llm::LLMDeploymentPlugin</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_l_l_m_deployment_plugin_1_1_request_context" prot="public">themis::llm::LLMDeploymentPlugin::RequestContext</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="model__downloader_8h" kindref="compound">llm/model_downloader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__model__storage_8h" kindref="compound">llm/llm_model_storage.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233f" kindref="member">DeploymentMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233fa7ed929f45ba34eff59d81d74d4f80a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233fa7ed929f45ba34eff59d81d74d4f80a58" kindref="member">OFFLINE</ref>,<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>use<sp/>locally<sp/>cached<sp/>models</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233fa86d1debf3f3aa9b77c0d976a4fa33862" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233fa86d1debf3f3aa9b77c0d976a4fa33862" kindref="member">ONLINE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Download<sp/>from<sp/>remote<sp/>sources</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233fae1f2d5134ed2543d38a0de9751cf75d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233fae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">AUTO</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>local<sp/>first,<sp/>download<sp/>if<sp/>missing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1_model_source" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_model_source" kindref="compound">ModelSource</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1_model_source_1ae4418f6317a5be02f7de6b954a0b55d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_source_1ae4418f6317a5be02f7de6b954a0b55d8" kindref="member">~ModelSource</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1_model_source_1a41818df197216be983853d39ab7f4fb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_source_1a41818df197216be983853d39ab7f4fb9" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;local&quot;,<sp/>&quot;ollama&quot;,<sp/>&quot;http&quot;,<sp/>&quot;https&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1_model_source_1aba641d2111d6e9650cad2c3e12908705" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_source_1aba641d2111d6e9650cad2c3e12908705" kindref="member">location</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>or<sp/>URL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1_model_source_1a9e93ca2f04d4e2d2d73ab0aa166357a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_source_1a9e93ca2f04d4e2d2d73ab0aa166357a7" kindref="member">checksum_type</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;sha256&quot;,<sp/>&quot;md5&quot;,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1_model_source_1af34e01f7eed4b2e775a3f756a9c4b839" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_source_1af34e01f7eed4b2e775a3f756a9c4b839" kindref="member">checksum_value</ref>;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>checksum</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1_model_source_1a205263c29f89ba0f8cd436803a72f7cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_source_1a205263c29f89ba0f8cd436803a72f7cc" kindref="member">priority</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>priority<sp/>sources<sp/>are<sp/>tried<sp/>first</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1_model_source_1a0e0ab2003e595da838fc61b44679edfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_model_source_1a0e0ab2003e595da838fc61b44679edfa" kindref="member">metadata</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>source-specific<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1llm_1_1_deployment_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_deployment_config" kindref="compound">DeploymentConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1llm_1_1_deployment_config_1a6c4c00f4ecb39a4e7714e9b90e2ec869" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233f" kindref="member">DeploymentMode</ref><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a6c4c00f4ecb39a4e7714e9b90e2ec869" kindref="member">mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1af1d169819744663f2ca6b52c9840233fae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">DeploymentMode::AUTO</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>and<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1_deployment_config_1a24cf44cf653e0edceaf74c1b9fb75ec7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a24cf44cf653e0edceaf74c1b9fb75ec7" kindref="member">cache_directory</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./models&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1_deployment_config_1adb6f2de44e425bd9d5987786111fd905" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1adb6f2de44e425bd9d5987786111fd905" kindref="member">enable_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1_deployment_config_1a180ec073e9936c56c6743c252b122606" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a180ec073e9936c56c6743c252b122606" kindref="member">max_cache_size_gb</ref><sp/>=<sp/>100;<sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>cache<sp/>size<sp/>in<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BaseEntity<sp/>storage<sp/>(RocksDB<sp/>integration)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1_deployment_config_1ab6dfb51b8a39034f9f29161100cc5e50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1ab6dfb51b8a39034f9f29161100cc5e50" kindref="member">use_base_entity_storage</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Store<sp/>models<sp/>in<sp/>RocksDB<sp/>as<sp/>BaseEntity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1llm_1_1_deployment_config_1a8ca1389902256d6eec3663d26e76017e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RocksDBWrapper&gt;<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a8ca1389902256d6eec3663d26e76017e" kindref="member">db</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RocksDB<sp/>instance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>prefix<sp/>for<sp/>RocksDB<sp/>entries.<sp/>Keys<sp/>are<sp/>constructed<sp/>as:<sp/>key_prefix<sp/>+<sp/>model_id</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(e.g.<sp/>default<sp/>&quot;llm_model::&quot;<sp/>+<sp/>&quot;my-model&quot;<sp/>→<sp/>&quot;llm_model::my-model&quot;).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1_deployment_config_1a52f25e35371623d168730d7d031a19d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a52f25e35371623d168730d7d031a19d7" kindref="member">key_prefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llm_model::&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>to<sp/>true<sp/>only<sp/>when<sp/>a<sp/>BlobStorageManager<sp/>is<sp/>configured;<sp/>otherwise<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>metadata<sp/>is<sp/>persisted<sp/>and<sp/>model<sp/>weights<sp/>remain<sp/>on<sp/>the<sp/>local<sp/>filesystem.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1_deployment_config_1a847ab80b4bb23aa7320e55a43f9ca45f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a847ab80b4bb23aa7320e55a43f9ca45f" kindref="member">store_weights_in_rocksdb</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>sources<sp/>(checked<sp/>in<sp/>priority<sp/>order)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1_deployment_config_1a6c60b83626578b990baa3b6f67cdc8f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ModelSource&gt;<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a6c60b83626578b990baa3b6f67cdc8f7" kindref="member">sources</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ollama<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1_deployment_config_1a76a85a6616ece13e92011e29fdfd8b3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a76a85a6616ece13e92011e29fdfd8b3e" kindref="member">ollama_url</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;http://localhost:11434&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_deployment_config_1ad1e39c6fe0074966a0166f140ca719ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1ad1e39c6fe0074966a0166f140ca719ea" kindref="member">ollama_timeout_seconds</ref><sp/>=<sp/>600;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Network<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_deployment_config_1af4cdcb4b15fbf266a43c6f55ade761f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1af4cdcb4b15fbf266a43c6f55ade761f6" kindref="member">proxy_url</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_deployment_config_1a6136fe07f295bf6c33cee3167001e3a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a6136fe07f295bf6c33cee3167001e3a3" kindref="member">proxy_username</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1_deployment_config_1a63e92765e9577754bf7a3f628bd3a207" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a63e92765e9577754bf7a3f628bd3a207" kindref="member">proxy_password</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authentication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1_deployment_config_1a7bc1d8562a2de7479917e8dc4e6f356b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a7bc1d8562a2de7479917e8dc4e6f356b" kindref="member">auth_token</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bearer<sp/>token<sp/>for<sp/>authenticated<sp/>sources</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1llm_1_1_deployment_config_1a73fa8ee1de813ae3d9412ab8eddff95e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a73fa8ee1de813ae3d9412ab8eddff95e" kindref="member">verify_checksums</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1_deployment_config_1ad11fe896ff8c6ba6dcbfb7137ac4145a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1ad11fe896ff8c6ba6dcbfb7137ac4145a" kindref="member">allow_insecure</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>HTTP<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Logging<sp/>and<sp/>audit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm_1_1_deployment_config_1a9f75822140550015925ba4df7ce219cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a9f75822140550015925ba4df7ce219cb" kindref="member">enable_audit_log</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1llm_1_1_deployment_config_1a26f28503b52bac4e3221bec8ef6b7206" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a26f28503b52bac4e3221bec8ef6b7206" kindref="member">audit_log_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;./logs/model_deployment.log&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1llm_1_1_deployment_config_1ade116618d52a492e556d9e02dbe6909e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1ade116618d52a492e556d9e02dbe6909e" kindref="member">auto_cleanup</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1_deployment_config_1a40ae51d9af22caa9a70af7881c8cbfc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a40ae51d9af22caa9a70af7881c8cbfc7" kindref="member">max_model_age_days</ref><sp/>=<sp/>90;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Remove<sp/>models<sp/>older<sp/>than<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1_deployment_config_1a2838d5742379ead3ba96e5c9232ba6d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config_1a2838d5742379ead3ba96e5c9232ba6d1" kindref="member">keep_versions</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>N<sp/>most<sp/>recent<sp/>versions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1_model_status" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_model_status" kindref="compound">ModelStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1llm_1_1_model_status_1a90b3df0880cf42330b351d7ece0f8e99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a90b3df0880cf42330b351d7ece0f8e99" kindref="member">~ModelStatus</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1llm_1_1_model_status_1a14c083b222840fd54697d605637dcac3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a14c083b222840fd54697d605637dcac3" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1llm_1_1_model_status_1a04e78253581a674c351a4e3ffe898ff8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a04e78253581a674c351a4e3ffe898ff8" kindref="member">model_path</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1llm_1_1_model_status_1a7061ca2ead882738ccda82b36621250f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a7061ca2ead882738ccda82b36621250f" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1llm_1_1_model_status_1a85ab0a2d7f3d2dfb3fb6afdad18e637b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a85ab0a2d7f3d2dfb3fb6afdad18e637b" kindref="member">format</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;gguf&quot;,<sp/>&quot;safetensors&quot;,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1llm_1_1_model_status_1aff236ac9e3a4b5baf2fe027fdc70d461" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_status_1aff236ac9e3a4b5baf2fe027fdc70d461" kindref="member">is_loaded</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1llm_1_1_model_status_1a343b48094a0c20fb7840b9a389f35899" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a343b48094a0c20fb7840b9a389f35899" kindref="member">is_cached</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1llm_1_1_model_status_1a4b18ed77b18091d33b39884721e59c1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a4b18ed77b18091d33b39884721e59c1a" kindref="member">size_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1llm_1_1_model_status_1a9768b17318ca89222895fa82cd9c8d81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a9768b17318ca89222895fa82cd9c8d81" kindref="member">checksum</ref>;</highlight></codeline>
+<codeline lineno="115" refid="structthemis_1_1llm_1_1_model_status_1ae83add8a7489934a29c54026dd96a3f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1ae83add8a7489934a29c54026dd96a3f4" kindref="member">checksum_type</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1llm_1_1_model_status_1af8cb69ce6d6efd61b858b86aac7cd956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1af8cb69ce6d6efd61b858b86aac7cd956" kindref="member">downloaded_at</ref>;</highlight></codeline>
+<codeline lineno="118" refid="structthemis_1_1llm_1_1_model_status_1a0d8c01c574ff82ef48132e9fb52fb8d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a0d8c01c574ff82ef48132e9fb52fb8d3" kindref="member">last_used_at</ref>;</highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1llm_1_1_model_status_1a69e1dcd5728c6d7debae1b45bd983a2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_model_status_1a69e1dcd5728c6d7debae1b45bd983a2b" kindref="member">last_verified_at</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1llm_1_1_model_status_1aae9224672ecdadd091efca5cfb3eb27e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_model_status_1aae9224672ecdadd091efca5cfb3eb27e" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1llm_1_1_audit_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_audit_entry" kindref="compound">AuditEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1llm_1_1_audit_entry_1a8c0a7fa0dcfd703497dabb25595a1b88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_audit_entry_1a8c0a7fa0dcfd703497dabb25595a1b88" kindref="member">operation</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;deploy&quot;,<sp/>&quot;fetch&quot;,<sp/>&quot;remove&quot;,<sp/>&quot;update&quot;,<sp/>&quot;verify&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1llm_1_1_audit_entry_1adee439f4130ee71859084f2bbfa95303" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_audit_entry_1adee439f4130ee71859084f2bbfa95303" kindref="member">model_id</ref>;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1llm_1_1_audit_entry_1ac3b6025a02f8af066d4f5c9ca300a349" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_audit_entry_1ac3b6025a02f8af066d4f5c9ca300a349" kindref="member">user</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User/service<sp/>that<sp/>initiated<sp/>operation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1llm_1_1_audit_entry_1a127a0e845c6f17894333fc775a016a13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1_audit_entry_1a127a0e845c6f17894333fc775a016a13" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1llm_1_1_audit_entry_1a708b3d34bf282501ffca0f568dd931cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_audit_entry_1a708b3d34bf282501ffca0f568dd931cb" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1llm_1_1_audit_entry_1a8cfbccbd67daa949242f13c19c65c540" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_audit_entry_1a8cfbccbd67daa949242f13c19c65c540" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1llm_1_1_audit_entry_1a0c2aaaeabffe33d3b626bdb2382cbd2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="structthemis_1_1llm_1_1_audit_entry_1a0c2aaaeabffe33d3b626bdb2382cbd2b" kindref="member">details</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a30a78f94c016e4e09ae1c2943543e122" kindref="member">LLMDeploymentPlugin</ref><sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a30a78f94c016e4e09ae1c2943543e122" kindref="member">LLMDeploymentPlugin</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config" kindref="compound">DeploymentConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a3a20f2215dba497504e3ad67ae471dc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a3a20f2215dba497504e3ad67ae471dc5" kindref="member">~LLMDeploymentPlugin</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread-local<sp/>request<sp/>context<sp/>(JWT<sp/>user<sp/>propagation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1llm_1_1_l_l_m_deployment_plugin_1_1_request_context" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_l_l_m_deployment_plugin_1_1_request_context" kindref="compound">RequestContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1llm_1_1_l_l_m_deployment_plugin_1_1_request_context_1ac802a26a9304fd83dff0a9da4d89b45d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_deployment_plugin_1_1_request_context_1ac802a26a9304fd83dff0a9da4d89b45d" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1llm_1_1_l_l_m_deployment_plugin_1_1_request_context_1a472ef6a0a34eeb484b4a2fac17ffd857" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_deployment_plugin_1_1_request_context_1a472ef6a0a34eeb484b4a2fac17ffd857" kindref="member">client_ip</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a7ba87e81cf384086c3f47fc51096370b" kindref="member">setRequestContext</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_deployment_plugin_1_1_request_context" kindref="compound">RequestContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1ae780c63d7d457b4b13c05dfa6a8d625b" kindref="member">clearRequestContext</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a5183e0d5e3da0956b5f4dba2280a1bcd" kindref="member">currentUserId</ref>(const<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>fallback<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1llm_1_1_model_status" kindref="compound">ModelStatus</ref>&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a40d873bbf1d73618bdcabfc44e568714" kindref="member">deployModel</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id,<sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force_download<sp/>=<sp/>false);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_download_result" kindref="compound">ModelDownloadResult</ref><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a5f188043417b4eb56b754bf8551a6fa1" kindref="member">downloadModel</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id,</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ab0e12da78dbef5c8404da26fa57a00ee" kindref="member">DownloadProgressCallback</ref><sp/>progress_callback<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1ad6e5af61aae93acb4f1cc3165186ca44" kindref="member">loadModel</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id,<sp/><ref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" kindref="compound">ILLMPlugin</ref>*<sp/>llm_plugin);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1aa1366f36ee685f31146a36d819ceeff3" kindref="member">listAvailableModels</ref>();</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1llm_1_1_model_status" kindref="compound">ModelStatus</ref>&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a35f5ad2c55d0a3edc7f1afe7f46c097c" kindref="member">listCachedModels</ref>();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1llm_1_1_model_status" kindref="compound">ModelStatus</ref>&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a000fbd8abce98c9a772779aec74b0abb" kindref="member">getModelStatus</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a2c5358d8b5f648a9dc29f4a07662e635" kindref="member">verifyModel</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1llm_1_1_model_status" kindref="compound">ModelStatus</ref>&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1af00c884ec2045db5b2482f2f0b08b4c5" kindref="member">updateModel</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1aade4a23071d5487e17956f27bd5c6571" kindref="member">removeModel</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force<sp/>=<sp/>false);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a6c43fcac54773dacdabc7b29c3dafa9c" kindref="member">cleanupOldModels</ref>();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a5e7eeafed44b6961c62f62ab45caa53d" kindref="member">getCacheSize</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a7e0813fa24ac96669c61c25ac24f60a2" kindref="member">getCacheStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1af7913a97a144976cbb79e8704cc4fbcf" kindref="member">updateConfig</ref>(const<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config" kindref="compound">DeploymentConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246" refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a84c90d9fa3dfd3fa827d2a1a734469fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1llm_1_1_deployment_config" kindref="compound">DeploymentConfig</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1a84c90d9fa3dfd3fa827d2a1a734469fe" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditEntry&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1aecb1badce86531cbbc796a59a15a436b" kindref="member">getAuditLog</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>100)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;DeploymentConfig&gt;<sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_deployment_plugin_1ac1d0806544fe7d383c86795dc018bbda" kindref="member">loadConfigFromYAML</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_deployment_config" kindref="compound">DeploymentConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;LLMModelStorage&gt;<sp/>model_storage_;<sp/><sp/></highlight><highlight class="comment">//<sp/>BaseEntity<sp/>storage<sp/>for<sp/>models</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ModelDownloader&gt;<sp/>downloader_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ModelStatus&gt;<sp/>model_registry_;</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AuditEntry&gt;<sp/>audit_log_;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>logAudit(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_audit_entry" kindref="compound">AuditEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>saveModelRegistry();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadModelRegistry();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ModelSource&gt;<sp/>findBestSource(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="bench__llm__real__models_8cpp_1a71cc280d5f5ec88440093cb774915dd1" kindref="member">getModelPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>modelIdToFilename(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>verifyChecksum(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file_path,<sp/></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>expected_checksum,</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>checksum_type);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BaseEntity<sp/>storage<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>saveModelToStorage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_status" kindref="compound">ModelStatus</ref>&amp;<sp/>status,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file_path);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;LLMModelMetadata&gt;<sp/>loadModelFromStorage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>updateModelInStorage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_model_status" kindref="compound">ModelStatus</ref>&amp;<sp/>status);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>deleteModelFromStorage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_id);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/llm_deployment_plugin.h"/>
+  </compounddef>
+</doxygen>

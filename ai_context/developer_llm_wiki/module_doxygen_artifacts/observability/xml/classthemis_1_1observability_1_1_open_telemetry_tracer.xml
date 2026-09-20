@@ -1,0 +1,800 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_open_telemetry_tracer" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::OpenTelemetryTracer</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">core::concerns::ITracer</basecompoundref>
+    <includes refid="opentelemetry__tracer_8h" local="no">opentelemetry_tracer.h</includes>
+    <innerclass refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl" prot="public">themis::observability::OpenTelemetryTracer::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a2cc310d7220193178118a01e61a24ca5" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::observability::OpenTelemetryTracer::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="327" column="21" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a0913c942689ca09bceb2490772d90d8a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::OpenTelemetryTracer::OpenTelemetryTracer</definition>
+        <argsstring>(const OTelConfig &amp;config=OTelConfig{})</argsstring>
+        <name>OpenTelemetryTracer</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::OpenTelemetryTracer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_o_tel_config" kindref="compound">OTelConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1observability_1_1_o_tel_config" kindref="compound">OTelConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with the supplied configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The tracer is immediately usable; no separate <computeroutput><ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1aafd592760f2cbf17ae781989ca90e30e" kindref="member">initialize()</ref></computeroutput> call is required when using this constructor.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OTel configuration (service name, endpoint, exporters …) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="157" column="14" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="434" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ac99aa1b6d62e12fb167616313870b1d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::OpenTelemetryTracer::~OpenTelemetryTracer</definition>
+        <argsstring>() override</argsstring>
+        <name>~OpenTelemetryTracer</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::~OpenTelemetryTracer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="159" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a091f6d4137b10bce337b49579a2a8db2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::OpenTelemetryTracer::OpenTelemetryTracer</definition>
+        <argsstring>(const OpenTelemetryTracer &amp;)=delete</argsstring>
+        <name>OpenTelemetryTracer</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::OpenTelemetryTracer</qualifiedname>
+        <param>
+          <type>const OpenTelemetryTracer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a9c4d529e7d69acb02555045c966d59fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a0913c942689ca09bceb2490772d90d8a" kindref="member">OpenTelemetryTracer</ref> &amp;</type>
+        <definition>OpenTelemetryTracer &amp; themis::observability::OpenTelemetryTracer::operator=</definition>
+        <argsstring>(const OpenTelemetryTracer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a0913c942689ca09bceb2490772d90d8a" kindref="member">OpenTelemetryTracer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="162" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a33567fe79da9dda77958c1178e1aa2dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; ISpan &gt;</type>
+        <definition>std::unique_ptr&lt; core::concerns::ITracer::ISpan &gt; themis::observability::OpenTelemetryTracer::startSpan</definition>
+        <argsstring>(const std::string &amp;name) override</argsstring>
+        <name>startSpan</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::startSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Start a new root span (probabilistic sampling applied). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="169" column="21" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="443" bodyend="446"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a4b5c8e8ba77bbc26cf24e875e7646595" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; ISpan &gt;</type>
+        <definition>std::unique_ptr&lt; core::concerns::ITracer::ISpan &gt; themis::observability::OpenTelemetryTracer::startChildSpan</definition>
+        <argsstring>(const std::string &amp;name, const ISpan &amp;parent) override</argsstring>
+        <name>startChildSpan</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::startChildSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const ISpan &amp;</type>
+          <declname>parent</declname>
+        </param>
+        <briefdescription>
+<para>Start a child span that inherits the parent&apos;s trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="172" column="21" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="449" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1aaeefc7b1558021740d1358afc0cd7b66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; ISpan &gt;</type>
+        <definition>std::unique_ptr&lt; core::concerns::ITracer::ISpan &gt; themis::observability::OpenTelemetryTracer::startSpanFromHeaders</definition>
+        <argsstring>(const std::string &amp;name, const std::map&lt; std::string, std::string &gt; &amp;headers) override</argsstring>
+        <name>startSpanFromHeaders</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::startSpanFromHeaders</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+<para>Extract W3C <computeroutput>traceparent</computeroutput> (and W3C <computeroutput>baggage</computeroutput>) from inbound headers and start a span as a child of the upstream trace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Baggage items are extracted into the thread-local <computeroutput>Baggage</computeroutput> store so they are available via <computeroutput><ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ae82207628f9463ad32433eddb589dc3d" kindref="member">getBaggageItem()</ref></computeroutput> for the duration of the current request. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="183" column="21" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="461" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1af3c1b4bf8f58d95acfaefe78d625e153" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::injectContext</definition>
+        <argsstring>(std::map&lt; std::string, std::string &gt; &amp;headers) override</argsstring>
+        <name>injectContext</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::injectContext</qualifiedname>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+<para>Inject the active span context and W3C Baggage into outbound HTTP headers (<computeroutput>traceparent</computeroutput> + <computeroutput>baggage</computeroutput> headers). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="191" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="479" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1aafd592760f2cbf17ae781989ca90e30e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::OpenTelemetryTracer::initialize</definition>
+        <argsstring>(const std::string &amp;serviceName, const std::string &amp;endpoint) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::initialize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>serviceName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>endpoint</declname>
+        </param>
+        <briefdescription>
+<para>Re-configure service name and endpoint at runtime. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Initialize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">serviceName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="194" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="500" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad2a765bb1e7de3b3a720b263b81037d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="197" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="512" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ab5b5224106ec9f4776fccb3c0e27ec79" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::OpenTelemetryTracer::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="198" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="521" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1aca3470fe0434c36bcfbd8a91983bf199" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::flush</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="199" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="526" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a1ff87296b83ad1d2fd5610dbf101365d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>core::concerns::ProbeResult</type>
+        <definition>core::concerns::ProbeResult themis::observability::OpenTelemetryTracer::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::isHealthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="200" column="33" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="531" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1aec9e71760a925718093ed69662d8d7dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_span_context" kindref="compound">SpanContext</ref></type>
+        <definition>SpanContext themis::observability::OpenTelemetryTracer::extractContext</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;headers) const</argsstring>
+        <name>extractContext</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::extractContext</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+<para>Extract the W3C Trace Context from inbound HTTP headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inbound HTTP headers. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1observability_1_1_span_context" kindref="compound">SpanContext</ref> with trace_id / span_id, or an invalid context if no valid <computeroutput>traceparent</computeroutput> header is present. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="213" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="541" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1af75fadac8e185e436e4c9a32ccb06c54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::injectContext</definition>
+        <argsstring>(const ISpan &amp;span, std::map&lt; std::string, std::string &gt; &amp;headers)</argsstring>
+        <name>injectContext</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::injectContext</qualifiedname>
+        <param>
+          <type>const ISpan &amp;</type>
+          <declname>span</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+<para>Inject a specific span&apos;s context into outbound headers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Writes both <computeroutput>traceparent</computeroutput> and <computeroutput>baggage</computeroutput> headers.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The span whose context to inject. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>headers</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Outbound HTTP headers to populate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="224" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="560" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad32bd95cdc87b422ecda51eb9511cb8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::recordException</definition>
+        <argsstring>(ISpan &amp;span, const std::exception &amp;ex)</argsstring>
+        <name>recordException</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::recordException</qualifiedname>
+        <param>
+          <type>ISpan &amp;</type>
+          <declname>span</declname>
+        </param>
+        <param>
+          <type>const std::exception &amp;</type>
+          <declname>ex</declname>
+        </param>
+        <briefdescription>
+<para>Record an exception as a span event following OTel conventions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Exception.</para>
+<para>Sets the span status to ERROR and attaches:<itemizedlist>
+<listitem><para><computeroutput>exception.type</computeroutput> = typeid(ex).name()</para>
+</listitem><listitem><para><computeroutput>exception.message</computeroutput> = ex.what()</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The span to record the exception on. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The exception to record.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="237" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="584" bodyend="593"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad00cb36da110f19e2015f90a22a0ce2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::recordMetrics</definition>
+        <argsstring>(ISpan &amp;span, const SpanMetrics &amp;metrics)</argsstring>
+        <name>recordMetrics</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::recordMetrics</qualifiedname>
+        <param>
+          <type>ISpan &amp;</type>
+          <declname>span</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_span_metrics" kindref="compound">SpanMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <computeroutput><ref refid="structthemis_1_1observability_1_1_span_metrics" kindref="compound">SpanMetrics</ref></computeroutput> as span attributes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Metrics.</para>
+<para>Each non-zero metric field is added as a span attribute using the <computeroutput>db.metrics.*</computeroutput> namespace (e.g. <computeroutput>db.metrics.cpu_usage_percent</computeroutput>). Custom metrics in <computeroutput><ref refid="structthemis_1_1observability_1_1_span_metrics_1a2156638e345e25f0e133047a7dd84e61" kindref="member">SpanMetrics::custom</ref></computeroutput> are prefixed with <computeroutput>db.metrics.custom.</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target span. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Runtime metrics snapshot to record.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">span</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="250" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="600" bodyend="626"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ab434c7d2bb94aba7ad3d04f77da4db3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_tracer_stats" kindref="compound">TracerStats</ref></type>
+        <definition>TracerStats themis::observability::OpenTelemetryTracer::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::stats</qualifiedname>
+        <briefdescription>
+<para>Return a snapshot of span counters (total / active / dropped). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="293" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="675" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ab95f2ebc19eaa5a4eb8ed179d21e3cf4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_span_record" kindref="compound">SpanRecord</ref> &gt;</type>
+        <definition>std::vector&lt; SpanRecord &gt; themis::observability::OpenTelemetryTracer::completedSpans</definition>
+        <argsstring>() const</argsstring>
+        <name>completedSpans</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::completedSpans</qualifiedname>
+        <briefdescription>
+<para>Return a copy of the in-process completed-span ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="296" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="684" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a33cda7f86b991afe91b67ec8e2ad9b10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::clearCompletedSpans</definition>
+        <argsstring>()</argsstring>
+        <name>clearCompletedSpans</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::clearCompletedSpans</qualifiedname>
+        <briefdescription>
+<para>Clear the in-process ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Completed Spans. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="299" column="10" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="693" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a1f290926190a1602e8f87fdaf53098ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_o_tel_config" kindref="compound">OTelConfig</ref></type>
+        <definition>OTelConfig themis::observability::OpenTelemetryTracer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the active configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="302" column="16" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="699" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a4c65a719719229176321f45c8cf32bfb" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::OpenTelemetryTracer::otlpExportedSpanCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>otlpExportedSpanCount</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::otlpExportedSpanCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of spans successfully exported to the OTLP backend since the tracer was constructed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 when no OTLP exporter is configured or when the exporter has not yet flushed its first batch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="311" column="14" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="704" bodyend="710"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a25faca8f2861965efd3610e83fb1dfd0" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::observability::OpenTelemetryTracer::otlpDroppedSpanCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>otlpDroppedSpanCount</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::otlpDroppedSpanCount</qualifiedname>
+        <briefdescription>
+<para>Return the number of spans dropped by the OTLP queue (due to back-pressure) since the tracer was constructed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="317" column="14" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="712" bodyend="718"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a9bd66fdd79ab900b2d89e1efd9785438" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::observability::OpenTelemetryTracer::activeExporters</definition>
+        <argsstring>() const</argsstring>
+        <name>activeExporters</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::activeExporters</qualifiedname>
+        <briefdescription>
+<para>Return the list of configured exporter names (e.g. &quot;otlp&quot;, &quot;jaeger&quot;, &quot;zipkin&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="323" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="720" bodyend="723"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a493aca1a5db3bf9bd60461bebfaf4036" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::setBaggageItem</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>setBaggageItem</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::setBaggageItem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set a W3C Baggage item in the current thread&apos;s store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Baggage Item.</para>
+<para>Common keys: <computeroutput>"tenant-id"</computeroutput>, <computeroutput>"user-id"</computeroutput>, <computeroutput>"session-id"</computeroutput>. Items are automatically propagated by <computeroutput><ref refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1af3c1b4bf8f58d95acfaefe78d625e153" kindref="member">injectContext()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="262" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="634" bodyend="638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ae82207628f9463ad32433eddb589dc3d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::OpenTelemetryTracer::getBaggageItem</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>getBaggageItem</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::getBaggageItem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Get a W3C Baggage item from the current thread&apos;s store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Baggage Item.</para>
+<para><simplesect kind="return"><para>The value, or an empty string if not present.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="269" column="24" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="645" bodyend="648"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad41df7044662bd676cf29b267eff699b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::removeBaggageItem</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>removeBaggageItem</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::removeBaggageItem</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Remove a W3C Baggage item from the current thread&apos;s store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Baggage Item.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="274" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="654" bodyend="657"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1a68d44f94d13ead4199e9b8648bbf7908" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::clearBaggage</definition>
+        <argsstring>()</argsstring>
+        <name>clearBaggage</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::clearBaggage</qualifiedname>
+        <briefdescription>
+<para>Clear all W3C Baggage items for the current thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Baggage. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="279" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="662" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_open_telemetry_tracer_1ab13d93adef165ea336b828994cc844d0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::OpenTelemetryTracer::extractBaggage</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;headers)</argsstring>
+        <name>extractBaggage</name>
+        <qualifiedname>themis::observability::OpenTelemetryTracer::extractBaggage</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+<para>Extract W3C Baggage from inbound HTTP headers into the current thread&apos;s baggage store. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/opentelemetry_tracer.h" line="285" column="17" bodyfile="src/observability/opentelemetry_tracer.cpp" bodystart="667" bodyend="671"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Full OpenTelemetry integration tracer (v1.6.0). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements <computeroutput>ITracer</computeroutput> with complete W3C Trace Context and W3C Baggage propagation, configurable exporter back-ends, and higher-level helpers for exception recording and metric attachment.</para>
+<para>The tracer is <bold>non-copyable</bold> but movable (via std::unique_ptr wrapping). All methods are thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>core::concerns::ITracer</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::OpenTelemetryTracer</label>
+        <link refid="classthemis_1_1observability_1_1_open_telemetry_tracer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>core::concerns::ITracer</label>
+      </node>
+      <node id="1">
+        <label>themis::observability::OpenTelemetryTracer</label>
+        <link refid="classthemis_1_1observability_1_1_open_telemetry_tracer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/opentelemetry_tracer.h" line="147" column="1" bodyfile="include/observability/opentelemetry_tracer.h" bodystart="147" bodyend="328"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a9bd66fdd79ab900b2d89e1efd9785438" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>activeExporters</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a68d44f94d13ead4199e9b8648bbf7908" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>clearBaggage</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a33cda7f86b991afe91b67ec8e2ad9b10" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>clearCompletedSpans</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ab95f2ebc19eaa5a4eb8ed179d21e3cf4" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>completedSpans</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ab13d93adef165ea336b828994cc844d0" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>extractBaggage</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1aec9e71760a925718093ed69662d8d7dc" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>extractContext</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1aca3470fe0434c36bcfbd8a91983bf199" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>flush</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ae82207628f9463ad32433eddb589dc3d" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>getBaggageItem</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a1f290926190a1602e8f87fdaf53098ca" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a2cc310d7220193178118a01e61a24ca5" prot="private" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1aafd592760f2cbf17ae781989ca90e30e" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1af3c1b4bf8f58d95acfaefe78d625e153" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>injectContext</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1af75fadac8e185e436e4c9a32ccb06c54" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>injectContext</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a1ff87296b83ad1d2fd5610dbf101365d" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ab5b5224106ec9f4776fccb3c0e27ec79" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a0913c942689ca09bceb2490772d90d8a" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>OpenTelemetryTracer</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a091f6d4137b10bce337b49579a2a8db2" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>OpenTelemetryTracer</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a9c4d529e7d69acb02555045c966d59fd" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a25faca8f2861965efd3610e83fb1dfd0" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>otlpDroppedSpanCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a4c65a719719229176321f45c8cf32bfb" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>otlpExportedSpanCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad32bd95cdc87b422ecda51eb9511cb8c" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>recordException</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad00cb36da110f19e2015f90a22a0ce2a" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>recordMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad41df7044662bd676cf29b267eff699b" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>removeBaggageItem</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a493aca1a5db3bf9bd60461bebfaf4036" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>setBaggageItem</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ad2a765bb1e7de3b3a720b263b81037d1" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a4b5c8e8ba77bbc26cf24e875e7646595" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>startChildSpan</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1a33567fe79da9dda77958c1178e1aa2dd" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>startSpan</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1aaeefc7b1558021740d1358afc0cd7b66" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>startSpanFromHeaders</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ab434c7d2bb94aba7ad3d04f77da4db3b" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>stats</name></member>
+      <member refid="classthemis_1_1observability_1_1_open_telemetry_tracer_1ac99aa1b6d62e12fb167616313870b1d9" prot="public" virt="non-virtual"><scope>themis::observability::OpenTelemetryTracer</scope><name>~OpenTelemetryTracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

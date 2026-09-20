@@ -1,0 +1,514 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_r_o_cm_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::ROCmBackend</compoundname>
+    <includes refid="rocm__backend_8h" local="no">rocm_backend.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result" prot="public">themis::gpu::ROCmBackend::Result</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle" prot="public">themis::gpu::ROCmBackend::StreamHandle</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record" prot="public">themis::gpu::ROCmBackend::AllocationRecord</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats" prot="public">themis::gpu::ROCmBackend::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a0f2193eea584371a692a8e6863bb1600" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::ROCmBackend::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::ROCmBackend::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="241" column="24" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a02f8cf22e7f62a58e27603e1b4bc60d0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle" kindref="compound">StreamHandle</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, StreamHandle&gt; themis::gpu::ROCmBackend::streams_</definition>
+        <argsstring></argsstring>
+        <name>streams_</name>
+        <qualifiedname>themis::gpu::ROCmBackend::streams_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="242" column="24" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1acfb0c4dd1017f89a0cb6bffcec1547e9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record" kindref="compound">AllocationRecord</ref> &gt;</type>
+        <definition>std::vector&lt;AllocationRecord&gt; themis::gpu::ROCmBackend::active_allocations_</definition>
+        <argsstring></argsstring>
+        <name>active_allocations_</name>
+        <qualifiedname>themis::gpu::ROCmBackend::active_allocations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="243" column="17" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a8bda4644bbe52b3184e0183331e5ad5f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::ROCmBackend::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::gpu::ROCmBackend::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="244" column="11" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a5583890ec6f639e00fa93510ccd3639d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ROCmBackend &amp;</type>
+        <definition>static ROCmBackend &amp; themis::gpu::ROCmBackend::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::ROCmBackend::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="95" column="24" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="95" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1aa63da1d4c477570636e70ce6acfd48a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::gpu::ROCmBackend::deviceCount</definition>
+        <argsstring>() const</argsstring>
+        <name>deviceCount</name>
+        <qualifiedname>themis::gpu::ROCmBackend::deviceCount</qualifiedname>
+        <briefdescription>
+<para>Number of HIP-capable devices visible to the process. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns 0 when <computeroutput>THEMIS_ENABLE_HIP</computeroutput> is not defined or when no device is detected at runtime. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="110" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1ade5498ce0d87bf9f55f837048ce5f075" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::ROCmBackend::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::gpu::ROCmBackend::isAvailable</qualifiedname>
+        <briefdescription>
+<para>True when at least one HIP device is available and responsive. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="115" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1aee3d5a55f402674bcc51d0bfd3c9eb4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></type>
+        <definition>GPULauncher::BackendFn themis::gpu::ROCmBackend::createBackendFn</definition>
+        <argsstring>(int device_index=0)</argsstring>
+        <name>createBackendFn</name>
+        <qualifiedname>themis::gpu::ROCmBackend::createBackendFn</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></computeroutput> backed by HIP. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The returned function:<itemizedlist>
+<listitem><para>On systems <bold>with</bold> HIP: selects <computeroutput>device_index</computeroutput>, then executes the work item. Kernel blob dispatch via <computeroutput>.hsaco</computeroutput> is a hardware-only feature; on a device without loaded kernels the call succeeds (no-op kernel).</para>
+</listitem><listitem><para>On systems <bold>without</bold> HIP: returns <computeroutput>true</computeroutput> immediately (CPU path).</para>
+</listitem></itemizedlist>
+</para>
+<para>The function is safe to move into <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a83dffcca0034f2aa1337b697ec83fbf8" kindref="member">GPUStreamManager::createStream()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_index</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target HIP device index (0-based). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="136" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a2f2e33589141a78890b95535164bf051" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::gpu::ROCmBackend::createStream</definition>
+        <argsstring>(const std::string &amp;name, int device_index=0)</argsstring>
+        <name>createStream</name>
+        <qualifiedname>themis::gpu::ROCmBackend::createStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_index</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Create a named HIP stream on <computeroutput>device_index</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On systems without HIP records a virtual stream entry so that <computeroutput><ref refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a25198ff3fd8d7a27232cd0ca7e6edd91" kindref="member">hasStream()</ref></computeroutput> / <computeroutput><ref refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a63fc9fb87406222737ad4e22a1938a42" kindref="member">streamNames()</ref></computeroutput> still work correctly.</para>
+<para><simplesect kind="return"><para>ok == false only when a stream with <computeroutput>name</computeroutput> already exists. If HIP stream creation fails at runtime, a virtual stream entry is registered so fallback execution remains available. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="152" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a9853011b72dd0d0a9bd797639f8c8d3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::gpu::ROCmBackend::destroyStream</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>destroyStream</name>
+        <qualifiedname>themis::gpu::ROCmBackend::destroyStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Destroy a named HIP stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls <computeroutput>hipStreamDestroy</computeroutput> when <computeroutput>THEMIS_ENABLE_HIP</computeroutput> is active. <simplesect kind="return"><para>ok == false when no stream with <computeroutput>name</computeroutput> exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="160" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a83d30d6e91abf9234ddae54ea1f18ff6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::gpu::ROCmBackend::synchronizeStream</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>synchronizeStream</name>
+        <qualifiedname>themis::gpu::ROCmBackend::synchronizeStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Block until all work enqueued on the named stream completes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls <computeroutput>hipStreamSynchronize</computeroutput> when <computeroutput>THEMIS_ENABLE_HIP</computeroutput> is active. <simplesect kind="return"><para>ok == false when the stream does not exist or synchronization fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="169" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1ab6561cb741d246897d04fd7591a08a65" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stream_handle" kindref="compound">StreamHandle</ref></type>
+        <definition>StreamHandle themis::gpu::ROCmBackend::getStream</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getStream</name>
+        <qualifiedname>themis::gpu::ROCmBackend::getStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Return the handle for a named stream (invalid if not found). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="172" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a25198ff3fd8d7a27232cd0ca7e6edd91" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::ROCmBackend::hasStream</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>hasStream</name>
+        <qualifiedname>themis::gpu::ROCmBackend::hasStream</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>True when a stream with <computeroutput>name</computeroutput> has been created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="175" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a63fc9fb87406222737ad4e22a1938a42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::gpu::ROCmBackend::streamNames</definition>
+        <argsstring>() const</argsstring>
+        <name>streamNames</name>
+        <qualifiedname>themis::gpu::ROCmBackend::streamNames</qualifiedname>
+        <briefdescription>
+<para>Return all registered stream names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="178" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a39073d551b0e7411dfd7bd00933d65fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record" kindref="compound">AllocationRecord</ref></type>
+        <definition>AllocationRecord themis::gpu::ROCmBackend::allocate</definition>
+        <argsstring>(size_t size_bytes, const std::string &amp;tag=&quot;&quot;)</argsstring>
+        <name>allocate</name>
+        <qualifiedname>themis::gpu::ROCmBackend::allocate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tag</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Allocate <computeroutput>size_bytes</computeroutput> of device memory via <computeroutput>hipMalloc</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>On systems without HIP returns an invalid record (<computeroutput><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record_1a62351b4f6e8cc2fb76a3fef49f28debf" kindref="member">AllocationRecord::device_ptr</ref> == 0</computeroutput>).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes to allocate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Owner / reason label for diagnostics. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record" kindref="compound">AllocationRecord</ref>; check <computeroutput>is_valid()</computeroutput> before use. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="194" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a434ac8b0a6f3be2771c0a98e163097fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::gpu::ROCmBackend::deallocate</definition>
+        <argsstring>(AllocationRecord &amp;rec)</argsstring>
+        <name>deallocate</name>
+        <qualifiedname>themis::gpu::ROCmBackend::deallocate</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_allocation_record" kindref="compound">AllocationRecord</ref> &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+<para>Release device memory previously returned by <computeroutput><ref refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a39073d551b0e7411dfd7bd00933d65fa" kindref="member">allocate()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls <computeroutput>hipFree</computeroutput> on the stored pointer; safe to call with an invalid record. Clears <computeroutput>rec</computeroutput> on success. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="202" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1aa95cb977c76a2acc2ec8b2bbbe07b8ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_result" kindref="compound">Result</ref></type>
+        <definition>Result themis::gpu::ROCmBackend::zeroMemory</definition>
+        <argsstring>(uintptr_t device_ptr, size_t size_bytes)</argsstring>
+        <name>zeroMemory</name>
+        <qualifiedname>themis::gpu::ROCmBackend::zeroMemory</qualifiedname>
+        <param>
+          <type>uintptr_t</type>
+          <declname>device_ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Fill device memory with zeros via <computeroutput>hipMemset</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Falls back to <computeroutput>std::memset</computeroutput> on a CPU-side buffer when HIP is absent. Used by <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a96cc63ec81d7b11d53a23d2a9535d584" kindref="member">GPUMemoryPool::release()</ref></computeroutput> when <computeroutput>zero_on_free</computeroutput> is set.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>device_ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device pointer (hipMalloc result cast to uintptr_t). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Bytes to zero. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="213" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a61c33f1f276992d434d529403ea752a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_r_o_cm_backend_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::gpu::ROCmBackend::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::gpu::ROCmBackend::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="226" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1aa10433bc1ba690d1fbaf08f3e535e6c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::ROCmBackend::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::gpu::ROCmBackend::resetStats</qualifiedname>
+        <briefdescription>
+<para>Reset all statistics counters (for testing). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not affect existing streams or allocations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="233" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1ad69abb543e772627561d2b4760ffd827" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::ROCmBackend::ROCmBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>ROCmBackend</name>
+        <qualifiedname>themis::gpu::ROCmBackend::ROCmBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="236" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a76339fb757c1a734bb7644149b39322a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::ROCmBackend::ROCmBackend</definition>
+        <argsstring>(const ROCmBackend &amp;)=delete</argsstring>
+        <name>ROCmBackend</name>
+        <qualifiedname>themis::gpu::ROCmBackend::ROCmBackend</qualifiedname>
+        <param>
+          <type>const ROCmBackend &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="238" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_r_o_cm_backend_1a811a1ee5eb09e1e9080d3e9028136d66" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ROCmBackend &amp;</type>
+        <definition>ROCmBackend &amp; themis::gpu::ROCmBackend::operator=</definition>
+        <argsstring>(const ROCmBackend &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::ROCmBackend::operator=</qualifiedname>
+        <param>
+          <type>const ROCmBackend &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/rocm_backend.h" line="239" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ROCm/HIP backend providing feature parity with the CUDA backend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides HIP-backed equivalents of the CUDA features used by the GPU module:<itemizedlist>
+<listitem><para>Device memory allocation / deallocation (<computeroutput>hipMalloc</computeroutput> / <computeroutput>hipFree</computeroutput>)</para>
+</listitem><listitem><para>Device memory zeroing (<computeroutput>hipMemset</computeroutput>)</para>
+</listitem><listitem><para>Async stream lifecycle (<computeroutput>hipStreamCreate</computeroutput> / <computeroutput>hipStreamDestroy</computeroutput> / <computeroutput>hipStreamSynchronize</computeroutput>)</para>
+</listitem><listitem><para>Kernel dispatch via <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></computeroutput></para>
+</listitem></itemizedlist>
+</para>
+<para>All real HIP calls are gated behind <computeroutput>THEMIS_ENABLE_HIP</computeroutput>. When the define is absent (e.g. CI without AMD GPU hardware) the backend transparently falls back to CPU execution so that <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager" kindref="compound">GPUStreamManager</ref></computeroutput>, <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool" kindref="compound">GPUMemoryPool</ref></computeroutput>, and <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref></computeroutput> continue to work correctly.</para>
+<sect1 id="classthemis_1_1gpu_1_1_r_o_cm_backend_1autotoc_md44_1s1"><sect2 id="classthemis_1_1gpu_1_1_r_o_cm_backend_1autotoc_md44">
+<title>Integration points</title><para><itemizedlist>
+<listitem><para><computeroutput>createBackendFn(device_index)</computeroutput> — returns a <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref></computeroutput> that can be passed directly to <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_stream_manager_1a83dffcca0034f2aa1337b697ec83fbf8" kindref="member">GPUStreamManager::createStream()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref></computeroutput>. On systems without HIP the returned function succeeds via the CPU path.</para>
+</listitem><listitem><para><computeroutput>allocate(size_bytes, tag)</computeroutput> / <computeroutput>deallocate(rec)</computeroutput> — wraps <computeroutput>hipMalloc</computeroutput> / <computeroutput>hipFree</computeroutput> with ownership tracking. Use these from <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool" kindref="compound">GPUMemoryPool</ref></computeroutput> when backing a real device memory pool.</para>
+</listitem><listitem><para><computeroutput>zeroMemory(device_ptr, size_bytes)</computeroutput> — wraps <computeroutput>hipMemset</computeroutput>; used by <computeroutput><ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool_1a96cc63ec81d7b11d53a23d2a9535d584" kindref="member">GPUMemoryPool::release()</ref></computeroutput> when <computeroutput>zero_on_free</computeroutput> is set.</para>
+</listitem><listitem><para><computeroutput>createStream(name, device_index)</computeroutput> / <computeroutput>destroyStream(name)</computeroutput> / <computeroutput>synchronizeStream(name)</computeroutput> — HIP stream lifecycle, mirroring CUDA streams.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/rocm_backend.h" line="56" column="1" bodyfile="include/themis/gpu/rocm_backend.h" bodystart="56" bodyend="245"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1acfb0c4dd1017f89a0cb6bffcec1547e9" prot="private" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>active_allocations_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a39073d551b0e7411dfd7bd00933d65fa" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>allocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1aee3d5a55f402674bcc51d0bfd3c9eb4b" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>createBackendFn</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a2f2e33589141a78890b95535164bf051" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>createStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a434ac8b0a6f3be2771c0a98e163097fd" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>deallocate</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a9853011b72dd0d0a9bd797639f8c8d3e" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>destroyStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1aa63da1d4c477570636e70ce6acfd48a2" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>deviceCount</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a5583890ec6f639e00fa93510ccd3639d" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a61c33f1f276992d434d529403ea752a6" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1ab6561cb741d246897d04fd7591a08a65" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>getStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a25198ff3fd8d7a27232cd0ca7e6edd91" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>hasStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1ade5498ce0d87bf9f55f837048ce5f075" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a0f2193eea584371a692a8e6863bb1600" prot="private" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a811a1ee5eb09e1e9080d3e9028136d66" prot="private" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1aa10433bc1ba690d1fbaf08f3e535e6c5" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1ad69abb543e772627561d2b4760ffd827" prot="private" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>ROCmBackend</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a76339fb757c1a734bb7644149b39322a" prot="private" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>ROCmBackend</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a8bda4644bbe52b3184e0183331e5ad5f" prot="private" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a63fc9fb87406222737ad4e22a1938a42" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>streamNames</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a02f8cf22e7f62a58e27603e1b4bc60d0" prot="private" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>streams_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1a83d30d6e91abf9234ddae54ea1f18ff6" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>synchronizeStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_r_o_cm_backend_1aa95cb977c76a2acc2ec8b2bbbe07b8ed" prot="public" virt="non-virtual"><scope>themis::gpu::ROCmBackend</scope><name>zeroMemory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d152071335267021160302374304121140305373235162207" kind="namespace" language="C++">
+    <compoundname>@152071335267021160302374304121140305373235162207</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/search/bench_vector_search_gates.cpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

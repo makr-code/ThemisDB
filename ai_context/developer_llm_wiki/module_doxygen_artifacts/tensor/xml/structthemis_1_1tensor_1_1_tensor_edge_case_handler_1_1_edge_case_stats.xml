@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</compoundname>
+    <includes refid="tensor__edge__case__handler_8h" local="no">tensor_edge_case_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a261ff4828bcb405894ff864440784c9c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::invalid_adapter_refs</definition>
+        <argsstring></argsstring>
+        <name>invalid_adapter_refs</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::invalid_adapter_refs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="487" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="487" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a38bcc85ad999c9c5d3429c556b143be2" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::out_of_bounds_accesses</definition>
+        <argsstring></argsstring>
+        <name>out_of_bounds_accesses</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::out_of_bounds_accesses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="488" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="488" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1ae170fcdbdf96397ab61c91a8b219dab3" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::stale_fingerprints</definition>
+        <argsstring></argsstring>
+        <name>stale_fingerprints</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::stale_fingerprints</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="489" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="489" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a96243840b92a3e915ee876520b00fd8c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::self_similarity_failures</definition>
+        <argsstring></argsstring>
+        <name>self_similarity_failures</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::self_similarity_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="490" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="490" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a9bdae203ee52d22462800733e12672d4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::null_train_comparisons</definition>
+        <argsstring></argsstring>
+        <name>null_train_comparisons</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::null_train_comparisons</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="491" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="491" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a433ec7cda4a97e9e024c3ded3f8acee5" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::concurrent_modifications</definition>
+        <argsstring></argsstring>
+        <name>concurrent_modifications</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::concurrent_modifications</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="492" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="492" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a59fe5e33a905040a5ae4bb7d03d18dfa" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::bridge_routing_failures</definition>
+        <argsstring></argsstring>
+        <name>bridge_routing_failures</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::bridge_routing_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="493" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="493" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a0be97015fb9976551b8db60acccf78af" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::adapter_comm_failures</definition>
+        <argsstring></argsstring>
+        <name>adapter_comm_failures</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::adapter_comm_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="494" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="494" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1af343bdfe98558a33f8903e82774d50e1" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::invalid_decompositions</definition>
+        <argsstring></argsstring>
+        <name>invalid_decompositions</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::invalid_decompositions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="495" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1ab125033afd573f8d40409aca613e8432" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::kappa_gate_violations</definition>
+        <argsstring></argsstring>
+        <name>kappa_gate_violations</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::kappa_gate_violations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="496" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a1bfbc7b2b6b50f39c8e1cab3e9b08835" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::export_serialization_failures</definition>
+        <argsstring></argsstring>
+        <name>export_serialization_failures</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::export_serialization_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="497" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="497" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1af8e39f63cb1b368c73ad6c51e6071b2c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::replay_deserialization_failures</definition>
+        <argsstring></argsstring>
+        <name>replay_deserialization_failures</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::replay_deserialization_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="498" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="498" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a6ed87b400a0fbad98a33371fbeeac713" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::partial_graph_losses</definition>
+        <argsstring></argsstring>
+        <name>partial_graph_losses</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::partial_graph_losses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="499" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="499" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a9422a1d53bc9e6060beecbc750a2a7c8" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::oom_during_computation</definition>
+        <argsstring></argsstring>
+        <name>oom_during_computation</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::oom_during_computation</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="500" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="500" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a562df59eae77d6d3ab5e15c4870b6c25" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::concurrent_memory_exhaustion</definition>
+        <argsstring></argsstring>
+        <name>concurrent_memory_exhaustion</name>
+        <qualifiedname>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats::concurrent_memory_exhaustion</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_edge_case_handler.h" line="501" column="21" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="501" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get error statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="return"><para>Struct containing counters for each edge case handled. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/tensor/tensor_edge_case_handler.h" line="486" column="5" bodyfile="include/tensor/tensor_edge_case_handler.h" bodystart="486" bodyend="502"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a0be97015fb9976551b8db60acccf78af" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>adapter_comm_failures</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a59fe5e33a905040a5ae4bb7d03d18dfa" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>bridge_routing_failures</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a562df59eae77d6d3ab5e15c4870b6c25" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>concurrent_memory_exhaustion</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a433ec7cda4a97e9e024c3ded3f8acee5" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>concurrent_modifications</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a1bfbc7b2b6b50f39c8e1cab3e9b08835" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>export_serialization_failures</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a261ff4828bcb405894ff864440784c9c" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>invalid_adapter_refs</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1af343bdfe98558a33f8903e82774d50e1" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>invalid_decompositions</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1ab125033afd573f8d40409aca613e8432" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>kappa_gate_violations</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a9bdae203ee52d22462800733e12672d4" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>null_train_comparisons</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a9422a1d53bc9e6060beecbc750a2a7c8" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>oom_during_computation</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a38bcc85ad999c9c5d3429c556b143be2" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>out_of_bounds_accesses</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a6ed87b400a0fbad98a33371fbeeac713" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>partial_graph_losses</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1af8e39f63cb1b368c73ad6c51e6071b2c" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>replay_deserialization_failures</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1a96243840b92a3e915ee876520b00fd8c" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>self_similarity_failures</name></member>
+      <member refid="structthemis_1_1tensor_1_1_tensor_edge_case_handler_1_1_edge_case_stats_1ae170fcdbdf96397ab61c91a8b219dab3" prot="public" virt="non-virtual"><scope>themis::tensor::TensorEdgeCaseHandler::EdgeCaseStats</scope><name>stale_fingerprints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

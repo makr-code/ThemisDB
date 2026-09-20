@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1_wal_segment" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::WalSegment</compoundname>
+    <includes refid="async__wal__shipper_8h" local="no">async_wal_shipper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_segment_1a8dd290d4009b2d2c4409043301b459ce" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::WalSegment::sequence_number</definition>
+        <argsstring></argsstring>
+        <name>sequence_number</name>
+        <qualifiedname>themisdb::replication::WalSegment::sequence_number</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="54" column="45" bodyfile="include/replication/async_wal_shipper.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_segment_1a939571702b028842909921ab2867ad4d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WalSegment::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themisdb::replication::WalSegment::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="55" column="45" bodyfile="include/replication/async_wal_shipper.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::replication::WalSegment::enqueue_time</definition>
+        <argsstring></argsstring>
+        <name>enqueue_time</name>
+        <qualifiedname>themisdb::replication::WalSegment::enqueue_time</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="56" column="45" bodyfile="include/replication/async_wal_shipper.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1_wal_segment_1afd6824264f4039d6de23c3c781df548b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::WalSegment::target_dc</definition>
+        <argsstring></argsstring>
+        <name>target_dc</name>
+        <qualifiedname>themisdb::replication::WalSegment::target_dc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/async_wal_shipper.h" line="57" column="45" bodyfile="include/replication/async_wal_shipper.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single WAL segment to be shipped to a remote datacenter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fields:<itemizedlist>
+<listitem><para>sequence_number: monotonically increasing WAL segment sequence.</para>
+</listitem><listitem><para>data: raw segment bytes.</para>
+</listitem><listitem><para>enqueue_time: wall-clock time the segment was handed to <ref refid="classthemisdb_1_1replication_1_1_async_wal_shipper" kindref="compound">AsyncWalShipper</ref>.</para>
+</listitem><listitem><para>target_dc: destination datacenter identifier. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/replication/async_wal_shipper.h" line="53" column="1" bodyfile="include/replication/async_wal_shipper.h" bodystart="53" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1_wal_segment_1a939571702b028842909921ab2867ad4d" prot="public" virt="non-virtual"><scope>themisdb::replication::WalSegment</scope><name>data</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_segment_1a5a06f06c66afa31e39380a3ad501c3af" prot="public" virt="non-virtual"><scope>themisdb::replication::WalSegment</scope><name>enqueue_time</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_segment_1a8dd290d4009b2d2c4409043301b459ce" prot="public" virt="non-virtual"><scope>themisdb::replication::WalSegment</scope><name>sequence_number</name></member>
+      <member refid="structthemisdb_1_1replication_1_1_wal_segment_1afd6824264f4039d6de23c3c781df548b" prot="public" virt="non-virtual"><scope>themisdb::replication::WalSegment</scope><name>target_dc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="aggregation_8h" kind="file" language="C++">
+    <compoundname>aggregation.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">security/safe_iterator.h</includes>
+    <includedby refid="aggregation_8cpp" local="yes">src/analytics/aggregation.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/aggregation.h</label>
+        <link refid="aggregation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>security/safe_iterator.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>variant</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/analytics/aggregation.h</label>
+        <link refid="aggregation_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/analytics/aggregation.cpp</label>
+        <link refid="aggregation_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1analytics_1_1_aggregate_spec" prot="public">themis::analytics::AggregateSpec</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_aggregation_result" prot="public">themis::analytics::AggregationResult</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_aggregator" prot="public">themis::analytics::Aggregator</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_aggregator_1_1_acc_state" prot="private">themis::analytics::Aggregator::AccState</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_aggregator_1_1_group_state" prot="private">themis::analytics::Aggregator::GroupState</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <briefdescription>
+<para>Analytics aggregation engine with iterator-safe group processing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 88/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready</para>
+</simplesect>
+Provides GROUP BY aggregation (SUM, COUNT, AVG, MIN, MAX, FIRST, LAST) over ordered or unordered input rows. Iterator safety is enforced via <computeroutput>themis::security::SafeIterator</computeroutput> to address:</para>
+<para><itemizedlist>
+<listitem><para><bold>Type A (Invalidation):</bold> <computeroutput>push_back()</computeroutput> inside iterator loops invalidates vector iterators; remediated by collect-then-write patterns (gap A004).</para>
+</listitem><listitem><para><bold>Type C (Unsafe Advance):</bold> <computeroutput>std::advance()</computeroutput> with user-supplied offsets replaced by <computeroutput>AdvanceSafe::advance()</computeroutput> throughout (gap C001, C002).</para>
+</listitem></itemizedlist>
+</para>
+<para><bold>CWE Remediations:</bold><itemizedlist>
+<listitem><para>CWE-416: Collect-then-modify for all group insertion operations.</para>
+</listitem><listitem><para>CWE-129: <computeroutput>AdvanceSafe::advance()</computeroutput> for user offset navigation. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/safe_iterator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1analytics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Value<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref><sp/>=<sp/>std::variant&lt;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::monostate,<sp/><sp/></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>double,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AggregateFunction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" kindref="member">AggregateFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa1dc5fbfa16754d1e628d66381725617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa1dc5fbfa16754d1e628d66381725617" kindref="member">kSum</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a5a162d352f3b3603e03fc9b2f043fb40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a5a162d352f3b3603e03fc9b2f043fb40" kindref="member">kCount</ref>,<sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93ab866b86a18b29a10638f4ec9a3f9ef9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93ab866b86a18b29a10638f4ec9a3f9ef9c" kindref="member">kCountNonNull</ref>,<sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa22c1525680159c49e69ff9c43d1d01b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa22c1525680159c49e69ff9c43d1d01b" kindref="member">kAvg</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a8fbc2f6c44a6d70550df79903eb57d48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a8fbc2f6c44a6d70550df79903eb57d48" kindref="member">kMin</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa0b1ac8aae6b1cfbbe89085c642b3b4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa0b1ac8aae6b1cfbbe89085c642b3b4b" kindref="member">kMax</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a9fda60ba14f0809e152bc08409aa2737" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93a9fda60ba14f0809e152bc08409aa2737" kindref="member">kFirst</ref>,<sp/></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa9243c3d6084397b601cf95f073384a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93aa9243c3d6084397b601cf95f073384a6" kindref="member">kLast</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AggregateSpec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1analytics_1_1_aggregate_spec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_aggregate_spec" kindref="compound">AggregateSpec</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1analytics_1_1_aggregate_spec_1a112948fd2364a609e7378216847b4f3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_aggregate_spec_1a112948fd2364a609e7378216847b4f3e" kindref="member">source_column</ref>;<sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1analytics_1_1_aggregate_spec_1abadbe7a8fdaf77ec9c946b542ce55cdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_aggregate_spec_1abadbe7a8fdaf77ec9c946b542ce55cdd" kindref="member">output_column</ref>;<sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1analytics_1_1_aggregate_spec_1a2a133b203014afe9253c2e33a9bbf9cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" kindref="member">AggregateFunction</ref><sp/><ref refid="structthemis_1_1analytics_1_1_aggregate_spec_1a2a133b203014afe9253c2e33a9bbf9cc" kindref="member">function</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GroupKey</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1analytics_1a1f6f884fdbe3e5a8f8dcfb9d34b45b0c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1a1f6f884fdbe3e5a8f8dcfb9d34b45b0c" kindref="member">GroupKey</ref><sp/>=<sp/>std::string;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AggregationRow<sp/>/<sp/>AggregationResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" kindref="member">AggregationRow</ref><sp/>=<sp/>std::unordered_map&lt;std::string,<sp/>AggValue&gt;;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1analytics_1ac5eba10447baabffc36afa4386db1f75" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1ac5eba10447baabffc36afa4386db1f75" kindref="member">AggregationOutputRow</ref><sp/>=<sp/>std::unordered_map&lt;std::string,<sp/>AggValue&gt;;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1analytics_1_1_aggregation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_aggregation_result" kindref="compound">AggregationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1analytics_1_1_aggregation_result_1a640d77cb2bf1dc26ddfab6648e06306b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_aggregation_result_1a640d77cb2bf1dc26ddfab6648e06306b" kindref="member">group_columns</ref>;<sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1analytics_1_1_aggregation_result_1a75958bc83f9e88d0b9737e62021525a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_aggregation_result_1a75958bc83f9e88d0b9737e62021525a2" kindref="member">agg_columns</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1analytics_1_1_aggregation_result_1a350bdad3e8f3fc5528bc7bb3b9e191ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AggregationOutputRow&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_aggregation_result_1a350bdad3e8f3fc5528bc7bb3b9e191ca" kindref="member">rows</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ac5eba10447baabffc36afa4386db1f75" kindref="member">AggregationOutputRow</ref>&amp;<sp/><ref refid="structthemis_1_1analytics_1_1_aggregation_result_1af7343c6da2af949d7df6b798a3a322cf" kindref="member">at</ref>(std::size_t<sp/>idx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;AggregationOutputRow&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_aggregation_result_1ac7da33192dd30ae86fccdd618d6bd729" kindref="member">page</ref>(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>offset,<sp/>std::size_t<sp/>limit)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Aggregator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1analytics_1_1_aggregator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref><sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref>(std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>group_by_columns,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;AggregateSpec&gt;<sp/><sp/><sp/><sp/><sp/>agg_specs);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1analytics_1_1_aggregator_1ab50cbeef0dd4f561a7b94396448533c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1ab50cbeef0dd4f561a7b94396448533c9" kindref="member">~Aggregator</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1analytics_1_1_aggregator_1aa2dcc1163af11a2c8b2a8a411212f65a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1aa2dcc1163af11a2c8b2a8a411212f65a" kindref="member">Aggregator</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110" refid="classthemis_1_1analytics_1_1_aggregator_1a8f307587666db17dbbb9d44eb370911a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref>&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1a8f307587666db17dbbb9d44eb370911a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111" refid="classthemis_1_1analytics_1_1_aggregator_1ac71e8e3cd134adb05b1a8f1e67cffd8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1ac71e8e3cd134adb05b1a8f1e67cffd8c" kindref="member">Aggregator</ref>(<ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1analytics_1_1_aggregator_1a14dbee81af3f4d746ccf65e2124b0bdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1analytics_1_1_aggregator_1a1d0a8b92c0d64ac1f8b99154aa467c3b" kindref="member">Aggregator</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1a1544bdaf09124116d0a78fd598145176" kindref="member">feed</ref>(const<sp/><ref refid="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" kindref="member">AggregationRow</ref>&amp;<sp/>row);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1analytics_1_1_aggregation_result" kindref="compound">AggregationResult</ref><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1a8be39e4faf80be932ea5c4c42ae1745e" kindref="member">finalise</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_aggregator_1af92e294778dc8a678334f6c2405ebb50" kindref="member">group_count</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-accumulator<sp/>state<sp/>for<sp/>one<sp/>(group,<sp/>aggregate-spec)<sp/>pair.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>AccState<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum{0.0};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>min{0.0};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>max{0.0};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>count{0};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref><sp/><sp/><sp/><sp/><sp/>first;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref><sp/><sp/><sp/><sp/><sp/>last;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>first_seen{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-group<sp/>accumulator<sp/>map:<sp/>spec-index<sp/>→<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">GroupState<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" kindref="member">AggregationRow</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key_values;<sp/></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;AccState&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accs;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/>group_by_columns_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AggregateSpec&gt;<sp/>agg_specs_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;GroupKey,<sp/>GroupState&gt;<sp/>groups_;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a1f6f884fdbe3e5a8f8dcfb9d34b45b0c" kindref="member">GroupKey</ref><sp/>make_key(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" kindref="member">AggregationRow</ref>&amp;<sp/>row)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>accumulate(AccState&amp;<sp/>acc,<sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" kindref="member">AggregateFunction</ref><sp/>fn,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref>&amp;<sp/>val);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a61baafb8f0f6350d9096e02ef1bc7244" kindref="member">AggValue</ref><sp/>extract(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>AccState&amp;<sp/>acc,<sp/><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" kindref="member">AggregateFunction</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/aggregation.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="transaction__semantic__advisor_8h" kind="file" language="C++">
+    <compoundname>transaction_semantic_advisor.h</compoundname>
+    <includes local="yes">llm/decision_record_yaml_processor.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="transaction__semantic__advisor_8cpp" local="yes">src/transaction/transaction_semantic_advisor.cpp</includedby>
+    <includedby refid="test__transaction__semantic__advisor_8cpp" local="yes">tests/transaction/test_transaction_semantic_advisor.cpp</includedby>
+    <includedby refid="test__transaction__semantic__advisor__llm__focused_8cpp" local="yes">tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/transaction/transaction_semantic_advisor.h</label>
+        <link refid="transaction__semantic__advisor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>llm/decision_record_yaml_processor.h</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/transaction/transaction_semantic_advisor.h</label>
+        <link refid="transaction__semantic__advisor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/transaction/transaction_semantic_advisor.cpp</label>
+        <link refid="transaction__semantic__advisor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/transaction/test_transaction_semantic_advisor.cpp</label>
+        <link refid="test__transaction__semantic__advisor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/transaction/test_transaction_semantic_advisor_llm_focused.cpp</label>
+        <link refid="test__transaction__semantic__advisor__llm__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1transaction_1_1_transaction_context" prot="public">themis::transaction::TransactionContext</innerclass>
+    <innerclass refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" prot="public">themis::transaction::TransactionSemanticAdvisor</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" prot="public">themis::transaction::TransactionSemanticAdvisor::Config</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint" prot="public">themis::transaction::TransactionSemanticAdvisor::BatchAffinityHint</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.1.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/decision_record_yaml_processor.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">transaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TransactionContext</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1transaction_1_1_transaction_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1aa6a159fe30a115034386ce26bf7d6c1a" kindref="member">tx_id</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a3ac212b0190281155841980a4e4bd19c" kindref="member">entity_map</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93ba32f68a60cef40faedbc6af20298c1a1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93b" kindref="member">OperationType</ref><sp/>{<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93ba3466fab4975481651940ed328aa990e4" kindref="member">READ</ref>,<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">WRITE</ref>,<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93ba32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref><sp/>};</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93b" kindref="member">OperationType</ref><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1ae44f28c36fdebd4cb10368908f415f2d" kindref="member">operation_type</ref>{<ref refid="structthemis_1_1transaction_1_1_transaction_context_1a9232f7ecd8c5fe360840595e051fc93bad4b9e47f65b6e79b010582f15785867e" kindref="member">OperationType::WRITE</ref>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1transaction_1_1_transaction_context_1a135ac18eb3b729275eda9af3364848a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context_1a135ac18eb3b729275eda9af3364848a0" kindref="member">estimated_duration_ms</ref>{0};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TransactionSemanticAdvisor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Config<sp/>────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1a25e19971c7f8409bd160c20f46d67897" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1a25e19971c7f8409bd160c20f46d67897" kindref="member">affinity_threshold</ref>{0.8};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1acded5b1d320bc10f1aa1aa739401e5d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1acded5b1d320bc10f1aa1aa739401e5d1" kindref="member">write_conflict_probability</ref>{0.75};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1aac7fa6f4eaa605e6fa17205adc32cd1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config_1aac7fa6f4eaa605e6fa17205adc32cd1d" kindref="member">default_deferral_ms</ref>{50};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>BatchAffinityHint<sp/>─────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint" kindref="compound">BatchAffinityHint</ref><sp/>{</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1afb8ba113c6fcce91fafc6c8508d714af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1afb8ba113c6fcce91fafc6c8508d714af" kindref="member">primary_tx_id</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1a939415385952f163a6ed275a1c063270" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1a939415385952f163a6ed275a1c063270" kindref="member">affine_tx_ids</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1a0660437869b23fc6dfb1a19deae587ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1a0660437869b23fc6dfb1a19deae587ee" kindref="member">conflict_probability</ref>{0.0};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1ae83c59eeb4e413cc6fad379a8b73d4fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint_1ae83c59eeb4e413cc6fad379a8b73d4fe" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>───<sp/>Lifecycle<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref>();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref>(<ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1aebf46ab1f22af43989c39c3c08b10624" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1aebf46ab1f22af43989c39c3c08b10624" kindref="member">~TransactionSemanticAdvisor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1abdc62634bc4c0ece8d09519fc1ca7f6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1abdc62634bc4c0ece8d09519fc1ca7f6a" kindref="member">TransactionSemanticAdvisor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a97cd6dc14ee93ae6f7e5af73f3232bff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref>&amp;<sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a97cd6dc14ee93ae6f7e5af73f3232bff" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1af1921401cf8ce71bc4a69760fc7947ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1af1921401cf8ce71bc4a69760fc7947ad" kindref="member">TransactionSemanticAdvisor</ref>(<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a786ed1fcc9cb79a4f027ecad911e3ad0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a3fbe2ad0bef6628bdd0c5ef9ed07d5b3" kindref="member">TransactionSemanticAdvisor</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a67759bf71e4596fffa438c879da16f12" kindref="member">setDecisionRecordProcessor</ref>(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="namespacethemis" kindref="compound">themis</ref>::llm::DecisionRecordYamlProcessor&gt;<sp/>processor);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_batch_affinity_hint" kindref="compound">BatchAffinityHint</ref>&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1a60f0dd9f119f58a108c52c1ad0708234" kindref="member">analyzeBatch</ref>(</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref>&gt;&amp;<sp/>pending_txs)<sp/>const;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="classthemis_1_1transaction_1_1_transaction_semantic_advisor_1ac43204391456a9965df19e8ece532ffb" kindref="member">suggestDeferral</ref>(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref>&amp;<sp/>tx,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref>&gt;&amp;<sp/>concurrent_txs)<sp/>const;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_transaction_semantic_advisor_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;<ref refid="namespacethemis" kindref="compound">themis</ref>::llm::DecisionRecordYamlProcessor&gt;<sp/>dr_processor_;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>entityOverlap(const<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref>&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref>&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasWriteConflict(const<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref>&amp;<sp/>a,</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_transaction_context" kindref="compound">TransactionContext</ref>&amp;<sp/>b);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>emitDecisionRecord(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>hint_count,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>tx_count)<sp/>const;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>transaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/transaction_semantic_advisor.h"/>
+  </compounddef>
+</doxygen>

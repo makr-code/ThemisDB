@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::test::WikiChunk</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk_1afb1960b0f82d1abdd789796d417a51d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::test::WikiChunk::chunk_id</definition>
+        <argsstring></argsstring>
+        <name>chunk_id</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiChunk::chunk_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="52" column="17" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk_1ac302134cb3bdadc422fb1867e2a87fa7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::test::WikiChunk::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiChunk::source_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="53" column="17" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk_1a41d17db3ac751c7b6f35216eee9e043b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::llm_wiki::test::WikiChunk::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiChunk::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="54" column="17" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk_1a4ac5bc0fd6bfedc917c804ec11e47986" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::llm_wiki::test::WikiChunk::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::plugins::llm_wiki::test::WikiChunk::score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="55" column="11" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_wiki_phase_b_integration.cpp" line="51" column="1" bodyfile="tests/llm/test_llm_wiki_phase_b_integration.cpp" bodystart="51" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk_1afb1960b0f82d1abdd789796d417a51d1" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiChunk</scope><name>chunk_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk_1a41d17db3ac751c7b6f35216eee9e043b" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiChunk</scope><name>content</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk_1a4ac5bc0fd6bfedc917c804ec11e47986" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiChunk</scope><name>score</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1test_1_1_wiki_chunk_1ac302134cb3bdadc422fb1867e2a87fa7" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::test::WikiChunk</scope><name>source_path</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

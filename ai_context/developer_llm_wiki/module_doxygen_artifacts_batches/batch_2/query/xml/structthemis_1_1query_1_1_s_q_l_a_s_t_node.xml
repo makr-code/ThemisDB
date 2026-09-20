@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_s_q_l_a_s_t_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::SQLASTNode</compoundname>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a350c1e044e8508357e5e7c98b026e40a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ae82c464ad73e2083d4d0edab8d327a8f" kindref="member">SQLStatementType</ref></type>
+        <definition>SQLStatementType themis::query::SQLASTNode::statement_type</definition>
+        <argsstring></argsstring>
+        <name>statement_type</name>
+        <qualifiedname>themis::query::SQLASTNode::statement_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="157" column="22" bodyfile="include/query/sql_parser.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a4d90196fee8e09c1bff82314b1c46631" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_select_statement" kindref="compound">SQLSelectStatement</ref> &gt;</type>
+        <definition>std::optional&lt;SQLSelectStatement&gt; themis::query::SQLASTNode::select</definition>
+        <argsstring></argsstring>
+        <name>select</name>
+        <qualifiedname>themis::query::SQLASTNode::select</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="160" column="19" bodyfile="include/query/sql_parser.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1aadfc369a1e30083f4083595dedd63a65" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_insert_statement" kindref="compound">SQLInsertStatement</ref> &gt;</type>
+        <definition>std::optional&lt;SQLInsertStatement&gt; themis::query::SQLASTNode::insert</definition>
+        <argsstring></argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::query::SQLASTNode::insert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="161" column="19" bodyfile="include/query/sql_parser.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1adfdbd42c06c64b8196d53415357ddbba" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_update_statement" kindref="compound">SQLUpdateStatement</ref> &gt;</type>
+        <definition>std::optional&lt;SQLUpdateStatement&gt; themis::query::SQLASTNode::update</definition>
+        <argsstring></argsstring>
+        <name>update</name>
+        <qualifiedname>themis::query::SQLASTNode::update</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="162" column="19" bodyfile="include/query/sql_parser.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a4c4e6e167108e11a61428d41958387b7" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1_s_q_l_delete_statement" kindref="compound">SQLDeleteStatement</ref> &gt;</type>
+        <definition>std::optional&lt;SQLDeleteStatement&gt; themis::query::SQLASTNode::del</definition>
+        <argsstring></argsstring>
+        <name>del</name>
+        <qualifiedname>themis::query::SQLASTNode::del</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="163" column="19" bodyfile="include/query/sql_parser.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sql_parser.h" line="156" column="1" bodyfile="include/query/sql_parser.h" bodystart="156" bodyend="164"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a4c4e6e167108e11a61428d41958387b7" prot="public" virt="non-virtual"><scope>themis::query::SQLASTNode</scope><name>del</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1aadfc369a1e30083f4083595dedd63a65" prot="public" virt="non-virtual"><scope>themis::query::SQLASTNode</scope><name>insert</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a4d90196fee8e09c1bff82314b1c46631" prot="public" virt="non-virtual"><scope>themis::query::SQLASTNode</scope><name>select</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1a350c1e044e8508357e5e7c98b026e40a" prot="public" virt="non-virtual"><scope>themis::query::SQLASTNode</scope><name>statement_type</name></member>
+      <member refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node_1adfdbd42c06c64b8196d53415357ddbba" prot="public" virt="non-virtual"><scope>themis::query::SQLASTNode</scope><name>update</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_parallel_traversal_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>ParallelTraversalBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_parallel_traversal_benchmark_fixture_1ad2061148e81bd83118f8ac097fe5da9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ParallelTraversalBenchmarkFixture::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="869" column="17" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="869" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_traversal_benchmark_fixture_1a3818b765f980e01e69744aa77d9c3b0e" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; ParallelTraversalBenchmarkFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="870" column="33" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="870" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_traversal_benchmark_fixture_1a9c1cd87ce6e93677699537cf40881c87" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; ParallelTraversalBenchmarkFixture::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="871" column="30" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="871" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_traversal_benchmark_fixture_1ae6b7ce8011b398dd8eed2706678caced" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1graph_1_1_parallel_traversal" kindref="compound">themis::graph::ParallelTraversal</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::ParallelTraversal&gt; ParallelTraversalBenchmarkFixture::traversal_</definition>
+        <argsstring></argsstring>
+        <name>traversal_</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::traversal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="872" column="23" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="872" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_traversal_benchmark_fixture_1a1a8474ae65ef899b7bdd240b3204d3d9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; ParallelTraversalBenchmarkFixture::node_ids_</definition>
+        <argsstring></argsstring>
+        <name>node_ids_</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::node_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="873" column="44" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="873" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_parallel_traversal_benchmark_fixture_1a19e2c5d0ba124bd531379dcc19524ca7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ParallelTraversalBenchmarkFixture::graph_size_</definition>
+        <argsstring></argsstring>
+        <name>graph_size_</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::graph_size_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="874" column="9" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="874" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_parallel_traversal_benchmark_fixture_1a89fff548819d70340c2e8cdabd3a1fe5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelTraversalBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="808" column="10" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="808" bodyend="829"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_traversal_benchmark_fixture_1aa25c3e2564ee5a22ea22551ad3c41845" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelTraversalBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="831" column="10" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="831" bodyend="837"/>
+      </memberdef>
+      <memberdef kind="function" id="class_parallel_traversal_benchmark_fixture_1aca3e2fd403758508aeec949dc05a9cca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ParallelTraversalBenchmarkFixture::buildFanOutGraph</definition>
+        <argsstring>(int fan)</argsstring>
+        <name>buildFanOutGraph</name>
+        <qualifiedname>ParallelTraversalBenchmarkFixture::buildFanOutGraph</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fan</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_graph_traversal.cpp" line="842" column="10" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="842" bodyend="867"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ParallelTraversalBenchmarkFixture</label>
+        <link refid="class_parallel_traversal_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ParallelTraversalBenchmarkFixture</label>
+        <link refid="class_parallel_traversal_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/graph/bench_graph_traversal.cpp" line="806" column="1" bodyfile="benchmarks/graph/bench_graph_traversal.cpp" bodystart="806" bodyend="875"/>
+    <listofallmembers>
+      <member refid="class_parallel_traversal_benchmark_fixture_1aca3e2fd403758508aeec949dc05a9cca" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>buildFanOutGraph</name></member>
+      <member refid="class_parallel_traversal_benchmark_fixture_1a3818b765f980e01e69744aa77d9c3b0e" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>db_</name></member>
+      <member refid="class_parallel_traversal_benchmark_fixture_1a9c1cd87ce6e93677699537cf40881c87" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>graph_mgr_</name></member>
+      <member refid="class_parallel_traversal_benchmark_fixture_1a19e2c5d0ba124bd531379dcc19524ca7" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>graph_size_</name></member>
+      <member refid="class_parallel_traversal_benchmark_fixture_1a1a8474ae65ef899b7bdd240b3204d3d9" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>node_ids_</name></member>
+      <member refid="class_parallel_traversal_benchmark_fixture_1a89fff548819d70340c2e8cdabd3a1fe5" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_parallel_traversal_benchmark_fixture_1aa25c3e2564ee5a22ea22551ad3c41845" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_parallel_traversal_benchmark_fixture_1ad2061148e81bd83118f8ac097fe5da9d" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>test_db_path_</name></member>
+      <member refid="class_parallel_traversal_benchmark_fixture_1ae6b7ce8011b398dd8eed2706678caced" prot="public" virt="non-virtual"><scope>ParallelTraversalBenchmarkFixture</scope><name>traversal_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

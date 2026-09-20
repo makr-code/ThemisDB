@@ -1,0 +1,209 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_performance_analyzer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::PerformanceAnalyzerConfig</compoundname>
+    <includes refid="performance__analyzer_8h" local="no">performance_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1a65d3dfba9e56704ecb1d2425137df63f" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::observability::PerformanceAnalyzerConfig::slow_query_threshold</definition>
+        <argsstring></argsstring>
+        <name>slow_query_threshold</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::slow_query_threshold</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="79" column="31" bodyfile="include/observability/performance_analyzer.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1ac7dd922dde7523991e3d332ac6d4c9e1" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::observability::PerformanceAnalyzerConfig::slow_storage_op_threshold</definition>
+        <argsstring></argsstring>
+        <name>slow_storage_op_threshold</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::slow_storage_op_threshold</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="80" column="31" bodyfile="include/observability/performance_analyzer.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1afc56687cb35477b8a97015593b72206d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::PerformanceAnalyzerConfig::cache_hit_rate_threshold</definition>
+        <argsstring></argsstring>
+        <name>cache_hit_rate_threshold</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::cache_hit_rate_threshold</qualifiedname>
+        <initializer>= 80.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="81" column="12" bodyfile="include/observability/performance_analyzer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1a7351e1db3ed16a9d39a8332fa7bfa428" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::PerformanceAnalyzerConfig::index_usage_threshold</definition>
+        <argsstring></argsstring>
+        <name>index_usage_threshold</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::index_usage_threshold</qualifiedname>
+        <initializer>= 50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="82" column="12" bodyfile="include/observability/performance_analyzer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1afdca14d66ab2183f8359a8e8cec70378" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::PerformanceAnalyzerConfig::write_amplification_threshold</definition>
+        <argsstring></argsstring>
+        <name>write_amplification_threshold</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::write_amplification_threshold</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="83" column="12" bodyfile="include/observability/performance_analyzer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1ada1492a2e2f50b21a5085768598556a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::PerformanceAnalyzerConfig::read_amplification_threshold</definition>
+        <argsstring></argsstring>
+        <name>read_amplification_threshold</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::read_amplification_threshold</qualifiedname>
+        <initializer>= 5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="84" column="12" bodyfile="include/observability/performance_analyzer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1afb5a926f1174e4e0f5c28d6700d06a71" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::PerformanceAnalyzerConfig::max_full_scan_threshold</definition>
+        <argsstring></argsstring>
+        <name>max_full_scan_threshold</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::max_full_scan_threshold</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="85" column="12" bodyfile="include/observability/performance_analyzer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1a46507e982112a16c81ee2c9c81b693d8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::PerformanceAnalyzerConfig::analyze_queries</definition>
+        <argsstring></argsstring>
+        <name>analyze_queries</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::analyze_queries</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="88" column="10" bodyfile="include/observability/performance_analyzer.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1a4e88ca9f0c62004136a3cccf86e5bfad" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::PerformanceAnalyzerConfig::analyze_storage</definition>
+        <argsstring></argsstring>
+        <name>analyze_storage</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::analyze_storage</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="89" column="10" bodyfile="include/observability/performance_analyzer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1adb2905a1799e21d9b8f8f820560017c4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::PerformanceAnalyzerConfig::analyze_cache</definition>
+        <argsstring></argsstring>
+        <name>analyze_cache</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::analyze_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="90" column="10" bodyfile="include/observability/performance_analyzer.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1a9f8e75433a3c1b0694b15cb9b2259839" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::PerformanceAnalyzerConfig::analyze_indexes</definition>
+        <argsstring></argsstring>
+        <name>analyze_indexes</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::analyze_indexes</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="91" column="10" bodyfile="include/observability/performance_analyzer.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_performance_analyzer_config_1a47b06bab1e50e2a39be44c5a264e7a3a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::observability::PerformanceAnalyzerConfig::generate_recommendations</definition>
+        <argsstring></argsstring>
+        <name>generate_recommendations</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzerConfig::generate_recommendations</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/performance_analyzer.h" line="92" column="10" bodyfile="include/observability/performance_analyzer.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance analyzer configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/performance_analyzer.h" line="77" column="1" bodyfile="include/observability/performance_analyzer.h" bodystart="77" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1adb2905a1799e21d9b8f8f820560017c4" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>analyze_cache</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1a9f8e75433a3c1b0694b15cb9b2259839" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>analyze_indexes</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1a46507e982112a16c81ee2c9c81b693d8" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>analyze_queries</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1a4e88ca9f0c62004136a3cccf86e5bfad" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>analyze_storage</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1afc56687cb35477b8a97015593b72206d" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>cache_hit_rate_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1a47b06bab1e50e2a39be44c5a264e7a3a" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>generate_recommendations</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1a7351e1db3ed16a9d39a8332fa7bfa428" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>index_usage_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1afb5a926f1174e4e0f5c28d6700d06a71" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>max_full_scan_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1ada1492a2e2f50b21a5085768598556a7" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>read_amplification_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1a65d3dfba9e56704ecb1d2425137df63f" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>slow_query_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1ac7dd922dde7523991e3d332ac6d4c9e1" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>slow_storage_op_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_performance_analyzer_config_1afdca14d66ab2183f8359a8e8cec70378" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzerConfig</scope><name>write_amplification_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

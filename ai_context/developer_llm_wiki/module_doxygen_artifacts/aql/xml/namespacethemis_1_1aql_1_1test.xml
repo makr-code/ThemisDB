@@ -1,0 +1,709 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1aql_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::aql::test</compoundname>
+    <innerclass refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" prot="public">themis::aql::test::LLMValidationPipelineTest</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1test_1_1_mock_a_q_l_parser_service" prot="public">themis::aql::test::MockAQLParserService</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client" prot="public">themis::aql::test::MockLLMClient</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_plugin_manager" prot="public">themis::aql::test::MockLLMPluginManager</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" prot="public">themis::aql::test::Phase03LLMAQLHandlerTests</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a27e9c78feff08ad6fc4af1ed303fac34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, SuccessfulValidationNoRetries)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>SuccessfulValidationNoRetries</type>
+        </param>
+        <briefdescription>
+<para>Test 1: Successful validation (no retries needed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="168" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="168" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a745c660ca9946099854b015b878405ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, SuccessfulValidationWithRetryAvailable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>SuccessfulValidationWithRetryAvailable</type>
+        </param>
+        <briefdescription>
+<para>Test 2: Validation with retry configured but not needed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="184" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="184" bodyend="196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a98fa3c2f8eb1a009ed1d962f388e3a23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, ValidationWithCustomConfig)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>ValidationWithCustomConfig</type>
+        </param>
+        <briefdescription>
+<para>Test 3: Validation with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="199" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="199" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1ac77e7707e41d0794727c1f58c780e2f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, ParseErrorNoRetries)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>ParseErrorNoRetries</type>
+        </param>
+        <briefdescription>
+<para>Test 4: Parse error with no retries configured. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="220" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="220" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a17b3443cf773968f3f9adaec227202d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, ParseErrorRetriesExhausted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>ParseErrorRetriesExhausted</type>
+        </param>
+        <briefdescription>
+<para>Test 5: Parse error with retries configured (but exhausted). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="239" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="239" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1ad3f3d72d12ee826127ebff8fe4275581" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, LLMClientNotReadyFailsFast)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>LLMClientNotReadyFailsFast</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="256" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="256" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a8cf0edd3905b12dd8f7fd3334d14f17c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, RetrySuccessOnSecondAttempt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>RetrySuccessOnSecondAttempt</type>
+        </param>
+        <briefdescription>
+<para>Test 6: Retry success on second attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="272" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="272" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1aecbdfc33ff34aaf1462e7c9adacc70e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, RetryFeedbackGeneration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>RetryFeedbackGeneration</type>
+        </param>
+        <briefdescription>
+<para>Test 7: Retry feedback generation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="293" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="293" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1ac0cec4e15d714abd1bed9d6fff2f6fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, RetryFeedbackIsInjectedIntoSubsequentPrompt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>RetryFeedbackIsInjectedIntoSubsequentPrompt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="314" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="314" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a4cd3ebf9aea3ee53fef972c15f0cbc92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, ConfigUpdateAffectsBehavior)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>ConfigUpdateAffectsBehavior</type>
+        </param>
+        <briefdescription>
+<para>Test 8: Config update affects behavior. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="337" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="337" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1af04385f8e1621d7aa481e989c2e9dd50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, TimeoutConfiguration)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>TimeoutConfiguration</type>
+        </param>
+        <briefdescription>
+<para>Test 9: Timeout configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="352" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="352" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a788df984a4d2c2eed87d5cdd4b69be5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, RejectVsRetryMode)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>RejectVsRetryMode</type>
+        </param>
+        <briefdescription>
+<para>Test 10: Reject vs. retry mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="372" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="372" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a08043a8419aa323f0d6cb5b4d32785ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, CustomFeedbackGenerator)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>CustomFeedbackGenerator</type>
+        </param>
+        <briefdescription>
+<para>Test 11: Custom feedback generator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="407" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="407" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1abee2e62558f7c642255cb644deb80c67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, CustomRetryabilityCheck)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>CustomRetryabilityCheck</type>
+        </param>
+        <briefdescription>
+<para>Test 12: Custom retryability check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="424" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="424" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1ab4cb2445c14b8d6e1f82463f48c6e4d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, DiagnosticsPropagated)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>DiagnosticsPropagated</type>
+        </param>
+        <briefdescription>
+<para>Test 13: Diagnostics propagated to result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="445" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="445" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a358563d2f12811d6aece2e52487aceea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, ErrorMessageMeaningful)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>ErrorMessageMeaningful</type>
+        </param>
+        <briefdescription>
+<para>Test 14: Error message contains meaningful info. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="462" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="462" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a47f6f2bdadddd89e6ef2a0d2587a1298" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, FactoryCreatesWorkingPipeline)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>FactoryCreatesWorkingPipeline</type>
+        </param>
+        <briefdescription>
+<para>Test 15: Factory creates working pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="479" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="479" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1af5aa7c4534d8bb143b26c8f87a1b6cc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, FactoryWithConfigCreates)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>FactoryWithConfigCreates</type>
+        </param>
+        <briefdescription>
+<para>Test 16: Factory with config. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="487" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="487" bodyend="497"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1aa349313d5474b5e45c0e25c75a41646a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, ConcurrentExecuteThreadSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentExecuteThreadSafe</type>
+        </param>
+        <briefdescription>
+<para>Test 17: Concurrent execute calls are thread-safe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="504" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="504" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a72a3feb8346a3e832a1fcca7be673b3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, EmptyNLQueryHandled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyNLQueryHandled</type>
+        </param>
+        <briefdescription>
+<para>Test 18: Empty NL query handled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="541" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="541" bodyend="548"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a022cd624783a439a7d16d6c94a29b9b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, EmptySchemaContextHandled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>EmptySchemaContextHandled</type>
+        </param>
+        <briefdescription>
+<para>Test 19: Empty schema context handled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="551" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="551" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1acd1967c7f5c8b52769af83d56e9fb364" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(LLMValidationPipelineTest, VeryLongQueryHandled)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_l_l_m_validation_pipeline_test" kindref="compound">LLMValidationPipelineTest</ref></type>
+        </param>
+        <param>
+          <type>VeryLongQueryHandled</type>
+        </param>
+        <briefdescription>
+<para>Test 20: Very long queries handled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="561" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="561" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a507e3de9c4c6ba88ff9a18b91a11d160" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, ParserServiceInjection_Success)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>ParserServiceInjection_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: An <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> created with a Config that includes a parser service WHEN: The handler initializes THEN: The parser service should be stored and retrievable</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="71" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="71" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a2e99e3b31b184be34a15d2831c930e32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, ParserServiceInjection_DefaultCreation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>ParserServiceInjection_DefaultCreation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: An <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> created WITHOUT a parser service in Config WHEN: The handler initializes THEN: A default parser service should be created automatically</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="89" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="89" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a5c05308b0a8a2bcce5211a03b54c98e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, ParserServiceSetter_UpdatesConfig)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>ParserServiceSetter_UpdatesConfig</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: An <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> WHEN: setParserService is called with a new parser service THEN: The new parser service should replace the old one</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="105" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="105" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a7b636d255cb74eb5464ee3d531fd24e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, ValidationPipelineConfig_Getters)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>ValidationPipelineConfig_Getters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: An <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> with custom validation config WHEN: getValidationPipelineConfig is called THEN: The config should match what was set</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="127" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="127" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1ad9248946b54516edfd6f74bd93af595a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, ValidationPipelineConfig_Setters)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>ValidationPipelineConfig_Setters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: An <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> with default validation config WHEN: setValidationPipelineConfig is called with new values THEN: The new config should be active</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="146" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="146" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a8b26deff25d9daf46861b50559c53424" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, ValidationMode_WarnOnly_Default)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>ValidationMode_WarnOnly_Default</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: An <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> WHEN: getValidationMode is called without setting a mode THEN: The default should be WARN_ONLY (backward compatible)</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="171" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="171" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1ae94708828b0fc827a3566c0a96980f34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, ValidationMode_SetAndGet)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>ValidationMode_SetAndGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: An <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> WHEN: setValidationMode and then getValidationMode are called THEN: The mode should match what was set</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="184" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="184" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1aa13e78b93f37c28f078d57fb7f94f9d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, Config_WithParserService_Success)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>Config_WithParserService_Success</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: A Config struct with parser_service set WHEN: <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> is constructed with this config THEN: The parser service should be injected properly</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="205" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="205" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a16bb5f4cf84629754f57bf7e20128410" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, Config_Defaults_Sensible)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>Config_Defaults_Sensible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: A default Config struct WHEN: <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> is constructed THEN: All config defaults should be sensible for production</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="223" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="223" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a11067cceffe7b839f8b6c727fb93b055" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, ParserServiceDisable_ExplicitNull)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>ParserServiceDisable_ExplicitNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: An <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> with a parser service WHEN: setParserService(nullptr) is called THEN: Parser validation should be disabled (fallback to string-level)</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="246" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="246" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1aql_1_1test_1a807bad504080418a884900973e046a8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::TEST_F</definition>
+        <argsstring>(Phase03LLMAQLHandlerTests, MultipleHandlers_IndependentConfigs)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::aql::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1test_1_1_phase03_l_l_m_a_q_l_handler_tests" kindref="compound">Phase03LLMAQLHandlerTests</ref></type>
+        </param>
+        <param>
+          <type>MultipleHandlers_IndependentConfigs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>GIVEN: Multiple <ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> instances with different configs WHEN: Each is configured independently THEN: Their configs should not interfere with each other</para>
+        </inbodydescription>
+        <location file="tests/aql/test_llm_aql_handler_phase03.cpp" line="269" column="1" bodyfile="tests/aql/test_llm_aql_handler_phase03.cpp" bodystart="269" bodyend="293"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="29" column="28"/>
+  </compounddef>
+</doxygen>

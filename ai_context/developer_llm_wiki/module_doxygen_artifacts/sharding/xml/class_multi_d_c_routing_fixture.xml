@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_multi_d_c_routing_fixture" kind="class" language="C++" prot="public">
+    <compoundname>MultiDCRoutingFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_multi_d_c_routing_fixture_1a2c3766d030d7c9e7d8d2ad4d0337c056" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MultiDCRoutingFixture::num_dcs_</definition>
+        <argsstring></argsstring>
+        <name>num_dcs_</name>
+        <qualifiedname>MultiDCRoutingFixture::num_dcs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1457" column="9" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_d_c_routing_fixture_1a80b28395f259e18b50faec1077d5918e" prot="protected" static="no" mutable="no">
+        <type>int</type>
+        <definition>int MultiDCRoutingFixture::shards_per_dc_</definition>
+        <argsstring></argsstring>
+        <name>shards_per_dc_</name>
+        <qualifiedname>MultiDCRoutingFixture::shards_per_dc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1458" column="9" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_d_c_routing_fixture_1aa607af013bd27cda794095edb7e205f7" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string MultiDCRoutingFixture::local_dc_</definition>
+        <argsstring></argsstring>
+        <name>local_dc_</name>
+        <qualifiedname>MultiDCRoutingFixture::local_dc_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1459" column="17" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1459" bodyend="1459"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_d_c_routing_fixture_1a81bff722de8a9f83acbfed99a2119455" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsistentHashRing&gt; MultiDCRoutingFixture::hash_ring_</definition>
+        <argsstring></argsstring>
+        <name>hash_ring_</name>
+        <qualifiedname>MultiDCRoutingFixture::hash_ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1460" column="21" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1460" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_d_c_routing_fixture_1af474963d0a28db4d411360e4022eb295" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; MultiDCRoutingFixture::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>MultiDCRoutingFixture::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1461" column="21" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1461" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_multi_d_c_routing_fixture_1a579fc92a65453dfc4f338bf5c2e771c9" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_u_r_n" kindref="compound">URN</ref> &gt;</type>
+        <definition>std::vector&lt;URN&gt; MultiDCRoutingFixture::test_urns_</definition>
+        <argsstring></argsstring>
+        <name>test_urns_</name>
+        <qualifiedname>MultiDCRoutingFixture::test_urns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1462" column="17" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1462" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_multi_d_c_routing_fixture_1a419063700afd2841a5eeff24a1767f76" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiDCRoutingFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MultiDCRoutingFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1413" column="10" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1413" bodyend="1448"/>
+      </memberdef>
+      <memberdef kind="function" id="class_multi_d_c_routing_fixture_1a8bdc4b5c534b3d276f306f23b7297b47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MultiDCRoutingFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>MultiDCRoutingFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1450" column="10" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1450" bodyend="1454"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MultiDCRoutingFixture</label>
+        <link refid="class_multi_d_c_routing_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MultiDCRoutingFixture</label>
+        <link refid="class_multi_d_c_routing_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/sharding/bench_sharding_performance.cpp" line="1411" column="1" bodyfile="benchmarks/sharding/bench_sharding_performance.cpp" bodystart="1411" bodyend="1463"/>
+    <listofallmembers>
+      <member refid="class_multi_d_c_routing_fixture_1a81bff722de8a9f83acbfed99a2119455" prot="protected" virt="non-virtual"><scope>MultiDCRoutingFixture</scope><name>hash_ring_</name></member>
+      <member refid="class_multi_d_c_routing_fixture_1aa607af013bd27cda794095edb7e205f7" prot="protected" virt="non-virtual"><scope>MultiDCRoutingFixture</scope><name>local_dc_</name></member>
+      <member refid="class_multi_d_c_routing_fixture_1a2c3766d030d7c9e7d8d2ad4d0337c056" prot="protected" virt="non-virtual"><scope>MultiDCRoutingFixture</scope><name>num_dcs_</name></member>
+      <member refid="class_multi_d_c_routing_fixture_1a419063700afd2841a5eeff24a1767f76" prot="public" virt="non-virtual"><scope>MultiDCRoutingFixture</scope><name>SetUp</name></member>
+      <member refid="class_multi_d_c_routing_fixture_1a80b28395f259e18b50faec1077d5918e" prot="protected" virt="non-virtual"><scope>MultiDCRoutingFixture</scope><name>shards_per_dc_</name></member>
+      <member refid="class_multi_d_c_routing_fixture_1a8bdc4b5c534b3d276f306f23b7297b47" prot="public" virt="non-virtual"><scope>MultiDCRoutingFixture</scope><name>TearDown</name></member>
+      <member refid="class_multi_d_c_routing_fixture_1a579fc92a65453dfc4f338bf5c2e771c9" prot="protected" virt="non-virtual"><scope>MultiDCRoutingFixture</scope><name>test_urns_</name></member>
+      <member refid="class_multi_d_c_routing_fixture_1af474963d0a28db4d411360e4022eb295" prot="protected" virt="non-virtual"><scope>MultiDCRoutingFixture</scope><name>topology_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

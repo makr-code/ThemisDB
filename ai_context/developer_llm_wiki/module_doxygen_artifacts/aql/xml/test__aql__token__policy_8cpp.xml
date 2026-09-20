@@ -1,0 +1,363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__token__policy_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_token_policy.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">sstream</includes>
+    <includes refid="aql__error__types_8h" local="yes">aql/aql_error_types.h</includes>
+    <incdepgraph>
+      <node id="8">
+        <label>aql/aql_error_types.h</label>
+        <link refid="aql__error__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_token_policy.cpp</label>
+        <link refid="test__aql__token__policy_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>ctime</label>
+      </node>
+      <node id="5">
+        <label>deque</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="11">
+        <label>iomanip</label>
+      </node>
+      <node id="6">
+        <label>numeric</label>
+      </node>
+      <node id="7">
+        <label>sstream</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_policy_turn" prot="public">themis::aql::testing::PolicyTurn</innerclass>
+    <innerclass refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" prot="public">themis::aql::testing::TokenPolicyEngine</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" prot="public">themis::aql::testing::TokenPolicyEngine::Config</innerclass>
+    <innerclass refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_add_result" prot="public">themis::aql::testing::TokenPolicyEngine::AddResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql">themis::aql</innernamespace>
+    <innernamespace refid="namespacethemis_1_1aql_1_1testing">themis::aql::testing</innernamespace>
+    <briefdescription>
+<para>Phase 5 Unit Tests — Token Budget Policy Enforcement. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests token budget policy behavior across boundary conditions:<itemizedlist>
+<listitem><para>Exact budget exhaustion at boundary</para>
+</listitem><listitem><para>Single turn exceeding the budget</para>
+</listitem><listitem><para>History truncation (oldest-first eviction)</para>
+</listitem><listitem><para>Max turns limit enforcement</para>
+</listitem><listitem><para>Token counting accuracy</para>
+</listitem><listitem><para>Policy behavior at numeric boundaries</para>
+</listitem></itemizedlist>
+</para>
+<para>All tests are self-contained. No real AQL handler required. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__error__types_8h" kindref="compound">aql/aql_error_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql_1_1testing" kindref="compound">testing</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Token<sp/>Policy<sp/>Engine<sp/>Mock</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1aql_1_1testing_1_1_policy_turn" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1testing_1_1_policy_turn" kindref="compound">PolicyTurn</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_policy_turn_1a98c78480134313ee85b1369d6f7f6400" kindref="member">nl_query</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_policy_turn_1ac579de8456c87fed1f72f5475b49522b" kindref="member">aql_result</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_policy_turn_1a91c6331dbf48bf7b2412ef248096f7d2" kindref="member">token_count</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine_1a14e396c2b0dc99eab576ab640091155b" kindref="member">TokenPolicyEngine</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref><sp/>=<sp/>4096;<sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1aa6cf94fe3159b219b56efee265a28e08" kindref="member">max_turns</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>20;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a559dd4e2eb70b71c1f773605c1ccb44d" kindref="member">tokensFor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(s.size()<sp/>/<sp/>4)<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_add_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_add_result" kindref="compound">AddResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_add_result_1ade5ac24dacb63eaaa73d953b3717ed05" kindref="member">success</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_add_result_1af492caa915958e66666f74a29357053e" kindref="member">budget_truncated</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_add_result_1a2e3b057dfe12542295a0ed0931493784" kindref="member">turns_truncated</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_add_result_1adce5bcaaf8f7be6ccae1b36935272fcb" kindref="member">evicted_turns</ref>;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_add_result_1a0f379ba98cd2dc33171804854606b6b1" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine_1a14e396c2b0dc99eab576ab640091155b" kindref="member">TokenPolicyEngine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg<sp/>=<sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">Config</ref>{})<sp/>:<sp/>cfg_(cfg),<sp/>current_tokens_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>AddResult<sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine_1ae515ce0a83bd7c1a84ce5b3ff76871b9" kindref="member">addTurn</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>nl,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>cost<sp/>=<sp/>cfg_.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a559dd4e2eb70b71c1f773605c1ccb44d" kindref="member">tokensFor</ref>(nl)<sp/>+<sp/>cfg_.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a559dd4e2eb70b71c1f773605c1ccb44d" kindref="member">tokensFor</ref>(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>evicted<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>budget_trunc<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>turns_trunc<sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enforce<sp/>max_turns<sp/>limit<sp/>(evict<sp/>oldest<sp/>first)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(history_.size()<sp/>&gt;=<sp/>cfg_.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1aa6cf94fe3159b219b56efee265a28e08" kindref="member">max_turns</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_tokens_<sp/>-=<sp/>history_.front().token_count;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>history_.pop_front();</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++evicted;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>turns_trunc<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enforce<sp/>token<sp/>budget<sp/>(evict<sp/>oldest<sp/>first)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!history_.empty()<sp/>&amp;&amp;<sp/>current_tokens_<sp/>+<sp/>cost<sp/>&gt;<sp/>cfg_.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_tokens_<sp/>-=<sp/>history_.front().token_count;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>history_.pop_front();</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++evicted;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>budget_trunc<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Single<sp/>turn<sp/>exceeds<sp/>budget<sp/>even<sp/>with<sp/>empty<sp/>history</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(cost<sp/>&gt;<sp/>cfg_.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AQLErrorContext<sp/>ctx(</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bridge&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1_1_bridge_error_1a41b49e48122b9b143a9c31c0196a4162" kindref="member">BridgeError::ContextBoundExceeded</ref>,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;token_policy_engine&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;[BRIDGE:ContextBoundExceeded]<sp/>Single<sp/>turn<sp/>(&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(cost)<sp/>+</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>tokens)<sp/>exceeds<sp/>total<sp/>budget<sp/>(&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(cfg_.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref>)<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>tokens)&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.setRecoverable(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/>evicted,<sp/>ctx.getMessage()};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>history_.push_back({nl,<sp/>aql,<sp/>cost});</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_tokens_<sp/>+=<sp/>cost;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/>budget_trunc,<sp/>turns_trunc,<sp/>evicted,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine_1ab3e58685d634bb85a6ca485c1736eff8" kindref="member">currentTokens</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_tokens_;<sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine_1a10d2b47f187c45533e57326d2eed565f" kindref="member">turnCount</ref>()</highlight><highlight class="keyword"><sp/><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>history_.size();<sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine_1a58b8c1d4b3b1c31b2ba86f540c1e4dc9" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/><sp/><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine_1a0c1e927fb1ed312b67555eb20bfb163c" kindref="member">sumTokenCounts</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>history_)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>t.token_count;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sum;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;PolicyTurn&gt;<sp/>history_;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_tokens_;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1_1testing_1a196203e034492bb4ce82d7f8fd5a0a14" kindref="member">TEST</ref>(TokenPolicy,<sp/>BudgetExactlyExhaustedBoundaryCondition)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">TokenPolicyEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_turns<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" kindref="compound">TokenPolicyEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Turn<sp/>that<sp/>exactly<sp/>fills<sp/>budget:<sp/>96<sp/>chars<sp/>÷<sp/>4<sp/>=<sp/>24<sp/>tokens<sp/>each,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>plus<sp/>1<sp/>overhead<sp/>each<sp/>→<sp/>26<sp/>tokens<sp/>total<sp/>(within<sp/>100)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>nl(96,<sp/></highlight><highlight class="charliteral">&apos;q&apos;</highlight><highlight class="normal">);<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>96<sp/>chars<sp/>→<sp/>25<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>aql(96,<sp/></highlight><highlight class="charliteral">&apos;x&apos;</highlight><highlight class="normal">);<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>96<sp/>chars<sp/>→<sp/>25<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cost<sp/>=<sp/>25<sp/>+<sp/>25<sp/>=<sp/>50<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r1<sp/>=<sp/>engine.addTurn(nl,<sp/>aql);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r1.success);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r1.budget_truncated);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r1.evicted_turns,<sp/>0u);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>second<sp/>identical<sp/>turn<sp/>should<sp/>evict<sp/>the<sp/>first<sp/>to<sp/>fit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r2<sp/>=<sp/>engine.addTurn(nl,<sp/>aql);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r2.success);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(engine.currentTokens(),<sp/>cfg.max_budget_tokens);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1_1testing_1a196203e034492bb4ce82d7f8fd5a0a14" kindref="member">TEST</ref>(TokenPolicy,<sp/>SingleTurnExceedingBudgetErrors)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">TokenPolicyEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref><sp/>=<sp/>10;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>small<sp/>budget</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_turns<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" kindref="compound">TokenPolicyEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>turn<sp/>that<sp/>is<sp/>definitely<sp/>too<sp/>large<sp/>(400<sp/>chars<sp/>/<sp/>4<sp/>=<sp/>100<sp/>tokens<sp/>&gt;<sp/>10)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>huge_nl(400,<sp/></highlight><highlight class="charliteral">&apos;n&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>huge_aql(400,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine.addTurn(huge_nl,<sp/>huge_aql);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.success);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.error_message.empty());</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.error_message.find(</highlight><highlight class="stringliteral">&quot;ContextBoundExceeded&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos<sp/>||</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.error_message.find(</highlight><highlight class="stringliteral">&quot;exceeds&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>History<sp/>should<sp/>remain<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.turnCount(),<sp/>std::size_t(0));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.currentTokens(),<sp/>0u);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1_1testing_1a196203e034492bb4ce82d7f8fd5a0a14" kindref="member">TEST</ref>(TokenPolicy,<sp/>HistoryTruncatedOldestFirst)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">TokenPolicyEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref><sp/>=<sp/>30;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>turn<sp/>~5<sp/>tokens<sp/>→<sp/>about<sp/>6<sp/>turns<sp/>fit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_turns<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" kindref="compound">TokenPolicyEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>turns<sp/>that<sp/>each<sp/>cost<sp/>about<sp/>5<sp/>tokens<sp/>(16<sp/>chars<sp/>/<sp/>4<sp/>+<sp/>1<sp/>=<sp/>5)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>nls<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;query_one&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;query_two&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;query_three&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;query_four&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;query_five&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;query_six&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;query_seven&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>nl<sp/>:<sp/>nls)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine.addTurn(nl,<sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>adding<sp/>7<sp/>turns<sp/>into<sp/>a<sp/>~30-token<sp/>budget,<sp/>token<sp/>count<sp/>must<sp/>be<sp/>within<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(engine.currentTokens(),<sp/>cfg.max_budget_tokens);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>all<sp/>7<sp/>turns<sp/>should<sp/>remain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(engine.turnCount(),<sp/>nls.size());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consistency:<sp/>sumTokenCounts()<sp/>must<sp/>equal<sp/>currentTokens()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.sumTokenCounts(),<sp/>engine.currentTokens());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1_1testing_1a196203e034492bb4ce82d7f8fd5a0a14" kindref="member">TEST</ref>(TokenPolicy,<sp/>MaxTurnsLimitEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">TokenPolicyEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref><sp/>=<sp/>100000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>budget<sp/>is<sp/>not<sp/>limiting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_turns<sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Strict<sp/>turn<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" kindref="compound">TokenPolicyEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>6;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine.addTurn(</highlight><highlight class="stringliteral">&quot;q&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.success);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Never<sp/>exceeds<sp/>max_turns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.turnCount(),<sp/>std::size_t(3));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1_1testing_1a196203e034492bb4ce82d7f8fd5a0a14" kindref="member">TEST</ref>(TokenPolicy,<sp/>TokenCountingAccuracy)<sp/>{</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">TokenPolicyEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.max_turns<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" kindref="compound">TokenPolicyEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>turns<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;hello<sp/>world&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{std::string(100,<sp/></highlight><highlight class="charliteral">&apos;n&apos;</highlight><highlight class="normal">),<sp/>std::string(200,<sp/></highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">)},</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;short&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RETURN<sp/>42&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[nl,<sp/>aql]<sp/>:<sp/>turns)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine.addTurn(nl,<sp/>aql);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Token<sp/>accounting<sp/>must<sp/>be<sp/>perfectly<sp/>consistent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.currentTokens(),<sp/>engine.sumTokenCounts());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(engine.currentTokens(),<sp/>cfg.max_budget_tokens);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1_1testing_1a196203e034492bb4ce82d7f8fd5a0a14" kindref="member">TEST</ref>(TokenPolicy,<sp/>PolicyBehaviorAtBoundary)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>with<sp/>budget<sp/>=<sp/>1<sp/>(extremely<sp/>tight)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">TokenPolicyEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_turns<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" kindref="compound">TokenPolicyEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Any<sp/>non-empty<sp/>turn<sp/>has<sp/>cost<sp/>&gt;=<sp/>2<sp/>tokens<sp/>(1<sp/>+<sp/>1<sp/>overhead<sp/>each),<sp/>so<sp/>it<sp/>should<sp/>fail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine.addTurn(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cost<sp/>=<sp/>(1/4+1)<sp/>+<sp/>(1/4+1)<sp/>=<sp/>1+1<sp/>=<sp/>2<sp/>&gt;<sp/>1<sp/>→<sp/>rejected</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.success);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.turnCount(),<sp/>std::size_t(0));</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>empty<sp/>string<sp/>turns<sp/>(minimum<sp/>cost<sp/>turns)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config" kindref="compound">TokenPolicyEngine::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1testing_1_1_token_policy_engine_1_1_config_1a152a98e9575bc1b69becb308831046af" kindref="member">max_budget_tokens</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.max_turns<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1testing_1_1_token_policy_engine" kindref="compound">TokenPolicyEngine</ref><sp/>engine(cfg);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>strings:<sp/>cost<sp/>=<sp/>(0/4+1)<sp/>+<sp/>(0/4+1)<sp/>=<sp/>2<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>engine.addTurn(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.success);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.currentTokens(),<sp/>2u);<sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>+<sp/>1<sp/>=<sp/>2<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(engine.sumTokenCounts(),<sp/>engine.currentTokens());</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AQLErrorContext<sp/>formatting<sp/>at<sp/>boundary<sp/>conditions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AQLErrorContext<sp/>ctx(</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;bridge&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1aql_1_1_bridge_error_1a41b49e48122b9b143a9c31c0196a4162" kindref="member">BridgeError::ContextBoundExceeded</ref>,</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;token_policy&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;[BRIDGE:ContextBoundExceeded]<sp/>Budget=1<sp/>Cost=2:<sp/>single<sp/>turn<sp/>rejected&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.setRecoverable(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.addDiagnosticHint(</highlight><highlight class="stringliteral">&quot;Increase<sp/>token<sp/>budget<sp/>or<sp/>reduce<sp/>query<sp/>length&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>log<sp/>=<sp/>ctx.formatForLogging();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.find(</highlight><highlight class="stringliteral">&quot;ContextBoundExceeded&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.find(</highlight><highlight class="stringliteral">&quot;Recoverable=no&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(log.find(</highlight><highlight class="stringliteral">&quot;Budget=1&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>aql</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_token_policy.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dspy__module_8h" kind="file" language="C++">
+    <compoundname>dspy_module.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includedby refid="dspy__module_8cpp" local="yes">src/prompt_engineering/dspy_module.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/dspy_module.h</label>
+        <link refid="dspy__module_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/dspy_module.h</label>
+        <link refid="dspy__module_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/prompt_engineering/dspy_module.cpp</label>
+        <link refid="dspy__module_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_dspy_field" prot="public">themis::prompt_engineering::DspyField</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" prot="public">themis::prompt_engineering::DspySignature</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" prot="public">themis::prompt_engineering::IDspyLLMProvider</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider" prot="public">themis::prompt_engineering::EchoDspyLLMProvider</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_module" prot="public">themis::prompt_engineering::DspyModule</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_predict" prot="public">themis::prompt_engineering::DspyPredict</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought" prot="public">themis::prompt_engineering::DspyChainOfThought</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error" prot="public">themis::prompt_engineering::DspyMissingFieldError</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Field<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8" kindref="member">DspyFieldType</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a53f93baa3057821107c750323892fa92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a53f93baa3057821107c750323892fa92" kindref="member">INT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8ae738c26bf4ce1037fa81b039a915cbf6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8ae738c26bf4ce1037fa81b039a915cbf6" kindref="member">FLOAT</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8aa97b2c144243b2b9d2c593ec268b62f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8aa97b2c144243b2b9d2c593ec268b62f5" kindref="member">BOOL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a298cb25408234de02baf2085803a464a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a298cb25408234de02baf2085803a464a" kindref="member">LIST</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a0ecd11c1d7a287401d148a23bbd7a2f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">JSON</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Field<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1prompt__engineering_1_1_dspy_field" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a9baf863c1b3349a0ad4986adbd6162f8" kindref="member">DspyField</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a8e555a837da155210861e420d50774bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a8e555a837da155210861e420d50774bb" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1ad047fb5772b283f88ed04b0628f0b505" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1ad047fb5772b283f88ed04b0628f0b505" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a3065eccda9e44c18f101bcbdda8b2fff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8" kindref="member">DspyFieldType</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a3065eccda9e44c18f101bcbdda8b2fff" kindref="member">type</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" kindref="member">DspyFieldType::STRING</ref>;<sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a58dbe05bf088121f1d7727b89256cbbd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a58dbe05bf088121f1d7727b89256cbbd" kindref="member">required</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1ad05288fe256f45bf1b14e1ff4b5c4a2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1ad05288fe256f45bf1b14e1ff4b5c4a2e" kindref="member">default_value</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field_1a9baf863c1b3349a0ad4986adbd6162f8" kindref="member">DspyField</ref>(std::string<sp/>nm,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>desc,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8" kindref="member">DspyFieldType</ref><sp/>t<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" kindref="member">DspyFieldType::STRING</ref>,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>req<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>def_val<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Signature</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" kindref="member">DspySignature</ref><sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" kindref="member">DspySignature</ref>(std::string<sp/>name,<sp/>std::string<sp/>description<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" kindref="member">DspySignature</ref>&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1aae9a455dcdcffb6e797e81adb20ae459" kindref="member">addInput</ref>(<ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field" kindref="compound">DspyField</ref><sp/>field);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a5cc8efcd9634496068861e3c99019261" kindref="member">DspySignature</ref>&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1aed82834455e7787ab07da0fa4e9fcf65" kindref="member">addOutput</ref>(<ref refid="structthemis_1_1prompt__engineering_1_1_dspy_field" kindref="compound">DspyField</ref><sp/>field);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a7593b23ef1690458b58ddc5733809802" kindref="member">getName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a18e8efccf806a7112148369989aba99a" kindref="member">getDescription</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DspyField&gt;&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a4e52ee7f00c3db701297c8c30de07898" kindref="member">inputs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;DspyField&gt;&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1ac56b258cc0ed5d6fb94fc3ad9195b2f5" kindref="member">outputs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a1c5985134e6a39b4c86914351c26a5bc" kindref="member">buildPrompt</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature_1a2ab15b85f8b5e8cf1ee6e8334c09bfd9" kindref="member">parseResponse</ref>(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>response)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name_;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>description_;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DspyField&gt;<sp/>inputs_;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;DspyField&gt;<sp/>outputs_;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLM<sp/>provider<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" kindref="compound">IDspyLLMProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider_1a3f87e7afba95bd6eab52058060744a62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider_1a3f87e7afba95bd6eab52058060744a62" kindref="member">~IDspyLLMProvider</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider_1a7be7493e1419fb6a7966e1d44c02804c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider_1a7be7493e1419fb6a7966e1d44c02804c" kindref="member">complete</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Built-in<sp/>echo<sp/>provider<sp/>(for<sp/>unit<sp/>tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider" kindref="compound">EchoDspyLLMProvider</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_dspy_l_l_m_provider" kindref="compound">IDspyLLMProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_echo_dspy_l_l_m_provider_1a4959b1716fbede21459ef3f16d57a03b" kindref="member">complete</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Module<sp/>base<sp/>class</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1prompt__engineering_1_1_dspy_module" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae2ecb1be85ed79d84fbd71f706f9d313" kindref="member">DspyModule</ref><sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae2ecb1be85ed79d84fbd71f706f9d313" kindref="member">DspyModule</ref>(<ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref><sp/>signature);</highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a842faebdf6d5f9bf1e301b62a5687f6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a842faebdf6d5f9bf1e301b62a5687f6f" kindref="member">~DspyModule</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae2ecb1be85ed79d84fbd71f706f9d313" kindref="member">DspyModule</ref>&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ac2714ba8b1850c11ce15eaf7ddb1ecbc" kindref="member">setLLMProvider</ref>(std::shared_ptr&lt;IDspyLLMProvider&gt;<sp/>provider);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref>&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ad3f8e5e70b372a055fa081b8c05fd568" kindref="member">getSignature</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a56e42fe6bab1c4b145bda5615bf9be50" kindref="member">forward</ref>(</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="221" refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a30ce3e4c5ecdfcb8b68859aaf4c259a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a30ce3e4c5ecdfcb8b68859aaf4c259a4" kindref="member">signature_</ref>;</highlight></codeline>
+<codeline lineno="222" refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae9b129f89ac5cd0ae3c2128849e7ffc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IDspyLLMProvider&gt;<sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae9b129f89ac5cd0ae3c2128849e7ffc5" kindref="member">llm_provider_</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Predict<sp/>module<sp/>(basic<sp/>zero-shot<sp/>prediction)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="classthemis_1_1prompt__engineering_1_1_dspy_predict" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_predict" kindref="compound">DspyPredict</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_predict_1ae2ecb1be85ed79d84fbd71f706f9d313" kindref="member">DspyModule</ref><sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae2ecb1be85ed79d84fbd71f706f9d313" kindref="member">DspyModule::DspyModule</ref>;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ChainOfThought<sp/>module<sp/>(adds<sp/>CoT<sp/>reasoning<sp/>step)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought_1a65b6c479187c5cf1fa0766541820183a" kindref="member">DspyChainOfThought</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae2ecb1be85ed79d84fbd71f706f9d313" kindref="member">DspyModule</ref><sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought_1a65b6c479187c5cf1fa0766541820183a" kindref="member">DspyChainOfThought</ref>(<ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref><sp/>signature);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_chain_of_thought_1af9c9135a2deb7df7bdc879c54fdca833" kindref="member">forward</ref>(</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>context)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a17e2c86c698ff6346345245db823a7d0" kindref="member">DspyMissingFieldError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::invalid_argument<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a17e2c86c698ff6346345245db823a7d0" kindref="member">DspyMissingFieldError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field_name);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a609fab1295a7337ba6b4c11057bed061" kindref="member">fieldName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>field_name_;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/dspy_module.h"/>
+  </compounddef>
+</doxygen>

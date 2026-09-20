@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::GPUMemoryManager::Config</compoundname>
+    <includes refid="gpu__memory__manager_8h" local="no">gpu_memory_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1abaec0a02ac926cd0c7998c8e896192a5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Config::max_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_vram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::max_vram_bytes</qualifiedname>
+        <initializer>= 24ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="51" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a87aa69cce0d1da1e8d9e4fccd83b7bba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Config::max_ram_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_ram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::max_ram_bytes</qualifiedname>
+        <initializer>= 64ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="52" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a8a3f8641a43b416a1f4182ef2f2d3a7c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::GPUMemoryManager::Config::min_free_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>min_free_vram_bytes</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::min_free_vram_bytes</qualifiedname>
+        <initializer>= 2ULL * 1024 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="53" column="16" bodyfile="include/llm/gpu_memory_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1aaca05e439240cd07101161dd5fed0f54" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::Config::enable_memory_pooling</definition>
+        <argsstring></argsstring>
+        <name>enable_memory_pooling</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::enable_memory_pooling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="54" column="14" bodyfile="include/llm/gpu_memory_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a24a452513f292551034c49413ad0e5d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::Config::enable_defragmentation</definition>
+        <argsstring></argsstring>
+        <name>enable_defragmentation</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::enable_defragmentation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="55" column="14" bodyfile="include/llm/gpu_memory_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1af5e0f58b695b38aa5de7803b4fbaa16a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::Config::enable_multi_gpu</definition>
+        <argsstring></argsstring>
+        <name>enable_multi_gpu</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::enable_multi_gpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="58" column="14" bodyfile="include/llm/gpu_memory_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1afdadc123ccc907fe9d36cf0cd1996e70" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::llm::GPUMemoryManager::Config::gpu_devices</definition>
+        <argsstring></argsstring>
+        <name>gpu_devices</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::gpu_devices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="59" column="21" bodyfile="include/llm/gpu_memory_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a004ca4ade8c5c481ed65bbb52bce9493" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::GPUMemoryManager::Config::enable_peer_access</definition>
+        <argsstring></argsstring>
+        <name>enable_peer_access</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::enable_peer_access</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="60" column="14" bodyfile="include/llm/gpu_memory_manager.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a362a0192df97ea7319c60c357ced2689" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager_1a387c2494da193743a44c857d4b378d47" kindref="member">GPUTemperatureProviderFn</ref></type>
+        <definition>GPUTemperatureProviderFn themis::llm::GPUMemoryManager::Config::temperature_provider_fn</definition>
+        <argsstring></argsstring>
+        <name>temperature_provider_fn</name>
+        <qualifiedname>themis::llm::GPUMemoryManager::Config::temperature_provider_fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gpu_memory_manager.h" line="61" column="34" bodyfile="include/llm/gpu_memory_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gpu_memory_manager.h" line="50" column="5" bodyfile="include/llm/gpu_memory_manager.h" bodystart="50" bodyend="62"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a24a452513f292551034c49413ad0e5d7" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>enable_defragmentation</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1aaca05e439240cd07101161dd5fed0f54" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>enable_memory_pooling</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1af5e0f58b695b38aa5de7803b4fbaa16a" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>enable_multi_gpu</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a004ca4ade8c5c481ed65bbb52bce9493" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>enable_peer_access</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1afdadc123ccc907fe9d36cf0cd1996e70" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>gpu_devices</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a87aa69cce0d1da1e8d9e4fccd83b7bba" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>max_ram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1abaec0a02ac926cd0c7998c8e896192a5" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>max_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a8a3f8641a43b416a1f4182ef2f2d3a7c" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>min_free_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_g_p_u_memory_manager_1_1_config_1a362a0192df97ea7319c60c357ced2689" prot="public" virt="non-virtual"><scope>themis::llm::GPUMemoryManager::Config</scope><name>temperature_provider_fn</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

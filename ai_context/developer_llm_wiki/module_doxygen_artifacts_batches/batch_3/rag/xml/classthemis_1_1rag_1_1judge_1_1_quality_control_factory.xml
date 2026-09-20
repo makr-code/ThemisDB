@@ -1,0 +1,290 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_quality_control_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityControlFactory</compoundname>
+    <includes refid="quality__control__factory_8h" local="no">quality_control_factory.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" prot="public">themis::rag::judge::QualityControlFactory::SetupConfig</innerclass>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1ab4c4d0b16cc54c9dc6443a43cf27e081" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kindref="compound">QualityControlPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QualityControlPipeline &gt; themis::rag::judge::QualityControlFactory::createBasic</definition>
+        <argsstring>(QCMode mode=QCMode::BALANCED)</argsstring>
+        <name>createBasic</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::createBasic</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7" kindref="member">QCMode</ref></type>
+          <declname>mode</declname>
+          <defval><ref refid="namespacethemis_1_1rag_1_1judge_1a6e516ee8f411771fd663aae5c6cb1ac7a0cb4635d100151dcaac6f91db856c402" kindref="member">QCMode::BALANCED</ref></defval>
+        </param>
+        <briefdescription>
+<para>Create a basic quality control pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory" kindref="compound">QualityControlFactory</ref> Implementation ═══════════════════════════════════════════════════════════</para>
+<para>Uses heuristic fallbacks for all components. Good for testing and development without requiring model files.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Default evaluation mode </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Configured quality control pipeline</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makePipelineConfigForMode(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="70" column="28" bodyfile="src/rag/quality_control_factory.cpp" bodystart="55" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3615034a6a6beabb035c3e7cea305462" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kindref="compound">QualityControlPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QualityControlPipeline &gt; themis::rag::judge::QualityControlFactory::createProduction</definition>
+        <argsstring>(const SetupConfig &amp;config)</argsstring>
+        <name>createProduction</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::createProduction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" kindref="compound">SetupConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defname>setup_config</defname>
+        </param>
+        <briefdescription>
+<para>Create a production quality control pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Production.</para>
+<para>Fully configured with real models and inference engines. Requires model paths and inference engine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Setup configuration with model paths </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Configured quality control pipeline</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">setup_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3b25f494c90557b58919fbe30bd95507" kindref="member">createNLIVerifier()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1aa27b169cd67b2f5536a6049c5d52a15b" kindref="member">createGEvalEvaluator()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3c70d7ea6ef95dd3b35df87f2f2b21b0" kindref="member">createLLMJudgeClient()</ref>, THEMIS_WARN(), makePipelineConfigForMode(), setNLIVerifier(), setGEvalEvaluator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="83" column="28" bodyfile="src/rag/quality_control_factory.cpp" bodystart="69" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1ad6439a676f04aaac4932c300678e0570" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kindref="compound">QualityControlPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QualityControlPipeline &gt; themis::rag::judge::QualityControlFactory::createLightweight</definition>
+        <argsstring>()</argsstring>
+        <name>createLightweight</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::createLightweight</qualifiedname>
+        <briefdescription>
+<para>Create a lightweight pipeline for real-time use. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Lightweight.</para>
+<para>Fast mode only, minimal features, optimized for latency.</para>
+<para><simplesect kind="return"><para>Fast-mode quality control pipeline</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), makePipelineConfigForMode(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="94" column="28" bodyfile="src/rag/quality_control_factory.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a5acf0dc47498ad64d054a128e279c13e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_pipeline" kindref="compound">QualityControlPipeline</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QualityControlPipeline &gt; themis::rag::judge::QualityControlFactory::createComprehensive</definition>
+        <argsstring>(const SetupConfig &amp;config)</argsstring>
+        <name>createComprehensive</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::createComprehensive</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" kindref="compound">SetupConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defname>setup_config</defname>
+        </param>
+        <briefdescription>
+<para>Create a comprehensive pipeline for batch processing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Comprehensive.</para>
+<para>Thorough mode, all features enabled, optimized for accuracy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Setup configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Thorough-mode quality control pipeline</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">setup_config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), <ref refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3615034a6a6beabb035c3e7cea305462" kindref="member">createProduction()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="104" column="28" bodyfile="src/rag/quality_control_factory.cpp" bodystart="131" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3b25f494c90557b58919fbe30bd95507" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_n_l_i_faithfulness_verifier" kindref="compound">NLIFaithfulnessVerifier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; NLIFaithfulnessVerifier &gt; themis::rag::judge::QualityControlFactory::createNLIVerifier</definition>
+        <argsstring>(const SetupConfig &amp;config)</argsstring>
+        <name>createNLIVerifier</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::createNLIVerifier</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_quality_control_factory_1_1_setup_config" kindref="compound">SetupConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create NLI verifier with automatic configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create NLIVerifier.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Setup configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Configured NLI verifier</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="114" column="28" bodyfile="src/rag/quality_control_factory.cpp" bodystart="151" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1aa27b169cd67b2f5536a6049c5d52a15b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_g_eval_evaluator" kindref="compound">GEvalEvaluator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; GEvalEvaluator &gt; themis::rag::judge::QualityControlFactory::createGEvalEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>createGEvalEvaluator</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::createGEvalEvaluator</qualifiedname>
+        <briefdescription>
+<para>Create G-Eval evaluator with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create GEval Evaluator.</para>
+<para><simplesect kind="return"><para>Configured G-Eval evaluator</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="123" column="28" bodyfile="src/rag/quality_control_factory.cpp" bodystart="173" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3c70d7ea6ef95dd3b35df87f2f2b21b0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1judge_1_1_l_l_m_judge_client" kindref="compound">LLMJudgeClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; LLMJudgeClient &gt; themis::rag::judge::QualityControlFactory::createLLMJudgeClient</definition>
+        <argsstring>(std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt; inference_engine)</argsstring>
+        <name>createLLMJudgeClient</name>
+        <qualifiedname>themis::rag::judge::QualityControlFactory::createLLMJudgeClient</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; llm::InferenceEngineEnhanced &gt;</type>
+          <declname>inference_engine</declname>
+        </param>
+        <briefdescription>
+<para>Create LLM Judge Client if inference engine available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create LLMJudge Client.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inference_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared inference engine </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Configured LLM Judge Client, or nullptr if engine not available</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inference_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_ERROR(), setInferenceEngine(), std::move(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_factory.h" line="131" column="28" bodyfile="src/rag/quality_control_factory.cpp" bodystart="191" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality Control Factory. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides convenience methods for creating fully-configured quality control pipelines with sensible defaults. </para>
+    </detaileddescription>
+    <location file="include/rag/quality_control_factory.h" line="30" column="1" bodyfile="include/rag/quality_control_factory.h" bodystart="30" bodyend="134"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1ab4c4d0b16cc54c9dc6443a43cf27e081" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory</scope><name>createBasic</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a5acf0dc47498ad64d054a128e279c13e" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory</scope><name>createComprehensive</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1aa27b169cd67b2f5536a6049c5d52a15b" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory</scope><name>createGEvalEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1ad6439a676f04aaac4932c300678e0570" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory</scope><name>createLightweight</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3c70d7ea6ef95dd3b35df87f2f2b21b0" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory</scope><name>createLLMJudgeClient</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3b25f494c90557b58919fbe30bd95507" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory</scope><name>createNLIVerifier</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_quality_control_factory_1a3615034a6a6beabb035c3e7cea305462" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlFactory</scope><name>createProduction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

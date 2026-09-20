@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="geo__backend__dispatch_8h" kind="file" language="C++">
+    <compoundname>geo_backend_dispatch.h</compoundname>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__geo__cuda__kernel__gating_8cpp" local="yes">benchmarks/geo/bench_geo_cuda_kernel_gating.cpp</includedby>
+    <includedby refid="geo__backend__dispatch_8cpp" local="yes">src/geo/geo_backend_dispatch.cpp</includedby>
+    <includedby refid="test__geo__cuda__kernel__gating__focused_8cpp" local="yes">tests/geo/test_geo_cuda_kernel_gating_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/geo/geo_backend_dispatch.h</label>
+        <link refid="geo__backend__dispatch_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cmath</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/geo/bench_geo_cuda_kernel_gating.cpp</label>
+        <link refid="bench__geo__cuda__kernel__gating_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/geo/geo_backend_dispatch.h</label>
+        <link refid="geo__backend__dispatch_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/geo/geo_backend_dispatch.cpp</label>
+        <link refid="geo__backend__dispatch_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/geo/test_geo_cuda_kernel_gating_focused.cpp</label>
+        <link refid="test__geo__cuda__kernel__gating__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1geo_1_1_geo_backend_dispatcher" prot="public">themis::geo::GeoBackendDispatcher</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" prot="public">themis::geo::GeoBackendDispatcher::Point</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" prot="public">themis::geo::GeoBackendDispatcher::Polygon</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result" prot="public">themis::geo::GeoBackendDispatcher::HaversineResult</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result" prot="public">themis::geo::GeoBackendDispatcher::VincentyResult</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result" prot="public">themis::geo::GeoBackendDispatcher::PointInPolygonResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Runtime GPU/CPU backend selection with device detection. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides GeoBackendDispatcher for seamless GPU/CPU dispatch selection. Supports compile-time feature gating (THEMIS_GEO_CUDA) and runtime GPU device detection with graceful CPU fallback.</para>
+<para>Performance targets (Gates A-06-01/02):<itemizedlist>
+<listitem><para>Haversine batch distance: p95/p99 ≤ 500ms (GPU), ≤ 50ms (CPU baseline)</para>
+</listitem><listitem><para>Point-in-polygon batch: p95/p99 ≤ 2ms (GPU), ≤ 0.5ms (CPU baseline) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22" refid="namespacethemis_1_1acceleration" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declare<sp/>for<sp/>dispatch<sp/>table<sp/>integration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">GeoKernelDispatch;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1geo_1_1_geo_backend_dispatcher" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_1a26f867b17904d673de3a5400bf02a96d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_1a26f867b17904d673de3a5400bf02a96d" kindref="member">lat_deg</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_1abad8bc0b5321f4f279c2e5a8705bf679" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_1abad8bc0b5321f4f279c2e5a8705bf679" kindref="member">lon_deg</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" kindref="compound">Polygon</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon_1a486fc75cb19c392609789098fb93bd37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Point&gt;<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon_1a486fc75cb19c392609789098fb93bd37" kindref="member">vertices</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result" kindref="compound">HaversineResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result_1a6085c8822082b8ea270c493b0887d008" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result_1a6085c8822082b8ea270c493b0887d008" kindref="member">distances_km</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result_1a70fd7000519ab83eacc7259d400dc7cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result_1a70fd7000519ab83eacc7259d400dc7cc" kindref="member">cpu_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result_1a3a052c8d3a8a506969a237cadf2b274a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result_1a3a052c8d3a8a506969a237cadf2b274a" kindref="member">error_code</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result" kindref="compound">VincentyResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result_1abe7d3c7d5a05ced9075e224f3f565a19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result_1abe7d3c7d5a05ced9075e224f3f565a19" kindref="member">distances_km</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result_1a41698c8fc5fc3ad6a1f8b99ec51b9be8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result_1a41698c8fc5fc3ad6a1f8b99ec51b9be8" kindref="member">cpu_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result_1af34f643b1af4f679cdaa5aaa4842f385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result_1af34f643b1af4f679cdaa5aaa4842f385" kindref="member">error_code</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result" kindref="compound">PointInPolygonResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result_1ad816da5d64d4dc7f1d7a493446b0b8ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result_1ad816da5d64d4dc7f1d7a493446b0b8ab" kindref="member">containment_mask</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result_1abb128c683beb4bde4c65d2d2085dad39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result_1abb128c683beb4bde4c65d2d2085dad39" kindref="member">cpu_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result_1a0a0de258f655c9087cd8a6df161f3512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result_1a0a0de258f655c9087cd8a6df161f3512" kindref="member">error_code</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a67abb9caf5917989ae46faff5362a36e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>(const<sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a7d6d2a3648963076041825f7e30d448a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>moving</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1afbf71b9ad63527c787e2a8a983ac7f3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>(<ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a5dc60f99b357aa10e0f248e6739d124b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1a321a86222eea52a98616bd795ae917a0" kindref="member">GeoBackendDispatcher</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1aba9fd2e73a771edbff249224acf8796d" kindref="member">isCudaAvailable</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_haversine_result" kindref="compound">HaversineResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ad9159b962bb72fe5cfc1393a959d4d02" kindref="member">computeHaversineBatch</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&gt;&amp;<sp/>points1,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&gt;&amp;<sp/>points2,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>earth_radius_km<sp/>=<sp/>6371.0)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_vincenty_result" kindref="compound">VincentyResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ae27d413cbc39d95071709a95e8060ae4" kindref="member">computeVincentyBatch</ref>(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&gt;&amp;<sp/>points1,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&gt;&amp;<sp/>points2)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point_in_polygon_result" kindref="compound">PointInPolygonResult</ref><sp/><ref refid="classthemis_1_1geo_1_1_geo_backend_dispatcher_1ae431a0b0c2fe952a6e315b2c20f9df2d" kindref="member">computePointInPolygonBatch</ref>(</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&gt;&amp;<sp/>test_points,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" kindref="compound">Polygon</ref>&gt;&amp;<sp/>polygons,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_test_points)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>detectCudaAvailability()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>shouldUseCuda(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CPU<sp/>fallback<sp/>implementations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>haversineDistance(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&amp;<sp/>p1,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&amp;<sp/>p2,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>earth_radius_km<sp/>=<sp/>6371.0)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>vincentyDistance(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&amp;<sp/>p1,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&amp;<sp/>p2)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>pointInPolygon(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_point" kindref="compound">Point</ref>&amp;<sp/>test_point,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1geo_1_1_geo_backend_dispatcher_1_1_polygon" kindref="compound">Polygon</ref>&amp;<sp/>polygon)<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cuda_available_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="namespacethemis" kindref="compound">themis</ref>::<ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref>::GeoKernelDispatch*<sp/>dispatch_table_;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>fallback_cpu_backend_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Opaque<sp/>pointer<sp/>to<sp/>CPU<sp/>backend<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/geo_backend_dispatch.h"/>
+  </compounddef>
+</doxygen>

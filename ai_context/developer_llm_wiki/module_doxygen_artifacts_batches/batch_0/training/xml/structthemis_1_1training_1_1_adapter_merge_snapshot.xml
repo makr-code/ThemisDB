@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_adapter_merge_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::AdapterMergeSnapshot</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_snapshot_1a7a61504f50d9e351848b087052d30331" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdapterMergeSnapshot::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::training::AdapterMergeSnapshot::adapter_id</qualifiedname>
+        <briefdescription>
+<para>Stable identifier for the adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="175" column="17" bodyfile="include/training/training_failsafe.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_snapshot_1ad70f7fe63b53282131b45def459599a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdapterMergeSnapshot::checkpoint_path</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_path</name>
+        <qualifiedname>themis::training::AdapterMergeSnapshot::checkpoint_path</qualifiedname>
+        <briefdescription>
+<para>Path to the last verified checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="176" column="17" bodyfile="include/training/training_failsafe.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_snapshot_1af744ef33027fa5427e093635687b6023" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::AdapterMergeSnapshot::adapter_version</definition>
+        <argsstring></argsstring>
+        <name>adapter_version</name>
+        <qualifiedname>themis::training::AdapterMergeSnapshot::adapter_version</qualifiedname>
+        <briefdescription>
+<para>Version tag at time of snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="177" column="17" bodyfile="include/training/training_failsafe.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_adapter_merge_snapshot_1a9c5a30be88a8716acd58ade7adf7909b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::AdapterMergeSnapshot::layer_count</definition>
+        <argsstring></argsstring>
+        <name>layer_count</name>
+        <qualifiedname>themis::training::AdapterMergeSnapshot::layer_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of layers in the adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="178" column="17" bodyfile="include/training/training_failsafe.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Snapshot of adapter state captured before a merge operation begins. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The snapshot is lightweight — it stores metadata only, not weight tensors. Recovery from a merge fault restores the adapter identity so the caller can reload from a verified checkpoint rather than using a partial result. </para>
+    </detaileddescription>
+    <location file="include/training/training_failsafe.h" line="174" column="1" bodyfile="include/training/training_failsafe.h" bodystart="174" bodyend="179"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_snapshot_1a7a61504f50d9e351848b087052d30331" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeSnapshot</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_snapshot_1af744ef33027fa5427e093635687b6023" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeSnapshot</scope><name>adapter_version</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_snapshot_1ad70f7fe63b53282131b45def459599a8" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeSnapshot</scope><name>checkpoint_path</name></member>
+      <member refid="structthemis_1_1training_1_1_adapter_merge_snapshot_1a9c5a30be88a8716acd58ade7adf7909b" prot="public" virt="non-virtual"><scope>themis::training::AdapterMergeSnapshot</scope><name>layer_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

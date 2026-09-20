@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::TOTPReplayCache::Config</compoundname>
+    <includes refid="totp__replay__cache_8h" local="no">totp_replay_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a7cff89987c1ee490e89464789a90167b" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::TOTPReplayCache::Config::retention_period</definition>
+        <argsstring></argsstring>
+        <name>retention_period</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::Config::retention_period</qualifiedname>
+        <initializer>{90}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="28" column="30" bodyfile="include/auth/totp_replay_cache.h" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a532e10d6c7e2344e89c94ed527b5006a" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::auth::TOTPReplayCache::Config::cleanup_interval</definition>
+        <argsstring></argsstring>
+        <name>cleanup_interval</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::Config::cleanup_interval</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="31" column="30" bodyfile="include/auth/totp_replay_cache.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a272601be5d40613847bd7463bb54a45a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::auth::TOTPReplayCache::Config::max_entries_per_user</definition>
+        <argsstring></argsstring>
+        <name>max_entries_per_user</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::Config::max_entries_per_user</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="34" column="16" bodyfile="include/auth/totp_replay_cache.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a5d2223a5056e24e8a7dc6d3773f1cc44" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::auth::TOTPReplayCache::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::Config::defaults</qualifiedname>
+        <briefdescription>
+<para>Defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements defaults without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="40" column="23" bodyfile="include/auth/totp_replay_cache.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/totp_replay_cache.h" line="26" column="5" bodyfile="include/auth/totp_replay_cache.h" bodystart="26" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a532e10d6c7e2344e89c94ed527b5006a" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::Config</scope><name>cleanup_interval</name></member>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a5d2223a5056e24e8a7dc6d3773f1cc44" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a272601be5d40613847bd7463bb54a45a" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::Config</scope><name>max_entries_per_user</name></member>
+      <member refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a7cff89987c1ee490e89464789a90167b" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache::Config</scope><name>retention_period</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

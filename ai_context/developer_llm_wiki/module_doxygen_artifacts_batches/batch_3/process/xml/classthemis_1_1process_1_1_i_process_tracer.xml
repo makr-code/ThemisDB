@@ -1,0 +1,476 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_i_process_tracer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::process::IProcessTracer</compoundname>
+    <includes refid="federated__span__contract_8h" local="no">federated_span_contract.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_process_tracer_1af296f6139ceb17dbdff9c35fdd73b1a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::process::IProcessTracer::~IProcessTracer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IProcessTracer</name>
+        <qualifiedname>themis::process::IProcessTracer::~IProcessTracer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="404" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_process_tracer_1a21968fa73d8311005ed90097f8e622d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::process::IProcessTracer::createImportSpan</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;shard_id, const std::string &amp;principal_id, const std::optional&lt; TraceContext &gt; &amp;parent_context=std::nullopt)=0</argsstring>
+        <name>createImportSpan</name>
+        <qualifiedname>themis::process::IProcessTracer::createImportSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal_id</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &gt; &amp;</type>
+          <declname>parent_context</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Create import span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model being imported </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local shard ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principal_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Principal performing import </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parent trace context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Span for import operation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="415" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_process_tracer_1addae91a6a13a5781ae8c41902d212e68" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::process::IProcessTracer::createLinkSpan</definition>
+        <argsstring>(const std::string &amp;model_id, const std::string &amp;target_id, const std::string &amp;shard_id, const std::string &amp;principal_id, const std::optional&lt; TraceContext &gt; &amp;parent_context=std::nullopt)=0</argsstring>
+        <name>createLinkSpan</name>
+        <qualifiedname>themis::process::IProcessTracer::createLinkSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal_id</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &gt; &amp;</type>
+          <declname>parent_context</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Create link span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source model ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target entity ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local shard ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principal_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Principal creating link </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional parent trace context </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Span for link creation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="432" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_process_tracer_1ad8af36b2b0890bc1237548a91a7997ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::process::IProcessTracer::createFederationSyncSpan</definition>
+        <argsstring>(const std::string &amp;sync_id, const std::string &amp;participating_shards, const std::string &amp;principal_id, const std::string &amp;consensus_type)=0</argsstring>
+        <name>createFederationSyncSpan</name>
+        <qualifiedname>themis::process::IProcessTracer::createFederationSyncSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sync_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>participating_shards</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consensus_type</declname>
+        </param>
+        <briefdescription>
+<para>Create federation sync span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sync_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique sync operation ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>participating_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>CSV of shard IDs participating in sync </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principal_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Principal triggering sync </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>consensus_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Consensus protocol (&quot;raft&quot;, &quot;paxos&quot;, &quot;gossip&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Span for federation sync </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="449" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_process_tracer_1a849d1e96778005be3701d29eaa0d14a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::process::IProcessTracer::createConflictResolutionSpan</definition>
+        <argsstring>(const std::string &amp;conflict_type, const std::string &amp;local_version, const std::string &amp;remote_version, const std::string &amp;plugin_name, const TraceContext &amp;parent_context)=0</argsstring>
+        <name>createConflictResolutionSpan</name>
+        <qualifiedname>themis::process::IProcessTracer::createConflictResolutionSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>conflict_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>plugin_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>parent_context</declname>
+        </param>
+        <briefdescription>
+<para>Create conflict resolution span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>conflict_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type of conflict </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>local_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local version being resolved </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote_version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Remote version being resolved </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>plugin_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Conflict resolution plugin name (if used) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parent trace context (from federation sync) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Span for conflict resolution </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="466" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_process_tracer_1a80c76c1c29acf2096fd879a5f2311eb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::process::IProcessTracer::createConsensusRpcSpan</definition>
+        <argsstring>(const std::string &amp;rpc_type, const std::string &amp;remote_shard_id, const TraceContext &amp;parent_context)=0</argsstring>
+        <name>createConsensusRpcSpan</name>
+        <qualifiedname>themis::process::IProcessTracer::createConsensusRpcSpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rpc_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>remote_shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_trace_context" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>parent_context</declname>
+        </param>
+        <briefdescription>
+<para>Create consensus RPC span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>rpc_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RPC type (&quot;request_vote&quot;, &quot;append_entries&quot;, &quot;prepare&quot;, &quot;accept&quot;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remote_shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Destination shard ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parent_context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parent trace context (from federation sync) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Span for RPC call </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="482" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_process_tracer_1aa7fb6eb16d749035e5e6c714c981231d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_i_span" kindref="compound">ISpan</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; ISpan &gt; themis::process::IProcessTracer::createRecoverySpan</definition>
+        <argsstring>(const std::string &amp;model_id, int64_t target_timestamp_ns, const std::string &amp;shard_id, const std::string &amp;principal_id)=0</argsstring>
+        <name>createRecoverySpan</name>
+        <qualifiedname>themis::process::IProcessTracer::createRecoverySpan</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>model_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>target_timestamp_ns</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>principal_id</declname>
+        </param>
+        <briefdescription>
+<para>Create recovery span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>model_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Model being recovered </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_timestamp_ns</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target timestamp for recovery </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local shard ID </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>principal_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Principal performing recovery </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Span for point-in-time recovery </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="497" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_i_process_tracer_1a37b652c1709514fd2dc3751b266597a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1process_1_1_i_process_tracer" kindref="compound">IProcessTracer</ref> &amp;</type>
+        <definition>static IProcessTracer &amp; themis::process::IProcessTracer::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::process::IProcessTracer::instance</qualifiedname>
+        <briefdescription>
+<para>Get singleton instance of process tracer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Reference to global process tracer </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="508" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Process module tracer (extends observability::OpenTelemetryTracer). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides factory methods for creating process-specific spans. </para>
+    </detaileddescription>
+    <location file="include/process/federated_span_contract.h" line="402" column="1" bodyfile="include/process/federated_span_contract.h" bodystart="402" bodyend="509"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_i_process_tracer_1a849d1e96778005be3701d29eaa0d14a5" prot="public" virt="pure-virtual"><scope>themis::process::IProcessTracer</scope><name>createConflictResolutionSpan</name></member>
+      <member refid="classthemis_1_1process_1_1_i_process_tracer_1a80c76c1c29acf2096fd879a5f2311eb7" prot="public" virt="pure-virtual"><scope>themis::process::IProcessTracer</scope><name>createConsensusRpcSpan</name></member>
+      <member refid="classthemis_1_1process_1_1_i_process_tracer_1ad8af36b2b0890bc1237548a91a7997ae" prot="public" virt="pure-virtual"><scope>themis::process::IProcessTracer</scope><name>createFederationSyncSpan</name></member>
+      <member refid="classthemis_1_1process_1_1_i_process_tracer_1a21968fa73d8311005ed90097f8e622d2" prot="public" virt="pure-virtual"><scope>themis::process::IProcessTracer</scope><name>createImportSpan</name></member>
+      <member refid="classthemis_1_1process_1_1_i_process_tracer_1addae91a6a13a5781ae8c41902d212e68" prot="public" virt="pure-virtual"><scope>themis::process::IProcessTracer</scope><name>createLinkSpan</name></member>
+      <member refid="classthemis_1_1process_1_1_i_process_tracer_1aa7fb6eb16d749035e5e6c714c981231d" prot="public" virt="pure-virtual"><scope>themis::process::IProcessTracer</scope><name>createRecoverySpan</name></member>
+      <member refid="classthemis_1_1process_1_1_i_process_tracer_1a37b652c1709514fd2dc3751b266597a7" prot="public" virt="non-virtual"><scope>themis::process::IProcessTracer</scope><name>instance</name></member>
+      <member refid="classthemis_1_1process_1_1_i_process_tracer_1af296f6139ceb17dbdff9c35fdd73b1a8" prot="public" virt="virtual"><scope>themis::process::IProcessTracer</scope><name>~IProcessTracer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

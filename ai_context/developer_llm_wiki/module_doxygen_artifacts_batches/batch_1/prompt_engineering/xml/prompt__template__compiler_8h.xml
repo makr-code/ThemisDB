@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="prompt__template__compiler_8h" kind="file" language="C++">
+    <compoundname>prompt_template_compiler.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="prompt__ab__experiment_8h" local="yes">include/prompt_engineering/prompt_ab_experiment.h</includedby>
+    <includedby refid="prompt__quality__evaluator_8h" local="yes">include/prompt_engineering/prompt_quality_evaluator.h</includedby>
+    <includedby refid="prompt__template__compiler_8cpp" local="yes">src/prompt_engineering/prompt_template_compiler.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_template_compiler.h</label>
+        <link refid="prompt__template__compiler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>optional</label>
+      </node>
+      <node id="4">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/prompt_engineering/prompt_ab_experiment.h</label>
+        <link refid="prompt__ab__experiment_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/prompt_engineering/prompt_quality_evaluator.h</label>
+        <link refid="prompt__quality__evaluator_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/prompt_engineering/prompt_template_compiler.h</label>
+        <link refid="prompt__template__compiler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/prompt_engineering/prompt_ab_experiment.cpp</label>
+        <link refid="prompt__ab__experiment_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/prompt_engineering/prompt_quality_evaluator.cpp</label>
+        <link refid="prompt__quality__evaluator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/prompt_engineering/prompt_template_compiler.cpp</label>
+        <link refid="prompt__template__compiler_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_slot_definition" prot="public">themis::prompt_engineering::SlotDefinition</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" prot="public">themis::prompt_engineering::PromptContextValue</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error" prot="public">themis::prompt_engineering::PromptTemplateCompileError</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error" prot="public">themis::prompt_engineering::PromptTemplateMissingSlotError</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_type_mismatch_error" prot="public">themis::prompt_engineering::PromptTemplateTypeMismatchError</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" prot="public">themis::prompt_engineering::IPromptTemplate</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template" prot="public">themis::prompt_engineering::CompiledPromptTemplate</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler" prot="public">themis::prompt_engineering::PromptTemplateCompiler</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering_1_1detail">themis::prompt_engineering::detail</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SlotType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744b" kindref="member">SlotType</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba63b588d5559f64f89a416e656880b949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba298cb25408234de02baf2085803a464a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a10620a12f22f2c6df0b53afe20d054e8a298cb25408234de02baf2085803a464a" kindref="member">LIST</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba4e3ba1a58ed633af80122d6691f83528" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba4e3ba1a58ed633af80122d6691f83528" kindref="member">DOCUMENT_CHUNK</ref><sp/><sp/></highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SlotDefinition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1prompt__engineering_1_1_slot_definition" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a74127c2894b37e2054a6b290aed153c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a74127c2894b37e2054a6b290aed153c4" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a882e90f8912b17e36c730edde0a850b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744b" kindref="member">SlotType</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a882e90f8912b17e36c730edde0a850b3" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba63b588d5559f64f89a416e656880b949" kindref="member">SlotType::STRING</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a84a1717ae71fad7c091bfc45951a2cc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a84a1717ae71fad7c091bfc45951a2cc4" kindref="member">required</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a44f10e577520ed38e4d359a74cf6cb37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a44f10e577520ed38e4d359a74cf6cb37" kindref="member">default_value</ref>;<sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1aa4ec013b77f9ec6d9de78b3d409041d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1aa4ec013b77f9ec6d9de78b3d409041d2" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>kTypeNames[]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;STRING&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LIST&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DOCUMENT_CHUNK&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a74127c2894b37e2054a6b290aed153c4" kindref="member">name</ref>},</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kTypeNames[</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a882e90f8912b17e36c730edde0a850b3" kindref="member">type</ref>)]},</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;required&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a84a1717ae71fad7c091bfc45951a2cc4" kindref="member">required</ref>},</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;default_value&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition_1a44f10e577520ed38e4d359a74cf6cb37" kindref="member">default_value</ref>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PromptContextValue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a02c664fba0da50ffafe0967b91a6c591" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744b" kindref="member">SlotType</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a02c664fba0da50ffafe0967b91a6c591" kindref="member">kind</ref><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba63b588d5559f64f89a416e656880b949" kindref="member">SlotType::STRING</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ad0345c3d36fa8a9c4e2a03eab9b8b62f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ad0345c3d36fa8a9c4e2a03eab9b8b62f" kindref="member">str_val</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8a1e075a7e03d0f0308709f990d5fdfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8a1e075a7e03d0f0308709f990d5fdfc" kindref="member">list_val</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1acb50a685a89ff82953f326bee78ea73e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1acb50a685a89ff82953f326bee78ea73e" kindref="member">chunks</ref>;<sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8e38308085378c5939dbd404c97a9f6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8e38308085378c5939dbd404c97a9f6d" kindref="member">fromString</ref>(std::string<sp/>s)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref><sp/>v;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a02c664fba0da50ffafe0967b91a6c591" kindref="member">kind</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba63b588d5559f64f89a416e656880b949" kindref="member">SlotType::STRING</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ad0345c3d36fa8a9c4e2a03eab9b8b62f" kindref="member">str_val</ref><sp/>=<sp/>std::move(s);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a35ed7d8e431166e54dd6c00ac89ba7cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a35ed7d8e431166e54dd6c00ac89ba7cb" kindref="member">fromList</ref>(std::vector&lt;std::string&gt;<sp/>l)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref><sp/>v;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a02c664fba0da50ffafe0967b91a6c591" kindref="member">kind</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba298cb25408234de02baf2085803a464a" kindref="member">SlotType::LIST</ref>;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a8a1e075a7e03d0f0308709f990d5fdfc" kindref="member">list_val</ref><sp/>=<sp/>std::move(l);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ab0c2220c4277d939803647798515b4bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1ab0c2220c4277d939803647798515b4bc" kindref="member">fromChunks</ref>(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;<sp/>c)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value" kindref="compound">PromptContextValue</ref><sp/>v;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a02c664fba0da50ffafe0967b91a6c591" kindref="member">kind</ref><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a894b960b54d74be7352ecc0527e7744ba4e3ba1a58ed633af80122d6691f83528" kindref="member">SlotType::DOCUMENT_CHUNK</ref>;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.<ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1acb50a685a89ff82953f326bee78ea73e" kindref="member">chunks</ref><sp/>=<sp/>std::move(c);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1a0ed8812669afcfc0c4a3debb154dae8e" kindref="member">toString</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_prompt_context_value_1affacb5f04fee7a6cf591e2d59e537bcf" kindref="member">asBool</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PromptContext</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref><sp/>=<sp/>std::unordered_map&lt;std::string,<sp/>PromptContextValue&gt;;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CompileError<sp/>/<sp/>RenderError<sp/>/<sp/>MissingSlotError</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error_1a3cc24cc800be1729acdc766ffdd32417" kindref="member">PromptTemplateCompileError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error_1a3cc24cc800be1729acdc766ffdd32417" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compile_error_1a3cc24cc800be1729acdc766ffdd32417" kindref="member">PromptTemplateCompileError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>what)</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(what)<sp/>{}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1af543e516ed675458910aca09b297c2a8" kindref="member">PromptTemplateMissingSlotError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1af543e516ed675458910aca09b297c2a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1af543e516ed675458910aca09b297c2a8" kindref="member">PromptTemplateMissingSlotError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name)</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;Missing<sp/>required<sp/>slot:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>slot_name)</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>slot_name_(slot_name)<sp/>{}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1a43986cf27e711abad22928e5ba8546d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_missing_slot_error_1a43986cf27e711abad22928e5ba8546d4" kindref="member">slotName</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>slot_name_;<sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>slot_name_;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_type_mismatch_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_type_mismatch_error_1afadcaab11bcca517a013de0ae0946683" kindref="member">PromptTemplateTypeMismatchError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_type_mismatch_error_1afadcaab11bcca517a013de0ae0946683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_type_mismatch_error_1afadcaab11bcca517a013de0ae0946683" kindref="member">PromptTemplateTypeMismatchError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>msg)</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(msg)<sp/>{}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IPromptTemplate<sp/>(interface<sp/>—<sp/>PE-MISSING-001)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" kindref="compound">IPromptTemplate</ref><sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a8ceed5de8e52f43a5518b2d3dbf75451" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a8ceed5de8e52f43a5518b2d3dbf75451" kindref="member">~IPromptTemplate</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1ab8b77f0243e914195fef686940314254" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1ab8b77f0243e914195fef686940314254" kindref="member">source</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a229908c9b1173e471a23831c8b2e65e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref>&gt;&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a229908c9b1173e471a23831c8b2e65e5" kindref="member">slots</ref>()<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a17b0f664bebbbbfc63e24d51c6be7c5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a17b0f664bebbbbfc63e24d51c6be7c5f" kindref="member">render</ref>(const<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref>&amp;<sp/>ctx)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a75ba03017f89fd40f235618a2f38f239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>virtual<sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template_1a75ba03017f89fd40f235618a2f38f239" kindref="member">validate</ref>(const<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref>&amp;<sp/>ctx)<sp/>const<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Internal<sp/>AST<sp/>node<sp/>types<sp/>(forward)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="namespacethemis_1_1prompt__engineering_1_1detail" refkind="compound"><highlight class="normal">namespace<sp/><ref refid="namespacethemis_1_1prompt__engineering_1_1detail" kindref="compound">detail</ref><sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node" kindref="compound">ASTNode</ref>;</highlight></codeline>
+<codeline lineno="188" refid="namespacethemis_1_1prompt__engineering_1_1detail_1aca4ac9e30beb90e123ecd6ddf5a9c3c4" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering_1_1detail_1aca4ac9e30beb90e123ecd6ddf5a9c3c4" kindref="member">ASTNodePtr</ref><sp/>=<sp/>std::shared_ptr&lt;ASTNode&gt;;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>detail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CompiledPromptTemplate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_prompt_template" kindref="compound">IPromptTemplate</ref><sp/>{</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="204" refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205" refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad4fd1a189d06ddb17d8347de875149e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad4fd1a189d06ddb17d8347de875149e9" kindref="member">~CompiledPromptTemplate</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aec4622508556c28fd9daf22dcdf80239" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aec4622508556c28fd9daf22dcdf80239" kindref="member">CompiledPromptTemplate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208" refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aaebc8fabb05167b0af93992a7f98f484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref>&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aaebc8fabb05167b0af93992a7f98f484" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209" refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ab5b8b6367437c0d5eda10a243edff0b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ab5b8b6367437c0d5eda10a243edff0b3" kindref="member">CompiledPromptTemplate</ref>(<ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="210" refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a8b0a682d56479d854bfa56a9329afcdf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1ad177aea6222f820cedbf0a29906d1bdf" kindref="member">CompiledPromptTemplate</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IPromptTemplate<sp/>----------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a39e2e91a4515fa36df0ceb0012e9713e" kindref="member">source</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref>&gt;&amp;<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a18043a43a832e3307b86f2970402620b" kindref="member">slots</ref>()<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a27ff3e34f688024856aff027d24516b4" kindref="member">render</ref>(const<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref>&amp;<sp/>ctx)<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a3816e14e24b60ab4c3ecfdfe600251fe" kindref="member">validate</ref>(const<sp/><ref refid="namespacethemis_1_1prompt__engineering_1a3c605b72d8b0688e6c855ef6e745a247" kindref="member">PromptContext</ref>&amp;<sp/>ctx)<sp/>const<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Serialisation<sp/>------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1a64817b603745de32c9d2bb284bee09c7" kindref="member">toJson</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="224" refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aa044a6efe8d39b63540a7cf4e7441515" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template_1aa044a6efe8d39b63540a7cf4e7441515" kindref="member">PromptTemplateCompiler</ref>;<sp/></highlight><highlight class="comment">//<sp/>only<sp/>the<sp/>compiler<sp/>constructs<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source_;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref>&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>slots_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="namespacethemis_1_1prompt__engineering_1_1detail" kindref="compound">detail</ref>::ASTNodePtr&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ast_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_slot_definition" kindref="compound">SlotDefinition</ref>&gt;<sp/><sp/>slot_index_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PromptTemplateCompiler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244" refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler" kindref="compound">PromptTemplateCompiler</ref><sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_compiled_prompt_template" kindref="compound">CompiledPromptTemplate</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_prompt_template_compiler_1a651b5195f7f78a64884d9a7ea7dfd27e" kindref="member">compile</ref>(</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>source,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SlotDefinition&gt;&amp;<sp/>slots<sp/>=<sp/>{})<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/prompt_template_compiler.h"/>
+  </compounddef>
+</doxygen>

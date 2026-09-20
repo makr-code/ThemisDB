@@ -1,0 +1,645 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::PIIPseudonymizer</compoundname>
+    <includes refid="pii__pseudonymizer_8h" local="no">pii_pseudonymizer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a9228ddffe488ece5fb0de2697665e173" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;themis::RocksDBWrapper&gt; themis::utils::PIIPseudonymizer::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="138" column="21" bodyfile="include/utils/pii_pseudonymizer.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1aa2ef149db30a050922ed712eb446ec65" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;FieldEncryption&gt; themis::utils::PIIPseudonymizer::enc_</definition>
+        <argsstring></argsstring>
+        <name>enc_</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::enc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="139" column="21" bodyfile="include/utils/pii_pseudonymizer.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a12f020956b477631b4e49aad93775bdb" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_p_i_i_detector" kindref="compound">PIIDetector</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PIIDetector&gt; themis::utils::PIIPseudonymizer::detector_</definition>
+        <argsstring></argsstring>
+        <name>detector_</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="140" column="21" bodyfile="include/utils/pii_pseudonymizer.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a9036631d66f74997cd0b5894e42a53e3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_audit_logger" kindref="compound">AuditLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuditLogger&gt; themis::utils::PIIPseudonymizer::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::audit_logger_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="141" column="21" bodyfile="include/utils/pii_pseudonymizer.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a3d563f39963513de24fc8f3947c81702" prot="private" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;)&gt; themis::utils::PIIPseudonymizer::cache_invalidator_</definition>
+        <argsstring></argsstring>
+        <name>cache_invalidator_</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::cache_invalidator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="142" column="19" bodyfile="include/utils/pii_pseudonymizer.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1ac22169b276ebdfd0768804625dd11cb9" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::PIIPseudonymizer::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="147" column="16" bodyfile="include/utils/pii_pseudonymizer.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a6f2ca0dc0dbd4c4d4edc36397ad841ae" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIIPseudonymizer::key_id_</definition>
+        <argsstring></argsstring>
+        <name>key_id_</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::key_id_</qualifiedname>
+        <initializer>= &quot;pii_mapping_key&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="148" column="17" bodyfile="include/utils/pii_pseudonymizer.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1ab80dc91df4fdf0ee63683e522059acf5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::PIIPseudonymizer::PIIPseudonymizer</definition>
+        <argsstring>(std::shared_ptr&lt; themis::RocksDBWrapper &gt; db, std::shared_ptr&lt; FieldEncryption &gt; enc, std::shared_ptr&lt; PIIDetector &gt; detector, std::shared_ptr&lt; AuditLogger &gt; audit_logger=nullptr)</argsstring>
+        <name>PIIPseudonymizer</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::PIIPseudonymizer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; FieldEncryption &gt;</type>
+          <declname>enc</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_p_i_i_detector" kindref="compound">PIIDetector</ref> &gt;</type>
+          <declname>detector</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_audit_logger" kindref="compound">AuditLogger</ref> &gt;</type>
+          <declname>audit_logger</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Initialize with storage and encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>RocksDB wrapper (must have &quot;pii_mapping&quot; column family) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>enc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Field encryption for PII values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>detector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>PII detector for automatic detection </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>audit_logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Audit logger for PII access/erasure events (optional) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="52" column="5" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="25" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a81358b071428e3629fb7022fd3a1a6ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; nlohmann::json, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::pair&lt; nlohmann::json, std::vector&lt; std::string &gt; &gt; themis::utils::PIIPseudonymizer::pseudonymize</definition>
+        <argsstring>(const nlohmann::json &amp;data)</argsstring>
+        <name>pseudonymize</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::pseudonymize</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Pseudonymize detected PII in JSON object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replaces PII values with UUIDs. Requires a valid pseudonymization key; if the key is unavailable, the operation fails closed rather than producing plaintext in the output.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input JSON with potential PII </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON with PII replaced by UUIDs, and list of UUID mappings created </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if pseudonymization key is unavailable (fail-closed)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+@error_contract <table rows="3" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Pseudonymization key unavailable (RAND_bytes failure)  </para>
+</entry><entry thead="no"><para>CRYPTO_KEY_DERIVATION_FAILED (9050)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>key_id  </para>
+</entry><entry thead="no"><para>Throw (fail-closed – no plaintext produced)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Database unavailable (cannot persist mapping)  </para>
+</entry><entry thead="no"><para>CRYPTO_KEY_NOT_FOUND (9053)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>pii_uuid  </para>
+</entry><entry thead="no"><para>Throw (fail-closed)  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-closed – key unavailable → reject; never returns unredacted data on error <simplesect kind="see"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref> 9050-9059 for crypto error taxonomy </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref> 9040-9049 for privacy detection taxonomy </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="78" column="15" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="87" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1acbc227fd9ea175d2a205a7915d09f59a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::utils::PIIPseudonymizer::revealPII</definition>
+        <argsstring>(const std::string &amp;pii_uuid, const std::string &amp;user_id)</argsstring>
+        <name>revealPII</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::revealPII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pii_uuid</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Reveal original PII value for authorized user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reveal PII.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pii_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UUID from pseudonymized entity </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User requesting reveal (for audit log) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Original PII value or empty if not found/unauthorized</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pii_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), get(), dbKey(), nlohmann::json::parse(), value(), themis::EncryptedBlob::fromJson(), decrypt(), logEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="88" column="19" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="161" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a880e25155c10a7748149c3c44e85ebf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::PIIPseudonymizer::erasePII</definition>
+        <argsstring>(const std::string &amp;pii_uuid)</argsstring>
+        <name>erasePII</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::erasePII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pii_uuid</declname>
+        </param>
+        <briefdescription>
+<para>Erase PII mapping (DSGVO Art. 17 - Right to be Forgotten). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Erase PII.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pii_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UUID to erase </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if mapping existed and was deleted</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pii_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), beginTransaction(), get(), dbKey(), rollback(), del(), commit(), logEvent(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="96" column="10" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="213" bodyend="253"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1aa77a7209100163c73e506631d7511980" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::PIIPseudonymizer::registerCacheInvalidator</definition>
+        <argsstring>(std::function&lt; void(const std::string &amp;)&gt; fn)</argsstring>
+        <name>registerCacheInvalidator</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::registerCacheInvalidator</qualifiedname>
+        <param>
+          <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Register a cache invalidation callback for GDPR Art. 17 propagation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set, this callback is invoked automatically after every successful <ref refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a880e25155c10a7748149c3c44e85ebf1" kindref="member">erasePII()</ref> call so that any cache tier (e.g. AdaptiveQueryCache) holding data tagged with pii_uuid is purged without requiring caller coordination.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that receives the pii_uuid to be purged from cache. Must be non-throwing; exceptions are logged and suppressed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="108" column="10" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="255" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1ad53938fb65c9661f600475186e594cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::PIIPseudonymizer::softDeletePII</definition>
+        <argsstring>(const std::string &amp;pii_uuid, const std::string &amp;user_id)</argsstring>
+        <name>softDeletePII</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::softDeletePII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pii_uuid</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Soft-Delete eines PII-Mappings (ausblenden, aber nicht löschen) Markiert das Mapping als inactive und setzt deleted_at. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Soft Delete PII.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pii_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>UUID des Mappings </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Benutzer, der die Aktion ausführt (für Audit) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true, wenn Mapping existierte und aktualisiert wurde</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pii_uuid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), beginTransaction(), get(), dbKey(), rollback(), json_str(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="117" column="10" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="274" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1aab7300281a6038898c053b24b9faacd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::utils::PIIPseudonymizer::findPIIForEntity</definition>
+        <argsstring>(const std::string &amp;entity_pk)</argsstring>
+        <name>findPIIForEntity</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::findPIIForEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_pk</declname>
+        </param>
+        <briefdescription>
+<para>Find all PII UUIDs for a specific entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Find PIIFor Entity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primary key of entity </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of PII UUIDs associated with this entity</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), get(), entityIndexKey(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="124" column="17" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="333" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a0bea6dd5ea9694fa93e1bbd17b179633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PIIPseudonymizer::eraseAllPIIForEntity</definition>
+        <argsstring>(const std::string &amp;entity_pk)</argsstring>
+        <name>eraseAllPIIForEntity</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::eraseAllPIIForEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_pk</declname>
+        </param>
+        <briefdescription>
+<para>Erase all PII for entity (DSGVO Art. 17 complete erasure). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Erase All PIIFor Entity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>entity_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Primary key of entity </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of PII mappings erased</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_pk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1aab7300281a6038898c053b24b9faacd8" kindref="member">findPIIForEntity()</ref>, <ref refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a880e25155c10a7748149c3c44e85ebf1" kindref="member">erasePII()</ref>, del(), entityIndexKey(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="131" column="12" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="361" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a4f9a7b79c0873219172c3dbab84cf521" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIIPseudonymizer::generateUUID</definition>
+        <argsstring>() const</argsstring>
+        <name>generateUUID</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::generateUUID</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="134" column="17" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="55" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1ad1eef7ad5eb4c30cabc3dbe470562565" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIIPseudonymizer::dbKey</definition>
+        <argsstring>(const std::string &amp;pii_uuid) const</argsstring>
+        <name>dbKey</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::dbKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pii_uuid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="135" column="17" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a3a1e39fb2dcb994e0633e38e735b1785" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PIIPseudonymizer::entityIndexKey</definition>
+        <argsstring>(const std::string &amp;entity_pk) const</argsstring>
+        <name>entityIndexKey</name>
+        <qualifiedname>themis::utils::PIIPseudonymizer::entityIndexKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_pk</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/pii_pseudonymizer.h" line="136" column="17" bodyfile="src/utils/pii_pseudonymizer.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>PII Pseudonymization Manager with DSGVO Art. 17 compliance. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>DSGVO Art. 17 Compliant PII Management:<itemizedlist>
+<listitem><para>Replace detected PII with UUIDs in entities</para>
+</listitem><listitem><para>Store encrypted PII→UUID mapping in separate RocksDB Column Family</para>
+</listitem><listitem><para><ref refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1acbc227fd9ea175d2a205a7915d09f59a" kindref="member">revealPII()</ref>: Decrypt and return original value (with audit log)</para>
+</listitem><listitem><para><ref refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a880e25155c10a7748149c3c44e85ebf1" kindref="member">erasePII()</ref>: Delete mapping → original value irrecoverable</para>
+</listitem></itemizedlist>
+</para>
+<para>Workflow:<orderedlist>
+<listitem><para>Entity import: Detect PII → Replace with UUID → Store mapping</para>
+</listitem><listitem><para>Query: Entity contains UUIDs, original values hidden</para>
+</listitem><listitem><para>Reveal: Authorized user → decrypt PII mapping → log access</para>
+</listitem><listitem><para>Erasure: Delete mapping → UUID remains, but original lost forever </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/utils/pii_pseudonymizer.h" line="43" column="1" bodyfile="include/utils/pii_pseudonymizer.h" bodystart="43" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a9036631d66f74997cd0b5894e42a53e3" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a3d563f39963513de24fc8f3947c81702" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>cache_invalidator_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a9228ddffe488ece5fb0de2697665e173" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>db_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1ad1eef7ad5eb4c30cabc3dbe470562565" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>dbKey</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a12f020956b477631b4e49aad93775bdb" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>detector_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1aa2ef149db30a050922ed712eb446ec65" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>enc_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a3a1e39fb2dcb994e0633e38e735b1785" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>entityIndexKey</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a0bea6dd5ea9694fa93e1bbd17b179633" prot="public" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>eraseAllPIIForEntity</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a880e25155c10a7748149c3c44e85ebf1" prot="public" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>erasePII</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1aab7300281a6038898c053b24b9faacd8" prot="public" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>findPIIForEntity</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a4f9a7b79c0873219172c3dbab84cf521" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>generateUUID</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a6f2ca0dc0dbd4c4d4edc36397ad841ae" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>key_id_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1ac22169b276ebdfd0768804625dd11cb9" prot="private" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1ab80dc91df4fdf0ee63683e522059acf5" prot="public" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>PIIPseudonymizer</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1a81358b071428e3629fb7022fd3a1a6ea" prot="public" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>pseudonymize</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1aa77a7209100163c73e506631d7511980" prot="public" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>registerCacheInvalidator</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1acbc227fd9ea175d2a205a7915d09f59a" prot="public" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>revealPII</name></member>
+      <member refid="classthemis_1_1utils_1_1_p_i_i_pseudonymizer_1ad53938fb65c9661f600475186e594cf0" prot="public" virt="non-virtual"><scope>themis::utils::PIIPseudonymizer</scope><name>softDeletePII</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

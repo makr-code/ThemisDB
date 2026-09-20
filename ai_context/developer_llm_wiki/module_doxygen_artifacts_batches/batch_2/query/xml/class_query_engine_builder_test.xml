@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_query_engine_builder_test" kind="class" language="C++" prot="public">
+    <compoundname>QueryEngineBuilderTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_query_engine_builder_test_1aa8d863550eee8e40bd603b85c20a18ae" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_mock_storage_engine" kindref="compound">MockStorageEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockStorageEngine&gt; QueryEngineBuilderTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>QueryEngineBuilderTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="77" column="21" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_query_engine_builder_test_1a7d8867a041ffdc4cc08526eed313c24d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_mock_index_manager" kindref="compound">MockIndexManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockIndexManager&gt; QueryEngineBuilderTest::index_mgr_</definition>
+        <argsstring></argsstring>
+        <name>index_mgr_</name>
+        <qualifiedname>QueryEngineBuilderTest::index_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="78" column="22" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_query_engine_builder_test_1a98c7c5310ed5ab5e7a7e66bc7322cf9a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void QueryEngineBuilderTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>QueryEngineBuilderTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_engine_di.cpp" line="73" column="10" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="73" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>QueryEngineBuilderTest</label>
+        <link refid="class_query_engine_builder_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>QueryEngineBuilderTest</label>
+        <link refid="class_query_engine_builder_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_engine_di.cpp" line="71" column="1" bodyfile="tests/query/test_query_engine_di.cpp" bodystart="71" bodyend="79"/>
+    <listofallmembers>
+      <member refid="class_query_engine_builder_test_1a7d8867a041ffdc4cc08526eed313c24d" prot="protected" virt="non-virtual"><scope>QueryEngineBuilderTest</scope><name>index_mgr_</name></member>
+      <member refid="class_query_engine_builder_test_1a98c7c5310ed5ab5e7a7e66bc7322cf9a" prot="protected" virt="non-virtual"><scope>QueryEngineBuilderTest</scope><name>SetUp</name></member>
+      <member refid="class_query_engine_builder_test_1aa8d863550eee8e40bd603b85c20a18ae" prot="protected" virt="non-virtual"><scope>QueryEngineBuilderTest</scope><name>storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

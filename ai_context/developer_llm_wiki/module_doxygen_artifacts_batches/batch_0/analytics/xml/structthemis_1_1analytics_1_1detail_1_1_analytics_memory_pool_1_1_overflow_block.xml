@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1_1_overflow_block" kind="struct" language="C++" prot="private">
+    <compoundname>themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1_1_overflow_block_1aad0841bb817d2b1fcda62a4b3f10c56b" prot="public" static="no" mutable="no">
+        <type>uint8_t *</type>
+        <definition>uint8_t* themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock::ptr</definition>
+        <argsstring></argsstring>
+        <name>ptr</name>
+        <qualifiedname>themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock::ptr</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="206" column="17" bodyfile="include/analytics/detail/memory_pool.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1_1_overflow_block_1a2377a3512c671ce00755bc71d60ad7fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock::capacity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="207" column="18" bodyfile="include/analytics/detail/memory_pool.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1_1_overflow_block_1a74638679cd7189b07bd8dee372297497" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock::cursor</definition>
+        <argsstring></argsstring>
+        <name>cursor</name>
+        <qualifiedname>themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock::cursor</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/detail/memory_pool.h" line="208" column="18" bodyfile="include/analytics/detail/memory_pool.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/detail/memory_pool.h" line="205" column="5" bodyfile="include/analytics/detail/memory_pool.h" bodystart="205" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1_1_overflow_block_1a2377a3512c671ce00755bc71d60ad7fc" prot="public" virt="non-virtual"><scope>themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1_1_overflow_block_1a74638679cd7189b07bd8dee372297497" prot="public" virt="non-virtual"><scope>themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock</scope><name>cursor</name></member>
+      <member refid="structthemis_1_1analytics_1_1detail_1_1_analytics_memory_pool_1_1_overflow_block_1aad0841bb817d2b1fcda62a4b3f10c56b" prot="public" virt="non-virtual"><scope>themis::analytics::detail::AnalyticsMemoryPool::OverflowBlock</scope><name>ptr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

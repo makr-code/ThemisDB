@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::DistributedTensorPlanner::Config</compoundname>
+    <includes refid="include_2distributed__tensor_2distributed__planner_8h" local="no">distributed_planner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1acc15428a1bd7938e84e0b7b8847516ee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::DistributedTensorPlanner::Config::max_summary_ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>max_summary_ttl_seconds</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::Config::max_summary_ttl_seconds</qualifiedname>
+        <initializer>= 3600</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="190" column="10" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1ad0e20a61a428ca83ba77408cdb4bdd19" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::distributed_tensor::DistributedTensorPlanner::Config::min_fragment_success_rate</definition>
+        <argsstring></argsstring>
+        <name>min_fragment_success_rate</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::Config::min_fragment_success_rate</qualifiedname>
+        <initializer>= 0.8f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="191" column="7" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="191" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1aea4654b97fa81efeaf07dcf8bdc2fc8f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedTensorPlanner::Config::enable_fallback_routing</definition>
+        <argsstring></argsstring>
+        <name>enable_fallback_routing</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::Config::enable_fallback_routing</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="192" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="192" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1a413ba69769dbc664c4c3c0567c18b325" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::DistributedTensorPlanner::Config::fragment_load_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>fragment_load_timeout_ms</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::Config::fragment_load_timeout_ms</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="193" column="10" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1a37fec4dad063f302b5555f4b26563731" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::DistributedTensorPlanner::Config::strict_graph_validation</definition>
+        <argsstring></argsstring>
+        <name>strict_graph_validation</name>
+        <qualifiedname>themis::distributed_tensor::DistributedTensorPlanner::Config::strict_graph_validation</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/distributed_planner.h" line="194" column="6" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/distributed_planner.h" line="189" column="1" bodyfile="include/distributed_tensor/distributed_planner.h" bodystart="189" bodyend="195"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1aea4654b97fa81efeaf07dcf8bdc2fc8f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner::Config</scope><name>enable_fallback_routing</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1a413ba69769dbc664c4c3c0567c18b325" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner::Config</scope><name>fragment_load_timeout_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1acc15428a1bd7938e84e0b7b8847516ee" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner::Config</scope><name>max_summary_ttl_seconds</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1ad0e20a61a428ca83ba77408cdb4bdd19" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner::Config</scope><name>min_fragment_success_rate</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_distributed_tensor_planner_1_1_config_1a37fec4dad063f302b5555f4b26563731" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::DistributedTensorPlanner::Config</scope><name>strict_graph_validation</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

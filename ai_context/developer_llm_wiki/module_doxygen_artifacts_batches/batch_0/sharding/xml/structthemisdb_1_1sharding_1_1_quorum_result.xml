@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_quorum_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::QuorumResult</compoundname>
+    <includes refid="quorum__manager_8h" local="no">quorum_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_result_1a0cb4910b71512ed4136f7a686d676a84" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::QuorumResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::success</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>True when required quorum was reached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="43" column="10" bodyfile="include/sharding/quorum_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_result_1a63cfbfafcc4043c8b3466be7915e693a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::QuorumResult::acks_received</definition>
+        <argsstring></argsstring>
+        <name>acks_received</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::acks_received</qualifiedname>
+        <briefdescription>
+<para>Number of successful acknowledgments. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="44" column="12" bodyfile="include/sharding/quorum_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_result_1a9e9ef73de5013937ddaf0e98ceb0dbe5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::QuorumResult::acks_required</definition>
+        <argsstring></argsstring>
+        <name>acks_required</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::acks_required</qualifiedname>
+        <briefdescription>
+<para>Required acknowledgments for success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="45" column="12" bodyfile="include/sharding/quorum_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_result_1adbc1ebb1d25b74d26cd02ddbfb0b550f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::QuorumResult::successful_nodes</definition>
+        <argsstring></argsstring>
+        <name>successful_nodes</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::successful_nodes</qualifiedname>
+        <briefdescription>
+<para>Nodes that completed the operation successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="46" column="17" bodyfile="include/sharding/quorum_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_result_1a851c374a1b7f88403f72ee9c55474fd3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::QuorumResult::failed_nodes</definition>
+        <argsstring></argsstring>
+        <name>failed_nodes</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::failed_nodes</qualifiedname>
+        <briefdescription>
+<para>Nodes that timed out or failed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="47" column="17" bodyfile="include/sharding/quorum_manager.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_result_1a395fee977a6f8183d313c3b9d921f494" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::QuorumResult::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::latency</qualifiedname>
+        <briefdescription>
+<para>End-to-end latency observed by the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="48" column="31" bodyfile="include/sharding/quorum_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_quorum_result_1a83404848bae8c6845be60b984b19be6f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::QuorumResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Failure reason when success is false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="49" column="17" bodyfile="include/sharding/quorum_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_quorum_result_1adefa371890a96cb7a6993cb7f18579b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref></type>
+        <definition>QuorumResult themisdb::sharding::QuorumResult::successful</definition>
+        <argsstring>(size_t acks, size_t required, const std::vector&lt; std::string &gt; &amp;nodes, std::chrono::milliseconds lat)</argsstring>
+        <name>successful</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::successful</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>acks</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>required</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>nodes</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Create successful quorum result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Successful.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>acks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of acknowledged nodes. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of acknowledgments required by policy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node IDs that acknowledged successfully. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Observed operation latency. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated success result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">acks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">nodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements successful without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="59" column="25" bodyfile="src/sharding/quorum_manager.cpp" bodystart="33" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_quorum_result_1a6730a6f79457baa80f41c050537f1e83" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_quorum_result" kindref="compound">QuorumResult</ref></type>
+        <definition>QuorumResult themisdb::sharding::QuorumResult::failed</definition>
+        <argsstring>(const std::string &amp;error)</argsstring>
+        <name>failed</name>
+        <qualifiedname>themisdb::sharding::QuorumResult::failed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Create failed quorum result with error text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Failed.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable failure reason. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated failed result with zero acknowledgments.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/quorum_manager.h" line="68" column="25" bodyfile="src/sharding/quorum_manager.cpp" bodystart="51" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a quorum operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/quorum_manager.h" line="42" column="1" bodyfile="include/sharding/quorum_manager.h" bodystart="42" bodyend="69"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1a63cfbfafcc4043c8b3466be7915e693a" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>acks_received</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1a9e9ef73de5013937ddaf0e98ceb0dbe5" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>acks_required</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1a83404848bae8c6845be60b984b19be6f" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>error_message</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1a6730a6f79457baa80f41c050537f1e83" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>failed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1a851c374a1b7f88403f72ee9c55474fd3" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>failed_nodes</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1a395fee977a6f8183d313c3b9d921f494" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>latency</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1a0cb4910b71512ed4136f7a686d676a84" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>success</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1adefa371890a96cb7a6993cb7f18579b5" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>successful</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_quorum_result_1adbc1ebb1d25b74d26cd02ddbfb0b550f" prot="public" virt="non-virtual"><scope>themisdb::sharding::QuorumResult</scope><name>successful_nodes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

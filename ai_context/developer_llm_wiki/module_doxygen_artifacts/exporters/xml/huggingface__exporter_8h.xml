@@ -1,0 +1,336 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="huggingface__exporter_8h" kind="file" language="C++">
+    <compoundname>huggingface_exporter.h</compoundname>
+    <includes refid="exporter__interface_8h" local="yes">exporter_interface.h</includes>
+    <includes refid="exporter__metrics_8h" local="yes">exporter_metrics.h</includes>
+    <includes refid="jsonl__llm__exporter_8h" local="yes">jsonl_llm_exporter.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includedby refid="export__format__registry_8cpp" local="yes">src/exporters/export_format_registry.cpp</includedby>
+    <includedby refid="huggingface__exporter_8cpp" local="yes">src/exporters/huggingface_exporter.cpp</includedby>
+    <includedby refid="test__export__format__registry_8cpp" local="yes">tests/exporters/test_export_format_registry.cpp</includedby>
+    <includedby refid="test__huggingface__exporter_8cpp" local="yes">tests/exporters/test_huggingface_exporter.cpp</includedby>
+    <incdepgraph>
+      <node id="10">
+        <label>exporters/export_encryption.h</label>
+        <link refid="export__encryption_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>exporter_interface.h</label>
+        <link refid="exporter__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>exporter_metrics.h</label>
+        <link refid="exporter__metrics_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>format_template.h</label>
+        <link refid="format__template_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/exporters/huggingface_exporter.h</label>
+        <link refid="huggingface__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>jsonl_llm_exporter.h</label>
+        <link refid="jsonl__llm__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>cstddef</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="15">
+        <label>istream</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="16">
+        <label>mutex</label>
+      </node>
+      <node id="21">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>ostream</label>
+      </node>
+      <node id="24">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="11">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="12">
+        <label>security/key_provider.h</label>
+      </node>
+      <node id="18">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/exporters/huggingface_exporter.h</label>
+        <link refid="huggingface__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/exporters/export_format_registry.cpp</label>
+        <link refid="export__format__registry_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/exporters/huggingface_exporter.cpp</label>
+        <link refid="huggingface__exporter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/exporters/test_export_format_registry.cpp</label>
+        <link refid="test__export__format__registry_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/exporters/test_huggingface_exporter.cpp</label>
+        <link refid="test__huggingface__exporter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1exporters_1_1_hugging_face_feature" prot="public">themis::exporters::HuggingFaceFeature</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" prot="public">themis::exporters::HuggingFaceExporterConfig</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_hugging_face_exporter" prot="public">themis::exporters::HuggingFaceExporter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1exporters">themis::exporters</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="exporter__interface_8h" kindref="compound">exporter_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="exporter__metrics_8h" kindref="compound">exporter_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="jsonl__llm__exporter_8h" kindref="compound">jsonl_llm_exporter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">exporters</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1exporters_1_1_hugging_face_feature" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_hugging_face_feature" kindref="compound">HuggingFaceFeature</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1exporters_1_1_hugging_face_feature_1a99aa70dbd43da008f2674ccbe73099ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_feature_1a99aa70dbd43da008f2674ccbe73099ac" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1exporters_1_1_hugging_face_feature_1ae469e55e47cb74bc113570ffa78c84ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_feature_1ae469e55e47cb74bc113570ffa78c84ed" kindref="member">dtype</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;string&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;string&quot;,<sp/>&quot;int32&quot;,<sp/>&quot;int64&quot;,<sp/>&quot;float32&quot;,<sp/>&quot;float64&quot;,<sp/>&quot;bool&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1exporters_1_1_hugging_face_feature_1a0bc067e88ae8e72cbe37767c9c4735e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_feature_1a0bc067e88ae8e72cbe37767c9c4735e9" kindref="member">hf_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Value&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>Hugging<sp/>Face<sp/>feature<sp/>type:<sp/>&quot;Value&quot;,<sp/>&quot;Sequence&quot;,<sp/>&quot;ClassLabel&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dataset<sp/>metadata<sp/>(used<sp/>in<sp/>dataset_info.json<sp/>and<sp/>dataset<sp/>card)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a68ae35322b0fcd80095543f029f66996" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a68ae35322b0fcd80095543f029f66996" kindref="member">dataset_name</ref>;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a1484dad01d6c217579ea5c18972ea372" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a1484dad01d6c217579ea5c18972ea372" kindref="member">description</ref>;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a61406464de23f6e191e1dd14a3929674" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a61406464de23f6e191e1dd14a3929674" kindref="member">license</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a5ad19caf017516d188e38b8b942ec4d8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a5ad19caf017516d188e38b8b942ec4d8" kindref="member">homepage</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a56c98a5ea4b239964036809017c5be28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a56c98a5ea4b239964036809017c5be28" kindref="member">citation</ref>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Split<sp/>configuration<sp/>(default:<sp/>single<sp/>&quot;train&quot;<sp/>split)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1abca1d0a367f8c8aa559067ce6b7bd410" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1abca1d0a367f8c8aa559067ce6b7bd410" kindref="member">split_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;train&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Feature/schema<sp/>definition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>empty<sp/>and<sp/>infer_features<sp/>is<sp/>true,<sp/>features<sp/>will<sp/>be<sp/>inferred<sp/>from<sp/>the<sp/>first<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a6e43be30a632660e64a1252cd713dd49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;HuggingFaceFeature&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a6e43be30a632660e64a1252cd713dd49" kindref="member">features</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1aa9c2ad1ee461a4a6436d84d413e337c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1aa9c2ad1ee461a4a6436d84d413e337c1" kindref="member">infer_features</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Infer<sp/>missing<sp/>feature<sp/>dtypes<sp/>from<sp/>exported<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dataset<sp/>card<sp/>(README.md)<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a97cfc8288441262227053695726d46c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a97cfc8288441262227053695726d46c6" kindref="member">generate_dataset_card</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a1653107cccfabd6aab5b356a1511e2f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a1653107cccfabd6aab5b356a1511e2f5" kindref="member">dataset_card_template</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>custom<sp/>template;<sp/>default<sp/>is<sp/>auto-generated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tags<sp/>for<sp/>the<sp/>dataset<sp/>card<sp/>YAML<sp/>frontmatter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a23dcb55f3bb914dff0ed316ab7e9e3d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a23dcb55f3bb914dff0ed316ab7e9e3d3" kindref="member">tags</ref>;</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a401c8aee3fa09b05a248e50b2f9d3e5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1a401c8aee3fa09b05a248e50b2f9d3e5b" kindref="member">language</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;en&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1ae52c4a10590039dc254b5ea51d7a82e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1ae52c4a10590039dc254b5ea51d7a82e1" kindref="member">task_category</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>e.g.,<sp/>&quot;text-generation&quot;,<sp/>&quot;question-answering&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Underlying<sp/>JSONL<sp/>configuration<sp/>(field<sp/>mapping,<sp/>quality<sp/>filters,<sp/>PII,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1ac7ef2b31cb01dc43efecf2c8d94cb289" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1exporters_1_1_j_s_o_n_l_l_l_m_config" kindref="compound">JSONLLLMConfig</ref><sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config_1ac7ef2b31cb01dc43efecf2c8d94cb289" kindref="member">jsonl_config</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1exporters_1_1_hugging_face_exporter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a364d635509534cc78eb26561690f9ea4" kindref="member">HuggingFaceExporter</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_i_exporter" kindref="compound">IExporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a364d635509534cc78eb26561690f9ea4" kindref="member">HuggingFaceExporter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref><sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a601e018a68f66eb64aa1543bf33880f9" kindref="member">exportEntities</ref>(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/>entities,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a86dd014007887d464e7363c275e0da85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a86dd014007887d464e7363c275e0da85" kindref="member">getSupportedFormats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="stringliteral">&quot;huggingface&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hf_datasets&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hf_jsonl&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a7c921cd3efcf552f06303e69d4b377a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a7c921cd3efcf552f06303e69d4b377a6" kindref="member">getName</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;huggingface_exporter&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1aae69e4d674fc8176e7b302d6716c86db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1aae69e4d674fc8176e7b302d6716c86db" kindref="member">getVersion</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a5fa2216013eea121ed654b4a5f2bdb13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a5fa2216013eea121ed654b4a5f2bdb13" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref>&amp;<sp/>config)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_<sp/>=<sp/>config;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inferred_features_.clear();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1ac4d426b0e9e0209f21a4d6c3c53877c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref>&amp;<sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1ac4d426b0e9e0209f21a4d6c3c53877c4" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a8f45634167f86aafda4c521124ca5127" kindref="member">generateDatasetInfoJson</ref>(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref>&amp;<sp/>stats,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>data_file_bytes<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1a219d5947d6bfbe4240a81195ec300e98" kindref="member">generateDatasetCard</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1af02ee27142553fb2551db3cebcc9494f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ExporterMetrics&gt;<sp/><ref refid="classthemis_1_1exporters_1_1_hugging_face_exporter_1af02ee27142553fb2551db3cebcc9494f" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1exporters_1_1_hugging_face_exporter_config" kindref="compound">HuggingFaceExporterConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ExporterMetrics&gt;<sp/>metrics_;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>inferDtype(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Value&amp;<sp/>value);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>inferFeatures(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/>entities);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;HuggingFaceFeature&gt;&amp;<sp/>resolvedFeatures()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::vector&lt;HuggingFaceFeature&gt;<sp/>inferred_features_;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>exporters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/exporters/huggingface_exporter.h"/>
+  </compounddef>
+</doxygen>

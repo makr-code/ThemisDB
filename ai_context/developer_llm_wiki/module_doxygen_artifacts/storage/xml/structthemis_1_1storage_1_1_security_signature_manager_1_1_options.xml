@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_security_signature_manager_1_1_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::SecuritySignatureManager::Options</compoundname>
+    <includes refid="security__signature__manager_8h" local="no">security_signature_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_security_signature_manager_1_1_options_1a0299a2fe7100f6de4e5863507a4788a4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::storage::SecuritySignatureManager::Options::allow_in_memory_fallback</definition>
+        <argsstring></argsstring>
+        <name>allow_in_memory_fallback</name>
+        <qualifiedname>themis::storage::SecuritySignatureManager::Options::allow_in_memory_fallback</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Allow an in-memory fallback store when RocksDB is unavailable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is intended for focused tests or explicitly ephemeral workflows. Production callers should keep the default fail-closed behavior. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/security_signature_manager.h" line="39" column="14" bodyfile="include/storage/security_signature_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Construction-time options for storage-backed signature verification. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/security_signature_manager.h" line="32" column="5" bodyfile="include/storage/security_signature_manager.h" bodystart="32" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_security_signature_manager_1_1_options_1a0299a2fe7100f6de4e5863507a4788a4" prot="public" virt="non-virtual"><scope>themis::storage::SecuritySignatureManager::Options</scope><name>allow_in_memory_fallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

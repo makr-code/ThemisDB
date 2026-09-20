@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</compoundname>
+    <includes refid="distributed__analytics_8h" local="no">distributed_analytics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1ac658a2c83243d0f3d10aad91601df354" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1a71c4c933746b1be0da4b4a9a705f8798" kindref="member">CircuitBreakerState</ref></type>
+        <definition>CircuitBreakerState themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::state</qualifiedname>
+        <initializer>= CircuitBreakerState::CLOSED</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="168" column="29" bodyfile="include/analytics/distributed_analytics.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1ad5e88a48895f7cbe0986d15740cab8b7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="169" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a493463346a9e310f8342f74dc14005ee" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::recovery_attempts</definition>
+        <argsstring></argsstring>
+        <name>recovery_attempts</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::recovery_attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="170" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a7be76bc9c36d943b82ec2e3be182f52e" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::opened_at</definition>
+        <argsstring></argsstring>
+        <name>opened_at</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::opened_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="171" column="47" bodyfile="include/analytics/distributed_analytics.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a2d429336f7be9326c2d048a9390ac12b" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::next_recovery_at</definition>
+        <argsstring></argsstring>
+        <name>next_recovery_at</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::next_recovery_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="172" column="47" bodyfile="include/analytics/distributed_analytics.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a5b64f79dbfecfb35faa27bb46f3ea1d2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::state_changes</definition>
+        <argsstring></argsstring>
+        <name>state_changes</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::state_changes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="173" column="18" bodyfile="include/analytics/distributed_analytics.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a4e37bd10b9e410bd80327aeddf3701f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo::last_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="174" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/distributed_analytics.h" line="167" column="5" bodyfile="include/analytics/distributed_analytics.h" bodystart="167" bodyend="175"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1ad5e88a48895f7cbe0986d15740cab8b7" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</scope><name>consecutive_failures</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a4e37bd10b9e410bd80327aeddf3701f5" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</scope><name>last_error</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a2d429336f7be9326c2d048a9390ac12b" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</scope><name>next_recovery_at</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a7be76bc9c36d943b82ec2e3be182f52e" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</scope><name>opened_at</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a493463346a9e310f8342f74dc14005ee" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</scope><name>recovery_attempts</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1ac658a2c83243d0f3d10aad91601df354" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</scope><name>state</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info_1a5b64f79dbfecfb35faa27bb46f3ea1d2" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::CircuitBreakerInfo</scope><name>state_changes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

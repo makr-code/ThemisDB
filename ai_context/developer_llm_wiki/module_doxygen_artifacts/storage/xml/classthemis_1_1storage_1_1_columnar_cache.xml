@@ -1,0 +1,647 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_columnar_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::ColumnarCache</compoundname>
+    <includes refid="columnar__cache_8h" local="no">columnar_cache.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config" prot="public">themis::storage::ColumnarCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_columnar_cache_1_1_entry" prot="private">themis::storage::ColumnarCache::Entry</innerclass>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classthemis_1_1storage_1_1_columnar_cache_1a002ebcaeaf75bf4434bb9eb4f69aa016" prot="private" static="no">
+        <type>std::list&lt; <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref> &gt;</type>
+        <definition>using themis::storage::ColumnarCache::LruList = std::list&lt;SegmentKey&gt;</definition>
+        <argsstring></argsstring>
+        <name>LruList</name>
+        <qualifiedname>themis::storage::ColumnarCache::LruList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="286" column="5" bodyfile="include/storage/columnar_cache.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1storage_1_1_columnar_cache_1aabd5101d7de464808d2a68a4135be2f0" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class PinGuard</definition>
+        <argsstring></argsstring>
+        <name>PinGuard</name>
+        <qualifiedname>themis::storage::ColumnarCache::PinGuard</qualifiedname>
+        <param>
+          <type>PinGuard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="268" column="18" bodyfile="include/storage/columnar_cache.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_columnar_cache_1a81a28f3df18551c284ea4ab16dce7fd2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::storage::ColumnarCache::mu_</definition>
+        <argsstring></argsstring>
+        <name>mu_</name>
+        <qualifiedname>themis::storage::ColumnarCache::mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="288" column="24" bodyfile="include/storage/columnar_cache.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_columnar_cache_1a65249c89e6ec84b30398f267fa31f365" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::storage::ColumnarCache::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::storage::ColumnarCache::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="290" column="12" bodyfile="include/storage/columnar_cache.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_columnar_cache_1a820d98da84a0c01cedb89da8e652b30f" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref>, Entry &gt;</type>
+        <definition>std::unordered_map&lt;SegmentKey, Entry&gt; themis::storage::ColumnarCache::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::storage::ColumnarCache::store_</qualifiedname>
+        <briefdescription>
+<para>The actual cached entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="293" column="24" bodyfile="include/storage/columnar_cache.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_columnar_cache_1ab05d92a857dcf0c0b7a345d7e34b638d" prot="private" static="no" mutable="no">
+        <type>LruList</type>
+        <definition>LruList themis::storage::ColumnarCache::lru_list_</definition>
+        <argsstring></argsstring>
+        <name>lru_list_</name>
+        <qualifiedname>themis::storage::ColumnarCache::lru_list_</qualifiedname>
+        <briefdescription>
+<para>LRU ordering; each key appears at most once. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="296" column="13" bodyfile="include/storage/columnar_cache.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_columnar_cache_1adc044744a3847b006fb1e170a58b1771" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref>, LruList::iterator &gt;</type>
+        <definition>std::unordered_map&lt;SegmentKey, LruList::iterator&gt; themis::storage::ColumnarCache::lru_map_</definition>
+        <argsstring></argsstring>
+        <name>lru_map_</name>
+        <qualifiedname>themis::storage::ColumnarCache::lru_map_</qualifiedname>
+        <briefdescription>
+<para>Fast lookup: key → iterator in lru_list_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="299" column="24" bodyfile="include/storage/columnar_cache.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_columnar_cache_1a119dd647a46ed4f890ddce31a0d2b8b4" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnarCache::bytes_used_</definition>
+        <argsstring></argsstring>
+        <name>bytes_used_</name>
+        <qualifiedname>themis::storage::ColumnarCache::bytes_used_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="301" column="14" bodyfile="include/storage/columnar_cache.h" bodystart="301" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_columnar_cache_1a6f786178de9b25a3ddd02d841dab695f" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::ColumnarCache::hit_count_</definition>
+        <argsstring></argsstring>
+        <name>hit_count_</name>
+        <qualifiedname>themis::storage::ColumnarCache::hit_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="302" column="14" bodyfile="include/storage/columnar_cache.h" bodystart="302" bodyend="302"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_columnar_cache_1a8a75baeb2417299397618c6de4861e96" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::ColumnarCache::miss_count_</definition>
+        <argsstring></argsstring>
+        <name>miss_count_</name>
+        <qualifiedname>themis::storage::ColumnarCache::miss_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="303" column="14" bodyfile="include/storage/columnar_cache.h" bodystart="303" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ColumnarCache::ColumnarCache</definition>
+        <argsstring>(Config config)</argsstring>
+        <name>ColumnarCache</name>
+        <qualifiedname>themis::storage::ColumnarCache::ColumnarCache</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config" kindref="compound">Config</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="189" column="14" bodyfile="src/storage/columnar_cache.cpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a130a720d3e325a81d792855ab051f8b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ColumnarCache::ColumnarCache</definition>
+        <argsstring>()</argsstring>
+        <name>ColumnarCache</name>
+        <qualifiedname>themis::storage::ColumnarCache::ColumnarCache</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="192" column="5" bodyfile="include/storage/columnar_cache.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1ab0b07fa4d8740c74f43a1bf780e2a1af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ColumnarCache::~ColumnarCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ColumnarCache</name>
+        <qualifiedname>themis::storage::ColumnarCache::~ColumnarCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="193" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a14b1a5f784e194ce08473a96ce8cd5b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::ColumnarCache::ColumnarCache</definition>
+        <argsstring>(const ColumnarCache &amp;)=delete</argsstring>
+        <name>ColumnarCache</name>
+        <qualifiedname>themis::storage::ColumnarCache::ColumnarCache</qualifiedname>
+        <param>
+          <type>const ColumnarCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="195" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1ae189edd644c43950ed86400d1f0422ad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" kindref="member">ColumnarCache</ref> &amp;</type>
+        <definition>ColumnarCache &amp; themis::storage::ColumnarCache::operator=</definition>
+        <argsstring>(const ColumnarCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::ColumnarCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" kindref="member">ColumnarCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="196" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1ac2a4e0da47a7060f02ce302a70f26398" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ColumnarCache::put</definition>
+        <argsstring>(ColumnSegment segment)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::ColumnarCache::put</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref></type>
+          <declname>segment</declname>
+        </param>
+        <briefdescription>
+<para>Insert or replace a segment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Put.</para>
+<para>If inserting the segment would exceed <computeroutput>max_bytes</computeroutput>, unpinned segments are evicted in LRU order until enough space is available. If insufficient unpinned space exists the segment is still inserted (the cache temporarily exceeds <computeroutput>max_bytes</computeroutput> until pins are released).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>segment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The segment to insert. Ownership is taken by copy.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">segment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: byteSize(), lk(), find(), end(), std::move(), erase(), push_front(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="212" column="10" bodyfile="src/storage/columnar_cache.cpp" bodystart="98" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a688f118570bd0f06ed14d86167d4c905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_columnar_cache_1aabd5101d7de464808d2a68a4135be2f0" kindref="member">PinGuard</ref></type>
+        <definition>PinGuard themis::storage::ColumnarCache::get</definition>
+        <argsstring>(const SegmentKey &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::ColumnarCache::get</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve and pin a segment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The segment key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <computeroutput><ref refid="classthemis_1_1storage_1_1_pin_guard" kindref="compound">PinGuard</ref></computeroutput> wrapping the segment, or an empty guard if the key is not present.</para>
+</simplesect>
+On a cache hit the segment is promoted to the MRU position.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lk(), find(), end(), erase(), push_front(), begin(), <ref refid="classthemis_1_1storage_1_1_columnar_cache_1aabd5101d7de464808d2a68a4135be2f0" kindref="member">PinGuard()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="223" column="14" bodyfile="src/storage/columnar_cache.cpp" bodystart="141" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a65a7b06f180680242e71d4d71cfd39b6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ColumnarCache::contains</definition>
+        <argsstring>(const SegmentKey &amp;key) const noexcept</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::storage::ColumnarCache::contains</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Returns <computeroutput>true</computeroutput> if the key is present in the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does <bold>not</bold> update the LRU order or pin count. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="230" column="10" bodyfile="src/storage/columnar_cache.cpp" bodystart="167" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a90f6c99a06d13c8d5b6956ab60cb9fca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::ColumnarCache::evict</definition>
+        <argsstring>(const SegmentKey &amp;key)</argsstring>
+        <name>evict</name>
+        <qualifiedname>themis::storage::ColumnarCache::evict</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Explicitly evict a segment by key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evict.</para>
+<para>Silently ignored if the segment is pinned or not present. <simplesect kind="return"><para><computeroutput>true</computeroutput> if the segment was evicted, <computeroutput>false</computeroutput> otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: void(), lk(), find(), end(), byteSize(), erase(), on_evict_cb(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="238" column="10" bodyfile="src/storage/columnar_cache.cpp" bodystart="187" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1ad521bc6b80a8cb04b4a393260d2f0793" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ColumnarCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::storage::ColumnarCache::clear</qualifiedname>
+        <briefdescription>
+<para>Evict all unpinned segments. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: void(), lk(), begin(), end(), byteSize(), push_back(), find(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="243" column="10" bodyfile="src/storage/columnar_cache.cpp" bodystart="225" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a4c3ee15d986c0a27428dd8cd48063e00" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnarCache::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::storage::ColumnarCache::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total segments currently in the cache (pinned + unpinned). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="250" column="12" bodyfile="src/storage/columnar_cache.cpp" bodystart="264" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1ad6cd9968423ac90c0eb89a67e7538e78" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnarCache::pinnedCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>pinnedCount</name>
+        <qualifiedname>themis::storage::ColumnarCache::pinnedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Number of pinned segments. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="253" column="12" bodyfile="src/storage/columnar_cache.cpp" bodystart="274" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a58c5cadcea31b081ebd340d2f3cf50b3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnarCache::bytesUsed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>bytesUsed</name>
+        <qualifiedname>themis::storage::ColumnarCache::bytesUsed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total bytes currently used by cached segments. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="256" column="12" bodyfile="src/storage/columnar_cache.cpp" bodystart="295" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1acaeae189fc134253cab5f61895f76a0a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::ColumnarCache::maxBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>maxBytes</name>
+        <qualifiedname>themis::storage::ColumnarCache::maxBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum bytes allowed by configuration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="259" column="12" bodyfile="include/storage/columnar_cache.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a9cb166175c6b4a4d2423af56396edc13" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::ColumnarCache::hitCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>hitCount</name>
+        <qualifiedname>themis::storage::ColumnarCache::hitCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cache hit count since construction. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="262" column="14" bodyfile="src/storage/columnar_cache.cpp" bodystart="305" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1ae51f13bbc49997f70a440a4306ef7f5a" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::storage::ColumnarCache::missCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>missCount</name>
+        <qualifiedname>themis::storage::ColumnarCache::missCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Cache miss count since construction. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="265" column="14" bodyfile="src/storage/columnar_cache.cpp" bodystart="315" bodyend="323"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a1d7e2eaef0f67e105b352126a2ddd624" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ColumnarCache::decrementPin</definition>
+        <argsstring>(const SegmentKey &amp;key) noexcept</argsstring>
+        <name>decrementPin</name>
+        <qualifiedname>themis::storage::ColumnarCache::decrementPin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="270" column="10" bodyfile="src/storage/columnar_cache.cpp" bodystart="329" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_columnar_cache_1a4058ae093a0f9790825eb81012774c86" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::ColumnarCache::evictLRU</definition>
+        <argsstring>()</argsstring>
+        <name>evictLRU</name>
+        <qualifiedname>themis::storage::ColumnarCache::evictLRU</qualifiedname>
+        <briefdescription>
+<para>Iterator usage below is safe: after erase() the iterator is immediately reassigned via the return value and the old iterator is never accessed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Data-race and iterator-invalidation scanner alerts on this loop are false positives. Calls: empty(), end(), begin(), find(), byteSize(), push_back(), erase(), on_evict(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_cache.h" line="274" column="10" bodyfile="src/storage/columnar_cache.cpp" bodystart="350" bodyend="382"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory LRU columnar segment cache. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/columnar_cache.h" line="168" column="1" bodyfile="include/storage/columnar_cache.h" bodystart="168" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a119dd647a46ed4f890ddce31a0d2b8b4" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>bytes_used_</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a58c5cadcea31b081ebd340d2f3cf50b3" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>bytesUsed</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a65249c89e6ec84b30398f267fa31f365" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1ad521bc6b80a8cb04b4a393260d2f0793" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>ColumnarCache</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a130a720d3e325a81d792855ab051f8b1" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>ColumnarCache</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a14b1a5f784e194ce08473a96ce8cd5b2" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>ColumnarCache</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a65a7b06f180680242e71d4d71cfd39b6" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>contains</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a1d7e2eaef0f67e105b352126a2ddd624" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>decrementPin</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a90f6c99a06d13c8d5b6956ab60cb9fca" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>evict</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a4058ae093a0f9790825eb81012774c86" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>evictLRU</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a688f118570bd0f06ed14d86167d4c905" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a6f786178de9b25a3ddd02d841dab695f" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>hit_count_</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a9cb166175c6b4a4d2423af56396edc13" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>hitCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1ab05d92a857dcf0c0b7a345d7e34b638d" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>lru_list_</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1adc044744a3847b006fb1e170a58b1771" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>lru_map_</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a002ebcaeaf75bf4434bb9eb4f69aa016" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>LruList</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1acaeae189fc134253cab5f61895f76a0a" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>maxBytes</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a8a75baeb2417299397618c6de4861e96" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>miss_count_</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1ae51f13bbc49997f70a440a4306ef7f5a" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>missCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a81a28f3df18551c284ea4ab16dce7fd2" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>mu_</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1ae189edd644c43950ed86400d1f0422ad" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1aabd5101d7de464808d2a68a4135be2f0" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>PinGuard</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1ad6cd9968423ac90c0eb89a67e7538e78" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>pinnedCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1ac2a4e0da47a7060f02ce302a70f26398" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a4c3ee15d986c0a27428dd8cd48063e00" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>size</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1a820d98da84a0c01cedb89da8e652b30f" prot="private" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>store_</name></member>
+      <member refid="classthemis_1_1storage_1_1_columnar_cache_1ab0b07fa4d8740c74f43a1bf780e2a1af" prot="public" virt="non-virtual"><scope>themis::storage::ColumnarCache</scope><name>~ColumnarCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

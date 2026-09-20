@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_vulkan_pipeline_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::VulkanPipelineConfig</compoundname>
+    <includes refid="vulkan__backend_8h" local="no">vulkan_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1af6a3386ddcc5083ffeee2cc298b3f67e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VulkanPipelineConfig::local_size_x</definition>
+        <argsstring></argsstring>
+        <name>local_size_x</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineConfig::local_size_x</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+<para>Workgroup local X dimension (threads per block). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="44" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1a3bd0bed531bf21fd672cf01b09b3cb2d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VulkanPipelineConfig::local_size_y</definition>
+        <argsstring></argsstring>
+        <name>local_size_y</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineConfig::local_size_y</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Workgroup local Y dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="45" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1ad08b9417f12e3251955cf59cc9d77046" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VulkanPipelineConfig::local_size_z</definition>
+        <argsstring></argsstring>
+        <name>local_size_z</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineConfig::local_size_z</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Workgroup local Z dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="46" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1ab5ff06a3a6c23ab14a149c25116805cc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::acceleration::VulkanPipelineConfig::push_const_size</definition>
+        <argsstring></argsstring>
+        <name>push_const_size</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineConfig::push_const_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Push constant block size in bytes (0 = none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="47" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1a2836ef21184282274ea37c8aa9b5a4ce" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanPipelineConfig::enable_fp16</definition>
+        <argsstring></argsstring>
+        <name>enable_fp16</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineConfig::enable_fp16</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Request VK_KHR_shader_float16_int8 (FP16). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="48" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1ad0adb02904fa889e9c7d00ade9f8f53c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VulkanPipelineConfig::enable_int8</definition>
+        <argsstring></argsstring>
+        <name>enable_int8</name>
+        <qualifiedname>themis::acceleration::VulkanPipelineConfig::enable_int8</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Request 8-bit integer arithmetic. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vulkan_backend.h" line="49" column="14" bodyfile="include/acceleration/vulkan_backend.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vulkan_backend.h" line="43" column="1" bodyfile="include/acceleration/vulkan_backend.h" bodystart="43" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1a2836ef21184282274ea37c8aa9b5a4ce" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineConfig</scope><name>enable_fp16</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1ad0adb02904fa889e9c7d00ade9f8f53c" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineConfig</scope><name>enable_int8</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1af6a3386ddcc5083ffeee2cc298b3f67e" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineConfig</scope><name>local_size_x</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1a3bd0bed531bf21fd672cf01b09b3cb2d" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineConfig</scope><name>local_size_y</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1ad08b9417f12e3251955cf59cc9d77046" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineConfig</scope><name>local_size_z</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vulkan_pipeline_config_1ab5ff06a3a6c23ab14a149c25116805cc" prot="public" virt="non-virtual"><scope>themis::acceleration::VulkanPipelineConfig</scope><name>push_const_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

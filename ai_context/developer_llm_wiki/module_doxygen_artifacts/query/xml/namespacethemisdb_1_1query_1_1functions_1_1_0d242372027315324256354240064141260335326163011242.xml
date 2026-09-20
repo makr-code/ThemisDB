@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1query_1_1functions_1_1_0d242372027315324256354240064141260335326163011242" kind="namespace" language="C++">
+    <compoundname>themisdb::query::functions::@242372027315324256354240064141260335326163011242</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/ai_ml_functions.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

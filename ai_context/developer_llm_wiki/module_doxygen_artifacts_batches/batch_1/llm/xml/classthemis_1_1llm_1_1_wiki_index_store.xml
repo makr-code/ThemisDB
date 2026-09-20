@@ -1,0 +1,1374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_wiki_index_store" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::WikiIndexStore</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_wiki_index_reader" prot="public" virt="non-virtual">themis::llm::IWikiIndexReader</basecompoundref>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_wiki_index_writer" prot="public" virt="non-virtual">themis::llm::IWikiIndexWriter</basecompoundref>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1ae9ae1f8f5ba333e88ead99ac2ba83920" prot="private" static="no" mutable="no">
+        <type>SecondaryIndexManager &amp;</type>
+        <definition>SecondaryIndexManager&amp; themis::llm::WikiIndexStore::sim_</definition>
+        <argsstring></argsstring>
+        <name>sim_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::sim_</qualifiedname>
+        <briefdescription>
+<para>Fulltext + regular indexes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="247" column="32" bodyfile="include/llm/wiki_index_store.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a1fd2561e2a0621aafc38d44d63942a1c" prot="private" static="no" mutable="no">
+        <type>VectorIndexManager &amp;</type>
+        <definition>VectorIndexManager&amp; themis::llm::WikiIndexStore::vim_</definition>
+        <argsstring></argsstring>
+        <name>vim_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::vim_</qualifiedname>
+        <briefdescription>
+<para>HNSW vector index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="248" column="32" bodyfile="include/llm/wiki_index_store.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1ae2814e714f1020afbfbcbc7f2f0ab357" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m" kindref="compound">EmbeddedLLM</ref> &amp;</type>
+        <definition>EmbeddedLLM&amp; themis::llm::WikiIndexStore::llm_</definition>
+        <argsstring></argsstring>
+        <name>llm_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::llm_</qualifiedname>
+        <briefdescription>
+<para>Embedding provider. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="249" column="32" bodyfile="include/llm/wiki_index_store.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1ab6620e452da37427175194b0bf4d346b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_wiki_index_config" kindref="compound">WikiIndexConfig</ref></type>
+        <definition>WikiIndexConfig themis::llm::WikiIndexStore::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::config_</qualifiedname>
+        <briefdescription>
+<para>Operational configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="250" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1aa9dc2c4ee2554356ed6626d5664d2ecb" prot="private" static="no" mutable="no">
+        <type>rag::HybridRetriever</type>
+        <definition>rag::HybridRetriever themis::llm::WikiIndexStore::retriever_</definition>
+        <argsstring></argsstring>
+        <name>retriever_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::retriever_</qualifiedname>
+        <briefdescription>
+<para>RRF fusion engine. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="251" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a75f1a92aedacca53c58de1af6aebba95" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::WikiIndexStore::ready_</definition>
+        <argsstring></argsstring>
+        <name>ready_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::ready_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>Initialization flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="252" column="27" bodyfile="include/llm/wiki_index_store.h" bodystart="252" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1ab36f6ce56734599273125672c222ab67" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::llm::WikiIndexStore::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="254" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a47d882ac89ff49344801ca4702048b0c" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;float&gt; &gt; themis::llm::WikiIndexStore::embed_cache_</definition>
+        <argsstring></argsstring>
+        <name>embed_cache_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::embed_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="256" column="32" bodyfile="include/llm/wiki_index_store.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1aaff252dc5cbe43e0256b2e3e0737c962" prot="private" static="no" mutable="yes">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>std::list&lt;std::string&gt; themis::llm::WikiIndexStore::embed_cache_lru_</definition>
+        <argsstring></argsstring>
+        <name>embed_cache_lru_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::embed_cache_lru_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="257" column="23" bodyfile="include/llm/wiki_index_store.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a93242a48b14cd067dcf02451058f85d8" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, std::list&lt; std::string &gt;::iterator &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::list&lt;std::string&gt;::iterator&gt; themis::llm::WikiIndexStore::embed_cache_lru_pos_</definition>
+        <argsstring></argsstring>
+        <name>embed_cache_lru_pos_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::embed_cache_lru_pos_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="258" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a3be3acb3d6826aedddfae47770142751" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, std::size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::size_t&gt; themis::llm::WikiIndexStore::embed_cache_entry_bytes_</definition>
+        <argsstring></argsstring>
+        <name>embed_cache_entry_bytes_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::embed_cache_entry_bytes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="259" column="32" bodyfile="include/llm/wiki_index_store.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a269643265a50ac47ab3ec975c8363482" prot="private" static="no" mutable="yes">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiIndexStore::embed_cache_bytes_</definition>
+        <argsstring></argsstring>
+        <name>embed_cache_bytes_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::embed_cache_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="260" column="25" bodyfile="include/llm/wiki_index_store.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a6684fb0abf93f0a912be40c21c8b39b7" prot="private" static="no" mutable="yes">
+        <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m" kindref="compound">EmbeddedLLM</ref> *</type>
+        <definition>EmbeddedLLM* themis::llm::WikiIndexStore::llm_ptr_</definition>
+        <argsstring></argsstring>
+        <name>llm_ptr_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::llm_ptr_</qualifiedname>
+        <briefdescription>
+<para>Raw non-owning pointer to llm_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="262" column="32" bodyfile="include/llm/wiki_index_store.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1aa1f7da66827ea982a0d58479131d76d7" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::WikiIndexStore::query_embed_mutex_</definition>
+        <argsstring></argsstring>
+        <name>query_embed_mutex_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::query_embed_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="264" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a4c484879c8f6840863166c8c5d9d75df" prot="private" static="no" mutable="yes">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; float &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;float&gt; &gt; themis::llm::WikiIndexStore::query_embed_cache_</definition>
+        <argsstring></argsstring>
+        <name>query_embed_cache_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::query_embed_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="266" column="32" bodyfile="include/llm/wiki_index_store.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a8261c055851489ce49682ae8be4ae10d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::WikiIndexStore::dim_probed_</definition>
+        <argsstring></argsstring>
+        <name>dim_probed_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::dim_probed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="268" column="27" bodyfile="include/llm/wiki_index_store.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a713f0a14be07457f8625e672a7c3428a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiIndexStore::emb_cache_table_</definition>
+        <argsstring></argsstring>
+        <name>emb_cache_table_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::emb_cache_table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="270" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a99d6c00dfdfa6f7aa54c188bdde2ee8a" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiIndexStore::legacy_emb_cache_table_</definition>
+        <argsstring></argsstring>
+        <name>legacy_emb_cache_table_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::legacy_emb_cache_table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="271" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a06f05b505ba179d411f8069073553bd0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::WikiIndexStore::eval_mutex_</definition>
+        <argsstring></argsstring>
+        <name>eval_mutex_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::eval_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="346" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1aa12409a35aeadcaa5ddf140f8bc51ee6" prot="private" static="no" mutable="yes">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::llm::WikiIndexStore::latency_ring_</definition>
+        <argsstring></argsstring>
+        <name>latency_ring_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::latency_ring_</qualifiedname>
+        <briefdescription>
+<para>Pre-allocated capacity kLatencyRingSize. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="348" column="25" bodyfile="include/llm/wiki_index_store.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1aaf2a08459218a2a7fa8fd337188025a6" prot="private" static="no" mutable="yes">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiIndexStore::latency_ring_head_</definition>
+        <argsstring></argsstring>
+        <name>latency_ring_head_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::latency_ring_head_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Next write position (mod kLatencyRingSize). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="349" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="349" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1ac8a8a1fe17d734e79a4fe5145b30d088" prot="private" static="no" mutable="yes">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiIndexStore::latency_ring_count_</definition>
+        <argsstring></argsstring>
+        <name>latency_ring_count_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::latency_ring_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Valid entries [0, kLatencyRingSize]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="350" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="350" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1ae27f69ec0452ee3a0bad294dd0ed9db4" prot="private" static="no" mutable="yes">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiIndexStore::total_query_count_</definition>
+        <argsstring></argsstring>
+        <name>total_query_count_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::total_query_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="352" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="352" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a4f45058597993d229ba99eeefe521269" prot="private" static="no" mutable="yes">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexStore::eval_recall_at_1_</definition>
+        <argsstring></argsstring>
+        <name>eval_recall_at_1_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::eval_recall_at_1_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="354" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="354" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1afa5a94958a6d5452ea6212315a642810" prot="private" static="no" mutable="yes">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexStore::eval_recall_at_3_</definition>
+        <argsstring></argsstring>
+        <name>eval_recall_at_3_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::eval_recall_at_3_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="355" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="355" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1afee216e5b224ff542d5151f7a45c2164" prot="private" static="no" mutable="yes">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexStore::eval_recall_at_5_</definition>
+        <argsstring></argsstring>
+        <name>eval_recall_at_5_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::eval_recall_at_5_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="356" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="356" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a8bb942d9e8fcb5db0cd84488d8aad26f" prot="private" static="no" mutable="yes">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexStore::eval_recall_at_10_</definition>
+        <argsstring></argsstring>
+        <name>eval_recall_at_10_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::eval_recall_at_10_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="357" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="357" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1aca87b0a5c386a0127eb511865bcc6a52" prot="private" static="no" mutable="yes">
+        <type>double</type>
+        <definition>double themis::llm::WikiIndexStore::eval_mrr_</definition>
+        <argsstring></argsstring>
+        <name>eval_mrr_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::eval_mrr_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="358" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="358" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1aea7d223ad1c8bc3bca053f944d6cc5cf" prot="private" static="no" mutable="yes">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiIndexStore::eval_query_count_</definition>
+        <argsstring></argsstring>
+        <name>eval_query_count_</name>
+        <qualifiedname>themis::llm::WikiIndexStore::eval_query_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="359" column="33" bodyfile="include/llm/wiki_index_store.h" bodystart="359" bodyend="359"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_wiki_index_store_1a5596e296ec956d73e3348e0cac5f1050" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiIndexStore::kLatencyRingSize</definition>
+        <argsstring></argsstring>
+        <name>kLatencyRingSize</name>
+        <qualifiedname>themis::llm::WikiIndexStore::kLatencyRingSize</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="344" column="34" bodyfile="include/llm/wiki_index_store.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1afcb2519baa8852743dca80113ee0d653" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::WikiIndexStore::WikiIndexStore</definition>
+        <argsstring>(SecondaryIndexManager &amp;sim, VectorIndexManager &amp;vim, EmbeddedLLM &amp;llm, WikiIndexConfig config={})</argsstring>
+        <name>WikiIndexStore</name>
+        <qualifiedname>themis::llm::WikiIndexStore::WikiIndexStore</qualifiedname>
+        <param>
+          <type>SecondaryIndexManager &amp;</type>
+          <declname>sim</declname>
+        </param>
+        <param>
+          <type>VectorIndexManager &amp;</type>
+          <declname>vim</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_embedded_l_l_m" kindref="compound">EmbeddedLLM</ref> &amp;</type>
+          <declname>llm</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_wiki_index_config" kindref="compound">WikiIndexConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="194" column="5" bodyfile="src/llm/wiki_index_store.cpp" bodystart="94" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a5461b2b5059a518137ca371c10c8c468" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::writeChunk</definition>
+        <argsstring>(WikiChunk chunk) override</argsstring>
+        <name>writeChunk</name>
+        <qualifiedname>themis::llm::WikiIndexStore::writeChunk</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_wiki_index_writer_1a7dde73bee305a5c9f6e963b80fd17eeb">writeChunk</reimplements>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref></type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Write Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), probeEmbeddingDim(), empty(), tryResolveEmbeddingFromCaches(), embed(), makeEmbeddingCacheKey(), upsertEmbeddingCacheEntry(), persistEmbedding(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="201" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="195" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a470261a35300562ac728f8216c54280c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::writeBatch</definition>
+        <argsstring>(std::vector&lt; WikiChunk &gt; chunks) override</argsstring>
+        <name>writeBatch</name>
+        <qualifiedname>themis::llm::WikiIndexStore::writeBatch</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_wiki_index_writer_1a6ed5f027326fe92a5fc201bd619387ac">writeBatch</reimplements>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+          <declname>chunks</declname>
+        </param>
+        <briefdescription>
+<para>Write Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), probeEmbeddingDim(), std::max(), size(), empty(), tryResolveEmbeddingFromCaches(), push_back(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="203" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="241" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a999ae0226db017586564a21539349cb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::flush</definition>
+        <argsstring>() override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::llm::WikiIndexStore::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_wiki_index_writer_1abe140d3508a64ad2f8032217efb78000">flush</reimplements>
+        <briefdescription>
+<para>Flush. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="205" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="313" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a3270dcbd4a228abcae73b13193e438b5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+        <definition>std::vector&lt; WikiChunk &gt; themis::llm::WikiIndexStore::query</definition>
+        <argsstring>(const std::string &amp;query_text, int top_k, float min_score) const override</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::llm::WikiIndexStore::query</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a0424927b6c95bc7944e61a90a4f5610b">query</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>top_k</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_score</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Qlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query_embed_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Elk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">eval_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="209" column="18" bodyfile="src/llm/wiki_index_store.cpp" bodystart="323" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a48d3dc2ef696c5534e175a6e50ca95f5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexStore::isReady</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::WikiIndexStore::isReady</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a16100a812f8598d1ba9a4497486febb6">isReady</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="214" column="11" bodyfile="src/llm/wiki_index_store.cpp" bodystart="464" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1ae7667ae208b0200561dfc4d38a7166ca" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &gt;</type>
+        <definition>std::vector&lt; WikiChunk &gt; themis::llm::WikiIndexStore::evaluateQuery</definition>
+        <argsstring>(const std::string &amp;query_text, int top_k, float min_score, const std::vector&lt; std::string &gt; &amp;relevant_doc_ids) const</argsstring>
+        <name>evaluateQuery</name>
+        <qualifiedname>themis::llm::WikiIndexStore::evaluateQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_text</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>top_k</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_score</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>relevant_doc_ids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>── Online mean update ────────────────────────────────────────────── <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">eval_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="220" column="18" bodyfile="src/llm/wiki_index_store.cpp" bodystart="481" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a9fc67562de00d1d9336c736105bcf935" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_wiki_eval_stats" kindref="compound">WikiEvalStats</ref></type>
+        <definition>WikiEvalStats themis::llm::WikiIndexStore::getEvaluationStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getEvaluationStats</name>
+        <qualifiedname>themis::llm::WikiIndexStore::getEvaluationStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">eval_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="226" column="20" bodyfile="src/llm/wiki_index_store.cpp" bodystart="541" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1abce655ec561431dc208d5fef987f7736" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::resetEvaluationStats</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>resetEvaluationStats</name>
+        <qualifiedname>themis::llm::WikiIndexStore::resetEvaluationStats</qualifiedname>
+        <briefdescription>
+<para>Reset Evaluation Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">eval_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="232" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="579" bodyend="597"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a573e5b459b7fbf93a602e8d7092f22bb" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>themis::BaseEntity</type>
+        <definition>themis::BaseEntity themis::llm::WikiIndexStore::toEntity</definition>
+        <argsstring>(const WikiChunk &amp;chunk)</argsstring>
+        <name>toEntity</name>
+        <qualifiedname>themis::llm::WikiIndexStore::toEntity</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>To Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: chunkToEntity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="235" column="32" bodyfile="src/llm/wiki_index_store.cpp" bodystart="608" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1aa0ab34c09433076778834b8626aacb26" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiIndexStore::makeEmbeddingCacheKey</definition>
+        <argsstring>(const WikiChunk &amp;chunk)</argsstring>
+        <name>makeEmbeddingCacheKey</name>
+        <qualifiedname>themis::llm::WikiIndexStore::makeEmbeddingCacheKey</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <briefdescription>
+<para>Make Embedding Cache Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeCacheMaterial(), core::concerns::SignedAdapterValidator::sha256Hex(), empty(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="236" column="25" bodyfile="src/llm/wiki_index_store.cpp" bodystart="618" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1abdfa3b23c002577be8f8c2b6dab5f760" prot="private" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::llm::WikiIndexStore::estimateEmbeddingBytes</definition>
+        <argsstring>(const std::string &amp;cache_key, const std::vector&lt; float &gt; &amp;embedding) noexcept</argsstring>
+        <name>estimateEmbeddingBytes</name>
+        <qualifiedname>themis::llm::WikiIndexStore::estimateEmbeddingBytes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Embedding Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="244" column="24" bodyfile="src/llm/wiki_index_store.cpp" bodystart="630" bodyend="633"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1ae45552b0732f12a41c88ded74ff6da49" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::loadPersistentEmbedCache</definition>
+        <argsstring>()</argsstring>
+        <name>loadPersistentEmbedCache</name>
+        <qualifiedname>themis::llm::WikiIndexStore::loadPersistentEmbedCache</qualifiedname>
+        <briefdescription>
+<para>Load Persistent Embed Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="276" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="698" bodyend="704"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a2c0826dd53dd8af2183b0787de4983a4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::persistEmbedding</definition>
+        <argsstring>(const std::string &amp;cache_key, const std::string &amp;chunk_id, const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>persistEmbedding</name>
+        <qualifiedname>themis::llm::WikiIndexStore::persistEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Persist Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>───────────────────────────────────────────────────────────────────────────── <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref> — Phase 3 helpers: persistent cache, auto-probe dim ─────────────────────────────────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: setPrimaryKey(), setField(), put(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="284" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="643" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a45a5ff5e753d90a53a73daa90ac1df18" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::llm::WikiIndexStore::fetchPersistedEmbedding</definition>
+        <argsstring>(const std::string &amp;cache_key) const</argsstring>
+        <name>fetchPersistedEmbedding</name>
+        <qualifiedname>themis::llm::WikiIndexStore::fetchPersistedEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_key</declname>
+        </param>
+        <briefdescription>
+<para>Fetch Persisted Embedding. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="293" column="19" bodyfile="src/llm/wiki_index_store.cpp" bodystart="660" bodyend="675"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1aa0a00c4f1a60249650c7806de800b7ad" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; float &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; float &gt; &gt; themis::llm::WikiIndexStore::fetchLegacyPersistedEmbeddingByChunkId</definition>
+        <argsstring>(const std::string &amp;chunk_id) const</argsstring>
+        <name>fetchLegacyPersistedEmbeddingByChunkId</name>
+        <qualifiedname>themis::llm::WikiIndexStore::fetchLegacyPersistedEmbeddingByChunkId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_id</declname>
+        </param>
+        <briefdescription>
+<para>Fetch Legacy Persisted Embedding By Chunk Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the chunk. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="300" column="19" bodyfile="src/llm/wiki_index_store.cpp" bodystart="677" bodyend="692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1ae18325717e3ef42584fd75e5dcbbbcf3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::touchEmbeddingCacheEntry</definition>
+        <argsstring>(const std::string &amp;cache_key) const</argsstring>
+        <name>touchEmbeddingCacheEntry</name>
+        <qualifiedname>themis::llm::WikiIndexStore::touchEmbeddingCacheEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_key</declname>
+        </param>
+        <briefdescription>
+<para>Touch Embedding Cache Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="307" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="706" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a8053d32de2d5b514216cd63e48568e63" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::upsertEmbeddingCacheEntry</definition>
+        <argsstring>(const std::string &amp;cache_key, const std::vector&lt; float &gt; &amp;embedding) const</argsstring>
+        <name>upsertEmbeddingCacheEntry</name>
+        <qualifiedname>themis::llm::WikiIndexStore::upsertEmbeddingCacheEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cache_key</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Upsert Embedding Cache Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="313" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="715" bodyend="738"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1aa7e879d15e8278cd423888172c146475" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::enforceEmbeddingCacheLimit</definition>
+        <argsstring>() const</argsstring>
+        <name>enforceEmbeddingCacheLimit</name>
+        <qualifiedname>themis::llm::WikiIndexStore::enforceEmbeddingCacheLimit</qualifiedname>
+        <briefdescription>
+<para>Enforce Embedding Cache Limit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="318" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="740" bodyend="764"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a3cb0bd65e6f70ff2317ff21ad8336b76" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::WikiIndexStore::tryResolveEmbeddingFromCaches</definition>
+        <argsstring>(const WikiChunk &amp;chunk, std::vector&lt; float &gt; *out_embedding)</argsstring>
+        <name>tryResolveEmbeddingFromCaches</name>
+        <qualifiedname>themis::llm::WikiIndexStore::tryResolveEmbeddingFromCaches</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; float &gt; *</type>
+          <declname>out_embedding</declname>
+        </param>
+        <briefdescription>
+<para>Try Resolve Embedding From Caches. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: makeEmbeddingCacheKey(), find(), end(), touchEmbeddingCacheEntry(), fetchPersistedEmbedding(), has_value(), upsertEmbeddingCacheEntry(), fetchLegacyPersistedEmbeddingByChunkId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="325" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="790" bodyend="816"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a6d7f181c667f9afe580011b9b6f0bb4c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::migrateLegacyEntryIfNeeded</definition>
+        <argsstring>(const WikiChunk &amp;chunk, const std::vector&lt; float &gt; &amp;embedding)</argsstring>
+        <name>migrateLegacyEntryIfNeeded</name>
+        <qualifiedname>themis::llm::WikiIndexStore::migrateLegacyEntryIfNeeded</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_wiki_chunk" kindref="compound">WikiChunk</ref> &amp;</type>
+          <declname>chunk</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>embedding</declname>
+        </param>
+        <briefdescription>
+<para>Migrate Legacy Entry If Needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">chunk</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: makeEmbeddingCacheKey(), spdlog::info(), persistEmbedding(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="332" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="772" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1abff8269a97612bf0c533aa7ce3e9a3e9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::probeEmbeddingDim</definition>
+        <argsstring>()</argsstring>
+        <name>probeEmbeddingDim</name>
+        <qualifiedname>themis::llm::WikiIndexStore::probeEmbeddingDim</qualifiedname>
+        <briefdescription>
+<para>Probe Embedding Dim. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), embed(), empty(), spdlog::warn(), store(), size(), max(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="338" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="822" bodyend="873"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_wiki_index_store_1a3d08e18a2c7c17851531fc5a22086d98" prot="private" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::WikiIndexStore::recordLatencyLocked</definition>
+        <argsstring>(double latency_ms) const noexcept</argsstring>
+        <name>recordLatencyLocked</name>
+        <qualifiedname>themis::llm::WikiIndexStore::recordLatencyLocked</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>latency_ms</declname>
+        </param>
+        <briefdescription>
+<para>Record Latency Locked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="366" column="10" bodyfile="src/llm/wiki_index_store.cpp" bodystart="472" bodyend="479"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::IWikiIndexReader</label>
+        <link refid="classthemis_1_1llm_1_1_i_wiki_index_reader"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::IWikiIndexWriter</label>
+        <link refid="classthemis_1_1llm_1_1_i_wiki_index_writer"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::WikiIndexStore</label>
+        <link refid="classthemis_1_1llm_1_1_wiki_index_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::IWikiIndexReader</label>
+        <link refid="classthemis_1_1llm_1_1_i_wiki_index_reader"/>
+      </node>
+      <node id="3">
+        <label>themis::llm::IWikiIndexWriter</label>
+        <link refid="classthemis_1_1llm_1_1_i_wiki_index_writer"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::WikiIndexStore</label>
+        <link refid="classthemis_1_1llm_1_1_wiki_index_store"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/wiki_index_store.h" line="192" column="1" bodyfile="include/llm/wiki_index_store.h" bodystart="192" bodyend="367"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ab6620e452da37427175194b0bf4d346b" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a8261c055851489ce49682ae8be4ae10d" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>dim_probed_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a713f0a14be07457f8625e672a7c3428a" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>emb_cache_table_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a47d882ac89ff49344801ca4702048b0c" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>embed_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a269643265a50ac47ab3ec975c8363482" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>embed_cache_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a3be3acb3d6826aedddfae47770142751" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>embed_cache_entry_bytes_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aaff252dc5cbe43e0256b2e3e0737c962" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>embed_cache_lru_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a93242a48b14cd067dcf02451058f85d8" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>embed_cache_lru_pos_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aa7e879d15e8278cd423888172c146475" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>enforceEmbeddingCacheLimit</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1abdfa3b23c002577be8f8c2b6dab5f760" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>estimateEmbeddingBytes</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aca87b0a5c386a0127eb511865bcc6a52" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>eval_mrr_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a06f05b505ba179d411f8069073553bd0" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>eval_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aea7d223ad1c8bc3bca053f944d6cc5cf" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>eval_query_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a8bb942d9e8fcb5db0cd84488d8aad26f" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>eval_recall_at_10_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a4f45058597993d229ba99eeefe521269" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>eval_recall_at_1_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1afa5a94958a6d5452ea6212315a642810" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>eval_recall_at_3_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1afee216e5b224ff542d5151f7a45c2164" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>eval_recall_at_5_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ae7667ae208b0200561dfc4d38a7166ca" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>evaluateQuery</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aa0a00c4f1a60249650c7806de800b7ad" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>fetchLegacyPersistedEmbeddingByChunkId</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a45a5ff5e753d90a53a73daa90ac1df18" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>fetchPersistedEmbedding</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a999ae0226db017586564a21539349cb9" prot="public" virt="virtual"><scope>themis::llm::WikiIndexStore</scope><name>flush</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a9fc67562de00d1d9336c736105bcf935" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>getEvaluationStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a48d3dc2ef696c5534e175a6e50ca95f5" prot="public" virt="virtual"><scope>themis::llm::WikiIndexStore</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a5596e296ec956d73e3348e0cac5f1050" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>kLatencyRingSize</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aa12409a35aeadcaa5ddf140f8bc51ee6" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>latency_ring_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ac8a8a1fe17d734e79a4fe5145b30d088" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>latency_ring_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aaf2a08459218a2a7fa8fd337188025a6" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>latency_ring_head_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a99d6c00dfdfa6f7aa54c188bdde2ee8a" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>legacy_emb_cache_table_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ae2814e714f1020afbfbcbc7f2f0ab357" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>llm_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a6684fb0abf93f0a912be40c21c8b39b7" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>llm_ptr_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ae45552b0732f12a41c88ded74ff6da49" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>loadPersistentEmbedCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aa0ab34c09433076778834b8626aacb26" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>makeEmbeddingCacheKey</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a6d7f181c667f9afe580011b9b6f0bb4c" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>migrateLegacyEntryIfNeeded</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ab36f6ce56734599273125672c222ab67" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a2c0826dd53dd8af2183b0787de4983a4" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>persistEmbedding</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1abff8269a97612bf0c533aa7ce3e9a3e9" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>probeEmbeddingDim</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a3270dcbd4a228abcae73b13193e438b5" prot="public" virt="virtual"><scope>themis::llm::WikiIndexStore</scope><name>query</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a4c484879c8f6840863166c8c5d9d75df" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>query_embed_cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aa1f7da66827ea982a0d58479131d76d7" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>query_embed_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a75f1a92aedacca53c58de1af6aebba95" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>ready_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a3d08e18a2c7c17851531fc5a22086d98" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>recordLatencyLocked</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1abce655ec561431dc208d5fef987f7736" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>resetEvaluationStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1aa9dc2c4ee2554356ed6626d5664d2ecb" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>retriever_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ae9ae1f8f5ba333e88ead99ac2ba83920" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>sim_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a573e5b459b7fbf93a602e8d7092f22bb" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>toEntity</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ae27f69ec0452ee3a0bad294dd0ed9db4" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>total_query_count_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1ae18325717e3ef42584fd75e5dcbbbcf3" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>touchEmbeddingCacheEntry</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a3cb0bd65e6f70ff2317ff21ad8336b76" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>tryResolveEmbeddingFromCaches</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a8053d32de2d5b514216cd63e48568e63" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>upsertEmbeddingCacheEntry</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a1fd2561e2a0621aafc38d44d63942a1c" prot="private" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>vim_</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1afcb2519baa8852743dca80113ee0d653" prot="public" virt="non-virtual"><scope>themis::llm::WikiIndexStore</scope><name>WikiIndexStore</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a470261a35300562ac728f8216c54280c" prot="public" virt="virtual"><scope>themis::llm::WikiIndexStore</scope><name>writeBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_wiki_index_store_1a5461b2b5059a518137ca371c10c8c468" prot="public" virt="virtual"><scope>themis::llm::WikiIndexStore</scope><name>writeChunk</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_reader_1a0a1b9d076f803887ff633eba97086943" prot="public" virt="virtual"><scope>themis::llm::WikiIndexStore</scope><name>~IWikiIndexReader</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_wiki_index_writer_1ab3cc7128bcfe97d290d264953f4a057b" prot="public" virt="virtual"><scope>themis::llm::WikiIndexStore</scope><name>~IWikiIndexWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

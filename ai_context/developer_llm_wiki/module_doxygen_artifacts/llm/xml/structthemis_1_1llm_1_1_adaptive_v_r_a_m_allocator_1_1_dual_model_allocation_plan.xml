@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</compoundname>
+    <basecompoundref refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan" prot="public" virt="non-virtual">themis::llm::AdaptiveVRAMAllocator::AllocationPlan</basecompoundref>
+    <includes refid="adaptive__vram__allocator_8h" local="no">adaptive_vram_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan_1a62c9d955a1b9667bac1a23da09068a2c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan::draft_model_weights</definition>
+        <argsstring></argsstring>
+        <name>draft_model_weights</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan::draft_model_weights</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Draft model weight footprint (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="87" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan_1a1408d87c8f6065eddeab6e8d97c0c765" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan::draft_precision_bytes</definition>
+        <argsstring></argsstring>
+        <name>draft_precision_bytes</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan::draft_precision_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Effective bytes per parameter for draft (0 = INT4 = 0.5). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="88" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</label>
+        <link refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</label>
+        <link refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::AdaptiveVRAMAllocator::AllocationPlan</label>
+        <link refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</label>
+        <link refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/adaptive_vram_allocator.h" line="86" column="5" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="86" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a8eabb13a4ac1fe2669430471d55580d2" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>activations</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan_1a62c9d955a1b9667bac1a23da09068a2c" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>draft_model_weights</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_dual_model_allocation_plan_1a1408d87c8f6065eddeab6e8d97c0c765" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>draft_precision_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a62ca21c75012caa50e3c9c0d9ca511dc" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>expected_fragmentation</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1ada56d3452bf8462457eae20353ba306e" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>fits_in_vram</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a544b161257a4dae6ce1cff2ede00ea5e" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>kv_cache_dynamic</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a25dca865bb61b4d0093b2a2449c1c45b" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>kv_cache_static</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a845bc62f32ce3fa94915ce3f2cc69fe5" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>kv_size_per_token</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a71a62a3cc34bdaab588df46dff2dd89e" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>max_tokens_cached</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a4ee619b3d9dffac0c91fbfe10d7bf26d" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>model_weights</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1adf466bc817f05ea65f24c315cb0f57ad" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>overhead</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1aec356bf771d65595b13afbe585079336" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_allocation_plan_1a55e4dc92a55eb1ba7d94c846cf322809" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::DualModelAllocationPlan</scope><name>total</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

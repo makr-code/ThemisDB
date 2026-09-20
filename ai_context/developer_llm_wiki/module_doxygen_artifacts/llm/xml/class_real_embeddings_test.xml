@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_real_embeddings_test" kind="class" language="C++" prot="public">
+    <compoundname>RealEmbeddingsTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_real_embeddings_test_1aca437b32030b444009f231560a32cc2b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string RealEmbeddingsTest::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>RealEmbeddingsTest::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_real_embeddings.cpp" line="89" column="17" bodyfile="tests/llm/test_real_embeddings.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_real_embeddings_test_1a5e80a22db5bc72c3f356f57fb047afe6" prot="protected" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RealEmbeddingsTest::model_available_</definition>
+        <argsstring></argsstring>
+        <name>model_available_</name>
+        <qualifiedname>RealEmbeddingsTest::model_available_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_real_embeddings.cpp" line="90" column="10" bodyfile="tests/llm/test_real_embeddings.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_real_embeddings_test_1ab0e9568f3a21586980e5d49de16cc89e" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path RealEmbeddingsTest::cache_dir_</definition>
+        <argsstring></argsstring>
+        <name>cache_dir_</name>
+        <qualifiedname>RealEmbeddingsTest::cache_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_real_embeddings.cpp" line="91" column="27" bodyfile="tests/llm/test_real_embeddings.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_real_embeddings_test_1a4ba2fec88a385b9583a904cd102fdaae" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RealEmbeddingsTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>RealEmbeddingsTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_real_embeddings.cpp" line="38" column="10" bodyfile="tests/llm/test_real_embeddings.cpp" bodystart="38" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_real_embeddings_test_1af0e2112a6e2b66b119f591bb3b5ca0cd" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void RealEmbeddingsTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>RealEmbeddingsTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_real_embeddings.cpp" line="82" column="10" bodyfile="tests/llm/test_real_embeddings.cpp" bodystart="82" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RealEmbeddingsTest</label>
+        <link refid="class_real_embeddings_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RealEmbeddingsTest</label>
+        <link refid="class_real_embeddings_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_real_embeddings.cpp" line="36" column="1" bodyfile="tests/llm/test_real_embeddings.cpp" bodystart="36" bodyend="92"/>
+    <listofallmembers>
+      <member refid="class_real_embeddings_test_1ab0e9568f3a21586980e5d49de16cc89e" prot="protected" virt="non-virtual"><scope>RealEmbeddingsTest</scope><name>cache_dir_</name></member>
+      <member refid="class_real_embeddings_test_1a5e80a22db5bc72c3f356f57fb047afe6" prot="protected" virt="non-virtual"><scope>RealEmbeddingsTest</scope><name>model_available_</name></member>
+      <member refid="class_real_embeddings_test_1aca437b32030b444009f231560a32cc2b" prot="protected" virt="non-virtual"><scope>RealEmbeddingsTest</scope><name>model_path_</name></member>
+      <member refid="class_real_embeddings_test_1a4ba2fec88a385b9583a904cd102fdaae" prot="protected" virt="non-virtual"><scope>RealEmbeddingsTest</scope><name>SetUp</name></member>
+      <member refid="class_real_embeddings_test_1af0e2112a6e2b66b119f591bb3b5ca0cd" prot="protected" virt="non-virtual"><scope>RealEmbeddingsTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

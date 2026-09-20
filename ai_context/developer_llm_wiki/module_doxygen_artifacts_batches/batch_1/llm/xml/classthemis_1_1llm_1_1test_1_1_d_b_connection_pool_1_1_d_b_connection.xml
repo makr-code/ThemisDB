@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::DBConnectionPool::DBConnection</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1a2020ebd66fcb13fe074711713ff3aec9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool" kindref="compound">DBConnectionPool</ref> *</type>
+        <definition>DBConnectionPool* themis::llm::test::DBConnectionPool::DBConnection::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::llm::test::DBConnectionPool::DBConnection::pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="123" column="22" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1a163e45297064ebdb0ef968ca5f36ca27" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::llm::test::DBConnectionPool::DBConnection::is_returned_</definition>
+        <argsstring></argsstring>
+        <name>is_returned_</name>
+        <qualifiedname>themis::llm::test::DBConnectionPool::DBConnection::is_returned_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="124" column="17" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1a137b7aceb7f5b533de622acf97a03804" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::DBConnectionPool::DBConnection::DBConnection</definition>
+        <argsstring>(DBConnectionPool *pool)</argsstring>
+        <name>DBConnection</name>
+        <qualifiedname>themis::llm::test::DBConnectionPool::DBConnection::DBConnection</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool" kindref="compound">DBConnectionPool</ref> *</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="111" column="5" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1ad219c334c8828a075d80dad07bc19bad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::DBConnectionPool::DBConnection::~DBConnection</definition>
+        <argsstring>()</argsstring>
+        <name>~DBConnection</name>
+        <qualifiedname>themis::llm::test::DBConnectionPool::DBConnection::~DBConnection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="113" column="5" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="113" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1a3be7a21e4b398cbf907d4264186d53f2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::test::DBConnectionPool::DBConnection::markReturned</definition>
+        <argsstring>()</argsstring>
+        <name>markReturned</name>
+        <qualifiedname>themis::llm::test::DBConnectionPool::DBConnection::markReturned</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="120" column="10" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="109" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="109" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1a137b7aceb7f5b533de622acf97a03804" prot="public" virt="non-virtual"><scope>themis::llm::test::DBConnectionPool::DBConnection</scope><name>DBConnection</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1a163e45297064ebdb0ef968ca5f36ca27" prot="private" virt="non-virtual"><scope>themis::llm::test::DBConnectionPool::DBConnection</scope><name>is_returned_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1a3be7a21e4b398cbf907d4264186d53f2" prot="public" virt="non-virtual"><scope>themis::llm::test::DBConnectionPool::DBConnection</scope><name>markReturned</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1a2020ebd66fcb13fe074711713ff3aec9" prot="private" virt="non-virtual"><scope>themis::llm::test::DBConnectionPool::DBConnection</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_d_b_connection_pool_1_1_d_b_connection_1ad219c334c8828a075d80dad07bc19bad" prot="public" virt="non-virtual"><scope>themis::llm::test::DBConnectionPool::DBConnection</scope><name>~DBConnection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

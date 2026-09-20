@@ -1,0 +1,719 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__utils__standalone_8cpp" kind="file" language="C++">
+    <compoundname>test_utils_standalone.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="checksum__utils_8h" local="yes">utils/checksum_utils.h</includes>
+    <includes refid="file__utils_8h" local="yes">utils/file_utils.h</includes>
+    <includes refid="normalizer_8h" local="yes">utils/normalizer.h</includes>
+    <includes local="yes">performance/phase2_feature_flags.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>utils/checksum_utils.h</label>
+        <link refid="checksum__utils_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>utils/file_utils.h</label>
+        <link refid="file__utils_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>utils/normalizer.h</label>
+        <link refid="normalizer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/utils/test_utils_standalone.cpp</label>
+        <link refid="test__utils__standalone_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>filesystem</label>
+      </node>
+      <node id="10">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>performance/phase2_feature_flags.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a30d466c8f42936acb6fac868e43fa3fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string writeTempFile</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>writeTempFile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="29" column="20" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="29" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChecksumUtilsTest, SHA256_KnownContent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChecksumUtilsTest</type>
+        </param>
+        <param>
+          <type>SHA256_KnownContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="47" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="47" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a9936aa25b4e57c09b6a7a6709ab46265" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChecksumUtilsTest, SHA256_EmptyFile)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChecksumUtilsTest</type>
+        </param>
+        <param>
+          <type>SHA256_EmptyFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="57" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1ac20089aeb54bd6a976648b74d0f51180" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChecksumUtilsTest, SHA256_NonExistentFile_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChecksumUtilsTest</type>
+        </param>
+        <param>
+          <type>SHA256_NonExistentFile_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="67" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1ac9e48c2438315e7b3e57eb7c07f30920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChecksumUtilsTest, SHA256_TwoDistinctFiles_DifferentChecksums)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChecksumUtilsTest</type>
+        </param>
+        <param>
+          <type>SHA256_TwoDistinctFiles_DifferentChecksums</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="72" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a2bf945360c82d1f621e9b6abd6dc6680" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChecksumUtilsTest, MD5_KnownContent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChecksumUtilsTest</type>
+        </param>
+        <param>
+          <type>MD5_KnownContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="95" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="95" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1ae7d091a473466a2e3e43db4957ea77ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChecksumUtilsTest, MD5_EmptyFile)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChecksumUtilsTest</type>
+        </param>
+        <param>
+          <type>MD5_EmptyFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="105" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1ac99afdc9a8beab77e4c4f8f8ad1600d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChecksumUtilsTest, MD5_NonExistentFile_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChecksumUtilsTest</type>
+        </param>
+        <param>
+          <type>MD5_NonExistentFile_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="115" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a686b51e9b751be71c787509730af30ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FileUtilsTest, ReadFileContents_PlainText)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FileUtilsTest</type>
+        </param>
+        <param>
+          <type>ReadFileContents_PlainText</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="128" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="128" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1aa796d4432f7c0074637a1f32ec892090" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FileUtilsTest, ReadFileContents_BinaryContent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FileUtilsTest</type>
+        </param>
+        <param>
+          <type>ReadFileContents_BinaryContent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="137" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="137" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1aadcb5e47e169c190554cfbaca59bf746" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FileUtilsTest, ReadFileContents_EmptyFile)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FileUtilsTest</type>
+        </param>
+        <param>
+          <type>ReadFileContents_EmptyFile</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="150" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="150" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a0388c2eadccc716d578dc600bfaa2741" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(FileUtilsTest, ReadFileContents_NonExistent_Throws)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>FileUtilsTest</type>
+        </param>
+        <param>
+          <type>ReadFileContents_NonExistent_Throws</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="158" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="158" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1af2f2a32e9d2c31b422889a0061014c52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NormalizerTest, NormalizeUmlauts_GermanChars)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NormalizerTest</type>
+        </param>
+        <param>
+          <type>NormalizeUmlauts_GermanChars</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="169" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="169" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1ab74b304dcbec64274b379a75d6ad5ade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NormalizerTest, NormalizeUmlauts_NoUmlauts_Unchanged)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NormalizerTest</type>
+        </param>
+        <param>
+          <type>NormalizeUmlauts_NoUmlauts_Unchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="176" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="176" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a3248a2ef3269eed025606b8b497ad4a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NormalizerTest, NormalizeUmlauts_Empty_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NormalizerTest</type>
+        </param>
+        <param>
+          <type>NormalizeUmlauts_Empty_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="182" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="182" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1ac91fe083d9a5953fdf098d233be1dd44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NormalizerTest, NormalizeUmlauts_AllUmlauts)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NormalizerTest</type>
+        </param>
+        <param>
+          <type>NormalizeUmlauts_AllUmlauts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="187" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="187" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a0f0bdaaadd8efb457b1e99a43fc83e4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase2FeatureFlagsTest, DefaultsAllFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase2FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>DefaultsAllFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="197" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="197" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1ac7a2b81d1a84cccaa11fe4b0201c066b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase2FeatureFlagsTest, SetAndGet_Wisckey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase2FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>SetAndGet_Wisckey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="208" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="208" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a380ba6fa8483bceb43bddd00a1503181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase2FeatureFlagsTest, SetAndGet_AllFlags)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase2FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>SetAndGet_AllFlags</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="218" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="218" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__standalone_8cpp_1a03fc464847f3bb9bbf0e70cc0cdb271b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(Phase2FeatureFlagsTest, SingletonIdentity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>Phase2FeatureFlagsTest</type>
+        </param>
+        <param>
+          <type>SingletonIdentity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_standalone.cpp" line="249" column="1" bodyfile="tests/utils/test_utils_standalone.cpp" bodystart="249" bodyend="258"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tests for standalone utility modules previously lacking coverage: </para>
+    </briefdescription>
+    <detaileddescription>
+<para><itemizedlist>
+<listitem><para><ref refid="checksum__utils_8cpp" kindref="compound">utils/checksum_utils.cpp</ref> : calculateSHA256, calculateMD5</para>
+</listitem><listitem><para><ref refid="file__utils_8cpp" kindref="compound">utils/file_utils.cpp</ref> : readFileContents</para>
+</listitem><listitem><para><ref refid="normalizer_8cpp" kindref="compound">utils/normalizer.cpp</ref> : Normalizer::normalizeUmlauts</para>
+</listitem><listitem><para>performance/phase2_feature_flags.h : Phase2FeatureFlags singleton</para>
+</listitem></itemizedlist>
+</para>
+<para>Uses only on-disk operations (temp files) — no hardware required. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="checksum__utils_8h" kindref="compound">utils/checksum_utils.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="file__utils_8h" kindref="compound">utils/file_utils.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="normalizer_8h" kindref="compound">utils/normalizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;performance/phase2_feature_flags.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::performance;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>writeTempFile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>(std::filesystem::temp_directory_path()<sp/>/</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="stringliteral">&quot;themis_utils_test_&quot;</highlight><highlight class="normal"><sp/>+</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::to_string(std::chrono::high_resolution_clock::now()</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.time_since_epoch()</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.count())<sp/>+</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;.tmp&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.string();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ofstream<sp/>ofs(path,<sp/>std::ios::binary);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>ofs<sp/>&lt;&lt;<sp/>content;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>ofs.close();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>path;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>calculateSHA256</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(ChecksumUtilsTest,<sp/>SHA256_KnownContent)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA256(&quot;hello\n&quot;)<sp/>=<sp/>5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>writeTempFile(</highlight><highlight class="stringliteral">&quot;hello\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sha<sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a78603ca6413141c5b0d5a307ada2475b" kindref="member">themis::utils::calculateSHA256</ref>(path);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(path);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sha.size(),<sp/>64u);<sp/></highlight><highlight class="comment">//<sp/>hex-encoded<sp/>SHA256<sp/>is<sp/>always<sp/>64<sp/>chars</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sha,<sp/></highlight><highlight class="stringliteral">&quot;5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(ChecksumUtilsTest,<sp/>SHA256_EmptyFile)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SHA256<sp/>of<sp/>empty<sp/>file<sp/>=<sp/>e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>writeTempFile(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sha<sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a78603ca6413141c5b0d5a307ada2475b" kindref="member">themis::utils::calculateSHA256</ref>(path);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(path);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sha.size(),<sp/>64u);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sha,<sp/></highlight><highlight class="stringliteral">&quot;e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(ChecksumUtilsTest,<sp/>SHA256_NonExistentFile_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sha<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a78603ca6413141c5b0d5a307ada2475b" kindref="member">themis::utils::calculateSHA256</ref>(</highlight><highlight class="stringliteral">&quot;/tmp/nonexistent_themis_xyz.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(sha.empty());</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(ChecksumUtilsTest,<sp/>SHA256_TwoDistinctFiles_DifferentChecksums)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p1<sp/>=<sp/>writeTempFile(</highlight><highlight class="stringliteral">&quot;content_A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p2<sp/>=<sp/>writeTempFile(</highlight><highlight class="stringliteral">&quot;content_B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s1<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a78603ca6413141c5b0d5a307ada2475b" kindref="member">themis::utils::calculateSHA256</ref>(p1);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s2<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a78603ca6413141c5b0d5a307ada2475b" kindref="member">themis::utils::calculateSHA256</ref>(p2);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(p1);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(p2);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(s1,<sp/>s2);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>calculateMD5<sp/>(deprecated<sp/>—<sp/>legacy<sp/>backward-compat<sp/>tests<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>calculateMD5<sp/>is<sp/>[[deprecated]]<sp/>(CWE-327).<sp/>The<sp/>tests<sp/>below<sp/>verify<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>backward-compatible<sp/>behaviour<sp/>that<sp/>is<sp/>needed<sp/>while<sp/>legacy<sp/>artifact<sp/>checksums</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>are<sp/>being<sp/>migrated<sp/>to<sp/>SHA-256.<sp/><sp/>Deprecation<sp/>warnings<sp/>are<sp/>suppressed<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>for<sp/>this<sp/>block.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__GNUC__)<sp/>||<sp/>defined(__clang__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>pragma<sp/>GCC<sp/>diagnostic<sp/>push</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>pragma<sp/>GCC<sp/>diagnostic<sp/>ignored<sp/>&quot;-Wdeprecated-declarations&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(ChecksumUtilsTest,<sp/>MD5_KnownContent)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MD5(&quot;hello\n&quot;)<sp/>=<sp/>b1946ac92492d2347c6235b4d2611184</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>writeTempFile(</highlight><highlight class="stringliteral">&quot;hello\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>md5<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1aaf6c9d9d389ac686adf493057848b10e" kindref="member">themis::utils::calculateMD5</ref>(path);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(path);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(md5.size(),<sp/>32u);<sp/></highlight><highlight class="comment">//<sp/>hex-encoded<sp/>MD5<sp/>is<sp/>always<sp/>32<sp/>chars</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(md5,<sp/></highlight><highlight class="stringliteral">&quot;b1946ac92492d2347c6235b4d2611184&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(ChecksumUtilsTest,<sp/>MD5_EmptyFile)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>MD5(&quot;&quot;)<sp/>=<sp/>d41d8cd98f00b204e9800998ecf8427e</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>writeTempFile(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>md5<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1aaf6c9d9d389ac686adf493057848b10e" kindref="member">themis::utils::calculateMD5</ref>(path);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(path);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(md5.size(),<sp/>32u);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(md5,<sp/></highlight><highlight class="stringliteral">&quot;d41d8cd98f00b204e9800998ecf8427e&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(ChecksumUtilsTest,<sp/>MD5_NonExistentFile_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>md5<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1aaf6c9d9d389ac686adf493057848b10e" kindref="member">themis::utils::calculateMD5</ref>(</highlight><highlight class="stringliteral">&quot;/tmp/nonexistent_themis_xyz.bin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(md5.empty());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__GNUC__)<sp/>||<sp/>defined(__clang__)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>pragma<sp/>GCC<sp/>diagnostic<sp/>pop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>readFileContents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(FileUtilsTest,<sp/>ReadFileContents_PlainText)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>content<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello,<sp/>ThemisDB!\nLine<sp/>two.\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>writeTempFile(content);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>read<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a3a98fe45cb071e258184cabd8acda210" kindref="member">themis::utils::readFileContents</ref>(path);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(path);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(read,<sp/>content);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(FileUtilsTest,<sp/>ReadFileContents_BinaryContent)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>binary(256,<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>256;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>binary[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>writeTempFile(binary);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>read<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a3a98fe45cb071e258184cabd8acda210" kindref="member">themis::utils::readFileContents</ref>(path);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(path);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(read.size(),<sp/>256u);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(read,<sp/>binary);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(FileUtilsTest,<sp/>ReadFileContents_EmptyFile)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path<sp/>=<sp/>writeTempFile(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>read<sp/><sp/>=<sp/><ref refid="namespacethemis_1_1utils_1a3a98fe45cb071e258184cabd8acda210" kindref="member">themis::utils::readFileContents</ref>(path);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>std::filesystem::remove(path);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(read.empty());</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(FileUtilsTest,<sp/>ReadFileContents_NonExistent_Throws)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a3a98fe45cb071e258184cabd8acda210" kindref="member">themis::utils::readFileContents</ref>(</highlight><highlight class="stringliteral">&quot;/tmp/nonexistent_themis_xyz_file.bin&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Normalizer::normalizeUmlauts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(NormalizerTest,<sp/>NormalizeUmlauts_GermanChars)<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ä<sp/>-&gt;<sp/>a,<sp/>ö<sp/>-&gt;<sp/>o,<sp/>ü<sp/>-&gt;<sp/>u,<sp/>Ä<sp/>-&gt;<sp/>A,<sp/>Ö<sp/>-&gt;<sp/>O,<sp/>Ü<sp/>-&gt;<sp/>U,<sp/>ß<sp/>-&gt;<sp/>ss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_normalizer_1a2402ae95d5164ba6bf0118f751a92cb1" kindref="member">themis::utils::Normalizer::normalizeUmlauts</ref>(</highlight><highlight class="stringliteral">&quot;Über<sp/>Straße&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;U&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result.find(</highlight><highlight class="stringliteral">&quot;ss&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(NormalizerTest,<sp/>NormalizeUmlauts_NoUmlauts_Unchanged)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>input<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>World&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_normalizer_1a2402ae95d5164ba6bf0118f751a92cb1" kindref="member">themis::utils::Normalizer::normalizeUmlauts</ref>(input);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/>input);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(NormalizerTest,<sp/>NormalizeUmlauts_Empty_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_normalizer_1a2402ae95d5164ba6bf0118f751a92cb1" kindref="member">themis::utils::Normalizer::normalizeUmlauts</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty());</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(NormalizerTest,<sp/>NormalizeUmlauts_AllUmlauts)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ä,<sp/>ö,<sp/>ü,<sp/>Ä,<sp/>Ö,<sp/>Ü,<sp/>ß<sp/>should<sp/>all<sp/>be<sp/>replaced</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_normalizer_1a2402ae95d5164ba6bf0118f751a92cb1" kindref="member">themis::utils::Normalizer::normalizeUmlauts</ref>(</highlight><highlight class="stringliteral">&quot;äöüÄÖÜß&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result,<sp/></highlight><highlight class="stringliteral">&quot;aouAOUss&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase2FeatureFlags<sp/>singleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(Phase2FeatureFlagsTest,<sp/>DefaultsAllFalse)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/>Phase2FeatureFlags::instance();</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>default<sp/>construction<sp/>(reset<sp/>side<sp/>effects<sp/>between<sp/>tests<sp/>by<sp/>setting)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>only<sp/>check<sp/>that<sp/>the<sp/>getters<sp/>are<sp/>callable<sp/>and<sp/>return<sp/>bool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(flags.wisckey_enabled());</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(flags.dostoevsky_enabled());</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(flags.cicada_enabled());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(flags.ligra_enabled());</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(flags.rabitq_enabled());</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(Phase2FeatureFlagsTest,<sp/>SetAndGet_Wisckey)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/>Phase2FeatureFlags::instance();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>original<sp/>=<sp/>flags.wisckey_enabled();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_wisckey_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.wisckey_enabled());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_wisckey_enabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(flags.wisckey_enabled());</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_wisckey_enabled(original);<sp/></highlight><highlight class="comment">//<sp/>restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(Phase2FeatureFlagsTest,<sp/>SetAndGet_AllFlags)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>flags<sp/>=<sp/>Phase2FeatureFlags::instance();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>originals</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>w<sp/>=<sp/>flags.wisckey_enabled();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>d<sp/>=<sp/>flags.dostoevsky_enabled();</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>flags.cicada_enabled();</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>l<sp/>=<sp/>flags.ligra_enabled();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>flags.rabitq_enabled();</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_wisckey_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_dostoevsky_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_cicada_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_ligra_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_rabitq_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.wisckey_enabled());</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.dostoevsky_enabled());</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.cicada_enabled());</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.ligra_enabled());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(flags.rabitq_enabled());</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Restore</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_wisckey_enabled(w);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_dostoevsky_enabled(d);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_cicada_enabled(c);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_ligra_enabled(l);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>flags.set_rabitq_enabled(r);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__utils__standalone_8cpp_1a297746de0b0c6b6905402ddf723ad52a" kindref="member">TEST</ref>(Phase2FeatureFlagsTest,<sp/>SingletonIdentity)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>references<sp/>point<sp/>to<sp/>the<sp/>same<sp/>object</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>a<sp/>=<sp/>Phase2FeatureFlags::instance();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>b<sp/>=<sp/>Phase2FeatureFlags::instance();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(&amp;a,<sp/>&amp;b);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>a.set_wisckey_enabled(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(b.wisckey_enabled());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>a.set_wisckey_enabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/test_utils_standalone.cpp"/>
+  </compounddef>
+</doxygen>

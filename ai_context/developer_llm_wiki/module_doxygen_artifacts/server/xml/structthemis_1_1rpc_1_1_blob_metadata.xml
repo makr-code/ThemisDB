@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc_1_1_blob_metadata" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc::BlobMetadata</compoundname>
+    <includes refid="differential__update__engine_8h" local="no">differential_update_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_metadata_1aef4cdb984d355d8357891793aefee081" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobMetadata::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::rpc::BlobMetadata::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="47" column="14" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_metadata_1a26a6aecb19ca5594de6a449c2adf909b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc::BlobMetadata::blob_type</definition>
+        <argsstring></argsstring>
+        <name>blob_type</name>
+        <qualifiedname>themis::rpc::BlobMetadata::blob_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="48" column="17" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_metadata_1a43ad6c713e7eae48084a29716d619452" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::rpc::BlobMetadata::base_version_size</definition>
+        <argsstring></argsstring>
+        <name>base_version_size</name>
+        <qualifiedname>themis::rpc::BlobMetadata::base_version_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="49" column="14" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc_1_1_blob_metadata_1a76291b77baff4f9e2a3a137cd44c6b95" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rpc::BlobMetadata::estimated_change_rate</definition>
+        <argsstring></argsstring>
+        <name>estimated_change_rate</name>
+        <qualifiedname>themis::rpc::BlobMetadata::estimated_change_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rpc/differential_update_engine.h" line="50" column="12" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rpc/differential_update_engine.h" line="46" column="1" bodyfile="include/server/rpc/differential_update_engine.h" bodystart="46" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc_1_1_blob_metadata_1a43ad6c713e7eae48084a29716d619452" prot="public" virt="non-virtual"><scope>themis::rpc::BlobMetadata</scope><name>base_version_size</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_metadata_1a26a6aecb19ca5594de6a449c2adf909b" prot="public" virt="non-virtual"><scope>themis::rpc::BlobMetadata</scope><name>blob_type</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_metadata_1a76291b77baff4f9e2a3a137cd44c6b95" prot="public" virt="non-virtual"><scope>themis::rpc::BlobMetadata</scope><name>estimated_change_rate</name></member>
+      <member refid="structthemis_1_1rpc_1_1_blob_metadata_1aef4cdb984d355d8357891793aefee081" prot="public" virt="non-virtual"><scope>themis::rpc::BlobMetadata</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

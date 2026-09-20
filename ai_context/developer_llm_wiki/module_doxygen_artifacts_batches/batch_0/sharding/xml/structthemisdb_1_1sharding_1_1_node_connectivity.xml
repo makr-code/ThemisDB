@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_node_connectivity" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::NodeConnectivity</compoundname>
+    <includes refid="partition__detector_8h" local="no">partition_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_node_connectivity_1a7b49143212fc4760705451eab918ce7d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::NodeConnectivity::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::sharding::NodeConnectivity::node_id</qualifiedname>
+        <briefdescription>
+<para>Node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="43" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_node_connectivity_1a9f072626288a1abe921b46d465acccb6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::NodeConnectivity::reachable</definition>
+        <argsstring></argsstring>
+        <name>reachable</name>
+        <qualifiedname>themisdb::sharding::NodeConnectivity::reachable</qualifiedname>
+        <briefdescription>
+<para>Reachability flag based on recent checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="44" column="10" bodyfile="include/sharding/partition_detector.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_node_connectivity_1aa5b0dfa2dbc514bfb21f837102f84d4a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::NodeConnectivity::last_rtt</definition>
+        <argsstring></argsstring>
+        <name>last_rtt</name>
+        <qualifiedname>themisdb::sharding::NodeConnectivity::last_rtt</qualifiedname>
+        <briefdescription>
+<para>Last observed round-trip time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="45" column="31" bodyfile="include/sharding/partition_detector.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_node_connectivity_1a40ae70a525a77359cc52c4f6946c3a82" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::NodeConnectivity::last_successful_contact</definition>
+        <argsstring></argsstring>
+        <name>last_successful_contact</name>
+        <qualifiedname>themisdb::sharding::NodeConnectivity::last_successful_contact</qualifiedname>
+        <briefdescription>
+<para>Timestamp of last successful contact. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="46" column="43" bodyfile="include/sharding/partition_detector.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_node_connectivity_1a32850ec3f84aa9d72b3364461e898cd1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::NodeConnectivity::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themisdb::sharding::NodeConnectivity::consecutive_failures</qualifiedname>
+        <briefdescription>
+<para>Consecutive failed health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="47" column="14" bodyfile="include/sharding/partition_detector.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_node_connectivity_1ae29eb26fb352ae8c57d539effd70396a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::sharding::NodeConnectivity::packet_loss_rate</definition>
+        <argsstring></argsstring>
+        <name>packet_loss_rate</name>
+        <qualifiedname>themisdb::sharding::NodeConnectivity::packet_loss_rate</qualifiedname>
+        <briefdescription>
+<para>Smoothed packet-loss estimate in range [0,1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="48" column="12" bodyfile="include/sharding/partition_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Node connectivity status. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/partition_detector.h" line="42" column="1" bodyfile="include/sharding/partition_detector.h" bodystart="42" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a32850ec3f84aa9d72b3364461e898cd1" prot="public" virt="non-virtual"><scope>themisdb::sharding::NodeConnectivity</scope><name>consecutive_failures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_node_connectivity_1aa5b0dfa2dbc514bfb21f837102f84d4a" prot="public" virt="non-virtual"><scope>themisdb::sharding::NodeConnectivity</scope><name>last_rtt</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a40ae70a525a77359cc52c4f6946c3a82" prot="public" virt="non-virtual"><scope>themisdb::sharding::NodeConnectivity</scope><name>last_successful_contact</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a7b49143212fc4760705451eab918ce7d" prot="public" virt="non-virtual"><scope>themisdb::sharding::NodeConnectivity</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_node_connectivity_1ae29eb26fb352ae8c57d539effd70396a" prot="public" virt="non-virtual"><scope>themisdb::sharding::NodeConnectivity</scope><name>packet_loss_rate</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_node_connectivity_1a9f072626288a1abe921b46d465acccb6" prot="public" virt="non-virtual"><scope>themisdb::sharding::NodeConnectivity</scope><name>reachable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

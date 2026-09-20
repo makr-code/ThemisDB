@@ -1,0 +1,332 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::test::MockLLMClient</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">llm::LLMClient</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1aba19c3033d2162191bb0eb28429a6d3e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::test::MockLLMClient::response_</definition>
+        <argsstring></argsstring>
+        <name>response_</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::response_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="142" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1aec6dee19d77947d33bf4643b20c9e595" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::aql::test::MockLLMClient::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::call_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="143" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a42ac5a45622b9fe051ab4e25a1dec63e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::aql::test::MockLLMClient::ready_</definition>
+        <argsstring></argsstring>
+        <name>ready_</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::ready_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="144" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a237614beedc55cc5a00016bdb9523625" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::aql::test::MockLLMClient::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="145" column="24" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a4f1da0abe42ad0883ee95f9f92d87d8d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::aql::test::MockLLMClient::prompts_</definition>
+        <argsstring></argsstring>
+        <name>prompts_</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::prompts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="146" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1ad69497962b33521e2b86cb2687bc5612" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::aql::test::MockLLMClient::MockLLMClient</definition>
+        <argsstring>(const std::string &amp;response=R&quot;(FOR doc IN users RETURN doc)&quot;)</argsstring>
+        <name>MockLLMClient</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::MockLLMClient</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+          <defval>R&quot;(FOR doc IN users RETURN doc)&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="78" column="5" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="78" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1af854098a594da9bfda4a81cfbece17cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>llm::GenerationResult</type>
+        <definition>llm::GenerationResult themis::aql::test::MockLLMClient::generate</definition>
+        <argsstring>(const std::string &amp;prompt, const llm::GenerationOptions &amp;options={}) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::generate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const llm::GenerationOptions &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="81" column="27" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a1b62f2aa473d0b26b131fe707a820369" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>llm::GenerationResult</type>
+        <definition>llm::GenerationResult themis::aql::test::MockLLMClient::generateAQL</definition>
+        <argsstring>(const std::string &amp;nl_query, const std::string &amp;schema_context=&quot;&quot;, const llm::GenerationOptions &amp;options={}) override</argsstring>
+        <name>generateAQL</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::generateAQL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>nl_query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>schema_context</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const llm::GenerationOptions &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="88" column="27" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="88" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a6148365accd19305b1deb774d8ff4c51" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::aql::test::MockLLMClient::estimateTokens</definition>
+        <argsstring>(const std::string &amp;text) const override</argsstring>
+        <name>estimateTokens</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::estimateTokens</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="97" column="12" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a77a5bcba88b91bd37fb5ea83d6dce66f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::aql::test::MockLLMClient::getProviderName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getProviderName</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::getProviderName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="101" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1aed96be671629d752b4d9749823870fc7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::test::MockLLMClient::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="105" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="105" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1aba4941cc4a9497130b89642a73f6cb15" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::aql::test::MockLLMClient::call_count</definition>
+        <argsstring>() const</argsstring>
+        <name>call_count</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::call_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="109" column="9" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="109" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1ae01ae73a9e0e242d748c4b4c2fdde13c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::test::MockLLMClient::setResponse</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>setResponse</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::setResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="111" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a1456489f0549eefe3e0e7b962e8e00af" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::test::MockLLMClient::setReady</definition>
+        <argsstring>(bool ready)</argsstring>
+        <name>setReady</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::setReady</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>ready</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="116" column="10" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a56f1e89e66218eb422ac3e590d2c4949" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::aql::test::MockLLMClient::prompts</definition>
+        <argsstring>() const</argsstring>
+        <name>prompts</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::prompts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="118" column="17" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="118" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a33ddfa3760f0ebf7c266fe60deeceebb" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>llm::GenerationResult</type>
+        <definition>llm::GenerationResult themis::aql::test::MockLLMClient::generateImpl</definition>
+        <argsstring>(const std::string &amp;prompt, const llm::GenerationOptions &amp;options)</argsstring>
+        <name>generateImpl</name>
+        <qualifiedname>themis::aql::test::MockLLMClient::generateImpl</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const llm::GenerationOptions &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="124" column="27" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="124" bodyend="140"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock LLM client for testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>llm::LLMClient</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::test::MockLLMClient</label>
+        <link refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>llm::LLMClient</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::test::MockLLMClient</label>
+        <link refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_llm_validation_pipeline.cpp" line="76" column="1" bodyfile="tests/aql/test_aql_llm_validation_pipeline.cpp" bodystart="76" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1aba4941cc4a9497130b89642a73f6cb15" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>call_count</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1aec6dee19d77947d33bf4643b20c9e595" prot="private" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>call_count_</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a6148365accd19305b1deb774d8ff4c51" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>estimateTokens</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1af854098a594da9bfda4a81cfbece17cd" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>generate</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a1b62f2aa473d0b26b131fe707a820369" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>generateAQL</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a33ddfa3760f0ebf7c266fe60deeceebb" prot="private" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>generateImpl</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a77a5bcba88b91bd37fb5ea83d6dce66f" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>getProviderName</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1aed96be671629d752b4d9749823870fc7" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1ad69497962b33521e2b86cb2687bc5612" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>MockLLMClient</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a237614beedc55cc5a00016bdb9523625" prot="private" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a56f1e89e66218eb422ac3e590d2c4949" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>prompts</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a4f1da0abe42ad0883ee95f9f92d87d8d" prot="private" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>prompts_</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a42ac5a45622b9fe051ab4e25a1dec63e" prot="private" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>ready_</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1aba19c3033d2162191bb0eb28429a6d3e" prot="private" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>response_</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1a1456489f0549eefe3e0e7b962e8e00af" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>setReady</name></member>
+      <member refid="classthemis_1_1aql_1_1test_1_1_mock_l_l_m_client_1ae01ae73a9e0e242d748c4b4c2fdde13c" prot="public" virt="non-virtual"><scope>themis::aql::test::MockLLMClient</scope><name>setResponse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

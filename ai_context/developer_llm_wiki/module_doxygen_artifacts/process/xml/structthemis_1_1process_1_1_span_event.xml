@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_span_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::SpanEvent</compoundname>
+    <includes refid="federated__span__contract_8h" local="no">federated_span_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_event_1ac063c199996b21345f071316b1ff3cce" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::SpanEvent::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::process::SpanEvent::name</qualifiedname>
+        <briefdescription>
+<para>Event name (e.g., &quot;parse_end&quot;, &quot;conflict_detected&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="324" column="17" bodyfile="include/process/federated_span_contract.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_event_1ae06dca50efdd2b6bfc0deeb239a207ae" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::SpanEvent::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::process::SpanEvent::timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Timestamp of event (UTC, nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="327" column="13" bodyfile="include/process/federated_span_contract.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_span_event_1a91c09eee483188922e3d5764cbedfe24" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::process::SpanEvent::attributes</definition>
+        <argsstring></argsstring>
+        <name>attributes</name>
+        <qualifiedname>themis::process::SpanEvent::attributes</qualifiedname>
+        <briefdescription>
+<para>Event-specific attributes (key-value pairs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="330" column="14" bodyfile="include/process/federated_span_contract.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_span_event_1a453b21b41fb61ee9a95fc9c83d2f4f00" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_span_event" kindref="compound">SpanEvent</ref></type>
+        <definition>static SpanEvent themis::process::SpanEvent::now</definition>
+        <argsstring>(const std::string &amp;event_name)</argsstring>
+        <name>now</name>
+        <qualifiedname>themis::process::SpanEvent::now</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>event_name</declname>
+        </param>
+        <briefdescription>
+<para>Create event with current timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1process_1_1_span_event" kindref="compound">SpanEvent</ref> with current timestamp </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_span_contract.h" line="337" column="22" bodyfile="include/process/federated_span_contract.h" bodystart="337" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Event recorded within a span (milestone or significant point). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/federated_span_contract.h" line="322" column="1" bodyfile="include/process/federated_span_contract.h" bodystart="322" bodyend="343"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_span_event_1a91c09eee483188922e3d5764cbedfe24" prot="public" virt="non-virtual"><scope>themis::process::SpanEvent</scope><name>attributes</name></member>
+      <member refid="structthemis_1_1process_1_1_span_event_1ac063c199996b21345f071316b1ff3cce" prot="public" virt="non-virtual"><scope>themis::process::SpanEvent</scope><name>name</name></member>
+      <member refid="structthemis_1_1process_1_1_span_event_1a453b21b41fb61ee9a95fc9c83d2f4f00" prot="public" virt="non-virtual"><scope>themis::process::SpanEvent</scope><name>now</name></member>
+      <member refid="structthemis_1_1process_1_1_span_event_1ae06dca50efdd2b6bfc0deeb239a207ae" prot="public" virt="non-virtual"><scope>themis::process::SpanEvent</scope><name>timestamp_ns</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

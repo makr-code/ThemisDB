@@ -1,0 +1,601 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_alert_rule_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::AlertRuleManager</compoundname>
+    <includes refid="alertmanager_8h" local="no">alertmanager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alert_rule_manager_1ae4b3b4670ff59b230539b658e2716cb2" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::AlertRuleManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::AlertRuleManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="339" column="24" bodyfile="include/observability/alertmanager.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alert_rule_manager_1ae063b6e232f056cba20623ebea9cfc30" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_alert_rule" kindref="compound">AlertRule</ref> &gt;</type>
+        <definition>std::map&lt;std::string, AlertRule&gt; themis::observability::AlertRuleManager::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::observability::AlertRuleManager::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="340" column="14" bodyfile="include/observability/alertmanager.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alert_rule_manager_1a8aafc09b8e5f5dddfabf5e1beffe80ba" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::observability::AlertRuleManager::active_rule_alerts_</definition>
+        <argsstring></argsstring>
+        <name>active_rule_alerts_</name>
+        <qualifiedname>themis::observability::AlertRuleManager::active_rule_alerts_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="342" column="14" bodyfile="include/observability/alertmanager.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1af17dbf04928fe145bd1ec3252a92a765" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertRuleManager::AlertRuleManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>AlertRuleManager</name>
+        <qualifiedname>themis::observability::AlertRuleManager::AlertRuleManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="275" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a80134f04a8a40e86d4cf683ed3521959" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertRuleManager::~AlertRuleManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AlertRuleManager</name>
+        <qualifiedname>themis::observability::AlertRuleManager::~AlertRuleManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="276" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1ab265c806fbd5795d4952bf56d424eb92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertRuleManager::AlertRuleManager</definition>
+        <argsstring>(const AlertRuleManager &amp;)=delete</argsstring>
+        <name>AlertRuleManager</name>
+        <qualifiedname>themis::observability::AlertRuleManager::AlertRuleManager</qualifiedname>
+        <param>
+          <type>const AlertRuleManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="279" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a22e3b2debd0c6e591593d8751dd7a502" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_alert_rule_manager_1af17dbf04928fe145bd1ec3252a92a765" kindref="member">AlertRuleManager</ref> &amp;</type>
+        <definition>AlertRuleManager &amp; themis::observability::AlertRuleManager::operator=</definition>
+        <argsstring>(const AlertRuleManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::AlertRuleManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_alert_rule_manager_1af17dbf04928fe145bd1ec3252a92a765" kindref="member">AlertRuleManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="280" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1ae6f19110164681f518de558210ced503" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertRuleManager::AlertRuleManager</definition>
+        <argsstring>(AlertRuleManager &amp;&amp;)=delete</argsstring>
+        <name>AlertRuleManager</name>
+        <qualifiedname>themis::observability::AlertRuleManager::AlertRuleManager</qualifiedname>
+        <param>
+          <type>AlertRuleManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="281" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a4f121013448ecced6f468918499f1613" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_alert_rule_manager_1af17dbf04928fe145bd1ec3252a92a765" kindref="member">AlertRuleManager</ref> &amp;</type>
+        <definition>AlertRuleManager &amp; themis::observability::AlertRuleManager::operator=</definition>
+        <argsstring>(AlertRuleManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::AlertRuleManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_alert_rule_manager_1af17dbf04928fe145bd1ec3252a92a765" kindref="member">AlertRuleManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="282" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1aefdfdfd69dcb525af89ab845762fdbb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::observability::AlertRuleManager::addRule</definition>
+        <argsstring>(AlertRule rule)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themis::observability::AlertRuleManager::addRule</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1observability_1_1_alert_rule" kindref="compound">AlertRule</ref></type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Add Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a new alert rule. If rule.rule_id is empty a unique ID is generated automatically. <simplesect kind="return"><para>The assigned rule_id on success, or an Error if the ID already exists.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), generateRuleId(), count(), tl::unexpected(), emplace(), std::move(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="289" column="12" bodyfile="src/observability/alertmanager.cpp" bodystart="672" bodyend="697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a2dfa24c6ed6b6254cf131d77741f3353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::AlertRuleManager::removeRule</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>removeRule</name>
+        <qualifiedname>themis::observability::AlertRuleManager::removeRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove a rule by ID. <simplesect kind="return"><para>Result&lt;void&gt; on success, or Error if the rule is not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), tl::unexpected(), erase(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="295" column="12" bodyfile="src/observability/alertmanager.cpp" bodystart="705" bodyend="719"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a450e6cd5c4dd817d80ea75bd7dafd77c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1observability_1_1_alert_rule" kindref="compound">AlertRule</ref> &gt;</type>
+        <definition>Result&lt; AlertRule &gt; themis::observability::AlertRuleManager::getRule</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>getRule</name>
+        <qualifiedname>themis::observability::AlertRuleManager::getRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieve a rule by ID. <simplesect kind="return"><para>Copy of the <ref refid="structthemis_1_1observability_1_1_alert_rule" kindref="compound">AlertRule</ref> on success, or Error if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="301" column="12" bodyfile="src/observability/alertmanager.cpp" bodystart="721" bodyend="737"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a1087262e726a0b4b03099b34f356b24c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::AlertRuleManager::updateRule</definition>
+        <argsstring>(const AlertRule &amp;rule)</argsstring>
+        <name>updateRule</name>
+        <qualifiedname>themis::observability::AlertRuleManager::updateRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alert_rule" kindref="compound">AlertRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Update Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replace an existing rule with an updated version (identified by rule.rule_id). <simplesect kind="return"><para>Result&lt;void&gt; on success, or Error if the rule_id is not found.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), tl::unexpected(), empty(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="307" column="12" bodyfile="src/observability/alertmanager.cpp" bodystart="745" bodyend="765"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1af6fbc15c3cfb4588a772b9627742dcb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_alert_rule" kindref="compound">AlertRule</ref> &gt;</type>
+        <definition>std::vector&lt; AlertRule &gt; themis::observability::AlertRuleManager::listRules</definition>
+        <argsstring>() const</argsstring>
+        <name>listRules</name>
+        <qualifiedname>themis::observability::AlertRuleManager::listRules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>List all registered rules (enabled and disabled). </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="312" column="17" bodyfile="src/observability/alertmanager.cpp" bodystart="767" bodyend="781"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a8c8d5ed3e87c2098821fa7120cc33bf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::observability::AlertRuleManager::evaluateRules</definition>
+        <argsstring>(const std::map&lt; std::string, double &gt; &amp;metrics, Alertmanager &amp;alertmanager)</argsstring>
+        <name>evaluateRules</name>
+        <qualifiedname>themis::observability::AlertRuleManager::evaluateRules</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, double &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> &amp;</type>
+          <declname>alertmanager</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate all enabled rules against a metric snapshot and dispatch alerts.</para>
+<para>For each rule whose condition is satisfied a FIRING alert is sent via <computeroutput>alertmanager</computeroutput> (if not already active). When a previously-firing rule no longer satisfies its condition the corresponding alert is resolved.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of metric_name → current value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>alertmanager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> used to send/resolve alerts. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of rules whose condition was satisfied during this evaluation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="325" column="9" bodyfile="src/observability/alertmanager.cpp" bodystart="783" bodyend="892"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1ae85a904036a90735ff2ffd54b3adca2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AlertRuleManager::clearRules</definition>
+        <argsstring>()</argsstring>
+        <name>clearRules</name>
+        <qualifiedname>themis::observability::AlertRuleManager::clearRules</qualifiedname>
+        <briefdescription>
+<para>Clear Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove all registered rules and clear any tracked alert state.</para>
+<para>Calls: lock(), clear(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="331" column="10" bodyfile="src/observability/alertmanager.cpp" bodystart="898" bodyend="903"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1ae4d6fd363ca5f99cc3ffb7e02c8df6b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::AlertRuleManager::ruleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>ruleCount</name>
+        <qualifiedname>themis::observability::AlertRuleManager::ruleCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the number of registered rules. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="336" column="12" bodyfile="src/observability/alertmanager.cpp" bodystart="905" bodyend="913"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a218503db031cc74536fea7d7101414a2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::AlertRuleManager::evaluateCondition</definition>
+        <argsstring>(double value, AlertRuleOperator op, double threshold)</argsstring>
+        <name>evaluateCondition</name>
+        <qualifiedname>themis::observability::AlertRuleManager::evaluateCondition</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a2dfb6da99b532b521f591d84bf6e68c3" kindref="member">AlertRuleOperator</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Condition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="345" column="17" bodyfile="src/observability/alertmanager.cpp" bodystart="651" bodyend="664"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a4586830796b4e92e068beb9ef196accd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AlertRuleManager::generateRuleId</definition>
+        <argsstring>()</argsstring>
+        <name>generateRuleId</name>
+        <qualifiedname>themis::observability::AlertRuleManager::generateRuleId</qualifiedname>
+        <briefdescription>
+<para>Generate Rule Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), fetch_add(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="348" column="24" bodyfile="src/observability/alertmanager.cpp" bodystart="595" bodyend="603"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alert_rule_manager_1a44ccebb6abf83cd3c9189df33d9e4686" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AlertRuleManager::expandMessage</definition>
+        <argsstring>(const std::string &amp;tmpl, const std::string &amp;metric_name, double value)</argsstring>
+        <name>expandMessage</name>
+        <qualifiedname>themis::observability::AlertRuleManager::expandMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tmpl</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Expand Message. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tmpl</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), size(), replace(), std::to_string(), erase(), find_last_not_of(), back(), pop_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alertmanager.h" line="351" column="24" bodyfile="src/observability/alertmanager.cpp" bodystart="613" bodyend="641"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Manager for custom user-defined alert rules.</para>
+<para>Provides a full CRUD API for alert rules plus an evaluation method that checks all enabled rules against a metric snapshot and fires/resolves alerts via an <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> backend.</para>
+<para>Thread-safety: all methods are thread-safe via an internal mutex.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_alert_rule_manager_1af17dbf04928fe145bd1ec3252a92a765" kindref="member">AlertRuleManager</ref><sp/>mgr;</highlight></codeline>
+<codeline><highlight class="normal">AlertRule<sp/>rule;</highlight></codeline>
+<codeline><highlight class="normal">rule.metric_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themis_query_latency_p99_ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">rule.op<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1observability_1a2dfb6da99b532b521f591d84bf6e68c3a1625ef4fe09f68fa20d3ff6e02cd5c8e" kindref="member">AlertRuleOperator::GREATER_THAN</ref>;</highlight></codeline>
+<codeline><highlight class="normal">rule.threshold<sp/><sp/><sp/>=<sp/>500.0;</highlight></codeline>
+<codeline><highlight class="normal">rule.severity<sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1observability_1a8ee1043d756365fbf3e4632ae5371c2fa059e9861e0400dfbe05c98a841f3f96b" kindref="member">AlertSeverity::WARNING</ref>;</highlight></codeline>
+<codeline><highlight class="normal">rule.message_template<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;P99<sp/>latency<sp/>{value}ms<sp/>exceeds<sp/>threshold&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>mgr.addRule(rule);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">mgr.evaluateRules(metric_snapshot,<sp/>alertmanager);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/observability/alertmanager.h" line="273" column="1" bodyfile="include/observability/alertmanager.h" bodystart="273" bodyend="354"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a8aafc09b8e5f5dddfabf5e1beffe80ba" prot="private" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>active_rule_alerts_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1aefdfdfd69dcb525af89ab845762fdbb3" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>addRule</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1af17dbf04928fe145bd1ec3252a92a765" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>AlertRuleManager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1ab265c806fbd5795d4952bf56d424eb92" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>AlertRuleManager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1ae6f19110164681f518de558210ced503" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>AlertRuleManager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1ae85a904036a90735ff2ffd54b3adca2d" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>clearRules</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a218503db031cc74536fea7d7101414a2" prot="private" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>evaluateCondition</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a8c8d5ed3e87c2098821fa7120cc33bf7" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>evaluateRules</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a44ccebb6abf83cd3c9189df33d9e4686" prot="private" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>expandMessage</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a4586830796b4e92e068beb9ef196accd" prot="private" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>generateRuleId</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a450e6cd5c4dd817d80ea75bd7dafd77c" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>getRule</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1af6fbc15c3cfb4588a772b9627742dcb3" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>listRules</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1ae4b3b4670ff59b230539b658e2716cb2" prot="private" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a22e3b2debd0c6e591593d8751dd7a502" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a4f121013448ecced6f468918499f1613" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a2dfa24c6ed6b6254cf131d77741f3353" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>removeRule</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1ae4d6fd363ca5f99cc3ffb7e02c8df6b6" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>ruleCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1ae063b6e232f056cba20623ebea9cfc30" prot="private" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>rules_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a1087262e726a0b4b03099b34f356b24c" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>updateRule</name></member>
+      <member refid="classthemis_1_1observability_1_1_alert_rule_manager_1a80134f04a8a40e86d4cf683ed3521959" prot="public" virt="non-virtual"><scope>themis::observability::AlertRuleManager</scope><name>~AlertRuleManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1functions_1_1vector__helpers" kind="namespace" language="C++">
+    <compoundname>themis::query::functions::vector_helpers</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1vector__helpers_1a9b62beddd8739244b2d4463116e06741" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::vector_helpers::validateVector</definition>
+        <argsstring>(const nlohmann::json &amp;vec, const std::string &amp;funcName)</argsstring>
+        <name>validateVector</name>
+        <qualifiedname>themis::query::functions::vector_helpers::validateVector</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>funcName</declname>
+        </param>
+        <briefdescription>
+<para>Validate that a JSON value is a numeric vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON vector to validate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">funcName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function name used in error messages. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: is_array(), is_number(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/vector_functions.h" line="42" column="13" bodyfile="include/query/functions/vector_functions.h" bodystart="42" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1vector__helpers_1a299199771bac0ae41cf21429931a58a3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::vector_helpers::validateSameDimension</definition>
+        <argsstring>(const nlohmann::json &amp;v1, const nlohmann::json &amp;v2, const std::string &amp;funcName)</argsstring>
+        <name>validateSameDimension</name>
+        <qualifiedname>themis::query::functions::vector_helpers::validateSameDimension</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>v2</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>funcName</declname>
+        </param>
+        <briefdescription>
+<para>Validate that two vectors have the same dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">funcName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Function name used in error messages. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/vector_functions.h" line="61" column="13" bodyfile="include/query/functions/vector_functions.h" bodystart="61" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1vector__helpers_1a60cdeea9b2dbda0ef412f51bc4a37b0f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themis::query::functions::vector_helpers::toVector</definition>
+        <argsstring>(const nlohmann::json &amp;vec)</argsstring>
+        <name>toVector</name>
+        <qualifiedname>themis::query::functions::vector_helpers::toVector</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Convert a JSON array to std::vector&lt;double&gt;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON array of numbers to convert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::vector&lt;double&gt; containing the numeric values.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/vector_functions.h" line="74" column="20" bodyfile="include/query/functions/vector_functions.h" bodystart="74" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1vector__helpers_1ab58c32b7bd12171dbf296d038cd5a1cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::vector_helpers::fromVector</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;vec)</argsstring>
+        <name>fromVector</name>
+        <qualifiedname>themis::query::functions::vector_helpers::fromVector</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Convert std::vector&lt;double&gt; to a JSON array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector to convert to JSON. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON array containing the vector values.</para>
+</simplesect>
+Calls: nlohmann::json::array(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/vector_functions.h" line="90" column="23" bodyfile="include/query/functions/vector_functions.h" bodystart="90" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1vector__helpers_1a859ff6fadbb73822f7a6b049e80f3ec9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::functions::vector_helpers::l2Norm</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;vec)</argsstring>
+        <name>l2Norm</name>
+        <qualifiedname>themis::query::functions::vector_helpers::l2Norm</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>vec</declname>
+        </param>
+        <briefdescription>
+<para>Compute the L2 norm of a vector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector whose magnitude is computed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Euclidean length of the vector.</para>
+</simplesect>
+Calls: std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/vector_functions.h" line="104" column="15" bodyfile="include/query/functions/vector_functions.h" bodystart="104" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1vector__helpers_1aa4452eb3a2b66e62017b26c8cc5f2501" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::functions::vector_helpers::dotProduct</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;v1, const std::vector&lt; double &gt; &amp;v2)</argsstring>
+        <name>dotProduct</name>
+        <qualifiedname>themis::query::functions::vector_helpers::dotProduct</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>v1</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>v2</declname>
+        </param>
+        <briefdescription>
+<para>Compute the dot product of two vectors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">v1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First vector. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">v2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second vector. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dot product of the input vectors.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/vector_functions.h" line="119" column="15" bodyfile="include/query/functions/vector_functions.h" bodystart="119" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/vector_functions.h" line="33" column="1"/>
+  </compounddef>
+</doxygen>

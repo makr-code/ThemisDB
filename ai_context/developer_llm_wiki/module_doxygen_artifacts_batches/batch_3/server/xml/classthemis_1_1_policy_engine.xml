@@ -1,0 +1,854 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_policy_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::PolicyEngine</compoundname>
+    <includes refid="policy__engine_8h" local="no">policy_engine.h</includes>
+    <innerclass refid="structthemis_1_1_policy_engine_1_1_config" prot="public">themis::PolicyEngine::Config</innerclass>
+    <innerclass refid="structthemis_1_1_policy_engine_1_1_policy" prot="public">themis::PolicyEngine::Policy</innerclass>
+    <innerclass refid="structthemis_1_1_policy_engine_1_1_decision" prot="public">themis::PolicyEngine::Decision</innerclass>
+    <innerclass refid="structthemis_1_1_policy_engine_1_1_i_policy_evaluator" prot="public">themis::PolicyEngine::IPolicyEvaluator</innerclass>
+    <innerclass refid="structthemis_1_1_policy_engine_1_1_metrics" prot="public">themis::PolicyEngine::Metrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_policy_engine_1a33f6ba092275c8bf3cec29730d8036a4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::PolicyEngine::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::PolicyEngine::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="205" column="24" bodyfile="include/server/policy_engine.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_policy_engine_1ae8f6ddac845d4052545275c72f152e93" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_policy_engine_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::PolicyEngine::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::PolicyEngine::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="206" column="12" bodyfile="include/server/policy_engine.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_policy_engine_1ac40913b895304e7e62e3ecc4d58bb247" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &gt;</type>
+        <definition>std::vector&lt;Policy&gt; themis::PolicyEngine::policies_</definition>
+        <argsstring></argsstring>
+        <name>policies_</name>
+        <qualifiedname>themis::PolicyEngine::policies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="207" column="17" bodyfile="include/server/policy_engine.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_policy_engine_1a060eb140a058d3d5acbef2c5e2bff3c6" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_policy_engine_1_1_metrics" kindref="compound">Metrics</ref></type>
+        <definition>Metrics themis::PolicyEngine::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::PolicyEngine::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="208" column="21" bodyfile="include/server/policy_engine.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_policy_engine_1a8ee4ec5bfd4e57edabe25f28ff902ba7" prot="private" static="no" mutable="no">
+        <type>utils::AuditLogger *</type>
+        <definition>utils::AuditLogger* themis::PolicyEngine::audit_logger_</definition>
+        <argsstring></argsstring>
+        <name>audit_logger_</name>
+        <qualifiedname>themis::PolicyEngine::audit_logger_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="209" column="24" bodyfile="include/server/policy_engine.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_policy_engine_1a4960885ed5aeb318c9f909937876b345" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_policy_engine_1_1_i_policy_evaluator" kindref="compound">IPolicyEvaluator</ref> *</type>
+        <definition>IPolicyEvaluator* themis::PolicyEngine::opa_evaluator_</definition>
+        <argsstring></argsstring>
+        <name>opa_evaluator_</name>
+        <qualifiedname>themis::PolicyEngine::opa_evaluator_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="210" column="24" bodyfile="include/server/policy_engine.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_policy_engine_1af8c5315e14f17705394f1802ea3d2357" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::PolicyEngine::loaded_file_path_</definition>
+        <argsstring></argsstring>
+        <name>loaded_file_path_</name>
+        <qualifiedname>themis::PolicyEngine::loaded_file_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="213" column="17" bodyfile="include/server/policy_engine.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_policy_engine_1a99481562c8c5dd5de7096f024ba674dd" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::PolicyEngine::last_loaded_mtime_</definition>
+        <argsstring></argsstring>
+        <name>last_loaded_mtime_</name>
+        <qualifiedname>themis::PolicyEngine::last_loaded_mtime_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="214" column="43" bodyfile="include/server/policy_engine.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a5e283c10efb0599ff035cd055549e2cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::PolicyEngine::PolicyEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>PolicyEngine</name>
+        <qualifiedname>themis::PolicyEngine::PolicyEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a5382673b5b69b998ecd5d61925a06125" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::PolicyEngine::PolicyEngine</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PolicyEngine</name>
+        <qualifiedname>themis::PolicyEngine::PolicyEngine</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_policy_engine_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="100" column="14" bodyfile="include/server/policy_engine.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a4d6fad0f6c044e3ed968e6eff327714f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::loadFromFile</definition>
+        <argsstring>(const std::string &amp;path, std::string *err=nullptr)</argsstring>
+        <name>loadFromFile</name>
+        <qualifiedname>themis::PolicyEngine::loadFromFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>err</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Load From File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: size(), compare(), ends_with(), YAML::LoadFile(), insert(), push_back(), THEMIS_WARN(), IsSequence(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="103" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="66" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1af99c04f9afece278cc32494fe817b298" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::saveToFile</definition>
+        <argsstring>(const std::string &amp;path, std::string *err=nullptr) const</argsstring>
+        <name>saveToFile</name>
+        <qualifiedname>themis::PolicyEngine::saveToFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>err</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="105" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="199" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a3e692b0a80585279d8960163ee08c3ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::reloadIfChanged</definition>
+        <argsstring>(std::string *err=nullptr)</argsstring>
+        <name>reloadIfChanged</name>
+        <qualifiedname>themis::PolicyEngine::reloadIfChanged</qualifiedname>
+        <param>
+          <type>std::string *</type>
+          <declname>err</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Reload If Changed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">err</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), std::filesystem::last_write_time(), clock::now(), std::chrono::system_clock::now(), std::string(), what(), <ref refid="classthemis_1_1_policy_engine_1a4d6fad0f6c044e3ed968e6eff327714f" kindref="member">loadFromFile()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="107" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="229" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1aae6a4337d33987edfa094ee61b46f11c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PolicyEngine::setPolicies</definition>
+        <argsstring>(std::vector&lt; Policy &gt; policies)</argsstring>
+        <name>setPolicies</name>
+        <qualifiedname>themis::PolicyEngine::setPolicies</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &gt;</type>
+          <declname>policies</declname>
+        </param>
+        <briefdescription>
+<para>Set Policies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policies</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), lock(), std::move(), emitPolicyAudit(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="114" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="270" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1ab4a2e2e0b214158a0e1f5b44dd7f9871" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PolicyEngine::addPolicy</definition>
+        <argsstring>(const Policy &amp;p)</argsstring>
+        <name>addPolicy</name>
+        <qualifiedname>themis::PolicyEngine::addPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Add <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::length_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), std::to_string(), push_back(), emitPolicyAudit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="120" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="289" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1aefc267faee65dbc21abd1df7898f8d76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::removePolicy</definition>
+        <argsstring>(const std::string &amp;id)</argsstring>
+        <name>removePolicy</name>
+        <qualifiedname>themis::PolicyEngine::removePolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Remove a retention policy by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the policy existed and was removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the policy existed and was removed.</para>
+</simplesect>
+Calls: lock(), size(), erase(), std::remove_if(), begin(), end(), emitPolicyAudit(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="127" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="311" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1abd84c12d5485adf59d83831029c62c88" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &gt;</type>
+        <definition>std::vector&lt; PolicyEngine::Policy &gt; themis::PolicyEngine::listPolicies</definition>
+        <argsstring>() const</argsstring>
+        <name>listPolicies</name>
+        <qualifiedname>themis::PolicyEngine::listPolicies</qualifiedname>
+        <briefdescription>
+<para>List Policies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="133" column="17" bodyfile="src/server/policy_engine.cpp" bodystart="329" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a2bbce3cdb928e960b95be65fcd285a5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_policy_engine_1_1_decision" kindref="compound">Decision</ref></type>
+        <definition>PolicyEngine::Decision themis::PolicyEngine::authorize</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;action, const std::string &amp;resource_path, const std::optional&lt; std::string &gt; &amp;client_ip=std::nullopt, const std::optional&lt; std::string &gt; &amp;user_agent=std::nullopt) const</argsstring>
+        <name>authorize</name>
+        <qualifiedname>themis::PolicyEngine::authorize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_path</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>client_ip</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>user_agent</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="136" column="14" bodyfile="src/server/policy_engine.cpp" bodystart="339" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1af19a8c67f937268438230d19a7f399ee" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_policy_engine_1_1_metrics" kindref="compound">Metrics</ref> &amp;</type>
+        <definition>const Metrics &amp; themis::PolicyEngine::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::PolicyEngine::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="142" column="19" bodyfile="include/server/policy_engine.h" bodystart="142" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a884448cf6be7613db9e5a65c542509db" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PolicyEngine::setAuditLogger</definition>
+        <argsstring>(utils::AuditLogger *logger)</argsstring>
+        <name>setAuditLogger</name>
+        <qualifiedname>themis::PolicyEngine::setAuditLogger</qualifiedname>
+        <param>
+          <type>utils::AuditLogger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">logger</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLogger without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="149" column="10" bodyfile="include/server/policy_engine.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1addda6344c1aab9f1b60c0b558d6622a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::PolicyEngine::setOpaEvaluator</definition>
+        <argsstring>(IPolicyEvaluator *evaluator)</argsstring>
+        <name>setOpaEvaluator</name>
+        <qualifiedname>themis::PolicyEngine::setOpaEvaluator</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_policy_engine_1_1_i_policy_evaluator" kindref="compound">IPolicyEvaluator</ref> *</type>
+          <declname>evaluator</declname>
+        </param>
+        <briefdescription>
+<para>Set Opa Evaluator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">evaluator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setOpaEvaluator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="156" column="10" bodyfile="include/server/policy_engine.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a50d2c3724600dffc0ad7c68d27198b1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::PolicyEngine::toJson</definition>
+        <argsstring>(const Policy &amp;p)</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::PolicyEngine::toJson</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: json::array(), push_back(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="164" column="27" bodyfile="src/server/policy_engine.cpp" bodystart="495" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a004a0cb61dd8ecfae569e9303d33dcdb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyEngine::Policy &gt; themis::PolicyEngine::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::PolicyEngine::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), insert(), push_back(), std::string(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="170" column="26" bodyfile="src/server/policy_engine.cpp" bodystart="524" bodyend="563"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1a89a838f24db6a67c52716d3c3340837a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::matchSubject</definition>
+        <argsstring>(const Policy &amp;p, const std::string &amp;user_id) const</argsstring>
+        <name>matchSubject</name>
+        <qualifiedname>themis::PolicyEngine::matchSubject</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Match Subject. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="179" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="409" bodyend="414"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1af7ef5be94b224af8226bfb87e51fb05f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::matchAction</definition>
+        <argsstring>(const Policy &amp;p, const std::string &amp;action) const</argsstring>
+        <name>matchAction</name>
+        <qualifiedname>themis::PolicyEngine::matchAction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <briefdescription>
+<para>Match Action. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="186" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="416" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1ac21962e8b2ec8dccd6e1aa80d23e80ed" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::matchResource</definition>
+        <argsstring>(const Policy &amp;p, const std::string &amp;resource_path) const</argsstring>
+        <name>matchResource</name>
+        <qualifiedname>themis::PolicyEngine::matchResource</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_path</declname>
+        </param>
+        <briefdescription>
+<para>Match Resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the resource. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="193" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="423" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_policy_engine_1af4c84a05eca2f9af6b09c2d3e7a5fbc3" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::PolicyEngine::matchConditions</definition>
+        <argsstring>(const Policy &amp;p, const std::optional&lt; std::string &gt; &amp;client_ip, const std::optional&lt; std::string &gt; &amp;user_agent) const</argsstring>
+        <name>matchConditions</name>
+        <qualifiedname>themis::PolicyEngine::matchConditions</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_policy_engine_1_1_policy" kindref="compound">Policy</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>client_ip</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>user_agent</declname>
+        </param>
+        <briefdescription>
+<para>Match Conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/policy_engine.h" line="201" column="10" bodyfile="src/server/policy_engine.cpp" bodystart="433" bodyend="487"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/policy_engine.h" line="41" column="1" bodyfile="include/server/policy_engine.h" bodystart="41" bodyend="215"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_policy_engine_1ab4a2e2e0b214158a0e1f5b44dd7f9871" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>addPolicy</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a8ee4ec5bfd4e57edabe25f28ff902ba7" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>audit_logger_</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a2bbce3cdb928e960b95be65fcd285a5b" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>authorize</name></member>
+      <member refid="classthemis_1_1_policy_engine_1ae8f6ddac845d4052545275c72f152e93" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a004a0cb61dd8ecfae569e9303d33dcdb" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>fromJson</name></member>
+      <member refid="classthemis_1_1_policy_engine_1af19a8c67f937268438230d19a7f399ee" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a99481562c8c5dd5de7096f024ba674dd" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>last_loaded_mtime_</name></member>
+      <member refid="classthemis_1_1_policy_engine_1abd84c12d5485adf59d83831029c62c88" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>listPolicies</name></member>
+      <member refid="classthemis_1_1_policy_engine_1af8c5315e14f17705394f1802ea3d2357" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>loaded_file_path_</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a4d6fad0f6c044e3ed968e6eff327714f" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>loadFromFile</name></member>
+      <member refid="classthemis_1_1_policy_engine_1af7ef5be94b224af8226bfb87e51fb05f" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>matchAction</name></member>
+      <member refid="classthemis_1_1_policy_engine_1af4c84a05eca2f9af6b09c2d3e7a5fbc3" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>matchConditions</name></member>
+      <member refid="classthemis_1_1_policy_engine_1ac21962e8b2ec8dccd6e1aa80d23e80ed" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>matchResource</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a89a838f24db6a67c52716d3c3340837a" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>matchSubject</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a060eb140a058d3d5acbef2c5e2bff3c6" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a33f6ba092275c8bf3cec29730d8036a4" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a4960885ed5aeb318c9f909937876b345" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>opa_evaluator_</name></member>
+      <member refid="classthemis_1_1_policy_engine_1ac40913b895304e7e62e3ecc4d58bb247" prot="private" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>policies_</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a5e283c10efb0599ff035cd055549e2cc" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>PolicyEngine</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a5382673b5b69b998ecd5d61925a06125" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>PolicyEngine</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a3e692b0a80585279d8960163ee08c3ce" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>reloadIfChanged</name></member>
+      <member refid="classthemis_1_1_policy_engine_1aefc267faee65dbc21abd1df7898f8d76" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>removePolicy</name></member>
+      <member refid="classthemis_1_1_policy_engine_1af99c04f9afece278cc32494fe817b298" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>saveToFile</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a884448cf6be7613db9e5a65c542509db" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>setAuditLogger</name></member>
+      <member refid="classthemis_1_1_policy_engine_1addda6344c1aab9f1b60c0b558d6622a4" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>setOpaEvaluator</name></member>
+      <member refid="classthemis_1_1_policy_engine_1aae6a4337d33987edfa094ee61b46f11c" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>setPolicies</name></member>
+      <member refid="classthemis_1_1_policy_engine_1a50d2c3724600dffc0ad7c68d27198b1c" prot="public" virt="non-virtual"><scope>themis::PolicyEngine</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

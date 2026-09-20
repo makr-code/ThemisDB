@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="thread__guard_8h" kind="file" language="C++">
+    <compoundname>thread_guard.h</compoundname>
+    <includes local="no">thread</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">cassert</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/analytics/thread_guard.h</label>
+        <link refid="thread__guard_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cassert</label>
+      </node>
+      <node id="2">
+        <label>thread</label>
+      </node>
+      <node id="3">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemisdb_1_1analytics_1_1_thread_guard" prot="public">themisdb::analytics::ThreadGuard</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1analytics">themisdb::analytics</innernamespace>
+    <briefdescription>
+<para>RAII wrapper for thread lifecycle management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Ensures threads are properly joined on scope exit, preventing resource leaks and ensuring predictable cleanup in both normal and exception paths.</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cassert&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="classthemisdb_1_1analytics_1_1_thread_guard" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>thread_;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="32" refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref>(Func&amp;&amp;<sp/>func)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>thread_(std::forward&lt;Func&gt;(func))<sp/>{}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Func&gt;</highlight></codeline>
+<codeline lineno="36" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a4d1f886aab52c5c9ab86d9c34ec2eade" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a4d1f886aab52c5c9ab86d9c34ec2eade" kindref="member">ThreadGuard</ref>(Func<sp/>T::*<sp/>func,<sp/>T*<sp/>obj)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>thread_(func,<sp/>obj)<sp/>{}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deleted<sp/>copy<sp/>(prevent<sp/>unintended<sp/>thread<sp/>duplication)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a28ada723a96ff6765029bc84d9f341b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a28ada723a96ff6765029bc84d9f341b5" kindref="member">ThreadGuard</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a4c3ec12e406266f418e7288b8e569df6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a4c3ec12e406266f418e7288b8e569df6" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Movable<sp/>(transfer<sp/>ownership)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a3b7dd94f587f0f9c8bb1235a4336010d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a3b7dd94f587f0f9c8bb1235a4336010d" kindref="member">ThreadGuard</ref>(<ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref>&amp;&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>thread_(std::move(other.thread_))<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>other.thread_<sp/>is<sp/>now<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a5b4236dbf9c7203e47ebdd97323eb88a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref>&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a5b4236dbf9c7203e47ebdd97323eb88a" kindref="member">operator=</ref>(<ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1aa61d5a973b4c10b40471c2e5009c1449" kindref="member">ThreadGuard</ref>&amp;&amp;<sp/>other)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(thread_.joinable())<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread_.join();</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread_<sp/>=<sp/>std::move(other.thread_);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a63c7dfa1ce0dafa4e18b158e82439a84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a63c7dfa1ce0dafa4e18b158e82439a84" kindref="member">joinable</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thread_.joinable();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemisdb_1_1analytics_1_1_thread_guard_1ad29e060b7e0770f347468635adb32a15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread::id<sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1ad29e060b7e0770f347468635adb32a15" kindref="member">get_id</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thread_.get_id();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a11387092ca901f340ce1cc599f8da42a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a11387092ca901f340ce1cc599f8da42a" kindref="member">join</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(thread_.joinable())<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>thread_.join();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a9385788efdc82c2468bbb194eacc7bb0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a9385788efdc82c2468bbb194eacc7bb0" kindref="member">~ThreadGuard</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a11387092ca901f340ce1cc599f8da42a" kindref="member">join</ref>();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="classthemisdb_1_1analytics_1_1_thread_guard_1a9599f2660f97d6afedc5f112868414af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread&amp;<sp/><ref refid="classthemisdb_1_1analytics_1_1_thread_guard_1a9599f2660f97d6afedc5f112868414af" kindref="member">native_handle</ref>()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>thread_;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/thread_guard.h"/>
+  </compounddef>
+</doxygen>

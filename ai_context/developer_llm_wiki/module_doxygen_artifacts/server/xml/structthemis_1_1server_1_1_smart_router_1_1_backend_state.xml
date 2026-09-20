@@ -1,0 +1,168 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_smart_router_1_1_backend_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::SmartRouter::BackendState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a4f8ac69d6b8876e9b3f1422c0d190af0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1server_1_1_backend_endpoint" kindref="compound">BackendEndpoint</ref></type>
+        <definition>BackendEndpoint themis::server::SmartRouter::BackendState::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="212" column="25" bodyfile="include/server/smart_routing.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1ad4b27f319887e755ed28fa8f0a76c20e" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::server::SmartRouter::BackendState::latency_window</definition>
+        <argsstring></argsstring>
+        <name>latency_window</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::latency_window</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="215" column="20" bodyfile="include/server/smart_routing.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a4c873bdf1b16c0c34e8d3e569fe646f0" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint32_t &gt;</type>
+        <definition>std::atomic&lt;uint32_t&gt; themis::server::SmartRouter::BackendState::active_connections</definition>
+        <argsstring></argsstring>
+        <name>active_connections</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::active_connections</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="217" column="21" bodyfile="include/server/smart_routing.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a452ca7e5e313b85cdffc6aa8d6a5c7ce" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::SmartRouter::BackendState::total_requests</definition>
+        <argsstring></argsstring>
+        <name>total_requests</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::total_requests</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="218" column="18" bodyfile="include/server/smart_routing.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a0ed8c9a52828016dc4496e316333594e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::SmartRouter::BackendState::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::cache_hits</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="219" column="18" bodyfile="include/server/smart_routing.h" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1ad97091631653716eaec4c28ced5c69aa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::SmartRouter::BackendState::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::cache_misses</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="220" column="18" bodyfile="include/server/smart_routing.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a0165ac377f4ac1878d07c3f19436dd50" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint32_t&gt; themis::server::SmartRouter::BackendState::key_hit_counts</definition>
+        <argsstring></argsstring>
+        <name>key_hit_counts</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::key_hit_counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="224" column="28" bodyfile="include/server/smart_routing.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1ab048b5ef5e1baca527958c03d15be811" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::SmartRouter::BackendState::cached_avg_latency</definition>
+        <argsstring></argsstring>
+        <name>cached_avg_latency</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::cached_avg_latency</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="228" column="16" bodyfile="include/server/smart_routing.h" bodystart="228" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a54c796cfa846d969b4e607b0292b6098" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::SmartRouter::BackendState::cached_p99_latency</definition>
+        <argsstring></argsstring>
+        <name>cached_p99_latency</name>
+        <qualifiedname>themis::server::SmartRouter::BackendState::cached_p99_latency</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/smart_routing.h" line="229" column="16" bodyfile="include/server/smart_routing.h" bodystart="229" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::server::BackendEndpoint</label>
+        <link refid="structthemis_1_1server_1_1_backend_endpoint"/>
+      </node>
+      <node id="1">
+        <label>themis::server::SmartRouter::BackendState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>endpoint</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/smart_routing.h" line="211" column="5" bodyfile="include/server/smart_routing.h" bodystart="211" bodyend="230"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a4c873bdf1b16c0c34e8d3e569fe646f0" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>active_connections</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a0ed8c9a52828016dc4496e316333594e" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1ad97091631653716eaec4c28ced5c69aa" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1ab048b5ef5e1baca527958c03d15be811" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>cached_avg_latency</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a54c796cfa846d969b4e607b0292b6098" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>cached_p99_latency</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a4f8ac69d6b8876e9b3f1422c0d190af0" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a0165ac377f4ac1878d07c3f19436dd50" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>key_hit_counts</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1ad4b27f319887e755ed28fa8f0a76c20e" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>latency_window</name></member>
+      <member refid="structthemis_1_1server_1_1_smart_router_1_1_backend_state_1a452ca7e5e313b85cdffc6aa8d6a5c7ce" prot="public" virt="non-virtual"><scope>themis::server::SmartRouter::BackendState</scope><name>total_requests</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

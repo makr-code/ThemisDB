@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::MVRegister</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register_1acc0b40e9361e2ec0efd59a11b38c51c0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; T, <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;T, Dot&gt; &gt; themisdb::replication::crdt::MVRegister&lt; T &gt;::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themisdb::replication::crdt::MVRegister::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="240" column="17" bodyfile="include/replication/crdt_types.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register_1acfcc15d0bae273994b4864e6ed4cfbcf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::MVRegister&lt; T &gt;::write</definition>
+        <argsstring>(T value, const Dot &amp;dot)</argsstring>
+        <name>write</name>
+        <qualifiedname>themisdb::replication::crdt::MVRegister::write</qualifiedname>
+        <param>
+          <type>T</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> &amp;</type>
+          <declname>dot</declname>
+        </param>
+        <briefdescription>
+<para>Write <computeroutput>value</computeroutput> tagged with <computeroutput>dot</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clears all previous values (simulating causally-dominating write). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="210" column="10" bodyfile="include/replication/crdt_types.h" bodystart="210" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register_1a9f5816fbd8b69fd727ddd358393a5f2d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt; T &gt; themisdb::replication::crdt::MVRegister&lt; T &gt;::read</definition>
+        <argsstring>() const</argsstring>
+        <name>read</name>
+        <qualifiedname>themisdb::replication::crdt::MVRegister::read</qualifiedname>
+        <briefdescription>
+<para>Returns all concurrent values currently in the register. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="218" column="17" bodyfile="include/replication/crdt_types.h" bodystart="218" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register_1a8cde771fab291a9f10a7184315177c70" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::crdt::MVRegister&lt; T &gt;::merge</definition>
+        <argsstring>(const MVRegister&lt; T &gt; &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::crdt::MVRegister::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register" kindref="compound">MVRegister</ref>&lt; T &gt; &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge another <ref refid="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register" kindref="compound">MVRegister</ref> into this one (union of entries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="229" column="10" bodyfile="include/replication/crdt_types.h" bodystart="229" bodyend="237"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A Multi-Value Register. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Concurrent writes from different nodes both survive until one supersedes the other. Each write is tagged with a <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref>; a merge retains all values whose dot is not dominated by another node&apos;s vector clock.</para>
+<para>For simplicity this implementation retains all concurrent values without vector-clock dominance pruning. Values are deduplicated on write.</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value type (must be equality-comparable and copy-constructible). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="203" column="1" bodyfile="include/replication/crdt_types.h" bodystart="203" bodyend="241"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register_1acc0b40e9361e2ec0efd59a11b38c51c0" prot="private" virt="non-virtual"><scope>themisdb::replication::crdt::MVRegister</scope><name>entries_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register_1a8cde771fab291a9f10a7184315177c70" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::MVRegister</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register_1a9f5816fbd8b69fd727ddd358393a5f2d" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::MVRegister</scope><name>read</name></member>
+      <member refid="classthemisdb_1_1replication_1_1crdt_1_1_m_v_register_1acfcc15d0bae273994b4864e6ed4cfbcf" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::MVRegister</scope><name>write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

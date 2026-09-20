@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="fts__executor_8h" kind="file" language="C++">
+    <compoundname>fts_executor.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes refid="fts__parser_8h" local="yes">query/fts_parser.h</includes>
+    <includes refid="index__cache_8h" local="yes">query/index_cache.h</includes>
+    <includes refid="bm25__scorer_8h" local="yes">query/bm25_scorer.h</includes>
+    <includes local="yes">utils/expected.h</includes>
+    <includedby refid="fts__executor_8cpp" local="yes">src/query/fts_executor.cpp</includedby>
+    <includedby refid="test__fts__executor_8cpp" local="yes">tests/query/test_fts_executor.cpp</includedby>
+    <incdepgraph>
+      <node id="15">
+        <label>query/bm25_scorer.h</label>
+        <link refid="bm25__scorer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/fts_executor.h</label>
+        <link refid="fts__executor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>query/fts_index.h</label>
+        <link refid="fts__index_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>query/fts_parser.h</label>
+        <link refid="fts__parser_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>query/index_cache.h</label>
+        <link refid="index__cache_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>list</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="16">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/fts_executor.h</label>
+        <link refid="fts__executor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/fts_executor.cpp</label>
+        <link refid="fts__executor_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/query/test_fts_executor.cpp</label>
+        <link refid="test__fts__executor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_search_result" prot="public">themis::query::fts::SearchResult</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_execution_options" prot="public">themis::query::fts::ExecutionOptions</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1fts_1_1_fts_executor" prot="public">themis::query::fts::FtsExecutor</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats" prot="public">themis::query::fts::FtsExecutor::CacheStats</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_execution_metrics" prot="private">themis::query::fts::FtsExecutor::ExecutionMetrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1fts">themis::query::fts</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>include/query/fts_executor.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Full-Text<sp/>Search<sp/>(FTS)<sp/>Executor<sp/>Backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Critical<sp/>module<sp/>for<sp/>Query<sp/>pipeline<sp/>(ROADMAP<sp/>line<sp/>63)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Status:<sp/>WAVE<sp/>B<sp/>OPTION<sp/>B2<sp/>—<sp/>Phase<sp/>1<sp/>Implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timeline:<sp/>Sept<sp/>16-30,<sp/>2026<sp/>(15<sp/>days)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Criticality:<sp/>CRITICAL<sp/>(0%<sp/>implementation,<sp/>Q4<sp/>deadline)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-Safety<sp/>Contract:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>execute()<sp/>is<sp/>thread-safe<sp/>for<sp/>concurrent<sp/>reads<sp/>(acquires<sp/>shared_lock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>updateIndex()<sp/>requires<sp/>exclusive<sp/>lock<sp/>(acquires<sp/>unique_lock)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Concurrent<sp/>readers<sp/>allowed<sp/>via<sp/>std::shared_mutex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Lock<sp/>ordering:<sp/>index_lock_<sp/>→<sp/>cache_lock_<sp/>(no<sp/>deadlock<sp/>guarantee)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>Handling:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>All<sp/>APIs<sp/>return<sp/>Result&lt;T&gt;<sp/>(success<sp/>or<sp/>FtsError)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>FtsError<sp/>codes<sp/>in<sp/>range<sp/>[7200,<sp/>7299]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Timeout<sp/>&amp;<sp/>OOM<sp/>return<sp/>partial<sp/>results<sp/>(not<sp/>full<sp/>failure)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="fts__parser_8h" kindref="compound">query/fts_parser.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SearchNode<sp/>AST<sp/>from<sp/>parser</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="index__cache_8h" kindref="compound">query/index_cache.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LRU<sp/>+<sp/>Bloom<sp/>filter<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="bm25__scorer_8h" kindref="compound">query/bm25_scorer.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BM25<sp/>scoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1fts" kindref="compound">themis::query::fts</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Error<sp/>codes<sp/>for<sp/>FTS<sp/>operations<sp/>(7200-7299<sp/>range)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634c" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634c" kindref="member">FtsError</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca5598b849e4723dd4b18c43b0cb5e1ec1" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca5598b849e4723dd4b18c43b0cb5e1ec1" kindref="member">INDEX_NOT_FOUND</ref><sp/>=<sp/>7200,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca23b6a7b360fadf2ee1c99c345eb0f4f9" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca23b6a7b360fadf2ee1c99c345eb0f4f9" kindref="member">INVALID_INDEX_FORMAT</ref><sp/>=<sp/>7201,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca93bb018176b94fbf76a82ddb92e33802" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca93bb018176b94fbf76a82ddb92e33802" kindref="member">INDEX_LOCKED</ref><sp/>=<sp/>7202,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca5df1e7f3b823038573a810fe0710d890" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca5df1e7f3b823038573a810fe0710d890" kindref="member">PARSING_ERROR</ref><sp/>=<sp/>7203,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cab23f1844d7ffdcacd50686f46c0345dc" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cab23f1844d7ffdcacd50686f46c0345dc" kindref="member">EXECUTION_TIMEOUT</ref><sp/>=<sp/>7204,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cac56ddb8056b120c9d5fee05981f219c6" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cac56ddb8056b120c9d5fee05981f219c6" kindref="member">OUT_OF_MEMORY</ref><sp/>=<sp/>7205,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca96b6931019031432937224369c9d6340" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634ca96b6931019031432937224369c9d6340" kindref="member">TERM_NOT_FOUND</ref><sp/>=<sp/>7206,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1a4707c49cdb319b9f8513ea267b0a634cae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/>=<sp/>7299,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Query<sp/>result<sp/>from<sp/>FTS<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1query_1_1fts_1_1_search_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_search_result" kindref="compound">SearchResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1query_1_1fts_1_1_search_result_1af7e3a853e6b28f31a9db613f4db564b9" refkind="member"><highlight class="normal"><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_result_1af7e3a853e6b28f31a9db613f4db564b9" kindref="member">doc_id</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1query_1_1fts_1_1_search_result_1a88ec5a4085743ea898cca34218b4325d" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_result_1a88ec5a4085743ea898cca34218b4325d" kindref="member">score</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1query_1_1fts_1_1_search_result_1a36563f4b552944ee165c92c0e2982e57" refkind="member"><highlight class="normal"><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_result_1a36563f4b552944ee165c92c0e2982e57" kindref="member">term_positions</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1query_1_1fts_1_1_search_result_1aa42a9f222acef3e5057708df070cf34e" refkind="member"><highlight class="normal"><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_result_1aa42a9f222acef3e5057708df070cf34e" kindref="member">snippet</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Execution<sp/>options<sp/>for<sp/>FTS<sp/>queries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1query_1_1fts_1_1_execution_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1query_1_1fts_1_1_execution_options_1adc6d08c70f5c083af12acba03ac032a8" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options_1adc6d08c70f5c083af12acba03ac032a8" kindref="member">limit</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a76cc4a1472dc0a246d37c48b6225711c" refkind="member"><highlight class="normal"><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a76cc4a1472dc0a246d37c48b6225711c" kindref="member">timeout</ref>{1000};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a572cdc0659fdf89a3c9c4cc09032ecd4" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a572cdc0659fdf89a3c9c4cc09032ecd4" kindref="member">include_snippets</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a51e71bf2ca928be5af15a59cf0554b98" refkind="member"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a51e71bf2ca928be5af15a59cf0554b98" kindref="member">parallel_merge</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Type<sp/>alias<sp/>for<sp/>Result<sp/>(using<sp/>Abseil<sp/>or<sp/>std::expected)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result</ref><sp/>=<sp/>tl::expected&lt;T,<sp/>FtsError&gt;;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FtsExecutor<sp/>—<sp/>Main<sp/>Query<sp/>Execution<sp/>Engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1query_1_1fts_1_1_fts_executor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1ae5537b357ea40f2180103e5ec6b459fa" kindref="member">FtsExecutor</ref><sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1ae5537b357ea40f2180103e5ec6b459fa" kindref="member">FtsExecutor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_path);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1ae5537b357ea40f2180103e5ec6b459fa" kindref="member">FtsExecutor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>index_path,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_cache_1_1_config" kindref="compound">IndexCache::Config</ref>&amp;<sp/>cache_config);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a122d9abd69badb9811eb28dcfc761f2c" refkind="member"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a122d9abd69badb9811eb28dcfc761f2c" kindref="member">~FtsExecutor</ref>();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Public<sp/>Query<sp/>Execution<sp/>API<sp/>(Thread-safe<sp/>for<sp/>concurrent<sp/>reads)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result&lt;std::vector&lt;SearchResult&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1afb2870656a568512ca241104cdc8d366" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref>&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref>&amp;<sp/>options<sp/>=<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref>{});</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result&lt;std::vector&lt;std::vector&lt;SearchResult&gt;</ref>&gt;&gt;<sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1adb3ef658b6516488196a68f033b8a34f" kindref="member">executeBatch</ref>(</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;SearchNode&gt;&amp;<sp/>queries,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref>&amp;<sp/>options<sp/>=<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_execution_options" kindref="compound">ExecutionOptions</ref>{});</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result&lt;void&gt;</ref><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1afe036bec89a6e16e9513eb1eb3293c30" kindref="member">updateIndex</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IndexUpdateBatch&amp;<sp/>updates);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1query_1_1_index_statistics" kindref="compound">IndexStatistics</ref><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1ae87c5b244c0857f31925dbb0a0029664" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a70c8fa164d094207983a951856dc25a6" kindref="member">isIndexHealthy</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats" kindref="compound">CacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1af2aa75c8f39d6d725cbbd3f1e7ea2cba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1af2aa75c8f39d6d725cbbd3f1e7ea2cba" kindref="member">hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1ad6f1dc86edae1656765d04a532059d1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1ad6f1dc86edae1656765d04a532059d1f" kindref="member">misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1a40f5bb3b8e9ef8d3e7cf2f57aac3052c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1a40f5bb3b8e9ef8d3e7cf2f57aac3052c" kindref="member">evictions</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1aebc2d5d27bdda1d18a2802c9f6dceda7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1aebc2d5d27bdda1d18a2802c9f6dceda7" kindref="member">hitRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>total<sp/>=<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1af2aa75c8f39d6d725cbbd3f1e7ea2cba" kindref="member">hits</ref><sp/>+<sp/><ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1ad6f1dc86edae1656765d04a532059d1f" kindref="member">misses</ref>;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>total<sp/>&gt;<sp/>0<sp/>?<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1query_1_1fts_1_1_fts_executor_1_1_cache_stats_1af2aa75c8f39d6d725cbbd3f1e7ea2cba" kindref="member">hits</ref>)<sp/>/<sp/>total<sp/>:<sp/>0.0f;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/>CacheStats<sp/><ref refid="classthemis_1_1query_1_1fts_1_1_fts_executor_1a25dff276c80c76215cd3f0e4c7e0b781" kindref="member">getCacheStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>Private<sp/>Implementation<sp/>Details</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>========================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>index_lock_;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;IndexCache&gt;<sp/>cache_;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;FtsIndex&gt;<sp/>index_;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/>std::unique_ptr&lt;BM25Scorer&gt;<sp/>scorer_;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ExecutionMetrics<sp/>{</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_queries{0};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_timeout_queries{0};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_result_count{0};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/>}<sp/>metrics_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><ref refid="namespacethemis_1_1query_1_1fts_1aba304d1184d0c44b7b354f4eb722c48e" kindref="member">Result&lt;std::vector&lt;SearchResult&gt;</ref>&gt;<sp/>traverseAndScore(</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SearchNode&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ExecutionOptions&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query::fts</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/fts_executor.h"/>
+  </compounddef>
+</doxygen>

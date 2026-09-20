@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_api_key_mgmt_handler_test" kind="class" language="C++" prot="public">
+    <compoundname>ApiKeyMgmtHandlerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_api_key_mgmt_handler_test_1ae0091893e3a43d8f513c3c0a04c37678" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; AuthMiddleware &gt;</type>
+        <definition>std::shared_ptr&lt;AuthMiddleware&gt; ApiKeyMgmtHandlerTest::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>ApiKeyMgmtHandlerTest::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="29" column="21" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_api_key_mgmt_handler_test_1a1bbe5361bff698de8eb64636a40a075a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; ApiKeyMgmtHandler &gt;</type>
+        <definition>std::unique_ptr&lt;ApiKeyMgmtHandler&gt; ApiKeyMgmtHandlerTest::handler_</definition>
+        <argsstring></argsstring>
+        <name>handler_</name>
+        <qualifiedname>ApiKeyMgmtHandlerTest::handler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="30" column="21" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_api_key_mgmt_handler_test_1a03fa989d1b498036f6f7a65c4d9cc050" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ApiKeyMgmtHandlerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ApiKeyMgmtHandlerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/api/test_api_key_mgmt_handler.cpp" line="32" column="10" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="32" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ApiKeyMgmtHandlerTest</label>
+        <link refid="class_api_key_mgmt_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ApiKeyMgmtHandlerTest</label>
+        <link refid="class_api_key_mgmt_handler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/api/test_api_key_mgmt_handler.cpp" line="27" column="1" bodyfile="tests/api/test_api_key_mgmt_handler.cpp" bodystart="27" bodyend="36"/>
+    <listofallmembers>
+      <member refid="class_api_key_mgmt_handler_test_1ae0091893e3a43d8f513c3c0a04c37678" prot="protected" virt="non-virtual"><scope>ApiKeyMgmtHandlerTest</scope><name>auth_</name></member>
+      <member refid="class_api_key_mgmt_handler_test_1a1bbe5361bff698de8eb64636a40a075a" prot="protected" virt="non-virtual"><scope>ApiKeyMgmtHandlerTest</scope><name>handler_</name></member>
+      <member refid="class_api_key_mgmt_handler_test_1a03fa989d1b498036f6f7a65c4d9cc050" prot="protected" virt="non-virtual"><scope>ApiKeyMgmtHandlerTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

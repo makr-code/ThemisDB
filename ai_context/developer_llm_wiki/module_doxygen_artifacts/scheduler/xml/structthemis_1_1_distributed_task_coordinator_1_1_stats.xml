@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_task_coordinator_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedTaskCoordinator::Stats</compoundname>
+    <includes refid="distributed__task__coordinator_8h" local="no">distributed_task_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_task_coordinator_1_1_stats_1a1ef372e3df52d9923310dd6630f1d369" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedTaskCoordinator::Stats::registered_tasks</definition>
+        <argsstring></argsstring>
+        <name>registered_tasks</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::Stats::registered_tasks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tasks in the local registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="241" column="16" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_task_coordinator_1_1_stats_1ae6abd522009538297f42136bdd71f669" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedTaskCoordinator::Stats::scheduler_active</definition>
+        <argsstring></argsstring>
+        <name>scheduler_active</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::Stats::scheduler_active</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the local scheduler is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="242" column="16" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_task_coordinator_1_1_stats_1a2cd2c6d9c132102df5b81d11c241ec05" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::DistributedTaskCoordinator::Stats::is_leader</definition>
+        <argsstring></argsstring>
+        <name>is_leader</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::Stats::is_leader</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether this node is currently the leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="243" column="16" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_task_coordinator_1_1_stats_1a9a50425d5839df113598bd609afb5218" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedTaskCoordinator::Stats::leadership_acquired</definition>
+        <argsstring></argsstring>
+        <name>leadership_acquired</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::Stats::leadership_acquired</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of times this node became leader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="244" column="16" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_task_coordinator_1_1_stats_1a75b65a2f118b6e66a1e334813409c3c3" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::DistributedTaskCoordinator::Stats::leadership_lost</definition>
+        <argsstring></argsstring>
+        <name>leadership_lost</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::Stats::leadership_lost</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of times this node lost leadership. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="245" column="16" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/distributed_task_coordinator.h" line="240" column="5" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="240" bodyend="246"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_task_coordinator_1_1_stats_1a2cd2c6d9c132102df5b81d11c241ec05" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator::Stats</scope><name>is_leader</name></member>
+      <member refid="structthemis_1_1_distributed_task_coordinator_1_1_stats_1a9a50425d5839df113598bd609afb5218" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator::Stats</scope><name>leadership_acquired</name></member>
+      <member refid="structthemis_1_1_distributed_task_coordinator_1_1_stats_1a75b65a2f118b6e66a1e334813409c3c3" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator::Stats</scope><name>leadership_lost</name></member>
+      <member refid="structthemis_1_1_distributed_task_coordinator_1_1_stats_1a1ef372e3df52d9923310dd6630f1d369" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator::Stats</scope><name>registered_tasks</name></member>
+      <member refid="structthemis_1_1_distributed_task_coordinator_1_1_stats_1ae6abd522009538297f42136bdd71f669" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator::Stats</scope><name>scheduler_active</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

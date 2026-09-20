@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_geospatial_regression_gates_test" kind="class" language="C++" prot="public">
+    <compoundname>GeospatialRegressionGatesTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_geospatial_regression_gates_test_1abf7f62d0c1ec92059d5b2641ae3eb80b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GeospatialRegressionGatesTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GeospatialRegressionGatesTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_geospatial_optimizer.cpp" line="372" column="10" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="372" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GeospatialRegressionGatesTest</label>
+        <link refid="class_geospatial_regression_gates_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GeospatialRegressionGatesTest</label>
+        <link refid="class_geospatial_regression_gates_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_geospatial_optimizer.cpp" line="370" column="1" bodyfile="tests/query/test_geospatial_optimizer.cpp" bodystart="370" bodyend="375"/>
+    <listofallmembers>
+      <member refid="class_geospatial_regression_gates_test_1abf7f62d0c1ec92059d5b2641ae3eb80b" prot="protected" virt="non-virtual"><scope>GeospatialRegressionGatesTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

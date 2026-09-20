@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_transcript_export_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::TranscriptExportResult</compoundname>
+    <includes refid="voice__accessibility_8h" local="no">voice_accessibility.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_transcript_export_result_1a129041c09a7b8ee791ae70a03f3dfa27" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::TranscriptExportResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::voice::TranscriptExportResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="69" column="10" bodyfile="include/voice/voice_accessibility.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_transcript_export_result_1a0df95af6343ac0d09df1443ad91ff171" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TranscriptExportResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::voice::TranscriptExportResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="70" column="17" bodyfile="include/voice/voice_accessibility.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_transcript_export_result_1a6258835b404a907bde1d3cae6d851e10" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TranscriptExportResult::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::voice::TranscriptExportResult::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="71" column="17" bodyfile="include/voice/voice_accessibility.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_transcript_export_result_1aa8ca0577cb1ca6758a572a4051e36f3a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a3450fdd72ec889d4a05859da072244a2" kindref="member">CaptionFormat</ref></type>
+        <definition>CaptionFormat themis::voice::TranscriptExportResult::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::voice::TranscriptExportResult::format</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="72" column="19" bodyfile="include/voice/voice_accessibility.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_transcript_export_result_1aa946f442b5aa4886c90f02912d1474e4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::TranscriptExportResult::cue_count</definition>
+        <argsstring></argsstring>
+        <name>cue_count</name>
+        <qualifiedname>themis::voice::TranscriptExportResult::cue_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="73" column="12" bodyfile="include/voice/voice_accessibility.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_transcript_export_result_1a212499ef0b40b9cdd0e04c2fbe9e0f48" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::TranscriptExportResult::total_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>total_duration_ms</name>
+        <qualifiedname>themis::voice::TranscriptExportResult::total_duration_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="74" column="13" bodyfile="include/voice/voice_accessibility.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_transcript_export_result_1a35b919ce8aeff954d62179653ff07317" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::TranscriptExportResult::mime_type</definition>
+        <argsstring></argsstring>
+        <name>mime_type</name>
+        <qualifiedname>themis::voice::TranscriptExportResult::mime_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_accessibility.h" line="75" column="17" bodyfile="include/voice/voice_accessibility.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_accessibility.h" line="68" column="1" bodyfile="include/voice/voice_accessibility.h" bodystart="68" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_transcript_export_result_1a6258835b404a907bde1d3cae6d851e10" prot="public" virt="non-virtual"><scope>themis::voice::TranscriptExportResult</scope><name>content</name></member>
+      <member refid="structthemis_1_1voice_1_1_transcript_export_result_1aa946f442b5aa4886c90f02912d1474e4" prot="public" virt="non-virtual"><scope>themis::voice::TranscriptExportResult</scope><name>cue_count</name></member>
+      <member refid="structthemis_1_1voice_1_1_transcript_export_result_1a0df95af6343ac0d09df1443ad91ff171" prot="public" virt="non-virtual"><scope>themis::voice::TranscriptExportResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1voice_1_1_transcript_export_result_1aa8ca0577cb1ca6758a572a4051e36f3a" prot="public" virt="non-virtual"><scope>themis::voice::TranscriptExportResult</scope><name>format</name></member>
+      <member refid="structthemis_1_1voice_1_1_transcript_export_result_1a35b919ce8aeff954d62179653ff07317" prot="public" virt="non-virtual"><scope>themis::voice::TranscriptExportResult</scope><name>mime_type</name></member>
+      <member refid="structthemis_1_1voice_1_1_transcript_export_result_1a129041c09a7b8ee791ae70a03f3dfa27" prot="public" virt="non-virtual"><scope>themis::voice::TranscriptExportResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1voice_1_1_transcript_export_result_1a212499ef0b40b9cdd0e04c2fbe9e0f48" prot="public" virt="non-virtual"><scope>themis::voice::TranscriptExportResult</scope><name>total_duration_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

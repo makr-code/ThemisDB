@@ -1,0 +1,489 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_r_a_g_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::RAGDecision</compoundname>
+    <includes refid="tensor__rag__pipeline_8h" local="no">tensor_rag_pipeline.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1rag_1_1_r_a_g_decision_1a38e28ee8e9290c4fb8846390256b7c50" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Trigger</name>
+        <qualifiedname>themis::rag::RAGDecision::Trigger</qualifiedname>
+        <enumvalue id="structthemis_1_1rag_1_1_r_a_g_decision_1a38e28ee8e9290c4fb8846390256b7c50ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No retrieval needed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_r_a_g_decision_1a38e28ee8e9290c4fb8846390256b7c50a9c67c4dbec0282c51bc672d196f9c044" prot="public">
+          <name>FLARE_ONLY</name>
+          <briefdescription>
+<para>Only FLARE fired. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_r_a_g_decision_1a38e28ee8e9290c4fb8846390256b7c50a4b1f1c16f4aa57883c401f3e6225a18a" prot="public">
+          <name>TARG_ONLY</name>
+          <briefdescription>
+<para>Only TARG fired. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_r_a_g_decision_1a38e28ee8e9290c4fb8846390256b7c50a6328e5e3186c227a021ef2ff77e40197" prot="public">
+          <name>BOTH</name>
+          <briefdescription>
+<para>Both gates fired simultaneously. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Distinguishes which gate(s) triggered retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="119" column="5" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="119" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="enum" id="structthemis_1_1rag_1_1_r_a_g_decision_1a1d2ca1de0d1db58e155ae2690e725254" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FallbackMode</name>
+        <qualifiedname>themis::rag::RAGDecision::FallbackMode</qualifiedname>
+        <enumvalue id="structthemis_1_1rag_1_1_r_a_g_decision_1a1d2ca1de0d1db58e155ae2690e725254ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No fallback required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_r_a_g_decision_1a1d2ca1de0d1db58e155ae2690e725254a8882926606e4c64310481b9628e7af38" prot="public">
+          <name>DEGRADED_CONTINUE</name>
+          <briefdescription>
+<para>Continue execution with reduced guarantees. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1rag_1_1_r_a_g_decision_1a1d2ca1de0d1db58e155ae2690e725254a7d8e2271b5e4fbbed93c60aa39bf350f" prot="public">
+          <name>FAIL_CLOSED</name>
+          <briefdescription>
+<para>Stop sensitive path due to policy/safety violation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Cross-layer fallback mode selected for this decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="129" column="5" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="129" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a7fda5af4b75a7ac96c80fc3cbde697b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::RAGDecision::should_retrieve</definition>
+        <argsstring></argsstring>
+        <name>should_retrieve</name>
+        <qualifiedname>themis::rag::RAGDecision::should_retrieve</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if at least one gate recommends retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Equivalent to <computeroutput>(<ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1ae4ae95984d1401a46ea4a511f35ce967" kindref="member">flare_triggered</ref> || <ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a93db9d0da515e40e36f54740d8d5c1df" kindref="member">targ_triggered</ref>)</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="142" column="13" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a06e82d42d522d7c407f0b8ea31d0ea7f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a38e28ee8e9290c4fb8846390256b7c50" kindref="member">Trigger</ref></type>
+        <definition>Trigger themis::rag::RAGDecision::trigger</definition>
+        <argsstring></argsstring>
+        <name>trigger</name>
+        <qualifiedname>themis::rag::RAGDecision::trigger</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a38e28ee8e9290c4fb8846390256b7c50ab50339a10e1de285ac99d4c3990b8693" kindref="member">Trigger::NONE</ref></initializer>
+        <briefdescription>
+<para>Which gate(s) caused <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a7fda5af4b75a7ac96c80fc3cbde697b0" kindref="member">should_retrieve</ref> = true</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="147" column="13" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1aa695ca95a6848854c74fe2d968b02f96" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::rag::RAGDecision::correlation_id</qualifiedname>
+        <briefdescription>
+<para>Stable correlation identifier propagated across layer handoffs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="152" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1aae5a6b818e90a5e7399037b127579fcf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::routing_reason_code</definition>
+        <argsstring></argsstring>
+        <name>routing_reason_code</name>
+        <qualifiedname>themis::rag::RAGDecision::routing_reason_code</qualifiedname>
+        <briefdescription>
+<para>Machine-readable reason code for the selected routing branch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="157" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1ab7b1055648f8d4241b2d3d5b5939561d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::confidence_policy_version</definition>
+        <argsstring></argsstring>
+        <name>confidence_policy_version</name>
+        <qualifiedname>themis::rag::RAGDecision::confidence_policy_version</qualifiedname>
+        <briefdescription>
+<para>Version tag of the confidence policy used for this decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="162" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1ad6462a113b46bad619f3b81cbdde572c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::confidence_threshold_key</definition>
+        <argsstring></argsstring>
+        <name>confidence_threshold_key</name>
+        <qualifiedname>themis::rag::RAGDecision::confidence_threshold_key</qualifiedname>
+        <briefdescription>
+<para>Confidence threshold key that governed this decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="167" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1abaede3e68faf8dec19aca1ea05377df1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a1d2ca1de0d1db58e155ae2690e725254" kindref="member">FallbackMode</ref></type>
+        <definition>FallbackMode themis::rag::RAGDecision::fallback_mode</definition>
+        <argsstring></argsstring>
+        <name>fallback_mode</name>
+        <qualifiedname>themis::rag::RAGDecision::fallback_mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a1d2ca1de0d1db58e155ae2690e725254ab50339a10e1de285ac99d4c3990b8693" kindref="member">FallbackMode::NONE</ref></initializer>
+        <briefdescription>
+<para>Selected fallback behavior for this decision. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="172" column="18" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a2888709f3e0c67c1c29c20b12a37aa76" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::fallback_reason_code</definition>
+        <argsstring></argsstring>
+        <name>fallback_reason_code</name>
+        <qualifiedname>themis::rag::RAGDecision::fallback_reason_code</qualifiedname>
+        <briefdescription>
+<para>Machine-readable reason code when a fallback mode was applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="177" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1ac75f90eba12e8d81a42b3aa04e581b06" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::escalation_source_layer</definition>
+        <argsstring></argsstring>
+        <name>escalation_source_layer</name>
+        <qualifiedname>themis::rag::RAGDecision::escalation_source_layer</qualifiedname>
+        <briefdescription>
+<para>Source layer that escalated this request, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="182" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1ae4ae95984d1401a46ea4a511f35ce967" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::RAGDecision::flare_triggered</definition>
+        <argsstring></argsstring>
+        <name>flare_triggered</name>
+        <qualifiedname>themis::rag::RAGDecision::flare_triggered</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the FLARE gate fired on this token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="189" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a8f4d1f4bb3d99613789d9bff71290a6f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::RAGDecision::flare_log_prob</definition>
+        <argsstring></argsstring>
+        <name>flare_log_prob</name>
+        <qualifiedname>themis::rag::RAGDecision::flare_log_prob</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Log-probability of the current token (from FLARE internal state). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Always populated when <computeroutput>use_flare = true</computeroutput>. Zero when FLARE is disabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="196" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a4683be2fc1d67bcd128778d118578f7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::flare_query</definition>
+        <argsstring></argsstring>
+        <name>flare_query</name>
+        <qualifiedname>themis::rag::RAGDecision::flare_query</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Query string built by FLARE when it triggered retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated only when <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1ae4ae95984d1401a46ea4a511f35ce967" kindref="member">flare_triggered</ref> = true</computeroutput>. Contains the masked partial-output window (per <ref refid="structthemis_1_1rag_1_1_flare_config" kindref="compound">FlareConfig</ref>).</para>
+<para><simplesect kind="note"><para>This is a text query (STUB #261). Embedding it before passing to the TT-core index is the caller&apos;s responsibility until Phase 3-C wires the embedding backend into <ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline" kindref="compound">TensorRAGPipeline</ref> via <computeroutput>setEmbeddingQueryFn()</computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="209" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="209" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a2e7a956752c1db70a31e37d40f5faf3b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::rag::RAGDecision::flare_query_embedding</definition>
+        <argsstring></argsstring>
+        <name>flare_query_embedding</name>
+        <qualifiedname>themis::rag::RAGDecision::flare_query_embedding</qualifiedname>
+        <briefdescription>
+<para>Embedding vector for <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1a4683be2fc1d67bcd128778d118578f7e" kindref="member">flare_query</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated only when <computeroutput><ref refid="structthemis_1_1rag_1_1_r_a_g_decision_1ae4ae95984d1401a46ea4a511f35ce967" kindref="member">flare_triggered</ref> = true</computeroutput> AND an <computeroutput>EmbeddingQueryFn</computeroutput> has been injected via <computeroutput><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a7e1d3eef58c9d9a6d4cd14c5a5c8f2c5" kindref="member">TensorRAGPipeline::setEmbeddingQueryFn()</ref></computeroutput>. Empty otherwise. Pass directly to <computeroutput>tensor_index.searchFlat()</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="218" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a642627d949ef30bb3c74e01c56be8c89" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; tensor::SimilarityResult &gt;</type>
+        <definition>std::vector&lt;tensor::SimilarityResult&gt; themis::rag::RAGDecision::tensor_summary_candidates</definition>
+        <argsstring></argsstring>
+        <name>tensor_summary_candidates</name>
+        <qualifiedname>themis::rag::RAGDecision::tensor_summary_candidates</qualifiedname>
+        <briefdescription>
+<para>Optional tensor mid-layer summary generated for this decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated when a TensorMidLayer is attached and at least one gate triggered retrieval. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="226" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a37a237bb862d353f7a60d7bdbb0f1ace" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::tensor_routing_reason</definition>
+        <argsstring></argsstring>
+        <name>tensor_routing_reason</name>
+        <qualifiedname>themis::rag::RAGDecision::tensor_routing_reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable tensor-layer routing explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="231" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1acabe8656851c503e4020395501d4f1fe" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_graph_truth_evidence" kindref="compound">GraphTruthEvidence</ref> &gt;</type>
+        <definition>std::vector&lt;GraphTruthEvidence&gt; themis::rag::RAGDecision::graph_truth_evidences</definition>
+        <argsstring></argsstring>
+        <name>graph_truth_evidences</name>
+        <qualifiedname>themis::rag::RAGDecision::graph_truth_evidences</qualifiedname>
+        <briefdescription>
+<para>Graph-truth evidences attached after tensor summary validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="236" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a004ef98dab135c8960ef6f2815377671" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::graph_truth_reason</definition>
+        <argsstring></argsstring>
+        <name>graph_truth_reason</name>
+        <qualifiedname>themis::rag::RAGDecision::graph_truth_reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable graph-truth routing explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="241" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a73e4279e543c213b0d83468b241e34c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::graph_truth_routing_reason_code</definition>
+        <argsstring></argsstring>
+        <name>graph_truth_routing_reason_code</name>
+        <qualifiedname>themis::rag::RAGDecision::graph_truth_routing_reason_code</qualifiedname>
+        <briefdescription>
+<para>Machine-readable graph-truth routing reason code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="246" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1ad7fb0e5ebfd5e591f3f747b8dfdc9e7e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::RAGDecision::graph_truth_correlation_id</definition>
+        <argsstring></argsstring>
+        <name>graph_truth_correlation_id</name>
+        <qualifiedname>themis::rag::RAGDecision::graph_truth_correlation_id</qualifiedname>
+        <briefdescription>
+<para>Correlation id propagated by graph-truth validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="251" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1ae1a2697a4fd96fac02db6ef6dec90dc1" prot="public" static="no" mutable="no">
+        <type>llm::FinalLayerResolution</type>
+        <definition>llm::FinalLayerResolution themis::rag::RAGDecision::final_layer_resolution</definition>
+        <argsstring></argsstring>
+        <name>final_layer_resolution</name>
+        <qualifiedname>themis::rag::RAGDecision::final_layer_resolution</qualifiedname>
+        <briefdescription>
+<para>Final-layer orchestration result when an LLM/LoRA package was resolved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="256" column="31" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a71f550d663096421bf68c585b14c4428" prot="public" static="no" mutable="no">
+        <type>observability::RetrievalProvenanceRecord</type>
+        <definition>observability::RetrievalProvenanceRecord themis::rag::RAGDecision::provenance</definition>
+        <argsstring></argsstring>
+        <name>provenance</name>
+        <qualifiedname>themis::rag::RAGDecision::provenance</qualifiedname>
+        <briefdescription>
+<para>Unified end-to-end provenance record for this retrieval decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Populated by step() when at least one gate fires. Can be exported for audit, diagnostics, and provenance dashboards. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="264" column="46" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a93db9d0da515e40e36f54740d8d5c1df" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::RAGDecision::targ_triggered</definition>
+        <argsstring></argsstring>
+        <name>targ_triggered</name>
+        <qualifiedname>themis::rag::RAGDecision::targ_triggered</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if the TARG gate fired on this token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="271" column="11" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_r_a_g_decision_1a55c3bc59f25721c2d844c1141b7e5ea4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::RAGDecision::targ_gap</definition>
+        <argsstring></argsstring>
+        <name>targ_gap</name>
+        <qualifiedname>themis::rag::RAGDecision::targ_gap</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Logit gap (top-1 minus top-2) computed by TARG for this token. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Always populated when <computeroutput>use_targ = true</computeroutput>. Zero when TARG is disabled. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="278" column="11" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Combined gating decision returned by <computeroutput><ref refid="classthemis_1_1rag_1_1_tensor_r_a_g_pipeline_1a89b8faaf9b47c97134944ff8e251d2d3" kindref="member">TensorRAGPipeline::step()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/tensor_rag_pipeline.h" line="115" column="1" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="115" bodyend="279"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1ab7b1055648f8d4241b2d3d5b5939561d" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>confidence_policy_version</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1ad6462a113b46bad619f3b81cbdde572c" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>confidence_threshold_key</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1aa695ca95a6848854c74fe2d968b02f96" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1ac75f90eba12e8d81a42b3aa04e581b06" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>escalation_source_layer</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1abaede3e68faf8dec19aca1ea05377df1" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>fallback_mode</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a2888709f3e0c67c1c29c20b12a37aa76" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>fallback_reason_code</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a1d2ca1de0d1db58e155ae2690e725254" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>FallbackMode</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1ae1a2697a4fd96fac02db6ef6dec90dc1" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>final_layer_resolution</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a8f4d1f4bb3d99613789d9bff71290a6f" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>flare_log_prob</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a4683be2fc1d67bcd128778d118578f7e" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>flare_query</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a2e7a956752c1db70a31e37d40f5faf3b" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>flare_query_embedding</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1ae4ae95984d1401a46ea4a511f35ce967" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>flare_triggered</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1ad7fb0e5ebfd5e591f3f747b8dfdc9e7e" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>graph_truth_correlation_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1acabe8656851c503e4020395501d4f1fe" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>graph_truth_evidences</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a004ef98dab135c8960ef6f2815377671" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>graph_truth_reason</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a73e4279e543c213b0d83468b241e34c0" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>graph_truth_routing_reason_code</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a71f550d663096421bf68c585b14c4428" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>provenance</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1aae5a6b818e90a5e7399037b127579fcf" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>routing_reason_code</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a7fda5af4b75a7ac96c80fc3cbde697b0" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>should_retrieve</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a55c3bc59f25721c2d844c1141b7e5ea4" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>targ_gap</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a93db9d0da515e40e36f54740d8d5c1df" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>targ_triggered</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a37a237bb862d353f7a60d7bdbb0f1ace" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>tensor_routing_reason</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a642627d949ef30bb3c74e01c56be8c89" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>tensor_summary_candidates</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a38e28ee8e9290c4fb8846390256b7c50" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>Trigger</name></member>
+      <member refid="structthemis_1_1rag_1_1_r_a_g_decision_1a06e82d42d522d7c407f0b8ea31d0ea7f" prot="public" virt="non-virtual"><scope>themis::rag::RAGDecision</scope><name>trigger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,486 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1server_1_1perf_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::server::perf::test</compoundname>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection" prot="public">themis::server::perf::test::MockConnection</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test" prot="public">themis::server::perf::test::ConnectionPoolTest</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test" prot="public">themis::server::perf::test::ConnectionGuardTest</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_buffer_preallocation_test" prot="public">themis::server::perf::test::BufferPreallocationTest</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_h_t_t_p2_stream_buffer_test" prot="public">themis::server::perf::test::HTTP2StreamBufferTest</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_export_streaming_buffer_test" prot="public">themis::server::perf::test::ExportStreamingBufferTest</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_rope_frame_cache_test" prot="public">themis::server::perf::test::RopeFrameCacheTest</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_integration_test" prot="public">themis::server::perf::test::IntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1server_1_1perf_1_1test_1_1_server_phase2_benchmark" prot="public">themis::server::perf::test::ServerPhase2Benchmark</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" prot="public" static="no" mutable="no">
+        <type>benchmark::State &amp;</type>
+        <definition>benchmark::State &amp; themis::server::perf::test::state</definition>
+        <argsstring></argsstring>
+        <name>state</name>
+        <qualifiedname>themis::server::perf::test::state</qualifiedname>
+        <initializer>{
+    using Pool = <ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool" kindref="compound">GenericConnectionPool</ref>&lt;<ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_mock_connection" kindref="compound">MockConnection</ref>&gt;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Benchmark 1: Connection pool acquisition rate</para>
+<para>Benchmark 2: Buffer append efficiency</para>
+<para>Benchmark 3: HTTP/2 stream buffer operations </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="473" column="22" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="473" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a4d0c27d4333e4ad6098e3953ea13eb18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, PoolPreallocationInitialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>PoolPreallocationInitialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 1: Connection pool pre-allocation and initialization Verifies initial pool size and structure </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="73" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="73" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1ac04eba67c9083cd7e67b87ffa88aceb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, AcquireAndReleaseEfficiency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>AcquireAndReleaseEfficiency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 2: Connection pool acquire and release (Gap S-001) Verifies efficient connection reuse without reallocation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="87" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="87" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a505068f74ebc94a42c6faf0e200fd3fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, PoolExhaustionTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>PoolExhaustionTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 3: Connection pool timeout (Gap S-008) Verifies timeout when pool is exhausted </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="118" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="118" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a69abac59407146e7d63e556eff70489e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(ConnectionGuardTest, GuardCleanupOnDestruction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test" kindref="compound">ConnectionGuardTest</ref></type>
+        </param>
+        <param>
+          <type>GuardCleanupOnDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 4: RAII connection guard cleanup on destruction Verifies automatic return to pool </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="154" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="154" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a8cf8e85246bbb71435d5cd6c7e81bc95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(ConnectionGuardTest, GuardExceptionSafety)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_connection_guard_test" kindref="compound">ConnectionGuardTest</ref></type>
+        </param>
+        <param>
+          <type>GuardExceptionSafety</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 5: RAII connection guard exception safety Verifies cleanup even when exception thrown </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="175" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="175" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a1d73beb0d729582d459e8aa5c40af66f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(BufferPreallocationTest, BufferPrereservationCapacity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_buffer_preallocation_test" kindref="compound">BufferPreallocationTest</ref></type>
+        </param>
+        <param>
+          <type>BufferPrereservationCapacity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 6: Buffer pre-reservation prevents repeated allocation Verifies capacity is pre-reserved </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="206" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="206" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1afb09e04b58c081d03d81be04ac0b07f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(BufferPreallocationTest, BufferAppendEfficiency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_buffer_preallocation_test" kindref="compound">BufferPreallocationTest</ref></type>
+        </param>
+        <param>
+          <type>BufferAppendEfficiency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 7: Buffer append efficiency (Gap S-003) Verifies no reallocation during appends within reserved capacity </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="220" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="220" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a7eedf611212d7edd117dd85e8bf9a44c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(BufferPreallocationTest, BufferExponentialGrowth)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_buffer_preallocation_test" kindref="compound">BufferPreallocationTest</ref></type>
+        </param>
+        <param>
+          <type>BufferExponentialGrowth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 8: Buffer exponential growth factor (Gap S-004) Verifies exponential growth when exceeding capacity </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="245" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="245" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1af06a51a630c1f7be98ad975b55fea1b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(HTTP2StreamBufferTest, StreamBufferAccumulationEfficiency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_h_t_t_p2_stream_buffer_test" kindref="compound">HTTP2StreamBufferTest</ref></type>
+        </param>
+        <param>
+          <type>StreamBufferAccumulationEfficiency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 9: HTTP/2 stream buffer efficiency Verifies minimal reallocations during stream data accumulation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="272" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="272" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1aba1c275e411d8e187bc22ad7416decee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(HTTP2StreamBufferTest, HTTP2FrameSerialization)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_h_t_t_p2_stream_buffer_test" kindref="compound">HTTP2StreamBufferTest</ref></type>
+        </param>
+        <param>
+          <type>HTTP2FrameSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 10: HTTP/2 frame serialization (Gap H-003) Verifies efficient frame append with header + payload </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="299" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="299" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a9a6d30f83e86d3fff5bb9ef241e0d730" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(ExportStreamingBufferTest, ExportBackpressureHandling)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_export_streaming_buffer_test" kindref="compound">ExportStreamingBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ExportBackpressureHandling</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 11: Export streaming buffer write with backpressure Verifies backpressure mechanism prevents buffer overflow </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="331" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="331" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a034a874b785df78f11e6bc2de5504670" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(ExportStreamingBufferTest, ExportChunkedWrites)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_export_streaming_buffer_test" kindref="compound">ExportStreamingBufferTest</ref></type>
+        </param>
+        <param>
+          <type>ExportChunkedWrites</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 12: Export streaming buffer chunked writes Verifies automatic chunking when reaching chunk size </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="355" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="355" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a946c5df97cc4a135230e3f7dbb431658" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(RopeFrameCacheTest, RopeFrameCaching)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_rope_frame_cache_test" kindref="compound">RopeFrameCacheTest</ref></type>
+        </param>
+        <param>
+          <type>RopeFrameCaching</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 13: Rope frame cache operations Verifies caching of serialized frames </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="389" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="389" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1ac98fd56da51fd7901630703ece1a4b71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(RopeFrameCacheTest, RopeFrameCacheClear)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_rope_frame_cache_test" kindref="compound">RopeFrameCacheTest</ref></type>
+        </param>
+        <param>
+          <type>RopeFrameCacheClear</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 14: Rope frame cache clear Verifies cache clearing functionality </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="412" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="412" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a85148971765c979a710a50c5a6b8f312" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::TEST_F</definition>
+        <argsstring>(IntegrationTest, ConnectionPoolWithGuardPattern)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::server::perf::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1test_1_1_integration_test" kindref="compound">IntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>ConnectionPoolWithGuardPattern</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test 15: End-to-end connection pool + guard pattern Verifies safe usage of pool with guards </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="441" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="441" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1ae5946da7f50011a56c3fa0702b9c1900" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Pool</type>
+        <definition>Pool themis::server::perf::test::pool</definition>
+        <argsstring>(32, 256)</argsstring>
+        <name>pool</name>
+        <qualifiedname>themis::server::perf::test::pool</qualifiedname>
+        <param>
+          <type>32</type>
+        </param>
+        <param>
+          <type>256</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="475" column="10" declfile="tests/server/test_server_phase2_focused.cpp" declline="475" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1af381c195cb98664ea4c75d24eab71ca1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::test::for</definition>
+        <argsstring>(auto _ :state)</argsstring>
+        <name>for</name>
+        <qualifiedname>themis::server::perf::test::for</qualifiedname>
+        <param>
+          <type>auto _ :<ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="477" column="5" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="477" bodyend="483"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a409b32e143e26636e7cbb5e4e08b7177" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref></type>
+        <definition>state themis::server::perf::test::SetLabel</definition>
+        <argsstring>(&quot;Pool acquire/release rate&quot;)</argsstring>
+        <name>SetLabel</name>
+        <qualifiedname>themis::server::perf::test::SetLabel</qualifiedname>
+        <param>
+          <type>&quot;Pool acquire/release rate&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="485" column="10" declfile="tests/server/test_server_phase2_focused.cpp" declline="485" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a7837f3a94d4342eacfc85b0e98a0bd78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::perf::test::data</definition>
+        <argsstring>(256, 0xFF)</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::server::perf::test::data</qualifiedname>
+        <param>
+          <type>256</type>
+        </param>
+        <param>
+          <type>0xFF</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="494" column="17" declfile="tests/server/test_server_phase2_focused.cpp" declline="494" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1af17e7cd96a1a5590769b962ab82c3a68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref></type>
+        <definition>state themis::server::perf::test::SetLabel</definition>
+        <argsstring>(&quot;Buffer append (32x 256-byte appends)&quot;)</argsstring>
+        <name>SetLabel</name>
+        <qualifiedname>themis::server::perf::test::SetLabel</qualifiedname>
+        <param>
+          <type>&quot;Buffer append (32x 256-byte appends)&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="504" column="10" declfile="tests/server/test_server_phase2_focused.cpp" declline="504" declcolumn="10"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a9eb0c202a0ebe11ed0336e651b1bbd0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::server::perf::test::data</definition>
+        <argsstring>(512, 0x42)</argsstring>
+        <name>data</name>
+        <qualifiedname>themis::server::perf::test::data</qualifiedname>
+        <param>
+          <type>512</type>
+        </param>
+        <param>
+          <type>0x42</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="513" column="17" declfile="tests/server/test_server_phase2_focused.cpp" declline="513" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1server_1_1perf_1_1test_1a26bc2857d1b849700628cfff8db18f08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1server_1_1perf_1_1test_1a5c004bd441643440e3b9c1acd292ec82" kindref="member">state</ref></type>
+        <definition>state themis::server::perf::test::SetLabel</definition>
+        <argsstring>(&quot;Stream buffer accumulation (100x 512-byte appends)&quot;)</argsstring>
+        <name>SetLabel</name>
+        <qualifiedname>themis::server::perf::test::SetLabel</qualifiedname>
+        <param>
+          <type>&quot;Stream buffer accumulation (100x 512-byte appends)&quot;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="523" column="10" declfile="tests/server/test_server_phase2_focused.cpp" declline="523" declcolumn="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_phase2_focused.cpp" line="35" column="1"/>
+  </compounddef>
+</doxygen>

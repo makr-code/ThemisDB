@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_aql_predicate_filter" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::AqlPredicateFilter</compoundname>
+    <includes refid="aql__predicate__filter_8h" local="no">aql_predicate_filter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1ade850c8ec0febc5f47f57ed9dc551aac" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::AqlPredicateFilter::predicate_</definition>
+        <argsstring></argsstring>
+        <name>predicate_</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::predicate_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="66" column="17" bodyfile="include/exporters/aql_predicate_filter.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1a42cb4712cf1b9e00ae925d962aa8c570" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; themis::query::FilterNode &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;themis::query::FilterNode&gt; &gt; themis::exporters::AqlPredicateFilter::filter_nodes_</definition>
+        <argsstring></argsstring>
+        <name>filter_nodes_</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::filter_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="67" column="17" bodyfile="include/exporters/aql_predicate_filter.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::AqlPredicateFilter::AqlPredicateFilter</definition>
+        <argsstring>(const std::string &amp;predicate)</argsstring>
+        <name>AqlPredicateFilter</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::AqlPredicateFilter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+<para>Aql Predicate Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="47" column="14" bodyfile="src/exporters/aql_predicate_filter.cpp" bodystart="22" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1a6cb4ab9acbd41874478124f25a71af91" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::AqlPredicateFilter::~AqlPredicateFilter</definition>
+        <argsstring>()</argsstring>
+        <name>~AqlPredicateFilter</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::~AqlPredicateFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1a518b39c1d86d8358245552b5d1c3d422" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::AqlPredicateFilter::AqlPredicateFilter</definition>
+        <argsstring>(const AqlPredicateFilter &amp;)=delete</argsstring>
+        <name>AqlPredicateFilter</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::AqlPredicateFilter</qualifiedname>
+        <param>
+          <type>const AqlPredicateFilter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1add0d72d4107bad0022fb4b2ea0b3a570" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref> &amp;</type>
+        <definition>AqlPredicateFilter &amp; themis::exporters::AqlPredicateFilter::operator=</definition>
+        <argsstring>(const AqlPredicateFilter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="52" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1a682aa50d9538b19c02c26c06fc67e703" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::AqlPredicateFilter::AqlPredicateFilter</definition>
+        <argsstring>(AqlPredicateFilter &amp;&amp;) noexcept=default</argsstring>
+        <name>AqlPredicateFilter</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::AqlPredicateFilter</qualifiedname>
+        <param>
+          <type>AqlPredicateFilter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1aac9da883ff278b6afb76c4422b871d6f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref> &amp;</type>
+        <definition>AqlPredicateFilter &amp; themis::exporters::AqlPredicateFilter::operator=</definition>
+        <argsstring>(AqlPredicateFilter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" kindref="member">AqlPredicateFilter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="54" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1a99964fc9b11e2160e189ab7042ca4bbb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::AqlPredicateFilter::evaluate</definition>
+        <argsstring>(const BaseEntity &amp;entity) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::evaluate</qualifiedname>
+        <param>
+          <type>const BaseEntity &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="61" column="10" bodyfile="src/exporters/aql_predicate_filter.cpp" bodystart="47" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_aql_predicate_filter_1a456862ca76a6b3b9407b8d0b722e0889" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::AqlPredicateFilter::getPredicate</definition>
+        <argsstring>() const</argsstring>
+        <name>getPredicate</name>
+        <qualifiedname>themis::exporters::AqlPredicateFilter::getPredicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/aql_predicate_filter.h" line="63" column="23" bodyfile="include/exporters/aql_predicate_filter.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/aql_predicate_filter.h" line="40" column="1" bodyfile="include/exporters/aql_predicate_filter.h" bodystart="40" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a07a4be1fbbfc92ba459f4e03ab42bd9d" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>AqlPredicateFilter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a518b39c1d86d8358245552b5d1c3d422" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>AqlPredicateFilter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a682aa50d9538b19c02c26c06fc67e703" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>AqlPredicateFilter</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a99964fc9b11e2160e189ab7042ca4bbb" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a42cb4712cf1b9e00ae925d962aa8c570" prot="private" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>filter_nodes_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a456862ca76a6b3b9407b8d0b722e0889" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>getPredicate</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1add0d72d4107bad0022fb4b2ea0b3a570" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1aac9da883ff278b6afb76c4422b871d6f" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1ade850c8ec0febc5f47f57ed9dc551aac" prot="private" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>predicate_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_aql_predicate_filter_1a6cb4ab9acbd41874478124f25a71af91" prot="public" virt="non-virtual"><scope>themis::exporters::AqlPredicateFilter</scope><name>~AqlPredicateFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

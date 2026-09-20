@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_s_a_g_a_execution_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SAGAExecutionStatus</compoundname>
+    <includes refid="saga__orchestrator_8h" local="no">saga_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1adde403adaee2e02498bbd9fbe1642e53" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SAGAExecutionStatus::saga_id</definition>
+        <argsstring></argsstring>
+        <name>saga_id</name>
+        <qualifiedname>themis::SAGAExecutionStatus::saga_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="108" column="42" bodyfile="include/transaction/saga_orchestrator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1af0b694ca722f859eca9f910426e2feb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SAGAExecutionStatus::saga_name</definition>
+        <argsstring></argsstring>
+        <name>saga_name</name>
+        <qualifiedname>themis::SAGAExecutionStatus::saga_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="109" column="42" bodyfile="include/transaction/saga_orchestrator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1a787ac736c0e8d6e88bf95412d1a4ee93" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1a008ae84b7696ce7e9cec0775b6ddc425" kindref="member">StepState</ref> &gt;</type>
+        <definition>std::map&lt;std::string, StepState&gt; themis::SAGAExecutionStatus::step_states</definition>
+        <argsstring></argsstring>
+        <name>step_states</name>
+        <qualifiedname>themis::SAGAExecutionStatus::step_states</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="110" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1a0d96c030146cbbde4bef5a9ad1818929" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SAGAExecutionStatus::completed_steps</definition>
+        <argsstring></argsstring>
+        <name>completed_steps</name>
+        <qualifiedname>themis::SAGAExecutionStatus::completed_steps</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="111" column="42" bodyfile="include/transaction/saga_orchestrator.h" bodystart="111" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1acec2f2ffe44399ff02b3324b2cd97587" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SAGAExecutionStatus::failed_steps</definition>
+        <argsstring></argsstring>
+        <name>failed_steps</name>
+        <qualifiedname>themis::SAGAExecutionStatus::failed_steps</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="112" column="42" bodyfile="include/transaction/saga_orchestrator.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1a50ff8cfdca9715ac9b4d81bb6caae5b0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SAGAExecutionStatus::pending_steps</definition>
+        <argsstring></argsstring>
+        <name>pending_steps</name>
+        <qualifiedname>themis::SAGAExecutionStatus::pending_steps</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="113" column="42" bodyfile="include/transaction/saga_orchestrator.h" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1aa7d503589ce108b072d5feffd61bf0dd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::SAGAExecutionStatus::skipped_steps</definition>
+        <argsstring></argsstring>
+        <name>skipped_steps</name>
+        <qualifiedname>themis::SAGAExecutionStatus::skipped_steps</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="114" column="42" bodyfile="include/transaction/saga_orchestrator.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1a3d3ad3d08f16c5567d7a2b5614c1b9b5" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::SAGAExecutionStatus::total_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>total_duration_ms</name>
+        <qualifiedname>themis::SAGAExecutionStatus::total_duration_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="115" column="42" bodyfile="include/transaction/saga_orchestrator.h" bodystart="115" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_execution_status_1a9ced898063a80bd8c906cecc2cb3e6e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SAGAExecutionStatus::failure_reason</definition>
+        <argsstring></argsstring>
+        <name>failure_reason</name>
+        <qualifiedname>themis::SAGAExecutionStatus::failure_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="116" column="42" bodyfile="include/transaction/saga_orchestrator.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga_orchestrator.h" line="107" column="1" bodyfile="include/transaction/saga_orchestrator.h" bodystart="107" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1a0d96c030146cbbde4bef5a9ad1818929" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>completed_steps</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1acec2f2ffe44399ff02b3324b2cd97587" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>failed_steps</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1a9ced898063a80bd8c906cecc2cb3e6e1" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>failure_reason</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1a50ff8cfdca9715ac9b4d81bb6caae5b0" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>pending_steps</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1adde403adaee2e02498bbd9fbe1642e53" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>saga_id</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1af0b694ca722f859eca9f910426e2feb3" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>saga_name</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1aa7d503589ce108b072d5feffd61bf0dd" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>skipped_steps</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1a787ac736c0e8d6e88bf95412d1a4ee93" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>step_states</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_execution_status_1a3d3ad3d08f16c5567d7a2b5614c1b9b5" prot="public" virt="non-virtual"><scope>themis::SAGAExecutionStatus</scope><name>total_duration_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

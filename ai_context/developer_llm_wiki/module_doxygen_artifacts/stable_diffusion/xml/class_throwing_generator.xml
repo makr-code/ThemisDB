@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_throwing_generator" kind="class" language="C++" prot="public">
+    <compoundname>ThrowingGenerator</compoundname>
+    <basecompoundref refid="classthemis_1_1imggen_1_1_i_s_d_generator" prot="public" virt="non-virtual">themis::imggen::ISDGenerator</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_throwing_generator_1ad37041120b3d959a693eb4a770f7e49c" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ThrowingGenerator::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>ThrowingGenerator::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="42" column="10" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_throwing_generator_1a6a93b44761ccf3498081f7abbf4ef31e" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ThrowingGenerator::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>ThrowingGenerator::model_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="43" column="17" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_throwing_generator_1acb36c51fab88601d07c776d23ae767be" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ThrowingGenerator::initialize</definition>
+        <argsstring>(const SDConfig &amp;cfg) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>ThrowingGenerator::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ad0cd30841df2b1d5fd9b68cce018769a">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1imggen_1_1_s_d_config" kindref="compound">SDConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="30" column="10" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_throwing_generator_1aab1b776ec598cabc3eaeaf240e81071d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool ThrowingGenerator::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>ThrowingGenerator::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a9defb19fbe5f596d05a743283893b552">isInitialized</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="33" column="10" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_throwing_generator_1ae34d1baceceddb67b79ab86c10b5b903" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; ThrowingGenerator::generate</definition>
+        <argsstring>(const std::string &amp;, const SDGenerationConfig &amp;, int &amp;w, int &amp;h, uint64_t &amp;seed) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>ThrowingGenerator::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a4847d318384466186d1585c2bf00c741">generate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const SDGenerationConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_width</declname>
+        </param>
+        <param>
+          <type>int &amp;</type>
+          <declname>out_height</declname>
+        </param>
+        <param>
+          <type>uint64_t &amp;</type>
+          <declname>out_seed</declname>
+        </param>
+        <briefdescription>
+<para>Generate raw RGB pixel data for a given prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Sanitized text prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-request generation config. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_width</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual width of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_height</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Actual height of the generated image. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_seed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Seed that was actually used (important for -1 random seeds). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Raw RGB byte buffer (width * height * 3 bytes). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="34" column="17" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_throwing_generator_1a9e3ca641ab59c5ac349e0607e635a157" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string ThrowingGenerator::getModelId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>ThrowingGenerator::getModelId</qualifiedname>
+        <reimplements refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a35a4c3fe7186b5c40f0b058c2421f60f">getModelId</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="40" column="17" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>── helpers ───────────────────────────────────────────────────────────────────. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ThrowingGenerator</label>
+        <link refid="class_throwing_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ThrowingGenerator</label>
+        <link refid="class_throwing_generator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::imggen::ISDGenerator</label>
+        <link refid="classthemis_1_1imggen_1_1_i_s_d_generator"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/stable_diffusion/tests/test_sd_plugin.cpp" line="28" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin.cpp" bodystart="28" bodyend="44"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a7482335dd5fecd46ccbb84c42654a01e" prot="public" virt="virtual"><scope>ThrowingGenerator</scope><name>applyLoRA</name></member>
+      <member refid="class_throwing_generator_1ae34d1baceceddb67b79ab86c10b5b903" prot="public" virt="virtual"><scope>ThrowingGenerator</scope><name>generate</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1ac1e9e28534394283082f52bce24469c8" prot="public" virt="virtual"><scope>ThrowingGenerator</scope><name>generateImg2Img</name></member>
+      <member refid="class_throwing_generator_1a9e3ca641ab59c5ac349e0607e635a157" prot="public" virt="virtual"><scope>ThrowingGenerator</scope><name>getModelId</name></member>
+      <member refid="class_throwing_generator_1acb36c51fab88601d07c776d23ae767be" prot="public" virt="virtual"><scope>ThrowingGenerator</scope><name>initialize</name></member>
+      <member refid="class_throwing_generator_1ad37041120b3d959a693eb4a770f7e49c" prot="private" virt="non-virtual"><scope>ThrowingGenerator</scope><name>initialized_</name></member>
+      <member refid="class_throwing_generator_1aab1b776ec598cabc3eaeaf240e81071d" prot="public" virt="virtual"><scope>ThrowingGenerator</scope><name>isInitialized</name></member>
+      <member refid="class_throwing_generator_1a6a93b44761ccf3498081f7abbf4ef31e" prot="private" virt="non-virtual"><scope>ThrowingGenerator</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1imggen_1_1_i_s_d_generator_1a1cac8c129aba6caccfa55ea79695d8f0" prot="public" virt="virtual"><scope>ThrowingGenerator</scope><name>~ISDGenerator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

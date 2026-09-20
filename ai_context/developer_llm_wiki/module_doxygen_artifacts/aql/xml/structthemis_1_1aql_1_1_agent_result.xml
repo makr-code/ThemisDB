@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_agent_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::AgentResult</compoundname>
+    <includes refid="aql__agent_8h" local="no">aql_agent.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_result_1a4954cecc282e69651f1dfc7c7a44b6cd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::AgentResult::final_answer</definition>
+        <argsstring></argsstring>
+        <name>final_answer</name>
+        <qualifiedname>themis::aql::AgentResult::final_answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="69" column="17" bodyfile="include/aql/aql_agent.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_result_1a9a159b169bebcf1f240751e18a5af0c8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_reasoning_step" kindref="compound">ReasoningStep</ref> &gt;</type>
+        <definition>std::vector&lt;ReasoningStep&gt; themis::aql::AgentResult::reasoning_trace</definition>
+        <argsstring></argsstring>
+        <name>reasoning_trace</name>
+        <qualifiedname>themis::aql::AgentResult::reasoning_trace</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="71" column="17" bodyfile="include/aql/aql_agent.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_result_1a711cc272d7294f0db820a1452fcde810" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::aql::AgentResult::iterations_used</definition>
+        <argsstring></argsstring>
+        <name>iterations_used</name>
+        <qualifiedname>themis::aql::AgentResult::iterations_used</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="73" column="9" bodyfile="include/aql/aql_agent.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_agent_result_1a42916fd5a80c62d5bf48fa85f1428f32" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::AgentResult::succeeded</definition>
+        <argsstring></argsstring>
+        <name>succeeded</name>
+        <qualifiedname>themis::aql::AgentResult::succeeded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="75" column="10" bodyfile="include/aql/aql_agent.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/aql/aql_agent.h" line="68" column="1" bodyfile="include/aql/aql_agent.h" bodystart="68" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_agent_result_1a4954cecc282e69651f1dfc7c7a44b6cd" prot="public" virt="non-virtual"><scope>themis::aql::AgentResult</scope><name>final_answer</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_result_1a711cc272d7294f0db820a1452fcde810" prot="public" virt="non-virtual"><scope>themis::aql::AgentResult</scope><name>iterations_used</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_result_1a9a159b169bebcf1f240751e18a5af0c8" prot="public" virt="non-virtual"><scope>themis::aql::AgentResult</scope><name>reasoning_trace</name></member>
+      <member refid="structthemis_1_1aql_1_1_agent_result_1a42916fd5a80c62d5bf48fa85f1428f32" prot="public" virt="non-virtual"><scope>themis::aql::AgentResult</scope><name>succeeded</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

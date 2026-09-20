@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::multimodal::MultiModalRAGConfig</compoundname>
+    <includes refid="multimodal__rag_8h" local="no">multimodal_rag.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a6abac16ba96fd9a391c89b7c7eabeda9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::multimodal::MultiModalRAGConfig::enable_image_retrieval</definition>
+        <argsstring></argsstring>
+        <name>enable_image_retrieval</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGConfig::enable_image_retrieval</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable image retrieval. Requires an <ref refid="namespacethemis_1_1rag_1_1multimodal_1add039d84424b72e8489ee0b27d00d596" kindref="member">ImageRetrievalFn</ref> to be set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="135" column="10" bodyfile="include/rag/multimodal_rag.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1acb39ea69318c603e26af26864f290e67" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::multimodal::MultiModalRAGConfig::enable_table_qa</definition>
+        <argsstring></argsstring>
+        <name>enable_table_qa</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGConfig::enable_table_qa</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable table question-answering retrieval. Requires a table retrieval function (set via setTextRetriever with a table-aware backend) and TABLE in the query&apos;s modalities. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="140" column="10" bodyfile="include/rag/multimodal_rag.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1af2227e5c78f6ed93434f5b0f962aefd5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::multimodal::MultiModalRAGConfig::enable_ocr</definition>
+        <argsstring></argsstring>
+        <name>enable_ocr</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGConfig::enable_ocr</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable OCR-based document retrieval. When true, retrieved image sources may include OCR-extracted text appended to their caption by the caller-supplied <ref refid="namespacethemis_1_1rag_1_1multimodal_1a8a121875d30235288874351629dd7a5a" kindref="member">ImageCaptionFn</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="145" column="10" bodyfile="include/rag/multimodal_rag.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1aba7e1438a646560fd40b25e284143085" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::multimodal::MultiModalRAGConfig::text_weight</definition>
+        <argsstring></argsstring>
+        <name>text_weight</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGConfig::text_weight</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Contribution weight for text retrieval results in RRF fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="148" column="12" bodyfile="include/rag/multimodal_rag.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a8935f080b21256cbf024ad6c9c17c3ce" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::multimodal::MultiModalRAGConfig::image_weight</definition>
+        <argsstring></argsstring>
+        <name>image_weight</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGConfig::image_weight</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Contribution weight for image retrieval results in RRF fusion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="151" column="12" bodyfile="include/rag/multimodal_rag.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a75c79422af27df954e739429f9c4e9c8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::multimodal::MultiModalRAGConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGConfig::top_k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>Default top-k per modality (overridden by <ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1a576028bfdc1fbecf83e295e54301bf43" kindref="member">MultiModalQuery::top_k</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="154" column="12" bodyfile="include/rag/multimodal_rag.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1adf3d2dfb6eb6385263aa6a09de585807" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::multimodal::MultiModalRAGConfig::rrf_k</definition>
+        <argsstring></argsstring>
+        <name>rrf_k</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGConfig::rrf_k</qualifiedname>
+        <initializer>= 60.0</initializer>
+        <briefdescription>
+<para>RRF smoothing constant (consistent with MultiModalSearch::Config). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="157" column="12" bodyfile="include/rag/multimodal_rag.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a19f8fbf7edf217fd1e3e486a7a83cc5f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::multimodal::MultiModalRAGConfig::max_sources</definition>
+        <argsstring></argsstring>
+        <name>max_sources</name>
+        <qualifiedname>themis::rag::multimodal::MultiModalRAGConfig::max_sources</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Maximum total sources to include in the result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multimodal_rag.h" line="160" column="12" bodyfile="include/rag/multimodal_rag.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" kindref="compound">MultiModalRAG</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multimodal_rag.h" line="133" column="1" bodyfile="include/rag/multimodal_rag.h" bodystart="133" bodyend="161"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a6abac16ba96fd9a391c89b7c7eabeda9" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGConfig</scope><name>enable_image_retrieval</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1af2227e5c78f6ed93434f5b0f962aefd5" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGConfig</scope><name>enable_ocr</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1acb39ea69318c603e26af26864f290e67" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGConfig</scope><name>enable_table_qa</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a8935f080b21256cbf024ad6c9c17c3ce" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGConfig</scope><name>image_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a19f8fbf7edf217fd1e3e486a7a83cc5f" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGConfig</scope><name>max_sources</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1adf3d2dfb6eb6385263aa6a09de585807" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGConfig</scope><name>rrf_k</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1aba7e1438a646560fd40b25e284143085" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGConfig</scope><name>text_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a75c79422af27df954e739429f9c4e9c8" prot="public" virt="non-virtual"><scope>themis::rag::multimodal::MultiModalRAGConfig</scope><name>top_k</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

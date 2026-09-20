@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_safe_move" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::SafeMove</compoundname>
+    <includes refid="safe__move_8h" local="no">safe_move.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_safe_move_1a13cfe6c805585e627dddcf577b18f61c" prot="private" static="no" mutable="no">
+        <type>T</type>
+        <definition>T themis::security::SafeMove&lt; T &gt;::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::security::SafeMove::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="280" column="5" bodyfile="include/security/safe_move.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_move_1a07caa1af4b8fa3258bbe79f0666ee23c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>SafeMove</type>
+        <definition>static SafeMove themis::security::SafeMove&lt; T &gt;::create</definition>
+        <argsstring>(T &amp;&amp;value)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::security::SafeMove::create</qualifiedname>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Creates a safe move wrapper from an rvalue reference. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Object to wrap (must be rvalue reference) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1security_1_1_safe_move" kindref="compound">SafeMove</ref> instance </para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: validatePreMove(), SafeMove(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="250" column="19" bodyfile="include/security/safe_move.h" bodystart="250" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_move_1a0d3d2847741a95686b152d590baec9b0" prot="public" static="no" const="no" explicit="no" inline="yes" refqual="rvalue" virt="non-virtual">
+        <type>T</type>
+        <definition>T themis::security::SafeMove&lt; T &gt;::take</definition>
+        <argsstring>() &amp;&amp;</argsstring>
+        <name>take</name>
+        <qualifiedname>themis::security::SafeMove::take</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Extracts the moved-to value with validation <simplesect kind="return"><para>Moved value </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>MoveViolationException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if validation fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="258" column="5" bodyfile="include/security/safe_move.h" bodystart="258" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_move_1a947c9aa46a2432c6969dad334fd1bf02" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; themis::security::SafeMove&lt; T &gt;::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::security::SafeMove::get</qualifiedname>
+        <briefdescription>
+<para>Const reference access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="264" column="11" bodyfile="include/security/safe_move.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_move_1a75c09d6db5458a7cc295a4392d053ef4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::security::SafeMove&lt; T &gt;::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::security::SafeMove::get</qualifiedname>
+        <briefdescription>
+<para>Non-const reference access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="267" column="5" bodyfile="include/security/safe_move.h" bodystart="267" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_move_1a75d2e718ef2c5f0e9b1f0e1996e74dcc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::SafeMove&lt; T &gt;::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::security::SafeMove::isValid</qualifiedname>
+        <briefdescription>
+<para>Checks if value is in valid state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="270" column="8" bodyfile="include/security/safe_move.h" bodystart="270" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_safe_move_1a97661550ed5c2f24d28aaf86924821b3" prot="private" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::SafeMove&lt; T &gt;::SafeMove</definition>
+        <argsstring>(T &amp;&amp;value)</argsstring>
+        <name>SafeMove</name>
+        <qualifiedname>themis::security::SafeMove::SafeMove</qualifiedname>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Private constructor - use <ref refid="classthemis_1_1security_1_1_safe_move_1a07caa1af4b8fa3258bbe79f0666ee23c" kindref="member">create()</ref> instead. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/safe_move.h" line="283" column="12" bodyfile="include/security/safe_move.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Type-safe wrapper for move operations with automatic validation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides a zero-cost abstraction over move operations with safety guarantees:<itemizedlist>
+<listitem><para>Pre-move validation</para>
+</listitem><listitem><para>Post-move source cleanup</para>
+</listitem><listitem><para>Move destination validation</para>
+</listitem><listitem><para>Compile-time move type checking</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>T</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Type being safely moved</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Example: <programlisting><codeline><highlight class="normal">std::vector&lt;int&gt;<sp/>data<sp/>=<sp/>{1,<sp/>2,<sp/>3};</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>safe<sp/>=<sp/>SafeMove&lt;std::vector&lt;int&gt;&gt;<ref refid="classthemis_1_1security_1_1_safe_move_1a07caa1af4b8fa3258bbe79f0666ee23c" kindref="member">::create</ref>(std::move(data));</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>safe.take();<sp/></highlight><highlight class="comment">//<sp/>Takes<sp/>ownership,<sp/>validates<sp/>state</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/security/safe_move.h" line="242" column="1" bodyfile="include/security/safe_move.h" bodystart="242" bodyend="284"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_safe_move_1a07caa1af4b8fa3258bbe79f0666ee23c" prot="public" virt="non-virtual"><scope>themis::security::SafeMove</scope><name>create</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_move_1a947c9aa46a2432c6969dad334fd1bf02" prot="public" virt="non-virtual"><scope>themis::security::SafeMove</scope><name>get</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_move_1a75c09d6db5458a7cc295a4392d053ef4" prot="public" virt="non-virtual"><scope>themis::security::SafeMove</scope><name>get</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_move_1a75d2e718ef2c5f0e9b1f0e1996e74dcc" prot="public" virt="non-virtual"><scope>themis::security::SafeMove</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_move_1a97661550ed5c2f24d28aaf86924821b3" prot="private" virt="non-virtual"><scope>themis::security::SafeMove</scope><name>SafeMove</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_move_1a0d3d2847741a95686b152d590baec9b0" prot="public" virt="non-virtual"><scope>themis::security::SafeMove</scope><name>take</name></member>
+      <member refid="classthemis_1_1security_1_1_safe_move_1a13cfe6c805585e627dddcf577b18f61c" prot="private" virt="non-virtual"><scope>themis::security::SafeMove</scope><name>value_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

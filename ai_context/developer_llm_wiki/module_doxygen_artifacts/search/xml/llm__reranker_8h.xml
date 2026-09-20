@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__reranker_8h" kind="file" language="C++">
+    <compoundname>llm_reranker.h</compoundname>
+    <includes refid="learning__to__rank_8h" local="yes">search/learning_to_rank.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__search__release__gates_8cpp" local="yes">benchmarks/search/bench_search_release_gates.cpp</includedby>
+    <includedby refid="llm__reranker_8cpp" local="yes">src/search/llm_reranker.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>search/learning_to_rank.h</label>
+        <link refid="learning__to__rank_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/search/llm_reranker.h</label>
+        <link refid="llm__reranker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/search/bench_search_release_gates.cpp</label>
+        <link refid="bench__search__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/search/llm_reranker.h</label>
+        <link refid="llm__reranker_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/search/llm_reranker.cpp</label>
+        <link refid="llm__reranker_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_llm_rerank_candidate" prot="public">themis::LlmRerankCandidate</innerclass>
+    <innerclass refid="structthemis_1_1_llm_rerank_result" prot="public">themis::LlmRerankResult</innerclass>
+    <innerclass refid="classthemis_1_1_llm_reranker" prot="public">themis::LlmReranker</innerclass>
+    <innerclass refid="structthemis_1_1_llm_reranker_1_1_config" prot="public">themis::LlmReranker::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="learning__to__rank_8h" kindref="compound">search/learning_to_rank.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="structthemis_1_1_llm_rerank_candidate" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_llm_rerank_candidate" kindref="compound">LlmRerankCandidate</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1_llm_rerank_candidate_1a28f1e3ba7a36819e391678a15c969a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_llm_rerank_candidate_1a28f1e3ba7a36819e391678a15c969a58" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1_llm_rerank_candidate_1a2c7a7b1bfbbf02f75309a183b124c102" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_llm_rerank_candidate_1a2c7a7b1bfbbf02f75309a183b124c102" kindref="member">content</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1_llm_rerank_candidate_1a1855bb3c07e4e099c1b52abc73bc24ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_candidate_1a1855bb3c07e4e099c1b52abc73bc24ee" kindref="member">initial_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_llm_rerank_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_llm_rerank_result" kindref="compound">LlmRerankResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_llm_rerank_result_1ae08e1c66a19b6389f254f9d5fe9aa9f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_llm_rerank_result_1ae08e1c66a19b6389f254f9d5fe9aa9f1" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_llm_rerank_result_1a90b3314a08a13786510f0e1c8f717d10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_result_1a90b3314a08a13786510f0e1c8f717d10" kindref="member">llm_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1_llm_rerank_result_1a96d87175ce352a1572447dd01193cc2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_result_1a96d87175ce352a1572447dd01193cc2f" kindref="member">initial_score</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1_llm_rerank_result_1ad75b9b122fd8543f6376a5319558cf03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_result_1ad75b9b122fd8543f6376a5319558cf03" kindref="member">final_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_llm_rerank_result_1a55edc0fb290e5bd47b3c9ab84ea7c6e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_rerank_result_1a55edc0fb290e5bd47b3c9ab84ea7c6e3" kindref="member">llm_scored</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1_llm_reranker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref><sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmBackend</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prompt)&gt;;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1_llm_reranker_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_llm_reranker_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_llm_reranker_1_1_config_1abaec7937dfd9bdd24cbaf7017219869d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1abaec7937dfd9bdd24cbaf7017219869d" kindref="member">batch_size</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1_llm_reranker_1_1_config_1a57feeab9dafd50fd99942e3db578926a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a57feeab9dafd50fd99942e3db578926a" kindref="member">llm_weight</ref><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_llm_reranker_1_1_config_1a292cc1165080a2492808f68c48459722" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a292cc1165080a2492808f68c48459722" kindref="member">max_snippet_length</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_llm_reranker_1_1_config_1a83c28cfcd2ec51b36eef2ffb6d5b6e05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a83c28cfcd2ec51b36eef2ffb6d5b6e05" kindref="member">fallback_to_original</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1_llm_reranker_1_1_config_1a5faa6021efd5824960028b3fd98f5e05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a5faa6021efd5824960028b3fd98f5e05" kindref="member">max_tokens</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1_llm_reranker_1_1_config_1a8d534ba0e4479c1277634e5879a975f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a8d534ba0e4479c1277634e5879a975f9" kindref="member">temperature</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_llm_reranker_1_1_config_1a27288ae97b139962396eafce64fc74b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a27288ae97b139962396eafce64fc74b2" kindref="member">min_score_threshold</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1_llm_reranker_1_1_config_1a83db049a61e70339633b96f1faf3041f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a83db049a61e70339633b96f1faf3041f" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config_1a83db049a61e70339633b96f1faf3041f" kindref="member">Config::defaults</ref>(),</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmBackend</ref><sp/>backend<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1_llm_reranker_1a9243c2afd3a183dfff060c649d457b02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_llm_reranker_1a9243c2afd3a183dfff060c649d457b02" kindref="member">LlmReranker</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1_llm_reranker_1a68ef7704f00d26eb218ab6f3bb79c022" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref>&amp;<sp/><ref refid="classthemis_1_1_llm_reranker_1a68ef7704f00d26eb218ab6f3bb79c022" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1_llm_reranker_1a164834ca027a24ee94071e45ba1537be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_llm_reranker_1a164834ca027a24ee94071e45ba1537be" kindref="member">LlmReranker</ref>(<ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1_llm_reranker_1a319c41119b7e7e26b084b7d6ec15cc40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_llm_reranker_1a21b7685f49074e5f733198db5c11f79e" kindref="member">LlmReranker</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_llm_reranker_1a7f503c952a9d723004cf9d7ebc114eed" kindref="member">setBackend</ref>(<ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmBackend</ref><sp/>backend);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_llm_rerank_result" kindref="compound">LlmRerankResult</ref>&gt;<sp/><ref refid="classthemis_1_1_llm_reranker_1aa3ec250cb512a1a5c51cb6b5e49e8804" kindref="member">rerank</ref>(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1_llm_rerank_candidate" kindref="compound">LlmRerankCandidate</ref>&gt;&amp;<sp/>candidates</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::vector&lt;<ref refid="structthemis_1_1_click_event" kindref="compound">ClickEvent</ref>&gt;<sp/><ref refid="classthemis_1_1_llm_reranker_1abc29be2db89786cd5fe086b7e1444489" kindref="member">toClickEvents</ref>(</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1_llm_rerank_result" kindref="compound">LlmRerankResult</ref>&gt;&amp;<sp/>results,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>relevance_threshold<sp/>=<sp/>0.5</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1_llm_reranker_1afc9579fb026200d2e17d16835ff7da81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1_llm_reranker_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1_llm_reranker_1afc9579fb026200d2e17d16835ff7da81" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_llm_reranker_1a1997004f4f0d774dc0c0f4902488bb29" kindref="member">LlmBackend</ref><sp/>backend_;</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>buildPrompt(</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;LlmRerankCandidate&gt;&amp;<sp/>batch</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>parseScores(</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>llm_output,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/search/llm_reranker.h"/>
+  </compounddef>
+</doxygen>

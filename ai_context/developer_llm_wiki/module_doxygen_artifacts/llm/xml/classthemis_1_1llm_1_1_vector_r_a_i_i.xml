@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_vector_r_a_i_i" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::VectorRAII</compoundname>
+    <includes refid="llm__memory__safety__utils_8h" local="no">llm_memory_safety_utils.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1ab3cb16d90893ebfeb548e1ee153f4bad" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt;T&gt; themis::llm::VectorRAII&lt; T &gt;::data_</definition>
+        <argsstring></argsstring>
+        <name>data_</name>
+        <qualifiedname>themis::llm::VectorRAII::data_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="307" column="15" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1abcccff15727ddac9a975a60e85f57955" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::VectorRAII&lt; T &gt;::VectorRAII</definition>
+        <argsstring>(size_t initial_capacity=0)</argsstring>
+        <name>VectorRAII</name>
+        <qualifiedname>themis::llm::VectorRAII::VectorRAII</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>initial_capacity</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="246" column="12" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="246" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1af72f9ee54b05282c93e596648f8f0386" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::VectorRAII&lt; T &gt;::VectorRAII</definition>
+        <argsstring>(VectorRAII &amp;&amp;other) noexcept=default</argsstring>
+        <name>VectorRAII</name>
+        <qualifiedname>themis::llm::VectorRAII::VectorRAII</qualifiedname>
+        <param>
+          <type>VectorRAII &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="253" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1aa55756d18259a565696f65147abd7e62" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1abcccff15727ddac9a975a60e85f57955" kindref="member">VectorRAII</ref> &amp;</type>
+        <definition>VectorRAII &amp; themis::llm::VectorRAII&lt; T &gt;::operator=</definition>
+        <argsstring>(VectorRAII &amp;&amp;other) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::VectorRAII::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1abcccff15727ddac9a975a60e85f57955" kindref="member">VectorRAII</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="254" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1abad7840bf391895f0304964d3cbefe8d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::VectorRAII&lt; T &gt;::VectorRAII</definition>
+        <argsstring>(const VectorRAII &amp;)=default</argsstring>
+        <name>VectorRAII</name>
+        <qualifiedname>themis::llm::VectorRAII::VectorRAII</qualifiedname>
+        <param>
+          <type>const VectorRAII &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="257" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1add3c0a3317aa644826aabeb17f1b1ece" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1abcccff15727ddac9a975a60e85f57955" kindref="member">VectorRAII</ref> &amp;</type>
+        <definition>VectorRAII &amp; themis::llm::VectorRAII&lt; T &gt;::operator=</definition>
+        <argsstring>(const VectorRAII &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::VectorRAII::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1abcccff15727ddac9a975a60e85f57955" kindref="member">VectorRAII</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="258" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a98cc7c90a658dca373c0f239a7392281" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::VectorRAII&lt; T &gt;::push_back</definition>
+        <argsstring>(const T &amp;value)</argsstring>
+        <name>push_back</name>
+        <qualifiedname>themis::llm::VectorRAII::push_back</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Safe push_back with capacity management. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements push_back without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="265" column="8" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="265" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a17c80e8bc888226b0ceb4841c2b78eeb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::VectorRAII&lt; T &gt;::push_back</definition>
+        <argsstring>(T &amp;&amp;value)</argsstring>
+        <name>push_back</name>
+        <qualifiedname>themis::llm::VectorRAII::push_back</qualifiedname>
+        <param>
+          <type>T &amp;&amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Push back. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="274" column="8" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="274" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1aef0fd3e3da8b336e5f8aef42e1205259" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>T &amp;</type>
+        <definition>T &amp; themis::llm::VectorRAII&lt; T &gt;::operator[]</definition>
+        <argsstring>(size_t index)</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::llm::VectorRAII::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="279" column="5" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="279" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1ac765b47672bed3e8956c7a120bb06869" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const T &amp;</type>
+        <definition>const T &amp; themis::llm::VectorRAII&lt; T &gt;::operator[]</definition>
+        <argsstring>(size_t index) const</argsstring>
+        <name>operator[]</name>
+        <qualifiedname>themis::llm::VectorRAII::operator[]</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>index</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="280" column="11" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="280" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a283f1c981f400ac3d596fc210df36d57" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VectorRAII&lt; T &gt;::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::VectorRAII::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="282" column="10" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="282" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a9f5b18e402a41fa485814e388977a39b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::VectorRAII&lt; T &gt;::capacity</definition>
+        <argsstring>() const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::llm::VectorRAII::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="283" column="10" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a373874ac1cb6f21b1448f1e610e4e2c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::VectorRAII&lt; T &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::llm::VectorRAII::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="289" column="8" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="289" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a1dfe4c8e30ffed973739d0f5b1aba4d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; T &gt;::iterator</type>
+        <definition>std::vector&lt; T &gt;::iterator themis::llm::VectorRAII&lt; T &gt;::begin</definition>
+        <argsstring>()</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::llm::VectorRAII::begin</qualifiedname>
+        <briefdescription>
+<para>Begin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements begin without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="296" column="35" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="296" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a1119066b093ad2a3a7799b73c72ea6ec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; T &gt;::const_iterator</type>
+        <definition>std::vector&lt; T &gt;::const_iterator themis::llm::VectorRAII&lt; T &gt;::begin</definition>
+        <argsstring>() const</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::llm::VectorRAII::begin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="297" column="41" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a1193f86a6c16c41c95db8f7b0a7d75ea" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; T &gt;::iterator</type>
+        <definition>std::vector&lt; T &gt;::iterator themis::llm::VectorRAII&lt; T &gt;::end</definition>
+        <argsstring>()</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::llm::VectorRAII::end</qualifiedname>
+        <briefdescription>
+<para>End. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements end without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="303" column="35" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_vector_r_a_i_i_1a3029124d4f07c08723d369e635ea1ff1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; T &gt;::const_iterator</type>
+        <definition>std::vector&lt; T &gt;::const_iterator themis::llm::VectorRAII&lt; T &gt;::end</definition>
+        <argsstring>() const</argsstring>
+        <name>end</name>
+        <qualifiedname>themis::llm::VectorRAII::end</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_memory_safety_utils.h" line="304" column="41" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="304" bodyend="304"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_memory_safety_utils.h" line="244" column="1" bodyfile="include/llm/llm_memory_safety_utils.h" bodystart="244" bodyend="308"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a1dfe4c8e30ffed973739d0f5b1aba4d3" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>begin</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a1119066b093ad2a3a7799b73c72ea6ec" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>begin</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a9f5b18e402a41fa485814e388977a39b" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a373874ac1cb6f21b1448f1e610e4e2c8" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>clear</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1ab3cb16d90893ebfeb548e1ee153f4bad" prot="private" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>data_</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a1193f86a6c16c41c95db8f7b0a7d75ea" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>end</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a3029124d4f07c08723d369e635ea1ff1" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>end</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1aa55756d18259a565696f65147abd7e62" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1add3c0a3317aa644826aabeb17f1b1ece" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1aef0fd3e3da8b336e5f8aef42e1205259" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1ac765b47672bed3e8956c7a120bb06869" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>operator[]</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a98cc7c90a658dca373c0f239a7392281" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>push_back</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a17c80e8bc888226b0ceb4841c2b78eeb" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>push_back</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1a283f1c981f400ac3d596fc210df36d57" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>size</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1abcccff15727ddac9a975a60e85f57955" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>VectorRAII</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1af72f9ee54b05282c93e596648f8f0386" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>VectorRAII</name></member>
+      <member refid="classthemis_1_1llm_1_1_vector_r_a_i_i_1abad7840bf391895f0304964d3cbefe8d" prot="public" virt="non-virtual"><scope>themis::llm::VectorRAII</scope><name>VectorRAII</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

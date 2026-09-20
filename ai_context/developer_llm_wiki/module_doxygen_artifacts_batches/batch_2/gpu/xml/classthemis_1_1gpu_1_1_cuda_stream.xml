@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_cuda_stream" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::CudaStream</compoundname>
+    <includes refid="cuda__operations_8h" local="no">cuda_operations.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_stream_1a18642b5dadcb6cd7b15a238a331eddb3" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::CudaStream::stream_handle_</definition>
+        <argsstring></argsstring>
+        <name>stream_handle_</name>
+        <qualifiedname>themis::gpu::CudaStream::stream_handle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="83" column="10" bodyfile="include/gpu/cuda_operations.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_stream_1a4e3a103cdc5af5dd1ebafa517b5e2aa0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::CudaStream::device_id_</definition>
+        <argsstring></argsstring>
+        <name>device_id_</name>
+        <qualifiedname>themis::gpu::CudaStream::device_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="84" column="9" bodyfile="include/gpu/cuda_operations.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_stream_1a2af5ef03ee13941095e34dcda7bf5fe1" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaStream::is_moved_from_</definition>
+        <argsstring></argsstring>
+        <name>is_moved_from_</name>
+        <qualifiedname>themis::gpu::CudaStream::is_moved_from_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="85" column="10" bodyfile="include/gpu/cuda_operations.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1a1ea2ef1b86b85e25259935ab73647107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStream::CudaStream</definition>
+        <argsstring>(int device_id, int priority=0)</argsstring>
+        <name>CudaStream</name>
+        <qualifiedname>themis::gpu::CudaStream::CudaStream</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>priority</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="38" column="5" bodyfile="src/gpu/cuda_operations.cpp" bodystart="21" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1ac4dd8c8928ba5930bebec6e6efef7291" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStream::~CudaStream</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CudaStream</name>
+        <qualifiedname>themis::gpu::CudaStream::~CudaStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="40" column="5" bodyfile="src/gpu/cuda_operations.cpp" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1a93f5c85ee3fb4a33169b4c5f92f844fd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStream::CudaStream</definition>
+        <argsstring>(CudaStream &amp;&amp;other) noexcept</argsstring>
+        <name>CudaStream</name>
+        <qualifiedname>themis::gpu::CudaStream::CudaStream</qualifiedname>
+        <param>
+          <type>CudaStream &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="43" column="5" bodyfile="src/gpu/cuda_operations.cpp" bodystart="50" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1a2fe87c80f30f58b6fef755e167726fc9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_cuda_stream_1a1ea2ef1b86b85e25259935ab73647107" kindref="member">CudaStream</ref> &amp;</type>
+        <definition>CudaStream &amp; themis::gpu::CudaStream::operator=</definition>
+        <argsstring>(CudaStream &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaStream::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_cuda_stream_1a1ea2ef1b86b85e25259935ab73647107" kindref="member">CudaStream</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="44" column="16" bodyfile="src/gpu/cuda_operations.cpp" bodystart="60" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1a3076519920dbcdef0a35f2ff0e3641ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaStream::CudaStream</definition>
+        <argsstring>(const CudaStream &amp;)=delete</argsstring>
+        <name>CudaStream</name>
+        <qualifiedname>themis::gpu::CudaStream::CudaStream</qualifiedname>
+        <param>
+          <type>const CudaStream &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1a519a6275d520cba189bcc9a992f21933" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_cuda_stream_1a1ea2ef1b86b85e25259935ab73647107" kindref="member">CudaStream</ref> &amp;</type>
+        <definition>CudaStream &amp; themis::gpu::CudaStream::operator=</definition>
+        <argsstring>(const CudaStream &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaStream::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_cuda_stream_1a1ea2ef1b86b85e25259935ab73647107" kindref="member">CudaStream</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="48" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1aceb8448620fa5c2706ff483d9bfb1d01" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::CudaStream::get_handle</definition>
+        <argsstring>() const</argsstring>
+        <name>get_handle</name>
+        <qualifiedname>themis::gpu::CudaStream::get_handle</qualifiedname>
+        <briefdescription>
+<para>Get handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="54" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1ac8222ed3650582a4b779afdc023ed772" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::CudaStream::synchronize</definition>
+        <argsstring>() const</argsstring>
+        <name>synchronize</name>
+        <qualifiedname>themis::gpu::CudaStream::synchronize</qualifiedname>
+        <briefdescription>
+<para>Synchronize. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="59" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="87" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1a44618f894268506f2ce1c2aaf272e91e" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaStream::is_ready</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_ready</name>
+        <qualifiedname>themis::gpu::CudaStream::is_ready</qualifiedname>
+        <briefdescription>
+<para>Is ready. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="66" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="98" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1a31b654a7f6a1f89e1a73fc0edc3c3b3b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaStream::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::gpu::CudaStream::is_valid</qualifiedname>
+        <briefdescription>
+<para>Is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="73" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="113" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_stream_1afe12ec89635f985575b9a34fd7d58e43" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaStream::is_moved_from</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_moved_from</name>
+        <qualifiedname>themis::gpu::CudaStream::is_moved_from</qualifiedname>
+        <briefdescription>
+<para>Is moved from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="80" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/cuda_operations.h" line="36" column="1" bodyfile="include/gpu/cuda_operations.h" bodystart="36" bodyend="86"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a1ea2ef1b86b85e25259935ab73647107" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>CudaStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a93f5c85ee3fb4a33169b4c5f92f844fd" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>CudaStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a3076519920dbcdef0a35f2ff0e3641ba" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>CudaStream</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a4e3a103cdc5af5dd1ebafa517b5e2aa0" prot="private" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>device_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1aceb8448620fa5c2706ff483d9bfb1d01" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>get_handle</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1afe12ec89635f985575b9a34fd7d58e43" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>is_moved_from</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a2af5ef03ee13941095e34dcda7bf5fe1" prot="private" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>is_moved_from_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a44618f894268506f2ce1c2aaf272e91e" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>is_ready</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a31b654a7f6a1f89e1a73fc0edc3c3b3b" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>is_valid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a2fe87c80f30f58b6fef755e167726fc9" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a519a6275d520cba189bcc9a992f21933" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1a18642b5dadcb6cd7b15a238a331eddb3" prot="private" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>stream_handle_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1ac8222ed3650582a4b779afdc023ed772" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>synchronize</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_stream_1ac4dd8c8928ba5930bebec6e6efef7291" prot="public" virt="non-virtual"><scope>themis::gpu::CudaStream</scope><name>~CudaStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

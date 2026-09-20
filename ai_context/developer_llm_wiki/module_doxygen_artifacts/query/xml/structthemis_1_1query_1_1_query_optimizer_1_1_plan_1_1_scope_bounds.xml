@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer::Plan::ScopeBounds</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1a7a230926ae9d15c10a44774240706c55" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::QueryOptimizer::Plan::ScopeBounds::scope_id</definition>
+        <argsstring></argsstring>
+        <name>scope_id</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::ScopeBounds::scope_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="62" column="25" bodyfile="include/query/query_optimizer.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1ab6817d18afee3064c8e5225d3b39c67a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::Plan::ScopeBounds::max_result_rows</definition>
+        <argsstring></argsstring>
+        <name>max_result_rows</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::ScopeBounds::max_result_rows</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="63" column="20" bodyfile="include/query/query_optimizer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1ae8c2c33946843d86ff0db6d164f140cf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryOptimizer::Plan::ScopeBounds::max_result_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_result_bytes</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::ScopeBounds::max_result_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="64" column="20" bodyfile="include/query/query_optimizer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1acee1629bee7e3161da621e024f420eea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::Plan::ScopeBounds::enforce_federation_isolation</definition>
+        <argsstring></argsstring>
+        <name>enforce_federation_isolation</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::ScopeBounds::enforce_federation_isolation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="65" column="18" bodyfile="include/query/query_optimizer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_optimizer.h" line="61" column="9" bodyfile="include/query/query_optimizer.h" bodystart="61" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1acee1629bee7e3161da621e024f420eea" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan::ScopeBounds</scope><name>enforce_federation_isolation</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1ae8c2c33946843d86ff0db6d164f140cf" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan::ScopeBounds</scope><name>max_result_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1ab6817d18afee3064c8e5225d3b39c67a" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan::ScopeBounds</scope><name>max_result_rows</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds_1a7a230926ae9d15c10a44774240706c55" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan::ScopeBounds</scope><name>scope_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

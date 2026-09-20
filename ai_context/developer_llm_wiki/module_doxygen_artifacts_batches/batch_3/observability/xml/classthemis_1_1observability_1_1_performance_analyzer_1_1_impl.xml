@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_performance_analyzer_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::PerformanceAnalyzer::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_performance_analyzer_1_1_impl_1aed5f4756c18ecbe834d54d38899813ab" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_performance_analyzer_config" kindref="compound">PerformanceAnalyzerConfig</ref></type>
+        <definition>PerformanceAnalyzerConfig themis::observability::PerformanceAnalyzer::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/performance_analyzer.cpp" line="136" column="31" bodyfile="src/observability/performance_analyzer.cpp" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_performance_analyzer_1_1_impl_1afe44456e4e99bd17c5accec20abd8433" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::PerformanceAnalyzer::Impl::Impl</definition>
+        <argsstring>(const PerformanceAnalyzerConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::observability::PerformanceAnalyzer::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_performance_analyzer_config" kindref="compound">PerformanceAnalyzerConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/observability/performance_analyzer.cpp" line="138" column="14" bodyfile="src/observability/performance_analyzer.cpp" bodystart="138" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::PerformanceAnalyzer::Impl</label>
+        <link refid="classthemis_1_1observability_1_1_performance_analyzer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::PerformanceAnalyzerConfig</label>
+        <link refid="structthemis_1_1observability_1_1_performance_analyzer_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/observability/performance_analyzer.cpp" line="134" column="1" bodyfile="src/observability/performance_analyzer.cpp" bodystart="134" bodyend="139"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1_1_impl_1aed5f4756c18ecbe834d54d38899813ab" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer::Impl</scope><name>config</name></member>
+      <member refid="classthemis_1_1observability_1_1_performance_analyzer_1_1_impl_1afe44456e4e99bd17c5accec20abd8433" prot="public" virt="non-virtual"><scope>themis::observability::PerformanceAnalyzer::Impl</scope><name>Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceReporter::ChangeHistoryReport</compoundname>
+    <basecompoundref refid="structthemis_1_1governance_1_1_i_compliance_report" prot="public" virt="non-virtual">themis::governance::IComplianceReport</basecompoundref>
+    <includes refid="compliance__reporting_8h" local="no">compliance_reporting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1ab47a21a1e7e666b8d960047985a06467" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_policy_rule_version" kindref="compound">PolicyRuleVersion</ref> &gt;</type>
+        <definition>std::vector&lt;PolicyRuleVersion&gt; themis::governance::ComplianceReporter::ChangeHistoryReport::changes</definition>
+        <argsstring></argsstring>
+        <name>changes</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ChangeHistoryReport::changes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="328" column="21" bodyfile="include/governance/compliance_reporting.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a6c2404570d4d74094dc5a1460c1ec0b3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::governance::ComplianceReporter::ChangeHistoryReport::total_changes</definition>
+        <argsstring></argsstring>
+        <name>total_changes</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ChangeHistoryReport::total_changes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="329" column="13" bodyfile="include/governance/compliance_reporting.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a2f558f7297757dee54ea41bbf7383f43" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::governance::ComplianceReporter::ChangeHistoryReport::changes_by_user</definition>
+        <argsstring></argsstring>
+        <name>changes_by_user</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ChangeHistoryReport::changes_by_user</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="330" column="28" bodyfile="include/governance/compliance_reporting.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1aeff866c822f3f5c40660d2bf7a3f78fb" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceReporter::ChangeHistoryReport::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ChangeHistoryReport::start_time</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="331" column="17" bodyfile="include/governance/compliance_reporting.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a136b271f1decb17f9fb040815db8cd37" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::ComplianceReporter::ChangeHistoryReport::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ChangeHistoryReport::end_time</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="332" column="17" bodyfile="include/governance/compliance_reporting.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a1c9502f991f631beadfafa71c8c7bf50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::ComplianceReporter::ChangeHistoryReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ChangeHistoryReport::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="338" column="24" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1024" bodyend="1044"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a8b8ecc5b164822f6ba2652dd9d9ffd22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::ChangeHistoryReport::toCSV</definition>
+        <argsstring>() const override</argsstring>
+        <name>toCSV</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ChangeHistoryReport::toCSV</qualifiedname>
+        <reimplements refid="structthemis_1_1governance_1_1_i_compliance_report_1a3113e39baa131903fa65a0c2cd4463e9">toCSV</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="339" column="21" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1046" bodyend="1066"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1ab04a00efc48e2a4f7c314896815ccf00" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceReporter::ChangeHistoryReport::toHTML</definition>
+        <argsstring>() const</argsstring>
+        <name>toHTML</name>
+        <qualifiedname>themis::governance::ComplianceReporter::ChangeHistoryReport::toHTML</qualifiedname>
+        <briefdescription>
+<para>To HTML. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_reporting.h" line="344" column="21" bodyfile="src/governance/compliance_reporting.cpp" bodystart="1068" bodyend="1096"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::ComplianceReporter::ChangeHistoryReport</label>
+        <link refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceReport</label>
+        <link refid="structthemis_1_1governance_1_1_i_compliance_report"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::ComplianceReporter::ChangeHistoryReport</label>
+        <link refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceReport</label>
+        <link refid="structthemis_1_1governance_1_1_i_compliance_report"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/compliance_reporting.h" line="327" column="5" bodyfile="include/governance/compliance_reporting.h" bodystart="327" bodyend="345"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1ab47a21a1e7e666b8d960047985a06467" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>changes</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a2f558f7297757dee54ea41bbf7383f43" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>changes_by_user</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a136b271f1decb17f9fb040815db8cd37" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1aeff866c822f3f5c40660d2bf7a3f78fb" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a8b8ecc5b164822f6ba2652dd9d9ffd22" prot="public" virt="virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>toCSV</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1ab04a00efc48e2a4f7c314896815ccf00" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>toHTML</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a1c9502f991f631beadfafa71c8c7bf50" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_reporter_1_1_change_history_report_1a6c2404570d4d74094dc5a1460c1ec0b3" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>total_changes</name></member>
+      <member refid="structthemis_1_1governance_1_1_i_compliance_report_1aa1e5ebc86266f46d6aff958a6e9e0366" prot="public" virt="virtual"><scope>themis::governance::ComplianceReporter::ChangeHistoryReport</scope><name>~IComplianceReport</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

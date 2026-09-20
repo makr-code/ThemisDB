@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_metric_exporter_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubMetricExporterBench</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_metric_exporter_bench_1af43a97a10c71314bd80920b56dfa2d54" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubMetricExporterBench::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>StubMetricExporterBench::count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="43" column="17" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_metric_exporter_bench_1abbeb1a38a5e2eef5dd90b981f2f7343a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StubMetricExporterBench::exportMetric</definition>
+        <argsstring>(const std::string &amp;name, double value)</argsstring>
+        <name>exportMetric</name>
+        <qualifiedname>StubMetricExporterBench::exportMetric</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="37" column="10" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_metric_exporter_bench_1a49c8de38a4c0a0edf7b82427d16757a5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubMetricExporterBench::count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>count</name>
+        <qualifiedname>StubMetricExporterBench::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="41" column="14" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" line="35" column="1" bodyfile="benchmarks/exporters/bench_exporters_dedicated_gates.cpp" bodystart="35" bodyend="44"/>
+    <listofallmembers>
+      <member refid="class_stub_metric_exporter_bench_1a49c8de38a4c0a0edf7b82427d16757a5" prot="public" virt="non-virtual"><scope>StubMetricExporterBench</scope><name>count</name></member>
+      <member refid="class_stub_metric_exporter_bench_1af43a97a10c71314bd80920b56dfa2d54" prot="private" virt="non-virtual"><scope>StubMetricExporterBench</scope><name>count_</name></member>
+      <member refid="class_stub_metric_exporter_bench_1abbeb1a38a5e2eef5dd90b981f2f7343a" prot="public" virt="non-virtual"><scope>StubMetricExporterBench</scope><name>exportMetric</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

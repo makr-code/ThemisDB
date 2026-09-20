@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_p_mem_layout_test" kind="class" language="C++" prot="public">
+    <compoundname>PMemLayoutTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_p_mem_layout_test_1a247096f5eb89a3fec60aa41d4aa8dd8a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PMemLayoutTest::pool_path_</definition>
+        <argsstring></argsstring>
+        <name>pool_path_</name>
+        <qualifiedname>PMemLayoutTest::pool_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="212" column="17" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="212" bodyend="212"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_p_mem_layout_test_1a100950ca46d615f6b8f4ac8a4e54fe7f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PMemLayoutTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PMemLayoutTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="214" column="10" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="214" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_mem_layout_test_1ab6b38e295b3be8777aefb8f3a2cb644f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PMemLayoutTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PMemLayoutTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="220" column="10" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_mem_layout_test_1a03cca43488e37f543ef55f32433be95c" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase4_1_1_p_mem_storage_layout_1_1_config" kindref="compound">PMemStorageLayout::Config</ref></type>
+        <definition>PMemStorageLayout::Config PMemLayoutTest::make_layout_config</definition>
+        <argsstring>()</argsstring>
+        <name>make_layout_config</name>
+        <qualifiedname>PMemLayoutTest::make_layout_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/phase4/test_pmem_storage.cpp" line="224" column="31" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="224" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PMemLayoutTest</label>
+        <link refid="class_p_mem_layout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PMemLayoutTest</label>
+        <link refid="class_p_mem_layout_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/phase4/test_pmem_storage.cpp" line="210" column="1" bodyfile="tests/performance/phase4/test_pmem_storage.cpp" bodystart="210" bodyend="233"/>
+    <listofallmembers>
+      <member refid="class_p_mem_layout_test_1a03cca43488e37f543ef55f32433be95c" prot="protected" virt="non-virtual"><scope>PMemLayoutTest</scope><name>make_layout_config</name></member>
+      <member refid="class_p_mem_layout_test_1a247096f5eb89a3fec60aa41d4aa8dd8a" prot="protected" virt="non-virtual"><scope>PMemLayoutTest</scope><name>pool_path_</name></member>
+      <member refid="class_p_mem_layout_test_1a100950ca46d615f6b8f4ac8a4e54fe7f" prot="protected" virt="non-virtual"><scope>PMemLayoutTest</scope><name>SetUp</name></member>
+      <member refid="class_p_mem_layout_test_1ab6b38e295b3be8777aefb8f3a2cb644f" prot="protected" virt="non-virtual"><scope>PMemLayoutTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

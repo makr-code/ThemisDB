@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adaptive__ttl__policy_8h" kind="file" language="C++">
+    <compoundname>adaptive_ttl_policy.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="test__cache__phase6__interfaces_8cpp" local="yes">tests/cache/test_cache_phase6_interfaces.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/adaptive_ttl_policy.h</label>
+        <link refid="adaptive__ttl__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cache/adaptive_ttl_policy.h</label>
+        <link refid="adaptive__ttl__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>tests/cache/test_cache_phase6_interfaces.cpp</label>
+        <link refid="test__cache__phase6__interfaces_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" prot="public">themis::cache::AdaptiveTTLPolicyConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_access_record" prot="public">themis::cache::AccessRecord</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion" prot="public">themis::cache::AdaptiveTTLSuggestion</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy" prot="public">themis::cache::IAdaptiveTTLPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 94/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20" refid="namespacethemis_1_1cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveTTLPolicyConfig<sp/>—<sp/>policy<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" kindref="compound">AdaptiveTTLPolicyConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1a56137a73220b19a7c2d246044a3402c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1a56137a73220b19a7c2d246044a3402c2" kindref="member">minTTL</ref>{1&apos;000};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1a1335d9f9e2dc73d80d3cb673153651a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1a1335d9f9e2dc73d80d3cb673153651a7" kindref="member">maxTTL</ref>{3&apos;600&apos;000};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1af6f6824dc14b25826cb7a30ac3eb1643" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1af6f6824dc14b25826cb7a30ac3eb1643" kindref="member">access_window_size</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1ac417483fa5f23352ef71e9051232a9d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1ac417483fa5f23352ef71e9051232a9d6" kindref="member">aggressiveness</ref><sp/>=<sp/>2.0;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1aeacc4fa5e8a006323e04bbe216aefbf7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1aeacc4fa5e8a006323e04bbe216aefbf7" kindref="member">decay_factor</ref><sp/>=<sp/>0.9;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1af55b3d0ce1a09141a670d484d2a77cc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1af55b3d0ce1a09141a670d484d2a77cc0" kindref="member">max_history_age_ms</ref><sp/>=<sp/>86&apos;400&apos;000LL;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AccessRecord<sp/>—<sp/>single<sp/>recorded<sp/>access<sp/>event</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1cache_1_1_access_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_access_record" kindref="compound">AccessRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1cache_1_1_access_record_1ac834e3decebe0ba61e3564e684b58824" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1cache_1_1_access_record_1ac834e3decebe0ba61e3564e684b58824" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1cache_1_1_access_record_1a79445f33e201c872e649652d43096e42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_access_record_1a79445f33e201c872e649652d43096e42" kindref="member">is_hit</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveTTLSuggestion<sp/>—<sp/>output<sp/>from<sp/>computeTTL</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion" kindref="compound">AdaptiveTTLSuggestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion_1a25728a7b455751ac6ea7e860fc5a0cfc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion_1a25728a7b455751ac6ea7e860fc5a0cfc" kindref="member">ttl</ref>{0};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion_1a7d1da7d4b2d292dd0410a7ac8151f264" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion_1a7d1da7d4b2d292dd0410a7ac8151f264" kindref="member">mean_access_interval</ref>{0};</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion_1ad00b8552c4bad488efd14a772d372303" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion_1ad00b8552c4bad488efd14a772d372303" kindref="member">sample_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion_1af9eef47abe98ffd4c4e30f6ead2ed80a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion_1af9eef47abe98ffd4c4e30f6ead2ed80a" kindref="member">confidence</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IAdaptiveTTLPolicy<sp/>—<sp/>stateful<sp/>adaptive<sp/>TTL<sp/>policy<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy" kindref="compound">IAdaptiveTTLPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1ae69abd754e513ef6a9a00fd020c02b42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1ae69abd754e513ef6a9a00fd020c02b42" kindref="member">~IAdaptiveTTLPolicy</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Access<sp/>recording</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1add79174fa33a12f17f50b7a9d7ddd240" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1add79174fa33a12f17f50b7a9d7ddd240" kindref="member">recordAccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>timestamp_ms,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>is_hit<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>noexcept<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TTL<sp/>computation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a077924f3a7686c64e88b2ffd95c30df8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_suggestion" kindref="compound">AdaptiveTTLSuggestion</ref><sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a077924f3a7686c64e88b2ffd95c30df8" kindref="member">computeTTL</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>now_ms)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>History<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a84853cc1fff59375e103c39f0fffe429" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/>std::vector&lt;<ref refid="structthemis_1_1cache_1_1_access_record" kindref="compound">AccessRecord</ref>&gt;<sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a84853cc1fff59375e103c39f0fffe429" kindref="member">getHistory</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key)<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a003c0ffb252d48566268c9195d26e09a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a003c0ffb252d48566268c9195d26e09a" kindref="member">evict</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>key)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a9a017fc1464d9eeba956622dbbed3fcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a9a017fc1464d9eeba956622dbbed3fcf" kindref="member">pruneHistory</ref>(int64_t<sp/>now_ms,<sp/>int64_t<sp/>max_age_ms)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1aff5acc86cb7cbf3101cae1fe2bae8d7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1aff5acc86cb7cbf3101cae1fe2bae8d7e" kindref="member">flushHistory</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>&amp;<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a972be70cb827d4cf910f66421f9ff530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a972be70cb827d4cf910f66421f9ff530" kindref="member">configure</ref>(const<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" kindref="compound">AdaptiveTTLPolicyConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a398621a8c52ae3314abdba7e3deae186" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/><ref refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" kindref="compound">AdaptiveTTLPolicyConfig</ref><sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1a398621a8c52ae3314abdba7e3deae186" kindref="member">getConfig</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1ae494f160d8a285ad70946a03ed6b9c85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>virtual<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_i_adaptive_t_t_l_policy_1ae494f160d8a285ad70946a03ed6b9c85" kindref="member">trackedKeyCount</ref>()<sp/>const<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/adaptive_ttl_policy.h"/>
+  </compounddef>
+</doxygen>

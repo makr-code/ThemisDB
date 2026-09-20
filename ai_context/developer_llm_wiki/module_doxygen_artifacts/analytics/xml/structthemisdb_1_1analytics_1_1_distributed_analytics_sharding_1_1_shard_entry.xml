@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1acc55273d34e87cc0907d5f7a82d2bf66" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="348" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1a8bff788d861fd55bd589510fd7319921" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" kindref="compound">ShardQueryExecutor</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardQueryExecutor&gt; themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::executor</definition>
+        <argsstring></argsstring>
+        <name>executor</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::executor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="349" column="25" bodyfile="include/analytics/distributed_analytics.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1acedfad8b7bf90f3a8d5ff157589a5723" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::allowed_tenant_id</definition>
+        <argsstring></argsstring>
+        <name>allowed_tenant_id</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::allowed_tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="350" column="21" bodyfile="include/analytics/distributed_analytics.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1a48d815de24ff7a1683490cbe02cbe234" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::cached_healthy</definition>
+        <argsstring></argsstring>
+        <name>cached_healthy</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::cached_healthy</qualifiedname>
+        <initializer>                           =
+std::make_shared&lt;std::atomic&lt;bool&gt;&gt;(true)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="351" column="25" bodyfile="include/analytics/distributed_analytics.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1aea49b6eec701082f42115115203aa942" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::mutex &gt;</type>
+        <definition>std::shared_ptr&lt;std::mutex&gt; themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::circuit_breaker_mutex</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_mutex</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::circuit_breaker_mutex</qualifiedname>
+        <initializer>= std::make_shared&lt;std::mutex&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="354" column="25" bodyfile="include/analytics/distributed_analytics.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1ae4c3513cfe1247eea3186b89d433a4a3" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info" kindref="compound">CircuitBreakerInfo</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;CircuitBreakerInfo&gt; themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::circuit_breaker_info</definition>
+        <argsstring></argsstring>
+        <name>circuit_breaker_info</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::circuit_breaker_info</qualifiedname>
+        <initializer>= std::make_shared&lt;<ref refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_circuit_breaker_info" kindref="compound">CircuitBreakerInfo</ref>&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="355" column="25" bodyfile="include/analytics/distributed_analytics.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1a16a8ef04a6169ddab4e018d1a70e8938" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::queue&lt; std::function&lt; void()&gt; &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::queue&lt;std::function&lt;void()&gt; &gt; &gt; themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::request_queue</definition>
+        <argsstring></argsstring>
+        <name>request_queue</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::request_queue</qualifiedname>
+        <initializer>= std::make_shared&lt;std::queue&lt;std::function&lt;void()&gt;&gt;&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="356" column="25" bodyfile="include/analytics/distributed_analytics.h" bodystart="356" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1afdd437d952752f603aa194ff5a9fae1b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::mutex &gt;</type>
+        <definition>std::shared_ptr&lt;std::mutex&gt; themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::queue_mutex</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::queue_mutex</qualifiedname>
+        <initializer>= std::make_shared&lt;std::mutex&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="357" column="25" bodyfile="include/analytics/distributed_analytics.h" bodystart="357" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1a568caed224a6a5654a3f30e037a9bd70" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::condition_variable &gt;</type>
+        <definition>std::shared_ptr&lt;std::condition_variable&gt; themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::queue_cv</definition>
+        <argsstring></argsstring>
+        <name>queue_cv</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::queue_cv</qualifiedname>
+        <initializer>= std::make_shared&lt;std::condition_variable&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="358" column="25" bodyfile="include/analytics/distributed_analytics.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1ab833e95de7e4b81b6a47251f39a552f2" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::atomic&lt; uint32_t &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::atomic&lt;uint32_t&gt; &gt; themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::in_flight_requests</definition>
+        <argsstring></argsstring>
+        <name>in_flight_requests</name>
+        <qualifiedname>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry::in_flight_requests</qualifiedname>
+        <initializer>= std::make_shared&lt;std::atomic&lt;uint32_t&gt;&gt;(0)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/distributed_analytics.h" line="359" column="25" bodyfile="include/analytics/distributed_analytics.h" bodystart="359" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/distributed_analytics.h" line="347" column="5" bodyfile="include/analytics/distributed_analytics.h" bodystart="347" bodyend="360"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1acedfad8b7bf90f3a8d5ff157589a5723" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>allowed_tenant_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1a48d815de24ff7a1683490cbe02cbe234" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>cached_healthy</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1ae4c3513cfe1247eea3186b89d433a4a3" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>circuit_breaker_info</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1aea49b6eec701082f42115115203aa942" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>circuit_breaker_mutex</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1a8bff788d861fd55bd589510fd7319921" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>executor</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1ab833e95de7e4b81b6a47251f39a552f2" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>in_flight_requests</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1a568caed224a6a5654a3f30e037a9bd70" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>queue_cv</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1afdd437d952752f603aa194ff5a9fae1b" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>queue_mutex</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1a16a8ef04a6169ddab4e018d1a70e8938" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>request_queue</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_distributed_analytics_sharding_1_1_shard_entry_1acc55273d34e87cc0907d5f7a82d2bf66" prot="public" virt="non-virtual"><scope>themisdb::analytics::DistributedAnalyticsSharding::ShardEntry</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

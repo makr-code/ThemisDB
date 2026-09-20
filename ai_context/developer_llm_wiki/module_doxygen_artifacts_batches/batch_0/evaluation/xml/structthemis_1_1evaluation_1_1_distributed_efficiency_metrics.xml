@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::DistributedEfficiencyMetrics</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a357f3c60b968059db1843c530534b648" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::DistributedEfficiencyMetrics::shard_fan_out</definition>
+        <argsstring></argsstring>
+        <name>shard_fan_out</name>
+        <qualifiedname>themis::evaluation::DistributedEfficiencyMetrics::shard_fan_out</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Average number of shards contacted per query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="188" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a74b99aca8e6c22a5f1f2f574825de7b1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::DistributedEfficiencyMetrics::bytes_per_query</definition>
+        <argsstring></argsstring>
+        <name>bytes_per_query</name>
+        <qualifiedname>themis::evaluation::DistributedEfficiencyMetrics::bytes_per_query</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Average bytes transferred across shards per query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="189" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1af4914ec77e5f391b857734d50ace09f5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::DistributedEfficiencyMetrics::summary_first_selectivity</definition>
+        <argsstring></argsstring>
+        <name>summary_first_selectivity</name>
+        <qualifiedname>themis::evaluation::DistributedEfficiencyMetrics::summary_first_selectivity</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of shards skipped by summary-first routing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="190" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="190" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a719b3261f6c478008cee1b0796fdc19f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::DistributedEfficiencyMetrics::selective_exact_load</definition>
+        <argsstring></argsstring>
+        <name>selective_exact_load</name>
+        <qualifiedname>themis::evaluation::DistributedEfficiencyMetrics::selective_exact_load</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Fraction of exact loads triggered by selective fallback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="191" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1abed9e170d33d9a15d18c302282413cfa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::evaluation::DistributedEfficiencyMetrics::total_queries</definition>
+        <argsstring></argsstring>
+        <name>total_queries</name>
+        <qualifiedname>themis::evaluation::DistributedEfficiencyMetrics::total_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total queries evaluated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="192" column="14" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="187" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="187" bodyend="193"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a74b99aca8e6c22a5f1f2f574825de7b1" prot="public" virt="non-virtual"><scope>themis::evaluation::DistributedEfficiencyMetrics</scope><name>bytes_per_query</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a719b3261f6c478008cee1b0796fdc19f" prot="public" virt="non-virtual"><scope>themis::evaluation::DistributedEfficiencyMetrics</scope><name>selective_exact_load</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1a357f3c60b968059db1843c530534b648" prot="public" virt="non-virtual"><scope>themis::evaluation::DistributedEfficiencyMetrics</scope><name>shard_fan_out</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1af4914ec77e5f391b857734d50ace09f5" prot="public" virt="non-virtual"><scope>themis::evaluation::DistributedEfficiencyMetrics</scope><name>summary_first_selectivity</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics_1abed9e170d33d9a15d18c302282413cfa" prot="public" virt="non-virtual"><scope>themis::evaluation::DistributedEfficiencyMetrics</scope><name>total_queries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

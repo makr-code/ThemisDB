@@ -1,0 +1,392 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_vector_clock" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::VectorClock</compoundname>
+    <includes refid="multi__master__replication_8h" local="no">multi_master_replication.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_vector_clock_1aa9c6441a1636e48b00114b1340f457bc" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themisdb::replication::VectorClock::clocks_</definition>
+        <argsstring></argsstring>
+        <name>clocks_</name>
+        <qualifiedname>themisdb::replication::VectorClock::clocks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="121" column="14" bodyfile="include/replication/multi_master_replication.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_vector_clock_1a2176cda34c5029284176d5d3369b7113" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::VectorClock::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::replication::VectorClock::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="122" column="31" bodyfile="include/replication/multi_master_replication.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::VectorClock::VectorClock</definition>
+        <argsstring>()=default</argsstring>
+        <name>VectorClock</name>
+        <qualifiedname>themisdb::replication::VectorClock::VectorClock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="86" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1a8f1b6077ce7445b0d8a83e5b42e36d13" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::VectorClock::VectorClock</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>VectorClock</name>
+        <qualifiedname>themisdb::replication::VectorClock::VectorClock</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="87" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="2753" bodyend="2755"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1a929365e979c522e10aaa228981fc4df5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::VectorClock::VectorClock</definition>
+        <argsstring>(const VectorClock &amp;other)</argsstring>
+        <name>VectorClock</name>
+        <qualifiedname>themisdb::replication::VectorClock::VectorClock</qualifiedname>
+        <param>
+          <type>const VectorClock &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="90" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="2757" bodyend="2761"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1ab639ee50627b45d25a3735bb7634351c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::VectorClock::VectorClock</definition>
+        <argsstring>(VectorClock &amp;&amp;other) noexcept</argsstring>
+        <name>VectorClock</name>
+        <qualifiedname>themisdb::replication::VectorClock::VectorClock</qualifiedname>
+        <param>
+          <type>VectorClock &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="91" column="5" bodyfile="src/replication/replication_manager.cpp" bodystart="2763" bodyend="2766"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1a4a04c0f3713071294987f4bd5cbe0307" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref> &amp;</type>
+        <definition>VectorClock &amp; themisdb::replication::VectorClock::operator=</definition>
+        <argsstring>(const VectorClock &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::VectorClock::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Wlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="92" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="2768" bodyend="2780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1a7c624375b852400dec10d0323582f8da" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref> &amp;</type>
+        <definition>VectorClock &amp; themisdb::replication::VectorClock::operator=</definition>
+        <argsstring>(VectorClock &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::replication::VectorClock::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Wlock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="93" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="2782" bodyend="2794"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1aa55057dcf4362f4c1af09bcd840be559" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::VectorClock::increment</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>increment</name>
+        <qualifiedname>themisdb::replication::VectorClock::increment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Increment. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="96" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2801" bodyend="2804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1a31a5759a8639899987e1e5277e0544ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::VectorClock::merge</definition>
+        <argsstring>(const VectorClock &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themisdb::replication::VectorClock::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk_lo(), lk_hi(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="99" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2811" bodyend="2829"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1a73de5e24708ec5289509f6561d9fa52f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::VectorClock::get</definition>
+        <argsstring>(const std::string &amp;node_id) const</argsstring>
+        <name>get</name>
+        <qualifiedname>themisdb::replication::VectorClock::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="102" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="2831" bodyend="2840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1ae476f404193054c8a1215ef524c19f96" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themisdb::replication::VectorClock::compare</definition>
+        <argsstring>(const VectorClock &amp;other) const</argsstring>
+        <name>compare</name>
+        <qualifiedname>themisdb::replication::VectorClock::compare</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="106" column="9" bodyfile="src/replication/replication_manager.cpp" bodystart="2842" bodyend="2877"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1aafbed3404346556f4a02ac854645e5dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::VectorClock::happensBefore</definition>
+        <argsstring>(const VectorClock &amp;other) const</argsstring>
+        <name>happensBefore</name>
+        <qualifiedname>themisdb::replication::VectorClock::happensBefore</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="109" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2879" bodyend="2881"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1a22f465a3d4cf06cdc49659cf8b0f991c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::VectorClock::isConcurrent</definition>
+        <argsstring>(const VectorClock &amp;other) const</argsstring>
+        <name>isConcurrent</name>
+        <qualifiedname>themisdb::replication::VectorClock::isConcurrent</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="112" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="2883" bodyend="2885"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1a0a8430598abdf90563d2c6e5c9ce7f60" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::VectorClock::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::replication::VectorClock::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="115" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="2887" bodyend="2906"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_vector_clock_1adf519fc8da73cc0f5f8ece126e8de7ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" kindref="member">VectorClock</ref></type>
+        <definition>VectorClock themisdb::replication::VectorClock::fromJson</definition>
+        <argsstring>(const std::string &amp;json)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themisdb::replication::VectorClock::fromJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), find(), substr(), std::isdigit(), std::stoull(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="118" column="24" bodyfile="src/replication/replication_manager.cpp" bodystart="2914" bodyend="2969"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Vector Clock for causality tracking Maps node_id -&gt; logical timestamp </para>
+    </detaileddescription>
+    <location file="include/replication/multi_master_replication.h" line="84" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="84" bodyend="123"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1aa9c6441a1636e48b00114b1340f457bc" prot="private" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>clocks_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1ae476f404193054c8a1215ef524c19f96" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>compare</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1adf519fc8da73cc0f5f8ece126e8de7ef" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>fromJson</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a73de5e24708ec5289509f6561d9fa52f" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>get</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1aafbed3404346556f4a02ac854645e5dd" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>happensBefore</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1aa55057dcf4362f4c1af09bcd840be559" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>increment</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a22f465a3d4cf06cdc49659cf8b0f991c" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>isConcurrent</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a31a5759a8639899987e1e5277e0544ca" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>merge</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a2176cda34c5029284176d5d3369b7113" prot="private" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a4a04c0f3713071294987f4bd5cbe0307" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a7c624375b852400dec10d0323582f8da" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a0a8430598abdf90563d2c6e5c9ce7f60" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>toJson</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1ac0525465f6904df1307304cdf3877573" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>VectorClock</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a8f1b6077ce7445b0d8a83e5b42e36d13" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>VectorClock</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1a929365e979c522e10aaa228981fc4df5" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>VectorClock</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_vector_clock_1ab639ee50627b45d25a3735bb7634351c" prot="public" virt="non-virtual"><scope>themisdb::replication::VectorClock</scope><name>VectorClock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1audio_1_1_language_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::audio::LanguageDetectionResult</compoundname>
+    <includes refid="audio__backend__interface_8h" local="no">audio_backend_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1audio_1_1_language_detection_result_1a99cc7d64c19a5cb894f8db10cbf9cca1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::audio::LanguageDetectionResult::language</definition>
+        <argsstring></argsstring>
+        <name>language</name>
+        <qualifiedname>themis::audio::LanguageDetectionResult::language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="73" column="17" bodyfile="include/plugins/audio_backend_interface.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1audio_1_1_language_detection_result_1a93de00775ef8ec55d069cffce323173a" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::audio::LanguageDetectionResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::audio::LanguageDetectionResult::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="74" column="17" bodyfile="include/plugins/audio_backend_interface.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a language-detection operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/audio_backend_interface.h" line="72" column="1" bodyfile="include/plugins/audio_backend_interface.h" bodystart="72" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1audio_1_1_language_detection_result_1a93de00775ef8ec55d069cffce323173a" prot="public" virt="non-virtual"><scope>themis::audio::LanguageDetectionResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1audio_1_1_language_detection_result_1a99cc7d64c19a5cb894f8db10cbf9cca1" prot="public" virt="non-virtual"><scope>themis::audio::LanguageDetectionResult</scope><name>language</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

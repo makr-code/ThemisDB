@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_shard_rpc_retry_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardRpcRetryPolicy</compoundname>
+    <includes refid="shard__rpc__client_8h" local="no">shard_rpc_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a8a1c3e46f2ba41fb5fb1032b4145b58b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::ShardRpcRetryPolicy::max_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_attempts</name>
+        <qualifiedname>themis::sharding::ShardRpcRetryPolicy::max_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum total attempts (1 + retries). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="64" column="9" bodyfile="include/sharding/shard_rpc_client.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a82ab37921755ebe4554b11cda5d05ba0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::ShardRpcRetryPolicy::initial_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>initial_backoff_ms</name>
+        <qualifiedname>themis::sharding::ShardRpcRetryPolicy::initial_backoff_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Initial delay before first retry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="65" column="9" bodyfile="include/sharding/shard_rpc_client.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a532105b999a84969ac65b843c3d28a54" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::ShardRpcRetryPolicy::max_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>max_backoff_ms</name>
+        <qualifiedname>themis::sharding::ShardRpcRetryPolicy::max_backoff_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Upper cap for exponential back-off. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="66" column="9" bodyfile="include/sharding/shard_rpc_client.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a08a218a6ef908b984d0017507b1def8c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ShardRpcRetryPolicy::use_circuit_breaker</definition>
+        <argsstring></argsstring>
+        <name>use_circuit_breaker</name>
+        <qualifiedname>themis::sharding::ShardRpcRetryPolicy::use_circuit_breaker</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Gate retries through the circuit breaker. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_rpc_client.h" line="67" column="10" bodyfile="include/sharding/shard_rpc_client.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Retry policy for cross-shard RPC calls. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Classifies gRPC status codes into retryable and non-retryable categories and integrates with the <ref refid="classthemis_1_1sharding_1_1_circuit_breaker" kindref="compound">CircuitBreaker</ref> to prevent retry storms.</para>
+<para>Retryable status codes: UNAVAILABLE, DEADLINE_EXCEEDED, RESOURCE_EXHAUSTED, ABORTED, INTERNAL</para>
+<para>Non-retryable status codes (raise <ref refid="classthemis_1_1sharding_1_1_non_retryable_rpc_error" kindref="compound">NonRetryableRpcError</ref> immediately): INVALID_ARGUMENT, NOT_FOUND, ALREADY_EXISTS, PERMISSION_DENIED, UNAUTHENTICATED, FAILED_PRECONDITION, OUT_OF_RANGE, UNIMPLEMENTED </para>
+    </detaileddescription>
+    <location file="include/sharding/shard_rpc_client.h" line="63" column="1" bodyfile="include/sharding/shard_rpc_client.h" bodystart="63" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a82ab37921755ebe4554b11cda5d05ba0" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRpcRetryPolicy</scope><name>initial_backoff_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a8a1c3e46f2ba41fb5fb1032b4145b58b" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRpcRetryPolicy</scope><name>max_attempts</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a532105b999a84969ac65b843c3d28a54" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRpcRetryPolicy</scope><name>max_backoff_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_shard_rpc_retry_policy_1a08a218a6ef908b984d0017507b1def8c" prot="public" virt="non-virtual"><scope>themis::sharding::ShardRpcRetryPolicy</scope><name>use_circuit_breaker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

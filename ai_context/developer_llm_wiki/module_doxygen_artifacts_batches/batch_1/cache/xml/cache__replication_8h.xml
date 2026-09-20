@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="cache__replication_8h" kind="file" language="C++">
+    <compoundname>cache_replication.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="adaptive__query__cache_8h" local="yes">include/cache/adaptive_query_cache.h</includedby>
+    <includedby refid="adaptive__query__cache_8cpp" local="yes">src/cache/adaptive_query_cache.cpp</includedby>
+    <includedby refid="cache__replication_8cpp" local="yes">src/cache/cache_replication.cpp</includedby>
+    <includedby refid="test__cache__replication_8cpp" local="yes">tests/cache/test_cache_replication.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/cache/cache_replication.h</label>
+        <link refid="cache__replication_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/cache/adaptive_query_cache.h</label>
+        <link refid="adaptive__query__cache_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cache/cache_replication.h</label>
+        <link refid="cache__replication_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/cache/adaptive_query_cache.cpp</label>
+        <link refid="adaptive__query__cache_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/cache/cache_replication.cpp</label>
+        <link refid="cache__replication_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/cache/warmup.cpp</label>
+        <link refid="warmup_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/cache/test_cache_admin_api_handler.cpp</label>
+        <link refid="test__cache__admin__api__handler_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/cache/test_cache_contract_hardening.cpp</label>
+        <link refid="test__cache__contract__hardening_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/cache/test_cache_replication.cpp</label>
+        <link refid="test__cache__replication_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/cache/test_cache_tenant_isolation_hardening.cpp</label>
+        <link refid="test__cache__tenant__isolation__hardening_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/cache/test_cache_warmup.cpp</label>
+        <link refid="test__cache__warmup_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/cache/test_phase4_cache_hardening.cpp</label>
+        <link refid="test__phase4__cache__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replication_event" prot="public">themis::cache::CacheReplicationEvent</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_i_cache_replication_listener" prot="public">themis::cache::ICacheReplicationListener</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replica_state" prot="public">themis::cache::CacheReplicaState</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replication_config" prot="public">themis::cache::CacheReplicationConfig</innerclass>
+    <innerclass refid="structthemis_1_1cache_1_1_cache_replication_stats" prot="public">themis::cache::CacheReplicationStats</innerclass>
+    <innerclass refid="classthemis_1_1cache_1_1_cache_replication_manager" prot="public">themis::cache::CacheReplicationManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cache">themis::cache</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheReplicationEvent<sp/>–<sp/>payload<sp/>for<sp/>a<sp/>single<sp/>replication<sp/>message</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acd" kindref="member">CacheReplicationEventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acdad4b9e47f65b6e79b010582f15785867e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acdad4b9e47f65b6e79b010582f15785867e" kindref="member">WRITE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acdac7ba4bde5fe21a5ad38e8ddb71e2ae2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acdac7ba4bde5fe21a5ad38e8ddb71e2ae2a" kindref="member">INVALIDATE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acda099eea076c7110a8bd0f0758e7e615e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acda099eea076c7110a8bd0f0758e7e615e7" kindref="member">INVALIDATE_TENANT</ref>,<sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acda46b8744c6bc840d2cb241fa165f3e204" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acda46b8744c6bc840d2cb241fa165f3e204" kindref="member">SNAPSHOT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1cache_1_1_cache_replication_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1cache_1_1_cache_replication_event_1ab88fa6ad44a7a736dac3bb4c32c3253b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acd" kindref="member">CacheReplicationEventType</ref><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event_1ab88fa6ad44a7a736dac3bb4c32c3253b" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acdad4b9e47f65b6e79b010582f15785867e" kindref="member">CacheReplicationEventType::WRITE</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1cache_1_1_cache_replication_event_1aca5c6d47887796749f198fcc3bf9fa44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event_1aca5c6d47887796749f198fcc3bf9fa44" kindref="member">key</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1cache_1_1_cache_replication_event_1aada82c977d8d40b15cb368e15a935052" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event_1aada82c977d8d40b15cb368e15a935052" kindref="member">pattern</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1cache_1_1_cache_replication_event_1af2ff29f87ebca71ce14c21326c173e9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event_1af2ff29f87ebca71ce14c21326c173e9c" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1cache_1_1_cache_replication_event_1a242e8b72096515dd44e4fea8dcecc1f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event_1a242e8b72096515dd44e4fea8dcecc1f4" kindref="member">payload</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1cache_1_1_cache_replication_event_1afe52284abc182bd335e2ef39135f6697" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event_1afe52284abc182bd335e2ef39135f6697" kindref="member">ttl_seconds</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1cache_1_1_cache_replication_event_1a21b519991d9d1a1dec1fe05da2dd3214" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event_1a21b519991d9d1a1dec1fe05da2dd3214" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1cache_1_1_cache_replication_event_1ad0d8f7de5b0adfef1e71560d9dc22aba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event_1ad0d8f7de5b0adfef1e71560d9dc22aba" kindref="member">sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ICacheReplicationListener<sp/>–<sp/>implement<sp/>this<sp/>to<sp/>receive<sp/>events</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1cache_1_1_i_cache_replication_listener" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_i_cache_replication_listener" kindref="compound">ICacheReplicationListener</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1abb06224526a928d2c57b076bbc90d19e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1abb06224526a928d2c57b076bbc90d19e" kindref="member">~ICacheReplicationListener</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a44503ca56ac98a7b91a5104cf0e19bca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a44503ca56ac98a7b91a5104cf0e19bca" kindref="member">onReplicationEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref>&amp;<sp/>event)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a3e23ee2bcc13b88166fee02b99804766" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1a3e23ee2bcc13b88166fee02b99804766" kindref="member">ping</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1af3b04a5644cfb5e525e02570daba78da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1cache_1_1_i_cache_replication_listener_1af3b04a5644cfb5e525e02570daba78da" kindref="member">replicaId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheReplicaState<sp/>–<sp/>runtime<sp/>health<sp/>of<sp/>a<sp/>single<sp/>replica</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0" kindref="member">CacheReplicaHealth</ref><sp/>{</highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0af068ebe4133e3e6563080836268ea979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0af068ebe4133e3e6563080836268ea979" kindref="member">HEALTHY</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0a0021017005f0e5134b204c2e69d3d4ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0a0021017005f0e5134b204c2e69d3d4ed" kindref="member">DEGRADED</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0a7438a7e4e4f36f04fda32fa100121e47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0a7438a7e4e4f36f04fda32fa100121e47" kindref="member">UNHEALTHY</ref>,<sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1cache_1_1_cache_replica_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_replica_state" kindref="compound">CacheReplicaState</ref><sp/>{</highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1cache_1_1_cache_replica_state_1ac6fe4c4216589f184d70227f11e3d42c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ICacheReplicationListener&gt;<sp/><ref refid="structthemis_1_1cache_1_1_cache_replica_state_1ac6fe4c4216589f184d70227f11e3d42c" kindref="member">listener</ref>;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1cache_1_1_cache_replica_state_1a02b77c61785c68fc4fc6c7359f5ba912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0" kindref="member">CacheReplicaHealth</ref><sp/><ref refid="structthemis_1_1cache_1_1_cache_replica_state_1a02b77c61785c68fc4fc6c7359f5ba912" kindref="member">health</ref><sp/>=<sp/><ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0af068ebe4133e3e6563080836268ea979" kindref="member">CacheReplicaHealth::HEALTHY</ref>;</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1cache_1_1_cache_replica_state_1a9c4ac5b0ff5e94babcbee9a29aeb7c8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_replica_state_1a9c4ac5b0ff5e94babcbee9a29aeb7c8d" kindref="member">consecutive_failures</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1cache_1_1_cache_replica_state_1a45043c3fb5b6ea8c065ffdf6dbb2d113" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1cache_1_1_cache_replica_state_1a45043c3fb5b6ea8c065ffdf6dbb2d113" kindref="member">last_success</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1cache_1_1_cache_replica_state_1a9e0d84abc809729bb369bbfba0664988" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1cache_1_1_cache_replica_state_1a9e0d84abc809729bb369bbfba0664988" kindref="member">last_failure</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1cache_1_1_cache_replica_state_1a4fe56c6ff180a269a700475a98162249" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_replica_state_1a4fe56c6ff180a269a700475a98162249" kindref="member">events_sent</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1cache_1_1_cache_replica_state_1a87362bf89cfe935ed0c548cb5d7f0127" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_replica_state_1a87362bf89cfe935ed0c548cb5d7f0127" kindref="member">events_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheReplicationConfig</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1cache_1_1_cache_replication_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_replication_config" kindref="compound">CacheReplicationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1cache_1_1_cache_replication_config_1aea717a8ce82da89f3b7569c679680198" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_config_1aea717a8ce82da89f3b7569c679680198" kindref="member">max_consecutive_failures</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1cache_1_1_cache_replication_config_1a7972ad2d103209497634b42e08641f1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_config_1a7972ad2d103209497634b42e08641f1d" kindref="member">health_probe_interval_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1cache_1_1_cache_replication_config_1af21b9fde7572b77931801e9091a9bb11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_config_1af21b9fde7572b77931801e9091a9bb11" kindref="member">semi_sync</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1cache_1_1_cache_replication_config_1a34b96180aca10d9423d9e211794b8c52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_config_1a34b96180aca10d9423d9e211794b8c52" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheReplicationStats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1cache_1_1_cache_replication_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cache_1_1_cache_replication_stats" kindref="compound">CacheReplicationStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1cache_1_1_cache_replication_stats_1ab8e4ad8dfd0d36d8ae23aecd304782fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1ab8e4ad8dfd0d36d8ae23aecd304782fa" kindref="member">events_dispatched</ref>{0};</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1cache_1_1_cache_replication_stats_1a1091c322858733a0391795b35f8a0654" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1a1091c322858733a0391795b35f8a0654" kindref="member">events_failed</ref>{0};</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1cache_1_1_cache_replication_stats_1adccf9ef67a1de46cbd00db431c21ad21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1adccf9ef67a1de46cbd00db431c21ad21" kindref="member">replicas_unhealthy</ref>{0};</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1cache_1_1_cache_replication_stats_1a35a64d24b513cbab9046bae0e5e63668" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1a35a64d24b513cbab9046bae0e5e63668" kindref="member">snapshots_sent</ref>{0};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1cache_1_1_cache_replication_stats_1aa0c1f5961a37314a341a40742aba67f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1aa0c1f5961a37314a341a40742aba67f5" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_dispatched&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1ab8e4ad8dfd0d36d8ae23aecd304782fa" kindref="member">events_dispatched</ref>.load()},</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_failed&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1a1091c322858733a0391795b35f8a0654" kindref="member">events_failed</ref>.load()},</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;replicas_unhealthy&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1adccf9ef67a1de46cbd00db431c21ad21" kindref="member">replicas_unhealthy</ref>.load()},</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;snapshots_sent&quot;</highlight><highlight class="normal">,<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats_1a35a64d24b513cbab9046bae0e5e63668" kindref="member">snapshots_sent</ref>.load()},</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CacheReplicationManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1cache_1_1_cache_replication_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" kindref="member">CacheReplicationManager</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_i_cache_replication_listener" kindref="compound">ICacheReplicationListener</ref><sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" kindref="member">CacheReplicationManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_config" kindref="compound">CacheReplicationConfig</ref>&amp;<sp/>config<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1cache_1_1_cache_replication_manager_1afda3000bc7c3a07ad81d20c238f6d778" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1afda3000bc7c3a07ad81d20c238f6d778" kindref="member">~CacheReplicationManager</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156" refid="classthemis_1_1cache_1_1_cache_replication_manager_1a3cea3fd094aca6636c5d6c0811f29738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a3cea3fd094aca6636c5d6c0811f29738" kindref="member">CacheReplicationManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" kindref="member">CacheReplicationManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157" refid="classthemis_1_1cache_1_1_cache_replication_manager_1a7d6d4bd9ee4239fb6d1bfd10baeec0b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" kindref="member">CacheReplicationManager</ref>&amp;<sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a7d6d4bd9ee4239fb6d1bfd10baeec0b8" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1acfc3d7dc3dd792ca7bc2cdc0ce72fdaf" kindref="member">CacheReplicationManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replica<sp/>registration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1ade5dc96d3b7d02d732ed286910c8ade0" kindref="member">addReplica</ref>(std::shared_ptr&lt;ICacheReplicationListener&gt;<sp/>listener,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>snapshot_ndjson<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a8cc884b544cbc338b612ea5b353f6409" kindref="member">removeReplica</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>replica_id);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1aa42d85b81a920b17ab609a7f3c169a2b" kindref="member">replicaCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a68562c1b43aeb8fb99434aa80dfca9ea" kindref="member">probeUnhealthyReplicas</ref>();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ICacheReplicationListener<sp/>implementation<sp/>(used<sp/>when<sp/>this<sp/>manager<sp/>itself</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is<sp/>nested<sp/>inside<sp/>another<sp/>manager<sp/>or<sp/>used<sp/>as<sp/>a<sp/>listener)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a6c27fd1914b9af01eb109e1a62f395d4" kindref="member">onReplicationEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_event" kindref="compound">CacheReplicationEvent</ref>&amp;<sp/>event)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a4f31d208d3c35a7f9a327c74eef901c9" kindref="member">ping</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="190" refid="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1aafe350f6c2b4064d8d1c375c66717d7a" kindref="member">replicaId</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;CacheReplicationManager&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a11e535a241f08967c46372cbe417fb54" kindref="member">notifyWrite</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ttl_seconds);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a5869cc34297504f13faad2e8f710580a" kindref="member">notifyInvalidate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>pattern);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a872fa4c4240f9ec20df16329e51ce021" kindref="member">notifyInvalidateTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a3ebf7b9a12b222d4c5b53633f65a05dd" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1ae58740d8d1b829d27aed87649aa9b69e" kindref="member">getReplicaHealth</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233" refid="classthemis_1_1cache_1_1_cache_replication_manager_1a145c621d0b545985eed59fd99ef0a297" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats" kindref="compound">CacheReplicationStats</ref>&amp;<sp/><ref refid="classthemis_1_1cache_1_1_cache_replication_manager_1a145c621d0b545985eed59fd99ef0a297" kindref="member">stats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_config" kindref="compound">CacheReplicationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>replicas_mutex_;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;CacheReplicaState&gt;<sp/>replicas_;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cache_1_1_cache_replication_stats" kindref="compound">CacheReplicationStats</ref><sp/>stats_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint64_t&gt;<sp/>sequence_{0};</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>dispatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CacheReplicationEvent&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>CacheReplicationEvent<sp/>makeEvent(<ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acd" kindref="member">CacheReplicationEventType</ref><sp/>type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>healthToString(<ref refid="namespacethemis_1_1cache_1a770120419f0ada05d7395177b4cdf5e0" kindref="member">CacheReplicaHealth</ref><sp/>h);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cache/cache_replication.h"/>
+  </compounddef>
+</doxygen>

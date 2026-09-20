@@ -1,0 +1,627 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__vision__integration_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_vision_integration.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">sstream</includes>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes refid="vision__encoder_8h" local="yes">llm/vision_encoder.h</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>llm/vision_config.h</label>
+        <link refid="vision__config_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>llm/vision_encoder.h</label>
+        <link refid="vision__encoder_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>llm/vision_resource_monitor.h</label>
+        <link refid="vision__resource__monitor_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_vision_integration.cpp</label>
+        <link refid="test__llm__vision__integration_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>atomic</label>
+      </node>
+      <node id="20">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="23">
+        <label>queue</label>
+      </node>
+      <node id="21">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>sstream</label>
+      </node>
+      <node id="17">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="24">
+        <label>thread</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a8bb9654ae3255c4801cb33ae2d8283c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMCapabilitiesMultiModal, DefaultIsFalse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMCapabilitiesMultiModal</type>
+        </param>
+        <param>
+          <type>DefaultIsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="19" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="19" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1ad312586e3e65888ef4cd47eec8903c1c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMCapabilitiesMultiModal, CanBeSetTrue)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMCapabilitiesMultiModal</type>
+        </param>
+        <param>
+          <type>CanBeSetTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="24" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="24" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1ae3b5fb40436d5bc34c68d4eb67ed4b85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMCapabilitiesMultiModal, IndependentOfOtherFlags)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMCapabilitiesMultiModal</type>
+        </param>
+        <param>
+          <type>IndependentOfOtherFlags</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="30" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a131491f8e9c086d5d0d8095ae23b2a12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceRequestMultiModal, DefaultImagePathsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceRequestMultiModal</type>
+        </param>
+        <param>
+          <type>DefaultImagePathsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="43" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1aeff8bd955c34a7875db708da2f369920" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceRequestMultiModal, CanAttachSingleImage)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceRequestMultiModal</type>
+        </param>
+        <param>
+          <type>CanAttachSingleImage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="48" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a6268e40beec260fe2df432435380fbb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceRequestMultiModal, CanAttachMultipleImages)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceRequestMultiModal</type>
+        </param>
+        <param>
+          <type>CanAttachMultipleImages</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="57" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="57" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a0df2e47446264e0f394174cc7c0728a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceRequestMultiModal, ImagePathsAreIndependentOfPrompt)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceRequestMultiModal</type>
+        </param>
+        <param>
+          <type>ImagePathsAreIndependentOfPrompt</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="67" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="67" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a64d478b1b6c9c177b294a4fa3c3c5083" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(InferenceRequestMultiModal, TextOnlyRequestHasEmptyImagePaths)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>InferenceRequestMultiModal</type>
+        </param>
+        <param>
+          <type>TextOnlyRequestHasEmptyImagePaths</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="78" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="78" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a273ce34db2767ff9f1a8c85753db22c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MultiModalTypeTest, VisionRequestImagePathsMatchInferenceRequestImagePaths)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MultiModalTypeTest</type>
+        </param>
+        <param>
+          <type>VisionRequestImagePathsMatchInferenceRequestImagePaths</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="91" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="91" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a41bf28989930f0ea6c3d6882a1e437b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MultiModalTypeTest, GenerationParamsPropagate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MultiModalTypeTest</type>
+        </param>
+        <param>
+          <type>GenerationParamsPropagate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="108" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="108" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1abc97e69566aae776ab7cd4df494e664f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string makeCacheKeyInput</definition>
+        <argsstring>(const InferenceRequest &amp;r)</argsstring>
+        <name>makeCacheKeyInput</name>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="137" column="20" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="137" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1ad607c6876f6215c7730d1a9a441a954f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MultiModalCacheKeyTest, DifferentImagePathsProduceDifferentKeys)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MultiModalCacheKeyTest</type>
+        </param>
+        <param>
+          <type>DifferentImagePathsProduceDifferentKeys</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="146" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="146" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a4506b26571a71204c427b5b5b1f7c019" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MultiModalCacheKeyTest, SameImagePathsSameKey)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MultiModalCacheKeyTest</type>
+        </param>
+        <param>
+          <type>SameImagePathsSameKey</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="161" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="161" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__vision__integration_8cpp_1a481cc533390928f02b52f3d2f5c66f13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MultiModalCacheKeyTest, TextOnlyVsMultiModalDiffer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MultiModalCacheKeyTest</type>
+        </param>
+        <param>
+          <type>TextOnlyVsMultiModalDiffer</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_vision_integration.cpp" line="174" column="1" bodyfile="tests/llm/test_llm_vision_integration.cpp" bodystart="174" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for multi-modal <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref>, <ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref> (supports_multimodal), and integration of image_paths with the standard inference API. No model files required. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vision__encoder_8h" kindref="compound">llm/vision_encoder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LLMCapabilities<sp/>—<sp/>supports_multimodal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMCapabilitiesMultiModal,<sp/>DefaultIsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref><sp/>caps;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(caps.<ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad0e95745d356a2055362a52c6a5d3d1a" kindref="member">supports_multimodal</ref>);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMCapabilitiesMultiModal,<sp/>CanBeSetTrue)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref><sp/>caps;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad0e95745d356a2055362a52c6a5d3d1a" kindref="member">supports_multimodal</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(caps.<ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad0e95745d356a2055362a52c6a5d3d1a" kindref="member">supports_multimodal</ref>);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(LLMCapabilitiesMultiModal,<sp/>IndependentOfOtherFlags)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref><sp/>caps;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>caps.<ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ad0e95745d356a2055362a52c6a5d3d1a" kindref="member">supports_multimodal</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setting<sp/>multimodal<sp/>does<sp/>not<sp/>affect<sp/>other<sp/>capability<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(caps.<ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1ab98c38d5d92254d95bd2f4fa66daf15d" kindref="member">supports_lora</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(caps.<ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1a18c316e9061f3c99e4ec95b9e6f53c22" kindref="member">supports_streaming</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(caps.<ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities_1af7b9c64188282a5c38b49acd89816955" kindref="member">gpu_accelerated</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>InferenceRequest<sp/>—<sp/>image_paths<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(InferenceRequestMultiModal,<sp/>DefaultImagePathsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.empty());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(InferenceRequestMultiModal,<sp/>CanAttachSingleImage)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Describe<sp/>this<sp/>image.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.push_back(</highlight><highlight class="stringliteral">&quot;/path/to/image.jpg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>[0],<sp/></highlight><highlight class="stringliteral">&quot;/path/to/image.jpg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(InferenceRequestMultiModal,<sp/>CanAttachMultipleImages)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Compare<sp/>these<sp/>two<sp/>photos.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/img/before.jpg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/img/after.jpg&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>[0],<sp/></highlight><highlight class="stringliteral">&quot;/img/before.jpg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>[1],<sp/></highlight><highlight class="stringliteral">&quot;/img/after.jpg&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(InferenceRequestMultiModal,<sp/>ImagePathsAreIndependentOfPrompt)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>do<sp/>you<sp/>see?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/photo.png&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref>,<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>do<sp/>you<sp/>see?&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref>,<sp/>128);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.size(),<sp/>1u);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(InferenceRequestMultiModal,<sp/>TextOnlyRequestHasEmptyImagePaths)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Translate<sp/>this<sp/>text.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.clear();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.empty());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref>.empty());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>VisionRequest<sp/>/<sp/>InferenceRequest<sp/>type<sp/>compatibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MultiModalTypeTest,<sp/>VisionRequestImagePathsMatchInferenceRequestImagePaths)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>image_paths<sp/>from<sp/>InferenceRequest<sp/>can<sp/>populate<sp/>a<sp/>VisionRequest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>inf_req;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Describe<sp/>the<sp/>scene.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/scene1.jpg&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;/scene2.png&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_request" kindref="compound">VisionRequest</ref><sp/>vis_req;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" kindref="member">text_prompt</ref><sp/>=<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref><sp/>=<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" kindref="member">text_prompt</ref>,<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref>);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref>.size(),<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.size());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref>[i],<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>[i]);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MultiModalTypeTest,<sp/>GenerationParamsPropagate)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>inf_req;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>in<sp/>this<sp/>picture?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1acf11ee5fc926c90b9bd14f825e711034" kindref="member">temperature</ref><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a35955b00a87b285696f281bbfb4ee6b4" kindref="member">top_p</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.8f;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a4fa0e6d8fbcdabebf97b19d795689dfa" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/test.jpg&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_vision_request" kindref="compound">VisionRequest</ref><sp/>vis_req;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a4a2da77c4be87d8c76f587c4fb21e8f6" kindref="member">text_prompt</ref><sp/>=<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ad18d7b468569a3163aa374855cec61b1" kindref="member">image_paths</ref><sp/>=<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1afbded3ed7acd7adfba0894ad81b2a1b8" kindref="member">max_tokens</ref><sp/><sp/>=<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ac490bda383293fed3ca1081a412c5333" kindref="member">temperature</ref><sp/>=<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1acf11ee5fc926c90b9bd14f825e711034" kindref="member">temperature</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a20a0e8b8242256004e6fff13d28970b2" kindref="member">top_p</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a35955b00a87b285696f281bbfb4ee6b4" kindref="member">top_p</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a52b2603f0fcd0f643f51033bb9dfa855" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>inf_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a4fa0e6d8fbcdabebf97b19d795689dfa" kindref="member">top_k</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1afbded3ed7acd7adfba0894ad81b2a1b8" kindref="member">max_tokens</ref>,<sp/><sp/>256);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1ac490bda383293fed3ca1081a412c5333" kindref="member">temperature</ref>,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a20a0e8b8242256004e6fff13d28970b2" kindref="member">top_p</ref>,<sp/>0.8f);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(vis_req.<ref refid="structthemis_1_1llm_1_1_vision_request_1a52b2603f0fcd0f643f51033bb9dfa855" kindref="member">top_k</ref>,<sp/>30);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Cache<sp/>key<sp/>uniqueness<sp/>—<sp/>requests<sp/>with<sp/>different<sp/>images<sp/>must<sp/>not<sp/>share<sp/>a<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mirrors<sp/>InferenceEngineEnhanced::generateCacheKey()<sp/>input<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>(prompt<sp/>|<sp/>max_tokens<sp/>|<sp/>temperature<sp/>|<sp/>top_p<sp/>|<sp/>img:&lt;path&gt;…).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>makeCacheKeyInput(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref>&amp;<sp/>r)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/>r.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;|&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;|&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.<ref refid="structthemis_1_1llm_1_1_inference_request_1acf11ee5fc926c90b9bd14f825e711034" kindref="member">temperature</ref><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;|&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>r.<ref refid="structthemis_1_1llm_1_1_inference_request_1a35955b00a87b285696f281bbfb4ee6b4" kindref="member">top_p</ref>;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>p<sp/>:<sp/>r.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;|img:&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>p;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>oss.str();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MultiModalCacheKeyTest,<sp/>DifferentImagePathsProduceDifferentKeys)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>requests:<sp/>same<sp/>text,<sp/>different<sp/>images<sp/>→<sp/>different<sp/>cache<sp/>keys.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req_a;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Describe<sp/>the<sp/>image.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1acf11ee5fc926c90b9bd14f825e711034" kindref="member">temperature</ref><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1a35955b00a87b285696f281bbfb4ee6b4" kindref="member">top_p</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.9f;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/photo_a.jpg&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req_b<sp/>=<sp/>req_a;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>req_b.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/photo_b.jpg&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(makeCacheKeyInput(req_a),<sp/>makeCacheKeyInput(req_b));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MultiModalCacheKeyTest,<sp/>SameImagePathsSameKey)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req_a;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Describe<sp/>the<sp/>image.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1acf11ee5fc926c90b9bd14f825e711034" kindref="member">temperature</ref><sp/>=<sp/>0.7f;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1a35955b00a87b285696f281bbfb4ee6b4" kindref="member">top_p</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.9f;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>req_a.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/same.jpg&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>req_b<sp/>=<sp/>req_a;<sp/><sp/></highlight><highlight class="comment">//<sp/>Exact<sp/>copy<sp/>→<sp/>same<sp/>key.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(makeCacheKeyInput(req_a),<sp/>makeCacheKeyInput(req_b));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MultiModalCacheKeyTest,<sp/>TextOnlyVsMultiModalDiffer)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>text_req;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>text_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;What<sp/>is<sp/>2+2?&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>text_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>text_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1acf11ee5fc926c90b9bd14f825e711034" kindref="member">temperature</ref><sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>text_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1a35955b00a87b285696f281bbfb4ee6b4" kindref="member">top_p</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.9f;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>mm_req<sp/>=<sp/>text_req;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>mm_req.<ref refid="structthemis_1_1llm_1_1_inference_request_1ac1c60eba0a487131d9e6a1f4af704c4b" kindref="member">image_paths</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;/diagram.png&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(makeCacheKeyInput(text_req),<sp/>makeCacheKeyInput(mm_req));</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_vision_integration.cpp"/>
+  </compounddef>
+</doxygen>

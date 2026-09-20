@@ -1,0 +1,717 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ForecastModel::Impl</compoundname>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key" prot="public">themisdb::analytics::ForecastModel::Impl::FitCacheKey</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key_hash" prot="public">themisdb::analytics::ForecastModel::Impl::FitCacheKeyHash</innerclass>
+    <innerclass refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_entry" prot="public">themisdb::analytics::ForecastModel::Impl::FitCacheEntry</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a2de9b14e61150898927704ae4998ce59" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::ForecastModel::Impl::access_mutex</definition>
+        <argsstring></argsstring>
+        <name>access_mutex</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::access_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1587" column="24" bodyfile="src/analytics/forecasting.cpp" bodystart="1587" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a915ab5ed9db4ff31038c16a22953048a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a7d96b079437884473850b0045813fb86" kindref="member">ForecastMethod</ref></type>
+        <definition>ForecastMethod themisdb::analytics::ForecastModel::Impl::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::method</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1588" column="20" bodyfile="src/analytics/forecasting.cpp" bodystart="1588" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1acb93b3c7a7552a1bd82874ed28f9c36a" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref></type>
+        <definition>ForecastConfig themisdb::analytics::ForecastModel::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1589" column="20" bodyfile="src/analytics/forecasting.cpp" bodystart="1589" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a6657c5c088341243ba1788f4fb06b8b2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ForecastModel::Impl::fitted</definition>
+        <argsstring></argsstring>
+        <name>fitted</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::fitted</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1590" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1590" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a84c41ae72013cc5fe2776fc2f8eb8a06" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::analytics::ForecastModel::Impl::train_y</definition>
+        <argsstring></argsstring>
+        <name>train_y</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::train_y</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1593" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1593" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a155cfa1f66726e4f47f89f7f17d64085" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt;int64_t&gt; themisdb::analytics::ForecastModel::Impl::train_ts</definition>
+        <argsstring></argsstring>
+        <name>train_ts</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::train_ts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1594" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1594" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a343ec437e938514fd9062806bfe27009" prot="public" static="no" mutable="no">
+        <type>LinearParams</type>
+        <definition>LinearParams themisdb::analytics::ForecastModel::Impl::linear_p</definition>
+        <argsstring></argsstring>
+        <name>linear_p</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::linear_p</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1597" column="18" bodyfile="src/analytics/forecasting.cpp" bodystart="1597" bodyend="1597"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a0db89da454da5249043fd60374158bf7" prot="public" static="no" mutable="no">
+        <type>SESParams</type>
+        <definition>SESParams themisdb::analytics::ForecastModel::Impl::ses_p</definition>
+        <argsstring></argsstring>
+        <name>ses_p</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::ses_p</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1598" column="15" bodyfile="src/analytics/forecasting.cpp" bodystart="1598" bodyend="1598"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1abad5f777d4c30d1856c3176eedaea969" prot="public" static="no" mutable="no">
+        <type>HoltWintersParams</type>
+        <definition>HoltWintersParams themisdb::analytics::ForecastModel::Impl::hw_p</definition>
+        <argsstring></argsstring>
+        <name>hw_p</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::hw_p</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1599" column="23" bodyfile="src/analytics/forecasting.cpp" bodystart="1599" bodyend="1599"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a11e0f2e1268f9e2cc449336925ac24ff" prot="public" static="no" mutable="no">
+        <type>ArimaParams</type>
+        <definition>ArimaParams themisdb::analytics::ForecastModel::Impl::arima_p</definition>
+        <argsstring></argsstring>
+        <name>arima_p</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::arima_p</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1600" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1600" bodyend="1600"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a75a275e5f32fbef559c095539f390416" prot="public" static="no" mutable="no">
+        <type>SARIMAParams</type>
+        <definition>SARIMAParams themisdb::analytics::ForecastModel::Impl::sarima_p</definition>
+        <argsstring></argsstring>
+        <name>sarima_p</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::sarima_p</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1601" column="18" bodyfile="src/analytics/forecasting.cpp" bodystart="1601" bodyend="1601"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a74e1d16e05f35a8703d9bce29372e1f5" prot="public" static="no" mutable="no">
+        <type>ProphetParams</type>
+        <definition>ProphetParams themisdb::analytics::ForecastModel::Impl::prophet_p</definition>
+        <argsstring></argsstring>
+        <name>prophet_p</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::prophet_p</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1602" column="19" bodyfile="src/analytics/forecasting.cpp" bodystart="1602" bodyend="1602"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1aad0344f31840027cee01ce06b019c57b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastModel::Impl::in_sample_rmse</definition>
+        <argsstring></argsstring>
+        <name>in_sample_rmse</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::in_sample_rmse</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1605" column="12" bodyfile="src/analytics/forecasting.cpp" bodystart="1605" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1af9ad2bb48713a6e17562b7f58d5d698d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastModel::Impl::lin_sx</definition>
+        <argsstring></argsstring>
+        <name>lin_sx</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::lin_sx</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Σ x_i. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1610" column="12" bodyfile="src/analytics/forecasting.cpp" bodystart="1610" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1aca60c8f4150ade06517a89e6c2d0d157" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastModel::Impl::lin_sy</definition>
+        <argsstring></argsstring>
+        <name>lin_sy</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::lin_sy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Σ y_i. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1611" column="12" bodyfile="src/analytics/forecasting.cpp" bodystart="1611" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a1ea0bbf61cc94a2e0de302f87ea2dc00" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastModel::Impl::lin_sxx</definition>
+        <argsstring></argsstring>
+        <name>lin_sxx</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::lin_sxx</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Σ x_i² </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1612" column="12" bodyfile="src/analytics/forecasting.cpp" bodystart="1612" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ac0899e0b97d8aad833a7a3f14b6db1ad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastModel::Impl::lin_sxy</definition>
+        <argsstring></argsstring>
+        <name>lin_sxy</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::lin_sxy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Σ x_i·y_i. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1613" column="12" bodyfile="src/analytics/forecasting.cpp" bodystart="1613" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a16f2a4e03dd1447c1614e41dcadb6632" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::analytics::ForecastModel::Impl::lin_n</definition>
+        <argsstring></argsstring>
+        <name>lin_n</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::lin_n</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>number of observations in running sums </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1614" column="12" bodyfile="src/analytics/forecasting.cpp" bodystart="1614" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a62d13e9ce978d099bbfd06eb3d1d5516" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ForecastModel::Impl::cache_valid</definition>
+        <argsstring></argsstring>
+        <name>cache_valid</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::cache_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1651" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1651" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1aadc94e951f8b2eee57cd80f4a8e6bf75" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key" kindref="compound">FitCacheKey</ref></type>
+        <definition>FitCacheKey themisdb::analytics::ForecastModel::Impl::cache_key</definition>
+        <argsstring></argsstring>
+        <name>cache_key</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::cache_key</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1652" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1652" bodyend="1652"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ab04330fd23920ff329ab3efe8e8a92ab" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_entry" kindref="compound">FitCacheEntry</ref></type>
+        <definition>FitCacheEntry themisdb::analytics::ForecastModel::Impl::cache_entry</definition>
+        <argsstring></argsstring>
+        <name>cache_entry</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::cache_entry</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1653" column="19" bodyfile="src/analytics/forecasting.cpp" bodystart="1653" bodyend="1653"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ad5caad3d11b9011c690a2884d5657256" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themisdb::analytics::ForecastModel::Impl::fnv1a64</definition>
+        <argsstring>(const void *data, size_t len) noexcept</argsstring>
+        <name>fnv1a64</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::fnv1a64</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1656" column="21" bodyfile="src/analytics/forecasting.cpp" bodystart="1656" bodyend="1664"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a18d710a5a8e374b3c4b80935bf64211c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key" kindref="compound">FitCacheKey</ref></type>
+        <definition>FitCacheKey themisdb::analytics::ForecastModel::Impl::computeCacheKey</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;y, const std::vector&lt; int64_t &gt; &amp;ts, const ForecastConfig &amp;cfg) const noexcept</argsstring>
+        <name>computeCacheKey</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::computeCacheKey</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>ts</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1analytics_1_1_forecast_config" kindref="compound">ForecastConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1666" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1666" bodyend="1684"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a29ff46cf167cf2d8a6cf031e06e96656" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::Impl::fitLinear</definition>
+        <argsstring>()</argsstring>
+        <name>fitLinear</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::fitLinear</qualifiedname>
+        <briefdescription>
+<para>-<mdash/> fit helpers -<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1690" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1690" bodyend="1705"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a8568ccf58e29419cfcb2428e06b34a05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::Impl::fitSES</definition>
+        <argsstring>()</argsstring>
+        <name>fitSES</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::fitSES</qualifiedname>
+        <briefdescription>
+<para>Fit SES. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements fitSES without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1711" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1711" bodyend="1713"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a784bbdc2c1e5273dafa216269dd60e53" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::Impl::fitHW</definition>
+        <argsstring>()</argsstring>
+        <name>fitHW</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::fitHW</qualifiedname>
+        <briefdescription>
+<para>Fit HW. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: fitHoltWinters(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1719" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1719" bodyend="1722"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a4accb07b56fc0fc5399d45ac340e7d1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::Impl::fitAR</definition>
+        <argsstring>()</argsstring>
+        <name>fitAR</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::fitAR</qualifiedname>
+        <briefdescription>
+<para>Fit AR. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: fitARIMA(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1728" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1728" bodyend="1730"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ad9b964848072283d86993ed427fb3ecd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::Impl::fitSARIMAImpl</definition>
+        <argsstring>()</argsstring>
+        <name>fitSARIMAImpl</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::fitSARIMAImpl</qualifiedname>
+        <briefdescription>
+<para>Fit SARIMAImpl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: themisdb::analytics::fitSARIMA(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1736" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1736" bodyend="1743"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a9f1c3aaffc7dc1f9cafa566d9dd4a3b3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::ForecastModel::Impl::fitProphetImpl</definition>
+        <argsstring>()</argsstring>
+        <name>fitProphetImpl</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::fitProphetImpl</qualifiedname>
+        <briefdescription>
+<para>Fit Prophet <ref refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl" kindref="compound">Impl</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: themisdb::analytics::fitProphet(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1749" column="10" bodyfile="src/analytics/forecasting.cpp" bodystart="1749" bodyend="1751"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ae343f7a227fb06f1bc733a49a5e4f8d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::analytics::ForecastModel::Impl::predictLinear</definition>
+        <argsstring>(int steps) const</argsstring>
+        <name>predictLinear</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::predictLinear</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1755" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1755" bodyend="1766"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ad125dc84a26a96ef94d67f989554f913" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::analytics::ForecastModel::Impl::predictSES</definition>
+        <argsstring>(int steps) const</argsstring>
+        <name>predictSES</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::predictSES</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1768" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1768" bodyend="1771"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a2c19d69a2bbdd77a83606e8da2e7b019" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::analytics::ForecastModel::Impl::predictHW</definition>
+        <argsstring>(int steps) const</argsstring>
+        <name>predictHW</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::predictHW</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1773" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1773" bodyend="1800"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1aa3ba519b7060fe6c8cc22da6d094c11e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::analytics::ForecastModel::Impl::predictARIMA</definition>
+        <argsstring>(int steps) const</argsstring>
+        <name>predictARIMA</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::predictARIMA</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1802" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1802" bodyend="1861"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1af15b989975e75410a4cc6c29ba27a0b6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::analytics::ForecastModel::Impl::predictEnsemble</definition>
+        <argsstring>(int steps) const</argsstring>
+        <name>predictEnsemble</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::predictEnsemble</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1863" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1863" bodyend="1890"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a3deec1559eaf6c5a8268e18841541283" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt; double &gt; themisdb::analytics::ForecastModel::Impl::predict</definition>
+        <argsstring>(int steps) const</argsstring>
+        <name>predict</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::predict</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1892" column="17" bodyfile="src/analytics/forecasting.cpp" bodystart="1892" bodyend="1910"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a5e40d3a135fa4e7a84f835361c168ac5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::analytics::ForecastModel::Impl::residualStddev</definition>
+        <argsstring>() const</argsstring>
+        <name>residualStddev</name>
+        <qualifiedname>themisdb::analytics::ForecastModel::Impl::residualStddev</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/forecasting.cpp" line="1912" column="12" bodyfile="src/analytics/forecasting.cpp" bodystart="1912" bodyend="1934"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="6">
+        <label>anonymous:arima_p</label>
+      </node>
+      <node id="5">
+        <label>anonymous:hw_p</label>
+      </node>
+      <node id="3">
+        <label>anonymous:linear_p</label>
+      </node>
+      <node id="8">
+        <label>anonymous:prophet_p</label>
+      </node>
+      <node id="7">
+        <label>anonymous:sarima_p</label>
+      </node>
+      <node id="4">
+        <label>anonymous:ses_p</label>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ForecastConfig</label>
+        <link refid="structthemisdb_1_1analytics_1_1_forecast_config"/>
+      </node>
+      <node id="1">
+        <label>themisdb::analytics::ForecastModel::Impl</label>
+        <link refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>linear_p</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>ses_p</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>hw_p</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>arima_p</edgelabel>
+        </childnode>
+        <childnode refid="7" relation="usage">
+          <edgelabel>sarima_p</edgelabel>
+        </childnode>
+        <childnode refid="8" relation="usage">
+          <edgelabel>prophet_p</edgelabel>
+        </childnode>
+        <childnode refid="9" relation="usage">
+          <edgelabel>cache_key</edgelabel>
+        </childnode>
+        <childnode refid="10" relation="usage">
+          <edgelabel>cache_entry</edgelabel>
+        </childnode>
+      </node>
+      <node id="10">
+        <label>themisdb::analytics::ForecastModel::Impl::FitCacheEntry</label>
+        <link refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_entry"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>linear_p</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>ses_p</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>hw_p</edgelabel>
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>arima_p</edgelabel>
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+      </node>
+      <node id="9">
+        <label>themisdb::analytics::ForecastModel::Impl::FitCacheKey</label>
+        <link refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1_1_fit_cache_key"/>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/forecasting.cpp" line="1586" column="1" bodyfile="src/analytics/forecasting.cpp" bodystart="1586" bodyend="1935"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a2de9b14e61150898927704ae4998ce59" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>access_mutex</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a11e0f2e1268f9e2cc449336925ac24ff" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>arima_p</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ab04330fd23920ff329ab3efe8e8a92ab" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>cache_entry</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1aadc94e951f8b2eee57cd80f4a8e6bf75" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>cache_key</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a62d13e9ce978d099bbfd06eb3d1d5516" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>cache_valid</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a18d710a5a8e374b3c4b80935bf64211c" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>computeCacheKey</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1acb93b3c7a7552a1bd82874ed28f9c36a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>config</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a4accb07b56fc0fc5399d45ac340e7d1e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>fitAR</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a784bbdc2c1e5273dafa216269dd60e53" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>fitHW</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a29ff46cf167cf2d8a6cf031e06e96656" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>fitLinear</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a9f1c3aaffc7dc1f9cafa566d9dd4a3b3" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>fitProphetImpl</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ad9b964848072283d86993ed427fb3ecd" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>fitSARIMAImpl</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a8568ccf58e29419cfcb2428e06b34a05" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>fitSES</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a6657c5c088341243ba1788f4fb06b8b2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>fitted</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ad5caad3d11b9011c690a2884d5657256" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>fnv1a64</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1abad5f777d4c30d1856c3176eedaea969" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>hw_p</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1aad0344f31840027cee01ce06b019c57b" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>in_sample_rmse</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a16f2a4e03dd1447c1614e41dcadb6632" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>lin_n</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1af9ad2bb48713a6e17562b7f58d5d698d" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>lin_sx</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a1ea0bbf61cc94a2e0de302f87ea2dc00" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>lin_sxx</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ac0899e0b97d8aad833a7a3f14b6db1ad" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>lin_sxy</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1aca60c8f4150ade06517a89e6c2d0d157" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>lin_sy</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a343ec437e938514fd9062806bfe27009" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>linear_p</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a915ab5ed9db4ff31038c16a22953048a" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>method</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a3deec1559eaf6c5a8268e18841541283" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>predict</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1aa3ba519b7060fe6c8cc22da6d094c11e" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>predictARIMA</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1af15b989975e75410a4cc6c29ba27a0b6" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>predictEnsemble</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a2c19d69a2bbdd77a83606e8da2e7b019" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>predictHW</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ae343f7a227fb06f1bc733a49a5e4f8d9" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>predictLinear</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1ad125dc84a26a96ef94d67f989554f913" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>predictSES</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a74e1d16e05f35a8703d9bce29372e1f5" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>prophet_p</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a5e40d3a135fa4e7a84f835361c168ac5" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>residualStddev</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a75a275e5f32fbef559c095539f390416" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>sarima_p</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a0db89da454da5249043fd60374158bf7" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>ses_p</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a155cfa1f66726e4f47f89f7f17d64085" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>train_ts</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_forecast_model_1_1_impl_1a84c41ae72013cc5fe2776fc2f8eb8a06" prot="public" virt="non-virtual"><scope>themisdb::analytics::ForecastModel::Impl</scope><name>train_y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

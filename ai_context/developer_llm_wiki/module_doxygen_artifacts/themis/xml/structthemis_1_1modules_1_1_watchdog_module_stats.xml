@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_watchdog_module_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::WatchdogModuleStats</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1a4ef57b5b59ad741e8ab97ddcbfcfb9db" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WatchdogModuleStats::moduleName</definition>
+        <argsstring></argsstring>
+        <name>moduleName</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::moduleName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="283" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1a4f8967b813452d706eb7fbfeabee003a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WatchdogModuleStats::modulePath</definition>
+        <argsstring></argsstring>
+        <name>modulePath</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::modulePath</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="284" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="284" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1ad8a0c0f314f369ad763ce87a203f4bab" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::WatchdogModuleStats::restart_count</definition>
+        <argsstring></argsstring>
+        <name>restart_count</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::restart_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total successful restart count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="286" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="286" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1a6d68a624c7d7d66e45ece666d5c8838e" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::WatchdogModuleStats::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::consecutive_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Failures since last successful health-check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="287" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1a029a9230cbb6d1c976ccdc8f75ce2c20" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WatchdogModuleStats::last_health_check_ms</definition>
+        <argsstring></argsstring>
+        <name>last_health_check_ms</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::last_health_check_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time of last check (epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="288" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1a32dfd73cd6ecd05a5ce44f9de7902bda" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WatchdogModuleStats::last_failure_ms</definition>
+        <argsstring></argsstring>
+        <name>last_failure_ms</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::last_failure_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time of last failure (epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="289" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1ab9f8c7669feee65939c5645f899036e7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WatchdogModuleStats::last_restart_ms</definition>
+        <argsstring></argsstring>
+        <name>last_restart_ms</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::last_restart_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock time of last restart (epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="290" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1aa2ccb67f85e877012333d5786daa2fad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::WatchdogModuleStats::next_retry_ms</definition>
+        <argsstring></argsstring>
+        <name>next_retry_ms</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::next_retry_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Earliest time for next restart attempt (epoch ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="291" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1afafdfe73fe175823bcda17b5c0556e16" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::WatchdogModuleStats::permanently_failed</definition>
+        <argsstring></argsstring>
+        <name>permanently_failed</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::permanently_failed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when max_restart_attempts exhausted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="293" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_watchdog_module_stats_1a2a63834b43868296cfd609b40424ded8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::WatchdogModuleStats::last_error</definition>
+        <argsstring></argsstring>
+        <name>last_error</name>
+        <qualifiedname>themis::modules::WatchdogModuleStats::last_error</qualifiedname>
+        <briefdescription>
+<para>Human-readable last error message from the failing health check. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="296" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="296" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-module runtime statistics maintained by the plugin watchdog. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="282" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="282" bodyend="297"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1a6d68a624c7d7d66e45ece666d5c8838e" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>consecutive_failures</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1a2a63834b43868296cfd609b40424ded8" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>last_error</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1a32dfd73cd6ecd05a5ce44f9de7902bda" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>last_failure_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1a029a9230cbb6d1c976ccdc8f75ce2c20" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>last_health_check_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1ab9f8c7669feee65939c5645f899036e7" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>last_restart_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1a4ef57b5b59ad741e8ab97ddcbfcfb9db" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>moduleName</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1a4f8967b813452d706eb7fbfeabee003a" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>modulePath</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1aa2ccb67f85e877012333d5786daa2fad" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>next_retry_ms</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1afafdfe73fe175823bcda17b5c0556e16" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>permanently_failed</name></member>
+      <member refid="structthemis_1_1modules_1_1_watchdog_module_stats_1ad8a0c0f314f369ad763ce87a203f4bab" prot="public" virt="non-virtual"><scope>themis::modules::WatchdogModuleStats</scope><name>restart_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

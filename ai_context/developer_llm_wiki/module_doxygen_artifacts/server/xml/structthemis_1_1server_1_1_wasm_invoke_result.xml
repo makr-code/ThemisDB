@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_wasm_invoke_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::WasmInvokeResult</compoundname>
+    <includes refid="wasm__handler__registry_8h" local="no">wasm_handler_registry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_invoke_result_1aff2e68d286a79b4ba6c9bc8f33b6959e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::WasmInvokeResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::server::WasmInvokeResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="116" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_invoke_result_1a830443777a0401078bb6a34d125f5c62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmInvokeResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::server::WasmInvokeResult::error</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="117" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_invoke_result_1adf7a57bb15b9272ead51819dad48d644" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::WasmInvokeResult::output</definition>
+        <argsstring></argsstring>
+        <name>output</name>
+        <qualifiedname>themis::server::WasmInvokeResult::output</qualifiedname>
+        <briefdescription>
+<para>Handler output as a UTF-8 string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="118" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_invoke_result_1ab113ad56366d32103b988088ea7d86e1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::WasmInvokeResult::duration_us</definition>
+        <argsstring></argsstring>
+        <name>duration_us</name>
+        <qualifiedname>themis::server::WasmInvokeResult::duration_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Wall-clock invocation time (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="119" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_invoke_result_1a7c34314a16cb5f253d13ec3cfd5960a4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::WasmInvokeResult::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::server::WasmInvokeResult::timeout</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when CPU-time limit was exceeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="120" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_wasm_invoke_result_1a04044afc1a06bf8e3ba4153e2cdcf9f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::WasmInvokeResult::oom</definition>
+        <argsstring></argsstring>
+        <name>oom</name>
+        <qualifiedname>themis::server::WasmInvokeResult::oom</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when memory cap was exceeded </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/wasm_handler_registry.h" line="121" column="17" bodyfile="include/server/wasm_handler_registry.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/wasm_handler_registry.h" line="115" column="1" bodyfile="include/server/wasm_handler_registry.h" bodystart="115" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_wasm_invoke_result_1ab113ad56366d32103b988088ea7d86e1" prot="public" virt="non-virtual"><scope>themis::server::WasmInvokeResult</scope><name>duration_us</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_invoke_result_1a830443777a0401078bb6a34d125f5c62" prot="public" virt="non-virtual"><scope>themis::server::WasmInvokeResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_invoke_result_1a04044afc1a06bf8e3ba4153e2cdcf9f8" prot="public" virt="non-virtual"><scope>themis::server::WasmInvokeResult</scope><name>oom</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_invoke_result_1adf7a57bb15b9272ead51819dad48d644" prot="public" virt="non-virtual"><scope>themis::server::WasmInvokeResult</scope><name>output</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_invoke_result_1aff2e68d286a79b4ba6c9bc8f33b6959e" prot="public" virt="non-virtual"><scope>themis::server::WasmInvokeResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1server_1_1_wasm_invoke_result_1a7c34314a16cb5f253d13ec3cfd5960a4" prot="public" virt="non-virtual"><scope>themis::server::WasmInvokeResult</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

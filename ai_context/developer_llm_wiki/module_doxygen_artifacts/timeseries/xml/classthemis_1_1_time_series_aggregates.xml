@@ -1,0 +1,826 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_time_series_aggregates" kind="class" language="C++" prot="public">
+    <compoundname>themis::TimeSeriesAggregates</compoundname>
+    <includes refid="aggregates_8h" local="no">aggregates.h</includes>
+    <innerclass refid="structthemis_1_1_time_series_aggregates_1_1_config" prot="public">themis::TimeSeriesAggregates::Config</innerclass>
+    <innerclass refid="structthemis_1_1_time_series_aggregates_1_1_time_window" prot="public">themis::TimeSeriesAggregates::TimeWindow</innerclass>
+    <innerclass refid="structthemis_1_1_time_series_aggregates_1_1_aggregate_result" prot="public">themis::TimeSeriesAggregates::AggregateResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AggregateFunction</name>
+        <qualifiedname>themis::TimeSeriesAggregates::AggregateFunction</qualifiedname>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4a6970bdc2201030b9c03fbdcf3973858a" prot="public">
+          <name>SUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4afcefd647d6a866603c627b11347c707a" prot="public">
+          <name>AVG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4ace31e2a082d17e038fcc6e3006166653" prot="public">
+          <name>MIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4a26a4b44a837bf97b972628509912b4a5" prot="public">
+          <name>MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4a4905ac9d6a22bdfc1ae096094ce6248d" prot="public">
+          <name>COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4ae920619bf0e106c10e5d5a787670a059" prot="public">
+          <name>STDDEV</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4ace18bb9a2b22515d0cd36bca6b998bde" prot="public">
+          <name>VARIANCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4a2c2624a5059934a947d6e25fe8332ade" prot="public">
+          <name>FIRST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4af447f5c03508de4d88e340390ba7c78f" prot="public">
+          <name>LAST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4a402ee5769340835c56054679620a01ca" prot="public">
+          <name>PERCENTILE_50</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4a3d6ce67e1417c3442adb1ae9cbcbfbcb" prot="public">
+          <name>PERCENTILE_95</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4a38025a94c51cedeca5d9a352dad4f4ff" prot="public">
+          <name>PERCENTILE_99</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="45" column="5" bodyfile="include/timeseries/aggregates.h" bodystart="45" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_time_series_aggregates_1ade1ef0d6ff8266a8c6d0eed16f7c254e" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_time_series_aggregates_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::TimeSeriesAggregates::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::TimeSeriesAggregates::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="147" column="12" bodyfile="include/timeseries/aggregates.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1a4e881d7bb8b660ad60dfa131df2785b2" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TimeSeriesAggregates::TimeSeriesAggregates</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>TimeSeriesAggregates</name>
+        <qualifiedname>themis::TimeSeriesAggregates::TimeSeriesAggregates</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_time_series_aggregates_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Time Series Aggregates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="77" column="14" bodyfile="src/timeseries/aggregates.cpp" bodystart="27" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1a56416af7f4b472314128e6a41fb6aafe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TimeSeriesAggregates::~TimeSeriesAggregates</definition>
+        <argsstring>()</argsstring>
+        <name>~TimeSeriesAggregates</name>
+        <qualifiedname>themis::TimeSeriesAggregates::~TimeSeriesAggregates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1af632f39e0d55851f86343048b0e7ce51" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TimeSeriesAggregates::TimeSeriesAggregates</definition>
+        <argsstring>(const TimeSeriesAggregates &amp;)=delete</argsstring>
+        <name>TimeSeriesAggregates</name>
+        <qualifiedname>themis::TimeSeriesAggregates::TimeSeriesAggregates</qualifiedname>
+        <param>
+          <type>const TimeSeriesAggregates &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1a67c32908316803092ec93ad3f514b633" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_time_series_aggregates_1a4e881d7bb8b660ad60dfa131df2785b2" kindref="member">TimeSeriesAggregates</ref> &amp;</type>
+        <definition>TimeSeriesAggregates &amp; themis::TimeSeriesAggregates::operator=</definition>
+        <argsstring>(const TimeSeriesAggregates &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TimeSeriesAggregates::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_time_series_aggregates_1a4e881d7bb8b660ad60dfa131df2785b2" kindref="member">TimeSeriesAggregates</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="81" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1a45cd96147c5eb7bf82a6f861ed18da2c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::TimeSeriesAggregates::TimeSeriesAggregates</definition>
+        <argsstring>(TimeSeriesAggregates &amp;&amp;) noexcept=default</argsstring>
+        <name>TimeSeriesAggregates</name>
+        <qualifiedname>themis::TimeSeriesAggregates::TimeSeriesAggregates</qualifiedname>
+        <param>
+          <type>TimeSeriesAggregates &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1a7d72b8ec65f1ee2632f47070f05f6087" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_time_series_aggregates_1a4e881d7bb8b660ad60dfa131df2785b2" kindref="member">TimeSeriesAggregates</ref> &amp;</type>
+        <definition>TimeSeriesAggregates &amp; themis::TimeSeriesAggregates::operator=</definition>
+        <argsstring>(TimeSeriesAggregates &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TimeSeriesAggregates::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_time_series_aggregates_1a4e881d7bb8b660ad60dfa131df2785b2" kindref="member">TimeSeriesAggregates</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="83" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1abf91fc9be87c1f268e24ca948c4c693f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_time_series_aggregates_1_1_aggregate_result" kindref="compound">AggregateResult</ref></type>
+        <definition>TimeSeriesAggregates::AggregateResult themis::TimeSeriesAggregates::aggregate</definition>
+        <argsstring>(const int64_t *timestamps, const double *values, size_t count, const TimeWindow &amp;window, AggregateFunction func)</argsstring>
+        <name>aggregate</name>
+        <qualifiedname>themis::TimeSeriesAggregates::aggregate</qualifiedname>
+        <param>
+          <type>const int64_t *</type>
+          <declname>timestamps</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_time_series_aggregates_1_1_time_window" kindref="compound">TimeWindow</ref> &amp;</type>
+          <declname>window</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4" kindref="member">AggregateFunction</ref></type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Compute aggregates over time windows. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Aggregate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timestamps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of timestamps </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Array of values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of data points </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Time window specification </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Aggregate function </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated results per window</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), applyAggregate(), data(), size(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="95" column="21" bodyfile="src/timeseries/aggregates.cpp" bodystart="46" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1ac59299fd74f6a16250b1d493a7d9db0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_time_series_aggregates_1_1_aggregate_result" kindref="compound">AggregateResult</ref></type>
+        <definition>TimeSeriesAggregates::AggregateResult themis::TimeSeriesAggregates::resample</definition>
+        <argsstring>(const int64_t *timestamps, const double *values, size_t count, int64_t new_interval_seconds, AggregateFunction func)</argsstring>
+        <name>resample</name>
+        <qualifiedname>themis::TimeSeriesAggregates::resample</qualifiedname>
+        <param>
+          <type>const int64_t *</type>
+          <declname>timestamps</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>new_interval_seconds</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4" kindref="member">AggregateFunction</ref></type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Resample time series to different interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resample.</para>
+<para>Downsampling example: 1-second data → 1-minute aggregates <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_interval_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_interval_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min_element(), std::max_element(), <ref refid="classthemis_1_1_time_series_aggregates_1abf91fc9be87c1f268e24ca948c4c693f" kindref="member">aggregate()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="114" column="21" bodyfile="src/timeseries/aggregates.cpp" bodystart="97" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1a04cd02aa058df3b551e37e174df92abd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_time_series_aggregates_1_1_aggregate_result" kindref="compound">AggregateResult</ref></type>
+        <definition>TimeSeriesAggregates::AggregateResult themis::TimeSeriesAggregates::rollingWindow</definition>
+        <argsstring>(const int64_t *timestamps, const double *values, size_t count, int64_t window_size_seconds, AggregateFunction func)</argsstring>
+        <name>rollingWindow</name>
+        <qualifiedname>themis::TimeSeriesAggregates::rollingWindow</qualifiedname>
+        <param>
+          <type>const int64_t *</type>
+          <declname>timestamps</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>window_size_seconds</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4" kindref="member">AggregateFunction</ref></type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Rolling window aggregates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rolling Window.</para>
+<para>Example: 5-minute moving average <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window_size_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window_size_seconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), empty(), applyAggregate(), data(), size(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="133" column="21" bodyfile="src/timeseries/aggregates.cpp" bodystart="135" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1af284f4b576eae9ac2903dcc44e338840" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_time_series_aggregates_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::TimeSeriesAggregates::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::TimeSeriesAggregates::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="144" column="18" bodyfile="include/timeseries/aggregates.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1acde2c1f9afa587cea9fcf77d010fc023" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TimeSeriesAggregates::applyAggregate</definition>
+        <argsstring>(const double *values, size_t count, AggregateFunction func)</argsstring>
+        <name>applyAggregate</name>
+        <qualifiedname>themis::TimeSeriesAggregates::applyAggregate</qualifiedname>
+        <param>
+          <type>const double *</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4" kindref="member">AggregateFunction</ref></type>
+          <declname>func</declname>
+        </param>
+        <briefdescription>
+<para>Apply aggregate function to window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Apply Aggregate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">func</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::accumulate(), std::min_element(), std::max_element(), std::sqrt(), computePercentile(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="156" column="12" bodyfile="src/timeseries/aggregates.cpp" bodystart="185" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_time_series_aggregates_1a5a6a647bd5ef537ed6775b43ad137d8b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::TimeSeriesAggregates::computePercentile</definition>
+        <argsstring>(const double *values, size_t count, double percentile)</argsstring>
+        <name>computePercentile</name>
+        <qualifiedname>themis::TimeSeriesAggregates::computePercentile</qualifiedname>
+        <param>
+          <type>const double *</type>
+          <declname>values</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+        </param>
+        <briefdescription>
+<para>Compute percentile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Percentile.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: sorted(), std::sort(), begin(), end(), std::floor(), std::ceil(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/aggregates.h" line="165" column="12" bodyfile="src/timeseries/aggregates.cpp" bodystart="260" bodyend="284"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Time-Series Aggregates using Arrow Compute for SIMD performance. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>v1.2.0 Feature: 5-10x faster aggregations with Arrow&apos;s SIMD kernels</para>
+<para>Benefits:<itemizedlist>
+<listitem><para>SIMD vectorization (AVX2/AVX512)</para>
+</listitem><listitem><para>Zero-copy data processing</para>
+</listitem><listitem><para>Built-in time-series functions</para>
+</listitem></itemizedlist>
+</para>
+<para>Use Cases:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1_hypertable" kindref="compound">Hypertable</ref> aggregations</para>
+</listitem><listitem><para>Real-time analytics dashboards</para>
+</listitem><listitem><para>Time-series downsampling </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/timeseries/aggregates.h" line="37" column="1" bodyfile="include/timeseries/aggregates.h" bodystart="37" bodyend="166"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_time_series_aggregates_1abf91fc9be87c1f268e24ca948c4c693f" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>aggregate</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1a2c8b4db11242645a9c144f5966d93be4" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>AggregateFunction</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1acde2c1f9afa587cea9fcf77d010fc023" prot="private" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>applyAggregate</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1a5a6a647bd5ef537ed6775b43ad137d8b" prot="private" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>computePercentile</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1ade1ef0d6ff8266a8c6d0eed16f7c254e" prot="private" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1af284f4b576eae9ac2903dcc44e338840" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1a67c32908316803092ec93ad3f514b633" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1a7d72b8ec65f1ee2632f47070f05f6087" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1ac59299fd74f6a16250b1d493a7d9db0a" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>resample</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1a04cd02aa058df3b551e37e174df92abd" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>rollingWindow</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1a4e881d7bb8b660ad60dfa131df2785b2" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>TimeSeriesAggregates</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1af632f39e0d55851f86343048b0e7ce51" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>TimeSeriesAggregates</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1a45cd96147c5eb7bf82a6f861ed18da2c" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>TimeSeriesAggregates</name></member>
+      <member refid="classthemis_1_1_time_series_aggregates_1a56416af7f4b472314128e6a41fb6aafe" prot="public" virt="non-virtual"><scope>themis::TimeSeriesAggregates</scope><name>~TimeSeriesAggregates</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,2363 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122" kind="namespace" language="C++">
+    <compoundname>themis::server::@312207007040033113242016253361272171131125312122</compoundname>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Route</name>
+        <qualifiedname>themis::server::@312207007040033113242016253361272171131125312122::Route</qualifiedname>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a605669cab962bf944d99ce89cf9e58d9" prot="public">
+          <name>Health</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4e5608e47f53c41c3c57d9721063cc68" prot="public">
+          <name>HealthLive</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae15a5b316ca974467e2025c02f1bc669" prot="public">
+          <name>HealthReady</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a240af0311ea8ca4d95ff911ef427e302" prot="public">
+          <name>OpenApi</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a34b6cd75171affba6957e308dcbd92be" prot="public">
+          <name>Version</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a452a7601dbc6f2c38aa89e68bda8b603" prot="public">
+          <name>Stats</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad58dd4ddd81760677316cb7efb6f4944" prot="public">
+          <name>CapabilitiesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af32c3edaacea72c0ddb30ecf0135c4de" prot="public">
+          <name>Metrics</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8aad10e38f106b8a3ef0faa489d93828" prot="public">
+          <name>MetricsHtml</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a240a84a9596b468f7874ef400bf14c46" prot="public">
+          <name>PluginMetrics</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac20edd9b5924bd99a4b1238fef1d975a" prot="public">
+          <name>ObservabilityAlertsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a54b63c5e0cff27a92b29d26336e83ea4" prot="public">
+          <name>ObservabilityAlertSilencePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab9d8e633fa7faff074cb319072469fdd" prot="public">
+          <name>ObservabilityHealthGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aea1b3229428568bc4ad2063da95e5556" prot="public">
+          <name>ObservabilityProvenanceGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8f66e5e1a85c14dc534b4c4684e43803" prot="public">
+          <name>LicenseStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afa535ffb25e1fd20341652f9be21e06e" prot="public">
+          <name>Config</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a89dd725f4b9f962f453f42d445211e26" prot="public">
+          <name>AdminBackupPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a87abe37c175225f906c85b135802b1a9" prot="public">
+          <name>AdminRestorePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a59eab8d36c16107fa18372174ec02034" prot="public">
+          <name>EntitiesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1addcf3822caf992d19756f4a10c3e144f" prot="public">
+          <name>EntitiesPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afc442ba4c8dad5911ea8038d99fe11bd" prot="public">
+          <name>EntitiesDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1acf740de90244b00c7e645d5041325c93" prot="public">
+          <name>EntitiesPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1c46c1f426e04801e863192bed39cdee" prot="public">
+          <name>EntitiesBatchPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae6119c4f18904b5135cb974cd401a0b7" prot="public">
+          <name>V2DocumentsBulkPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac364ae7698c7fd84a76d493b6d1cead1" prot="public">
+          <name>QueryPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1890e0e030d5f36efbb361e690f3561b" prot="public">
+          <name>QueryAqlPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9a155379837ef2143f175c75db23342e" prot="public">
+          <name>QueryStreamSseGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1ab92b0fc49d73aedab8557943654962" prot="public">
+          <name>IndexCreatePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a741ab24092efe68cc0deac728ce06659" prot="public">
+          <name>IndexDropPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1acbe77076f46daadae5c770fbeafa581b" prot="public">
+          <name>IndexStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad44446905aca41a157d434b0f91295ce" prot="public">
+          <name>IndexRebuildPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af98d893487b136206d97be7bd9b72cc6" prot="public">
+          <name>IndexReindexPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5f3a1ece3b5fe01cbc0595f3ef719754" prot="public">
+          <name>GraphTraversePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0d332dafcc7d884fc8e846c9ba0eb3ba" prot="public">
+          <name>GraphEdgePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1acaba2f5791fc8406ff45b7a4b1d830fe" prot="public">
+          <name>GraphEdgeDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad2e78a33783a53457607e080db7552ac" prot="public">
+          <name>GraphMetricsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aca3f6e2b11ff3b997aac0cd539deff36" prot="public">
+          <name>GraphMetricsPrometheusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a21d7ce3797008d897b8eb917075a43ae" prot="public">
+          <name>GraphQueryIncrementalPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad4ced3de9dd40da4e39fa0d4720cad14" prot="public">
+          <name>GraphQueryIncrementalDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4d264c81ce5075a4d0f5fd78f66656b8" prot="public">
+          <name>GraphChangesPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4f9b8b54e5500b1dae46a081e58520c1" prot="public">
+          <name>GraphCostModelCalibratePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aab82c4024760ace30266bd1963027c40" prot="public">
+          <name>GraphCostModelGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4023f215096a9f77b2cfe5136597b7db" prot="public">
+          <name>GraphCostModelImportPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a943b288428b2b7edccf99adcdefe4c4d" prot="public">
+          <name>GraphQueryExplainPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a18d2dbb9827ccc3dbb702cac87930527" prot="public">
+          <name>VectorSearchPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a321f39d18a400cb7e2abf22c0f6906b6" prot="public">
+          <name>VectorBatchInsertPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a729e0dac4e131973e60756a7d252267f" prot="public">
+          <name>VectorDeleteByFilterDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a739ec891db5cef5405bdcb2fd5f0a900" prot="public">
+          <name>CacheQueryPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8e04e60f90f016aa7b38022981e42a70" prot="public">
+          <name>CachePutPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8c128cd82a1c3fa53b35ad230768dc39" prot="public">
+          <name>CacheStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae78a800fbfa1f7b6f031c2b9d07093b4" prot="public">
+          <name>AdminCacheHealthGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af46fbe24d66a8baed789bacce3c4988f" prot="public">
+          <name>AdminCacheStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af915029e5c12c6ab6e78f34c22d52dae" prot="public">
+          <name>AdminCacheEvictKeyDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac6fb251b58bf078130fe9f8a2283594f" prot="public">
+          <name>AdminCacheEvictTenantDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5c053c23b7696f0816482f573e3a3506" prot="public">
+          <name>AdminCacheCbResetPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af6f4a187e46cd5ef9fb51427e73a9df9" prot="public">
+          <name>AdminCacheCbStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9c6e23fa4ea7879be19c36bde036d320" prot="public">
+          <name>AdminCacheWarmupPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4a7280087b0fbb42927a0e0bf58c1398" prot="public">
+          <name>AdminCacheSnapshotPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad1faa97294458eaced1d60a4a423d701" prot="public">
+          <name>AdminCacheTenantsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac8358130bfab87c85081db2381961298" prot="public">
+          <name>AdminCacheTenantStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa13c38568fd41ebeb0e96597a3dd84fa" prot="public">
+          <name>AdminCacheTenantQuotaPatch</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a318e51360624a21ff9ccac376f7502ee" prot="public">
+          <name>AdminCachePiiEvictDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a18ec791eeb5f7a121a4c4793137aa08e" prot="public">
+          <name>AdminShardsPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae4637dd7d5ed8acaea18303ca359ed3c" prot="public">
+          <name>AdminShardsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab5a667f895f2f5e5e6955f7c1c0e26f3" prot="public">
+          <name>AdminStorageStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5e715926b544cb8f2a047fee45dc3d3d" prot="public">
+          <name>AdminRepairHealthGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a91657656e2d10d1debb72cb45604976e" prot="public">
+          <name>AdminRepairPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a85b5c314a48a74e73a5d6f5a9323bbbf" prot="public">
+          <name>AdminRepairScanPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1abb8004c991c78d1f5d897eb6c51dade3" prot="public">
+          <name>AdminRepairJobStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae0e89c4c90e9c0851115c09eb730e220" prot="public">
+          <name>AdminRepairDashboardGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a02668f7d2dceec2feabdb689041ca3c2" prot="public">
+          <name>AdminModulesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8e6ecc9765041a3775aa555f0f408f32" prot="public">
+          <name>AdminModulesLoadPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8ad1aae040b2fbfc25cb8eeb1b9e1140" prot="public">
+          <name>AdminModulesUnloadDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1d5d97575166ce61d325e05f44c67722" prot="public">
+          <name>AdminModuleStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aba741175711509f2a157cd21befeef6f" prot="public">
+          <name>PromptTemplatePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a83503fd63255257afc96a528808a75b7" prot="public">
+          <name>PromptTemplateList</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac962e6b5339b787685b2348c60db92af" prot="public">
+          <name>PromptTemplateGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a61dc43b607c96afffb4d33a2385cfb72" prot="public">
+          <name>PromptTemplatePut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1abee316e74db2a7aae7cf2aa9a7c78bfe" prot="public">
+          <name>LlmInteractionPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa93e9ce9384ebbe82a5afcd388a66fe0" prot="public">
+          <name>LlmInteractionGetList</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0264c04f0b1df5e0f605c35baaa44138" prot="public">
+          <name>LlmInteractionGetById</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a15b5df4c7066585b7da3728d42124455" prot="public">
+          <name>LlmInteractionUpdateMetadataPatch</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac677ef98b659c3ce925f45fe41fe8b31" prot="public">
+          <name>QueryEnhancedPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9e9b752dbae167fec9fb40636d0a244e" prot="public">
+          <name>ChangefeedGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac56cdc8437e64500799c19fc7ff019c5" prot="public">
+          <name>ChangefeedStreamSse</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4203295e6dcca69bbcb2ad09f1e40d4c" prot="public">
+          <name>ChangefeedStreamAckPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0cde610a0a1f972bdbe085ab2f5a132a" prot="public">
+          <name>ChangefeedStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad5f4ab5195abbb45c400c6d0f6489c51" prot="public">
+          <name>ChangefeedRetentionPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae4c8c543896fdff390812ba4d73c13cf" prot="public">
+          <name>ChangefeedRetentionGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0851ddbbdfc0a607717a0df8f9fd9a98" prot="public">
+          <name>ChangefeedRetentionPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5fc90858131ca6848541eae9afa0d397" prot="public">
+          <name>ChangefeedCompactPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5965b2b2a2e2f2bccf328710482dbbb7" prot="public">
+          <name>ChangefeedGdprRedactPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad9909bb247e4fea8188fc5922cea09b3" prot="public">
+          <name>TimeSeriesPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a3220f3a00d8fd19348fa992da0ed549c" prot="public">
+          <name>TimeSeriesQuery</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a778e805454908171d58a436098603911" prot="public">
+          <name>TimeSeriesAggregate</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6092cf8c3feaf4d23b8add948b6af161" prot="public">
+          <name>TimeSeriesConfigGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae5ccb1fd2a84f95b056e5428a23c20ef" prot="public">
+          <name>TimeSeriesConfigPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad444ed82f0e620c03a66484a21160443" prot="public">
+          <name>TimeSeriesAggregatesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1acd780b99f87043b8de002f0dc8accbb5" prot="public">
+          <name>TimeSeriesRetentionGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afb6f6c24c00d13a74ec18319154ba084" prot="public">
+          <name>TimeSeriesMetricsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6a198bc1ffea67981ff9b1885d07cc81" prot="public">
+          <name>TimeSeriesPromRemoteWrite</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1732e9e15d09dec35f4e6f5300c65f9d" prot="public">
+          <name>IndexSuggestionsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6efe000de6d8b52f3027015895cfe183" prot="public">
+          <name>IndexPatternsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8aeb842c95ec85e41d451c36a9151306" prot="public">
+          <name>IndexRecordPatternPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a7d5bcbd5d8ad80be4d4cf3da64d55cba" prot="public">
+          <name>IndexClearPatternsDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a3534142f20cf7a6a1609ecf61cf18eda" prot="public">
+          <name>VectorIndexSavePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a35fc3e6a92da24cae14a2090fbf21160" prot="public">
+          <name>VectorIndexLoadPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1adce3f2727741c3f2ff1e4a679f63c283" prot="public">
+          <name>VectorIndexConfigGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a48a8d7fbfa3dca764953a7dc235d8789" prot="public">
+          <name>VectorIndexConfigPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae5c8a4c7f27529f24b40800cdc02d899" prot="public">
+          <name>VectorIndexStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1addac9bb43e3ccb0aa082634fa788ce7c" prot="public">
+          <name>VectorIndexIncrementalReindexPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab711929f934b871a536eebf5d1496596" prot="public">
+          <name>RopeConfigPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1abbef42d47f46bfce9d00832512117f9c" prot="public">
+          <name>RopeConfigGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab518eb16432230cdaeffa5ab660382cf" prot="public">
+          <name>RopeConfigDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af01566f66d0c8f2aab13b89c780a6530" prot="public">
+          <name>RopeAddPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a2da1f9be1b54070637718f6dafbb6017" prot="public">
+          <name>RopeAddRelationalPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a690c4bb1dd345c4aca35ff6c049a58bb" prot="public">
+          <name>RopeSearchPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a2a629fec6fc6b3e522a8f8175379d1f5" prot="public">
+          <name>RopeBatchAddPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9f9211154e4fad25b35ccba27d2e3f4b" prot="public">
+          <name>RopeStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a69c5c56e63a68554bfb35531ea5706bf" prot="public">
+          <name>TransactionPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac4bede78e48d32aeb27835b676f707f6" prot="public">
+          <name>TransactionBeginPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a95fc40e1fa6966b5eeb3afa109dacc06" prot="public">
+          <name>TransactionCommitPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a545090828bdf23f12ac014c62e265e78" prot="public">
+          <name>TransactionRollbackPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a28faddf2864eff608ff28fe7735725e7" prot="public">
+          <name>TransactionStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a80c6e6f6d6b7a0d00827d8898eebe35e" prot="public">
+          <name>TransactionVersionGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0ca7a5881b0d33bdf3ee86a136ceaa46" prot="public">
+          <name>TransactionExplainGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5f64610c26f65a6e647646514cb5ad21" prot="public">
+          <name>DtxnBeginPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a528339668883ce4bb05c2b1adccc8027" prot="public">
+          <name>DtxnOperationPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad3d1e68e9e4cd6d2506349c4e4e9dbe8" prot="public">
+          <name>DtxnCommitPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0fb33120cb047747388ea1e2fa04dd39" prot="public">
+          <name>DtxnAbortPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1addc9a8f25d2912ac1ece33bd122860b1" prot="public">
+          <name>DtxnReadOnlyPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a897e09b15045c7cc22e33127a534ae16" prot="public">
+          <name>DtxnStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1bdc0f28656e4e0a04b20bb7b5a89d02" prot="public">
+          <name>DtxnStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa45f245950960fed25381e2c80d79cae" prot="public">
+          <name>ContentImportPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac1df840f7282b17e2c499000db66c324" prot="public">
+          <name>ContentGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a588ba39036c4df354dfe869be437df65" prot="public">
+          <name>ContentBlobGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8ade6bf90b684c6720328376c0c7b82f" prot="public">
+          <name>ContentChunksGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aac30041919f852d596d9f3914e3e0f89" prot="public">
+          <name>ContentFsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4e60064020efe8006f0dcd37e3ddd101" prot="public">
+          <name>ContentFsPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab16960c9caaf5ed292a1f933a523b86b" prot="public">
+          <name>ContentFsHead</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a2f2815fe4cc3c0c998966b2e2c71e1cc" prot="public">
+          <name>ContentFsDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae69e286b9db5f6d9590e67d042eed726" prot="public">
+          <name>HybridSearchPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afd118022055962963bb8080c36d3cccd" prot="public">
+          <name>FusionSearchPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4ee693df1c90aeb5d984dbe255d04c52" prot="public">
+          <name>FulltextSearchPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a82bb4f317505b0528863799b2680a12f" prot="public">
+          <name>ContentFilterSchemaGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8336178e8e3ed930f9cc0e34cd1de1ae" prot="public">
+          <name>ContentFilterSchemaPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aedff402824f607b1ea2b853d8538dc0f" prot="public">
+          <name>ContentConfigGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1abb55b29e152a6d0560af23804b7db7de" prot="public">
+          <name>ContentConfigPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a16edfe7807e59d2720bc37b066189ed2" prot="public">
+          <name>EdgeWeightConfigGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a03d483bbd9dd64781f82a617d3c8525a" prot="public">
+          <name>EdgeWeightConfigPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a341775e668d07462bdb8bcf476a17090" prot="public">
+          <name>EncryptionSchemaGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af52ebd5600c6fc332aa1c7e22d8d2f26" prot="public">
+          <name>EncryptionSchemaPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae1ec8ed358e5eaab4f93be308e37a1ce" prot="public">
+          <name>PkiSignPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa5e90c2e7d8e84c4704f91da8dc7cdf1" prot="public">
+          <name>PkiVerifyPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a63470f72d9a2f62b3747afb62fa065a3" prot="public">
+          <name>PkiHsmSignPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae4020fe49313556e4bdaf7ee5c1ee376" prot="public">
+          <name>PkiHsmKeysGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab3884d5b5d528fefd8eeeb37dce54125" prot="public">
+          <name>PkiTimestampPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a794d0daff9cf9637f116b9811ce0f575" prot="public">
+          <name>PkiTimestampVerifyPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab059afabed0bf0aa13052161f15bba57" prot="public">
+          <name>PkiEidasSignPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a84a6d6981d8818d5f50abd90508a5df8" prot="public">
+          <name>PkiEidasVerifyPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a887b3b77e088e3c96ebf3b3b15558d9b" prot="public">
+          <name>PkiCertificatesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8c33be1122a8aa23d5d131cfb84940e4" prot="public">
+          <name>PkiCertificateGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afe7095601d91a704ef5a3bc252358d00" prot="public">
+          <name>PkiStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9e4fbcb24dc05ead29fee67ba86f2455" prot="public">
+          <name>KeysListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac3616e559eb7fe350b44f89733c6f1cf" prot="public">
+          <name>KeysRotatePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4e95f147fbd33a5d46a8bb87416cf070" prot="public">
+          <name>ClassificationRulesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0a8dbce6e6b753ea4d7677a5e202abca" prot="public">
+          <name>ClassificationTestPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afa207bea963094b04a9c6fbba049c38c" prot="public">
+          <name>ReportsComplianceGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab48674f3a0adffb74a1aeb1817322545" prot="public">
+          <name>PoliciesImportRangerPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a51828541866a461f5c872fdafd88ca58" prot="public">
+          <name>PoliciesExportRangerGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab337eef1f38a9d058713913d10f5ff73" prot="public">
+          <name>PiiListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab2498ed5332a081d608bbb84cf29fddc" prot="public">
+          <name>PiiPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a7b51dd2d030becad30bd6b700abffff3" prot="public">
+          <name>PiiGetByUuid</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab04fa980f92b0e687287ad08d8a90fc3" prot="public">
+          <name>PiiExportCsvGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a36dc1970fe596adb6bbde89581566ed3" prot="public">
+          <name>PiiRevealGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac76779b7f524d68e1fa850174f28ab13" prot="public">
+          <name>PiiDeleteDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9ad849b1dcaa2ab1d7142bc9046b48da" prot="public">
+          <name>WalApplyPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae700fabcc6cdd8688ee042a992bfa3b2" prot="public">
+          <name>AuditQueryGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa9938488fa805cb5293616b0e54b6827" prot="public">
+          <name>AuditExportCsvGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a3de7783d835a41acef182b7d0a25de67" prot="public">
+          <name>ExportJsonlLlmPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a878968d2f62eedea9ef293baf4497c0c" prot="public">
+          <name>ExportStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab33e13e2f0f64446c8f0daf09efcc61b" prot="public">
+          <name>UpdateStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6ec4d1da20d7e43e354c01332b26e4cd" prot="public">
+          <name>UpdateCheckPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa32e765136b53a0f8aa0127f85096480" prot="public">
+          <name>UpdateConfigGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac804b180982c3398795979c21e79482f" prot="public">
+          <name>UpdateConfigPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af6c80e493ef825d055740039e9c1e333" prot="public">
+          <name>FeedbackPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1bc4eaec556e435be9b9a4052ccbb55c" prot="public">
+          <name>FeedbackGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad15ec94fd567f78b6f0dde44d8501d03" prot="public">
+          <name>FeedbackGetById</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa8d888b525556e11e3fc45a45d9ce878" prot="public">
+          <name>FeedbackPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aced2ad8bd75a26afefe3fe713633f253" prot="public">
+          <name>FeedbackDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a306c43de4b5c577c70df27a9811ad3b8" prot="public">
+          <name>FeedbackAdapterGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a3d75289cd5cd01951410f3111cab215b" prot="public">
+          <name>FeedbackStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a85f003b5dd3297f2ac62614b9f11dd99" prot="public">
+          <name>SpatialIndexCreatePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9d6ae481c9332119ef0479a7fee154da" prot="public">
+          <name>SpatialIndexRebuildPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a99cb63b991fb1e27f32c842687b44be5" prot="public">
+          <name>SpatialIndexStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad2c5851e8ecab0f10f2a41d8b4e964e7" prot="public">
+          <name>SpatialIndexMetricsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a31c104fcf39366f923df5dea42ad710d" prot="public">
+          <name>SnapshotsTagsPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0ff5b340a54ad71ebf652ed29b040a36" prot="public">
+          <name>SnapshotsTagsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5478465c31f400a04e2cf0b57224a075" prot="public">
+          <name>SnapshotsTagGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad6cd90f145df5193abe7c44e696127fc" prot="public">
+          <name>SnapshotsTagDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad568ac0ca14666a388c1b0de45346ac2" prot="public">
+          <name>SnapshotsStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa9033e937effbcd0514420e203a9a2f6" prot="public">
+          <name>DiffGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae0e28d6b474f632769ebee04ef4abd2d" prot="public">
+          <name>DiffCacheStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a229df98a6e13a6407d628850ddae9295" prot="public">
+          <name>DiffCacheClear</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a298239bd7931f23ed9e8ae225cae1f71" prot="public">
+          <name>PITRRestorePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a2ce4dbb3ae5342188069fd9837f88fb0" prot="public">
+          <name>PITRPreviewPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aaa356fccb4e87adb00410066eb21dd4c" prot="public">
+          <name>PITRProgressGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a24a12896c014ac28b814aee0ed757cc9" prot="public">
+          <name>BranchesPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae1d5da61ccaac0f2d3eea4f514448e50" prot="public">
+          <name>BranchesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0d869f21c57aadd45a085180a44482c6" prot="public">
+          <name>BranchesActiveGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae8763afe10b05c3b81524a94fac5226d" prot="public">
+          <name>BranchesStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5103fb6d73582291d2f76efb0451d9cc" prot="public">
+          <name>BranchGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa0eb91188e81cb271ea10e9a060503eb" prot="public">
+          <name>BranchSwitchPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1adfc71a18b50ff7ec695511a6efc8afd5" prot="public">
+          <name>BranchDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8d4d600f7624e47d943254dfce60ebb7" prot="public">
+          <name>BranchesMergePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac8600f8f2e3b5953198259b1131a0e00" prot="public">
+          <name>MergePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a02a33a4d8e9ec693e02a02e43c3541c3" prot="public">
+          <name>MergePreviewPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab092f703a492d5659125aa4d0b052a3c" prot="public">
+          <name>MergeByTagPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a289e9748cc883b699eb3b26ccdad230d" prot="public">
+          <name>MergeCanFastForwardGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab3f0a412b03ef8f01e3bc67a7576a340" prot="public">
+          <name>SchemaGetFull</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad8844b21e028e6c745aece0ed11e3784" prot="public">
+          <name>SchemaGetTables</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab311df063c1f047de8b6e670261f6358" prot="public">
+          <name>SchemaGetTable</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae7059cb187f3e599c83e4ab161c317c9" prot="public">
+          <name>SchemaPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a660043eed10cda863998e9e7513a5ad2" prot="public">
+          <name>SchemaPatch</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad030ba66339450acf2d1ec47874ebcd7" prot="public">
+          <name>SchemaVersionsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aea132d066e3f755ddb41c0ca723fda44" prot="public">
+          <name>SchemaVersionsPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9189f47ef7d7ec2d5678b65812060a64" prot="public">
+          <name>SchemaDiffGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1c3cff16f42219c76d5886373097ad35" prot="public">
+          <name>InformationSchemaGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a04001f82d97e4adb45082ce2e0597ee7" prot="public">
+          <name>MetadataStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aecb7a6d381846fea002fec9d186d74e0" prot="public">
+          <name>MetadataStatsPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1abb0539daea42f2ce78852ef60fe39b4f" prot="public">
+          <name>MetadataConstraintsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aafdd8cb8286140e3ebc5891fec798fe1" prot="public">
+          <name>MetadataIndexRecsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a7bbb260c3be7be384d18a452b5a73b11" prot="public">
+          <name>MetadataAuditGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a520f3b3bf9bc9fb5447838e53430e216" prot="public">
+          <name>MetadataLineageGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afcf89cafee430f7468233ffd7e0437cc" prot="public">
+          <name>MetadataLineagePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aea29088b5c78c433cd080ea42b8f95df" prot="public">
+          <name>MetadataSchemaImportPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a46812731b48cee5e4535d022c6c70cb6" prot="public">
+          <name>MetadataBatchValidatePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af167cf6d593731e4629746f044f2b634" prot="public">
+          <name>ErrorApiListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a3454da90db62683bc58029f5a50d5788" prot="public">
+          <name>ErrorApiGetByCode</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5aaee618b5d94cda0ea9139502c55442" prot="public">
+          <name>ErrorApiCategoriesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aadc5b030ccd98382bb52a659ec6acb60" prot="public">
+          <name>ErrorApiSearchGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a766e0372b1f0bf626f4fa7d7e93e7f87" prot="public">
+          <name>BpmnProcessStartPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4ecf6cf7cc1eaca12cd6e8d02adaff5a" prot="public">
+          <name>BpmnTaskCompletePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4a97121dde38fbd1ad8093816f1d6af9" prot="public">
+          <name>BpmnInstanceQueryGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad4e0df3cb72566540a570fb3d3f2eb74" prot="public">
+          <name>GeoTopologyGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a3ee7cffb849961479d1147e354b86e3a" prot="public">
+          <name>GeoRegionsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a755eafccf6570ff7613453416ad67deb" prot="public">
+          <name>GeoHealthGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afbc132975bddfc31b9e988fa98976217" prot="public">
+          <name>GeoTopologyShardPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5d7d8fd902c05ce49b47a342abbd0f46" prot="public">
+          <name>GeoTopologyShardDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a447f701053b1961e83870ae4fa9c7c56" prot="public">
+          <name>GeoConfigGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1adc6757272b75287cfda84dbbb4a25994" prot="public">
+          <name>GeoConfigPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a2860179f2a242cf84d5e84c1ceb1127c" prot="public">
+          <name>ReplicationTopologyGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae75a332648a4c26bef15d40472f3ac6d" prot="public">
+          <name>ReplicationHealthGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a16bcfdfe0240a90c5648a5d61241adb8" prot="public">
+          <name>ReplicationTopologyUiGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6d3ce728ae56a0ff3578f982fc98a084" prot="public">
+          <name>MvccKeyGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afbb9d008996b4accfc71e880e98694e8" prot="public">
+          <name>MvccKeyPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a493b24049efc2639fa06532a62aafdf6" prot="public">
+          <name>MvccKeyVersionsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad5bc7b22f83a08ca89eaac6f7deeed12" prot="public">
+          <name>MvccKeyVersionsDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa06d03a138eff91481f54334225b21ef" prot="public">
+          <name>MvccClockGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a79cc9cd87e4b2b6f1b8f24fc08c3eb4b" prot="public">
+          <name>MvccStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aff319fe3f7ee1aa4d9cc3b5e97fe943f" prot="public">
+          <name>GraphQLPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad8b6dfa06088ab3fbd07a53f7bc942e5" prot="public">
+          <name>GraphQLSchemaGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a2af93ef321383e19bdafa338444fbf27" prot="public">
+          <name>GrpcWebPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab3826ffd0a55d3f297d4dda58223ff22" prot="public">
+          <name>GrpcWebOptions</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a54fc590b868590cbd73d948786b36f4d" prot="public">
+          <name>GrpcWebStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8fc0718065ea193286cac7307ce5451d" prot="public">
+          <name>ServerlessFnPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a138c4e9ed09d59151d40d394aab2a02b" prot="public">
+          <name>ServerlessFnListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1adcad3c15961adf9b824949fb3973386d" prot="public">
+          <name>ServerlessFnGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a72ec32e021acedc67a0b4a7004fb2efa" prot="public">
+          <name>ServerlessFnPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1e362e08b7a3b80363ea1e3ffd914062" prot="public">
+          <name>ServerlessFnDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a367cd1d6d02e9a153c9b192fe0a1e374" prot="public">
+          <name>ServerlessFnInvokePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1b9efa1b5588ed57bad02a71ca386bae" prot="public">
+          <name>ServerlessFnVersionsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af20b0b50d41f8fa1e0035c8d81d8f877" prot="public">
+          <name>AsyncJobSubmitPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1abbe9a86599e54e9c3aa8a657cea53b47" prot="public">
+          <name>AsyncJobListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6c29dd6265ba5424097177e3daa4945b" prot="public">
+          <name>AsyncJobStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ab0e932d9710a204c1b03cb960865acff" prot="public">
+          <name>AsyncJobCancelDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aab8712f89f1464f63faf62a8b65ebcac" prot="public">
+          <name>ApiKeyPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a1e358b88af4471b5d307f367e520e34a" prot="public">
+          <name>ApiKeyListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a3b6ed442e888045a7f4658d181effae0" prot="public">
+          <name>ApiKeyGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a38056354506c01fc96e350a2824e0001" prot="public">
+          <name>ApiKeyPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a55b7a7877a94b2bceb2c0a395d201c77" prot="public">
+          <name>ApiKeyDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a81240f5c0ea0665f6b5fef88bc5482b0" prot="public">
+          <name>SessionPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a00c97247081f46408188a16d5228ce4c" prot="public">
+          <name>SessionListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a3f4d9c18dc19546c7cbd425e4b6a2624" prot="public">
+          <name>SessionDeleteById</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8589973b051dc93de18410529fcdbfd2" prot="public">
+          <name>SessionDeleteOthers</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6105dad827b9d37822a992915fe93400" prot="public">
+          <name>SamlLoginGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1af14fe22c6033810e7791e75909fc80bd" prot="public">
+          <name>SamlAcsPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a49d9ecfcb4bcbe5b1798bb956677107a" prot="public">
+          <name>SamlSloPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a820ade08b11d63ac10c3d13444d5e018" prot="public">
+          <name>SamlMetadataGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a42f897fb76be1e8e4c7f3d24160e85af" prot="public">
+          <name>UdfPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ac4ed4630ff7630faac11f094db2ac3c2" prot="public">
+          <name>UdfListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1acd4c7f7577b0e65683b830a916b21e82" prot="public">
+          <name>UdfGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae9ad205a3341ac5254ff6e003ef749a1" prot="public">
+          <name>UdfDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1adf3abf1fb6ef25b7f0079e386de5dfdf" prot="public">
+          <name>TasksPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6d7c26d767399f5d0f62538ca21e074b" prot="public">
+          <name>TasksListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a7a00c578c437e19e583f7a0fb252f96c" prot="public">
+          <name>TasksStatsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a59954433ecebd34c64bc81975ac7fbdc" prot="public">
+          <name>TasksGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aec01179b148d8a28fa90f93d12dd7873" prot="public">
+          <name>TasksPut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1acff8efb31470ef93c7ff246cd63e9938" prot="public">
+          <name>TasksDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad99e61cc92e1973676bce3575928e2e3" prot="public">
+          <name>TasksEnablePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a0391301071b66242a20d656b9ddefa55" prot="public">
+          <name>TasksDisablePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a29c8eb652091d4e0c9049fb389f3fd05" prot="public">
+          <name>TasksExecutePost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a24d72995df48942770b90773aa562439" prot="public">
+          <name>TasksHistoryGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4465fddb7ed2ccbb2eaca876ce4e57a4" prot="public">
+          <name>TasksUiGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a920f409952b775cb1fb2c86c36766eb6" prot="public">
+          <name>MaintenanceSchedulesPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a11be44e292e4314c4fa307177c42e896" prot="public">
+          <name>MaintenanceSchedulesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a09cc8ebd68113c7e6dec74fac7337b02" prot="public">
+          <name>MaintenanceScheduleGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a58915b778aeb4d49ed5732e44acffdf6" prot="public">
+          <name>MaintenanceSchedulePut</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a91e06b1f7764eff1663abcc9f4b1a7d7" prot="public">
+          <name>MaintenanceSchedulePatch</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1abc1c9da95dbbfddaabca914f348091ec" prot="public">
+          <name>MaintenanceScheduleDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1afed39f21f8e664b82e4c5cde557b0dd7" prot="public">
+          <name>MaintenanceScheduleRunPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a4d620b1d5b4415b8907a318878064c64" prot="public">
+          <name>MaintenanceJobsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a290b1aab4d3aedf5e7f65d9862a542ad" prot="public">
+          <name>MaintenanceJobGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9e549aa4b26b1722464551beaa1517fc" prot="public">
+          <name>MaintenanceJobCancelPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a28721fe8e2063fa1b5f8f1e7bf3328a3" prot="public">
+          <name>MaintenanceStatusGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a19e601d400aaff870e61d24d63e0fd74" prot="public">
+          <name>MaintenanceHealthGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aad30a1191689e34b7c241e9e7fe7b752" prot="public">
+          <name>MaintenanceTaskHandlersGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a258865043d2017881de6ca9c209ad80f" prot="public">
+          <name>RetentionPoliciesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aa83b875911004d4b66d63ca84617e8f7" prot="public">
+          <name>RetentionPoliciesPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a87e0d458cfeb43a7716c226dc2d47460" prot="public">
+          <name>RetentionPolicyDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aca0bad17f759c14cd04dd8fcf2d28108" prot="public">
+          <name>RetentionHistoryGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a9c4a833dce4a385f0b2102a71237a4ec" prot="public">
+          <name>SAGABatchesGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a5e68bec9ac502171d3911dbae5019b9c" prot="public">
+          <name>SAGABatchGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a8421ac353c6cfa07be06dc62b4160899" prot="public">
+          <name>SAGABatchVerifyPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a08b4a8249a4d3e65e54f9c928ff772c6" prot="public">
+          <name>SAGAFlushPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae0106faf821352b2fd8a169bfd76db16" prot="public">
+          <name>ContinuousQueryRegisterPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ad5c7ebb00b4959acb25958e9e1f2c2f5" prot="public">
+          <name>ContinuousQueryDropDelete</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a80a6f48031d1835e1bf0c1262df0d29c" prot="public">
+          <name>ContinuousQueryListGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1ae490fb421bc48fbe9d3f7173cb44fd0f" prot="public">
+          <name>ContinuousQueryStreamSseGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a6c57208a9cb3789b8e0129ff8f9d2867" prot="public">
+          <name>AiApprovePendingPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a21f2f2b5cc8d2c3b35b4b43574725ca7" prot="public">
+          <name>AiDenyPendingPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1aca0e6fe774ba7278779192d8c2a034ac" prot="public">
+          <name>AiPendingApprovalsGet</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a280a3f781277a3b296da4207bfd7c361" prot="public">
+          <name>AiRollbackPost</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1server_1_1_0d312207007040033113242016253361272171131125312122_1a35184497795cfcc38ee6bd97eb670cf1a38c300f4fc9ce8a77aad4a30de05cad8" prot="public">
+          <name>NotFound</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/http_server.cpp" line="2935" column="5" bodyfile="src/server/http_server.cpp" bodystart="2935" bodyend="3349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/http_server.cpp" line="2871" column="1"/>
+  </compounddef>
+</doxygen>

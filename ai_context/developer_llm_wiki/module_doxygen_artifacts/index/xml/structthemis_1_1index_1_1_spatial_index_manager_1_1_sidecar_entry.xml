@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_spatial_index_manager_1_1_sidecar_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::index::SpatialIndexManager::SidecarEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_index_manager_1_1_sidecar_entry_1aa7d6bf3382833e777f8fb0d532791fcb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::SpatialIndexManager::SidecarEntry::primary_key</definition>
+        <argsstring></argsstring>
+        <name>primary_key</name>
+        <qualifiedname>themis::index::SpatialIndexManager::SidecarEntry::primary_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="349" column="21" bodyfile="include/index/spatial_index.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_spatial_index_manager_1_1_sidecar_entry_1a050264cbc77fc3320964a80977dcea3b" prot="public" static="no" mutable="no">
+        <type>geo::GeoSidecar</type>
+        <definition>geo::GeoSidecar themis::index::SpatialIndexManager::SidecarEntry::sidecar</definition>
+        <argsstring></argsstring>
+        <name>sidecar</name>
+        <qualifiedname>themis::index::SpatialIndexManager::SidecarEntry::sidecar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/spatial_index.h" line="350" column="25" bodyfile="include/index/spatial_index.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/spatial_index.h" line="348" column="5" bodyfile="include/index/spatial_index.h" bodystart="348" bodyend="351"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_sidecar_entry_1aa7d6bf3382833e777f8fb0d532791fcb" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager::SidecarEntry</scope><name>primary_key</name></member>
+      <member refid="structthemis_1_1index_1_1_spatial_index_manager_1_1_sidecar_entry_1a050264cbc77fc3320964a80977dcea3b" prot="public" virt="non-virtual"><scope>themis::index::SpatialIndexManager::SidecarEntry</scope><name>sidecar</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

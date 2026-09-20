@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_multi_step_r_a_g_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::MultiStepRAGFactory</compoundname>
+    <includes refid="multi__step__rag_8h" local="no">multi_step_rag.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_multi_step_r_a_g_factory_1af46c9218fcb711c8edcf048af507e30b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_multi_step_r_a_g_orchestrator" kindref="compound">MultiStepRAGOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiStepRAGOrchestrator &gt; themis::rag::MultiStepRAGFactory::createSmallContext</definition>
+        <argsstring>()</argsstring>
+        <name>createSmallContext</name>
+        <qualifiedname>themis::rag::MultiStepRAGFactory::createSmallContext</qualifiedname>
+        <briefdescription>
+<para>Small context window (4 096 tokens, 512 response, 3 iterations max). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="234" column="28" bodyfile="src/rag/multi_step_rag.cpp" bodystart="597" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_multi_step_r_a_g_factory_1a401cf632b9ca1666a81e419de2d15d99" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_multi_step_r_a_g_orchestrator" kindref="compound">MultiStepRAGOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiStepRAGOrchestrator &gt; themis::rag::MultiStepRAGFactory::createMediumContext</definition>
+        <argsstring>()</argsstring>
+        <name>createMediumContext</name>
+        <qualifiedname>themis::rag::MultiStepRAGFactory::createMediumContext</qualifiedname>
+        <briefdescription>
+<para>Medium context window (8 192 tokens, 512 response, 4 map steps max). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="237" column="28" bodyfile="src/rag/multi_step_rag.cpp" bodystart="609" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_multi_step_r_a_g_factory_1a33aba984b31eeb69c48e140ae97f7331" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_multi_step_r_a_g_orchestrator" kindref="compound">MultiStepRAGOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiStepRAGOrchestrator &gt; themis::rag::MultiStepRAGFactory::createLargeContext</definition>
+        <argsstring>()</argsstring>
+        <name>createLargeContext</name>
+        <qualifiedname>themis::rag::MultiStepRAGFactory::createLargeContext</qualifiedname>
+        <briefdescription>
+<para>Large context window (32 768 tokens, 1 024 response, 8 map steps max). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="240" column="28" bodyfile="src/rag/multi_step_rag.cpp" bodystart="621" bodyend="630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_multi_step_r_a_g_factory_1a448aacd2c93c37babf16c13153c5cb76" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_multi_step_r_a_g_orchestrator" kindref="compound">MultiStepRAGOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; MultiStepRAGOrchestrator &gt; themis::rag::MultiStepRAGFactory::create</definition>
+        <argsstring>(const MultiStepRAGConfig &amp;cfg)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::rag::MultiStepRAGFactory::create</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_multi_step_r_a_g_config" kindref="compound">MultiStepRAGConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_step_rag.h" line="243" column="28" bodyfile="src/rag/multi_step_rag.cpp" bodystart="633" bodyend="636"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1_multi_step_r_a_g_orchestrator" kindref="compound">MultiStepRAGOrchestrator</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multi_step_rag.h" line="231" column="1" bodyfile="include/rag/multi_step_rag.h" bodystart="231" bodyend="245"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_multi_step_r_a_g_factory_1a448aacd2c93c37babf16c13153c5cb76" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGFactory</scope><name>create</name></member>
+      <member refid="classthemis_1_1rag_1_1_multi_step_r_a_g_factory_1a33aba984b31eeb69c48e140ae97f7331" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGFactory</scope><name>createLargeContext</name></member>
+      <member refid="classthemis_1_1rag_1_1_multi_step_r_a_g_factory_1a401cf632b9ca1666a81e419de2d15d99" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGFactory</scope><name>createMediumContext</name></member>
+      <member refid="classthemis_1_1rag_1_1_multi_step_r_a_g_factory_1af46c9218fcb711c8edcf048af507e30b" prot="public" virt="non-virtual"><scope>themis::rag::MultiStepRAGFactory</scope><name>createSmallContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

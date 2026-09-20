@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_11b114e577261427c21eca848047b8f2" kind="dir">
+    <compoundname>benchmarks/failover</compoundname>
+    <innerfile refid="bench__failover__phase2__phase3__gates_8cpp">bench_failover_phase2_phase3_gates.cpp</innerfile>
+    <innerfile refid="bench__failover__release__gates_8cpp">bench_failover_release_gates.cpp</innerfile>
+    <innerfile refid="bench__failover__wave__b__gates_8cpp">bench_failover_wave_b_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/"/>
+  </compounddef>
+</doxygen>

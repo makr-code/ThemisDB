@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_expected_cycles" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::ExpectedCycles</compoundname>
+    <includes refid="expected__cycles_8h" local="no">expected_cycles.h</includes>
+    <innerclass refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline" prot="public">themis::performance::ExpectedCycles::RAGPipeline</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1_expected_cycles_1_1_tolerances" prot="public">themis::performance::ExpectedCycles::Tolerances</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1a091bab373c84537f00f94870778d953f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::L1_CACHE_HIT</definition>
+        <argsstring></argsstring>
+        <name>L1_CACHE_HIT</name>
+        <qualifiedname>themis::performance::ExpectedCycles::L1_CACHE_HIT</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>L1 cache hit: ~4 cycles (1-2ns @ 3GHz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="31" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1aade3efb981d18839a69fe0211464f3dd" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::L2_CACHE_HIT</definition>
+        <argsstring></argsstring>
+        <name>L2_CACHE_HIT</name>
+        <qualifiedname>themis::performance::ExpectedCycles::L2_CACHE_HIT</qualifiedname>
+        <initializer>= 12</initializer>
+        <briefdescription>
+<para>L2 cache hit: ~12 cycles (3-4ns @ 3GHz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="34" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1a7034242e2f095990268ffb844f7feb35" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::L3_CACHE_HIT</definition>
+        <argsstring></argsstring>
+        <name>L3_CACHE_HIT</name>
+        <qualifiedname>themis::performance::ExpectedCycles::L3_CACHE_HIT</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>L3 cache hit: ~50 cycles (12-15ns @ 3GHz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="37" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1a84200eba719ad1ba4704e6b3776174db" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::RAM_ACCESS</definition>
+        <argsstring></argsstring>
+        <name>RAM_ACCESS</name>
+        <qualifiedname>themis::performance::ExpectedCycles::RAM_ACCESS</qualifiedname>
+        <initializer>= 250</initializer>
+        <briefdescription>
+<para>RAM access: ~250 cycles (60-80ns @ 3GHz). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="40" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1a9f75465401856645cbecc86aa4f17f70" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::POINTER_PASSING</definition>
+        <argsstring></argsstring>
+        <name>POINTER_PASSING</name>
+        <qualifiedname>themis::performance::ExpectedCycles::POINTER_PASSING</qualifiedname>
+        <initializer>= 150</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pointer passing overhead: ~150 cycles (registry + stack) This should be negligible compared to actual computation </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="48" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1a223bff03ffba725c95a154280e4a8151" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::MEMORY_COPY_PER_KB</definition>
+        <argsstring></argsstring>
+        <name>MEMORY_COPY_PER_KB</name>
+        <qualifiedname>themis::performance::ExpectedCycles::MEMORY_COPY_PER_KB</qualifiedname>
+        <initializer>= 800</initializer>
+        <briefdescription>
+<para>Memory copy per KB: ~800 cycles (~0.8 cycles/byte with SIMD). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="51" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1a1fc88359a0ba22c1829cef58ef453ce5" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::HNSW_SEARCH_1K_VECTORS</definition>
+        <argsstring></argsstring>
+        <name>HNSW_SEARCH_1K_VECTORS</name>
+        <qualifiedname>themis::performance::ExpectedCycles::HNSW_SEARCH_1K_VECTORS</qualifiedname>
+        <initializer>= 1&apos;200&apos;000</initializer>
+        <briefdescription>
+<para>HNSW search: 1K vectors, 768-dim, ef=50. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="58" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1a6f527a03a96ea22f3766e85ba5ebc2bc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::HNSW_SEARCH_10K_VECTORS</definition>
+        <argsstring></argsstring>
+        <name>HNSW_SEARCH_10K_VECTORS</name>
+        <qualifiedname>themis::performance::ExpectedCycles::HNSW_SEARCH_10K_VECTORS</qualifiedname>
+        <initializer>= 4&apos;500&apos;000</initializer>
+        <briefdescription>
+<para>HNSW search: 10K vectors, 768-dim, ef=50. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="61" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1abbf8cc2e04bd181c18b7676dfa409ac7" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::HNSW_SEARCH_100K_VECTORS</definition>
+        <argsstring></argsstring>
+        <name>HNSW_SEARCH_100K_VECTORS</name>
+        <qualifiedname>themis::performance::ExpectedCycles::HNSW_SEARCH_100K_VECTORS</qualifiedname>
+        <initializer>= 12&apos;000&apos;000</initializer>
+        <briefdescription>
+<para>HNSW search: 100K vectors, 768-dim, ef=50. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="64" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1aa59fdb35eefab2b73d68e4badeb2855c" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::HNSW_SEARCH_1M_VECTORS</definition>
+        <argsstring></argsstring>
+        <name>HNSW_SEARCH_1M_VECTORS</name>
+        <qualifiedname>themis::performance::ExpectedCycles::HNSW_SEARCH_1M_VECTORS</qualifiedname>
+        <initializer>= 35&apos;000&apos;000</initializer>
+        <briefdescription>
+<para>HNSW search: 1M vectors, 768-dim, ef=50. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="67" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1a4188c7c4381f00cb571ba88cefc1c719" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::LLM_INFERENCE_TOKEN_7B</definition>
+        <argsstring></argsstring>
+        <name>LLM_INFERENCE_TOKEN_7B</name>
+        <qualifiedname>themis::performance::ExpectedCycles::LLM_INFERENCE_TOKEN_7B</qualifiedname>
+        <initializer>= 80&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>LLM inference per token: 7B parameter model ~20-30ms @ 3GHz = 60-90M cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="75" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1ac5263272fe26a930aa9385fd941d5521" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::LLM_INFERENCE_TOKEN_13B</definition>
+        <argsstring></argsstring>
+        <name>LLM_INFERENCE_TOKEN_13B</name>
+        <qualifiedname>themis::performance::ExpectedCycles::LLM_INFERENCE_TOKEN_13B</qualifiedname>
+        <initializer>= 145&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>LLM inference per token: 13B parameter model ~35-50ms @ 3GHz = 105-150M cycles </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="79" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1aeaa4840fc536f94cb5883fedce4c884e" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::PCIE_CYCLES_PER_MB</definition>
+        <argsstring></argsstring>
+        <name>PCIE_CYCLES_PER_MB</name>
+        <qualifiedname>themis::performance::ExpectedCycles::PCIE_CYCLES_PER_MB</qualifiedname>
+        <initializer>= 335&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>PCIe Gen 4 x16: ~50 GB/s effective bandwidth Transferring 1MB takes ~20µs = ~80K cycles @ 4GHz Per MB: 335K cycles @ 3GHz average </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="88" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_expected_cycles_1ae92ca637105b3e64b54955859ef44eda" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ExpectedCycles::GPU_KERNEL_LAUNCH</definition>
+        <argsstring></argsstring>
+        <name>GPU_KERNEL_LAUNCH</name>
+        <qualifiedname>themis::performance::ExpectedCycles::GPU_KERNEL_LAUNCH</qualifiedname>
+        <initializer>= 20&apos;000</initializer>
+        <briefdescription>
+<para>GPU kernel launch overhead: ~20K cycles (~5-7µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="95" column="31" bodyfile="include/performance/expected_cycles.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_expected_cycles_1a36caaffa6a4be48d0f66090b5f6e2df5" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>static double themis::performance::ExpectedCycles::deviation_percent</definition>
+        <argsstring>(uint64_t actual, uint64_t expected) noexcept</argsstring>
+        <name>deviation_percent</name>
+        <qualifiedname>themis::performance::ExpectedCycles::deviation_percent</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>actual</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Calculate deviation percentage from expected value. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured cycle count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected cycle count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Deviation as percentage (positive = slower, negative = faster) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="162" column="26" bodyfile="include/performance/expected_cycles.h" bodystart="162" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_expected_cycles_1aff30ae195a8c837f75da42607bb131dc" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::performance::ExpectedCycles::is_normal</definition>
+        <argsstring>(uint64_t actual, uint64_t expected) noexcept</argsstring>
+        <name>is_normal</name>
+        <qualifiedname>themis::performance::ExpectedCycles::is_normal</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>actual</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Check if deviation is within normal variance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured cycle count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected cycle count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if within ±15% </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="175" column="24" bodyfile="include/performance/expected_cycles.h" bodystart="175" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_expected_cycles_1a4844a394ff55f089e4a1a3cebc082ff7" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::performance::ExpectedCycles::is_warning</definition>
+        <argsstring>(uint64_t actual, uint64_t expected) noexcept</argsstring>
+        <name>is_warning</name>
+        <qualifiedname>themis::performance::ExpectedCycles::is_warning</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>actual</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Check if deviation requires warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured cycle count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected cycle count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if deviation &gt; 30% </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="186" column="24" bodyfile="include/performance/expected_cycles.h" bodystart="186" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_expected_cycles_1ac6e72c7bb3aa9ea7ce039bb705adc026" prot="public" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::performance::ExpectedCycles::is_critical</definition>
+        <argsstring>(uint64_t actual, uint64_t expected) noexcept</argsstring>
+        <name>is_critical</name>
+        <qualifiedname>themis::performance::ExpectedCycles::is_critical</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>actual</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>expected</declname>
+        </param>
+        <briefdescription>
+<para>Check if deviation is critical. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>actual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured cycle count </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>expected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected cycle count </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if deviation &gt; 50% </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/expected_cycles.h" line="197" column="24" bodyfile="include/performance/expected_cycles.h" bodystart="197" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Expected cycle counts for various operations. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>These values are based on modern hardware (Intel/AMD ~3-4 GHz, DDR4/DDR5). Use for validation and anomaly detection. </para>
+    </detaileddescription>
+    <location file="include/performance/expected_cycles.h" line="25" column="1" bodyfile="include/performance/expected_cycles.h" bodystart="25" bodyend="201"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a36caaffa6a4be48d0f66090b5f6e2df5" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>deviation_percent</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1ae92ca637105b3e64b54955859ef44eda" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>GPU_KERNEL_LAUNCH</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1abbf8cc2e04bd181c18b7676dfa409ac7" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>HNSW_SEARCH_100K_VECTORS</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a6f527a03a96ea22f3766e85ba5ebc2bc" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>HNSW_SEARCH_10K_VECTORS</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a1fc88359a0ba22c1829cef58ef453ce5" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>HNSW_SEARCH_1K_VECTORS</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1aa59fdb35eefab2b73d68e4badeb2855c" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>HNSW_SEARCH_1M_VECTORS</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1ac6e72c7bb3aa9ea7ce039bb705adc026" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>is_critical</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1aff30ae195a8c837f75da42607bb131dc" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>is_normal</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a4844a394ff55f089e4a1a3cebc082ff7" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>is_warning</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a091bab373c84537f00f94870778d953f" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>L1_CACHE_HIT</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1aade3efb981d18839a69fe0211464f3dd" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>L2_CACHE_HIT</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a7034242e2f095990268ffb844f7feb35" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>L3_CACHE_HIT</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1ac5263272fe26a930aa9385fd941d5521" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>LLM_INFERENCE_TOKEN_13B</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a4188c7c4381f00cb571ba88cefc1c719" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>LLM_INFERENCE_TOKEN_7B</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a223bff03ffba725c95a154280e4a8151" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>MEMORY_COPY_PER_KB</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1aeaa4840fc536f94cb5883fedce4c884e" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>PCIE_CYCLES_PER_MB</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a9f75465401856645cbecc86aa4f17f70" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>POINTER_PASSING</name></member>
+      <member refid="structthemis_1_1performance_1_1_expected_cycles_1a84200eba719ad1ba4704e6b3776174db" prot="public" virt="non-virtual"><scope>themis::performance::ExpectedCycles</scope><name>RAM_ACCESS</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

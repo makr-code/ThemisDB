@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::DiffEngine::DiffOptions</compoundname>
+    <includes refid="diff__engine_8h" local="no">diff_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a53c01ebed33f403270bed54a4058336a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::analytics::DiffEngine::DiffOptions::table_filter</definition>
+        <argsstring></argsstring>
+        <name>table_filter</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffOptions::table_filter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="100" column="23" bodyfile="include/analytics/diff_engine.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1ad11331b56a5059e4be5c245442abc09e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::analytics::DiffEngine::DiffOptions::key_prefix</definition>
+        <argsstring></argsstring>
+        <name>key_prefix</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffOptions::key_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="101" column="23" bodyfile="include/analytics/diff_engine.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1acef20b76fb28628530f64873f3ef99eb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::DiffEngine::DiffOptions::include_values</definition>
+        <argsstring></argsstring>
+        <name>include_values</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffOptions::include_values</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="102" column="14" bodyfile="include/analytics/diff_engine.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a00b6ba5ad32735d357c5c1b2a1a7da7d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::DiffEngine::DiffOptions::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffOptions::limit</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="105" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1af6d13172d05aeb9b2b3a4d5328c4727f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::DiffEngine::DiffOptions::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffOptions::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="106" column="16" bodyfile="include/analytics/diff_engine.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a52ff82a51b397d075985ee49af01428a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::DiffEngine::DiffOptions::enable_caching</definition>
+        <argsstring></argsstring>
+        <name>enable_caching</name>
+        <qualifiedname>themis::analytics::DiffEngine::DiffOptions::enable_caching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/diff_engine.h" line="109" column="14" bodyfile="include/analytics/diff_engine.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/diff_engine.h" line="98" column="5" bodyfile="include/analytics/diff_engine.h" bodystart="98" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a52ff82a51b397d075985ee49af01428a" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffOptions</scope><name>enable_caching</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1acef20b76fb28628530f64873f3ef99eb" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffOptions</scope><name>include_values</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1ad11331b56a5059e4be5c245442abc09e" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffOptions</scope><name>key_prefix</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a00b6ba5ad32735d357c5c1b2a1a7da7d" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffOptions</scope><name>limit</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1af6d13172d05aeb9b2b3a4d5328c4727f" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffOptions</scope><name>offset</name></member>
+      <member refid="structthemis_1_1analytics_1_1_diff_engine_1_1_diff_options_1a53c01ebed33f403270bed54a4058336a" prot="public" virt="non-virtual"><scope>themis::analytics::DiffEngine::DiffOptions</scope><name>table_filter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

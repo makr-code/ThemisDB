@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_compliance_check_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::ComplianceCheckResult</compoundname>
+    <includes refid="governance__api__contract_8h" local="no">governance_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::ComplianceCheckResult::allowed</definition>
+        <argsstring></argsstring>
+        <name>allowed</name>
+        <qualifiedname>themis::governance::ComplianceCheckResult::allowed</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_api_contract.h" line="77" column="14" bodyfile="include/governance/governance_api_contract.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_check_result_1af6b6920e0ff7ac9f4e6da2f2c0602c41" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eb" kindref="member">GovError</ref></type>
+        <definition>GovError themis::governance::ComplianceCheckResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::governance::ComplianceCheckResult::reason</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebabe42b1da01dca65f80397cd01bac91cc" kindref="member">GovError::kConsentMissing</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_api_contract.h" line="78" column="14" bodyfile="include/governance/governance_api_contract.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_compliance_check_result_1a074b3a27aac885a3df368397fcfbb286" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::ComplianceCheckResult::justification</definition>
+        <argsstring></argsstring>
+        <name>justification</name>
+        <qualifiedname>themis::governance::ComplianceCheckResult::justification</qualifiedname>
+        <briefdescription>
+<para>Human-readable explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_api_contract.h" line="79" column="17" bodyfile="include/governance/governance_api_contract.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a compliance check. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_api_contract.h" line="76" column="1" bodyfile="include/governance/governance_api_contract.h" bodystart="76" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceCheckResult</scope><name>allowed</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_check_result_1a074b3a27aac885a3df368397fcfbb286" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceCheckResult</scope><name>justification</name></member>
+      <member refid="structthemis_1_1governance_1_1_compliance_check_result_1af6b6920e0ff7ac9f4e6da2f2c0602c41" prot="public" virt="non-virtual"><scope>themis::governance::ComplianceCheckResult</scope><name>reason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

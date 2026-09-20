@@ -1,0 +1,391 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1streaming" kind="namespace" language="C++">
+    <compoundname>themisdb::streaming</compoundname>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_stream_throttle_config" prot="public">themisdb::streaming::StreamThrottleConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_stream_session_config" prot="public">themisdb::streaming::StreamSessionConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_stream_plan_config" prot="public">themisdb::streaming::StreamPlanConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_stream_message_header" prot="public">themisdb::streaming::StreamMessageHeader</innerclass>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_stream_file_info" prot="public">themisdb::streaming::StreamFileInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_stream_chunk" prot="public">themisdb::streaming::StreamChunk</innerclass>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_stream_file_progress" prot="public">themisdb::streaming::StreamFileProgress</innerclass>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_stream_session_progress" prot="public">themisdb::streaming::StreamSessionProgress</innerclass>
+    <innerclass refid="structthemisdb_1_1streaming_1_1_streaming_stats" prot="public">themisdb::streaming::StreamingStats</innerclass>
+    <innerclass refid="classthemisdb_1_1streaming_1_1_i_stream_listener" prot="public">themisdb::streaming::IStreamListener</innerclass>
+    <innerclass refid="classthemisdb_1_1streaming_1_1_stream_compressor" prot="public">themisdb::streaming::StreamCompressor</innerclass>
+    <innerclass refid="classthemisdb_1_1streaming_1_1_stream_rate_limiter" prot="public">themisdb::streaming::StreamRateLimiter</innerclass>
+    <innerclass refid="classthemisdb_1_1streaming_1_1_stream_transfer_task" prot="public">themisdb::streaming::StreamTransferTask</innerclass>
+    <innerclass refid="classthemisdb_1_1streaming_1_1_stream_receive_task" prot="public">themisdb::streaming::StreamReceiveTask</innerclass>
+    <innerclass refid="classthemisdb_1_1streaming_1_1_stream_session" prot="public">themisdb::streaming::StreamSession</innerclass>
+    <innerclass refid="classthemisdb_1_1streaming_1_1_stream_plan" prot="public">themisdb::streaming::StreamPlan</innerclass>
+    <innerclass refid="classthemisdb_1_1streaming_1_1_stream_coordinator" prot="public">themisdb::streaming::StreamCoordinator</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbd" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>StreamMessageType</name>
+        <qualifiedname>themisdb::streaming::StreamMessageType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda8c2a55b256c04be227e03b7ec5551713" prot="public">
+          <name>PREPARE_REQUEST</name>
+          <initializer>= 0x01</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda805bca9d7d32e5b3e003fb1d90aa9864" prot="public">
+          <name>PREPARE_ACK</name>
+          <initializer>= 0x02</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda0cd21f88a59ae6c80166e84e616ff8c8" prot="public">
+          <name>PREPARE_NACK</name>
+          <initializer>= 0x03</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbdab927849edc1e58003de485a0ea509d9b" prot="public">
+          <name>FILE_HEADER</name>
+          <initializer>= 0x10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda95397f1dba18c7ba34a7045c9cf4ab64" prot="public">
+          <name>DATA_CHUNK</name>
+          <initializer>= 0x11</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda8e60528867ed7cbc9f1521517ba01ec2" prot="public">
+          <name>DATA_CHUNK_ACK</name>
+          <initializer>= 0x12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda5cdd4d80590f55e223e59bad91e151de" prot="public">
+          <name>FILE_COMPLETE</name>
+          <initializer>= 0x13</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbdae48ee80a45747c9d571b490213380917" prot="public">
+          <name>RETRY_REQUEST</name>
+          <initializer>= 0x20</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda8d12a2ca7e5a64036d7251a3eda51a38" prot="public">
+          <name>ABORT</name>
+          <initializer>= 0x21</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda639aaf8f2554fb4059af3d8b0193b827" prot="public">
+          <name>SESSION_COMPLETE</name>
+          <initializer>= 0x22</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda4e60c7b1bf2321ca62774a1ba68c3f9f" prot="public">
+          <name>SESSION_COMPLETE_ACK</name>
+          <initializer>= 0x23</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbda0d895a0a05a7cce9b2c0c8bb252f78cc" prot="public">
+          <name>HEARTBEAT</name>
+          <initializer>= 0x30</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbdae2acdd09db8a5e277dae4565b27dcfba" prot="public">
+          <name>HEARTBEAT_ACK</name>
+          <initializer>= 0x31</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1aa9eb823b11b96dd91bcf59f228376fbdabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <initializer>= 0xFF</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Streaming message types (protocol opcodes) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="65" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="65" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1streaming_1a072111760fa646882dda384546a08b38" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>CompressionAlgorithm</name>
+        <qualifiedname>themisdb::streaming::CompressionAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a072111760fa646882dda384546a08b38ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a072111760fa646882dda384546a08b38aca0c64c0de8f56bc573828ea6d764594" prot="public">
+          <name>LZ4</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a072111760fa646882dda384546a08b38a8406cc2302e19183037b61249546b234" prot="public">
+          <name>ZSTD</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a072111760fa646882dda384546a08b38a2069e5c0aea54224dcd6b9b6c78c4902" prot="public">
+          <name>SNAPPY</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Compression algorithms </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="94" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="94" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StreamSessionState</name>
+        <qualifiedname>themisdb::streaming::StreamSessionState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4adee5f03c2c4e73657824e028494b18c0" prot="public">
+          <name>INITIALIZED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4abd6a3a60251e4e52cdc9c393f33cbe10" prot="public">
+          <name>PREPARING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4ab8f87bd0ae829f0fa0fcaa1a0a2bf91e" prot="public">
+          <name>STREAMING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4a3de44296982e58199afc513a715b12ba" prot="public">
+          <name>COMPLETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a3d61411742c331e337713df1aa8f0ee4a4e6c860e5da10e31c5fd9cb76ddc2025" prot="public">
+          <name>ABORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Stream session state machine </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="104" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="104" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1streaming_1a2aff88aef0a4a923dcdf9b16e7b91abe" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StreamDirection</name>
+        <qualifiedname>themisdb::streaming::StreamDirection</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a2aff88aef0a4a923dcdf9b16e7b91abea1741b869c82993c62163223d8fefbba4" prot="public">
+          <name>OUTGOING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1streaming_1a2aff88aef0a4a923dcdf9b16e7b91abeafb4081bff9f77d65456ceb00b153e4d4" prot="public">
+          <name>INCOMING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Stream direction </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="116" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="116" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemisdb_1_1streaming_1ab104a46f32eaa74ccfcd92cf88862edf" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1streaming_1_1_stream_session_progress" kindref="compound">StreamSessionProgress</ref> &amp;)&gt;</type>
+        <definition>using themisdb::streaming::StreamProgressCallback = std::function&lt;void(const StreamSessionProgress&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StreamProgressCallback</name>
+        <qualifiedname>themisdb::streaming::StreamProgressCallback</qualifiedname>
+        <briefdescription>
+<para>Callback invoked with incremental session progress snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="331" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1streaming_1ac72eff23b9517c410ac6c3f0a573988e" prot="public" static="no">
+        <type>std::function&lt; void(uint32_t session_id, bool success, const std::string &amp;error)&gt;</type>
+        <definition>using themisdb::streaming::StreamCompletionCallback = std::function&lt;void(uint32_t session_id, bool success, const std::string&amp; error)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StreamCompletionCallback</name>
+        <qualifiedname>themisdb::streaming::StreamCompletionCallback</qualifiedname>
+        <briefdescription>
+<para>Callback invoked when a session reaches terminal success/failure state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="334" column="1" bodyfile="include/sharding/stream_protocol.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1streaming_1a36cbe60c0ab22a304c8c50fa359836b2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::DEFAULT_CHUNK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_CHUNK_SIZE</name>
+        <qualifiedname>themisdb::streaming::DEFAULT_CHUNK_SIZE</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="122" column="20" bodyfile="include/sharding/stream_protocol.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1streaming_1a3a27c12f038ee6ea07f3803ea0d49e3b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::MAX_CHUNK_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_CHUNK_SIZE</name>
+        <qualifiedname>themisdb::streaming::MAX_CHUNK_SIZE</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="123" column="20" bodyfile="include/sharding/stream_protocol.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1streaming_1a68237529c43ce7ce3fbfea0ce27fc7e2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::DEFAULT_WINDOW_SIZE</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_WINDOW_SIZE</name>
+        <qualifiedname>themisdb::streaming::DEFAULT_WINDOW_SIZE</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="124" column="20" bodyfile="include/sharding/stream_protocol.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1streaming_1a7986fd4169e145609fade6581d2b4206" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::DEFAULT_TIMEOUT_MS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_TIMEOUT_MS</name>
+        <qualifiedname>themisdb::streaming::DEFAULT_TIMEOUT_MS</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="125" column="20" bodyfile="include/sharding/stream_protocol.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemisdb_1_1streaming_1a534994970d28d7b4943981579bd5bcb2" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::streaming::HEARTBEAT_INTERVAL_MS</definition>
+        <argsstring></argsstring>
+        <name>HEARTBEAT_INTERVAL_MS</name>
+        <qualifiedname>themisdb::streaming::HEARTBEAT_INTERVAL_MS</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/stream_protocol.h" line="126" column="20" bodyfile="include/sharding/stream_protocol.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/stream_protocol.h" line="46" column="1"/>
+  </compounddef>
+</doxygen>

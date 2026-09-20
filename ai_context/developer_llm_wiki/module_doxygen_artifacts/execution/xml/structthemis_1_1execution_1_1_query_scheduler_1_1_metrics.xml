@@ -1,0 +1,193 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::execution::QueryScheduler::Metrics</compoundname>
+    <includes refid="query__scheduler_8h" local="no">query_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a83070729fd02a7bdd65c232b3a42e856" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::execution::QueryScheduler::Metrics::queue_depth_high</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_high</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::queue_depth_high</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="87" column="22" bodyfile="include/execution/query_scheduler.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a864c8d83cd81e5d5666439a0b251283c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::execution::QueryScheduler::Metrics::queue_depth_medium</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_medium</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::queue_depth_medium</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="88" column="22" bodyfile="include/execution/query_scheduler.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ad88b5e062ee94b692b38625c47b457f7" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::execution::QueryScheduler::Metrics::queue_depth_low</definition>
+        <argsstring></argsstring>
+        <name>queue_depth_low</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::queue_depth_low</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="89" column="22" bodyfile="include/execution/query_scheduler.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ac611c80fe0dbe9d1d408a5676f339de5" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::execution::QueryScheduler::Metrics::total_enqueued</definition>
+        <argsstring></argsstring>
+        <name>total_enqueued</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::total_enqueued</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="90" column="23" bodyfile="include/execution/query_scheduler.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a4eb09c6e9107a9c5a58433d362de2ac0" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::execution::QueryScheduler::Metrics::total_dequeued</definition>
+        <argsstring></argsstring>
+        <name>total_dequeued</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::total_dequeued</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="91" column="23" bodyfile="include/execution/query_scheduler.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1af37d2431074e46ccd307a3268a6b8406" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::execution::QueryScheduler::Metrics::total_shed</definition>
+        <argsstring></argsstring>
+        <name>total_shed</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::total_shed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="92" column="23" bodyfile="include/execution/query_scheduler.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ad01e950bcdd34a0a796ca4022fe2ba90" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::execution::QueryScheduler::Metrics::completed_in_sla</definition>
+        <argsstring></argsstring>
+        <name>completed_in_sla</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::completed_in_sla</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Completions within deadline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="93" column="23" bodyfile="include/execution/query_scheduler.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1af400c6eeb582c66e729abde404ba3c99" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::execution::QueryScheduler::Metrics::completed_total</definition>
+        <argsstring></argsstring>
+        <name>completed_total</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::completed_total</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="94" column="23" bodyfile="include/execution/query_scheduler.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1aa58b87fdb57482586b720e443eddcb5a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::execution::QueryScheduler::Metrics::sla_compliance_pct</definition>
+        <argsstring></argsstring>
+        <name>sla_compliance_pct</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::sla_compliance_pct</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="95" column="22" bodyfile="include/execution/query_scheduler.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1aee7b168e596cee0c03be4a0a1ba22fb3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::execution::QueryScheduler::Metrics::avg_enqueue_us</definition>
+        <argsstring></argsstring>
+        <name>avg_enqueue_us</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::avg_enqueue_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="96" column="22" bodyfile="include/execution/query_scheduler.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a73757445efa60468c28aec28d4b0f12b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::execution::QueryScheduler::Metrics::avg_dequeue_us</definition>
+        <argsstring></argsstring>
+        <name>avg_dequeue_us</name>
+        <qualifiedname>themis::execution::QueryScheduler::Metrics::avg_dequeue_us</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/query_scheduler.h" line="97" column="22" bodyfile="include/execution/query_scheduler.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/query_scheduler.h" line="86" column="5" bodyfile="include/execution/query_scheduler.h" bodystart="86" bodyend="98"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a73757445efa60468c28aec28d4b0f12b" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>avg_dequeue_us</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1aee7b168e596cee0c03be4a0a1ba22fb3" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>avg_enqueue_us</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ad01e950bcdd34a0a796ca4022fe2ba90" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>completed_in_sla</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1af400c6eeb582c66e729abde404ba3c99" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>completed_total</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a83070729fd02a7bdd65c232b3a42e856" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>queue_depth_high</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ad88b5e062ee94b692b38625c47b457f7" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>queue_depth_low</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a864c8d83cd81e5d5666439a0b251283c" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>queue_depth_medium</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1aa58b87fdb57482586b720e443eddcb5a" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>sla_compliance_pct</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1a4eb09c6e9107a9c5a58433d362de2ac0" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>total_dequeued</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1ac611c80fe0dbe9d1d408a5676f339de5" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>total_enqueued</name></member>
+      <member refid="structthemis_1_1execution_1_1_query_scheduler_1_1_metrics_1af37d2431074e46ccd307a3268a6b8406" prot="public" virt="non-virtual"><scope>themis::execution::QueryScheduler::Metrics</scope><name>total_shed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

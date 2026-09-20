@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::user_storage::DiagnosticEvent</compoundname>
+    <includes refid="error__codes_8hpp" local="no">error_codes.hpp</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bbadabc4454f46ce1a176066aefd8f6a71b" prot="public">
+          <name>MOUNT_STARTED</name>
+          <briefdescription>
+<para>Mount operation started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba0b10bc839c122d5c34355d7f0fdce4be" prot="public">
+          <name>MOUNT_COMPLETED</name>
+          <briefdescription>
+<para>Mount operation completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba3a759b355791c7fdcd938efda8884bd8" prot="public">
+          <name>MOUNT_FAILED</name>
+          <briefdescription>
+<para>Mount operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba2b43680b360a5b04663401bc241aa1e5" prot="public">
+          <name>UNMOUNT_STARTED</name>
+          <briefdescription>
+<para>Unmount operation started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba876c53d05878d49c3ff3f132c7c1dde3" prot="public">
+          <name>UNMOUNT_COMPLETED</name>
+          <briefdescription>
+<para>Unmount operation completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba4417fc0fa7311b95af6202cfc7ed2415" prot="public">
+          <name>UNMOUNT_FAILED</name>
+          <briefdescription>
+<para>Unmount operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba3dc85b41871ddb6808ce3526aacb828e" prot="public">
+          <name>ROTATION_STARTED</name>
+          <briefdescription>
+<para>Key rotation started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba73dce36514cc20e22769c9276cc5f654" prot="public">
+          <name>ROTATION_COMPLETED</name>
+          <briefdescription>
+<para>Key rotation completed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba7a56be4c620afa716876c88fab31ea3a" prot="public">
+          <name>ROTATION_FAILED</name>
+          <briefdescription>
+<para>Key rotation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba3f31c1de4158700e9052b9b10164d507" prot="public">
+          <name>STALE_MOUNT_RECONCILED</name>
+          <briefdescription>
+<para>Stale mount cleaned up. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bbaa9fec51e89626d8b7c6400ce3f34cb17" prot="public">
+          <name>ERROR_DETECTED</name>
+          <briefdescription>
+<para>Error occurred. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="139" column="5" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="139" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1aaf58c163a4495d19cc802992b183bc6b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bb" kindref="member">Type</ref></type>
+        <definition>Type themis::plugins::user_storage::DiagnosticEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::type</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bbaa9fec51e89626d8b7c6400ce3f34cb17" kindref="member">Type::ERROR_DETECTED</ref></initializer>
+        <briefdescription>
+<para>Event type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="153" column="10" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1aaafddc382dc3e887177395d2c6b55852" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::user_storage::DiagnosticEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Milliseconds since epoch (0 = set on emit). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="154" column="13" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a0d670a44a9ae081dd5b42599267ee165" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37c" kindref="member">ErrorCode</ref></type>
+        <definition>ErrorCode themis::plugins::user_storage::DiagnosticEvent::error_code</definition>
+        <argsstring></argsstring>
+        <name>error_code</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::error_code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cad0749aaba8b833466dfcbb0428e4f89c" kindref="member">ErrorCode::SUCCESS</ref></initializer>
+        <briefdescription>
+<para>Error code (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="155" column="15" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1ab7cb32ab4384ee781816449462f837d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::DiagnosticEvent::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::component</qualifiedname>
+        <briefdescription>
+<para>Component name (e.g., &quot;gocryptfs_backend&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="156" column="17" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a95df93b19a1661e1f6f0c0753e29cf40" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::DiagnosticEvent::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::message</qualifiedname>
+        <briefdescription>
+<para>Human-readable message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="157" column="17" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a1df203434ff1e52a61b47ae9aeffbdc9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::DiagnosticEvent::level</definition>
+        <argsstring></argsstring>
+        <name>level</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::level</qualifiedname>
+        <briefdescription>
+<para>Security level (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="158" column="17" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1ad5475b2016ade4ad45d3a7179f74753f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::user_storage::DiagnosticEvent::system_errno_val</definition>
+        <argsstring></argsstring>
+        <name>system_errno_val</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::system_errno_val</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>System errno (if applicable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="159" column="9" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a293b6873d7274d5ce7144185b29d5b14" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::DiagnosticEvent::remediation</definition>
+        <argsstring></argsstring>
+        <name>remediation</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::remediation</qualifiedname>
+        <briefdescription>
+<para>Suggested remediation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="160" column="17" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a688b18e03fd50f05b42ff96d8189fe68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::user_storage::DiagnosticEvent::toJsonString</definition>
+        <argsstring>() const</argsstring>
+        <name>toJsonString</name>
+        <qualifiedname>themis::plugins::user_storage::DiagnosticEvent::toJsonString</qualifiedname>
+        <briefdescription>
+<para>Convert event to JSON string (simple format). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON-formatted diagnostic event </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/user_storage_encrypted/error_codes.hpp" line="166" column="17" bodyfile="src/user_storage_encrypted/diagnostic_events.cpp" bodystart="17" bodyend="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Diagnostic event for structured logging. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All diagnostic events in the module follow this structure to enable operator observability and metrics collection without external tools. </para>
+    </detaileddescription>
+    <location file="include/user_storage_encrypted/error_codes.hpp" line="138" column="1" bodyfile="include/user_storage_encrypted/error_codes.hpp" bodystart="138" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1ab7cb32ab4384ee781816449462f837d5" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>component</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a0d670a44a9ae081dd5b42599267ee165" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>error_code</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a1df203434ff1e52a61b47ae9aeffbdc9" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>level</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a95df93b19a1661e1f6f0c0753e29cf40" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>message</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a293b6873d7274d5ce7144185b29d5b14" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>remediation</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1ad5475b2016ade4ad45d3a7179f74753f" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>system_errno_val</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1aaafddc382dc3e887177395d2c6b55852" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a688b18e03fd50f05b42ff96d8189fe68" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>toJsonString</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bb" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>Type</name></member>
+      <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1aaf58c163a4495d19cc802992b183bc6b" prot="public" virt="non-virtual"><scope>themis::plugins::user_storage::DiagnosticEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

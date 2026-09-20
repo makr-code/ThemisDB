@@ -1,0 +1,418 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1_ai_operation_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::AiOperationGuard</compoundname>
+    <includes refid="ai__operation__guard_8h" local="no">ai_operation_guard.h</includes>
+    <innerclass refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config" prot="public">themis::security::AiOperationGuard::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1security_1_1_ai_operation_guard_1a55f08022ff2d51c25c09564accbeec49" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::security::AiOperationGuard::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::security::AiOperationGuard::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="176" column="12" bodyfile="include/security/ai_operation_guard.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a5fedd6cb00e9a603a22d3fc027b85b3d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::AiOperationGuard::AiOperationGuard</definition>
+        <argsstring>(Config cfg={})</argsstring>
+        <name>AiOperationGuard</name>
+        <qualifiedname>themis::security::AiOperationGuard::AiOperationGuard</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="145" column="14" bodyfile="src/security/ai_operation_guard.cpp" bodystart="98" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1ad43093a3dbe202a8fbb472ac005fb8e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::AiOperationGuard::~AiOperationGuard</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AiOperationGuard</name>
+        <qualifiedname>themis::security::AiOperationGuard::~AiOperationGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a84b2c2673889171af623878418e1f9c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::AiOperationGuard::AiOperationGuard</definition>
+        <argsstring>(const AiOperationGuard &amp;)=delete</argsstring>
+        <name>AiOperationGuard</name>
+        <qualifiedname>themis::security::AiOperationGuard::AiOperationGuard</qualifiedname>
+        <param>
+          <type>const <ref refid="class_ai_operation_guard" kindref="compound">AiOperationGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="147" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a317e79d19bf6fbfbca8b63b1e144cb13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_ai_operation_guard" kindref="compound">AiOperationGuard</ref> &amp;</type>
+        <definition>AiOperationGuard &amp; themis::security::AiOperationGuard::operator=</definition>
+        <argsstring>(const AiOperationGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::security::AiOperationGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_ai_operation_guard" kindref="compound">AiOperationGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="148" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1ab2d087bcc1c60b51e54cc7aad00c3942" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_guard_decision" kindref="compound">GuardDecision</ref></type>
+        <definition>GuardDecision themis::security::AiOperationGuard::evaluate</definition>
+        <argsstring>(const std::string &amp;tool_name, const json &amp;args, const std::string &amp;ai_session_id, const std::string &amp;caller_role=&quot;&quot;) const</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::security::AiOperationGuard::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref> &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ai_session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>caller_role</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="154" column="20" bodyfile="src/security/ai_operation_guard.cpp" bodystart="105" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a0ddacd78fdaf99506a1284fb53a5f94f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref></type>
+        <definition>json themis::security::AiOperationGuard::buildRequiresApprovalResponse</definition>
+        <argsstring>(const GuardDecision &amp;decision, std::chrono::system_clock::time_point now=std::chrono::system_clock::now()) const</argsstring>
+        <name>buildRequiresApprovalResponse</name>
+        <qualifiedname>themis::security::AiOperationGuard::buildRequiresApprovalResponse</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_guard_decision" kindref="compound">GuardDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>now</declname>
+          <defval>std::chrono::system_clock::now()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="161" column="11" bodyfile="src/security/ai_operation_guard.cpp" bodystart="184" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a16eac1261b4595ecbd80276fe1c4e781" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref></type>
+        <definition>json themis::security::AiOperationGuard::buildBlockedResponse</definition>
+        <argsstring>(const GuardDecision &amp;decision) const</argsstring>
+        <name>buildBlockedResponse</name>
+        <qualifiedname>themis::security::AiOperationGuard::buildBlockedResponse</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1security_1_1_guard_decision" kindref="compound">GuardDecision</ref> &amp;</type>
+          <declname>decision</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="167" column="11" bodyfile="src/security/ai_operation_guard.cpp" bodystart="227" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1ad033c05f69ddc200e6ed234ead48192f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1security_1_1_ai_operation_guard_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::security::AiOperationGuard::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::security::AiOperationGuard::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="173" column="18" bodyfile="include/security/ai_operation_guard.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a8cbd3ceb8f1f100963f5852bdd35c5ad" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref></type>
+        <definition>OperationClass themis::security::AiOperationGuard::classifyByTool</definition>
+        <argsstring>(const std::string &amp;tool_name) const noexcept</argsstring>
+        <name>classifyByTool</name>
+        <qualifiedname>themis::security::AiOperationGuard::classifyByTool</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="180" column="21" bodyfile="src/security/ai_operation_guard.cpp" bodystart="242" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1ae0b83c70824c0b2c7ec33bb02a96663b" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref></type>
+        <definition>OperationClass themis::security::AiOperationGuard::classifyAql</definition>
+        <argsstring>(const std::string &amp;aql_query) const noexcept</argsstring>
+        <name>classifyAql</name>
+        <qualifiedname>themis::security::AiOperationGuard::classifyAql</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>aql_query</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="182" column="21" bodyfile="src/security/ai_operation_guard.cpp" bodystart="269" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a74f192a54c9de2284e21320c9041dc02" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1security_1_1_operation_preview" kindref="compound">OperationPreview</ref></type>
+        <definition>OperationPreview themis::security::AiOperationGuard::buildPreview</definition>
+        <argsstring>(const std::string &amp;tool_name, const json &amp;args, OperationClass op_class) const</argsstring>
+        <name>buildPreview</name>
+        <qualifiedname>themis::security::AiOperationGuard::buildPreview</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref> &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref></type>
+          <declname>op_class</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="184" column="23" bodyfile="src/security/ai_operation_guard.cpp" bodystart="326" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a505fb4e3505ed4973d14ed31ce71fc8d" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::AiOperationGuard::checkEnvironmentBlock</definition>
+        <argsstring>(OperationClass op_class, const std::string &amp;target_collection, const std::string &amp;caller_role) const</argsstring>
+        <name>checkEnvironmentBlock</name>
+        <qualifiedname>themis::security::AiOperationGuard::checkEnvironmentBlock</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1security_1abd828ece4c767f6031b0d4bca0aa2d72" kindref="member">OperationClass</ref></type>
+          <declname>op_class</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target_collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>caller_role</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="190" column="18" bodyfile="src/security/ai_operation_guard.cpp" bodystart="375" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1adbbae6b10a40243d15e3f604b0d1742f" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::security::AiOperationGuard::isCollectionDenied</definition>
+        <argsstring>(const std::string &amp;collection) const noexcept</argsstring>
+        <name>isCollectionDenied</name>
+        <qualifiedname>themis::security::AiOperationGuard::isCollectionDenied</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="196" column="11" bodyfile="src/security/ai_operation_guard.cpp" bodystart="406" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1af94d1ee1e942843f83053385bbb7f67a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::AiOperationGuard::extractCollection</definition>
+        <argsstring>(const std::string &amp;tool_name, const json &amp;args)</argsstring>
+        <name>extractCollection</name>
+        <qualifiedname>themis::security::AiOperationGuard::extractCollection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tool_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref> &amp;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+<para>Extract Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tool_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tool. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tool_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the tool. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), find(), substr(), std::transform(), begin(), end(), std::toupper(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="204" column="24" bodyfile="src/security/ai_operation_guard.cpp" bodystart="433" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1security_1_1_ai_operation_guard_1a1429e84435cb1e8022026a1dca0728b2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::security::AiOperationGuard::toIso8601</definition>
+        <argsstring>(std::chrono::system_clock::time_point tp)</argsstring>
+        <name>toIso8601</name>
+        <qualifiedname>themis::security::AiOperationGuard::toIso8601</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>tp</declname>
+        </param>
+        <briefdescription>
+<para>To Iso8601. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>static</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::to_time_t(), defined(), gmtime_s(), gmtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="214" column="24" bodyfile="src/security/ai_operation_guard.cpp" bodystart="492" bodyend="505"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/ai_operation_guard.h" line="112" column="1" bodyfile="include/security/ai_operation_guard.h" bodystart="112" bodyend="215"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a5fedd6cb00e9a603a22d3fc027b85b3d" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>AiOperationGuard</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a84b2c2673889171af623878418e1f9c9" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>AiOperationGuard</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a16eac1261b4595ecbd80276fe1c4e781" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>buildBlockedResponse</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a74f192a54c9de2284e21320c9041dc02" prot="private" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>buildPreview</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a0ddacd78fdaf99506a1284fb53a5f94f" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>buildRequiresApprovalResponse</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a505fb4e3505ed4973d14ed31ce71fc8d" prot="private" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>checkEnvironmentBlock</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1ae0b83c70824c0b2c7ec33bb02a96663b" prot="private" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>classifyAql</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a8cbd3ceb8f1f100963f5852bdd35c5ad" prot="private" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>classifyByTool</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1ad033c05f69ddc200e6ed234ead48192f" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>config</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a55f08022ff2d51c25c09564accbeec49" prot="private" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>config_</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1ab2d087bcc1c60b51e54cc7aad00c3942" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1af94d1ee1e942843f83053385bbb7f67a" prot="private" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>extractCollection</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1adbbae6b10a40243d15e3f604b0d1742f" prot="private" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>isCollectionDenied</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a317e79d19bf6fbfbca8b63b1e144cb13" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1a1429e84435cb1e8022026a1dca0728b2" prot="private" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>toIso8601</name></member>
+      <member refid="classthemis_1_1security_1_1_ai_operation_guard_1ad43093a3dbe202a8fbb472ac005fb8e0" prot="public" virt="non-virtual"><scope>themis::security::AiOperationGuard</scope><name>~AiOperationGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

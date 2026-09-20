@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_fixed_schema_detector" kind="class" language="C++" prot="public">
+    <compoundname>FixedSchemaDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector" prot="public" virt="non-virtual">themis::importers::IFlatFileSchemaDetector</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_fixed_schema_detector_1a42c6fd3238ad050899d58621c8b2d148" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; FixedSchemaDetector::columns_</definition>
+        <argsstring></argsstring>
+        <name>columns_</name>
+        <qualifiedname>FixedSchemaDetector::columns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="156" column="27" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fixed_schema_detector_1ab7f9c1f3f7b045d4726e50e35a79a361" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string,std::string&gt; FixedSchemaDetector::types_</definition>
+        <argsstring></argsstring>
+        <name>types_</name>
+        <qualifiedname>FixedSchemaDetector::types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="157" column="15" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fixed_schema_detector_1a82db963c34f4b778c6a317ded85b1697" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1importers_1ace207564307d55ccd60a69a970a63b7f" kindref="member">SchemaConfidence</ref></type>
+        <definition>SchemaConfidence FixedSchemaDetector::confidence_</definition>
+        <argsstring></argsstring>
+        <name>confidence_</name>
+        <qualifiedname>FixedSchemaDetector::confidence_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="158" column="40" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fixed_schema_detector_1a10c300cdf98304aac1b709b3661db295" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FixedSchemaDetector::encoding_</definition>
+        <argsstring></argsstring>
+        <name>encoding_</name>
+        <qualifiedname>FixedSchemaDetector::encoding_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="159" column="40" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_fixed_schema_detector_1a09728afa59616d1031f7daf9d4db0636" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t FixedSchemaDetector::rows_sampled_</definition>
+        <argsstring></argsstring>
+        <name>rows_sampled_</name>
+        <qualifiedname>FixedSchemaDetector::rows_sampled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="160" column="40" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="160" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_fixed_schema_detector_1ab32fca46381c878e610777ac79164880" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>FixedSchemaDetector::FixedSchemaDetector</definition>
+        <argsstring>(std::vector&lt; std::string &gt; columns, std::map&lt; std::string, std::string &gt; types, SchemaConfidence confidence, std::string encoding=&quot;utf-8&quot;, size_t rows_sampled=100)</argsstring>
+        <name>FixedSchemaDetector</name>
+        <qualifiedname>FixedSchemaDetector::FixedSchemaDetector</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>columns</declname>
+        </param>
+        <param>
+          <type>std::map&lt; std::string, std::string &gt;</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1importers_1ace207564307d55ccd60a69a970a63b7f" kindref="member">SchemaConfidence</ref></type>
+          <declname>confidence</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>encoding</declname>
+          <defval>&quot;utf-8&quot;</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rows_sampled</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="129" column="5" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="129" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="class_fixed_schema_detector_1af2ff9957eeffda556eeb278a7c2880a9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_schema_detection_result" kindref="compound">SchemaDetectionResult</ref></type>
+        <definition>SchemaDetectionResult FixedSchemaDetector::detect</definition>
+        <argsstring>(const std::string &amp;, size_t=0) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>FixedSchemaDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector_1a546937ea18da657c518ee46de06965f3">detect</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>size_t</type>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_interfaces.cpp" line="142" column="27" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="142" bodyend="153"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FixedSchemaDetector</label>
+        <link refid="class_fixed_schema_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IFlatFileSchemaDetector</label>
+        <link refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FixedSchemaDetector</label>
+        <link refid="class_fixed_schema_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::importers::IFlatFileSchemaDetector</label>
+        <link refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importer_interfaces.cpp" line="127" column="1" bodyfile="tests/importers/test_importer_interfaces.cpp" bodystart="127" bodyend="161"/>
+    <listofallmembers>
+      <member refid="class_fixed_schema_detector_1a42c6fd3238ad050899d58621c8b2d148" prot="private" virt="non-virtual"><scope>FixedSchemaDetector</scope><name>columns_</name></member>
+      <member refid="class_fixed_schema_detector_1a82db963c34f4b778c6a317ded85b1697" prot="private" virt="non-virtual"><scope>FixedSchemaDetector</scope><name>confidence_</name></member>
+      <member refid="class_fixed_schema_detector_1af2ff9957eeffda556eeb278a7c2880a9" prot="public" virt="virtual"><scope>FixedSchemaDetector</scope><name>detect</name></member>
+      <member refid="class_fixed_schema_detector_1a10c300cdf98304aac1b709b3661db295" prot="private" virt="non-virtual"><scope>FixedSchemaDetector</scope><name>encoding_</name></member>
+      <member refid="class_fixed_schema_detector_1ab32fca46381c878e610777ac79164880" prot="public" virt="non-virtual"><scope>FixedSchemaDetector</scope><name>FixedSchemaDetector</name></member>
+      <member refid="class_fixed_schema_detector_1a09728afa59616d1031f7daf9d4db0636" prot="private" virt="non-virtual"><scope>FixedSchemaDetector</scope><name>rows_sampled_</name></member>
+      <member refid="class_fixed_schema_detector_1ab7f9c1f3f7b045d4726e50e35a79a361" prot="private" virt="non-virtual"><scope>FixedSchemaDetector</scope><name>types_</name></member>
+      <member refid="classthemis_1_1importers_1_1_i_flat_file_schema_detector_1ab271d4ead08a3ede63cb89ba4a883618" prot="public" virt="virtual"><scope>FixedSchemaDetector</scope><name>~IFlatFileSchemaDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

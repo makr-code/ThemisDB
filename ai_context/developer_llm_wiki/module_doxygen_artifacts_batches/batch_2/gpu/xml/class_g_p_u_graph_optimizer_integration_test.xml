@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_p_u_graph_optimizer_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>GPUGraphOptimizerIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_p_u_graph_optimizer_integration_test_1a9c352cd9cad49f48419ca5b2d1deb96b" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GPUGraphOptimizerIntegrationTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GPUGraphOptimizerIntegrationTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="495" column="17" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="495" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_graph_optimizer_integration_test_1a8af69013de0177d85cc7c201bbc09e1f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;themis::RocksDBWrapper&gt; GPUGraphOptimizerIntegrationTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GPUGraphOptimizerIntegrationTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="496" column="35" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_graph_optimizer_integration_test_1a5ded265949db8ef82383e2261b1fed24" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;themis::GraphIndexManager&gt; GPUGraphOptimizerIntegrationTest::graph_mgr_</definition>
+        <argsstring></argsstring>
+        <name>graph_mgr_</name>
+        <qualifiedname>GPUGraphOptimizerIntegrationTest::graph_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="497" column="32" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="497" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_p_u_graph_optimizer_integration_test_1af621b8b7f553c0ab6709f0a1cf825920" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; themis::graph::GraphQueryOptimizer &gt;</type>
+        <definition>std::unique_ptr&lt;themis::graph::GraphQueryOptimizer&gt; GPUGraphOptimizerIntegrationTest::optimizer_</definition>
+        <argsstring></argsstring>
+        <name>optimizer_</name>
+        <qualifiedname>GPUGraphOptimizerIntegrationTest::optimizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="498" column="23" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="498" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_g_p_u_graph_optimizer_integration_test_1ab03467b3e1151865350ffb6099aa25c4" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUGraphOptimizerIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GPUGraphOptimizerIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="452" column="10" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="452" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_graph_optimizer_integration_test_1a5bd2dae7143b1c489784948dcc343ca2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUGraphOptimizerIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GPUGraphOptimizerIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="472" column="10" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="472" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_p_u_graph_optimizer_integration_test_1aaee95ad5d96d982746bca3638d8a6bd3" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GPUGraphOptimizerIntegrationTest::buildGraph</definition>
+        <argsstring>()</argsstring>
+        <name>buildGraph</name>
+        <qualifiedname>GPUGraphOptimizerIntegrationTest::buildGraph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="479" column="10" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="479" bodyend="493"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GPUGraphOptimizerIntegrationTest</label>
+        <link refid="class_g_p_u_graph_optimizer_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GPUGraphOptimizerIntegrationTest</label>
+        <link refid="class_g_p_u_graph_optimizer_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_graph_traversal.cpp" line="450" column="1" bodyfile="tests/gpu/test_gpu_graph_traversal.cpp" bodystart="450" bodyend="499"/>
+    <listofallmembers>
+      <member refid="class_g_p_u_graph_optimizer_integration_test_1aaee95ad5d96d982746bca3638d8a6bd3" prot="protected" virt="non-virtual"><scope>GPUGraphOptimizerIntegrationTest</scope><name>buildGraph</name></member>
+      <member refid="class_g_p_u_graph_optimizer_integration_test_1a8af69013de0177d85cc7c201bbc09e1f" prot="protected" virt="non-virtual"><scope>GPUGraphOptimizerIntegrationTest</scope><name>db_</name></member>
+      <member refid="class_g_p_u_graph_optimizer_integration_test_1a5ded265949db8ef82383e2261b1fed24" prot="protected" virt="non-virtual"><scope>GPUGraphOptimizerIntegrationTest</scope><name>graph_mgr_</name></member>
+      <member refid="class_g_p_u_graph_optimizer_integration_test_1af621b8b7f553c0ab6709f0a1cf825920" prot="protected" virt="non-virtual"><scope>GPUGraphOptimizerIntegrationTest</scope><name>optimizer_</name></member>
+      <member refid="class_g_p_u_graph_optimizer_integration_test_1ab03467b3e1151865350ffb6099aa25c4" prot="protected" virt="non-virtual"><scope>GPUGraphOptimizerIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_g_p_u_graph_optimizer_integration_test_1a5bd2dae7143b1c489784948dcc343ca2" prot="protected" virt="non-virtual"><scope>GPUGraphOptimizerIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="class_g_p_u_graph_optimizer_integration_test_1a9c352cd9cad49f48419ca5b2d1deb96b" prot="protected" virt="non-virtual"><scope>GPUGraphOptimizerIntegrationTest</scope><name>test_db_path_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

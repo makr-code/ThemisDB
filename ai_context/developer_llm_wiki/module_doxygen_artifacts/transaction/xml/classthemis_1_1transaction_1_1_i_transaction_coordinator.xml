@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1_i_transaction_coordinator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::transaction::ITransactionCoordinator</compoundname>
+    <derivedcompoundref refid="class_stateful_mock_coordinator" prot="public" virt="non-virtual">StatefulMockCoordinator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1test_1_1_fault_injectable_coordinator" prot="public" virt="non-virtual">themis::test::FaultInjectableCoordinator</derivedcompoundref>
+    <includes refid="transaction__coordinator_8h" local="no">transaction_coordinator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1af7a28db93769cd65fe18cbe995d671e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::transaction::ITransactionCoordinator::~ITransactionCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ITransactionCoordinator</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::~ITransactionCoordinator</qualifiedname>
+        <briefdescription>
+<para>ITransaction Coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="157" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a2efca7c70b19b6bb81969a97298f33a4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1afc769200a9b379f277622191f028a20d" kindref="member">CommitProtocol</ref></type>
+        <definition>virtual CommitProtocol themis::transaction::ITransactionCoordinator::protocolType</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>protocolType</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::protocolType</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1a8b963215f8763b982ceff50c18eeaf58">protocolType</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1ac30c4a81fccf5ea7227ac13e05dd6e78">protocolType</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="161" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a2e0bdfc4eb0d8b721ff73b33d25a2c55" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>std::string_view</type>
+        <definition>virtual std::string_view themis::transaction::ITransactionCoordinator::protocolName</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>protocolName</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::protocolName</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1a0f0b03e15c44f95ba0421e41c3e74109">protocolName</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1afd48bcdd740671ba77cf1811cf38ebeb">protocolName</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="163" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a6a4675bcfc9eb6fa897352aa8ba9bb3a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_coordinator_capabilities" kindref="compound">CoordinatorCapabilities</ref></type>
+        <definition>virtual CoordinatorCapabilities themis::transaction::ITransactionCoordinator::capabilities</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>capabilities</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::capabilities</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1a7fe22c6a1ced9454ad69c9a587eb5652">capabilities</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a19b8588bae66ab0eb74d80f4805410be">capabilities</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="165" column="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a89c5f7b36530a9e41301be25fee1a563" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>virtual TxnCoordinatorResult themis::transaction::ITransactionCoordinator::begin</definition>
+        <argsstring>(std::string_view txn_id, const TxnCoordinatorOptions &amp;opts={})=0</argsstring>
+        <name>begin</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::begin</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1ac610967c958eeb6e47225e485ed20631">begin</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a76b6377a06a84bb8a261b0b444ff2505">begin</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1transaction_1_1_txn_coordinator_options" kindref="compound">TxnCoordinatorOptions</ref> &amp;</type>
+          <declname>opts</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="169" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a8ca42939b5e5121404d69e0d5768cbec" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>virtual TxnCoordinatorResult themis::transaction::ITransactionCoordinator::prepare</definition>
+        <argsstring>(std::string_view txn_id)=0</argsstring>
+        <name>prepare</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::prepare</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1a0bd252c7e5557325f52cab3fe0ab6766">prepare</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1afca064b7833af94b58f2df2dfab3a30d">prepare</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="174" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a781c9159cfd5306b6c146ae72d9aa264" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>virtual TxnCoordinatorResult themis::transaction::ITransactionCoordinator::commit</definition>
+        <argsstring>(std::string_view txn_id)=0</argsstring>
+        <name>commit</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::commit</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1a905d2b7dbb131ac0442fc3be975037d6">commit</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1ab6d79016efba15b77c773b9f9ed6a7ba">commit</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="178" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ab8892fcfb2017d0e55f00d644ce8f56d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_txn_coordinator_result" kindref="compound">TxnCoordinatorResult</ref></type>
+        <definition>virtual TxnCoordinatorResult themis::transaction::ITransactionCoordinator::abort</definition>
+        <argsstring>(std::string_view txn_id)=0</argsstring>
+        <name>abort</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::abort</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1ad0adfb774d5b3d2cd9e3e906059c6388">abort</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a019a36b62ac5ea1b3798d685ab76a81e">abort</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="182" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ae4fb5dfcf6da895463a2edd65e16eac6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1a996913b80effcd72e90c43af1984c6d8" kindref="member">TxnLifecycleState</ref></type>
+        <definition>virtual TxnLifecycleState themis::transaction::ITransactionCoordinator::getState</definition>
+        <argsstring>(std::string_view txn_id) const =0</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::getState</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1a43ac37fd4bc267c57c6aee3b72f6cdcd">getState</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a29ee9df4c02a5ca07773afed6812ef88">getState</reimplementedby>
+        <param>
+          <type>std::string_view</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="188" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a9394eb6615f3e76911ddcfd1e453297b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::size_t</type>
+        <definition>virtual std::size_t themis::transaction::ITransactionCoordinator::recoverInDoubt</definition>
+        <argsstring>()=0</argsstring>
+        <name>recoverInDoubt</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::recoverInDoubt</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1a33613368873fb4b61f9f8db78494bba7">recoverInDoubt</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1a28b8a89829f58d7b6886342a002775fb">recoverInDoubt</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="194" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ab3bc7d6510a614edca752830083d2736" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1transaction_1_1_in_doubt_txn_descriptor" kindref="compound">InDoubtTxnDescriptor</ref> &gt;</type>
+        <definition>virtual std::vector&lt; InDoubtTxnDescriptor &gt; themis::transaction::ITransactionCoordinator::getInDoubtTransactions</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getInDoubtTransactions</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::getInDoubtTransactions</qualifiedname>
+        <reimplementedby refid="class_stateful_mock_coordinator_1a95dc84004b05f12498681601cac350e1">getInDoubtTransactions</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_fault_injectable_coordinator_1af5e8419d019c4d82651b09480a89687b">getInDoubtTransactions</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="197" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1aa341b2756a2038af87f39a1fc8535838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::ITransactionCoordinator::ITransactionCoordinator</definition>
+        <argsstring>(const ITransactionCoordinator &amp;)=delete</argsstring>
+        <name>ITransactionCoordinator</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::ITransactionCoordinator</qualifiedname>
+        <param>
+          <type>const ITransactionCoordinator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="201" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a1f6dda2a66d27b09987c11cdbd434eb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1aa341b2756a2038af87f39a1fc8535838" kindref="member">ITransactionCoordinator</ref> &amp;</type>
+        <definition>ITransactionCoordinator &amp; themis::transaction::ITransactionCoordinator::operator=</definition>
+        <argsstring>(const ITransactionCoordinator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1aa341b2756a2038af87f39a1fc8535838" kindref="member">ITransactionCoordinator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="202" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a7faf164c7e210abcf6f39774fc2a8ea7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::ITransactionCoordinator::ITransactionCoordinator</definition>
+        <argsstring>(ITransactionCoordinator &amp;&amp;) noexcept=default</argsstring>
+        <name>ITransactionCoordinator</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::ITransactionCoordinator</qualifiedname>
+        <param>
+          <type>ITransactionCoordinator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="203" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a905b9fb13148157af638477749b90c8b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1aa341b2756a2038af87f39a1fc8535838" kindref="member">ITransactionCoordinator</ref> &amp;</type>
+        <definition>ITransactionCoordinator &amp; themis::transaction::ITransactionCoordinator::operator=</definition>
+        <argsstring>(ITransactionCoordinator &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1aa341b2756a2038af87f39a1fc8535838" kindref="member">ITransactionCoordinator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="204" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ac7ca144f7d5d75f7aad2d856e22435f5" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::transaction::ITransactionCoordinator::ITransactionCoordinator</definition>
+        <argsstring>()=default</argsstring>
+        <name>ITransactionCoordinator</name>
+        <qualifiedname>themis::transaction::ITransactionCoordinator::ITransactionCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_coordinator.h" line="207" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>StatefulMockCoordinator</label>
+        <link refid="class_stateful_mock_coordinator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::test::FaultInjectableCoordinator</label>
+        <link refid="classthemis_1_1test_1_1_fault_injectable_coordinator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::transaction::ITransactionCoordinator</label>
+        <link refid="classthemis_1_1transaction_1_1_i_transaction_coordinator"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/transaction/transaction_coordinator.h" line="151" column="1" bodyfile="include/transaction/transaction_coordinator.h" bodystart="151" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ab8892fcfb2017d0e55f00d644ce8f56d" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>abort</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a89c5f7b36530a9e41301be25fee1a563" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>begin</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a6a4675bcfc9eb6fa897352aa8ba9bb3a" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>capabilities</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a781c9159cfd5306b6c146ae72d9aa264" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>commit</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ab3bc7d6510a614edca752830083d2736" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>getInDoubtTransactions</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ae4fb5dfcf6da895463a2edd65e16eac6" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>getState</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1aa341b2756a2038af87f39a1fc8535838" prot="public" virt="non-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>ITransactionCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a7faf164c7e210abcf6f39774fc2a8ea7" prot="public" virt="non-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>ITransactionCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1ac7ca144f7d5d75f7aad2d856e22435f5" prot="protected" virt="non-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>ITransactionCoordinator</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a1f6dda2a66d27b09987c11cdbd434eb3" prot="public" virt="non-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a905b9fb13148157af638477749b90c8b" prot="public" virt="non-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a8ca42939b5e5121404d69e0d5768cbec" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>prepare</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a2e0bdfc4eb0d8b721ff73b33d25a2c55" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>protocolName</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a2efca7c70b19b6bb81969a97298f33a4" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>protocolType</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1a9394eb6615f3e76911ddcfd1e453297b" prot="public" virt="pure-virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>recoverInDoubt</name></member>
+      <member refid="classthemis_1_1transaction_1_1_i_transaction_coordinator_1af7a28db93769cd65fe18cbe995d671e1" prot="public" virt="virtual"><scope>themis::transaction::ITransactionCoordinator</scope><name>~ITransactionCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

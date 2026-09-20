@@ -1,0 +1,558 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__governance__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_governance_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="governance__api__contract_8h" local="yes">governance/governance_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>governance/governance_api_contract.h</label>
+        <link refid="governance__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/governance/test_governance_contract_hardening_focused.cpp</label>
+        <link refid="test__governance__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>random</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_gov_contract_test" prot="public">GovContractTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a575761d4f9061ea90b1b59712206fba0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV01_ErrorCodesAreUnique)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV01_ErrorCodesAreUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="28" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="28" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1ad76897b03482c2c03e31ebdcdba8e343" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV02_ErrorCodesInRange)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV02_ErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="42" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="42" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a0ac6f4cb4881ae1bab702a5e8c463241" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV03_ComplianceCheckResultDefaultIsDenied)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV03_ComplianceCheckResultDefaultIsDenied</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="56" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a0e2bcfd581a707df3699190f0e28e439" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV04_DefaultReasonIsConsentMissing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV04_DefaultReasonIsConsentMissing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="62" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1ae6c66012012e554ee0992f2e44789259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV05_RegulationValuesAreDistinct)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV05_RegulationValuesAreDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="68" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="68" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1ab9664525b5de1f87630575a88753e4c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV06_AllowedResultCanBeSet)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV06_AllowedResultCanBeSet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="80" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="80" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a4a537f4a6de8d0b80ec1dc47b6db8eac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV07_JurisdictionBlockedDistinctFromConsentMissing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV07_JurisdictionBlockedDistinctFromConsentMissing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="89" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="89" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a861bb6a5aeea7a082761fc83d582a74e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV08_ExportLimitDistinctFromAuditFailed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV08_ExportLimitDistinctFromAuditFailed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="95" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a5f975f578351ffc1727f490b47100a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV09_GDPRValueIsOne)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV09_GDPRValueIsOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="101" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a12bde94ec0aa62b8f16e49337029b97c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV10_CCPAValueIsTwo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV10_CCPAValueIsTwo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="106" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="106" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a31d8f70feca0ae6cd99001135f6946ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV11_DefaultJustificationIsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV11_DefaultJustificationIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="111" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a893c60fc794337f9ae86fbb23c11d5da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV12_RuleConflictIsHighestCode)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV12_RuleConflictIsHighestCode</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="117" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="117" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1ab5e769c4c1ecbf80c8a8d32ff97179ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV13_MultipleResultsAreIndependent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV13_MultipleResultsAreIndependent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="127" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="127" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a58fb2585e06b28b1abf5f1f7d1c388da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV14_RegulationSwitchDispatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV14_RegulationSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="139" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="139" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1a8a69a3366c874dad2292d68e2847aea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV15_GovErrorSwitchDispatch)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV15_GovErrorSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="152" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="152" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__contract__hardening__focused_8cpp_1ac8d03dc3a5da0229b650cd354be2c921" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GovContractTest, GOV16_RandomisedStateConsistency)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref></type>
+        </param>
+        <param>
+          <type>GOV16_RandomisedStateConsistency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_contract_hardening_focused.cpp" line="167" column="1" bodyfile="tests/governance/test_governance_contract_hardening_focused.cpp" bodystart="167" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1–6 contract-hardening tests for the governance module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: GOV-01..GOV-16 </para>
+</simplesect>
+<simplesect kind="note"><para>Coverage: error taxonomy, compliance check contract, regulation enum, consent missing, jurisdiction blocked, export limits, rule-conflict detection, audit write failure codes. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="governance__api__contract_8h" kindref="compound">governance/governance_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">themis::governance</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="class_gov_contract_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="class_gov_contract_test_1a1701cb186025a86c64f17ac451a5b131" kindref="member">kSeed</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="class_gov_contract_test_1a8164293fcb991a78101d8d93c1070009" kindref="member">rng_</ref>{<ref refid="class_gov_contract_test_1a1701cb186025a86c64f17ac451a5b131" kindref="member">kSeed</ref>};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-01:<sp/>Error<sp/>codes<sp/>are<sp/>unique</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV01_ErrorCodesAreUnique)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba79969bf6b1b23569ac3ff8acb83aa885" kindref="member">GovError::kRegulationUnknown</ref>),</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebabe42b1da01dca65f80397cd01bac91cc" kindref="member">GovError::kConsentMissing</ref>),</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba7b07840a176e2737cb26ae7f0da3bd87" kindref="member">GovError::kJurisdictionBlocked</ref>),</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebae802a13736a3d8109a1a231621eb8e35" kindref="member">GovError::kExportLimitExceeded</ref>),</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebafb3629b9154a14f7a98a36c2ff335500" kindref="member">GovError::kAuditWriteFailed</ref>),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba486b4b2a718b8a9fb11abab085da1310" kindref="member">GovError::kRuleConflict</ref>),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(codes.begin(),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(codes.begin(),<sp/>codes.end()),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-02:<sp/>Error<sp/>codes<sp/>in<sp/>range<sp/>[7200,<sp/>7299]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV02_ErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eb" kindref="member">GovError</ref><sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7200);<sp/>EXPECT_LE(v,<sp/>7299);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba79969bf6b1b23569ac3ff8acb83aa885" kindref="member">GovError::kRegulationUnknown</ref>);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebabe42b1da01dca65f80397cd01bac91cc" kindref="member">GovError::kConsentMissing</ref>);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba7b07840a176e2737cb26ae7f0da3bd87" kindref="member">GovError::kJurisdictionBlocked</ref>);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebae802a13736a3d8109a1a231621eb8e35" kindref="member">GovError::kExportLimitExceeded</ref>);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebafb3629b9154a14f7a98a36c2ff335500" kindref="member">GovError::kAuditWriteFailed</ref>);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba486b4b2a718b8a9fb11abab085da1310" kindref="member">GovError::kRuleConflict</ref>);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-03:<sp/>ComplianceCheckResult<sp/>default<sp/>is<sp/>denied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV03_ComplianceCheckResultDefaultIsDenied)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_check_result" kindref="compound">ComplianceCheckResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref>);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-04:<sp/>ComplianceCheckResult<sp/>reason<sp/>field<sp/>defaults<sp/>to<sp/>kConsentMissing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV04_DefaultReasonIsConsentMissing)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_check_result" kindref="compound">ComplianceCheckResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1af6b6920e0ff7ac9f4e6da2f2c0602c41" kindref="member">reason</ref>,<sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebabe42b1da01dca65f80397cd01bac91cc" kindref="member">GovError::kConsentMissing</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-05:<sp/>Regulation<sp/>enum<sp/>values<sp/>are<sp/>distinct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV05_RegulationValuesAreDistinct)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>regs<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda485ed52d2e7c68ae3d948fe8da72fac2" kindref="member">Regulation::kGDPR</ref>),</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdaeadd6578aeef2b4066f2edbedc3eaa3e" kindref="member">Regulation::kCCPA</ref>),</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdab682740d6c3587319f97ba34751f64b2" kindref="member">Regulation::kLGPD</ref>),</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4200eaa896d2e2605db76fbce52d7295" kindref="member">Regulation::kHIPAA</ref>),</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(regs.begin(),<sp/>regs.end());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(regs.begin(),<sp/>regs.end()),<sp/>regs.end());</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-06:<sp/>ComplianceCheckResult<sp/>allowed=true<sp/>can<sp/>be<sp/>set</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV06_AllowedResultCanBeSet)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_check_result" kindref="compound">ComplianceCheckResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a074b3a27aac885a3df368397fcfbb286" kindref="member">justification</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Consent<sp/>verified&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref>);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a074b3a27aac885a3df368397fcfbb286" kindref="member">justification</ref>.empty());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-07:<sp/>kJurisdictionBlocked<sp/>is<sp/>distinct<sp/>from<sp/>kConsentMissing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV07_JurisdictionBlockedDistinctFromConsentMissing)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba7b07840a176e2737cb26ae7f0da3bd87" kindref="member">GovError::kJurisdictionBlocked</ref>),</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebabe42b1da01dca65f80397cd01bac91cc" kindref="member">GovError::kConsentMissing</ref>));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-08:<sp/>kExportLimitExceeded<sp/>is<sp/>distinct<sp/>from<sp/>kAuditWriteFailed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV08_ExportLimitDistinctFromAuditFailed)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebae802a13736a3d8109a1a231621eb8e35" kindref="member">GovError::kExportLimitExceeded</ref>),</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebafb3629b9154a14f7a98a36c2ff335500" kindref="member">GovError::kAuditWriteFailed</ref>));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-09:<sp/>GDPR<sp/>regulation<sp/>value<sp/>is<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV09_GDPRValueIsOne)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda485ed52d2e7c68ae3d948fe8da72fac2" kindref="member">Regulation::kGDPR</ref>),<sp/>1);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-10:<sp/>CCPA<sp/>regulation<sp/>value<sp/>is<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV10_CCPAValueIsTwo)<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdaeadd6578aeef2b4066f2edbedc3eaa3e" kindref="member">Regulation::kCCPA</ref>),<sp/>2);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-11:<sp/>ComplianceCheckResult<sp/>justification<sp/>empty<sp/>when<sp/>denied<sp/>by<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV11_DefaultJustificationIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_check_result" kindref="compound">ComplianceCheckResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a074b3a27aac885a3df368397fcfbb286" kindref="member">justification</ref>.empty());</highlight></codeline>
+<codeline lineno="114"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-12:<sp/>kRuleConflict<sp/>is<sp/>highest<sp/>error<sp/>code<sp/>in<sp/>module<sp/>range</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV12_RuleConflictIsHighestCode)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>rc<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba486b4b2a718b8a9fb11abab085da1310" kindref="member">GovError::kRuleConflict</ref>);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rc,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba79969bf6b1b23569ac3ff8acb83aa885" kindref="member">GovError::kRegulationUnknown</ref>));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rc,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebabe42b1da01dca65f80397cd01bac91cc" kindref="member">GovError::kConsentMissing</ref>));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rc,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba7b07840a176e2737cb26ae7f0da3bd87" kindref="member">GovError::kJurisdictionBlocked</ref>));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rc,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebae802a13736a3d8109a1a231621eb8e35" kindref="member">GovError::kExportLimitExceeded</ref>));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(rc,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebafb3629b9154a14f7a98a36c2ff335500" kindref="member">GovError::kAuditWriteFailed</ref>));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-13:<sp/>Multiple<sp/>ComplianceCheckResult<sp/>instances<sp/>are<sp/>independent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV13_MultipleResultsAreIndependent)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_check_result" kindref="compound">ComplianceCheckResult</ref><sp/>a,<sp/>b;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>a.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a074b3a27aac885a3df368397fcfbb286" kindref="member">justification</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Consent<sp/>ok&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>b.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1af6b6920e0ff7ac9f4e6da2f2c0602c41" kindref="member">reason</ref><sp/>=<sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba7b07840a176e2737cb26ae7f0da3bd87" kindref="member">GovError::kJurisdictionBlocked</ref>;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(a.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref>);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(b.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref>);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(b.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1af6b6920e0ff7ac9f4e6da2f2c0602c41" kindref="member">reason</ref>,<sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba7b07840a176e2737cb26ae7f0da3bd87" kindref="member">GovError::kJurisdictionBlocked</ref>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-14:<sp/>Regulation<sp/>enum<sp/>is<sp/>suitable<sp/>for<sp/>switch<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV14_RegulationSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bd" kindref="member">Regulation</ref><sp/>reg<sp/>=<sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4200eaa896d2e2605db76fbce52d7295" kindref="member">Regulation::kHIPAA</ref>;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>name<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(reg)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda485ed52d2e7c68ae3d948fe8da72fac2" kindref="member">Regulation::kGDPR</ref>:<sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;GDPR&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdaeadd6578aeef2b4066f2edbedc3eaa3e" kindref="member">Regulation::kCCPA</ref>:<sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CCPA&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bdab682740d6c3587319f97ba34751f64b2" kindref="member">Regulation::kLGPD</ref>:<sp/><sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;LGPD&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1aac79dbe2cfa9b0df836725c2cf67e2bda4200eaa896d2e2605db76fbce52d7295" kindref="member">Regulation::kHIPAA</ref>:<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HIPAA&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(name,<sp/></highlight><highlight class="stringliteral">&quot;HIPAA&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-15:<sp/>GovError<sp/>is<sp/>suitable<sp/>for<sp/>switch<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV15_GovErrorSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eb" kindref="member">GovError</ref><sp/>err<sp/>=<sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebafb3629b9154a14f7a98a36c2ff335500" kindref="member">GovError::kAuditWriteFailed</ref>;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba79969bf6b1b23569ac3ff8acb83aa885" kindref="member">GovError::kRegulationUnknown</ref>:<sp/><sp/><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebabe42b1da01dca65f80397cd01bac91cc" kindref="member">GovError::kConsentMissing</ref>:<sp/><sp/><sp/><sp/><sp/><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba7b07840a176e2737cb26ae7f0da3bd87" kindref="member">GovError::kJurisdictionBlocked</ref>:<sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebae802a13736a3d8109a1a231621eb8e35" kindref="member">GovError::kExportLimitExceeded</ref>:<sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208ebafb3629b9154a14f7a98a36c2ff335500" kindref="member">GovError::kAuditWriteFailed</ref>:<sp/><sp/><sp/><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1governance_1a21fc602a360f1aeed8329c53d5b208eba486b4b2a718b8a9fb11abab085da1310" kindref="member">GovError::kRuleConflict</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handled);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GOV-16:<sp/>Randomised<sp/>ComplianceCheckResult<sp/>state<sp/>consistency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_gov_contract_test" kindref="compound">GovContractTest</ref>,<sp/>GOV16_RandomisedStateConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_compliance_check_result" kindref="compound">ComplianceCheckResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref><sp/>=<sp/>(rng_()<sp/>%<sp/>2<sp/>==<sp/>0);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a074b3a27aac885a3df368397fcfbb286" kindref="member">justification</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Denied-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref>);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a1e0575e438e7694ec081c5e873f94c04" kindref="member">allowed</ref>);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1governance_1_1_compliance_check_result_1a074b3a27aac885a3df368397fcfbb286" kindref="member">justification</ref>.empty());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/governance/test_governance_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::AdaptiveTTLPolicyConfig</compoundname>
+    <includes refid="adaptive__ttl__policy_8h" local="no">adaptive_ttl_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1a56137a73220b19a7c2d246044a3402c2" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::AdaptiveTTLPolicyConfig::minTTL</definition>
+        <argsstring></argsstring>
+        <name>minTTL</name>
+        <qualifiedname>themis::cache::AdaptiveTTLPolicyConfig::minTTL</qualifiedname>
+        <initializer>{1&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="27" column="31" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1a1335d9f9e2dc73d80d3cb673153651a7" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::cache::AdaptiveTTLPolicyConfig::maxTTL</definition>
+        <argsstring></argsstring>
+        <name>maxTTL</name>
+        <qualifiedname>themis::cache::AdaptiveTTLPolicyConfig::maxTTL</qualifiedname>
+        <initializer>{3&apos;600&apos;000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="29" column="31" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1af6f6824dc14b25826cb7a30ac3eb1643" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cache::AdaptiveTTLPolicyConfig::access_window_size</definition>
+        <argsstring></argsstring>
+        <name>access_window_size</name>
+        <qualifiedname>themis::cache::AdaptiveTTLPolicyConfig::access_window_size</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="31" column="14" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1ac417483fa5f23352ef71e9051232a9d6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::AdaptiveTTLPolicyConfig::aggressiveness</definition>
+        <argsstring></argsstring>
+        <name>aggressiveness</name>
+        <qualifiedname>themis::cache::AdaptiveTTLPolicyConfig::aggressiveness</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="33" column="12" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1aeacc4fa5e8a006323e04bbe216aefbf7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::cache::AdaptiveTTLPolicyConfig::decay_factor</definition>
+        <argsstring></argsstring>
+        <name>decay_factor</name>
+        <qualifiedname>themis::cache::AdaptiveTTLPolicyConfig::decay_factor</qualifiedname>
+        <initializer>= 0.9</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="35" column="12" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1af55b3d0ce1a09141a670d484d2a77cc0" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::AdaptiveTTLPolicyConfig::max_history_age_ms</definition>
+        <argsstring></argsstring>
+        <name>max_history_age_ms</name>
+        <qualifiedname>themis::cache::AdaptiveTTLPolicyConfig::max_history_age_ms</qualifiedname>
+        <initializer>= 86&apos;400&apos;000LL</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/adaptive_ttl_policy.h" line="37" column="13" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/adaptive_ttl_policy.h" line="26" column="1" bodyfile="include/cache/adaptive_ttl_policy.h" bodystart="26" bodyend="38"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1af6f6824dc14b25826cb7a30ac3eb1643" prot="public" virt="non-virtual"><scope>themis::cache::AdaptiveTTLPolicyConfig</scope><name>access_window_size</name></member>
+      <member refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1ac417483fa5f23352ef71e9051232a9d6" prot="public" virt="non-virtual"><scope>themis::cache::AdaptiveTTLPolicyConfig</scope><name>aggressiveness</name></member>
+      <member refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1aeacc4fa5e8a006323e04bbe216aefbf7" prot="public" virt="non-virtual"><scope>themis::cache::AdaptiveTTLPolicyConfig</scope><name>decay_factor</name></member>
+      <member refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1af55b3d0ce1a09141a670d484d2a77cc0" prot="public" virt="non-virtual"><scope>themis::cache::AdaptiveTTLPolicyConfig</scope><name>max_history_age_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1a1335d9f9e2dc73d80d3cb673153651a7" prot="public" virt="non-virtual"><scope>themis::cache::AdaptiveTTLPolicyConfig</scope><name>maxTTL</name></member>
+      <member refid="structthemis_1_1cache_1_1_adaptive_t_t_l_policy_config_1a56137a73220b19a7c2d246044a3402c2" prot="public" virt="non-virtual"><scope>themis::cache::AdaptiveTTLPolicyConfig</scope><name>minTTL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

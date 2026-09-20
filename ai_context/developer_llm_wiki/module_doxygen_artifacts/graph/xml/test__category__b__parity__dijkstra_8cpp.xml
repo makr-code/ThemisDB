@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__category__b__parity__dijkstra_8cpp" kind="file" language="C++">
+    <compoundname>test_category_b_parity_dijkstra.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">array</includes>
+    <includes local="no">vector</includes>
+    <includes local="yes">acceleration/cpu_backend.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/graph/test_category_b_parity_dijkstra.cpp</label>
+        <link refid="test__category__b__parity__dijkstra_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>acceleration/cpu_backend.h</label>
+      </node>
+      <node id="3">
+        <label>array</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__category__b__parity__dijkstra_8cpp_1a75c658b8a6e0c31d502f1709f1ff54a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CategoryBGraphParityDijkstra, CudaVsCpuParity_ShortestPathsMatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CategoryBGraphParityDijkstra</type>
+        </param>
+        <param>
+          <type>CudaVsCpuParity_ShortestPathsMatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_category_b_parity_dijkstra.cpp" line="14" column="1" bodyfile="tests/graph/test_category_b_parity_dijkstra.cpp" bodystart="14" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;array&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/cpu_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;acceleration/cuda_backend.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::acceleration;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><ref refid="test__category__b__parity__dijkstra_8cpp_1a75c658b8a6e0c31d502f1709f1ff54a4" kindref="member">TEST</ref>(CategoryBGraphParityDijkstra,<sp/>CudaVsCpuParity_ShortestPathsMatch)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_ENABLE_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;THEMIS_ENABLE_CUDA<sp/>is<sp/>disabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>CUDAGraphBackend<sp/>gpu_backend;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!gpu_backend.isAvailable())<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>CUDA-capable<sp/>GPU<sp/>available&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(gpu_backend.initialize());</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>CPUGraphBackend<sp/>cpu_backend;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(cpu_backend.initialize());</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kNumVertices<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/>adjacency(kNumVertices<sp/>*<sp/>kNumVertices,<sp/>0u);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>weights(kNumVertices<sp/>*<sp/>kNumVertices,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>-&gt;<sp/>1<sp/>-&gt;<sp/>4<sp/>(best<sp/>path<sp/>to<sp/>4),<sp/>alternative<sp/>0<sp/>-&gt;<sp/>2<sp/>-&gt;<sp/>3<sp/>-&gt;<sp/>4<sp/>is<sp/>longer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[0<sp/>*<sp/>kNumVertices<sp/>+<sp/>1]<sp/>=<sp/>1u;<sp/>weights[0<sp/>*<sp/>kNumVertices<sp/>+<sp/>1]<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[1<sp/>*<sp/>kNumVertices<sp/>+<sp/>4]<sp/>=<sp/>1u;<sp/>weights[1<sp/>*<sp/>kNumVertices<sp/>+<sp/>4]<sp/>=<sp/>2.0f;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[0<sp/>*<sp/>kNumVertices<sp/>+<sp/>2]<sp/>=<sp/>1u;<sp/>weights[0<sp/>*<sp/>kNumVertices<sp/>+<sp/>2]<sp/>=<sp/>2.0f;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[2<sp/>*<sp/>kNumVertices<sp/>+<sp/>3]<sp/>=<sp/>1u;<sp/>weights[2<sp/>*<sp/>kNumVertices<sp/>+<sp/>3]<sp/>=<sp/>2.0f;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[3<sp/>*<sp/>kNumVertices<sp/>+<sp/>4]<sp/>=<sp/>1u;<sp/>weights[3<sp/>*<sp/>kNumVertices<sp/>+<sp/>4]<sp/>=<sp/>2.0f;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>adjacency[1<sp/>*<sp/>kNumVertices<sp/>+<sp/>3]<sp/>=<sp/>1u;<sp/>weights[1<sp/>*<sp/>kNumVertices<sp/>+<sp/>3]<sp/>=<sp/>1.0f;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;uint32_t,<sp/>3&gt;<sp/>starts<sp/>=<sp/>{0u,<sp/>0u,<sp/>1u};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::array&lt;uint32_t,<sp/>3&gt;<sp/>ends<sp/>=<sp/>{4u,<sp/>3u,<sp/>4u};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>cpu_paths<sp/>=<sp/>cpu_backend.batchShortestPath(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adjacency.data(),<sp/>weights.data(),<sp/>kNumVertices,<sp/>starts.data(),<sp/>ends.data(),<sp/>starts.size());</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gpu_paths<sp/>=<sp/>gpu_backend.batchShortestPath(</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adjacency.data(),<sp/>weights.data(),<sp/>kNumVertices,<sp/>starts.data(),<sp/>ends.data(),<sp/>starts.size());</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(cpu_paths.size(),<sp/>starts.size());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(gpu_paths.size(),<sp/>starts.size());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>starts.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(gpu_paths[i],<sp/>cpu_paths[i])</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Shortest-path<sp/>parity<sp/>mismatch<sp/>for<sp/>pair<sp/>index<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>(&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>starts[i]<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>-&gt;<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>ends[i]<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>gpu_backend.shutdown();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cpu_backend.shutdown();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_category_b_parity_dijkstra.cpp"/>
+  </compounddef>
+</doxygen>

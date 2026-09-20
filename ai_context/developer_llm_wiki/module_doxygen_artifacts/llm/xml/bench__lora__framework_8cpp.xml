@@ -1,0 +1,964 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__lora__framework_8cpp" kind="file" language="C++">
+    <compoundname>bench_lora_framework.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="lora__storage__service_8h" local="yes">llm/lora_framework/lora_storage_service.h</includes>
+    <includes refid="lora__training__service_8h" local="yes">llm/lora_framework/lora_training_service.h</includes>
+    <includes refid="lora__orchestrator_8h" local="yes">llm/lora_framework/lora_orchestrator.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/llm/bench_lora_framework.cpp</label>
+        <link refid="bench__lora__framework_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>llm/decision_record_yaml_processor.h</label>
+        <link refid="decision__record__yaml__processor_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="41">
+        <label>llm/llm_model_audit_logger.h</label>
+        <link refid="llm__model__audit__logger_8h"/>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>llm/lora_certificate_store.h</label>
+        <link refid="lora__certificate__store_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>llm/lora_framework/adapter_consistency_checker.h</label>
+        <link refid="adapter__consistency__checker_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>gradient_utils.h</label>
+        <link refid="gradient__utils_8h"/>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>lora_config.h</label>
+        <link refid="lora__config_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>lora_graph.h</label>
+        <link refid="lora__graph_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>llm/lora_framework/lora_orchestrator.h</label>
+        <link refid="lora__orchestrator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>llm/lora_framework/lora_provenance.h</label>
+        <link refid="lora__provenance_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/lora_framework/lora_storage_service.h</label>
+        <link refid="lora__storage__service_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>llm/lora_framework/lora_training_service.h</label>
+        <link refid="lora__training__service_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>lr_scheduler.h</label>
+        <link refid="lr__scheduler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>mixed_precision.h</label>
+        <link refid="mixed__precision_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>llm/lora_security_validator.h</label>
+        <link refid="lora__security__validator_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>llm/lora_training_error_codes.h</label>
+        <link refid="lora__training__error__codes_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>llm/multi_lora_manager.h</label>
+        <link refid="multi__lora__manager_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>algorithm</label>
+      </node>
+      <node id="38">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="24">
+        <label>cmath</label>
+      </node>
+      <node id="48">
+        <label>condition_variable</label>
+      </node>
+      <node id="21">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="52">
+        <label>filesystem</label>
+      </node>
+      <node id="29">
+        <label>functional</label>
+      </node>
+      <node id="32">
+        <label>map</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="39">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="43">
+        <label>ostream</label>
+      </node>
+      <node id="37">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="50">
+        <label>queue</label>
+      </node>
+      <node id="53">
+        <label>random</label>
+      </node>
+      <node id="45">
+        <label>regex</label>
+      </node>
+      <node id="16">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="47">
+        <label>shared_mutex</label>
+      </node>
+      <node id="28">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="14">
+        <label>storage/blob_storage_manager.h</label>
+      </node>
+      <node id="13">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="15">
+        <label>storage/security_signature_manager.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="51">
+        <label>thread</label>
+      </node>
+      <node id="22">
+        <label>unordered_map</label>
+      </node>
+      <node id="46">
+        <label>unordered_set</label>
+      </node>
+      <node id="42">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="bench__lora__framework_8cpp_1a47a07c93b3eccb050aff2290cdd1c90b" prot="public" static="no">
+        <name>THEMIS_BENCHMARK_BUILD</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="7" column="9" bodyfile="benchmarks/llm/bench_lora_framework.cpp" bodystart="7" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a49c56fa732c41de60b96f6fe2c76f0e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Storage_SaveAdapter_64KB</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Storage_SaveAdapter_64KB</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="84" column="13" bodyfile="benchmarks/llm/bench_lora_framework.cpp" bodystart="84" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a8a77056b3203e623eab994a399b0b27d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Storage_SaveAdapter_64KB)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Storage_SaveAdapter_64KB</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="98" column="1" declfile="benchmarks/llm/bench_lora_framework.cpp" declline="98" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a1c3d9ff6f331506d40a0e466c9b6e27d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Storage_LoadMetadata</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Storage_LoadMetadata</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="100" column="13" bodyfile="benchmarks/llm/bench_lora_framework.cpp" bodystart="100" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a8b66f5d5a5fbfa48e421ffc301566a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Storage_LoadMetadata) -&gt; Range(1, 128)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Storage_LoadMetadata</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="120" column="1" declfile="benchmarks/llm/bench_lora_framework.cpp" declline="120" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a1b2b3e85af7483c80f2d43355ed3e0cd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Storage_ListAdapters</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Storage_ListAdapters</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="122" column="13" bodyfile="benchmarks/llm/bench_lora_framework.cpp" bodystart="122" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a10c7f6040f8824b14a27cdb52e8aca79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Storage_ListAdapters) -&gt; Range(10, 1000)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Storage_ListAdapters</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="139" column="1" declfile="benchmarks/llm/bench_lora_framework.cpp" declline="139" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a00f1186f20c7ae5bdc8b04158157b86a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Training_OnTheFly_8Samples</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Training_OnTheFly_8Samples</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="141" column="13" bodyfile="benchmarks/llm/bench_lora_framework.cpp" bodystart="141" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1aa970523a905dd6e1695e638d90c92f59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Training_OnTheFly_8Samples)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Training_OnTheFly_8Samples</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="155" column="1" declfile="benchmarks/llm/bench_lora_framework.cpp" declline="155" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1ae7afcec05db1c1dac6df23473cd55319" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Training_Batch_4x16</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Training_Batch_4x16</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="157" column="13" bodyfile="benchmarks/llm/bench_lora_framework.cpp" bodystart="157" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a2e9d34be7fdcdfc231a9260fab2c1caa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Training_Batch_4x16)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Training_Batch_4x16</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="176" column="1" declfile="benchmarks/llm/bench_lora_framework.cpp" declline="176" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a9cd5f25ce9a96c6d384c925d97fcd54c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Orchestrator_HealthCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Orchestrator_HealthCheck</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="178" column="13" bodyfile="benchmarks/llm/bench_lora_framework.cpp" bodystart="178" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a1980446d3f9063af70fa80feccbc5778" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Orchestrator_HealthCheck)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Orchestrator_HealthCheck</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="192" column="1" declfile="benchmarks/llm/bench_lora_framework.cpp" declline="192" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a7c958e3897a482c8a18cd9a380a84a96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void BM_Orchestrator_GetStats</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_Orchestrator_GetStats</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="194" column="13" bodyfile="benchmarks/llm/bench_lora_framework.cpp" bodystart="194" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a55d5afb87b73cf64ceef840541884c1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK</definition>
+        <argsstring>(BM_Orchestrator_GetStats)</argsstring>
+        <name>BENCHMARK</name>
+        <param>
+          <type>BM_Orchestrator_GetStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="208" column="1" declfile="benchmarks/llm/bench_lora_framework.cpp" declline="208" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__lora__framework_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_lora_framework.cpp" line="210" column="1" declfile="benchmarks/llm/bench_lora_framework.cpp" declline="210" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Google Benchmark performance tests for LoRA framework components. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_BENCHMARK_BUILD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>THEMIS_BENCHMARK_BUILD<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__storage__service_8h" kindref="compound">llm/lora_framework/lora_storage_service.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__training__service_8h" kindref="compound">llm/lora_framework/lora_training_service.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__orchestrator_8h" kindref="compound">llm/lora_framework/lora_orchestrator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">themis::llm::lora</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal">std::string<sp/>makeBenchPath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(std::filesystem::temp_directory_path()<sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;themis_lora_bench_&quot;</highlight><highlight class="normal"><sp/>+<sp/>name)).string();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref><sp/>generateTestWeights(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rank,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_bytes)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kindref="compound">AdapterWeights</ref><sp/>weights;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>weights.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a6c7bc926ffcfc0160fe10ee95090bdb1" kindref="member">hyperparameters</ref>.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters_1ab7a238400c1b9a0134df9ca77236274f" kindref="member">rank</ref><sp/>=<sp/>rank;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>weights.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a6c7bc926ffcfc0160fe10ee95090bdb1" kindref="member">hyperparameters</ref>.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters_1a773ad2b3ce7d2b084a87819b8c319603" kindref="member">alpha</ref><sp/>=<sp/>16.0f;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>weights.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ac29c397929b4f4335ce0aa6384f1ec76" kindref="member">data</ref>.resize(num_bytes);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>weights.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a7597c57603a7fe63dfb1af75d74aa235" kindref="member">size_bytes</ref><sp/>=<sp/>num_bytes;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>generator(42);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_int_distribution&lt;int&gt;<sp/>distribution(0,<sp/>255);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>:<sp/>weights.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ac29c397929b4f4335ce0aa6384f1ec76" kindref="member">data</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(distribution(generator));</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>weights;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>generateTestMetadata(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>adapter_id)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref><sp/>metadata;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a74f0d82e540b46101b94cea2ee6c0ccb" kindref="member">adapter_id</ref><sp/>=<sp/>adapter_id;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1abaf5b09bbe5f87496c5e800fd5032a06" kindref="member">version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a11bd12cd88e13028888725292189648b" kindref="member">base_model</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;llama-2-7b&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1ab4117a9c00c9d09c7af64a0d184bc451" kindref="member">description</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;LoRA<sp/>benchmark<sp/>adapter&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a9ac45dcfb3ed1e01883f44b377054ff5" kindref="member">training_samples</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1a9e0fe22c658c413ce15b911456bf6998" kindref="member">validation_accuracy</ref><sp/>=<sp/>0.95f;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1aae16e4363ed935dc3b331045ec74c9f7" kindref="member">created_at</ref><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1afbf844c1882c4aa565679bae59bd1947" kindref="member">updated_at</ref><sp/>=<sp/>metadata.<ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata_1aae16e4363ed935dc3b331045ec74c9f7" kindref="member">created_at</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metadata;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref><sp/>generateTrainingData(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dataset_name,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sample_count)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref><sp/>data;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>data.<ref refid="structthemis_1_1llm_1_1lora_1_1_training_data_1a01197a0194153e3b66519b1ebd7ae028" kindref="member">dataset_name</ref><sp/>=<sp/>dataset_name;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>data.<ref refid="structthemis_1_1llm_1_1lora_1_1_training_data_1affea32fb464e72e90ba3d278005727f7" kindref="member">samples</ref>.reserve(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(sample_count));</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>sample_count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_training_data_sample" kindref="compound">TrainingDataSample</ref><sp/>sample;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample.<ref refid="structthemis_1_1llm_1_1lora_1_1_training_data_sample_1aa37af0b8cff4c55cf661230d474889d0" kindref="member">input</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Question<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sample.<ref refid="structthemis_1_1llm_1_1lora_1_1_training_data_sample_1a251f0c616620fbbcbe863eb3b8531874" kindref="member">output</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Answer<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data.<ref refid="structthemis_1_1llm_1_1lora_1_1_training_data_1affea32fb464e72e90ba3d278005727f7" kindref="member">samples</ref>.push_back(std::move(sample));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kindref="compound">LoRAStorageService::Config</ref><sp/>createStorageConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>suffix)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config" kindref="compound">LoRAStorageService::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aa2a2f26eb5a312f99a3f30faeb765319" kindref="member">backend</ref><sp/>=<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1aa8114a8ed21374e1bfce19a30c689f0dae2d63d195b2bce9c8d5bf797a268bcec" kindref="member">LoRAStorageService::Backend::FileSystem</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1a31021ab8252a084d0d9d545114e89f6c" kindref="member">filesystem_path</ref><sp/>=<sp/>makeBenchPath(suffix);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1aefb1d317718bdc774145f86bdcb1b32f" kindref="member">enable_encryption</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service_1_1_config_1ae6fbeb80123384ac1ff2d1ea53cdc040" kindref="member">enable_signatures</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Storage_SaveAdapter_64KB(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" kindref="compound">LoRAStorageService</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>(createStorageConfig(</highlight><highlight class="stringliteral">&quot;save_64kb&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>operation<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>weights<sp/>=<sp/>generateTestWeights(8,<sp/>64<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_save_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(operation++);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>generateTestMetadata(adapter_id);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(<ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.saveAdapter(adapter_id,<sp/>weights,<sp/>metadata));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetBytesProcessed(state.iterations()<sp/>*<sp/>64<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><ref refid="bench__lora__framework_8cpp_1a8a77056b3203e623eab994a399b0b27d" kindref="member">BENCHMARK</ref>(BM_Storage_SaveAdapter_64KB);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Storage_LoadMetadata(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" kindref="compound">LoRAStorageService</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>(createStorageConfig(</highlight><highlight class="stringliteral">&quot;load_meta&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>precreated<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>precreated;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_meta_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>weights<sp/>=<sp/>generateTestWeights(8,<sp/>8<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>generateTestMetadata(adapter_id);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.saveAdapter(adapter_id,<sp/>weights,<sp/>metadata);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>read_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_meta_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(read_index<sp/>%<sp/>precreated);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(<ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.loadMetadata(adapter_id));</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++read_index;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><ref refid="bench__lora__framework_8cpp_1a8a77056b3203e623eab994a399b0b27d" kindref="member">BENCHMARK</ref>(BM_Storage_LoadMetadata)-&gt;Range(1,<sp/>128);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Storage_ListAdapters(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" kindref="compound">LoRAStorageService</ref><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>(createStorageConfig(</highlight><highlight class="stringliteral">&quot;list_adapters&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>precreated<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>precreated;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_list_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>weights<sp/>=<sp/>generateTestWeights(4,<sp/>4<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>generateTestMetadata(adapter_id);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.saveAdapter(adapter_id,<sp/>weights,<sp/>metadata);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(<ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref>.listAdapters());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><ref refid="bench__lora__framework_8cpp_1a8a77056b3203e623eab994a399b0b27d" kindref="member">BENCHMARK</ref>(BM_Storage_ListAdapters)-&gt;Range(10,<sp/>1000);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Training_OnTheFly_8Samples(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kindref="compound">LoRATrainingService::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service" kindref="compound">LoRATrainingService</ref><sp/>training(config);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>operation<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_train_otf_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(operation++);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>data<sp/>=<sp/>generateTrainingData(</highlight><highlight class="stringliteral">&quot;small_dataset&quot;</highlight><highlight class="normal">,<sp/>8);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>training.trainOnTheFly(adapter_id,<sp/>data);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.success);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>8);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="bench__lora__framework_8cpp_1a8a77056b3203e623eab994a399b0b27d" kindref="member">BENCHMARK</ref>(BM_Training_OnTheFly_8Samples);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Training_Batch_4x16(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service_1_1_config" kindref="compound">LoRATrainingService::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_training_service" kindref="compound">LoRATrainingService</ref><sp/>training(config);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>operation<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TrainingData&gt;<sp/>batch;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>batch.reserve(4);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch.push_back(generateTrainingData(</highlight><highlight class="stringliteral">&quot;batch_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>16));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>adapter_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bench_train_batch_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(operation++);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>training.trainBatch(adapter_id,<sp/>batch);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(result.success);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>64);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><ref refid="bench__lora__framework_8cpp_1a8a77056b3203e623eab994a399b0b27d" kindref="member">BENCHMARK</ref>(BM_Training_Batch_4x16);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Orchestrator_HealthCheck(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config" kindref="compound">LoRAOrchestrator::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1afd8333f7e637fc00a6856e8fe6778710" kindref="member">storage_config</ref><sp/>=<sp/>createStorageConfig(</highlight><highlight class="stringliteral">&quot;orch_health&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1ad34cd86b6417cdae0a7aad04d9edf52e" kindref="member">enable_job_queue</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1a4eb3c29b6e8f7009dcc021cb4c956157" kindref="member">enable_health_monitoring</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator" kindref="compound">LoRAOrchestrator</ref><sp/>orchestrator(config);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(orchestrator.healthCheck());</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="191"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><ref refid="bench__lora__framework_8cpp_1a8a77056b3203e623eab994a399b0b27d" kindref="member">BENCHMARK</ref>(BM_Orchestrator_HealthCheck);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>BM_Orchestrator_GetStats(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config" kindref="compound">LoRAOrchestrator::Config</ref><sp/>config;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1afd8333f7e637fc00a6856e8fe6778710" kindref="member">storage_config</ref><sp/>=<sp/>createStorageConfig(</highlight><highlight class="stringliteral">&quot;orch_stats&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config_1ad34cd86b6417cdae0a7aad04d9edf52e" kindref="member">enable_job_queue</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator" kindref="compound">LoRAOrchestrator</ref><sp/>orchestrator(config);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>orchestrator.getStats();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(stats.dump().size());</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="bench__lora__framework_8cpp_1a8a77056b3203e623eab994a399b0b27d" kindref="member">BENCHMARK</ref>(BM_Orchestrator_GetStats);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="bench__lora__framework_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/llm/bench_lora_framework.cpp"/>
+  </compounddef>
+</doxygen>

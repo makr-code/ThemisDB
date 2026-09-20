@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_saml_auth_provider_test" kind="class" language="C++" prot="public">
+    <compoundname>SamlAuthProviderTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_saml_auth_provider_test_1a9f5c4ff5d9dea0f77e32642de92f95c1" prot="protected" static="no" mutable="no">
+        <type>SamlAuthProvider::Config</type>
+        <definition>SamlAuthProvider::Config SamlAuthProviderTest::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>SamlAuthProviderTest::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_saml_auth_provider.cpp" line="195" column="30" bodyfile="tests/security/test_saml_auth_provider.cpp" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_saml_auth_provider_test_1a3aa680deddae255cd396d5f894260da7" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SamlAuthProvider &gt;</type>
+        <definition>std::unique_ptr&lt;SamlAuthProvider&gt; SamlAuthProviderTest::provider_</definition>
+        <argsstring></argsstring>
+        <name>provider_</name>
+        <qualifiedname>SamlAuthProviderTest::provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_saml_auth_provider.cpp" line="196" column="21" bodyfile="tests/security/test_saml_auth_provider.cpp" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_saml_auth_provider_test_1a4c86a067561bc53e9dccd3318352dadc" prot="protected" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point SamlAuthProviderTest::fixed_time_</definition>
+        <argsstring></argsstring>
+        <name>fixed_time_</name>
+        <qualifiedname>SamlAuthProviderTest::fixed_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_saml_auth_provider.cpp" line="197" column="43" bodyfile="tests/security/test_saml_auth_provider.cpp" bodystart="197" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_saml_auth_provider_test_1a10d393a5e784b5ee51a8ac990c751497" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SamlAuthProviderTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SamlAuthProviderTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_saml_auth_provider.cpp" line="186" column="10" bodyfile="tests/security/test_saml_auth_provider.cpp" bodystart="186" bodyend="193"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SamlAuthProviderTest</label>
+        <link refid="class_saml_auth_provider_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SamlAuthProviderTest</label>
+        <link refid="class_saml_auth_provider_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_saml_auth_provider.cpp" line="184" column="1" bodyfile="tests/security/test_saml_auth_provider.cpp" bodystart="184" bodyend="198"/>
+    <listofallmembers>
+      <member refid="class_saml_auth_provider_test_1a9f5c4ff5d9dea0f77e32642de92f95c1" prot="protected" virt="non-virtual"><scope>SamlAuthProviderTest</scope><name>cfg_</name></member>
+      <member refid="class_saml_auth_provider_test_1a4c86a067561bc53e9dccd3318352dadc" prot="protected" virt="non-virtual"><scope>SamlAuthProviderTest</scope><name>fixed_time_</name></member>
+      <member refid="class_saml_auth_provider_test_1a3aa680deddae255cd396d5f894260da7" prot="protected" virt="non-virtual"><scope>SamlAuthProviderTest</scope><name>provider_</name></member>
+      <member refid="class_saml_auth_provider_test_1a10d393a5e784b5ee51a8ac990c751497" prot="protected" virt="non-virtual"><scope>SamlAuthProviderTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

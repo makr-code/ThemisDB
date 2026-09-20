@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_rag_ingestion_bridge_integration_tests" kind="class" language="C++" prot="public">
+    <compoundname>RagIngestionBridgeIntegrationTests</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_rag_ingestion_bridge_integration_tests_1a8831da407d8c9508f1aa4c3ef33a4cb1" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; IngestionToolbox &gt;</type>
+        <definition>std::shared_ptr&lt;IngestionToolbox&gt; RagIngestionBridgeIntegrationTests::toolbox</definition>
+        <argsstring></argsstring>
+        <name>toolbox</name>
+        <qualifiedname>RagIngestionBridgeIntegrationTests::toolbox</qualifiedname>
+        <initializer>= makeToolbox()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp" line="334" column="21" bodyfile="tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rag_ingestion_bridge_integration_tests_1a06df65fcd678724b71d45e0f66262fce" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; InMemoryVectorWriter &gt;</type>
+        <definition>std::shared_ptr&lt;InMemoryVectorWriter&gt; RagIngestionBridgeIntegrationTests::vector_writer</definition>
+        <argsstring></argsstring>
+        <name>vector_writer</name>
+        <qualifiedname>RagIngestionBridgeIntegrationTests::vector_writer</qualifiedname>
+        <initializer>                          =
+std::make_shared&lt;InMemoryVectorWriter&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp" line="335" column="21" bodyfile="tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_rag_ingestion_bridge_integration_tests_1a629bb1d886d31a2049e175e7e390e1ea" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; InMemoryGraphWriter &gt;</type>
+        <definition>std::shared_ptr&lt;InMemoryGraphWriter&gt; RagIngestionBridgeIntegrationTests::graph_writer</definition>
+        <argsstring></argsstring>
+        <name>graph_writer</name>
+        <qualifiedname>RagIngestionBridgeIntegrationTests::graph_writer</qualifiedname>
+        <initializer>                         =
+std::make_shared&lt;InMemoryGraphWriter&gt;()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp" line="337" column="21" bodyfile="tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp" bodystart="337" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>RagIngestionBridgeIntegrationTests</label>
+        <link refid="class_rag_ingestion_bridge_integration_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>RagIngestionBridgeIntegrationTests</label>
+        <link refid="class_rag_ingestion_bridge_integration_tests"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp" line="332" column="1" bodyfile="tests/rag/test_rag_ingestion_bridge_hardening_focused.cpp" bodystart="332" bodyend="339"/>
+    <listofallmembers>
+      <member refid="class_rag_ingestion_bridge_integration_tests_1a629bb1d886d31a2049e175e7e390e1ea" prot="protected" virt="non-virtual"><scope>RagIngestionBridgeIntegrationTests</scope><name>graph_writer</name></member>
+      <member refid="class_rag_ingestion_bridge_integration_tests_1a8831da407d8c9508f1aa4c3ef33a4cb1" prot="protected" virt="non-virtual"><scope>RagIngestionBridgeIntegrationTests</scope><name>toolbox</name></member>
+      <member refid="class_rag_ingestion_bridge_integration_tests_1a06df65fcd678724b71d45e0f66262fce" prot="protected" virt="non-virtual"><scope>RagIngestionBridgeIntegrationTests</scope><name>vector_writer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

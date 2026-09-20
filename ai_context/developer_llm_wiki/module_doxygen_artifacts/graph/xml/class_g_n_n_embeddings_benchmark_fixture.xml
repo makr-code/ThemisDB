@@ -1,0 +1,190 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_g_n_n_embeddings_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GNNEmbeddingsBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_g_n_n_embeddings_benchmark_fixture_1a34e8369894b95491d3a7518126de0174" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string GNNEmbeddingsBenchmarkFixture::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="110" column="17" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_n_n_embeddings_benchmark_fixture_1a91aae60dd87d8a7ddcf4b6976d227d69" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; GNNEmbeddingsBenchmarkFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="111" column="21" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_n_n_embeddings_benchmark_fixture_1ac7015d4955ab0aadf49f9b1bab5b99c6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; PropertyGraphManager &gt;</type>
+        <definition>std::unique_ptr&lt;PropertyGraphManager&gt; GNNEmbeddingsBenchmarkFixture::property_graph_</definition>
+        <argsstring></argsstring>
+        <name>property_graph_</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::property_graph_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="112" column="21" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_n_n_embeddings_benchmark_fixture_1aabde3c6f0ef60bd14bdb9605a0d18e92" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; GNNEmbeddingsBenchmarkFixture::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="113" column="21" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_n_n_embeddings_benchmark_fixture_1a697fdd1ac2fb528eec2976647b08e49b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GNNEmbeddingManager &gt;</type>
+        <definition>std::unique_ptr&lt;GNNEmbeddingManager&gt; GNNEmbeddingsBenchmarkFixture::gnn_manager_</definition>
+        <argsstring></argsstring>
+        <name>gnn_manager_</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::gnn_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="114" column="21" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_g_n_n_embeddings_benchmark_fixture_1a726e53544b16a07fa20e2ac20f986b34" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; GNNEmbeddingsBenchmarkFixture::node_ids_</definition>
+        <argsstring></argsstring>
+        <name>node_ids_</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::node_ids_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="115" column="17" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_g_n_n_embeddings_benchmark_fixture_1a0bddc925910d55a45da1bda7ca4a0c1a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GNNEmbeddingsBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="21" column="10" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="21" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_n_n_embeddings_benchmark_fixture_1a8fbf78fa6598344bb8d060c9e2a73b9e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GNNEmbeddingsBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="51" column="10" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="51" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_g_n_n_embeddings_benchmark_fixture_1a574c27c2dff9b82a87663a347bf98bcb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GNNEmbeddingsBenchmarkFixture::buildSocialGraph</definition>
+        <argsstring>(int num_nodes, int avg_degree)</argsstring>
+        <name>buildSocialGraph</name>
+        <qualifiedname>GNNEmbeddingsBenchmarkFixture::buildSocialGraph</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_nodes</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>avg_degree</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="64" column="10" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="64" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GNNEmbeddingsBenchmarkFixture</label>
+        <link refid="class_g_n_n_embeddings_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GNNEmbeddingsBenchmarkFixture</label>
+        <link refid="class_g_n_n_embeddings_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/graph/bench_gnn_embeddings.cpp" line="19" column="1" bodyfile="benchmarks/graph/bench_gnn_embeddings.cpp" bodystart="19" bodyend="116"/>
+    <listofallmembers>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1a574c27c2dff9b82a87663a347bf98bcb" prot="public" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>buildSocialGraph</name></member>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1a91aae60dd87d8a7ddcf4b6976d227d69" prot="protected" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>db_</name></member>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1a697fdd1ac2fb528eec2976647b08e49b" prot="protected" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>gnn_manager_</name></member>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1a726e53544b16a07fa20e2ac20f986b34" prot="protected" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>node_ids_</name></member>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1ac7015d4955ab0aadf49f9b1bab5b99c6" prot="protected" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>property_graph_</name></member>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1a0bddc925910d55a45da1bda7ca4a0c1a" prot="public" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1a8fbf78fa6598344bb8d060c9e2a73b9e" prot="public" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1a34e8369894b95491d3a7518126de0174" prot="protected" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>test_db_path_</name></member>
+      <member refid="class_g_n_n_embeddings_benchmark_fixture_1aabde3c6f0ef60bd14bdb9605a0d18e92" prot="protected" virt="non-virtual"><scope>GNNEmbeddingsBenchmarkFixture</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

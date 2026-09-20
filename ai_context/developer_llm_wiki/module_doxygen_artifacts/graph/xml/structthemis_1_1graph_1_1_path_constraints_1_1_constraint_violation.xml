@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::PathConstraints::ConstraintViolation</compoundname>
+    <includes refid="path__constraints_8h" local="no">path_constraints.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a93f0187e47f311a839ce68b7d3d9b3e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PathConstraints::ConstraintViolation::edge_id</definition>
+        <argsstring></argsstring>
+        <name>edge_id</name>
+        <qualifiedname>themis::graph::PathConstraints::ConstraintViolation::edge_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="183" column="21" bodyfile="include/graph/path_constraints.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a498d2a8a117cf7e63233443876e73078" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PathConstraints::ConstraintViolation::source_class</definition>
+        <argsstring></argsstring>
+        <name>source_class</name>
+        <qualifiedname>themis::graph::PathConstraints::ConstraintViolation::source_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="184" column="21" bodyfile="include/graph/path_constraints.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1ab6257aafaabf8445d382e69f3b33a1e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PathConstraints::ConstraintViolation::target_class</definition>
+        <argsstring></argsstring>
+        <name>target_class</name>
+        <qualifiedname>themis::graph::PathConstraints::ConstraintViolation::target_class</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="185" column="21" bodyfile="include/graph/path_constraints.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1af37523a4d79b390cca55cff5601ba529" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PathConstraints::ConstraintViolation::edge_type</definition>
+        <argsstring></argsstring>
+        <name>edge_type</name>
+        <qualifiedname>themis::graph::PathConstraints::ConstraintViolation::edge_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="186" column="21" bodyfile="include/graph/path_constraints.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a04cc2748befed86a6b59b1abf96afc16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::PathConstraints::ConstraintViolation::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::graph::PathConstraints::ConstraintViolation::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/path_constraints.h" line="187" column="21" bodyfile="include/graph/path_constraints.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/path_constraints.h" line="182" column="5" bodyfile="include/graph/path_constraints.h" bodystart="182" bodyend="188"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a04cc2748befed86a6b59b1abf96afc16" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::ConstraintViolation</scope><name>description</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a93f0187e47f311a839ce68b7d3d9b3e7" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::ConstraintViolation</scope><name>edge_id</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1af37523a4d79b390cca55cff5601ba529" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::ConstraintViolation</scope><name>edge_type</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1a498d2a8a117cf7e63233443876e73078" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::ConstraintViolation</scope><name>source_class</name></member>
+      <member refid="structthemis_1_1graph_1_1_path_constraints_1_1_constraint_violation_1ab6257aafaabf8445d382e69f3b33a1e3" prot="public" virt="non-virtual"><scope>themis::graph::PathConstraints::ConstraintViolation</scope><name>target_class</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

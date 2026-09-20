@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_migration_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::temporal::MigrationStats</compoundname>
+    <includes refid="temporal__migrator_8h" local="no">temporal_migrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_stats_1ae0f66e6f3e04aea3480907608a07f310" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::MigrationStats::rows_migrated</definition>
+        <argsstring></argsstring>
+        <name>rows_migrated</name>
+        <qualifiedname>themisdb::temporal::MigrationStats::rows_migrated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Current rows written to the versioned table. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="160" column="12" bodyfile="include/temporal/temporal_migrator.h" bodystart="160" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_stats_1aee6acc1f3e26b7c4b6901312f35643bd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::MigrationStats::versions_backfilled</definition>
+        <argsstring></argsstring>
+        <name>versions_backfilled</name>
+        <qualifiedname>themisdb::temporal::MigrationStats::versions_backfilled</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Historical versions inserted via backfillHistory(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="161" column="12" bodyfile="include/temporal/temporal_migrator.h" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_stats_1a85e56ab3d744559575d66145d4ac7315" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::MigrationStats::rows_skipped</definition>
+        <argsstring></argsstring>
+        <name>rows_skipped</name>
+        <qualifiedname>themisdb::temporal::MigrationStats::rows_skipped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Rows skipped (e.g. duplicate keys). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="162" column="12" bodyfile="include/temporal/temporal_migrator.h" bodystart="162" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_stats_1a6b6938e17989dbd0c9a9ec19a7edc4ea" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::temporal::MigrationStats::validation_errors</definition>
+        <argsstring></argsstring>
+        <name>validation_errors</name>
+        <qualifiedname>themisdb::temporal::MigrationStats::validation_errors</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Issues found during verifyMigration(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="163" column="12" bodyfile="include/temporal/temporal_migrator.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_stats_1af18e8f8e2eb9ebb97b3c1414e49f9c04" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::temporal::MigrationStats::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themisdb::temporal::MigrationStats::elapsed_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock time for the migration step. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="164" column="31" bodyfile="include/temporal/temporal_migrator.h" bodystart="164" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_migration_stats_1a92b6ea46a71855d260a664d6f488a0d9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::temporal::MigrationStats::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themisdb::temporal::MigrationStats::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Non-fatal warnings / error messages accumulated during migration. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="167" column="17" bodyfile="include/temporal/temporal_migrator.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_migration_stats_1a8ec201614bf5f24e52f3d0afebd5193a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::temporal::MigrationStats::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::temporal::MigrationStats::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/temporal_migrator.h" line="169" column="20" bodyfile="src/temporal/temporal_migrator.cpp" bodystart="151" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Runtime counters collected during a migration run. </para>
+    </detaileddescription>
+    <location file="include/temporal/temporal_migrator.h" line="159" column="1" bodyfile="include/temporal/temporal_migrator.h" bodystart="159" bodyend="170"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_stats_1af18e8f8e2eb9ebb97b3c1414e49f9c04" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationStats</scope><name>elapsed_ms</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_stats_1a92b6ea46a71855d260a664d6f488a0d9" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationStats</scope><name>errors</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_stats_1ae0f66e6f3e04aea3480907608a07f310" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationStats</scope><name>rows_migrated</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_stats_1a85e56ab3d744559575d66145d4ac7315" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationStats</scope><name>rows_skipped</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_stats_1a8ec201614bf5f24e52f3d0afebd5193a" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationStats</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_stats_1a6b6938e17989dbd0c9a9ec19a7edc4ea" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationStats</scope><name>validation_errors</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_migration_stats_1aee6acc1f3e26b7c4b6901312f35643bd" prot="public" virt="non-virtual"><scope>themisdb::temporal::MigrationStats</scope><name>versions_backfilled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

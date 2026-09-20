@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_manager_1_1_impl_1_1_byte_window_tracker" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionManager::Impl::ByteWindowTracker</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_manager_1_1_impl_1_1_byte_window_tracker_1a9df565fb246de858952c8a4d0e0b385d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionManager::Impl::ByteWindowTracker::bytes</definition>
+        <argsstring></argsstring>
+        <name>bytes</name>
+        <qualifiedname>themis::ingestion::IngestionManager::Impl::ByteWindowTracker::bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="1915" column="16" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="1915" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_manager_1_1_impl_1_1_byte_window_tracker_1aeb1df8cabeaf87ee0941549dd8ffdc0d" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::ingestion::IngestionManager::Impl::ByteWindowTracker::window_start</definition>
+        <argsstring></argsstring>
+        <name>window_start</name>
+        <qualifiedname>themis::ingestion::IngestionManager::Impl::ByteWindowTracker::window_start</qualifiedname>
+        <initializer>                                               =
+std::chrono::steady_clock::now()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/ingestion_manager.cpp" line="1916" column="47" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="1916" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/ingestion_manager.cpp" line="1914" column="5" bodyfile="src/ingestion/ingestion_manager.cpp" bodystart="1914" bodyend="1918"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_manager_1_1_impl_1_1_byte_window_tracker_1a9df565fb246de858952c8a4d0e0b385d" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionManager::Impl::ByteWindowTracker</scope><name>bytes</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_manager_1_1_impl_1_1_byte_window_tracker_1aeb1df8cabeaf87ee0941549dd8ffdc0d" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionManager::Impl::ByteWindowTracker</scope><name>window_start</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

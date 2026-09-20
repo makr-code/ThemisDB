@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_append_entries_response" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::AppendEntriesResponse</compoundname>
+    <includes refid="raft__log_8h" local="no">raft_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_response_1a0d50553108dd81b79d280a2f0b42779e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::AppendEntriesResponse::term</definition>
+        <argsstring></argsstring>
+        <name>term</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesResponse::term</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="69" column="14" bodyfile="include/sharding/raft_log.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_response_1aabc76af2853af0c89c4273ffc5a5098d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::AppendEntriesResponse::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesResponse::success</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="70" column="10" bodyfile="include/sharding/raft_log.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_append_entries_response_1acd1548c7dc334d3bb472f0c43f9d7c6e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::AppendEntriesResponse::match_index</definition>
+        <argsstring></argsstring>
+        <name>match_index</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesResponse::match_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="71" column="14" bodyfile="include/sharding/raft_log.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_append_entries_response_1a456f9bb3a7698328bb1a8bd4301f7ddc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::AppendEntriesResponse::AppendEntriesResponse</definition>
+        <argsstring>()</argsstring>
+        <name>AppendEntriesResponse</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesResponse::AppendEntriesResponse</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="73" column="5" bodyfile="include/sharding/raft_log.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_append_entries_response_1abd696406b6eafcc4691135a3c8416fb3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::AppendEntriesResponse::AppendEntriesResponse</definition>
+        <argsstring>(uint64_t t, bool s, uint64_t mi)</argsstring>
+        <name>AppendEntriesResponse</name>
+        <qualifiedname>themisdb::sharding::AppendEntriesResponse::AppendEntriesResponse</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>mi</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_log.h" line="74" column="5" bodyfile="include/sharding/raft_log.h" bodystart="74" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>AppendEntries RPC response structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raft_log.h" line="68" column="1" bodyfile="include/sharding/raft_log.h" bodystart="68" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a456f9bb3a7698328bb1a8bd4301f7ddc" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesResponse</scope><name>AppendEntriesResponse</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_response_1abd696406b6eafcc4691135a3c8416fb3" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesResponse</scope><name>AppendEntriesResponse</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_response_1acd1548c7dc334d3bb472f0c43f9d7c6e" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesResponse</scope><name>match_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_response_1aabc76af2853af0c89c4273ffc5a5098d" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesResponse</scope><name>success</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_append_entries_response_1a0d50553108dd81b79d280a2f0b42779e" prot="public" virt="non-virtual"><scope>themisdb::sharding::AppendEntriesResponse</scope><name>term</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

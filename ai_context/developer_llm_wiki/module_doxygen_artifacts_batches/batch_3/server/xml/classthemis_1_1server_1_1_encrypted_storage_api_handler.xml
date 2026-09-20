@@ -1,0 +1,371 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_encrypted_storage_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::EncryptedStorageApiHandler</compoundname>
+    <includes refid="encrypted__storage__api__handler_8h" local="no">encrypted_storage_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a014f2dadca0ff19f59e2c2db9a870d54" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::EncryptedStorageApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="116" column="50" bodyfile="include/server/encrypted_storage_api_handler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a4d036e45b553bd6255fc0662cef4328e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::EncryptedStorageApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="117" column="42" bodyfile="include/server/encrypted_storage_api_handler.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1ab27c63e5443d526c55f4f6c73cae06e3" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::plugins::user_storage::MultiLevelEncryptedStorage &gt;</type>
+        <definition>std::shared_ptr&lt;themis::plugins::user_storage::MultiLevelEncryptedStorage&gt; themis::server::EncryptedStorageApiHandler::enc_storage_</definition>
+        <argsstring></argsstring>
+        <name>enc_storage_</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::enc_storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="118" column="21" bodyfile="include/server/encrypted_storage_api_handler.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a4211e50da5c79cba1da2581ea7ef45cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::EncryptedStorageApiHandler::EncryptedStorageApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth, std::shared_ptr&lt; themis::plugins::user_storage::MultiLevelEncryptedStorage &gt; enc_storage)</argsstring>
+        <name>EncryptedStorageApiHandler</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::EncryptedStorageApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; themis::plugins::user_storage::MultiLevelEncryptedStorage &gt;</type>
+          <declname>enc_storage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="54" column="5" bodyfile="src/server/encrypted_storage_api_handler.cpp" bodystart="61" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a3de85726af60e9199aeafcbdba2a95b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::EncryptedStorageApiHandler::~EncryptedStorageApiHandler</definition>
+        <argsstring>()</argsstring>
+        <name>~EncryptedStorageApiHandler</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::~EncryptedStorageApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="59" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a86500285f5eb1572230d1903d9f8e0ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::EncryptedStorageApiHandler::EncryptedStorageApiHandler</definition>
+        <argsstring>(const EncryptedStorageApiHandler &amp;)=delete</argsstring>
+        <name>EncryptedStorageApiHandler</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::EncryptedStorageApiHandler</qualifiedname>
+        <param>
+          <type>const EncryptedStorageApiHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="62" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1ab62bf610261c0e13304b3b6219daf6d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a4211e50da5c79cba1da2581ea7ef45cc" kindref="member">EncryptedStorageApiHandler</ref> &amp;</type>
+        <definition>EncryptedStorageApiHandler &amp; themis::server::EncryptedStorageApiHandler::operator=</definition>
+        <argsstring>(const EncryptedStorageApiHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a4211e50da5c79cba1da2581ea7ef45cc" kindref="member">EncryptedStorageApiHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="63" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a59ffa48623b9f53b710d54384128fd24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EncryptedStorageApiHandler::handle</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;target)</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::handle</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="71" column="20" bodyfile="src/server/encrypted_storage_api_handler.cpp" bodystart="83" bodyend="128"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a4da8528029409015059f1fb6ee4f32f6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EncryptedStorageApiHandler::handleStore</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStore</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::handleStore</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Store. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="81" column="20" bodyfile="src/server/encrypted_storage_api_handler.cpp" bodystart="139" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a84c0fb7b2b9c27a9d119b95d77438546" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EncryptedStorageApiHandler::handleRetrieve</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;key)</argsstring>
+        <name>handleRetrieve</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::handleRetrieve</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Handle Retrieve. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="89" column="20" bodyfile="src/server/encrypted_storage_api_handler.cpp" bodystart="208" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1aa46563ec4037a2f87aac9f08bbbc3d96" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EncryptedStorageApiHandler::handleDelete</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;key)</argsstring>
+        <name>handleDelete</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::handleDelete</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="98" column="20" bodyfile="src/server/encrypted_storage_api_handler.cpp" bodystart="246" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1adbe66f8d592493377fa61a7812c4b7c9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EncryptedStorageApiHandler::handleList</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleList</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::handleList</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="106" column="20" bodyfile="src/server/encrypted_storage_api_handler.cpp" bodystart="275" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a2917022e4cf95af42cda8c34dd78ba5e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::EncryptedStorageApiHandler::handleRotate</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRotate</name>
+        <qualifiedname>themis::server::EncryptedStorageApiHandler::handleRotate</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Rotate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/encrypted_storage_api_handler.h" line="113" column="20" bodyfile="src/server/encrypted_storage_api_handler.cpp" bodystart="311" bodyend="349"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/encrypted_storage_api_handler.h" line="52" column="1" bodyfile="include/server/encrypted_storage_api_handler.h" bodystart="52" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a4d036e45b553bd6255fc0662cef4328e" prot="private" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1ab27c63e5443d526c55f4f6c73cae06e3" prot="private" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>enc_storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a4211e50da5c79cba1da2581ea7ef45cc" prot="public" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>EncryptedStorageApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a86500285f5eb1572230d1903d9f8e0ee" prot="public" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>EncryptedStorageApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a59ffa48623b9f53b710d54384128fd24" prot="public" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>handle</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1aa46563ec4037a2f87aac9f08bbbc3d96" prot="private" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>handleDelete</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1adbe66f8d592493377fa61a7812c4b7c9" prot="private" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>handleList</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a84c0fb7b2b9c27a9d119b95d77438546" prot="private" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>handleRetrieve</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a2917022e4cf95af42cda8c34dd78ba5e" prot="private" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>handleRotate</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a4da8528029409015059f1fb6ee4f32f6" prot="private" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>handleStore</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1ab62bf610261c0e13304b3b6219daf6d3" prot="public" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a014f2dadca0ff19f59e2c2db9a870d54" prot="private" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_encrypted_storage_api_handler_1a3de85726af60e9199aeafcbdba2a95b6" prot="public" virt="non-virtual"><scope>themis::server::EncryptedStorageApiHandler</scope><name>~EncryptedStorageApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

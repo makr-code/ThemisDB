@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::vector::ApproximateRadiusSearch::Statistics</compoundname>
+    <includes refid="approximate__radius__search_8h" local="no">approximate_radius_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1ac2f6f58c3d047bb4833b378b45b0749d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::vector::ApproximateRadiusSearch::Statistics::total_searches</definition>
+        <argsstring></argsstring>
+        <name>total_searches</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::Statistics::total_searches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="118" column="16" bodyfile="include/index/approximate_radius_search.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1a6deccdfd099a48e26c11ba57fefc2797" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::vector::ApproximateRadiusSearch::Statistics::avg_results_per_search</definition>
+        <argsstring></argsstring>
+        <name>avg_results_per_search</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::Statistics::avg_results_per_search</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="119" column="16" bodyfile="include/index/approximate_radius_search.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1aaee9e89c7d5a6afc344c944aa57d9711" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::vector::ApproximateRadiusSearch::Statistics::avg_time_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_time_ms</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::Statistics::avg_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="120" column="16" bodyfile="include/index/approximate_radius_search.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1ae9762b9020ae91dad80171d8f472c6b2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::vector::ApproximateRadiusSearch::Statistics::avg_recall</definition>
+        <argsstring></argsstring>
+        <name>avg_recall</name>
+        <qualifiedname>themis::vector::ApproximateRadiusSearch::Statistics::avg_recall</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/approximate_radius_search.h" line="121" column="16" bodyfile="include/index/approximate_radius_search.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/approximate_radius_search.h" line="117" column="5" bodyfile="include/index/approximate_radius_search.h" bodystart="117" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1ae9762b9020ae91dad80171d8f472c6b2" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::Statistics</scope><name>avg_recall</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1a6deccdfd099a48e26c11ba57fefc2797" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::Statistics</scope><name>avg_results_per_search</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1aaee9e89c7d5a6afc344c944aa57d9711" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::Statistics</scope><name>avg_time_ms</name></member>
+      <member refid="structthemis_1_1vector_1_1_approximate_radius_search_1_1_statistics_1ac2f6f58c3d047bb4833b378b45b0749d" prot="public" virt="non-virtual"><scope>themis::vector::ApproximateRadiusSearch::Statistics</scope><name>total_searches</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

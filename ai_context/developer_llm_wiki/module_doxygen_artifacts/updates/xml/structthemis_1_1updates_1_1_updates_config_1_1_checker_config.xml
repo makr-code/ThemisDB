@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_updates_config_1_1_checker_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdatesConfig::CheckerConfig</compoundname>
+    <includes refid="updates__config_8h" local="no">updates_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1aaed844ee726f845d9e218490e323fb11" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::UpdatesConfig::CheckerConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CheckerConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="35" column="14" bodyfile="include/updates/updates_config.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1a886ef9810da81f184befa4788a50131d" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::updates::UpdatesConfig::CheckerConfig::check_interval</definition>
+        <argsstring></argsstring>
+        <name>check_interval</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CheckerConfig::check_interval</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="36" column="30" bodyfile="include/updates/updates_config.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1a1dd468b7f324a3e4667ede7ff7f4ff47" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::CheckerConfig::github_owner</definition>
+        <argsstring></argsstring>
+        <name>github_owner</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CheckerConfig::github_owner</qualifiedname>
+        <initializer>= &quot;makr-code&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="37" column="21" bodyfile="include/updates/updates_config.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1a5ba6625c9db21db8ecd248ef0a594b70" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::CheckerConfig::github_repo</definition>
+        <argsstring></argsstring>
+        <name>github_repo</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CheckerConfig::github_repo</qualifiedname>
+        <initializer>= &quot;ThemisDB&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="38" column="21" bodyfile="include/updates/updates_config.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1ad260577f251bacf2a12a958b9629ad44" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::CheckerConfig::github_api_url</definition>
+        <argsstring></argsstring>
+        <name>github_api_url</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CheckerConfig::github_api_url</qualifiedname>
+        <initializer>= &quot;https://api.github.com&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="39" column="21" bodyfile="include/updates/updates_config.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1aff690bca5577bd9a1a60d5ab291b53fe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::CheckerConfig::github_api_token</definition>
+        <argsstring></argsstring>
+        <name>github_api_token</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CheckerConfig::github_api_token</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="40" column="21" bodyfile="include/updates/updates_config.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1a5f67b6fc7c512078556d55539c6dbdf3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdatesConfig::CheckerConfig::proxy_url</definition>
+        <argsstring></argsstring>
+        <name>proxy_url</name>
+        <qualifiedname>themis::updates::UpdatesConfig::CheckerConfig::proxy_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_config.h" line="41" column="21" bodyfile="include/updates/updates_config.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/updates_config.h" line="34" column="5" bodyfile="include/updates/updates_config.h" bodystart="34" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1a886ef9810da81f184befa4788a50131d" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CheckerConfig</scope><name>check_interval</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1aaed844ee726f845d9e218490e323fb11" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CheckerConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1aff690bca5577bd9a1a60d5ab291b53fe" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CheckerConfig</scope><name>github_api_token</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1ad260577f251bacf2a12a958b9629ad44" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CheckerConfig</scope><name>github_api_url</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1a1dd468b7f324a3e4667ede7ff7f4ff47" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CheckerConfig</scope><name>github_owner</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1a5ba6625c9db21db8ecd248ef0a594b70" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CheckerConfig</scope><name>github_repo</name></member>
+      <member refid="structthemis_1_1updates_1_1_updates_config_1_1_checker_config_1a5f67b6fc7c512078556d55539c6dbdf3" prot="public" virt="non-virtual"><scope>themis::updates::UpdatesConfig::CheckerConfig</scope><name>proxy_url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

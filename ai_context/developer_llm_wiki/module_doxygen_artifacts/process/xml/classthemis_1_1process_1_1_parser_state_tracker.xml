@@ -1,0 +1,331 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_parser_state_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::ParserStateTracker</compoundname>
+    <includes refid="serializer__hardening_8h" local="no">serializer_hardening.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_parser_state_tracker_1a60e29781caad0d172764bb0830772e71" prot="private" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ParserStateTracker::max_depth_</definition>
+        <argsstring></argsstring>
+        <name>max_depth_</name>
+        <qualifiedname>themis::process::ParserStateTracker::max_depth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="195" column="13" bodyfile="include/process/serializer_hardening.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_parser_state_tracker_1a4e8699d27055a93fded0d12584d63273" prot="private" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ParserStateTracker::max_elements_</definition>
+        <argsstring></argsstring>
+        <name>max_elements_</name>
+        <qualifiedname>themis::process::ParserStateTracker::max_elements_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="196" column="13" bodyfile="include/process/serializer_hardening.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_parser_state_tracker_1a42e2480a65756ad6faffc79a3fd96d44" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ParserStateTracker::timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms_</name>
+        <qualifiedname>themis::process::ParserStateTracker::timeout_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="197" column="13" bodyfile="include/process/serializer_hardening.h" bodystart="197" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_parser_state_tracker_1a10c5a1db33e62668e75110dc62ea9aff" prot="private" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ParserStateTracker::current_depth_</definition>
+        <argsstring></argsstring>
+        <name>current_depth_</name>
+        <qualifiedname>themis::process::ParserStateTracker::current_depth_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="198" column="13" bodyfile="include/process/serializer_hardening.h" bodystart="198" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_parser_state_tracker_1aeb4eae17434e4ec21f7a21856477347e" prot="private" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ParserStateTracker::element_count_</definition>
+        <argsstring></argsstring>
+        <name>element_count_</name>
+        <qualifiedname>themis::process::ParserStateTracker::element_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="199" column="13" bodyfile="include/process/serializer_hardening.h" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_parser_state_tracker_1a8485e205e43a42c193d466346b27e4bb" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ParserStateTracker::start_time_ms_</definition>
+        <argsstring></argsstring>
+        <name>start_time_ms_</name>
+        <qualifiedname>themis::process::ParserStateTracker::start_time_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="200" column="13" bodyfile="include/process/serializer_hardening.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1a4166169938b6103255fa9a11876d48c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::process::ParserStateTracker::ParserStateTracker</definition>
+        <argsstring>(int32_t max_depth=kMaxModelNestingDepth, int32_t max_elements=kMaxModelElements, int64_t timeout_ms=kMaxOperationTimeoutMs)</argsstring>
+        <name>ParserStateTracker</name>
+        <qualifiedname>themis::process::ParserStateTracker::ParserStateTracker</qualifiedname>
+        <param>
+          <type>int32_t</type>
+          <declname>max_depth</declname>
+          <defval><ref refid="namespacethemis_1_1process_1a6f5928d1a93c1f54d721a83d7743dddb" kindref="member">kMaxModelNestingDepth</ref></defval>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>max_elements</declname>
+          <defval><ref refid="namespacethemis_1_1process_1a17a9819d699c52a566e29dc436618664" kindref="member">kMaxModelElements</ref></defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timeout_ms</declname>
+          <defval><ref refid="namespacethemis_1_1process_1a9f1c77cc2bb82ea81177da5b3c56cfe6" kindref="member">kMaxOperationTimeoutMs</ref></defval>
+        </param>
+        <briefdescription>
+<para>Create a new parser state tracker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_depth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowed nesting depth (kMaxModelNestingDepth). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum allowed total elements (kMaxModelElements). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum operation duration in milliseconds. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="132" column="5" bodyfile="src/process/serializer_hardening.cpp" bodystart="303" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1a8886fc50d5bcc4224e6bf127cc1095e4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ParserStateTracker::enterScope</definition>
+        <argsstring>()</argsstring>
+        <name>enterScope</name>
+        <qualifiedname>themis::process::ParserStateTracker::enterScope</qualifiedname>
+        <briefdescription>
+<para>Signal entry into a nested scope (sub-process, choice, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enter Scope.</para>
+<para><simplesect kind="return"><para>true if within depth limits, false if max depth exceeded.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements enterScope without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="143" column="11" bodyfile="src/process/serializer_hardening.cpp" bodystart="320" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1af42d3ce82511da572c3c94d417977677" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ParserStateTracker::exitScope</definition>
+        <argsstring>()</argsstring>
+        <name>exitScope</name>
+        <qualifiedname>themis::process::ParserStateTracker::exitScope</qualifiedname>
+        <briefdescription>
+<para>Signal exit from a nested scope. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Exit Scope.</para>
+<para><simplesect kind="return"><para>true if scope was properly nested, false on underflow.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements exitScope without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="150" column="11" bodyfile="src/process/serializer_hardening.cpp" bodystart="333" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1a7d7055b657ec56031e2918f568ec765b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ParserStateTracker::recordElement</definition>
+        <argsstring>()</argsstring>
+        <name>recordElement</name>
+        <qualifiedname>themis::process::ParserStateTracker::recordElement</qualifiedname>
+        <briefdescription>
+<para>Record the creation of a new element (node, edge, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Element.</para>
+<para><simplesect kind="return"><para>true if within element limits, false if limit exceeded.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements recordElement without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="157" column="11" bodyfile="src/process/serializer_hardening.cpp" bodystart="346" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1aee8b2a5d98c290d5f6b9f272247a9f10" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ParserStateTracker::hasTimedOut</definition>
+        <argsstring>() const</argsstring>
+        <name>hasTimedOut</name>
+        <qualifiedname>themis::process::ParserStateTracker::hasTimedOut</qualifiedname>
+        <briefdescription>
+<para>Check if the operation has exceeded the timeout window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if operation has timed out, false otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="164" column="11" bodyfile="src/process/serializer_hardening.cpp" bodystart="354" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1aadc0d1d99d031ed353de9fb88604761e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ParserStateTracker::getCurrentDepth</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentDepth</name>
+        <qualifiedname>themis::process::ParserStateTracker::getCurrentDepth</qualifiedname>
+        <briefdescription>
+<para>Get the current nesting depth. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current depth (0 = root). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="171" column="14" bodyfile="include/process/serializer_hardening.h" bodystart="171" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1a8d03f84e55c973ea8ba3efc63cdfce51" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ParserStateTracker::getElementCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getElementCount</name>
+        <qualifiedname>themis::process::ParserStateTracker::getElementCount</qualifiedname>
+        <briefdescription>
+<para>Get the total elements recorded so far. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Total element count. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="178" column="14" bodyfile="include/process/serializer_hardening.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1a661fa043795032f9b405b52e2dc02cc0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ParserStateTracker::getElapsedMs</definition>
+        <argsstring>() const</argsstring>
+        <name>getElapsedMs</name>
+        <qualifiedname>themis::process::ParserStateTracker::getElapsedMs</qualifiedname>
+        <briefdescription>
+<para>Get elapsed time in milliseconds since creation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Milliseconds elapsed. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="185" column="14" bodyfile="src/process/serializer_hardening.cpp" bodystart="358" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1_parser_state_tracker_1a2a6282d180517cdb58cafc136f7f6b50" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ParserStateTracker::getDiagnosticMessage</definition>
+        <argsstring>() const</argsstring>
+        <name>getDiagnosticMessage</name>
+        <qualifiedname>themis::process::ParserStateTracker::getDiagnosticMessage</qualifiedname>
+        <briefdescription>
+<para>Get a diagnostic message describing the current state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable state description. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/serializer_hardening.h" line="192" column="18" bodyfile="src/process/serializer_hardening.cpp" bodystart="362" bodyend="368"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Parser state tracking for bounded resource consumption. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tracks nesting depth, element count, and elapsed time to prevent resource exhaustion attacks and stack overflows. </para>
+    </detaileddescription>
+    <location file="include/process/serializer_hardening.h" line="123" column="1" bodyfile="include/process/serializer_hardening.h" bodystart="123" bodyend="201"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a10c5a1db33e62668e75110dc62ea9aff" prot="private" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>current_depth_</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1aeb4eae17434e4ec21f7a21856477347e" prot="private" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>element_count_</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a8886fc50d5bcc4224e6bf127cc1095e4" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>enterScope</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1af42d3ce82511da572c3c94d417977677" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>exitScope</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1aadc0d1d99d031ed353de9fb88604761e" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>getCurrentDepth</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a2a6282d180517cdb58cafc136f7f6b50" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>getDiagnosticMessage</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a661fa043795032f9b405b52e2dc02cc0" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>getElapsedMs</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a8d03f84e55c973ea8ba3efc63cdfce51" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>getElementCount</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1aee8b2a5d98c290d5f6b9f272247a9f10" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>hasTimedOut</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a60e29781caad0d172764bb0830772e71" prot="private" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>max_depth_</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a4e8699d27055a93fded0d12584d63273" prot="private" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>max_elements_</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a4166169938b6103255fa9a11876d48c2" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>ParserStateTracker</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a7d7055b657ec56031e2918f568ec765b" prot="public" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>recordElement</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a8485e205e43a42c193d466346b27e4bb" prot="private" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>start_time_ms_</name></member>
+      <member refid="classthemis_1_1process_1_1_parser_state_tracker_1a42e2480a65756ad6faffc79a3fd96d44" prot="private" virt="non-virtual"><scope>themis::process::ParserStateTracker</scope><name>timeout_ms_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

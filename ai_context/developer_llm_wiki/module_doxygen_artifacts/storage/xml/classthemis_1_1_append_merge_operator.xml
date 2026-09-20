@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_append_merge_operator" kind="class" language="C++" prot="public">
+    <compoundname>themis::AppendMergeOperator</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">rocksdb::AssociativeMergeOperator</basecompoundref>
+    <includes refid="merge__operators_8h" local="no">merge_operators.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_append_merge_operator_1aa4fcfed530e09cdea7bf9affe0408942" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::AppendMergeOperator::delimiter_</definition>
+        <argsstring></argsstring>
+        <name>delimiter_</name>
+        <qualifiedname>themis::AppendMergeOperator::delimiter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/merge_operators.h" line="51" column="17" bodyfile="include/storage/merge_operators.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_append_merge_operator_1a8fc7e19342071a0de6e4a25996363dd4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::AppendMergeOperator::AppendMergeOperator</definition>
+        <argsstring>(std::string delimiter=&quot;|&quot;)</argsstring>
+        <name>AppendMergeOperator</name>
+        <qualifiedname>themis::AppendMergeOperator::AppendMergeOperator</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>delimiter</declname>
+          <defval>&quot;|&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/merge_operators.h" line="40" column="14" bodyfile="src/storage/merge_operators.cpp" bodystart="68" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_append_merge_operator_1ad44ac9fd3b887c4a26b776c5c6701b11" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::AppendMergeOperator::Merge</definition>
+        <argsstring>(const rocksdb::Slice &amp;key, const rocksdb::Slice *existing_value, const rocksdb::Slice &amp;value, std::string *new_value, rocksdb::Logger *logger) const override</argsstring>
+        <name>Merge</name>
+        <qualifiedname>themis::AppendMergeOperator::Merge</qualifiedname>
+        <param>
+          <type>const rocksdb::Slice &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const rocksdb::Slice *</type>
+          <declname>existing_value</declname>
+        </param>
+        <param>
+          <type>const rocksdb::Slice &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>new_value</declname>
+        </param>
+        <param>
+          <type>rocksdb::Logger *</type>
+          <declname>logger</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/merge_operators.h" line="42" column="10" bodyfile="src/storage/merge_operators.cpp" bodystart="71" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_append_merge_operator_1a8d663774da45768fc2d8601c3954280d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::AppendMergeOperator::Name</definition>
+        <argsstring>() const override</argsstring>
+        <name>Name</name>
+        <qualifiedname>themis::AppendMergeOperator::Name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/merge_operators.h" line="48" column="16" bodyfile="include/storage/merge_operators.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_append_merge_operator" kindref="compound">AppendMergeOperator</ref> - Concatenate values with delimiter Use Case: Append-only logs, event streams Example: &quot;log:events:event1&quot; + &quot;log:events:event2&quot; → &quot;event1|event2&quot; </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>rocksdb::AssociativeMergeOperator</label>
+      </node>
+      <node id="1">
+        <label>themis::AppendMergeOperator</label>
+        <link refid="classthemis_1_1_append_merge_operator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>rocksdb::AssociativeMergeOperator</label>
+      </node>
+      <node id="1">
+        <label>themis::AppendMergeOperator</label>
+        <link refid="classthemis_1_1_append_merge_operator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/merge_operators.h" line="38" column="1" bodyfile="include/storage/merge_operators.h" bodystart="38" bodyend="52"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_append_merge_operator_1a8fc7e19342071a0de6e4a25996363dd4" prot="public" virt="non-virtual"><scope>themis::AppendMergeOperator</scope><name>AppendMergeOperator</name></member>
+      <member refid="classthemis_1_1_append_merge_operator_1aa4fcfed530e09cdea7bf9affe0408942" prot="private" virt="non-virtual"><scope>themis::AppendMergeOperator</scope><name>delimiter_</name></member>
+      <member refid="classthemis_1_1_append_merge_operator_1ad44ac9fd3b887c4a26b776c5c6701b11" prot="public" virt="non-virtual"><scope>themis::AppendMergeOperator</scope><name>Merge</name></member>
+      <member refid="classthemis_1_1_append_merge_operator_1a8d663774da45768fc2d8601c3954280d" prot="public" virt="non-virtual"><scope>themis::AppendMergeOperator</scope><name>Name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_mock_self_healing_plugin" kind="class" language="C++" prot="public">
+    <compoundname>MockSelfHealingPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_self_healing_plugin" prot="public" virt="non-virtual">themis::plugins::ISelfHealingPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1plugins_1a4983d42b198325e2b99195e4cafdc606" kindref="member">PluginHealthStatus</ref></type>
+        <definition>PluginHealthStatus MockSelfHealingPlugin::next_status</definition>
+        <argsstring></argsstring>
+        <name>next_status</name>
+        <qualifiedname>MockSelfHealingPlugin::next_status</qualifiedname>
+        <initializer>= PluginHealthStatus::HEALTHY</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="32" column="24" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1a3af244c1e98ea71dc98395d2267ac30c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockSelfHealingPlugin::repair_result</definition>
+        <argsstring></argsstring>
+        <name>repair_result</name>
+        <qualifiedname>MockSelfHealingPlugin::repair_result</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="33" column="10" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1aed74db0837388f3f3c6d773ede39b189" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockSelfHealingPlugin::cleanup_result</definition>
+        <argsstring></argsstring>
+        <name>cleanup_result</name>
+        <qualifiedname>MockSelfHealingPlugin::cleanup_result</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="34" column="10" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1a4f722e50df1a3b5706684eb96ed22c9d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockSelfHealingPlugin::rollback_result</definition>
+        <argsstring></argsstring>
+        <name>rollback_result</name>
+        <qualifiedname>MockSelfHealingPlugin::rollback_result</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="35" column="10" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1ae679c01e05772af605e72d26c3f6cba7" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockSelfHealingPlugin::health_check_count</definition>
+        <argsstring></argsstring>
+        <name>health_check_count</name>
+        <qualifiedname>MockSelfHealingPlugin::health_check_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="37" column="17" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1a271dc4f0cacf7285ee9a521c6f89cee6" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockSelfHealingPlugin::repair_count</definition>
+        <argsstring></argsstring>
+        <name>repair_count</name>
+        <qualifiedname>MockSelfHealingPlugin::repair_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="38" column="17" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1a3f734b517c32a28061f07093a8baa38e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockSelfHealingPlugin::cleanup_count</definition>
+        <argsstring></argsstring>
+        <name>cleanup_count</name>
+        <qualifiedname>MockSelfHealingPlugin::cleanup_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="39" column="17" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1a44159c4ebfa13d0499562f4aa8684721" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockSelfHealingPlugin::rollback_count</definition>
+        <argsstring></argsstring>
+        <name>rollback_count</name>
+        <qualifiedname>MockSelfHealingPlugin::rollback_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="40" column="17" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_mock_self_healing_plugin_1a27c3a6dd00db9265c446128f241f5d7d" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockSelfHealingPlugin::checkpoint_count</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_count</name>
+        <qualifiedname>MockSelfHealingPlugin::checkpoint_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="41" column="17" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_mock_self_healing_plugin_1abd81fe460876cd7d0da996f9af12f59b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref></type>
+        <definition>PluginDiagnostics MockSelfHealingPlugin::performHealthCheck</definition>
+        <argsstring>() override</argsstring>
+        <name>performHealthCheck</name>
+        <qualifiedname>MockSelfHealingPlugin::performHealthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a7a80178dbbffb1965eb386422decd5b7">performHealthCheck</reimplements>
+        <briefdescription>
+<para>Perform comprehensive health check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method should check:<itemizedlist>
+<listitem><para>Connection status (for network plugins)</para>
+</listitem><listitem><para>Resource usage (memory, file handles, etc.)</para>
+</listitem><listitem><para>Error rates</para>
+</listitem><listitem><para>Response times</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>Detailed diagnostic information </para>
+</simplesect>
+<simplesect kind="note"><para>This method is called periodically by <ref refid="classthemis_1_1plugins_1_1_plugin_health_monitor" kindref="compound">PluginHealthMonitor</ref> </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="43" column="23" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_self_healing_plugin_1aa129bb388997cdf243dd810fd0331590" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockSelfHealingPlugin::attemptSelfRepair</definition>
+        <argsstring>(const PluginDiagnostics &amp;) override</argsstring>
+        <name>attemptSelfRepair</name>
+        <qualifiedname>MockSelfHealingPlugin::attemptSelfRepair</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a92b2ff7289f6fddaac735eeeba88034b">attemptSelfRepair</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1_plugin_diagnostics" kindref="compound">PluginDiagnostics</ref> &amp;</type>
+          <declname>diagnostics</declname>
+        </param>
+        <briefdescription>
+<para>Attempt automatic self-repair. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method is called when <ref refid="class_mock_self_healing_plugin_1abd81fe460876cd7d0da996f9af12f59b" kindref="member">performHealthCheck()</ref> indicates the plugin is unhealthy. The plugin should attempt to recover based on the diagnostics information.</para>
+<para>Common recovery strategies:<itemizedlist>
+<listitem><para>Reconnect to external services</para>
+</listitem><listitem><para>Clear caches</para>
+</listitem><listitem><para>Reload configuration</para>
+</listitem><listitem><para>Rollback to last checkpoint</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>diagnostics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current diagnostic information </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if repair was successful, false otherwise </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+<simplesect kind="note"><para>Should complete within reasonable time (&lt; 30 seconds) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="54" column="10" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_self_healing_plugin_1a9cbcee8196e886169e7d09e0b6131614" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockSelfHealingPlugin::cleanupResources</definition>
+        <argsstring>() override</argsstring>
+        <name>cleanupResources</name>
+        <qualifiedname>MockSelfHealingPlugin::cleanupResources</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1af9dd0f9b69b25723b0ea4d1e379e7f2b">cleanupResources</reimplements>
+        <briefdescription>
+<para>Clean up resources. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release resources that may be causing issues:<itemizedlist>
+<listitem><para>Close unused connections</para>
+</listitem><listitem><para>Clear caches</para>
+</listitem><listitem><para>Free temporary memory</para>
+</listitem><listitem><para>Close file handles</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>true if cleanup was successful </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="59" column="10" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="59" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_self_healing_plugin_1a1fd9923eb8f5a20bbddbad760af91206" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool MockSelfHealingPlugin::rollbackToLastGoodState</definition>
+        <argsstring>() override</argsstring>
+        <name>rollbackToLastGoodState</name>
+        <qualifiedname>MockSelfHealingPlugin::rollbackToLastGoodState</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a9bd6726e007f05c865377682973466be">rollbackToLastGoodState</reimplements>
+        <briefdescription>
+<para>Rollback to last known good state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore plugin to the state captured by the most recent <ref refid="class_mock_self_healing_plugin_1a540170508c663ccdaad118a5cf3f7dd3" kindref="member">saveCheckpoint()</ref>. This should restore:<itemizedlist>
+<listitem><para>Configuration</para>
+</listitem><listitem><para>Connection parameters</para>
+</listitem><listitem><para>Internal state</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="return"><para>true if rollback was successful </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="64" column="10" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_self_healing_plugin_1a540170508c663ccdaad118a5cf3f7dd3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void MockSelfHealingPlugin::saveCheckpoint</definition>
+        <argsstring>() override</argsstring>
+        <name>saveCheckpoint</name>
+        <qualifiedname>MockSelfHealingPlugin::saveCheckpoint</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab8f2da2da737f9360323851302ae1b5e">saveCheckpoint</reimplements>
+        <briefdescription>
+<para>Save current state as a checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Capture the current &quot;known good&quot; state for potential rollback. This should save:<itemizedlist>
+<listitem><para>Configuration</para>
+</listitem><listitem><para>Connection parameters</para>
+</listitem><listitem><para>Critical internal state</para>
+</listitem></itemizedlist>
+</para>
+<para>The plugin should maintain a limited number of checkpoints (e.g., 5) to avoid excessive memory usage.</para>
+<para><simplesect kind="note"><para>Call this after successful initialization and after major configuration changes </para>
+</simplesect>
+<simplesect kind="note"><para>Must be thread-safe </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="69" column="10" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_mock_self_healing_plugin_1ad6de40538c7190ac33c98c7a951eb006" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1plugins_1a8eeee246c798f0d40ad1cd4bda660f1d" kindref="member">RecoveryAction</ref> &gt;</type>
+        <definition>std::vector&lt; RecoveryAction &gt; MockSelfHealingPlugin::getRecoveryStrategies</definition>
+        <argsstring>() const override</argsstring>
+        <name>getRecoveryStrategies</name>
+        <qualifiedname>MockSelfHealingPlugin::getRecoveryStrategies</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a1dc5399b90e6b6eadb6bc793d79da6b9">getRecoveryStrategies</reimplements>
+        <briefdescription>
+<para>Get available recovery strategies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>List of recovery actions this plugin supports </para>
+</simplesect>
+<simplesect kind="note"><para>This is informational and helps the health monitor decide which recovery action to trigger </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_health_monitor.cpp" line="73" column="17" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockSelfHealingPlugin</label>
+        <link refid="class_mock_self_healing_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ISelfHealingPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_self_healing_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockSelfHealingPlugin</label>
+        <link refid="class_mock_self_healing_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::ISelfHealingPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_self_healing_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_health_monitor.cpp" line="29" column="1" bodyfile="tests/plugins/test_plugin_health_monitor.cpp" bodystart="29" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_mock_self_healing_plugin_1aa129bb388997cdf243dd810fd0331590" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>attemptSelfRepair</name></member>
+      <member refid="class_mock_self_healing_plugin_1a27c3a6dd00db9265c446128f241f5d7d" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>checkpoint_count</name></member>
+      <member refid="class_mock_self_healing_plugin_1a3f734b517c32a28061f07093a8baa38e" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>cleanup_count</name></member>
+      <member refid="class_mock_self_healing_plugin_1aed74db0837388f3f3c6d773ede39b189" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>cleanup_result</name></member>
+      <member refid="class_mock_self_healing_plugin_1a9cbcee8196e886169e7d09e0b6131614" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>cleanupResources</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1ab96fbfa4585d99ec38f52a1e4851d752" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>executeRecoveryAction</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a59292c66e40c5096821ab9f065f2db68" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>getRecoveryConfiguration</name></member>
+      <member refid="class_mock_self_healing_plugin_1ad6de40538c7190ac33c98c7a951eb006" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>getRecoveryStrategies</name></member>
+      <member refid="class_mock_self_healing_plugin_1ae679c01e05772af605e72d26c3f6cba7" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>health_check_count</name></member>
+      <member refid="class_mock_self_healing_plugin_1ae15d4bec943546d47cc44e65b473f1ec" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>next_status</name></member>
+      <member refid="class_mock_self_healing_plugin_1abd81fe460876cd7d0da996f9af12f59b" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>performHealthCheck</name></member>
+      <member refid="class_mock_self_healing_plugin_1a271dc4f0cacf7285ee9a521c6f89cee6" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>repair_count</name></member>
+      <member refid="class_mock_self_healing_plugin_1a3af244c1e98ea71dc98395d2267ac30c" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>repair_result</name></member>
+      <member refid="class_mock_self_healing_plugin_1a44159c4ebfa13d0499562f4aa8684721" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>rollback_count</name></member>
+      <member refid="class_mock_self_healing_plugin_1a4f722e50df1a3b5706684eb96ed22c9d" prot="public" virt="non-virtual"><scope>MockSelfHealingPlugin</scope><name>rollback_result</name></member>
+      <member refid="class_mock_self_healing_plugin_1a1fd9923eb8f5a20bbddbad760af91206" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>rollbackToLastGoodState</name></member>
+      <member refid="class_mock_self_healing_plugin_1a540170508c663ccdaad118a5cf3f7dd3" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>saveCheckpoint</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_self_healing_plugin_1a76c5b6410cd09452d6636e9d0a050de0" prot="public" virt="virtual"><scope>MockSelfHealingPlugin</scope><name>~ISelfHealingPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,312 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a51bc30d31cf25b729275f6ee16723b0f" kindref="member">TEST</ref>  (APIContractsTest, BackwardCompatibilityV1Supported)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>Backward Compatibility Contract Transport-facing contracts remain backward compatible within major release line  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a21d6116129b1139c076f195b88408fc9" kindref="member">TEST</ref>  (APIContractsTest, BackwardCompatibilityV2Supported)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>Backward Compatibility Contract New versions remain supported during major line  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ae384848767c679feec938b1070e7deaf" kindref="member">TEST</ref>  (APIContractsTest, FailClosedOnEmptyMethod)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>Fail-Closed Behavior Contract Adapter behavior remains fail-closed on invalid or unsupported protocol input  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1afb2a4c0896b01e6b236a89cd6fe2319c" kindref="member">TEST</ref>  (APIContractsTest, FailClosedOnUnsupportedVersion)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>Fail-Closed Behavior Contract Adapter behavior remains fail-closed on unsupported protocol states  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a4e770b86ea14d8b56b11bba04947e765" kindref="member">TEST</ref>  (APIContractsTest, AuthenticationRequiredByDefault)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>Authentication Contract All transport entry points enforce authentication requirement  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a6d981a5530074150a22a8655d7228ddd" kindref="member">TEST</ref>  (APIContractsTest, ErrorSemanticsBadRequest)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>Error Contract: Consistent error semantics Error responses follow standard HTTP status code semantics  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1af0783482659c270c9ccc9789f1602201" kindref="member">TEST</ref>  (APIContractsTest, ErrorSemanticsUnauthorized)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>Error Contract: Consistent error semantics Unauthorized responses must have 401 status  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a9d920dd4dd9bcca66304c8c8cbfa9ff1" kindref="member">TEST</ref>  (APIContractsTest, ErrorSemanticsForbidden)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>Error Contract: Consistent error semantics Forbidden responses must have 403 status  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ae1b57537b5ffb268cab0b4a001579418" kindref="member">TEST</ref>  (APIContractsTest, ErrorSemanticsNotFound)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>Error Contract: Consistent error semantics Not found responses must have 404 status  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ac1715ff2ec622e3d403245a69fa8337b" kindref="member">TEST</ref>  (APIContractsTest, ErrorSemanticsInternalError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>Error Contract: Consistent error semantics Server errors must have 500 status  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1aca26828e2d86d38cdd3e66bcee362b30" kindref="member">TEST</ref>  (APIContractsTest, SuccessOkResponseContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>Success Contract: Standard response codes OK responses must have 200 status with JSON content type  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ae26d53fd3f54aa86be0c69c8fb24de7f" kindref="member">TEST</ref>  (APIContractsTest, SuccessCreatedResponseContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>Success Contract: Standard response codes Created responses must have 201 status with JSON content type  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ac096e6f68ce3af7e6b675d5c1ded07d0" kindref="member">TEST</ref>  (APIContractsTest, SuccessNoContentResponseContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>Success Contract: Standard response codes NoContent responses must have 204 status with empty body  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a73af9c475632ce4d7cf521d596c13a30" kindref="member">TEST</ref>  (APIContractsTest, MiddlewareConcurrencyBounding)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>Resource Bounding: Middleware chain size High-concurrency paths remain bounded by explicit runtime controls  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a306d51c019b46e47ba18c1538c36d6e8" kindref="member">TEST</ref>  (APIContractsTest, MiddlewareErrorHandlingUnderLoad)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>Resource Bounding: Error handling under load Middleware chain must fail-closed even under degraded conditions  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a64754e76b8a300e82050e9dc6f7847ab" kindref="member">TEST</ref>  (APIContractsTest, ObservabilityCorrelationIDContract)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>Observability Contract: Correlation ID Correlation IDs must be deterministic and parseable  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ac97d0be68f0d1e2a6f0f61fc3d53ae43" kindref="member">TEST</ref>  (APIContractsTest, ObservabilityCorrelationIDRoundTrip)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>Observability Contract: Correlation ID can be round-tripped Correlation IDs maintain semantic identity across serialization  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a8d86f2fe75e1b94c364c7b6a90084fb9" kindref="member">TEST</ref>  (APIContractsTest, GraphQLSchemaValidationContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>GraphQL Schema Validation Contract Schemas must validate correctly for all standard types  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a424052573599818327e593b3acbc638c" kindref="member">TEST</ref>  (APIContractsTest, GRPCServiceDescriptorContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>gRPC Service Contract Service descriptors must properly reflect method metadata  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a6e4162f06e8945aa34d296bfbbb91d9f" kindref="member">TEST</ref>  (APIContractsTest, WebSocketFrameContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>WebSocket Frame Contract WebSocket frames must support both text and binary payloads  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ad30913ecb73fdddc77e9be831929ae81" kindref="member">TEST</ref>  (APIContractsTest, VersionDescriptorCurrentContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>API Version Contract Current versions must be properly described  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a08b981b20d35259fd8dbe1f49f8be996" kindref="member">TEST</ref>  (APIContractsTest, VersionDescriptorDeprecatedContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>API Version Contract Deprecated versions must include sunset and migration information  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a102af42782ca8d49549fc51c239fb3d7" kindref="member">TEST</ref>  (APIContractsTest, HTTPHandlerInterfaceContractMet)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>HTTP Handler Interface Contract All HTTP handlers must implement required interface methods  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a4b66b69e12e3627635224ed4044bceff" kindref="member">TEST</ref>  (APIContractsTest, RoadmapAcceptanceCoreDocsAligned)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>Roadmap Acceptance: Core API docs aligned to source-verifiable behavior All public transport adapter surfaces have documented behavior  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ab0c96fb11fff3ffd3dafcdf8f7adafe8" kindref="member">TEST</ref>  (APIContractsTest, RoadmapAcceptanceAdapterSurfacesVerified)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>Roadmap Acceptance: Transport adapter surfaces documented and source-verified All adapter error semantics are properly defined  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a571b3d768701ee7b514c7102ec08fb2b" kindref="member">TEST</ref>  (APIContractsTest, RoadmapAcceptanceSecurityAndFailureHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>Roadmap Acceptance: Security and failure handling documented at module level All required failure handling contracts are implemented  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1a7dc26e6e10bed986b26eb6cbdf8c4654" kindref="member">TEST</ref>  (APIContractsTest, FutureEnhancementBackwardCompatibility)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>Future Enhancement: Transport-facing contracts remain backward compatible API surfaces maintain stability within major version line  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1af9dd8bb287bb5b30e2c76ce8d6cf5a8f" kindref="member">TEST</ref>  (APIContractsTest, FutureEnhancementFailClosedBehavior)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>Future Enhancement: Adapter behavior remains fail-closed on invalid input Invalid protocol states are rejected before processing  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ab21842f6bf3538f0415aa9fee6eefad3" kindref="member">TEST</ref>  (APIContractsTest, FutureEnhancementConcurrencyBounding)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>Future Enhancement: High-concurrency paths remain bounded Middleware chains support bounded configuration  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__contracts_8cpp_1ab78a50a010be1409b6c2e5ecee6dad64" kindref="member">TEST</ref>  (APIContractsTest, FutureEnhancementObservabilityNonIntrusive)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>Future Enhancement: Observability integration non-intrusive Correlation IDs and observability don&apos;t compromise request path  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__degraded__mode_8cpp_1a91d677840b7d8a52b848f74d417a59ad" kindref="member">TEST</ref>  (DegradedModeTest, CapabilityUnavailableRejectsGatedPaths)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>Requests to capability-gated paths are rejected when capability is disabled </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__degraded__mode_8cpp_1aa38419e5ee2a494c246cdcc44e4e0e17" kindref="member">TEST</ref>  (DegradedModeTest, NonGatedPathsSucceedWhenCapabilityDisabled)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000032"/>Non-gated paths succeed even when the optional capability is disabled  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__degraded__mode_8cpp_1a14e5773abb4bc8a7db7ad5c62d27d978" kindref="member">TEST</ref>  (DegradedModeTest, CapabilityFlagsReflectDeploymentState)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000033"/>Capability flags are correct when capability is enabled vs disabled  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__degraded__mode_8cpp_1a0c485647ee964534adbac172d9e52993" kindref="member">TEST</ref>  (DegradedModeTest, SubscribePathRejectedWhenCapabilityDisabled)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000034"/>Subscribe path is also rejected when capability is disabled  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__degraded__mode_8cpp_1aa73ab892665ba3671a5d492882ba3d7a" kindref="member">TEST</ref>  (DegradedModeTest, TransientFailureAdapterDegradationBehavior)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000035"/>Requests succeed before degradation threshold; fail after threshold </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__degraded__mode_8cpp_1a57c5d6c0f7f4cf5615a1f9e591d8ab25" kindref="member">TEST</ref>  (DegradedModeTest, PolicyComposesWithDegradedAdapter)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000036"/>TransportPolicyMiddleware composes correctly with a degraded inner adapter </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__degraded__mode_8cpp_1ad4cb4a4c23fac1241c682c389281cb89" kindref="member">TEST</ref>  (DegradedModeTest, ConcurrentMixedRequestsDegradedAdapter)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000037"/>8 threads mix non-gated (success) and gated (failure) requests concurrently </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__degraded__mode_8cpp_1a5f0c5db8a184bbd3e41feaa881b089f7" kindref="member">TEST</ref>  (DegradedModeDiagnosticsTest, AllFailureClassesHaveActionableMessages)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000038"/>Every TransportFailureClass produces a non-empty structured message </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1ae42d3808b566ad45d4b26951f5b98dbf" kindref="member">TEST</ref>  (ErrorHandlingTest, MalformedRequestError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000039"/>Malformed request error Degraded mode adapter returns ERR_DEGRADED_MALFORMED_REQUEST for malformed requests  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a58bef21653b984751f82678f89c61ca5" kindref="member">TEST</ref>  (ErrorHandlingTest, TimeoutError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000040"/>Timeout error Adapter returns ERR_DEGRADED_TIMEOUT with bounded timeout value  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a2cfa1a5a565b4d1651cae2ddc41ea0ec" kindref="member">TEST</ref>  (ErrorHandlingTest, ServiceUnavailableError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000041"/>Service unavailable error Adapter returns ERR_DEGRADED_SERVICE_UNAVAILABLE for backend failures  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a00c92923bec2fdb8f5e281a6378cc5e0" kindref="member">TEST</ref>  (ErrorHandlingTest, QuotaExceededError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000042"/>Quota exceeded error Adapter returns ERR_DEGRADED_QUOTA_EXCEEDED when limits are reached  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a77da94498b7c8ef34924e0af1e1a91d4" kindref="member">TEST</ref>  (DegradedModeTest, WebSocketFeatureUnavailable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000043"/>Unsupported WebSocket feature Adapter gracefully rejects WebSocket requests when feature is unavailable  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1ab48af86a99df4c328881906e6678fbfa" kindref="member">TEST</ref>  (DegradedModeTest, RestRequestDuringWebSocketDegradation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000044"/>REST request in WebSocket-degraded mode Non-WebSocket requests succeed even when WebSocket feature is unavailable  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a2eefb953dfd0e5f18c5c7349a8b05b5d" kindref="member">TEST</ref>  (DegradedModeTest, PartialCapabilityAvailability)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000045"/>Graceful degradation: partial capability availability System continues functioning with reduced capabilities during degraded mode  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1ac37f7d351d5bf6df4f9ae40eaedab171" kindref="member">TEST</ref>  (ErrorRecoveryTest, TransientServiceUnavailableRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000046"/>Transient error: Service unavailable recovery Client can retry after ERR_DEGRADED_SERVICE_UNAVAILABLE  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a0a1b71a7678fa37906a5dee7e3bd52b2" kindref="member">TEST</ref>  (ErrorRecoveryTest, PermanentUnsupportedFeatureError)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000047"/>Permanent error: Unsupported feature Client must not retry unsupported feature errors  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a3b86ef88f94a4aa73840130e1edfe5fd" kindref="member">TEST</ref>  (ErrorRecoveryTest, QuotaErrorRecovery)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000048"/>Quota error recovery After quota reset, requests should succeed  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a9368afb825cf57c160e06499e0388744" kindref="member">TEST</ref>  (ErrorMessageQualityTest, DescriptiveErrorMessages)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000049"/>Error messages are descriptive All error messages include error code, description, and helpful context  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__error__handling_8cpp_1a742c79a9836172bd151620a8f92720be" kindref="member">TEST</ref>  (ErrorMessageQualityTest, ErrorMessagesSafety)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000050"/>Error messages do not leak sensitive information Error messages include only public-safe information  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a647f2d95674ad84fe1ec82dbd374e543" kindref="member">TEST</ref>  (ObservabilityTest, RequestMetricTracking)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000051"/>Request metric tracking Adapter tracks total, successful, and failed request counts  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1aeff88349cc776d9ecd68fc66712c2daa" kindref="member">TEST</ref>  (ObservabilityTest, QueueDepthTracking)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000052"/>Queue depth tracking Adapter tracks current queue depth  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a2ea5c8827fb80d02ecacf789cd36c426" kindref="member">TEST</ref>  (ObservabilityTest, ResponseMetadataHeaders)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000053"/>Response headers include processing metadata Responses include X-Processing-Time-Ms header for observability  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a7b346d0207a8ccb0fb66fbf271e21cf9" kindref="member">TEST</ref>  (ObservabilityTest, SessionCountTracking)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000054"/>Session count tracking Adapter tracks number of active sessions  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a73d480273c347a6d451191540710e9de" kindref="member">TEST</ref>  (BoundedResourceTest, QueueSizeLimit)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000055"/>Queue size limit enforcement Adapter rejects requests when queue is at capacity. Uses a small-limit variant (kMaxQueueSize = 3) so concurrent threads can fill the queue reliably without launching thousands of threads.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a01f8453c4d881cffcb60c4b91c790e8a" kindref="member">TEST</ref>  (BoundedResourceTest, SessionLimitEnforcement)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000056"/>Session limit enforcement Adapter rejects requests when the active-session limit is reached. Uses a small-limit variant (kMaxActiveSessions = 3) so concurrent threads can exhaust the session budget without thousands of goroutines.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a35bfdb8a761298a042d23eea99a866a0" kindref="member">TEST</ref>  (BoundedResourceTest, BoundedMemoryFootprint)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000057"/>Memory footprint remains bounded Adapter maintains bounded memory usage even with many metrics tracked  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1aa7d96ec37f2825ca04712af31f07df1f" kindref="member">TEST</ref>  (ReliabilityTest, ThreadSafeMetricUpdates)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000058"/>Thread-safe metric updates Multiple threads updating metrics concurrently produces consistent results  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a97f4733000aff414013c219181224cbd" kindref="member">TEST</ref>  (ReliabilityTest, ConcurrentReadWriteConsistency)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000059"/>Concurrent access doesn&apos;t cause data corruption Adapter remains functional with concurrent reads and writes to metrics  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a259700a5fc80063000f2444df69d3c09" kindref="member">TEST</ref>  (ReliabilityTest, ConsistentErrorHandlingConcurrent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000060"/>Consistent error handling under concurrent load Errors are handled consistently when multiple threads make requests  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a784905ac0d7a40392f943b81403101b8" kindref="member">TEST</ref>  (ObservabilityTest, ObservabilityOverheadBounded)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000061"/>Observability doesn&apos;t impact request performance Adding observability infrastructure doesn&apos;t significantly impact latency  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__observability_8cpp_1a0835e4f17e30ed17b2847c1ced39808e" kindref="member">TEST</ref>  (ObservabilityTest, TracingIdNonIntrusive)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000062"/>Tracing metadata is non-intrusive Adding tracing IDs doesn&apos;t prevent successful request processing  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1a94d28f65ec51b2353d7e1ad86bd2fc54" kindref="member">TEST</ref>  (Phase4ConcurrencyTest, PolicyMiddlewareHighConcurrency32x50)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000063"/>32 threads × 50 requests — all succeed through policy middleware </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1ad92c05797aa0358848b3207abc7dc6a1" kindref="member">TEST</ref>  (Phase4ConcurrencyTest, PolicyRejectsInvalidVersionAcrossAllThreads)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000064"/>Policy rejects all threads uniformly on a shared invalid version </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1a408df68fe92f01810ee5275ac06ca7c2" kindref="member">TEST</ref>  (Phase4EdgeCasesTest, PayloadBoundaryExactLimit)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000065"/>Exact-boundary payload: kMaxPayloadBytes accepted, kMaxPayloadBytes+1 rejected  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1ae126e804862ee9c2e56593a86eaad0fe" kindref="member">TEST</ref>  (Phase4EdgeCasesTest, PathLengthBoundary)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000066"/>Path length boundary: kMaxPathBytes accepted, kMaxPathBytes+1 rejected  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1a22092f0186b52256e153ad7384685480" kindref="member">TEST</ref>  (Phase4EdgeCasesTest, MalformedRequestVariants)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000067"/>Empty method is rejected; empty path is rejected; both empty is rejected  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1af9b77351ef46ab23bbba20887e57bb13" kindref="member">TEST</ref>  (Phase4EdgeCasesTest, PostWithBodyRequiresContentType)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000068"/>Content-Type enforcement: POST with body and no Content-Type is rejected  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1a044cd7283f9823ce4c908092b6415f27" kindref="member">TEST</ref>  (Phase4EdgeCasesTest, PutAndPatchWithBodyRequireContentType)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000069"/>PUT and PATCH also require Content-Type when carrying a body  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1aa874b55ae5180700d01be14b15be5852" kindref="member">TEST</ref>  (Phase4EdgeCasesTest, ReadMethodsNeverRequireContentType)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000070"/>GET / DELETE / HEAD / OPTIONS do not require Content-Type even with a body  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1a032a17d529f9300dbe96654e2d3d53c1" kindref="member">TEST</ref>  (Phase4MatrixTest, ValidProtocolCombinationsSucceed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000071"/>Protocol combination matrix — all valid combinations succeed </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1a5423d0a94005f1932440786b889fcf97" kindref="member">TEST</ref>  (Phase4TaxonomyTest, AllFailureClassesHaveCorrectHttpStatus)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000072"/>ApiErrorTaxonomy maps all failure classes to correct HTTP status codes  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1ae3d17411e10a2ae51e022dd7b7102526" kindref="member">TEST</ref>  (Phase4TaxonomyTest, ClientVsServerErrorClassification)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000073"/>ApiErrorTaxonomy correctly classifies client vs server errors  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1aa8fdd2ef02260c1a98175a7392d7271c" kindref="member">TEST</ref>  (Phase4ContractsTest, SupportedVersionValidation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000074"/>TransportContractValidator correctly validates all supported versions  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1a2b325abee4ebaf7950849776bfdcbcca" kindref="member">TEST</ref>  (Phase4ContractsTest, ContentTypeRequirements)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000075"/>TransportContractValidator correctly identifies methods requiring Content-Type  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__phase4__concurrency_8cpp_1a7cab0e98b7e8831a065993d6e13812da" kindref="member">TEST</ref>  (Phase4ContractsTest, PolicyConfigNormalizationClampsOversize)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000076"/>TransportPolicyConfig normalization clamps values to global limits  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1a04788433ac5a156cf12ef94f9c84288c" kindref="member">TEST</ref>  (TransportHardeningTest, RejectEmptyMethod)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000077"/>Malformed request rejection Transport adapter rejects empty method with ERR_TRANSPORT_MALFORMED_REQUEST  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1aa4b889e8ee62758126caf67f9ff4b73f" kindref="member">TEST</ref>  (TransportHardeningTest, RejectEmptyPath)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000078"/>Malformed request rejection Transport adapter rejects empty path with ERR_TRANSPORT_MALFORMED_REQUEST  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1ad7db8e75641dcbf79d76ef909f4bbe71" kindref="member">TEST</ref>  (TransportHardeningTest, RejectOversizedPayload)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000079"/>Bounded payload enforcement Transport adapter rejects oversized payloads with ERR_TRANSPORT_PAYLOAD_TOO_LARGE  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1af24100a0b27d32b3867646488b05137c" kindref="member">TEST</ref>  (TransportHardeningTest, EnforceContentTypeForPost)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000080"/>Content-Type validation Transport adapter enforces Content-Type header for POST requests  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1a4f658812383f89beaf801a37b30ce826" kindref="member">TEST</ref>  (TransportHardeningTest, VersionNegotiationSupported)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000081"/>Version negotiation Transport adapter supports v1, v2 and rejects unsupported versions  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1a3ec8ecd74b7b8acfb417c2ea6d99c46a" kindref="member">TEST</ref>  (TransportHardeningTest, VersionNegotiationRejectsUnsupported)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000082"/>Version negotiation Transport adapter rejects unsupported API versions with ERR_TRANSPORT_UNSUPPORTED_VERSION  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1ac801f88ff975076bbbdb55051cf2b9eb" kindref="member">TEST</ref>  (TransportHardeningTest, ConcurrentRequestHandling)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000083"/>Concurrent request handling Multiple threads can safely call handle() concurrently  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1a55926408caf97aa8ea4ae7202ed308d4" kindref="member">TEST</ref>  (TransportHardeningTest, BoundedResourceBehaviorUnderLoad)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000084"/>Bounded resource behavior under load Adapter gracefully handles rapid request/response cycles  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1a8520377fa6726f4a75e2bee17d60c09d" kindref="member">TEST</ref>  (TransportHardeningTest, CorrelationIdPropagation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000085"/>Correlation ID propagation Requests with X-Correlation-ID header are echoed in response X-Correlation-ID  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1abd3e8b2b4b9960955b4dcebfd998a1ce" kindref="member">TEST</ref>  (TransportHardeningTest, DefaultRequestIdWhenNoCorrelation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000086"/>Request without correlation ID Requests without X-Correlation-ID result in no X-Correlation-ID in the response (X-Request-ID is always present as a separately generated per-request identifier)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1a129bfbbb3ede1dada962f8563fa5c3b7" kindref="member">TEST</ref>  (TransportHardeningTest, ResponseHeaderNormalization)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000087"/>Response header normalization All responses include Content-Type and X-Request-ID headers  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1ae4884fb58de68896d10a68cf07c329c9" kindref="member">TEST</ref>  (TransportHardeningTest, GetRequestWithBodyIgnored)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000088"/>GET requests with no body GET requests are processed correctly even if body is provided (ignored)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__transport__hardening_8cpp_1a4b1ba306f0dd982e594f05e400c79c19" kindref="member">TEST</ref>  (TransportHardeningTest, EmptyPayloadAccepted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000089"/>Empty payload handling POST/PUT requests with empty body are accepted (no Content-Type enforcement for empty body)  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1a30020d24d7cc72d8e908b190004aad44" kindref="member">TEST</ref>  (WaveDStressTest, HighCardinalitySpanIngestion)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000090"/>HighCardinalitySpanIngestion </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1a7d22a20be99da30a02818f7b86e34cbe" kindref="member">TEST</ref>  (WaveDStressTest, ExporterRetryBackoffSimulation)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000091"/>ExporterRetryBackoffSimulation </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1adbc0f7f5dd1f389c1833063b660a0754" kindref="member">TEST</ref>  (WaveDStressTest, ExporterAllRetriesExhausted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000092"/>ExporterAllRetriesExhausted </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1abcbc8e152c71b848af4e45749d3353c5" kindref="member">TEST</ref>  (WaveDSoakTest, SoakSimulation_100kRequests_NoBoundedResourceLeak)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000093"/>SoakSimulation_100kRequests_NoBoundedResourceLeak </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1a830bd21193b9719c911f3544efb089d5" kindref="member">TEST</ref>  (WaveDSoakTest, SoakSimulation_ConcurrentMixedLoad_NoLeak)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000094"/>SoakSimulation_ConcurrentMixedLoad_NoLeak </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1a7ec409d13935f963bdf027f11552c7f1" kindref="member">TEST</ref>  (WaveDOperatorHintTest, OperatorHints_InvalidRequest_ContainsErrCode)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000095"/>OperatorHints_InvalidRequest_ContainsErrCode </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1ad3ba0f4a1c4baf06f39ec4d01d2515c4" kindref="member">TEST</ref>  (WaveDOperatorHintTest, OperatorHints_Unauthorized_ContainsErrCode)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000096"/>OperatorHints_Unauthorized_ContainsErrCode </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1a7b0b895110e321f40321d61253a3b135" kindref="member">TEST</ref>  (WaveDOperatorHintTest, OperatorHints_RateLimit_ContainsErrCode)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000097"/>OperatorHints_RateLimit_ContainsErrCode </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1a7207f5e0e95c2b0b5431cdd094a986dd" kindref="member">TEST</ref>  (WaveDOperatorHintTest, OperatorHints_OtlpExportFailed_ContainsErrCode)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000098"/>OperatorHints_OtlpExportFailed_ContainsErrCode </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__api__wave__d__stress_8cpp_1a5f1c88a62e4598d9d44c3d36c679dbb0" kindref="member">TEST</ref>  (WaveDOperatorHintTest, OperatorHints_AllErrorsUseOStreamNotConcat)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000099"/>OperatorHints_AllErrorsUseOStreamNotConcat</para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

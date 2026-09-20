@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1projects_1_1_upload_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::projects::UploadResult</compoundname>
+    <includes refid="document__manager_8h" local="no">document_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_upload_result_1a5bb7acb613d15b4b8e849025c05244fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::projects::UploadResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::projects::UploadResult::ok</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="91" column="10" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_upload_result_1a1f83d6dc3679e058f4e6b1410924f6d2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::UploadResult::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::projects::UploadResult::doc_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="92" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_upload_result_1aa311b1976efc5cbd89065c1e5b5b82c8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::projects::UploadResult::chunks_created</definition>
+        <argsstring></argsstring>
+        <name>chunks_created</name>
+        <qualifiedname>themis::projects::UploadResult::chunks_created</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="93" column="9" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1projects_1_1_upload_result_1abaecfb4aa3fb717e8f4e7985d56abccc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::projects::UploadResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::projects::UploadResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/DocumentManager/document_manager.h" line="94" column="17" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of document upload and processing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/DocumentManager/document_manager.h" line="90" column="1" bodyfile="include/projects/DocumentManager/document_manager.h" bodystart="90" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1projects_1_1_upload_result_1aa311b1976efc5cbd89065c1e5b5b82c8" prot="public" virt="non-virtual"><scope>themis::projects::UploadResult</scope><name>chunks_created</name></member>
+      <member refid="structthemis_1_1projects_1_1_upload_result_1a1f83d6dc3679e058f4e6b1410924f6d2" prot="public" virt="non-virtual"><scope>themis::projects::UploadResult</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1projects_1_1_upload_result_1abaecfb4aa3fb717e8f4e7985d56abccc" prot="public" virt="non-virtual"><scope>themis::projects::UploadResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1projects_1_1_upload_result_1a5bb7acb613d15b4b8e849025c05244fc" prot="public" virt="non-virtual"><scope>themis::projects::UploadResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

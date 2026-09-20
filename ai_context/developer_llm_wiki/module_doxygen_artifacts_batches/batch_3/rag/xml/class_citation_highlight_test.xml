@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_citation_highlight_test" kind="class" language="C++" prot="public">
+    <compoundname>CitationHighlightTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_citation_highlight_test_1a2fc9af3e6790886807a013327c1c7dba" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref></type>
+        <definition>CitationHighlighter CitationHighlightTest::highlighter_</definition>
+        <argsstring></argsstring>
+        <name>highlighter_</name>
+        <qualifiedname>CitationHighlightTest::highlighter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="142" column="25" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_citation_highlight_test_1a0ca5c4c787d18b343b94e09685b3f81b" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_source_chunk" kindref="compound">SourceChunk</ref> &gt;</type>
+        <definition>std::vector&lt;SourceChunk&gt; CitationHighlightTest::chunks_</definition>
+        <argsstring></argsstring>
+        <name>chunks_</name>
+        <qualifiedname>CitationHighlightTest::chunks_</qualifiedname>
+        <initializer>                    = makeChunks({
+    {&quot;doc1&quot;, &quot;Paris is the capital of France, located in Western Europe.&quot;},
+    {&quot;doc2&quot;, &quot;The Eiffel Tower stands in Paris and was completed in 1889.&quot;},
+    {&quot;doc3&quot;, &quot;Berlin is the capital city of Germany in Central Europe.&quot;}
+})</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_citation_highlighter.cpp" line="144" column="17" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CitationHighlightTest</label>
+        <link refid="class_citation_highlight_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CitationHighlightTest</label>
+        <link refid="class_citation_highlight_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>highlighter_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::rag::CitationHighlighter</label>
+        <link refid="classthemis_1_1rag_1_1_citation_highlighter"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_citation_highlighter.cpp" line="140" column="1" bodyfile="tests/rag/test_rag_citation_highlighter.cpp" bodystart="140" bodyend="149"/>
+    <listofallmembers>
+      <member refid="class_citation_highlight_test_1a0ca5c4c787d18b343b94e09685b3f81b" prot="protected" virt="non-virtual"><scope>CitationHighlightTest</scope><name>chunks_</name></member>
+      <member refid="class_citation_highlight_test_1a2fc9af3e6790886807a013327c1c7dba" prot="protected" virt="non-virtual"><scope>CitationHighlightTest</scope><name>highlighter_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

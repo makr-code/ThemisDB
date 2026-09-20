@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::PromptInjectionDetector::Config</compoundname>
+    <includes refid="prompt__injection__detector_8h" local="no">prompt_injection_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config_1aaa550f2f130a22af794e78b4c61dbb82" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptInjectionDetector::Config::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::Config::enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="48" column="14" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config_1ad49d88f13887a3b4b58e2f865b2aa3a8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::prompt_engineering::PromptInjectionDetector::Config::risk_threshold</definition>
+        <argsstring></argsstring>
+        <name>risk_threshold</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::Config::risk_threshold</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+<para>Risk score threshold above which a text is flagged (0.0–1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="50" column="15" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config_1a7121db77ac79da5a1400ce7d35449767" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::PromptInjectionDetector::Config::log_detections</definition>
+        <argsstring></argsstring>
+        <name>log_detections</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::Config::log_detections</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Emit warnings to the logger when a detection occurs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="52" column="14" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config_1a6b49d3bd5ff30aa9fb3f8852a91c8b92" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::PromptInjectionDetector::Config::custom_patterns</definition>
+        <argsstring></argsstring>
+        <name>custom_patterns</name>
+        <qualifiedname>themis::prompt_engineering::PromptInjectionDetector::Config::custom_patterns</qualifiedname>
+        <briefdescription>
+<para>Optional additional regex patterns (case-insensitive) supplied by the caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_injection_detector.h" line="54" column="21" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for injection detection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_injection_detector.h" line="47" column="5" bodyfile="include/prompt_engineering/prompt_injection_detector.h" bodystart="47" bodyend="55"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config_1a6b49d3bd5ff30aa9fb3f8852a91c8b92" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::Config</scope><name>custom_patterns</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config_1aaa550f2f130a22af794e78b4c61dbb82" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::Config</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config_1a7121db77ac79da5a1400ce7d35449767" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::Config</scope><name>log_detections</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_prompt_injection_detector_1_1_config_1ad49d88f13887a3b4b58e2f865b2aa3a8" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::PromptInjectionDetector::Config</scope><name>risk_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ABTestResult</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1afff96a5853964d8ae79a5318a5ed64dc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ABTestResult::test_id</definition>
+        <argsstring></argsstring>
+        <name>test_id</name>
+        <qualifiedname>themis::rag::learning::ABTestResult::test_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="138" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1afbd567842b280c4a13c5b43d54e40656" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestResult::control_success_rate</definition>
+        <argsstring></argsstring>
+        <name>control_success_rate</name>
+        <qualifiedname>themis::rag::learning::ABTestResult::control_success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="139" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a033bda95917f00d357458c76b682d102" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestResult::treatment_success_rate</definition>
+        <argsstring></argsstring>
+        <name>treatment_success_rate</name>
+        <qualifiedname>themis::rag::learning::ABTestResult::treatment_success_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="140" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1ac7c28afb839feec37ba72e9eb9ae6f6d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestResult::improvement</definition>
+        <argsstring></argsstring>
+        <name>improvement</name>
+        <qualifiedname>themis::rag::learning::ABTestResult::improvement</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Treatment - Control. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="141" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a84387aad54467584c864fc9b76265dfa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestResult::p_value</definition>
+        <argsstring></argsstring>
+        <name>p_value</name>
+        <qualifiedname>themis::rag::learning::ABTestResult::p_value</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="142" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a2ba64ac517b9417bff734328a33edeed" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ABTestResult::is_significant</definition>
+        <argsstring></argsstring>
+        <name>is_significant</name>
+        <qualifiedname>themis::rag::learning::ABTestResult::is_significant</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>p &lt; 0.05 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="143" column="10" bodyfile="include/rag/learning_metrics.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a6e4d5b6a611886c85b7081269c1a3d94" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ABTestResult::sample_size_control</definition>
+        <argsstring></argsstring>
+        <name>sample_size_control</name>
+        <qualifiedname>themis::rag::learning::ABTestResult::sample_size_control</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="144" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1af7614b5e26b673c4764ef2a4178e2631" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ABTestResult::sample_size_treatment</definition>
+        <argsstring></argsstring>
+        <name>sample_size_treatment</name>
+        <qualifiedname>themis::rag::learning::ABTestResult::sample_size_treatment</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="145" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of A/B test statistical analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/learning_metrics.h" line="137" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="137" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1afbd567842b280c4a13c5b43d54e40656" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestResult</scope><name>control_success_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1ac7c28afb839feec37ba72e9eb9ae6f6d" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestResult</scope><name>improvement</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a2ba64ac517b9417bff734328a33edeed" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestResult</scope><name>is_significant</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a84387aad54467584c864fc9b76265dfa" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestResult</scope><name>p_value</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a6e4d5b6a611886c85b7081269c1a3d94" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestResult</scope><name>sample_size_control</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1af7614b5e26b673c4764ef2a4178e2631" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestResult</scope><name>sample_size_treatment</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1afff96a5853964d8ae79a5318a5ed64dc" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestResult</scope><name>test_id</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result_1a033bda95917f00d357458c76b682d102" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestResult</scope><name>treatment_success_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

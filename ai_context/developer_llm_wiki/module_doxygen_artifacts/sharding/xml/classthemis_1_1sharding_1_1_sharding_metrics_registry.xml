@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_sharding_metrics_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::ShardingMetricsRegistry</compoundname>
+    <includes refid="metrics__registry_8h" local="no">metrics_registry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1aea580c84c0f4f5c4bde7f329e9a0ad74" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::ShardingMetricsRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="60" column="24" bodyfile="include/sharding/metrics_registry.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1ac8f2d383c087c428c6ef2c6982fbd750" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;PrometheusMetrics&gt; themis::sharding::ShardingMetricsRegistry::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="61" column="21" bodyfile="include/sharding/metrics_registry.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a54caf96903a33786e78f890770fe0e31" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ShardingMetricsRegistry &amp;</type>
+        <definition>static ShardingMetricsRegistry &amp; themis::sharding::ShardingMetricsRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="29" column="36" bodyfile="include/sharding/metrics_registry.h" bodystart="29" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a00a2c2233034bdd66a10607a52ac3246" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::ShardingMetricsRegistry::registerMetrics</definition>
+        <argsstring>(std::shared_ptr&lt; PrometheusMetrics &gt; metrics)</argsstring>
+        <name>registerMetrics</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::registerMetrics</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Register Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register sharding metrics instance <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="38" column="10" bodyfile="src/sharding/metrics_registry.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1aa88f134dddff1059d4a445efae26bbb0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; PrometheusMetrics &gt; themis::sharding::ShardingMetricsRegistry::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::getMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get registered metrics <simplesect kind="return"><para>Shared pointer to <ref refid="classthemis_1_1sharding_1_1_prometheus_metrics" kindref="compound">PrometheusMetrics</ref>, or nullptr if not registered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="44" column="21" bodyfile="src/sharding/metrics_registry.cpp" bodystart="28" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a05e9351bc08f76d3fa3954a73d905667" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ShardingMetricsRegistry::getMetricsString</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetricsString</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::getMetricsString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Get metrics in Prometheus format <simplesect kind="return"><para>Prometheus-formatted metrics string, or empty if no metrics registered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="50" column="17" bodyfile="src/sharding/metrics_registry.cpp" bodystart="38" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a575c6d90041c6172444fd2eca3ff1c7f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardingMetricsRegistry::ShardingMetricsRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>ShardingMetricsRegistry</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::ShardingMetricsRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="53" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1ae79706c03fb19affdaf7e8262ed0bfb5" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardingMetricsRegistry::~ShardingMetricsRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ShardingMetricsRegistry</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::~ShardingMetricsRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="54" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a0fa253e9ad1ad45ed7f8bff3c16c6916" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::ShardingMetricsRegistry::ShardingMetricsRegistry</definition>
+        <argsstring>(const ShardingMetricsRegistry &amp;)=delete</argsstring>
+        <name>ShardingMetricsRegistry</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::ShardingMetricsRegistry</qualifiedname>
+        <param>
+          <type>const ShardingMetricsRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="57" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a1867caea764d8124c14d7835ad52f601" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ShardingMetricsRegistry &amp;</type>
+        <definition>ShardingMetricsRegistry &amp; themis::sharding::ShardingMetricsRegistry::operator=</definition>
+        <argsstring>(const ShardingMetricsRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::sharding::ShardingMetricsRegistry::operator=</qualifiedname>
+        <param>
+          <type>const ShardingMetricsRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metrics_registry.h" line="58" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Global registry for sharding metrics Allows sharding components to register metrics that can be exported via HTTP </para>
+    </detaileddescription>
+    <location file="include/sharding/metrics_registry.h" line="27" column="1" bodyfile="include/sharding/metrics_registry.h" bodystart="27" bodyend="62"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1aa88f134dddff1059d4a445efae26bbb0" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a05e9351bc08f76d3fa3954a73d905667" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>getMetricsString</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a54caf96903a33786e78f890770fe0e31" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1ac8f2d383c087c428c6ef2c6982fbd750" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1aea580c84c0f4f5c4bde7f329e9a0ad74" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a1867caea764d8124c14d7835ad52f601" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a00a2c2233034bdd66a10607a52ac3246" prot="public" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>registerMetrics</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a575c6d90041c6172444fd2eca3ff1c7f" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>ShardingMetricsRegistry</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1a0fa253e9ad1ad45ed7f8bff3c16c6916" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>ShardingMetricsRegistry</name></member>
+      <member refid="classthemis_1_1sharding_1_1_sharding_metrics_registry_1ae79706c03fb19affdaf7e8262ed0bfb5" prot="private" virt="non-virtual"><scope>themis::sharding::ShardingMetricsRegistry</scope><name>~ShardingMetricsRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

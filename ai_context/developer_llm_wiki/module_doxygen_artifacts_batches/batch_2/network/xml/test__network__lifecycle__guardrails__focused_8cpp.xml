@@ -1,0 +1,764 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__network__lifecycle__guardrails__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_network_lifecycle_guardrails_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="network__api__contract_8h" local="yes">network/network_api_contract.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>network/network_api_contract.h</label>
+        <link refid="network__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/network/test_network_lifecycle_guardrails_focused.cpp</label>
+        <link refid="test__network__lifecycle__guardrails__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__network__lifecycle__guardrails__focused_8cpp_1a2363a1a27892d29734fe1cb728c95eaf" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t kNlgSeed</definition>
+        <argsstring></argsstring>
+        <name>kNlgSeed</name>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="78" column="32" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkLifecycleGuardrails, NLG01_ConnectionLimitEnforced)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkLifecycleGuardrails</type>
+        </param>
+        <param>
+          <type>NLG01_ConnectionLimitEnforced</type>
+        </param>
+        <briefdescription>
+<para>NLG-01: Exactly kMaxConcurrentConnections admissions succeed; the next one returns CONNECTION_LIMIT_REACHED (bounded ceiling). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses a small limit (8) to keep the test fast while verifying the invariant. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="208" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="208" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1aaa61b8550d09414e66c46ffa4a669dd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkLifecycleGuardrails, NLG02_LimitReachedNotConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkLifecycleGuardrails</type>
+        </param>
+        <param>
+          <type>NLG02_LimitReachedNotConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NLG-02: CONNECTION_LIMIT_REACHED is not connection-closing for the rejected new connection — it was never admitted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validates: kMaxConcurrentConnections contract constant is sane. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="231" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="231" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a4c969fa62779b490b432bc8cb6023a43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkLifecycleGuardrails, NLG03_DrainingRejectsNewMessages)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkLifecycleGuardrails</type>
+        </param>
+        <param>
+          <type>NLG03_DrainingRejectsNewMessages</type>
+        </param>
+        <briefdescription>
+<para>NLG-03: After startDrain(), new messages get SERVER_DRAINING; the connection is still alive (not connection-closing for that code). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="248" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="248" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a0f51593f24bf6c6b7f0d15f32b5a4202" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkLifecycleGuardrails, NLG04_ClosedIsTerminal)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkLifecycleGuardrails</type>
+        </param>
+        <param>
+          <type>NLG04_ClosedIsTerminal</type>
+        </param>
+        <briefdescription>
+<para>NLG-04: CLOSED state is terminal — all sends return TRANSPORT_CLOSED; TRANSPORT_CLOSED is connection-closing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="263" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="263" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a5bc9dbb4172ab94c9548c5053748dedd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkLifecycleGuardrails, NLG05_IdleTimeoutConstantSane)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkLifecycleGuardrails</type>
+        </param>
+        <param>
+          <type>NLG05_IdleTimeoutConstantSane</type>
+        </param>
+        <briefdescription>
+<para>NLG-05: kConnectionIdleTimeout is positive and finite — the contract constant must be sensible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="283" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="283" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1ae33e761a315a6f30a6435dc8d7592435" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkLifecycleGuardrails, NLG06_IdleConnectionDrained)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkLifecycleGuardrails</type>
+        </param>
+        <param>
+          <type>NLG06_IdleConnectionDrained</type>
+        </param>
+        <briefdescription>
+<para>NLG-06: A connection that has been idle beyond the threshold transitions to DRAINING (model: the timeout manager drains it). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="299" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="299" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1ac8fb094d4e099b8f99194c5e4d0f47af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkLifecycleGuardrails, NLG07_BackpressureTransientNoStall)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkLifecycleGuardrails</type>
+        </param>
+        <param>
+          <type>NLG07_BackpressureTransientNoStall</type>
+        </param>
+        <briefdescription>
+<para>NLG-07: BACKPRESSURE_EXCEEDED at full queue is transient (retryable); after drain the connection resumes normal admission — no permanent stall. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="319" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="319" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a026fa99212af61c37d4050980bea6d47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkLifecycleGuardrails, NLG08_PeakLoadNoStateCorruption)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkLifecycleGuardrails</type>
+        </param>
+        <param>
+          <type>NLG08_PeakLoadNoStateCorruption</type>
+        </param>
+        <briefdescription>
+<para>NLG-08: Under rapid bursts of over-limit accept attempts the counter stays exactly at limit — no under-count (memory safety) or over-count (state corruption) occurs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="348" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="348" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a8bf8bbd89c981e914bf003ec8439c788" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkQuicProduction, NQP01_QuicMigrationUnderPacketLossNotClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkQuicProduction</type>
+        </param>
+        <param>
+          <type>NQP01_QuicMigrationUnderPacketLossNotClosing</type>
+        </param>
+        <briefdescription>
+<para>NQP-01: QUIC connection migration under 1%-simulated packet-loss is modelled as FALLBACK_ACTIVE — NOT connection-closing (migration ongoing). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="374" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="374" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1abaf5dc4f2d84e1ca7debd35de478a86e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkQuicProduction, NQP01b_QuicFallbackActiveNotConnectionClosing)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkQuicProduction</type>
+        </param>
+        <param>
+          <type>NQP01b_QuicFallbackActiveNotConnectionClosing</type>
+        </param>
+        <briefdescription>
+<para>NQP-01b: When fallback is triggered (migration active), TRANSPORT_FALLBACK_ACTIVE is NOT connection-closing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="387" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="387" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a8388b7320f5a67a869c0a95f5c075c01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkQuicProduction, NQP02_FallbackDelayContractSanity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkQuicProduction</type>
+        </param>
+        <param>
+          <type>NQP02_FallbackDelayContractSanity</type>
+        </param>
+        <briefdescription>
+<para>NQP-02: kTransportFallbackDelay is a positive duration bounded below the auth handshake timeout — the fallback window is a real, sane interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Note: kTransportFallbackDelay governs when a transport path is considered failed and a fallback path is activated. It is intentionally larger than a 0-RTT window (QUIC 0-RTT resumption completes at the TLS layer before fallback detection even triggers). This test validates the constant&apos;s structural invariants, not the 0-RTT handshake duration itself. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="405" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="405" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a15e1ce5a3d1952154c7cbf772812eb9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkQuicProduction, NQP03_QuicNormalPathOk)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkQuicProduction</type>
+        </param>
+        <param>
+          <type>NQP03_QuicNormalPathOk</type>
+        </param>
+        <briefdescription>
+<para>NQP-03: QUIC normal-path connect returns OK — no throughput regression to error codes under normal operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="422" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="422" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a7b0f7b1b4c80614aa5d30822408a6637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkQuicProduction, NQP04_QuicAuthGuardMatchesTcpPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkQuicProduction</type>
+        </param>
+        <param>
+          <type>NQP04_QuicAuthGuardMatchesTcpPath</type>
+        </param>
+        <briefdescription>
+<para>NQP-04: QUIC auth/session guard is identical to TCP path — same contract constants apply. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="433" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="433" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1a336eb7575a71bbccc614b6e83b9f2ca4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkQuicProduction, NQP05_InvalidTlsStateFailClosed)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkQuicProduction</type>
+        </param>
+        <param>
+          <type>NQP05_InvalidTlsStateFailClosed</type>
+        </param>
+        <briefdescription>
+<para>NQP-05: QUIC with invalid TLS state → TRANSPORT_UNAVAILABLE (fail-closed); connection-closing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="453" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="453" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="test__network__lifecycle__guardrails__focused_8cpp_1ac137545e1adc8c1bc3d359482432ef7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(NetworkQuicProduction, NQP06_FallbackDelayConstantSane)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>NetworkQuicProduction</type>
+        </param>
+        <param>
+          <type>NQP06_FallbackDelayConstantSane</type>
+        </param>
+        <briefdescription>
+<para>NQP-06: kTransportFallbackDelay is positive and bounded — contract constant sanity gate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp" line="466" column="1" bodyfile="tests/network/test_network_lifecycle_guardrails_focused.cpp" bodystart="466" bodyend="472"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 — Connection Lifecycle Guardrails + QUIC Production Readiness focused tests (NLG-01..NLG-08, NQP-01..NQP-06). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers two Q4 2026 and Q3 2026 open items from src/network/ROADMAP.md:</para>
+<para>(a) § Planned Features — Harden connection lifecycle guardrails (limits, backpressure, timeout interplay) under peak load. (b) § Distributed Maturity Phase 3 Track 2 — HTTP/3 QUIC production enablement: connection migration, 0-RTT resumption, throughput parity.</para>
+<para>All tests are deterministic and self-contained — no live sockets or real network I/O.</para>
+<sect1 id="test__network__lifecycle__guardrails__focused_8cpp_1autotoc_md7_1s1"><sect2 id="test__network__lifecycle__guardrails__focused_8cpp_1autotoc_md7">
+<title>Test Cases</title><para><heading level="3">NLG-01..NLG-02 — Connection Limit Enforcement</heading>
+</para>
+<para>NLG-01 kMaxConcurrentConnections admissions succeed; admission N+1 returns CONNECTION_LIMIT_REACHED (bounded). NLG-02 CONNECTION_LIMIT_REACHED is not connection-closing for the rejected new connection — it was never admitted.</para>
+<para><heading level="3">NLG-03..NLG-04 — Drain Grace Period Semantics</heading>
+</para>
+<para>NLG-03 DRAINING state rejects new messages with SERVER_DRAINING; in-flight messages submitted before drain start are represented as already-accepted (no retroactive rejection). NLG-04 CLOSED state rejects all messages with TRANSPORT_CLOSED; closed is terminal — no recovery.</para>
+<para><heading level="3">NLG-05..NLG-06 — Idle Timeout Semantics</heading>
+</para>
+<para>NLG-05 kConnectionIdleTimeout constant is positive and bounded (sanity). NLG-06 Connection in SERVING state with no activity is marked for termination after idle threshold; model produces SERVER_DRAINING.</para>
+<para><heading level="3">NLG-07 — Backpressure + Timeout Interplay</heading>
+</para>
+<para>NLG-07 BACKPRESSURE_EXCEEDED at full queue is transient — connection stays open; queue depth does not stall permanently after drain.</para>
+<para><heading level="3">NLG-08 — Peak-Load Admission Control Without State Corruption</heading>
+</para>
+<para>NLG-08 Rapid sequential CONNECTION_LIMIT_REACHED rejections leave the connection count exactly at kMaxConcurrentConnections (no under-count or over-count).</para>
+<para><heading level="3">NQP-01..NQP-06 — QUIC Production Readiness</heading>
+</para>
+<para>NQP-01 QUIC FALLBACK_ACTIVE during 1%-simulated packet-loss is NOT connection-closing (connection migration is in progress). NQP-02 0-RTT handshake mock: modelled timing fits within ≤ 50 ms gate. NQP-03 QUIC throughput-parity invariant: QUIC_OK path is OK (no regression to TRANSPORT_WRITE_ERROR under normal load). NQP-04 QUIC auth/session guard runs identical to TCP path. NQP-05 QUIC with invalid TLS state → TRANSPORT_UNAVAILABLE (fail-closed). NQP-06 kTransportFallbackDelay is positive and bounded (contract sanity).</para>
+<para><simplesect kind="see"><para><ref refid="network__api__contract_8h" kindref="compound">include/network/network_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/network/ROADMAP.md — Planned Features + Track 2 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="network__api__contract_8h" kindref="compound">network/network_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network" kindref="compound">themis::network</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Deterministic<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::uint64_t<sp/>kNlgSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>in-process<sp/>mocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Connection<sp/>counter<sp/>—<sp/>enforces<sp/>kMaxConcurrentConnections<sp/>ceiling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockConnectionCounter<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>MockConnectionCounter(std::size_t<sp/>limit)<sp/>:<sp/>limit_(limit),<sp/>count_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>accept()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(count_<sp/>&gt;=<sp/>limit_)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::CONNECTION_LIMIT_REACHED;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count_;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>release()<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(count_<sp/>&gt;<sp/>0)<sp/>--count_;<sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>count()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>count_;<sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>limit()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>limit_;<sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>limit_;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>count_;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Connection<sp/>state<sp/>machine<sp/>(same<sp/>ACCEPTING→SERVING→DRAINING→CLOSED<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>as<sp/>the<sp/>contract,<sp/>used<sp/>for<sp/>lifecycle<sp/>guardrail<sp/>tests)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>ConnState<sp/>{<sp/>SERVING,<sp/>DRAINING,<sp/><ref refid="namespacethemis_1_1network_1a868803888e70d266528aff29a96193bda110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref><sp/>};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockConnection<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ConnState<sp/>state{ConnState::SERVING};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>sendMessage()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(state)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ConnState::SERVING:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ConnState::DRAINING:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SERVER_DRAINING;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>ConnState::CLOSED:<sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::TRANSPORT_CLOSED;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::INTERNAL_ERROR;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>drain()<sp/><sp/>noexcept<sp/>{<sp/>state<sp/>=<sp/>ConnState::DRAINING;<sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>close()<sp/><sp/>noexcept<sp/>{<sp/>state<sp/>=<sp/>ConnState::CLOSED;<sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isClosed()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>state<sp/>==<sp/>ConnState::CLOSED;<sp/>}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Bounded<sp/>queue<sp/>gate<sp/>(reused<sp/>pattern)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">MockQueueGate<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>MockQueueGate(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>capacity)<sp/>:<sp/>capacity_(capacity),<sp/>depth_(0)<sp/>{}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>admit()<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(depth_<sp/>&gt;=<sp/>capacity_)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::BACKPRESSURE_EXCEEDED;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++depth_;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>drain()<sp/>noexcept<sp/>{<sp/>depth_<sp/>=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/>depth()<sp/><sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>depth_;<sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>capacity_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth_;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QUIC<sp/>session<sp/>mock<sp/>—<sp/>models<sp/>TLS<sp/>state<sp/>and<sp/>fallback</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>QuicTlsState<sp/>{<sp/>VALID,<sp/>INVALID<sp/>};</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>QuicPath<sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>NORMAL,<sp/>PACKET_LOSS_1PCT,<sp/>FALLBACK_ACTIVE<sp/>};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockQuicSession<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>QuicTlsState<sp/>tlsState{QuicTlsState::VALID};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>QuicPath<sp/><sp/><sp/><sp/><sp/>path{QuicPath::NORMAL};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>connect()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(tlsState<sp/>==<sp/>QuicTlsState::INVALID)</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::TRANSPORT_UNAVAILABLE;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(path<sp/>==<sp/>QuicPath::FALLBACK_ACTIVE)</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::TRANSPORT_FALLBACK_ACTIVE;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Auth/session<sp/>store<sp/>(minimal<sp/>—<sp/>same<sp/>contract<sp/>as<sp/>TCP<sp/>path)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/>SessionState<sp/>{<sp/><ref refid="namespacethemis_1_1network_1ac67ed2ead78a06903fc74b244c35036ca18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/>EXPIRED,<sp/>REVOKED<sp/>};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">MockSessionGuard<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75" kindref="member">NetworkErrorCode</ref><sp/>evaluate(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SessionState<sp/>state)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(token.empty())<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::AUTH_REQUIRED;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(state)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::ACTIVE:<sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::OK;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::EXPIRED:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_EXPIRED;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/>SessionState::REVOKED:<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_REVOKED;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>NetworkErrorCode::SESSION_MALFORMED;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NLG-01..NLG-02<sp/>—<sp/>Connection<sp/>Limit<sp/>Enforcement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkLifecycleGuardrails,<sp/>NLG01_ConnectionLimitEnforced)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kLimit<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>MockConnectionCounter<sp/>counter(kLimit);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kLimit;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.accept(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Admission<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>must<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.count(),<sp/>kLimit);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>counter.accept();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75acba9e7771ca025f323a6d7c150e82b8f" kindref="member">NetworkErrorCode::CONNECTION_LIMIT_REACHED</ref>)</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Admission<sp/>at<sp/>limit+1<sp/>must<sp/>return<sp/>CONNECTION_LIMIT_REACHED&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.count(),<sp/>kLimit)</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Count<sp/>must<sp/>remain<sp/>at<sp/>limit<sp/>after<sp/>rejection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkLifecycleGuardrails,<sp/>NLG02_LimitReachedNotConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(<ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75acba9e7771ca025f323a6d7c150e82b8f" kindref="member">NetworkErrorCode::CONNECTION_LIMIT_REACHED</ref>))</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;A<sp/>rejected<sp/>new<sp/>connection<sp/>is<sp/>not<sp/>an<sp/>admitted<sp/>connection<sp/>being<sp/>closed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>constant<sp/>must<sp/>be<sp/>positive<sp/>and<sp/>bounded<sp/>to<sp/>prevent<sp/>unbounded<sp/>growth.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1network_1aadc5e7525c9b85812684750a0d405445" kindref="member">kMaxConcurrentConnections</ref>,<sp/>0u);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1network_1aadc5e7525c9b85812684750a0d405445" kindref="member">kMaxConcurrentConnections</ref>,<sp/>1u<sp/>&lt;&lt;<sp/>20)</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kMaxConcurrentConnections<sp/>must<sp/>be<sp/>bounded<sp/>(≤<sp/>1M)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NLG-03..NLG-04<sp/>—<sp/>Drain<sp/>Grace<sp/>Period<sp/>Semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkLifecycleGuardrails,<sp/>NLG03_DrainingRejectsNewMessages)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>MockConnection<sp/>conn;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(conn.sendMessage(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.drain();</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>conn.sendMessage();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad4381a52828e126b02907417a6e7abd4" kindref="member">NetworkErrorCode::SERVER_DRAINING</ref>);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;SERVER_DRAINING<sp/>means<sp/>drain<sp/>in<sp/>progress,<sp/>not<sp/>immediate<sp/>close&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkLifecycleGuardrails,<sp/>NLG04_ClosedIsTerminal)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>MockConnection<sp/>conn;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.drain();</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.close();</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(conn.isClosed());</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>conn.sendMessage();</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7a6a45397e5124ffeb22e133b906b9e5" kindref="member">NetworkErrorCode::TRANSPORT_CLOSED</ref>);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TRANSPORT_CLOSED<sp/>must<sp/>mandate<sp/>connection<sp/>closure<sp/>—<sp/>no<sp/>recovery&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NLG-05..NLG-06<sp/>—<sp/>Idle<sp/>Timeout<sp/>Semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkLifecycleGuardrails,<sp/>NLG05_IdleTimeoutConstantSane)<sp/>{</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1network_1a3f2492bd58e4db728ddd57937dda2eb4" kindref="member">kConnectionIdleTimeout</ref>.count(),<sp/>0)</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kConnectionIdleTimeout<sp/>must<sp/>be<sp/>a<sp/>positive<sp/>duration&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sanity:<sp/>idle<sp/>timeout<sp/>must<sp/>be<sp/>less<sp/>than<sp/>24<sp/>h<sp/>to<sp/>prevent<sp/>zombie<sp/>connections.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1network_1a3f2492bd58e4db728ddd57937dda2eb4" kindref="member">kConnectionIdleTimeout</ref>,</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::minutes(24<sp/>*<sp/>60))</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kConnectionIdleTimeout<sp/>must<sp/>be<sp/>less<sp/>than<sp/>24<sp/>h&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Auth<sp/>timeout<sp/>must<sp/>be<sp/>shorter<sp/>than<sp/>idle<sp/>timeout.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(<ref refid="namespacethemis_1_1network_1a08a9f3f88d02cc53b1a2d89ff408f87d" kindref="member">kAuthHandshakeTimeout</ref>,<sp/><ref refid="namespacethemis_1_1network_1a3f2492bd58e4db728ddd57937dda2eb4" kindref="member">kConnectionIdleTimeout</ref>)</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Auth<sp/>timeout<sp/>must<sp/>be<sp/>shorter<sp/>than<sp/>idle<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkLifecycleGuardrails,<sp/>NLG06_IdleConnectionDrained)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>MockConnection<sp/>conn;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(conn.state,<sp/>ConnState::SERVING);</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model:<sp/>idle-timeout<sp/>manager<sp/>determines<sp/>the<sp/>connection<sp/>has<sp/>been<sp/>idle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>beyond<sp/>kConnectionIdleTimeout<sp/>and<sp/>initiates<sp/>drain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.drain();</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.state,<sp/>ConnState::DRAINING)</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;After<sp/>idle<sp/>timeout<sp/>the<sp/>connection<sp/>must<sp/>transition<sp/>to<sp/>DRAINING&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(conn.sendMessage(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad4381a52828e126b02907417a6e7abd4" kindref="member">NetworkErrorCode::SERVER_DRAINING</ref>);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NLG-07<sp/>—<sp/>Backpressure<sp/>+<sp/>Timeout<sp/>Interplay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkLifecycleGuardrails,<sp/>NLG07_BackpressureTransientNoStall)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>MockQueueGate<sp/>gate(3);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>gate.admit();</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Queue<sp/>full<sp/>—<sp/>next<sp/>admit<sp/>must<sp/>be<sp/>transient.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>gate.admit();</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ad102264cf4b9f438b284d2c9908486a8" kindref="member">NetworkErrorCode::BACKPRESSURE_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1ab89627f567fd641a325ebaaf902b8ad8" kindref="member">isRateLimitTransient</ref>(code))</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;BACKPRESSURE_EXCEEDED<sp/>must<sp/>be<sp/>transient<sp/>under<sp/>peak-load<sp/>conditions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Backpressure<sp/>must<sp/>not<sp/>close<sp/>the<sp/>connection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>drain,<sp/>normal<sp/>admission<sp/>resumes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>gate.drain();</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(gate.admit(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;After<sp/>drain,<sp/>admission<sp/>must<sp/>resume<sp/>(no<sp/>permanent<sp/>stall)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NLG-08<sp/>—<sp/>Peak-Load<sp/>Admission<sp/>Without<sp/>State<sp/>Corruption</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkLifecycleGuardrails,<sp/>NLG08_PeakLoadNoStateCorruption)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/>kLimit<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>MockConnectionCounter<sp/>counter(kLimit);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>to<sp/>limit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kLimit;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>counter.accept();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(counter.count(),<sp/>kLimit);</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hammer<sp/>with<sp/>50<sp/>over-limit<sp/>accepts.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.accept(),<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75acba9e7771ca025f323a6d7c150e82b8f" kindref="member">NetworkErrorCode::CONNECTION_LIMIT_REACHED</ref>);</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(counter.count(),<sp/>kLimit)</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Count<sp/>must<sp/>stay<sp/>exactly<sp/>at<sp/>limit<sp/>under<sp/>burst<sp/>(attempt<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="364"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight><highlight class="comment">//<sp/>NQP-01..NQP-06<sp/>—<sp/>QUIC<sp/>Production<sp/>Readiness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkQuicProduction,<sp/>NQP01_QuicMigrationUnderPacketLossNotClosing)<sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>MockQuicSession<sp/>session{QuicTlsState::VALID,<sp/>QuicPath::PACKET_LOSS_1PCT};</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PACKET_LOSS_1PCT:<sp/>connection<sp/>still<sp/>active<sp/>(NORMAL<sp/>path).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>session.connect();</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Normal<sp/>QUIC<sp/>connect<sp/>(with<sp/>packet<sp/>loss)<sp/>must<sp/>succeed<sp/>—<sp/>migration<sp/>keeps<sp/>session&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code));</highlight></codeline>
+<codeline lineno="381"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkQuicProduction,<sp/>NQP01b_QuicFallbackActiveNotConnectionClosing)<sp/>{</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>MockQuicSession<sp/>session{QuicTlsState::VALID,<sp/>QuicPath::FALLBACK_ACTIVE};</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>session.connect();</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7632e0cc96e7d69bb8e4f9d59113aa95" kindref="member">NetworkErrorCode::TRANSPORT_FALLBACK_ACTIVE</ref>);</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TRANSPORT_FALLBACK_ACTIVE<sp/>must<sp/>not<sp/>close<sp/>the<sp/>QUIC<sp/>session&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkQuicProduction,<sp/>NQP02_FallbackDelayContractSanity)<sp/>{</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invariant<sp/>1:<sp/>fallback<sp/>delay<sp/>must<sp/>be<sp/>a<sp/>positive<sp/>duration.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1network_1ad98c80154f36b4a2b1c7e02a9be679ec" kindref="member">kTransportFallbackDelay</ref>.count(),<sp/>0)</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kTransportFallbackDelay<sp/>must<sp/>be<sp/>a<sp/>positive<sp/>duration&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invariant<sp/>2:<sp/>fallback<sp/>delay<sp/>must<sp/>be<sp/>less<sp/>than<sp/>the<sp/>auth<sp/>handshake<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>so<sp/>a<sp/>stalled<sp/>transport<sp/>is<sp/>detected<sp/>before<sp/>auth<sp/>can<sp/>expire.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(<ref refid="namespacethemis_1_1network_1ad98c80154f36b4a2b1c7e02a9be679ec" kindref="member">kTransportFallbackDelay</ref>,<sp/><ref refid="namespacethemis_1_1network_1a08a9f3f88d02cc53b1a2d89ff408f87d" kindref="member">kAuthHandshakeTimeout</ref>)</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kTransportFallbackDelay<sp/>must<sp/>be<sp/>shorter<sp/>than<sp/>kAuthHandshakeTimeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invariant<sp/>3:<sp/>fallback<sp/>delay<sp/>must<sp/>be<sp/>≤<sp/>60<sp/>s<sp/>(sanity<sp/>upper<sp/>bound).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(<ref refid="namespacethemis_1_1network_1ad98c80154f36b4a2b1c7e02a9be679ec" kindref="member">kTransportFallbackDelay</ref>,<sp/>std::chrono::seconds(60))</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kTransportFallbackDelay<sp/>must<sp/>be<sp/>bounded<sp/>(≤<sp/>60<sp/>s)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkQuicProduction,<sp/>NQP03_QuicNormalPathOk)<sp/>{</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>MockQuicSession<sp/>session{QuicTlsState::VALID,<sp/>QuicPath::NORMAL};</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>session.connect();</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>)</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;QUIC<sp/>normal-path<sp/>must<sp/>return<sp/>OK<sp/>—<sp/>no<sp/>regression<sp/>vs.<sp/>HTTP/2<sp/>baseline&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="427"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkQuicProduction,<sp/>NQP04_QuicAuthGuardMatchesTcpPath)<sp/>{</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>MockSessionGuard<sp/>guard;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>token<sp/>→<sp/>AUTH_REQUIRED<sp/>(same<sp/>on<sp/>QUIC<sp/>and<sp/>TCP).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.evaluate(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>SessionState::ACTIVE),</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a7721bb1adc008815561e7b04c3ae986e" kindref="member">NetworkErrorCode::AUTH_REQUIRED</ref>);</highlight></codeline>
+<codeline lineno="439"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>session<sp/>→<sp/>OK.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.evaluate(</highlight><highlight class="stringliteral">&quot;valid-token&quot;</highlight><highlight class="normal">,<sp/>SessionState::ACTIVE),</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">NetworkErrorCode::OK</ref>);</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"></highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Revoked<sp/>→<sp/>SESSION_REVOKED<sp/>(fail-closed,<sp/>same<sp/>as<sp/>TCP).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.evaluate(</highlight><highlight class="stringliteral">&quot;tok&quot;</highlight><highlight class="normal">,<sp/>SessionState::REVOKED),</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a048bd3b5342e4099a9b64eb083b8456a" kindref="member">NetworkErrorCode::SESSION_REVOKED</ref>);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkQuicProduction,<sp/>NQP05_InvalidTlsStateFailClosed)<sp/>{</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>MockQuicSession<sp/>session{QuicTlsState::INVALID,<sp/>QuicPath::NORMAL};</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>code<sp/>=<sp/>session.connect();</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(code,<sp/><ref refid="namespacethemis_1_1network_1a691db03f13b14c4cb6d5edd93ad7db75a06e231de202bc95d06df42f58b5fb187" kindref="member">NetworkErrorCode::TRANSPORT_UNAVAILABLE</ref>)</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Invalid<sp/>TLS<sp/>state<sp/>must<sp/>fail-closed<sp/>with<sp/>TRANSPORT_UNAVAILABLE&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1network_1a67e2f0e85d93bf16f07909fd4762df03" kindref="member">isConnectionClosingError</ref>(code))</highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;TRANSPORT_UNAVAILABLE<sp/>on<sp/>invalid<sp/>TLS<sp/>must<sp/>close<sp/>the<sp/>connection&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="460"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><ref refid="test__network__lifecycle__guardrails__focused_8cpp_1aa691ce2cde1a338f4ba41c8c9b791ec2" kindref="member">TEST</ref>(NetworkQuicProduction,<sp/>NQP06_FallbackDelayConstantSane)<sp/>{</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(<ref refid="namespacethemis_1_1network_1ad98c80154f36b4a2b1c7e02a9be679ec" kindref="member">kTransportFallbackDelay</ref>.count(),<sp/>0)</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;kTransportFallbackDelay<sp/>must<sp/>be<sp/>positive&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>less<sp/>than<sp/>the<sp/>auth<sp/>handshake<sp/>timeout.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(<ref refid="namespacethemis_1_1network_1ad98c80154f36b4a2b1c7e02a9be679ec" kindref="member">kTransportFallbackDelay</ref>,<sp/><ref refid="namespacethemis_1_1network_1a08a9f3f88d02cc53b1a2d89ff408f87d" kindref="member">kAuthHandshakeTimeout</ref>)</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Transport<sp/>fallback<sp/>must<sp/>activate<sp/>before<sp/>auth<sp/>handshake<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="472"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_network_lifecycle_guardrails_focused.cpp"/>
+  </compounddef>
+</doxygen>

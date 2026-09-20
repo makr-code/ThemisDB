@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_intent_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::IntentResult</compoundname>
+    <includes refid="voice__intent__detector_8h" local="no">voice_intent_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1acc60914ba18fa795bcc672ad87ca098f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4b" kindref="member">IntentCategory</ref></type>
+        <definition>IntentCategory themis::voice::IntentResult::intent</definition>
+        <argsstring></argsstring>
+        <name>intent</name>
+        <qualifiedname>themis::voice::IntentResult::intent</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1ab9d8b337fd057b6afde01da3538c7a4ba696b031073e74bf2cb98e5ef201d4aa3" kindref="member">IntentCategory::UNKNOWN</ref></initializer>
+        <briefdescription>
+<para>Detected intent category (or UNKNOWN if detection failed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="103" column="20" bodyfile="include/voice/voice_intent_detector.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1abd4a2fb371967e083706f922c39ba967" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::IntentResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::voice::IntentResult::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Confidence [0.0, 1.0] in the detected intent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="106" column="11" bodyfile="include/voice/voice_intent_detector.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1a5418e8736e57bbbdaccf0e1c702b7f9b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_named_entity" kindref="compound">NamedEntity</ref> &gt;</type>
+        <definition>std::vector&lt;NamedEntity&gt; themis::voice::IntentResult::entities</definition>
+        <argsstring></argsstring>
+        <name>entities</name>
+        <qualifiedname>themis::voice::IntentResult::entities</qualifiedname>
+        <briefdescription>
+<para>Extracted named entities from the utterance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="109" column="17" bodyfile="include/voice/voice_intent_detector.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1a45c5ab9025aa7e6a8c97167cde3ebbec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::IntentResult::normalized_query</definition>
+        <argsstring></argsstring>
+        <name>normalized_query</name>
+        <qualifiedname>themis::voice::IntentResult::normalized_query</qualifiedname>
+        <briefdescription>
+<para>Normalized/canonicalized version of input query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="112" column="17" bodyfile="include/voice/voice_intent_detector.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1ad3b812f59ec0915c1d001e97a5ec7d73" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::IntentResult::context_hints</definition>
+        <argsstring></argsstring>
+        <name>context_hints</name>
+        <qualifiedname>themis::voice::IntentResult::context_hints</qualifiedname>
+        <briefdescription>
+<para>Suggested context keys to resolve ambiguities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="115" column="10" bodyfile="include/voice/voice_intent_detector.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1a34e6afde4ddd2ace35de8a1d2039242a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::IntentResult::requires_context</definition>
+        <argsstring></argsstring>
+        <name>requires_context</name>
+        <qualifiedname>themis::voice::IntentResult::requires_context</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if detection would benefit from additional context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_intent_detector.h" line="118" column="10" bodyfile="include/voice/voice_intent_detector.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1aec66b7407e127503ce41371b2b87bd3f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::IntentResult::detected</definition>
+        <argsstring></argsstring>
+        <name>detected</name>
+        <qualifiedname>themis::voice::IntentResult::detected</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="39" column="10" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1a13188d2bc335fb277c7f76edf1054be7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::IntentResult::intent</definition>
+        <argsstring></argsstring>
+        <name>intent</name>
+        <qualifiedname>themis::voice::IntentResult::intent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="41" column="17" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_intent_result_1a05ade15a8892111a454545b444b4fce4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::IntentResult::fallback_chain</definition>
+        <argsstring></argsstring>
+        <name>fallback_chain</name>
+        <qualifiedname>themis::voice::IntentResult::fallback_chain</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/voice/test_voice_wake_word_focused.cpp" line="42" column="17" bodyfile="tests/voice/test_voice_wake_word_focused.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete output of intent detection pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_intent_detector.h" line="101" column="1" bodyfile="include/voice/voice_intent_detector.h" bodystart="101" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1abd4a2fb371967e083706f922c39ba967" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1ad3b812f59ec0915c1d001e97a5ec7d73" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>context_hints</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1aec66b7407e127503ce41371b2b87bd3f" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>detected</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1a5418e8736e57bbbdaccf0e1c702b7f9b" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>entities</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1a05ade15a8892111a454545b444b4fce4" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>fallback_chain</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1acc60914ba18fa795bcc672ad87ca098f" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>intent</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1a13188d2bc335fb277c7f76edf1054be7" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>intent</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1a45c5ab9025aa7e6a8c97167cde3ebbec" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>normalized_query</name></member>
+      <member refid="structthemis_1_1voice_1_1_intent_result_1a34e6afde4ddd2ace35de8a1d2039242a" prot="public" virt="non-virtual"><scope>themis::voice::IntentResult</scope><name>requires_context</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

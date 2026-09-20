@@ -1,0 +1,566 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ABTestingFramework</compoundname>
+    <includes refid="ab__testing__framework_8h" local="no">ab_testing_framework.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1_1_impl" prot="public">themis::rag::learning::ABTestingFramework::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa38af41ad11d3850b652d374890a28f2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::learning::ABTestingFramework::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="123" column="21" bodyfile="include/rag/ab_testing_framework.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1ab289f854c93ddd1625356f0bf7627426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::ABTestingFramework::ABTestingFramework</definition>
+        <argsstring>()</argsstring>
+        <name>ABTestingFramework</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::ABTestingFramework</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="65" column="5" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a1edc83417436c7f9cc5ed5cb6aed6c96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::learning::ABTestingFramework::~ABTestingFramework</definition>
+        <argsstring>()</argsstring>
+        <name>~ABTestingFramework</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::~ABTestingFramework</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="66" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa8c009f3be0960c7317d7d86680b34fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ABTestingFramework::startTest</definition>
+        <argsstring>(const ABTestConfig &amp;config)</argsstring>
+        <name>startTest</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::startTest</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_config" kindref="compound">ABTestConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Start a new A/B test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Test.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if test started successfully</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), std::chrono::system_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="73" column="10" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="44" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aee1dadf5a260f1d509b1cbf95e0ed17c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ABTestingFramework::recordObservation</definition>
+        <argsstring>(const std::string &amp;test_id, bool is_treatment, bool success, double metric_value=0.0)</argsstring>
+        <name>recordObservation</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::recordObservation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>is_treatment</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>metric_value</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Record an observation for a test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record <ref refid="structthemis_1_1rag_1_1learning_1_1_observation" kindref="compound">Observation</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>is_treatment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true for treatment group, false for control </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if interaction was successful </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metric_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional numeric metric value</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the test. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">is_treatment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), push_back(), std::accumulate(), begin(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="82" column="10" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="68" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1adb968c386ffb67b194b65832206c646f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::ABTestingFramework::shouldUseTreatment</definition>
+        <argsstring>(const std::string &amp;test_id, const std::string &amp;user_id)</argsstring>
+        <name>shouldUseTreatment</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::shouldUseTreatment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if user should be assigned to treatment group. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Should Use Treatment.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User/session identifier for consistent assignment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if user should receive treatment</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the test. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), hashUserId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="90" column="10" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="112" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a215de09e1e52f1aff304122bcf5be32a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1learning_1_1_a_b_test_result" kindref="compound">ABTestResult</ref></type>
+        <definition>ABTestResult themis::rag::learning::ABTestingFramework::evaluateTest</definition>
+        <argsstring>(const std::string &amp;test_id)</argsstring>
+        <name>evaluateTest</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::evaluateTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate A/B test and get statistical results. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate Test.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Test results with statistical analysis</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the test. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), calculateTStatistic(), calculatePValue(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="97" column="18" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="133" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a3ae4faf14f485192a25d193de785613e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::learning::ABTestingFramework::getActiveTests</definition>
+        <argsstring>() const</argsstring>
+        <name>getActiveTests</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::getActiveTests</qualifiedname>
+        <briefdescription>
+<para>Get all active tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="102" column="17" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="164" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1abbdedd37db3dd4a6dbfa08743eda94fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1learning_1a1b61d8d65a5ec17088e5a39eca629f78" kindref="member">ABTestStatus</ref></type>
+        <definition>ABTestStatus themis::rag::learning::ABTestingFramework::getTestStatus</definition>
+        <argsstring>(const std::string &amp;test_id) const</argsstring>
+        <name>getTestStatus</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::getTestStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Get test status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="107" column="18" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="177" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1af32c9d71edcb57b5b0ce73fb402eaab3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ABTestingFramework::completeTest</definition>
+        <argsstring>(const std::string &amp;test_id, bool promote)</argsstring>
+        <name>completeTest</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::completeTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>promote</declname>
+        </param>
+        <briefdescription>
+<para>Complete a test (promote or rollback). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Complete Test.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Test identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>promote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true to promote, false to rollback</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the test. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">promote</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="114" column="10" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="193" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a22b6a9352d9859792323fc22bbc4e690" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::learning::ABTestingFramework::cancelTest</definition>
+        <argsstring>(const std::string &amp;test_id)</argsstring>
+        <name>cancelTest</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::cancelTest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>test_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel an active test. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel Test.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">test_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the test.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="119" column="10" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="209" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa872e73865fabd8512209c575d73024b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestingFramework::calculateTStatistic</definition>
+        <argsstring>(const GroupMetrics &amp;control, const GroupMetrics &amp;treatment)</argsstring>
+        <name>calculateTStatistic</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::calculateTStatistic</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics" kindref="compound">GroupMetrics</ref> &amp;</type>
+          <declname>control</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1learning_1_1_group_metrics" kindref="compound">GroupMetrics</ref> &amp;</type>
+          <declname>treatment</declname>
+        </param>
+        <briefdescription>
+<para>Calculate TStatistic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">control</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">treatment</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="126" column="12" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="225" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa969577e7ae5776e5c827f641627a2a7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::learning::ABTestingFramework::calculatePValue</definition>
+        <argsstring>(double t_statistic, size_t df)</argsstring>
+        <name>calculatePValue</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::calculatePValue</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>t_statistic</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>df</declname>
+        </param>
+        <briefdescription>
+<para>Calculate PValue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">t_statistic</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">df</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::abs(), std::sqrt(), std::tanh(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="128" column="12" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="246" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1adf0f01b3af3b0c440983709d70c55644" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ABTestingFramework::hashUserId</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>hashUserId</name>
+        <qualifiedname>themis::rag::learning::ABTestingFramework::hashUserId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Hash User Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hasher(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ab_testing_framework.h" line="131" column="12" bodyfile="src/rag/ab_testing_framework.cpp" bodystart="269" bodyend="273"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A/B testing framework. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages multiple concurrent A/B tests with automatic traffic splitting, metrics collection, and statistical validation. </para>
+    </detaileddescription>
+    <location file="include/rag/ab_testing_framework.h" line="63" column="1" bodyfile="include/rag/ab_testing_framework.h" bodystart="63" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1ab289f854c93ddd1625356f0bf7627426" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>ABTestingFramework</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa969577e7ae5776e5c827f641627a2a7" prot="private" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>calculatePValue</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa872e73865fabd8512209c575d73024b" prot="private" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>calculateTStatistic</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a22b6a9352d9859792323fc22bbc4e690" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>cancelTest</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1af32c9d71edcb57b5b0ce73fb402eaab3" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>completeTest</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a215de09e1e52f1aff304122bcf5be32a" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>evaluateTest</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a3ae4faf14f485192a25d193de785613e" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>getActiveTests</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1abbdedd37db3dd4a6dbfa08743eda94fb" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>getTestStatus</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1adf0f01b3af3b0c440983709d70c55644" prot="private" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>hashUserId</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa38af41ad11d3850b652d374890a28f2" prot="private" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aee1dadf5a260f1d509b1cbf95e0ed17c" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>recordObservation</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1adb968c386ffb67b194b65832206c646f" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>shouldUseTreatment</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1aa8c009f3be0960c7317d7d86680b34fb" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>startTest</name></member>
+      <member refid="classthemis_1_1rag_1_1learning_1_1_a_b_testing_framework_1a1edc83417436c7f9cc5ed5cb6aed6c96" prot="public" virt="non-virtual"><scope>themis::rag::learning::ABTestingFramework</scope><name>~ABTestingFramework</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

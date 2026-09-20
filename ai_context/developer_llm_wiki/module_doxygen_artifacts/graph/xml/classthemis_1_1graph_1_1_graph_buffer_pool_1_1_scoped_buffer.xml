@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphBufferPool::ScopedBuffer</compoundname>
+    <includes refid="graph__resource__pool_8h" local="no">graph_resource_pool.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a1a2f54dd03336b387839eef1b6d5a275" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a08832becc0bb6763b34198bc6836b1dd" kindref="member">Buffer</ref></type>
+        <definition>Buffer themis::graph::GraphBufferPool::ScopedBuffer::buf_</definition>
+        <argsstring></argsstring>
+        <name>buf_</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::buf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="353" column="25" bodyfile="include/graph/graph_resource_pool.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a5517a1d3bfb371cc9db00c00202f50f9" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a7ee47e490b87e5ef1eca8a81f1dbd69e" kindref="member">GraphBufferPool</ref> *</type>
+        <definition>GraphBufferPool* themis::graph::GraphBufferPool::ScopedBuffer::pool_</definition>
+        <argsstring></argsstring>
+        <name>pool_</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::pool_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="354" column="25" bodyfile="include/graph/graph_resource_pool.h" bodystart="354" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a609b26dd3c84c68a89a8fed7a8b0f847" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphBufferPool::ScopedBuffer::ScopedBuffer</definition>
+        <argsstring>()=default</argsstring>
+        <name>ScopedBuffer</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::ScopedBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="310" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a5ddc7b6b6296a1ed0699a045bf79652d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphBufferPool::ScopedBuffer::ScopedBuffer</definition>
+        <argsstring>(Buffer buf, GraphBufferPool *pool)</argsstring>
+        <name>ScopedBuffer</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::ScopedBuffer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a08832becc0bb6763b34198bc6836b1dd" kindref="member">Buffer</ref></type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a7ee47e490b87e5ef1eca8a81f1dbd69e" kindref="member">GraphBufferPool</ref> *</type>
+          <declname>pool</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="311" column="9" bodyfile="include/graph/graph_resource_pool.h" bodystart="311" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a51b6990ab1d597dbab0b4f2d0917169b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphBufferPool::ScopedBuffer::ScopedBuffer</definition>
+        <argsstring>(ScopedBuffer &amp;&amp;o) noexcept</argsstring>
+        <name>ScopedBuffer</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::ScopedBuffer</qualifiedname>
+        <param>
+          <type>ScopedBuffer &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="314" column="9" bodyfile="include/graph/graph_resource_pool.h" bodystart="314" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1aafc14c19ce6bf030c66db32284c43d80" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a609b26dd3c84c68a89a8fed7a8b0f847" kindref="member">ScopedBuffer</ref> &amp;</type>
+        <definition>ScopedBuffer &amp; themis::graph::GraphBufferPool::ScopedBuffer::operator=</definition>
+        <argsstring>(ScopedBuffer &amp;&amp;o) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a609b26dd3c84c68a89a8fed7a8b0f847" kindref="member">ScopedBuffer</ref> &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="319" column="22" bodyfile="include/graph/graph_resource_pool.h" bodystart="319" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1af1dd35cf9150f07d21778240ace2e6ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphBufferPool::ScopedBuffer::~ScopedBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedBuffer</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::~ScopedBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="329" column="9" bodyfile="include/graph/graph_resource_pool.h" bodystart="329" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1aac3be8e0c8568400a8f914b3ff10e1d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool_1a08832becc0bb6763b34198bc6836b1dd" kindref="member">Buffer</ref> &amp;</type>
+        <definition>Buffer &amp; themis::graph::GraphBufferPool::ScopedBuffer::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::get</qualifiedname>
+        <briefdescription>
+<para>Get. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="336" column="16" bodyfile="include/graph/graph_resource_pool.h" bodystart="336" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a849d4def2f083f6effcac9af4ba2a25e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphBufferPool::ScopedBuffer::capacity</definition>
+        <argsstring>() const</argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::capacity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="338" column="16" bodyfile="include/graph/graph_resource_pool.h" bodystart="338" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1ab30791192847a163fedc1f753c28bcea" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphBufferPool::ScopedBuffer::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="340" column="18" bodyfile="include/graph/graph_resource_pool.h" bodystart="340" bodyend="340"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a612d1d3c1eb3165e3f37a425a7207094" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphBufferPool::ScopedBuffer::release</definition>
+        <argsstring>()</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::graph::GraphBufferPool::ScopedBuffer::release</qualifiedname>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: returnBuffer(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="347" column="14" bodyfile="include/graph/graph_resource_pool.h" bodystart="347" bodyend="352"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_resource_pool.h" line="308" column="5" bodyfile="include/graph/graph_resource_pool.h" bodystart="308" bodyend="355"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a1a2f54dd03336b387839eef1b6d5a275" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>buf_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a849d4def2f083f6effcac9af4ba2a25e" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>capacity</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1aac3be8e0c8568400a8f914b3ff10e1d2" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>get</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1ab30791192847a163fedc1f753c28bcea" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1aafc14c19ce6bf030c66db32284c43d80" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a5517a1d3bfb371cc9db00c00202f50f9" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>pool_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a612d1d3c1eb3165e3f37a425a7207094" prot="private" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>release</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a609b26dd3c84c68a89a8fed7a8b0f847" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>ScopedBuffer</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a5ddc7b6b6296a1ed0699a045bf79652d" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>ScopedBuffer</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1a51b6990ab1d597dbab0b4f2d0917169b" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>ScopedBuffer</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_buffer_pool_1_1_scoped_buffer_1af1dd35cf9150f07d21778240ace2e6ee" prot="public" virt="non-virtual"><scope>themis::graph::GraphBufferPool::ScopedBuffer</scope><name>~ScopedBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

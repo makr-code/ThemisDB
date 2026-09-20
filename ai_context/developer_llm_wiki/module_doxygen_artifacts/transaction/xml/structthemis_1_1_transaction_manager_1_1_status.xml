@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::Status</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_status_1a619217be87a3b5de82896d9943ccaf41" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TransactionManager::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::TransactionManager::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="50" column="14" bodyfile="include/transaction/transaction_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_status_1aedce3ad0dd2e0cce0e3a6c99bdafed16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::TransactionManager::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="51" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_status_1a06a1f491620b23e97d75c2ab87bd82e1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Status::conflict_id</definition>
+        <argsstring></argsstring>
+        <name>conflict_id</name>
+        <qualifiedname>themis::TransactionManager::Status::conflict_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="52" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_status_1a3894e4d3f0ac4c2c12f2c0e51eea76b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::Status::conflict_set_id</definition>
+        <argsstring></argsstring>
+        <name>conflict_set_id</name>
+        <qualifiedname>themis::TransactionManager::Status::conflict_set_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="53" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_status_1a1cf12df910104a74fd894751d1e07b70" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::TransactionManager::Status::affected_keys</definition>
+        <argsstring></argsstring>
+        <name>affected_keys</name>
+        <qualifiedname>themis::TransactionManager::Status::affected_keys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="54" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1_transaction_manager_1_1_status_1a10ffc6e87dcbf24137dd723b51d6bf8d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::TransactionManager::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::TransactionManager::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="60" column="23" bodyfile="include/transaction/transaction_manager.h" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_transaction_manager_1_1_status_1ae54ff239bfebebaaf3a91f1eb2747885" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::TransactionManager::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::TransactionManager::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="67" column="23" bodyfile="include/transaction/transaction_manager.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_transaction_manager_1_1_status_1abcd7f339ee2fadfb16741aa16a42af23" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_transaction_manager_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::TransactionManager::Status::Conflict</definition>
+        <argsstring>(std::string msg, std::string cid, std::vector&lt; std::string &gt; keys)</argsstring>
+        <name>Conflict</name>
+        <qualifiedname>themis::TransactionManager::Status::Conflict</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>cid</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>keys</declname>
+        </param>
+        <briefdescription>
+<para>Conflict. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cid</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="76" column="23" bodyfile="include/transaction/transaction_manager.h" bodystart="76" bodyend="85"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="49" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="49" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_status_1a1cf12df910104a74fd894751d1e07b70" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Status</scope><name>affected_keys</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_status_1abcd7f339ee2fadfb16741aa16a42af23" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Status</scope><name>Conflict</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_status_1a06a1f491620b23e97d75c2ab87bd82e1" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Status</scope><name>conflict_id</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_status_1a3894e4d3f0ac4c2c12f2c0e51eea76b4" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Status</scope><name>conflict_set_id</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_status_1ae54ff239bfebebaaf3a91f1eb2747885" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_status_1aedce3ad0dd2e0cce0e3a6c99bdafed16" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_status_1a10ffc6e87dcbf24137dd723b51d6bf8d" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_status_1a619217be87a3b5de82896d9943ccaf41" prot="public" virt="non-virtual"><scope>themis::TransactionManager::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

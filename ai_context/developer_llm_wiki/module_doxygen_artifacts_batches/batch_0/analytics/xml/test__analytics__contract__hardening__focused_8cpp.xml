@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__analytics__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_analytics_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="analytics__api__contract_8h" local="yes">analytics/analytics_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">limits</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/analytics/test_analytics_contract_hardening_focused.cpp</label>
+        <link refid="test__analytics__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="7">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>limits</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>random</label>
+      </node>
+      <node id="11">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1analytics_1_1test_1_1_count_result" prot="public">themis::analytics::test::CountResult</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics_1_1test">themis::analytics::test</innernamespace>
+    <briefdescription>
+<para>Phase 4 analytics contract-hardening focused test suite (ANC-01..ANC-16). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies the normative contracts defined in <ref refid="analytics__api__contract_8h" kindref="compound">include/analytics/analytics_api_contract.h</ref> using deterministic, mock-I/O test cases. All tests use kAnalyticsContractSeed = 42 for reproducibility.</para>
+<sect1 id="test__analytics__contract__hardening__focused_8cpp_1autotoc_md4_1s1"><sect2 id="test__analytics__contract__hardening__focused_8cpp_1autotoc_md4">
+<title>Test families</title><para><heading level="3">ANC-01..04 — Aggregation contract</heading>
+</para>
+<para>ANC-01 SUM overflow detected → AGGREGATION_OVERFLOW ANC-02 NULL values excluded from SUM aggregate ANC-03 GROUP BY result order is stable across repeated calls ANC-04 COUNT(*) includes NULLs; COUNT(col) excludes NULLs</para>
+<para><heading level="3">ANC-05..08 — Streaming / CEP contract</heading>
+</para>
+<para>ANC-05 Window boundary event is processed exactly once ANC-06 Late event (past watermark) triggers WINDOW_EXPIRED ANC-07 Backpressure condition triggers STREAM_BACKPRESSURE ANC-08 CEP 3-event sequence matched deterministically</para>
+<para><heading level="3">ANC-09..12 — OLAP contract</heading>
+</para>
+<para>ANC-09 Empty result set returns empty, not error ANC-10 Type coercion: integer input produces integer output ANC-11 Nested aggregate (SUM of AVG) is semantically valid ANC-12 Plan cost for identical query is stable (same estimate)</para>
+<para><heading level="3">ANC-13..16 — Forecasting / anomaly contract</heading>
+</para>
+<para>ANC-13 NaN in forecast input → FORECAST_INPUT_INVALID ANC-14 Anomaly threshold = 0.0 → valid (fires on every event) ANC-15 Model not found → FORECAST_MODEL_NOT_FOUND ANC-16 Negative anomaly threshold → ANOMALY_THRESHOLD_INVALID</para>
+<para><simplesect kind="see"><para><ref refid="analytics__api__contract_8h" kindref="compound">include/analytics/analytics_api_contract.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>src/analytics/ROADMAP.md — Phase 4 items </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="analytics__api__contract_8h" kindref="compound">analytics/analytics_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;limits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint64_t<sp/>kAnalyticsContractSeed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Mock<sp/>helpers<sp/>—<sp/>deterministic,<sp/>no<sp/>real<sp/>I/O</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>mockSumRows(</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::int64_t&gt;&amp;<sp/>rows,<sp/>std::int64_t&amp;<sp/>out_sum)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>out_sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overflow<sp/>check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>out_sum<sp/>&gt;<sp/>std::numeric_limits&lt;std::int64_t&gt;::max()<sp/>-<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v<sp/>&lt;<sp/>0<sp/>&amp;&amp;<sp/>out_sum<sp/>&lt;<sp/>std::numeric_limits&lt;std::int64_t&gt;::min()<sp/>-<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out_sum<sp/>+=<sp/>v;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;<sp/></highlight><highlight class="comment">//<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::int64_t<sp/>mockSumNullable(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;std::int64_t&gt;&gt;&amp;<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>acc<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acc<sp/>+=<sp/>*v;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>acc;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>mockGroupByOrder(std::vector&lt;std::string&gt;<sp/>keys)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(keys.begin(),<sp/>keys.end());</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>keys;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1analytics_1_1test_1_1_count_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1test_1_1_count_result" kindref="compound">CountResult</ref><sp/>{<sp/>std::size_t<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_count_result_1a53849612a7ab1b69d63520b475015190" kindref="member">star_count</ref>;<sp/>std::size_t<sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_count_result_1a5e9569ef0d8d27c08a71829430b8b38b" kindref="member">col_count</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1test_1_1_count_result" kindref="compound">CountResult</ref><sp/>mockCount(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;int&gt;&gt;&amp;<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>star<sp/>=<sp/>rows.size();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>col<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>rows)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(v.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++col;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{star,<sp/>col};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;<sp/>mockTumblingWindow(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>events,<sp/>std::size_t<sp/>window_size)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>event<sp/>processed<sp/>once,<sp/>in<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>processed<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>processed.reserve(events.size());</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>bucket<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>events.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>i<sp/>%<sp/>window_size<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++bucket;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>processed.push_back(events[i]);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>processed;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>mockCheckLateEvent(</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::int64_t<sp/>event_ts_ms,<sp/>std::int64_t<sp/>watermark_ms)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(event_ts_ms<sp/>&lt;<sp/>watermark_ms)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca2dc516053b5943bb7bd68253dca9887a" kindref="member">AnalyticsErrorCode::WINDOW_EXPIRED</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>mockCheckBackpressure(</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>queue_depth,<sp/>std::size_t<sp/>max_depth)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(queue_depth<sp/>&gt;=<sp/>max_depth)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>mockCepMatch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;char&gt;&amp;<sp/>events)<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>state<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>e<sp/>:<sp/>events)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state<sp/>==<sp/>0<sp/>&amp;&amp;<sp/>e<sp/>==<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state<sp/>==<sp/>1<sp/>&amp;&amp;<sp/>e<sp/>==<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">)<sp/>state<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(state<sp/>==<sp/>2<sp/>&amp;&amp;<sp/>e<sp/>==<sp/></highlight><highlight class="charliteral">&apos;C&apos;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e<sp/>==<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">)<sp/>state<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>state<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;<sp/>mockOlapQuery(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>empty)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(empty)<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{1,<sp/>2,<sp/>3};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>mockForecastValidate(</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>series)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>series)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::isnan(v)<sp/>||<sp/>std::isinf(v))<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaa8bf17466a7fbaf87ece45e7bdab4180" kindref="member">AnalyticsErrorCode::FORECAST_INPUT_INVALID</ref>;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>mockLoadModel(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(name<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;existing_model&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaaec388832358fff0270e64a369b20312" kindref="member">AnalyticsErrorCode::FORECAST_MODEL_NOT_FOUND</ref>;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;AnalyticsErrorCode&gt;<sp/>mockValidateThreshold(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(threshold<sp/>&lt;<sp/>0.0)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca404f8be3c07747ebc3879db18e013eee" kindref="member">AnalyticsErrorCode::ANOMALY_THRESHOLD_INVALID</ref>;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ANC-01..04<sp/>—<sp/>Aggregation<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC01_SumOverflowDetected)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::int64_t&gt;<sp/>rows<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::numeric_limits&lt;std::int64_t&gt;::max(),</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1LL</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>result<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockSumRows(rows,<sp/>result);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a48b0350a6e9a4ddc48c2ee6c3baf8b55" kindref="member">AnalyticsErrorCode::AGGREGATION_OVERFLOW</ref>);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1analytics_1a85da03160c4f8c262eb5cd73aaa89d54" kindref="member">isHardAnalyticsError</ref>(*err));</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC02_NullExcludedFromSum)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Values:<sp/>10,<sp/>NULL,<sp/>20,<sp/>NULL,<sp/>5<sp/><sp/>→<sp/>SUM<sp/>should<sp/>be<sp/>35</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::optional&lt;std::int64_t&gt;&gt;<sp/>rows<sp/>=<sp/>{10,<sp/>std::nullopt,<sp/>20,<sp/>std::nullopt,<sp/>5};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>sum<sp/>=<sp/>mockSumNullable(rows);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sum,<sp/>35LL);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC03_GroupByOrderStable)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937_64<sp/>rng(kAnalyticsContractSeed);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>an<sp/>unsorted<sp/>key<sp/>list<sp/>deterministically</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>keys<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;zebra&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;apple&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;mango&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;banana&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;cherry&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>order1<sp/>=<sp/>mockGroupByOrder(keys);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>order2<sp/>=<sp/>mockGroupByOrder(keys);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(order1,<sp/>order2);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>must<sp/>be<sp/>lexicographically<sp/>sorted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::is_sorted(order1.begin(),<sp/>order1.end()));</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC04_CountStarIncludesNulls)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::optional&lt;int&gt;&gt;<sp/>rows<sp/>=<sp/>{1,<sp/>std::nullopt,<sp/>3,<sp/>std::nullopt,<sp/>5};</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>[star,<sp/>col]<sp/>=<sp/>mockCount(rows);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(star,<sp/>5u);<sp/><sp/></highlight><highlight class="comment">//<sp/>COUNT(*)<sp/>=<sp/>5</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(col,<sp/><sp/>3u);<sp/><sp/></highlight><highlight class="comment">//<sp/>COUNT(col)<sp/>=<sp/>3<sp/>(two<sp/>NULLs<sp/>excluded)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ANC-05..08<sp/>—<sp/>Streaming<sp/>/<sp/>CEP<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC05_WindowBoundaryEventExactlyOnce)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>events<sp/>=<sp/>{1,<sp/>2,<sp/>3,<sp/>4,<sp/>5,<sp/>6};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>processed<sp/>=<sp/>mockTumblingWindow(events,<sp/>3);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>event<sp/>must<sp/>appear<sp/>exactly<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(processed.size(),<sp/>events.size());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>sorted_input<sp/><sp/>=<sp/>events;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/>sorted_output<sp/>=<sp/>processed;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(sorted_input.begin(),<sp/><sp/>sorted_input.end());</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(sorted_output.begin(),<sp/>sorted_output.end());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sorted_input,<sp/>sorted_output);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC06_LateEventTriggersWindowExpired)<sp/>{</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>watermark_ms<sp/>=<sp/>5000LL;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/>late_event<sp/><sp/><sp/>=<sp/>3000LL;<sp/><sp/></highlight><highlight class="comment">//<sp/>before<sp/>watermark</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockCheckLateEvent(late_event,<sp/>watermark_ms);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca2dc516053b5943bb7bd68253dca9887a" kindref="member">AnalyticsErrorCode::WINDOW_EXPIRED</ref>);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1analytics_1a42fb7bf3deafa7182c5d0d79d4f7c77b" kindref="member">isBackpressureError</ref>(*err));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC07_BackpressureSignalled)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>max_depth<sp/><sp/><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>queue_depth<sp/>=<sp/>100;<sp/></highlight><highlight class="comment">//<sp/>at<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockCheckBackpressure(queue_depth,<sp/>max_depth);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1analytics_1_1test_1ae8c51c5c02dedb9ee69c51d2b8c48160a1c26b81ba92ea70f693a4356fd035c94" kindref="member">AnalyticsErrorCode::STREAM_BACKPRESSURE</ref>);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1analytics_1a42fb7bf3deafa7182c5d0d79d4f7c77b" kindref="member">isBackpressureError</ref>(*err));</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Below<sp/>limit<sp/>—<sp/>no<sp/>backpressure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mockCheckBackpressure(99,<sp/>max_depth);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok.has_value());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC08_CepPatternMatchDeterministic)<sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Seed-42<sp/>generated<sp/>event<sp/>stream<sp/>containing<sp/>A→B→C</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;char&gt;<sp/>events<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;C&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;Y&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mockCepMatch(events));</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stream<sp/>without<sp/>the<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;char&gt;<sp/>no_match<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;A&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;B&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;X&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mockCepMatch(no_match));</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ANC-09..12<sp/>—<sp/>OLAP<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC09_EmptyResultSetIsNotError)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mockOlapQuery(</highlight><highlight class="comment">/*empty=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty());</highlight></codeline>
+<codeline lineno="305"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC10_TypeCoercionIntegerPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>mockOlapQuery(</highlight><highlight class="comment">/*empty=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(result.empty());</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>returned<sp/>values<sp/>must<sp/>be<sp/>integers<sp/>(trivially<sp/>satisfied<sp/>by<sp/>int<sp/>vector)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>0);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC11_NestedAggregateValid)<sp/>{</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SUM<sp/>of<sp/>group<sp/>averages:<sp/>groups<sp/>[10,20],<sp/>[30],<sp/>[5,5,10]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>AVG(group1)=15,<sp/>AVG(group2)=30,<sp/>AVG(group3)=6.666...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SUM<sp/>=<sp/>51.666...</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>group_avgs<sp/>=<sp/>{15.0,<sp/>30.0,<sp/>20.0<sp/>/<sp/>3.0};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>nested_sum<sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>group_avgs)<sp/>{</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>nested_sum<sp/>+=<sp/>v;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(nested_sum,<sp/>0.0);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::isfinite(nested_sum));</highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC12_PlanCostStabilityZeroDeviation)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Contract:<sp/>kPlanCostStabilityTolerance<sp/>==<sp/>0.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(<ref refid="namespacethemis_1_1analytics_1a4fddd10156052135c2533c2dae1d3f2c" kindref="member">kPlanCostStabilityTolerance</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>two<sp/>cost<sp/>estimates<sp/>for<sp/>the<sp/>same<sp/>query<sp/>—<sp/>must<sp/>be<sp/>identical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cost1<sp/>=<sp/>42.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>mock<sp/>deterministic<sp/>cost</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cost2<sp/>=<sp/>42.0;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>deviation<sp/>=<sp/>std::abs(cost1<sp/>-<sp/>cost2)<sp/>/<sp/>(std::max(std::abs(cost1),<sp/>1e-9));</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(deviation,<sp/><ref refid="namespacethemis_1_1analytics_1a4fddd10156052135c2533c2dae1d3f2c" kindref="member">kPlanCostStabilityTolerance</ref>);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ANC-13..16<sp/>—<sp/>Forecasting<sp/>/<sp/>anomaly<sp/>contract<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC13_NanInputForecastError)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>series<sp/>=<sp/>{1.0,<sp/>2.0,<sp/>std::numeric_limits&lt;double&gt;::quiet_NaN(),<sp/>4.0};</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockForecastValidate(series);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaa8bf17466a7fbaf87ece45e7bdab4180" kindref="member">AnalyticsErrorCode::FORECAST_INPUT_INVALID</ref>);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1analytics_1a85da03160c4f8c262eb5cd73aaa89d54" kindref="member">isHardAnalyticsError</ref>(*err));</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC14_ThresholdZeroIsValid)<sp/>{</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockValidateThreshold(0.0);</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(err.has_value());<sp/></highlight><highlight class="comment">//<sp/>no<sp/>error;<sp/>0.0<sp/>is<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC15_ModelNotFoundError)<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockLoadModel(</highlight><highlight class="stringliteral">&quot;missing_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfcaaec388832358fff0270e64a369b20312" kindref="member">AnalyticsErrorCode::FORECAST_MODEL_NOT_FOUND</ref>);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1analytics_1a85da03160c4f8c262eb5cd73aaa89d54" kindref="member">isHardAnalyticsError</ref>(*err));<sp/></highlight><highlight class="comment">//<sp/>not<sp/>a<sp/>hard<sp/>error;<sp/>caller<sp/>may<sp/>reload</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Existing<sp/>model<sp/>—<sp/>no<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>mockLoadModel(</highlight><highlight class="stringliteral">&quot;existing_model&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok.has_value());</highlight></codeline>
+<codeline lineno="372"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><ref refid="namespacethemis_1_1analytics_1_1test_1adc95623287b80624b4453c67feacdbc7" kindref="member">TEST</ref>(AnalyticsContractHardening,<sp/>ANC16_NegativeThresholdError)<sp/>{</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>err<sp/>=<sp/>mockValidateThreshold(-0.001);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(err.has_value());</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*err,<sp/><ref refid="namespacethemis_1_1analytics_1ab2882c459022aa002063fce9badf7cfca404f8be3c07747ebc3879db18e013eee" kindref="member">AnalyticsErrorCode::ANOMALY_THRESHOLD_INVALID</ref>);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1analytics_1a85da03160c4f8c262eb5cd73aaa89d54" kindref="member">isHardAnalyticsError</ref>(*err));</highlight></codeline>
+<codeline lineno="380"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/analytics/test_analytics_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

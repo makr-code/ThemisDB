@@ -1,0 +1,656 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_audit_integrity_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::governance::AuditIntegrityManager</compoundname>
+    <includes refid="governance__audit__integrity_8h" local="no">governance_audit_integrity.h</includes>
+    <innerclass refid="structthemis_1_1governance_1_1_audit_integrity_manager_1_1_performance_metrics" prot="private">themis::governance::AuditIntegrityManager::PerformanceMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_integrity_manager_1ade3bb50520acf2400647cfb54195000c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::governance::AuditIntegrityManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="533" column="24" bodyfile="include/governance/governance_audit_integrity.h" bodystart="533" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a9a022dbbe36e7c0ad2586262ce59b33b" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AuditSigner&gt; themis::governance::AuditIntegrityManager::current_signer_</definition>
+        <argsstring></argsstring>
+        <name>current_signer_</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::current_signer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="535" column="21" bodyfile="include/governance/governance_audit_integrity.h" bodystart="535" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a93c9ed0a6a06467d93191c6514ed2b26" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;AuditSigner&gt; &gt; themis::governance::AuditIntegrityManager::key_history_</definition>
+        <argsstring></argsstring>
+        <name>key_history_</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::key_history_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="536" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="536" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_integrity_manager_1ac9388fb6942e455af697e38047fdf361" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt;ImmutableAuditEntry&gt; themis::governance::AuditIntegrityManager::entries_</definition>
+        <argsstring></argsstring>
+        <name>entries_</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::entries_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="537" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="537" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a1e8c9ac3c761f51a4d466484c42df931" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_tamper_detector" kindref="compound">AuditTamperDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuditTamperDetector&gt; themis::governance::AuditIntegrityManager::tamper_detector_</definition>
+        <argsstring></argsstring>
+        <name>tamper_detector_</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::tamper_detector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="538" column="21" bodyfile="include/governance/governance_audit_integrity.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_integrity_manager_1aa0ef0c8436ee893e76ef794417ffcb4a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_retention_manager" kindref="compound">AuditRetentionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuditRetentionManager&gt; themis::governance::AuditIntegrityManager::retention_manager_</definition>
+        <argsstring></argsstring>
+        <name>retention_manager_</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::retention_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="539" column="21" bodyfile="include/governance/governance_audit_integrity.h" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a627865901aeb5884e40a92c6455bb974" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::vector&lt;TamperIncident&gt; themis::governance::AuditIntegrityManager::last_tamper_incidents_</definition>
+        <argsstring></argsstring>
+        <name>last_tamper_incidents_</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::last_tamper_incidents_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="541" column="17" bodyfile="include/governance/governance_audit_integrity.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1governance_1_1_audit_integrity_manager_1ac3ca382713838cdbae77eccfa38f6bf6" prot="private" static="no" mutable="no">
+        <type>struct themis::governance::AuditIntegrityManager::PerformanceMetrics</type>
+        <definition>struct themis::governance::AuditIntegrityManager::PerformanceMetrics themis::governance::AuditIntegrityManager::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="549" column="14"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1aa39a25884491728b2ed5585e85a2ae85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::governance::AuditIntegrityManager::AuditIntegrityManager</definition>
+        <argsstring>(const AuditRetentionPolicy &amp;retention_policy, const std::shared_ptr&lt; AuditSigner &gt; &amp;signer)</argsstring>
+        <name>AuditIntegrityManager</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::AuditIntegrityManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_audit_retention_policy" kindref="compound">AuditRetentionPolicy</ref> &amp;</type>
+          <declname>retention_policy</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &gt; &amp;</type>
+          <declname>signer</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="444" column="5" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="905" bodyend="912"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a0c9ffdd3a75dadc8ec458ff77a3ecead" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref></type>
+        <definition>ImmutableAuditEntry themis::governance::AuditIntegrityManager::addEntry</definition>
+        <argsstring>(const ImmutableAuditEntry &amp;entry)</argsstring>
+        <name>addEntry</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::addEntry</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Add Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::high_resolution_clock::now(), getNextSequenceNumber(), getPreviousEntryHash(), signEntry(), push_back(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="454" column="25" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="920" bodyend="941"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a61666c051733019ace3d19ee9f369180" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::vector&lt; TamperIncident &gt; themis::governance::AuditIntegrityManager::verifyIntegrity</definition>
+        <argsstring>()</argsstring>
+        <name>verifyIntegrity</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::verifyIntegrity</qualifiedname>
+        <briefdescription>
+<para>Verify Integrity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::high_resolution_clock::now(), verifyAuditTrail(), push_back(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="460" column="17" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="948" bodyend="961"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a8cb57ca179b9ca585d5272eb685653ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt;</type>
+        <definition>std::vector&lt; TamperIncident &gt; themis::governance::AuditIntegrityManager::verifyTimeRange</definition>
+        <argsstring>(int64_t start_time_ms, int64_t end_time_ms)</argsstring>
+        <name>verifyTimeRange</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::verifyTimeRange</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Verify Time Range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">start_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">end_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::high_resolution_clock::now(), push_back(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="468" column="17" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="970" bodyend="988"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a06648e6c96de150b539ed678efc15936" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt;</type>
+        <definition>std::optional&lt; ImmutableAuditEntry &gt; themis::governance::AuditIntegrityManager::getEntry</definition>
+        <argsstring>(const std::string &amp;entry_id) const</argsstring>
+        <name>getEntry</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::getEntry</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entry_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the entry. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="478" column="19" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="990" bodyend="1007"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1ae7bd4a40a37ebaaeecdbb79a6781d086" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; ImmutableAuditEntry &gt; themis::governance::AuditIntegrityManager::queryEntries</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;rule_id=std::nullopt, const std::optional&lt; std::string &gt; &amp;user=std::nullopt, const std::optional&lt; int64_t &gt; &amp;start_time_ms=std::nullopt, const std::optional&lt; int64_t &gt; &amp;end_time_ms=std::nullopt) const</argsstring>
+        <name>queryEntries</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::queryEntries</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>rule_id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>user</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; int64_t &gt; &amp;</type>
+          <declname>start_time_ms</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; int64_t &gt; &amp;</type>
+          <declname>end_time_ms</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="480" column="17" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1009" bodyend="1043"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a6cae86995aebb5a2a492d62a94856807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditIntegrityManager::archiveExpiredEntries</definition>
+        <argsstring>()</argsstring>
+        <name>archiveExpiredEntries</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::archiveExpiredEntries</qualifiedname>
+        <briefdescription>
+<para>Archive Expired Entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), shouldArchive(), getKeyId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="491" column="13" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1050" bodyend="1069"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1aa3cb289815c331f9a205f57f81258d40" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditIntegrityManager::performCleanup</definition>
+        <argsstring>()</argsstring>
+        <name>performCleanup</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::performCleanup</qualifiedname>
+        <briefdescription>
+<para>Perform Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::remove_if(), begin(), end(), shouldDelete(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="497" column="13" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1076" bodyend="1095"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a45f82b48b556f10677e37079d78b1248" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1governance_1_1_tamper_incident" kindref="compound">TamperIncident</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; TamperIncident &gt; &amp; themis::governance::AuditIntegrityManager::getLastTamperIncidents</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastTamperIncidents</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::getLastTamperIncidents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="499" column="23" bodyfile="include/governance/governance_audit_integrity.h" bodystart="499" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1ad81db566897eb619534c0c521a08d16a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::AuditIntegrityManager::getPerformanceMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getPerformanceMetrics</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::getPerformanceMetrics</qualifiedname>
+        <briefdescription>
+<para>Get Performance Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="507" column="20" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1097" bodyend="1139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a8cfe119a6f4dce096abebdb3535cae61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::AuditIntegrityManager::exportAuditTrail</definition>
+        <argsstring>(bool compress=false) const</argsstring>
+        <name>exportAuditTrail</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::exportAuditTrail</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>compress</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="509" column="20" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1141" bodyend="1164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a1baff03bff8fcd5fdcf0a0e5a759bfa2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::AuditIntegrityManager::importAuditTrail</definition>
+        <argsstring>(const nlohmann::json &amp;data)</argsstring>
+        <name>importAuditTrail</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::importAuditTrail</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Import Audit Trail. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), clear(), contains(), is_array(), <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry_1a4738d589b7228593216b9eb459399fdb" kindref="member">ImmutableAuditEntry::fromJson()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="516" column="10" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1172" bodyend="1187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1acdc188a4271e1fabefc2c710724e9ed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::governance::AuditIntegrityManager::rotateKey</definition>
+        <argsstring>(const std::shared_ptr&lt; AuditSigner &gt; &amp;new_signer, const ImmutableAuditEntry &amp;key_transition_entry)</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::rotateKey</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &gt; &amp;</type>
+          <declname>new_signer</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_immutable_audit_entry" kindref="compound">ImmutableAuditEntry</ref> &amp;</type>
+          <declname>key_transition_entry</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">new_signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_transition_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_signer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key_transition_entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), getNextSequenceNumber(), signEntry(), getPreviousEntryHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="523" column="10" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1195" bodyend="1210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a141e48c1e038eca77bfe9fbf6721cde7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1governance_1_1_audit_signer" kindref="compound">AuditSigner</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; AuditSigner &gt; &gt; &amp; themis::governance::AuditIntegrityManager::getKeyHistory</definition>
+        <argsstring>() const</argsstring>
+        <name>getKeyHistory</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::getKeyHistory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="528" column="23" bodyfile="include/governance/governance_audit_integrity.h" bodystart="528" bodyend="530"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a900aaf12dbfbd55d4138967cfa6020c0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::governance::AuditIntegrityManager::getNextSequenceNumber</definition>
+        <argsstring>() const</argsstring>
+        <name>getNextSequenceNumber</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::getNextSequenceNumber</qualifiedname>
+        <briefdescription>
+<para>Get Next Sequence Number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="555" column="13" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1212" bodyend="1214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_audit_integrity_manager_1a59de759eb405564170892b932eed7b48" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::AuditIntegrityManager::getPreviousEntryHash</definition>
+        <argsstring>() const</argsstring>
+        <name>getPreviousEntryHash</name>
+        <qualifiedname>themis::governance::AuditIntegrityManager::getPreviousEntryHash</qualifiedname>
+        <briefdescription>
+<para>Get Previous Entry Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/governance_audit_integrity.h" line="561" column="17" bodyfile="src/governance/governance_audit_integrity.cpp" bodystart="1216" bodyend="1221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/governance_audit_integrity.h" line="442" column="1" bodyfile="include/governance/governance_audit_integrity.h" bodystart="442" bodyend="562"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a0c9ffdd3a75dadc8ec458ff77a3ecead" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>addEntry</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a6cae86995aebb5a2a492d62a94856807" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>archiveExpiredEntries</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1aa39a25884491728b2ed5585e85a2ae85" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>AuditIntegrityManager</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a9a022dbbe36e7c0ad2586262ce59b33b" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>current_signer_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1ac9388fb6942e455af697e38047fdf361" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>entries_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a8cfe119a6f4dce096abebdb3535cae61" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>exportAuditTrail</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a06648e6c96de150b539ed678efc15936" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>getEntry</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a141e48c1e038eca77bfe9fbf6721cde7" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>getKeyHistory</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a45f82b48b556f10677e37079d78b1248" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>getLastTamperIncidents</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a900aaf12dbfbd55d4138967cfa6020c0" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>getNextSequenceNumber</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1ad81db566897eb619534c0c521a08d16a" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>getPerformanceMetrics</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a59de759eb405564170892b932eed7b48" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>getPreviousEntryHash</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a1baff03bff8fcd5fdcf0a0e5a759bfa2" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>importAuditTrail</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a93c9ed0a6a06467d93191c6514ed2b26" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>key_history_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a627865901aeb5884e40a92c6455bb974" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>last_tamper_incidents_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1ac3ca382713838cdbae77eccfa38f6bf6" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1ade3bb50520acf2400647cfb54195000c" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1aa3cb289815c331f9a205f57f81258d40" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>performCleanup</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1ae7bd4a40a37ebaaeecdbb79a6781d086" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>queryEntries</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1aa0ef0c8436ee893e76ef794417ffcb4a" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>retention_manager_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1acdc188a4271e1fabefc2c710724e9ed3" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a1e8c9ac3c761f51a4d466484c42df931" prot="private" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>tamper_detector_</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a61666c051733019ace3d19ee9f369180" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>verifyIntegrity</name></member>
+      <member refid="classthemis_1_1governance_1_1_audit_integrity_manager_1a8cb57ca179b9ca585d5272eb685653ba" prot="public" virt="non-virtual"><scope>themis::governance::AuditIntegrityManager</scope><name>verifyTimeRange</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

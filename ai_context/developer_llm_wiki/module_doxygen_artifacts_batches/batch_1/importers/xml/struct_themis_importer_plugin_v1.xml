@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_themis_importer_plugin_v1" kind="struct" language="C++" prot="public">
+    <compoundname>ThemisImporterPluginV1</compoundname>
+    <includes refid="importer__plugin_8h" local="no">importer_plugin.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a9dd0a16994775077a58acb4129b42d62" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ThemisImporterPluginV1::abi_version</definition>
+        <argsstring></argsstring>
+        <name>abi_version</name>
+        <qualifiedname>ThemisImporterPluginV1::abi_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="43" column="15" bodyfile="include/importers/importer_plugin.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a18c6d9124b437aa2de0657020f6055fd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ThemisImporterPluginV1::struct_size</definition>
+        <argsstring></argsstring>
+        <name>struct_size</name>
+        <qualifiedname>ThemisImporterPluginV1::struct_size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="44" column="15" bodyfile="include/importers/importer_plugin.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1aa7702a33d729917c363a1622534fd22c" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* ThemisImporterPluginV1::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>ThemisImporterPluginV1::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="45" column="16" bodyfile="include/importers/importer_plugin.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a057f567c61fa28288adb8608e6628482" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* ThemisImporterPluginV1::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>ThemisImporterPluginV1::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="46" column="16" bodyfile="include/importers/importer_plugin.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1aec5e1cfaeb5a6f7d2a0287999f401429" prot="public" static="no" mutable="no">
+        <type>void *(*</type>
+        <definition>void *(* ThemisImporterPluginV1::create_instance) (const ThemisImporterAllocator *allocator)</definition>
+        <argsstring>)(const ThemisImporterAllocator *allocator)</argsstring>
+        <name>create_instance</name>
+        <qualifiedname>ThemisImporterPluginV1::create_instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="48" column="5" bodyfile="include/importers/importer_plugin.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a0726cd4c10fedb44a465990e3bcead7a" prot="public" static="no" mutable="no">
+        <type>void(*</type>
+        <definition>void(* ThemisImporterPluginV1::destroy_instance) (void *instance, const ThemisImporterAllocator *allocator)</definition>
+        <argsstring>)(void *instance, const ThemisImporterAllocator *allocator)</argsstring>
+        <name>destroy_instance</name>
+        <qualifiedname>ThemisImporterPluginV1::destroy_instance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="50" column="5" bodyfile="include/importers/importer_plugin.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a2f9817f5919143d6b815ca623ce2f441" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* ThemisImporterPluginV1::initialize) (void *instance, const char *config_json)</definition>
+        <argsstring>)(void *instance, const char *config_json)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>ThemisImporterPluginV1::initialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="53" column="5" bodyfile="include/importers/importer_plugin.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a0724efd73ee5a89a9b7624a005128fdd" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* ThemisImporterPluginV1::validate_source) (void *instance, const char *source_path, char *error_buf, size_t error_buf_size)</definition>
+        <argsstring>)(void *instance, const char *source_path, char *error_buf, size_t error_buf_size)</argsstring>
+        <name>validate_source</name>
+        <qualifiedname>ThemisImporterPluginV1::validate_source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="55" column="5" bodyfile="include/importers/importer_plugin.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a217c232afa87ec8a68ff52957f36d106" prot="public" static="no" mutable="no">
+        <type>int(*</type>
+        <definition>int(* ThemisImporterPluginV1::import_data) (void *instance, const char *source_path, const char *options_json, uint64_t *imported_out, uint64_t *failed_out)</definition>
+        <argsstring>)(void *instance, const char *source_path, const char *options_json, uint64_t *imported_out, uint64_t *failed_out)</argsstring>
+        <name>import_data</name>
+        <qualifiedname>ThemisImporterPluginV1::import_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="59" column="5" bodyfile="include/importers/importer_plugin.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a445d967e2d70726da3ac3dcb59e5f357" prot="public" static="no" mutable="no">
+        <type>const char *(*</type>
+        <definition>const char *(* ThemisImporterPluginV1::get_schema) (void *instance, const char *source_path)</definition>
+        <argsstring>)(void *instance, const char *source_path)</argsstring>
+        <name>get_schema</name>
+        <qualifiedname>ThemisImporterPluginV1::get_schema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="65" column="11" bodyfile="include/importers/importer_plugin.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a5778aa2c1e0c48652166855c4b3caab0" prot="public" static="no" mutable="no">
+        <type>void(*</type>
+        <definition>void(* ThemisImporterPluginV1::cancel) (void *instance)</definition>
+        <argsstring>)(void *instance)</argsstring>
+        <name>cancel</name>
+        <qualifiedname>ThemisImporterPluginV1::cancel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="67" column="5" bodyfile="include/importers/importer_plugin.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_themis_importer_plugin_v1_1a97fc3002916d70f029e9865ca7ce7630" prot="public" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* ThemisImporterPluginV1::reserved[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>reserved</name>
+        <qualifiedname>ThemisImporterPluginV1::reserved</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/importer_plugin.h" line="69" column="10" bodyfile="include/importers/importer_plugin.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/importer_plugin.h" line="42" column="1" bodyfile="include/importers/importer_plugin.h" bodystart="42" bodyend="70"/>
+    <listofallmembers>
+      <member refid="struct_themis_importer_plugin_v1_1a9dd0a16994775077a58acb4129b42d62" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>abi_version</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a5778aa2c1e0c48652166855c4b3caab0" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>cancel</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1aec5e1cfaeb5a6f7d2a0287999f401429" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>create_instance</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a0726cd4c10fedb44a465990e3bcead7a" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>destroy_instance</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a445d967e2d70726da3ac3dcb59e5f357" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>get_schema</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a217c232afa87ec8a68ff52957f36d106" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>import_data</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a2f9817f5919143d6b815ca623ce2f441" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>initialize</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1aa7702a33d729917c363a1622534fd22c" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>name</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a97fc3002916d70f029e9865ca7ce7630" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>reserved</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a18c6d9124b437aa2de0657020f6055fd" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>struct_size</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a0724efd73ee5a89a9b7624a005128fdd" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>validate_source</name></member>
+      <member refid="struct_themis_importer_plugin_v1_1a057f567c61fa28288adb8608e6628482" prot="public" virt="non-virtual"><scope>ThemisImporterPluginV1</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

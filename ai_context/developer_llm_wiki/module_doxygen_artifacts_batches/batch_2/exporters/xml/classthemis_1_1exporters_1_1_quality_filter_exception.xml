@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_quality_filter_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::QualityFilterException</compoundname>
+    <basecompoundref refid="classthemis_1_1exporters_1_1_exporter_exception" prot="public" virt="non-virtual">themis::exporters::ExporterException</basecompoundref>
+    <includes refid="exporter__errors_8h" local="no">exporter_errors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_quality_filter_exception_1ae9864fb682a7ef33c98eb57c2f5a092b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::QualityFilterException::entity_id_</definition>
+        <argsstring></argsstring>
+        <name>entity_id_</name>
+        <qualifiedname>themis::exporters::QualityFilterException::entity_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="128" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_quality_filter_exception_1a40247d94ae8c2df1756dbbee055b2527" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::QualityFilterException::reason_</definition>
+        <argsstring></argsstring>
+        <name>reason_</name>
+        <qualifiedname>themis::exporters::QualityFilterException::reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="129" column="17" bodyfile="include/exporters/exporter_errors.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_quality_filter_exception_1a40d36b3cb8a8d82e31e5d43495d4ae38" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::QualityFilterException::QualityFilterException</definition>
+        <argsstring>(const std::string &amp;message, const std::string &amp;entity_id=&quot;&quot;, const std::string &amp;reason=&quot;&quot;)</argsstring>
+        <name>QualityFilterException</name>
+        <qualifiedname>themis::exporters::QualityFilterException::QualityFilterException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="112" column="14" bodyfile="include/exporters/exporter_errors.h" bodystart="112" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_quality_filter_exception_1aea167472c3488e2a175db68700bee048" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::QualityFilterException::getEntityId</definition>
+        <argsstring>() const</argsstring>
+        <name>getEntityId</name>
+        <qualifiedname>themis::exporters::QualityFilterException::getEntityId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="124" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_quality_filter_exception_1a3f6ae596154a5ed3dccf5a2eb3093d7c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::exporters::QualityFilterException::getReason</definition>
+        <argsstring>() const</argsstring>
+        <name>getReason</name>
+        <qualifiedname>themis::exporters::QualityFilterException::getReason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_errors.h" line="125" column="23" bodyfile="include/exporters/exporter_errors.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality filter failure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::QualityFilterException</label>
+        <link refid="classthemis_1_1exporters_1_1_quality_filter_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="2">
+        <label>themis::exporters::ExporterException</label>
+        <link refid="classthemis_1_1exporters_1_1_exporter_exception"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::exporters::QualityFilterException</label>
+        <link refid="classthemis_1_1exporters_1_1_quality_filter_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/exporters/exporter_errors.h" line="110" column="1" bodyfile="include/exporters/exporter_errors.h" bodystart="110" bodyend="130"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a65232c8890228b0b1a9c31d335809c93" prot="protected" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>context_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_quality_filter_exception_1ae9864fb682a7ef33c98eb57c2f5a092b" prot="private" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>entity_id_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a1a80681187a67958b179e691695209fb" prot="protected" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>error_code_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1aaca93f87150fcb5c565671227d2a9ffd" prot="public" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>ExporterException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a2137749c86cb8b65f22035426c15ff94" prot="public" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>getContext</name></member>
+      <member refid="classthemis_1_1exporters_1_1_quality_filter_exception_1aea167472c3488e2a175db68700bee048" prot="public" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>getEntityId</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_exception_1a40e41cf979adc5dbb8ab0efc86dd5bb4" prot="public" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>getErrorCode</name></member>
+      <member refid="classthemis_1_1exporters_1_1_quality_filter_exception_1a3f6ae596154a5ed3dccf5a2eb3093d7c" prot="public" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>getReason</name></member>
+      <member refid="classthemis_1_1exporters_1_1_quality_filter_exception_1a40d36b3cb8a8d82e31e5d43495d4ae38" prot="public" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>QualityFilterException</name></member>
+      <member refid="classthemis_1_1exporters_1_1_quality_filter_exception_1a40247d94ae8c2df1756dbbee055b2527" prot="private" virt="non-virtual"><scope>themis::exporters::QualityFilterException</scope><name>reason_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

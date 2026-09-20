@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUConfig</compoundname>
+    <includes refid="config_8h" local="no">config.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result" prot="public">themis::gpu::GPUConfig::ValidationResult</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1acd39daf2d1822a37ad30f3a440ba0934" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUConfig::max_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_vram_bytes</name>
+        <qualifiedname>themis::gpu::GPUConfig::max_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = use edition default </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="38" column="17" bodyfile="include/themis/gpu/config.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1a89326a42b4c18663dd73001d62e88dd7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUConfig::min_free_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>min_free_vram_bytes</name>
+        <qualifiedname>themis::gpu::GPUConfig::min_free_vram_bytes</qualifiedname>
+        <initializer>= 512ULL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>512 MB reserve </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="39" column="17" bodyfile="include/themis/gpu/config.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1ac98e5b84a519485a1be55e4cd574890d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::gpu::GPUConfig::oom_warning_threshold</definition>
+        <argsstring></argsstring>
+        <name>oom_warning_threshold</name>
+        <qualifiedname>themis::gpu::GPUConfig::oom_warning_threshold</qualifiedname>
+        <initializer>= 0.85f</initializer>
+        <briefdescription>
+<para>0–1: emit warning above this </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="40" column="17" bodyfile="include/themis/gpu/config.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1aae31be16c40d2708ccd3100747488254" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUConfig::enable_pool</definition>
+        <argsstring></argsstring>
+        <name>enable_pool</name>
+        <qualifiedname>themis::gpu::GPUConfig::enable_pool</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="45" column="17" bodyfile="include/themis/gpu/config.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1ac36f7b94ad243459fcf0d8e9d031caa2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUConfig::pool_slab_size</definition>
+        <argsstring></argsstring>
+        <name>pool_slab_size</name>
+        <qualifiedname>themis::gpu::GPUConfig::pool_slab_size</qualifiedname>
+        <initializer>= 256ULL * 1024 * 1024</initializer>
+        <briefdescription>
+<para>256 MB per slab </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="46" column="17" bodyfile="include/themis/gpu/config.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1a040e86c89bba72c251c57c3baac89120" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUConfig::pool_num_slabs</definition>
+        <argsstring></argsstring>
+        <name>pool_num_slabs</name>
+        <qualifiedname>themis::gpu::GPUConfig::pool_num_slabs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0 = derive from max_vram_bytes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="47" column="17" bodyfile="include/themis/gpu/config.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1a51dc54378f404c0649ee68859f3fa05a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUConfig::circuit_failure_threshold</definition>
+        <argsstring></argsstring>
+        <name>circuit_failure_threshold</name>
+        <qualifiedname>themis::gpu::GPUConfig::circuit_failure_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="52" column="17" bodyfile="include/themis/gpu/config.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1a686049728220281e5cdef8cc480bdadc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUConfig::circuit_success_threshold</definition>
+        <argsstring></argsstring>
+        <name>circuit_success_threshold</name>
+        <qualifiedname>themis::gpu::GPUConfig::circuit_success_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="53" column="17" bodyfile="include/themis/gpu/config.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1a32020d02e0ea77bf2a70f66b45e0e607" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::GPUConfig::circuit_reset_timeout_secs</definition>
+        <argsstring></argsstring>
+        <name>circuit_reset_timeout_secs</name>
+        <qualifiedname>themis::gpu::GPUConfig::circuit_reset_timeout_secs</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="54" column="17" bodyfile="include/themis/gpu/config.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1a8bd47bc4758560343a5e8e258de73c4d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUConfig::enable_cpu_fallback</definition>
+        <argsstring></argsstring>
+        <name>enable_cpu_fallback</name>
+        <qualifiedname>themis::gpu::GPUConfig::enable_cpu_fallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="59" column="17" bodyfile="include/themis/gpu/config.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1acb4cce421299cd19f2013dbfc2920ecc" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::gpu::GPUConfig::fallback_cpu_budget_ms</definition>
+        <argsstring></argsstring>
+        <name>fallback_cpu_budget_ms</name>
+        <qualifiedname>themis::gpu::GPUConfig::fallback_cpu_budget_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Maximum time the CPU fallback path may take, in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When &gt; 0 the GPU module records a budget-exceeded warning if a CPU fallback operation takes longer than this value. Set to 0 to disable budget enforcement (no-limit). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="68" column="17" bodyfile="include/themis/gpu/config.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1a832b074929a6c777a58b4dfb229b4fa2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUConfig::audit_log_capacity</definition>
+        <argsstring></argsstring>
+        <name>audit_log_capacity</name>
+        <qualifiedname>themis::gpu::GPUConfig::audit_log_capacity</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="73" column="17" bodyfile="include/themis/gpu/config.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1a0c3d51d2b5018e37238c87277e0be2f5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUConfig::enable_metrics</definition>
+        <argsstring></argsstring>
+        <name>enable_metrics</name>
+        <qualifiedname>themis::gpu::GPUConfig::enable_metrics</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="74" column="17" bodyfile="include/themis/gpu/config.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_config_1ade8c51c3b3a65b101f09ee5572687519" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1gpu_1_1_cluster_config" kindref="compound">ClusterConfig</ref></type>
+        <definition>ClusterConfig themis::gpu::GPUConfig::cluster</definition>
+        <argsstring></argsstring>
+        <name>cluster</name>
+        <qualifiedname>themis::gpu::GPUConfig::cluster</qualifiedname>
+        <briefdescription>
+<para>Default (enabled=false) = single-node mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="84" column="19" bodyfile="include/themis/gpu/config.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_g_p_u_config_1a09a1f5d4dd32a5e78994dff90055abba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1gpu_1_1_g_p_u_config_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::gpu::GPUConfig::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::gpu::GPUConfig::validate</qualifiedname>
+        <briefdescription>
+<para>Validate all fields for consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rules enforced<itemizedlist>
+<listitem><para>pool_slab_size must be &gt; 0 when enable_pool == true</para>
+</listitem><listitem><para>oom_warning_threshold must be in (0, 1]</para>
+</listitem><listitem><para>circuit_failure_threshold must be &gt;= 1</para>
+</listitem><listitem><para>circuit_success_threshold must be &gt;= 1</para>
+</listitem><listitem><para>circuit_reset_timeout_secs must be &gt; 0</para>
+</listitem><listitem><para>If max_vram_bytes is non-zero, min_free_vram_bytes must be &lt; max_vram_bytes</para>
+</listitem><listitem><para>If pool is enabled and pool_num_slabs is 0, max_vram_bytes must be set so it can be derived (warns if not) </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="108" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1gpu_1_1_g_p_u_config_1ac9f5a50c84ed4cb389aa386f5bf2c314" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, std::string &gt;</type>
+        <definition>std::pair&lt; bool, std::string &gt; themis::gpu::GPUConfig::simulateAllocation</definition>
+        <argsstring>(uint64_t bytes, uint64_t current_allocated_bytes) const</argsstring>
+        <name>simulateAllocation</name>
+        <qualifiedname>themis::gpu::GPUConfig::simulateAllocation</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>current_allocated_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Simulate whether an allocation of <computeroutput>bytes</computeroutput> would be accepted under this config given <computeroutput>current_allocated_bytes</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Does not touch any real GPU state. Returns a pair of (accepted, reason). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/config.h" line="116" column="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>GPU module configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Populated at startup (from environment, YAML, or code) and validated by <ref refid="structthemis_1_1gpu_1_1_g_p_u_config_1a09a1f5d4dd32a5e78994dff90055abba" kindref="member">GPUConfig::validate()</ref> before the rest of the GPU module initialises. Validation failures are surfaced as a list of human-readable error strings so the caller can either abort or log all problems at once.</para>
+<para>Dry-run simulation: <ref refid="structthemis_1_1gpu_1_1_g_p_u_config_1ac9f5a50c84ed4cb389aa386f5bf2c314" kindref="member">GPUConfig::simulateAllocation()</ref> lets operators test whether a proposed allocation would be accepted given the current config, without touching real GPU state. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::gpu::ClusterConfig</label>
+        <link refid="structthemis_1_1gpu_1_1_cluster_config"/>
+      </node>
+      <node id="1">
+        <label>themis::gpu::GPUConfig</label>
+        <link refid="structthemis_1_1gpu_1_1_g_p_u_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cluster</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/gpu/config.h" line="34" column="1" bodyfile="include/themis/gpu/config.h" bodystart="34" bodyend="119"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a832b074929a6c777a58b4dfb229b4fa2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>audit_log_capacity</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a51dc54378f404c0649ee68859f3fa05a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>circuit_failure_threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a32020d02e0ea77bf2a70f66b45e0e607" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>circuit_reset_timeout_secs</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a686049728220281e5cdef8cc480bdadc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>circuit_success_threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1ade8c51c3b3a65b101f09ee5572687519" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>cluster</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a8bd47bc4758560343a5e8e258de73c4d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>enable_cpu_fallback</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a0c3d51d2b5018e37238c87277e0be2f5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>enable_metrics</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1aae31be16c40d2708ccd3100747488254" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>enable_pool</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1acb4cce421299cd19f2013dbfc2920ecc" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>fallback_cpu_budget_ms</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1acd39daf2d1822a37ad30f3a440ba0934" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>max_vram_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a89326a42b4c18663dd73001d62e88dd7" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>min_free_vram_bytes</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1ac98e5b84a519485a1be55e4cd574890d" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>oom_warning_threshold</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a040e86c89bba72c251c57c3baac89120" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>pool_num_slabs</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1ac36f7b94ad243459fcf0d8e9d031caa2" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>pool_slab_size</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1ac9f5a50c84ed4cb389aa386f5bf2c314" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>simulateAllocation</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_config_1a09a1f5d4dd32a5e78994dff90055abba" prot="public" virt="non-virtual"><scope>themis::gpu::GPUConfig</scope><name>validate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

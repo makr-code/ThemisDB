@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_inference_chain" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::InferenceChain</compoundname>
+    <includes refid="knowledge__graph__reasoner_8h" local="no">knowledge_graph_reasoner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_inference_chain_1a568fe2dbb27ecab7ea73f8bba32c220a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::InferenceChain::subject_id</definition>
+        <argsstring></argsstring>
+        <name>subject_id</name>
+        <qualifiedname>themis::graph::InferenceChain::subject_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="74" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_inference_chain_1a85c88f198e3ac2cfacfb70f03e879280" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_inference_edge" kindref="compound">InferenceEdge</ref> &gt;</type>
+        <definition>std::vector&lt;InferenceEdge&gt; themis::graph::InferenceChain::edges</definition>
+        <argsstring></argsstring>
+        <name>edges</name>
+        <qualifiedname>themis::graph::InferenceChain::edges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="75" column="17" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_inference_chain_1af201b92871aa23924be95829071595b1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::InferenceChain::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::graph::InferenceChain::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="77" column="11" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_inference_chain_1a4c3b34a5bf6310d664714d57338b2138" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::graph::InferenceChain::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::graph::InferenceChain::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/knowledge_graph_reasoner.h" line="78" column="18" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/knowledge_graph_reasoner.h" line="73" column="1" bodyfile="include/graph/knowledge_graph_reasoner.h" bodystart="73" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_inference_chain_1a85c88f198e3ac2cfacfb70f03e879280" prot="public" virt="non-virtual"><scope>themis::graph::InferenceChain</scope><name>edges</name></member>
+      <member refid="structthemis_1_1graph_1_1_inference_chain_1af201b92871aa23924be95829071595b1" prot="public" virt="non-virtual"><scope>themis::graph::InferenceChain</scope><name>empty</name></member>
+      <member refid="structthemis_1_1graph_1_1_inference_chain_1a4c3b34a5bf6310d664714d57338b2138" prot="public" virt="non-virtual"><scope>themis::graph::InferenceChain</scope><name>size</name></member>
+      <member refid="structthemis_1_1graph_1_1_inference_chain_1a568fe2dbb27ecab7ea73f8bba32c220a" prot="public" virt="non-virtual"><scope>themis::graph::InferenceChain</scope><name>subject_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

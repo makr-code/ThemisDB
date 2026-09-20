@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MixedPrecisionInference::PrecisionInfo</compoundname>
+    <includes refid="mixed__precision__inference_8h" local="no">mixed_precision_inference.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1a05bff2521888c55c869ba95a6c933850" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a134469ae4b8500a262610408766e56a1" kindref="member">PrecisionMode</ref></type>
+        <definition>PrecisionMode themis::llm::MixedPrecisionInference::PrecisionInfo::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::PrecisionInfo::mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="49" column="23" bodyfile="include/llm/mixed_precision_inference.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1a2dc168c51ec939c11460f93d7afe8ce8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MixedPrecisionInference::PrecisionInfo::accuracy_retention</definition>
+        <argsstring></argsstring>
+        <name>accuracy_retention</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::PrecisionInfo::accuracy_retention</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="50" column="15" bodyfile="include/llm/mixed_precision_inference.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1a68cf7a735e311be51e4e8ee8f24e2974" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::MixedPrecisionInference::PrecisionInfo::memory_reduction</definition>
+        <argsstring></argsstring>
+        <name>memory_reduction</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::PrecisionInfo::memory_reduction</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="51" column="15" bodyfile="include/llm/mixed_precision_inference.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1a57575cbbd44f5e8eda561da6ae559cbc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MixedPrecisionInference::PrecisionInfo::bytes_per_param</definition>
+        <argsstring></argsstring>
+        <name>bytes_per_param</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::PrecisionInfo::bytes_per_param</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="52" column="16" bodyfile="include/llm/mixed_precision_inference.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1af5ab90f36fe67aba098d67a1c7abb850" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MixedPrecisionInference::PrecisionInfo::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::MixedPrecisionInference::PrecisionInfo::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/mixed_precision_inference.h" line="53" column="21" bodyfile="include/llm/mixed_precision_inference.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/mixed_precision_inference.h" line="48" column="5" bodyfile="include/llm/mixed_precision_inference.h" bodystart="48" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1a2dc168c51ec939c11460f93d7afe8ce8" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference::PrecisionInfo</scope><name>accuracy_retention</name></member>
+      <member refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1a57575cbbd44f5e8eda561da6ae559cbc" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference::PrecisionInfo</scope><name>bytes_per_param</name></member>
+      <member refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1af5ab90f36fe67aba098d67a1c7abb850" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference::PrecisionInfo</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1a68cf7a735e311be51e4e8ee8f24e2974" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference::PrecisionInfo</scope><name>memory_reduction</name></member>
+      <member refid="structthemis_1_1llm_1_1_mixed_precision_inference_1_1_precision_info_1a05bff2521888c55c869ba95a6c933850" prot="public" virt="non-virtual"><scope>themis::llm::MixedPrecisionInference::PrecisionInfo</scope><name>mode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

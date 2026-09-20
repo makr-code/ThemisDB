@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1toolbox_1_1_0d264224036174241060153252170351243220362053321327" kind="namespace" language="C++">
+    <compoundname>themis::toolbox::@264224036174241060153252170351243220362053321327</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/toolbox/text_quality_scorer.cpp" line="27" column="1"/>
+  </compounddef>
+</doxygen>

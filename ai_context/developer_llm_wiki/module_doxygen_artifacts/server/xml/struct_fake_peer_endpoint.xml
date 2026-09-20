@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_fake_peer_endpoint" kind="struct" language="C++" prot="public">
+    <compoundname>FakePeerEndpoint</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_fake_peer_endpoint_1a159b672da9792fbaa10f9ca9da22b864" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FakePeerEndpoint::address</definition>
+        <argsstring></argsstring>
+        <name>address</name>
+        <qualifiedname>FakePeerEndpoint::address</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="60" column="17" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="60" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_peer_endpoint_1a016b9948439711abaa0dcf36ded1d772" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t FakePeerEndpoint::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>FakePeerEndpoint::port</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="61" column="17" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_fake_peer_endpoint_1ac9203876216b5a3fb769355e8efaa282" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool FakePeerEndpoint::operator==</definition>
+        <argsstring>(const FakePeerEndpoint &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>FakePeerEndpoint::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="63" column="10" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_fake_peer_endpoint_1a9e0c680c7b3b576fba91623389ac04e8" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool FakePeerEndpoint::operator!=</definition>
+        <argsstring>(const FakePeerEndpoint &amp;o) const noexcept</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>FakePeerEndpoint::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_fake_peer_endpoint" kindref="compound">FakePeerEndpoint</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="66" column="10" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated peer endpoint (address + port tuple). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_http3_stress_focused.cpp" line="59" column="1" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="59" bodyend="67"/>
+    <listofallmembers>
+      <member refid="struct_fake_peer_endpoint_1a159b672da9792fbaa10f9ca9da22b864" prot="public" virt="non-virtual"><scope>FakePeerEndpoint</scope><name>address</name></member>
+      <member refid="struct_fake_peer_endpoint_1a9e0c680c7b3b576fba91623389ac04e8" prot="public" virt="non-virtual"><scope>FakePeerEndpoint</scope><name>operator!=</name></member>
+      <member refid="struct_fake_peer_endpoint_1ac9203876216b5a3fb769355e8efaa282" prot="public" virt="non-virtual"><scope>FakePeerEndpoint</scope><name>operator==</name></member>
+      <member refid="struct_fake_peer_endpoint_1a016b9948439711abaa0dcf36ded1d772" prot="public" virt="non-virtual"><scope>FakePeerEndpoint</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

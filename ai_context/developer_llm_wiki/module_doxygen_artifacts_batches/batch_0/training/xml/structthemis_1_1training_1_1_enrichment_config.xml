@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_enrichment_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentConfig</compoundname>
+    <includes refid="knowledge__graph__enricher_8h" local="no">knowledge_graph_enricher.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1a8a5f6b3e4736f0308fedeacb295b577b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EnrichmentConfig::target_collection</definition>
+        <argsstring></argsstring>
+        <name>target_collection</name>
+        <qualifiedname>themis::training::EnrichmentConfig::target_collection</qualifiedname>
+        <briefdescription>
+<para>Collection with training samples. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="90" column="17" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1a2c1b16621db7223343eb6391335ebf01" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EnrichmentConfig::graph_name</definition>
+        <argsstring></argsstring>
+        <name>graph_name</name>
+        <qualifiedname>themis::training::EnrichmentConfig::graph_name</qualifiedname>
+        <briefdescription>
+<para>Knowledge graph name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="91" column="17" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1a4ef721e6544c61acd7de2a8dc26a657b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentConfig::max_related_items</definition>
+        <argsstring></argsstring>
+        <name>max_related_items</name>
+        <qualifiedname>themis::training::EnrichmentConfig::max_related_items</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Max related items per category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="92" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1aeb40fbadc71580def5aa45150ee941d7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentConfig::traversal_depth</definition>
+        <argsstring></argsstring>
+        <name>traversal_depth</name>
+        <qualifiedname>themis::training::EnrichmentConfig::traversal_depth</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>Graph traversal depth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="93" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1a6402f96fa45bbb0059afa72f582d9611" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::EnrichmentConfig::similarity_threshold</definition>
+        <argsstring></argsstring>
+        <name>similarity_threshold</name>
+        <qualifiedname>themis::training::EnrichmentConfig::similarity_threshold</qualifiedname>
+        <initializer>= 0.7f</initializer>
+        <briefdescription>
+<para>Similarity threshold for semantic search. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="94" column="11" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1aaf23c41e3d2e8d9f742a607d60f1f98f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentConfig::include_provisions</definition>
+        <argsstring></argsstring>
+        <name>include_provisions</name>
+        <qualifiedname>themis::training::EnrichmentConfig::include_provisions</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include related legal provisions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="95" column="10" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1ad15b98d33d724a9f844e30287228a8f8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentConfig::include_case_law</definition>
+        <argsstring></argsstring>
+        <name>include_case_law</name>
+        <qualifiedname>themis::training::EnrichmentConfig::include_case_law</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include related case law. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="96" column="10" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1ac66a767afba4d9df337959357b84acaa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentConfig::include_guidance</definition>
+        <argsstring></argsstring>
+        <name>include_guidance</name>
+        <qualifiedname>themis::training::EnrichmentConfig::include_guidance</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include internal guidance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="97" column="10" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1ad2fc10f004286183c8e4904f6900f10f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentConfig::include_similar_docs</definition>
+        <argsstring></argsstring>
+        <name>include_similar_docs</name>
+        <qualifiedname>themis::training::EnrichmentConfig::include_similar_docs</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include similar documents. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="98" column="10" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1a3576f301ccf13a0821dd3f2fc72fe0dd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EnrichmentConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::training::EnrichmentConfig::batch_size</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>Samples per batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="99" column="12" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_config_1abc3bb92410a2681ad8783e32b50a7f84" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_enrichment_cache_config" kindref="compound">EnrichmentCacheConfig</ref></type>
+        <definition>EnrichmentCacheConfig themis::training::EnrichmentConfig::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>themis::training::EnrichmentConfig::cache</qualifiedname>
+        <briefdescription>
+<para>LRU cache configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="100" column="27" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_enrichment_config_1aef93215f46ae8bb4032fdd8c366ac6b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EnrichmentConfig::EnrichmentConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>EnrichmentConfig</name>
+        <qualifiedname>themis::training::EnrichmentConfig::EnrichmentConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/knowledge_graph_enricher.h" line="102" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for graph enrichment. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::training::EnrichmentCacheConfig</label>
+        <link refid="structthemis_1_1training_1_1_enrichment_cache_config"/>
+      </node>
+      <node id="1">
+        <label>themis::training::EnrichmentConfig</label>
+        <link refid="structthemis_1_1training_1_1_enrichment_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cache</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/knowledge_graph_enricher.h" line="89" column="1" bodyfile="include/training/knowledge_graph_enricher.h" bodystart="89" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1a3576f301ccf13a0821dd3f2fc72fe0dd" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1abc3bb92410a2681ad8783e32b50a7f84" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>cache</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1aef93215f46ae8bb4032fdd8c366ac6b6" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>EnrichmentConfig</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1a2c1b16621db7223343eb6391335ebf01" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>graph_name</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1ad15b98d33d724a9f844e30287228a8f8" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>include_case_law</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1ac66a767afba4d9df337959357b84acaa" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>include_guidance</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1aaf23c41e3d2e8d9f742a607d60f1f98f" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>include_provisions</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1ad2fc10f004286183c8e4904f6900f10f" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>include_similar_docs</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1a4ef721e6544c61acd7de2a8dc26a657b" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>max_related_items</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1a6402f96fa45bbb0059afa72f582d9611" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>similarity_threshold</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1a8a5f6b3e4736f0308fedeacb295b577b" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>target_collection</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_config_1aeb40fbadc71580def5aa45150ee941d7" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentConfig</scope><name>traversal_depth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

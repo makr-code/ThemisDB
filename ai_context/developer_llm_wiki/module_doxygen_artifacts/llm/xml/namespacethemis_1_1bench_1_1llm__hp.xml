@@ -1,0 +1,279 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1bench_1_1llm__hp" kind="namespace" language="C++">
+    <compoundname>themis::bench::llm_hp</compoundname>
+    <innerclass refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_cancel_token" prot="public">themis::bench::llm_hp::StubCancelToken</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_engine" prot="public">themis::bench::llm_hp::StubLlmEngine</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_llm_plugin" prot="public">themis::bench::llm_hp::StubLlmPlugin</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_embed_engine" prot="public">themis::bench::llm_hp::StubEmbedEngine</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker" prot="public">themis::bench::llm_hp::StubQuotaTracker</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_model_selector" prot="public">themis::bench::llm_hp::StubModelSelector</innerclass>
+    <innerclass refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_plugin_registry" prot="public">themis::bench::llm_hp::StubPluginRegistry</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1llm__hp_1a0720b1cee9cfa29912af76d6dde9a904" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::bench::llm_hp::kLlmCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kLlmCanonicalSeed</name>
+        <qualifiedname>themis::bench::llm_hp::kLlmCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical PRNG seed for all LLM benchmarks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="88" column="27" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1llm__hp_1a744fd7bb82c31576346b1b8e47d061a1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::llm_hp::kLlmWarmupIterations</definition>
+        <argsstring></argsstring>
+        <name>kLlmWarmupIterations</name>
+        <qualifiedname>themis::bench::llm_hp::kLlmWarmupIterations</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Warmup iterations before measurement window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="91" column="22" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1llm__hp_1a0c491e2adaa7f23ad19a66f978a598ef" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::llm_hp::kLlmRepetitions</definition>
+        <argsstring></argsstring>
+        <name>kLlmRepetitions</name>
+        <qualifiedname>themis::bench::llm_hp::kLlmRepetitions</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Repetitions per benchmark. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="94" column="22" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1llm__hp_1adab58edbbc655065bdd35785f483f979" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::llm_hp::kBatchEmbedSize</definition>
+        <argsstring></argsstring>
+        <name>kBatchEmbedSize</name>
+        <qualifiedname>themis::bench::llm_hp::kBatchEmbedSize</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+<para>Batch size for LLM-03. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="97" column="22" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1bench_1_1llm__hp_1aecbb5d3e980e1c7b57129d12488a5953" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::llm_hp::kSingleTokenOverheadTokens</definition>
+        <argsstring></argsstring>
+        <name>kSingleTokenOverheadTokens</name>
+        <qualifiedname>themis::bench::llm_hp::kSingleTokenOverheadTokens</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Number of simulated tokens for single-token inference stub. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="100" column="22" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1a925fce4020f697c5d4a914a0ff8bcf1e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::llm_hp::BM_LLM01_SingleTokenInferenceOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LLM01_SingleTokenInferenceOverhead</name>
+        <qualifiedname>themis::bench::llm_hp::BM_LLM01_SingleTokenInferenceOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>LLM-01: Single-token stub inference dispatch overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-LLM-01: p99 ≤ 1 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="223" column="13" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="223" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1ad1391ab2ede741f87790628a32d85f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::llm_hp::Repetitions</definition>
+        <argsstring>(kLlmRepetitions) -&gt; ReportAggregatesOnly(true) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Repetitions</name>
+        <qualifiedname>themis::bench::llm_hp::Repetitions</qualifiedname>
+        <param>
+          <type>kLlmRepetitions</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="236" column="5" declfile="benchmarks/llm/bench_llm_hotpaths.cpp" declline="236" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1a0127e23a81b7437c49a8cbb3bba090b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::llm_hp::BM_LLM02_PluginLifecycleLoadUnload</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LLM02_PluginLifecycleLoadUnload</name>
+        <qualifiedname>themis::bench::llm_hp::BM_LLM02_PluginLifecycleLoadUnload</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>LLM-02: Plugin load() + unload() round-trip (stub, no model file). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-LLM-02: p99 ≤ 10 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="249" column="13" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="249" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1ae0a339b4455dc4aeb32858dac390d238" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::llm_hp::BM_LLM03_BatchEmbed8</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LLM03_BatchEmbed8</name>
+        <qualifiedname>themis::bench::llm_hp::BM_LLM03_BatchEmbed8</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>LLM-03: Batch of 8 embed requests (stub engine, no GPU). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-LLM-03: p99 ≤ 50 ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="276" column="13" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="276" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1a62a2dccaef9414fe240f0530b3df556e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::llm_hp::BM_LLM04_CancellationTokenCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LLM04_CancellationTokenCheck</name>
+        <qualifiedname>themis::bench::llm_hp::BM_LLM04_CancellationTokenCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>LLM-04: Atomic isCancelled() check overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-LLM-04: p99 ≤ 1 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="305" column="13" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="305" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1a854746b415d394f5ed53af2afcd9481d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::llm_hp::BM_LLM05_QuotaCheck</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LLM05_QuotaCheck</name>
+        <qualifiedname>themis::bench::llm_hp::BM_LLM05_QuotaCheck</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>LLM-05: In-memory per-tenant quota check (atomic CAS). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-LLM-05: p99 ≤ 10 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="329" column="13" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="329" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1afb285a6e747d7b1bd74a79fe6996f714" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::llm_hp::BM_LLM06_RouteDecision</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LLM06_RouteDecision</name>
+        <qualifiedname>themis::bench::llm_hp::BM_LLM06_RouteDecision</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>LLM-06: Model selector routing decision (hash-map lookup). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-LLM-06: p99 ≤ 100 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="355" column="13" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="355" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1afd1e49797bb6e44dfdbc15731698795f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::llm_hp::BM_LLM07_StreamCallbackOverhead</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LLM07_StreamCallbackOverhead</name>
+        <qualifiedname>themis::bench::llm_hp::BM_LLM07_StreamCallbackOverhead</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>LLM-07: Empty stream callback invocation overhead. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-LLM-07: p99 ≤ 10 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="381" column="13" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="381" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1bench_1_1llm__hp_1a83f8a748187785b9d449eabb1d16eb6a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::bench::llm_hp::BM_LLM08_PluginRegistryLookup</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>BM_LLM08_PluginRegistryLookup</name>
+        <qualifiedname>themis::bench::llm_hp::BM_LLM08_PluginRegistryLookup</qualifiedname>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>LLM-08: Plugin registry name → adapter lookup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>GATE-LLM-08: p99 ≤ 10 µs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="406" column="13" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="406" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="81" column="1"/>
+  </compounddef>
+</doxygen>

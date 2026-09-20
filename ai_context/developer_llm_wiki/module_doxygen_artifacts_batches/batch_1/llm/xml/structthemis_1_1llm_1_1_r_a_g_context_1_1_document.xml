@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_r_a_g_context_1_1_document" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RAGContext::Document</compoundname>
+    <includes refid="llm__plugin__interface_8h" local="no">llm_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_r_a_g_context_1_1_document_1a707b3630a485d2f4a9e71015d43b7dd8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RAGContext::Document::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::llm::RAGContext::Document::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="287" column="21" bodyfile="include/llm/llm_plugin_interface.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_r_a_g_context_1_1_document_1a16696a801d72d53a8057f553f414d602" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RAGContext::Document::source</definition>
+        <argsstring></argsstring>
+        <name>source</name>
+        <qualifiedname>themis::llm::RAGContext::Document::source</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="288" column="21" bodyfile="include/llm/llm_plugin_interface.h" bodystart="288" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_r_a_g_context_1_1_document_1a4434244e6a3512aa8e623f13659a04a9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::RAGContext::Document::relevance_score</definition>
+        <argsstring></argsstring>
+        <name>relevance_score</name>
+        <qualifiedname>themis::llm::RAGContext::Document::relevance_score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="289" column="15" bodyfile="include/llm/llm_plugin_interface.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_r_a_g_context_1_1_document_1aa1886d566a9ec7731a30a0760bf5a604" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json themis::llm::RAGContext::Document::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::RAGContext::Document::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llm_plugin_interface.h" line="290" column="14" bodyfile="include/llm/llm_plugin_interface.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llm_plugin_interface.h" line="286" column="5" bodyfile="include/llm/llm_plugin_interface.h" bodystart="286" bodyend="291"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_r_a_g_context_1_1_document_1a707b3630a485d2f4a9e71015d43b7dd8" prot="public" virt="non-virtual"><scope>themis::llm::RAGContext::Document</scope><name>content</name></member>
+      <member refid="structthemis_1_1llm_1_1_r_a_g_context_1_1_document_1aa1886d566a9ec7731a30a0760bf5a604" prot="public" virt="non-virtual"><scope>themis::llm::RAGContext::Document</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1_r_a_g_context_1_1_document_1a4434244e6a3512aa8e623f13659a04a9" prot="public" virt="non-virtual"><scope>themis::llm::RAGContext::Document</scope><name>relevance_score</name></member>
+      <member refid="structthemis_1_1llm_1_1_r_a_g_context_1_1_document_1a16696a801d72d53a8057f553f414d602" prot="public" virt="non-virtual"><scope>themis::llm::RAGContext::Document</scope><name>source</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

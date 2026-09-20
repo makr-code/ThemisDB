@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_mock_storage_context_with_get" kind="struct" language="C++" prot="public">
+    <compoundname>MockStorageContextWithGet</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">MutationExecutor::StorageContext</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_mock_storage_context_with_get_1aa704483c0c8d84c9ecd2c6e11594ac51" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; MockStorageContextWithGet::store</definition>
+        <argsstring></argsstring>
+        <name>store</name>
+        <qualifiedname>MockStorageContextWithGet::store</qualifiedname>
+        <briefdescription>
+<para>key → serialised value </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="43" column="14" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_storage_context_with_get_1a0b78851c00c5bfb2daef73e1e0848f58" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; MockStorageContextWithGet::wal_log</definition>
+        <argsstring></argsstring>
+        <name>wal_log</name>
+        <qualifiedname>MockStorageContextWithGet::wal_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="44" column="27" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_storage_context_with_get_1afe4b4ad784db059d9adcf43ee3d61b7e" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; MockStorageContextWithGet::key_ctr</definition>
+        <argsstring></argsstring>
+        <name>key_ctr</name>
+        <qualifiedname>MockStorageContextWithGet::key_ctr</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="45" column="35" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_storage_context_with_get_1a5f715d22d84e9adb1dea958ab2d68ffc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockStorageContextWithGet::fail_on_put</definition>
+        <argsstring></argsstring>
+        <name>fail_on_put</name>
+        <qualifiedname>MockStorageContextWithGet::fail_on_put</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="46" column="40" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_mock_storage_context_with_get_1ac4fc2633717f121cb443684a5813dedd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool MockStorageContextWithGet::fail_on_remove</definition>
+        <argsstring></argsstring>
+        <name>fail_on_remove</name>
+        <qualifiedname>MockStorageContextWithGet::fail_on_remove</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="47" column="40" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_mock_storage_context_with_get_1a6e6f15f08bc064fcf8ca6d43dd387f34" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockStorageContextWithGet::put</definition>
+        <argsstring>(std::string_view, std::string_view key, std::string_view val) override</argsstring>
+        <name>put</name>
+        <qualifiedname>MockStorageContextWithGet::put</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="49" column="10" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_context_with_get_1a99c29c058126fe4d43f9ac6f933ad6df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockStorageContextWithGet::remove</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>MockStorageContextWithGet::remove</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="57" column="10" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="57" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_context_with_get_1aaa4bfe1c6efabef06a9a4bc442268e89" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockStorageContextWithGet::exists</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>MockStorageContextWithGet::exists</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="65" column="10" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_context_with_get_1a77fa52a80458bcc0d22ab5539291d9c5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string MockStorageContextWithGet::generateKey</definition>
+        <argsstring>(std::string_view col) override</argsstring>
+        <name>generateKey</name>
+        <qualifiedname>MockStorageContextWithGet::generateKey</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>col</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="69" column="17" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_context_with_get_1a67958f2ba9d1d60017b920c1473a3e30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool MockStorageContextWithGet::writeWAL</definition>
+        <argsstring>(std::string_view, const nlohmann::json &amp;entry) override</argsstring>
+        <name>writeWAL</name>
+        <qualifiedname>MockStorageContextWithGet::writeWAL</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="73" column="10" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="73" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_mock_storage_context_with_get_1aa439406fac3cd4da6cdd4772d5d1b44e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; MockStorageContextWithGet::get</definition>
+        <argsstring>(std::string_view, std::string_view key) override</argsstring>
+        <name>get</name>
+        <qualifiedname>MockStorageContextWithGet::get</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_mutations_phase4.cpp" line="78" column="19" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="78" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MockStorageContextWithGet</label>
+        <link refid="struct_mock_storage_context_with_get"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MutationExecutor::StorageContext</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MockStorageContextWithGet</label>
+        <link refid="struct_mock_storage_context_with_get"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>MutationExecutor::StorageContext</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_mutations_phase4.cpp" line="42" column="1" bodyfile="tests/aql/test_aql_mutations_phase4.cpp" bodystart="42" bodyend="85"/>
+    <listofallmembers>
+      <member refid="struct_mock_storage_context_with_get_1aaa4bfe1c6efabef06a9a4bc442268e89" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>exists</name></member>
+      <member refid="struct_mock_storage_context_with_get_1a5f715d22d84e9adb1dea958ab2d68ffc" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>fail_on_put</name></member>
+      <member refid="struct_mock_storage_context_with_get_1ac4fc2633717f121cb443684a5813dedd" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>fail_on_remove</name></member>
+      <member refid="struct_mock_storage_context_with_get_1a77fa52a80458bcc0d22ab5539291d9c5" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>generateKey</name></member>
+      <member refid="struct_mock_storage_context_with_get_1aa439406fac3cd4da6cdd4772d5d1b44e" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>get</name></member>
+      <member refid="struct_mock_storage_context_with_get_1afe4b4ad784db059d9adcf43ee3d61b7e" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>key_ctr</name></member>
+      <member refid="struct_mock_storage_context_with_get_1a6e6f15f08bc064fcf8ca6d43dd387f34" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>put</name></member>
+      <member refid="struct_mock_storage_context_with_get_1a99c29c058126fe4d43f9ac6f933ad6df" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>remove</name></member>
+      <member refid="struct_mock_storage_context_with_get_1aa704483c0c8d84c9ecd2c6e11594ac51" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>store</name></member>
+      <member refid="struct_mock_storage_context_with_get_1a0b78851c00c5bfb2daef73e1e0848f58" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>wal_log</name></member>
+      <member refid="struct_mock_storage_context_with_get_1a67958f2ba9d1d60017b920c1473a3e30" prot="public" virt="non-virtual"><scope>MockStorageContextWithGet</scope><name>writeWAL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

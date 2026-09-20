@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_failing_test_plugin" kind="class" language="C++" prot="public">
+    <compoundname>FailingTestPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_failing_test_plugin_1a797ac0042ba497be1d8e4ffe2a9b488d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * FailingTestPlugin::getName</definition>
+        <argsstring>() const override</argsstring>
+        <name>getName</name>
+        <qualifiedname>FailingTestPlugin::getName</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba">getName</reimplements>
+        <briefdescription>
+<para>Get plugin name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="146" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_test_plugin_1aa3cc6bb74747d0b2dc9558ccc3f34e48" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * FailingTestPlugin::getVersion</definition>
+        <argsstring>() const override</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>FailingTestPlugin::getVersion</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f">getVersion</reimplements>
+        <briefdescription>
+<para>Get plugin version (semantic versioning). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="147" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_test_plugin_1a1f5ce5f48ed80907011c8466da15cb60" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12" kindref="member">PluginType</ref></type>
+        <definition>PluginType FailingTestPlugin::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>FailingTestPlugin::getType</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209">getType</reimplements>
+        <briefdescription>
+<para>Get plugin type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="149" column="16" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_test_plugin_1aa7c22075357d87b568b95dbd7d9353d0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_capabilities" kindref="compound">PluginCapabilities</ref></type>
+        <definition>PluginCapabilities FailingTestPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>FailingTestPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31">getCapabilities</reimplements>
+        <briefdescription>
+<para>Get plugin capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="153" column="24" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="153" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_test_plugin_1a00f39feddce9d23c196ae62401a8d22f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool FailingTestPlugin::initialize</definition>
+        <argsstring>(const char *config_json) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>FailingTestPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035">initialize</reimplements>
+        <param>
+          <type>const char *</type>
+          <declname>config_json</declname>
+        </param>
+        <briefdescription>
+<para>Initialize plugin with configuration JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config_json</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Configuration as JSON string </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if initialized successfully </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="157" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_test_plugin_1a61413cf95dcd5994cbd0254b95ad9728" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void FailingTestPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>FailingTestPlugin::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown plugin and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="161" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="class_failing_test_plugin_1a54e08c18dfa56e7924ca5894d1a021f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void *</type>
+        <definition>void * FailingTestPlugin::getInstance</definition>
+        <argsstring>() override</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>FailingTestPlugin::getInstance</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc">getInstance</reimplements>
+        <briefdescription>
+<para>Get plugin instance (type-specific). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to plugin implementation (must be cast to specific type)</para>
+</simplesect>
+For COMPUTE_BACKEND: Cast to acceleration::BackendPlugin* For BLOB_STORAGE: Cast to storage::IBlobStorageBackend* For IMPORTER: Cast to importers::IImporter* </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="163" column="10" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="163" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plugin that fails initialization. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FailingTestPlugin</label>
+        <link refid="class_failing_test_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FailingTestPlugin</label>
+        <link refid="class_failing_test_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_hot_reload_enhanced.cpp" line="144" column="1" bodyfile="tests/plugins/test_plugin_hot_reload_enhanced.cpp" bodystart="144" bodyend="166"/>
+    <listofallmembers>
+      <member refid="class_failing_test_plugin_1aa7c22075357d87b568b95dbd7d9353d0" prot="public" virt="virtual"><scope>FailingTestPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_failing_test_plugin_1a54e08c18dfa56e7924ca5894d1a021f4" prot="public" virt="virtual"><scope>FailingTestPlugin</scope><name>getInstance</name></member>
+      <member refid="class_failing_test_plugin_1a797ac0042ba497be1d8e4ffe2a9b488d" prot="public" virt="virtual"><scope>FailingTestPlugin</scope><name>getName</name></member>
+      <member refid="class_failing_test_plugin_1a1f5ce5f48ed80907011c8466da15cb60" prot="public" virt="virtual"><scope>FailingTestPlugin</scope><name>getType</name></member>
+      <member refid="class_failing_test_plugin_1aa3cc6bb74747d0b2dc9558ccc3f34e48" prot="public" virt="virtual"><scope>FailingTestPlugin</scope><name>getVersion</name></member>
+      <member refid="class_failing_test_plugin_1a00f39feddce9d23c196ae62401a8d22f" prot="public" virt="virtual"><scope>FailingTestPlugin</scope><name>initialize</name></member>
+      <member refid="class_failing_test_plugin_1a61413cf95dcd5994cbd0254b95ad9728" prot="public" virt="virtual"><scope>FailingTestPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>FailingTestPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

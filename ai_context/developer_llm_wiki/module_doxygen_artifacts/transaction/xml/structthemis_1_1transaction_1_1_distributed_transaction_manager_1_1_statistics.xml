@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::DistributedTransactionManager::Statistics</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a7b8b54ee7e960bd83597a7323161dfbc" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::DistributedTransactionManager::Statistics::total_transactions</definition>
+        <argsstring></argsstring>
+        <name>total_transactions</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::Statistics::total_transactions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="259" column="18" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="259" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a09c0819e9d1276f84228aa6c38937f69" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::DistributedTransactionManager::Statistics::committed</definition>
+        <argsstring></argsstring>
+        <name>committed</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::Statistics::committed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="260" column="18" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a8d83c940513c0343f72fef79c9220808" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::DistributedTransactionManager::Statistics::aborted</definition>
+        <argsstring></argsstring>
+        <name>aborted</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::Statistics::aborted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="261" column="18" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a29bef8912c778c75b91bf8fb2c1706d4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::DistributedTransactionManager::Statistics::timeout_aborts</definition>
+        <argsstring></argsstring>
+        <name>timeout_aborts</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::Statistics::timeout_aborts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="262" column="18" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a2903fc5e296ad652742a215222019ec2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::DistributedTransactionManager::Statistics::recovered</definition>
+        <argsstring></argsstring>
+        <name>recovered</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::Statistics::recovered</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="263" column="18" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a8bcea1324c7c91f39502646bde9db327" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::transaction::DistributedTransactionManager::Statistics::in_doubt</definition>
+        <argsstring></argsstring>
+        <name>in_doubt</name>
+        <qualifiedname>themis::transaction::DistributedTransactionManager::Statistics::in_doubt</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_transaction_manager.h" line="264" column="18" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_transaction_manager.h" line="258" column="5" bodyfile="include/transaction/distributed_transaction_manager.h" bodystart="258" bodyend="265"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a8d83c940513c0343f72fef79c9220808" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager::Statistics</scope><name>aborted</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a09c0819e9d1276f84228aa6c38937f69" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager::Statistics</scope><name>committed</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a8bcea1324c7c91f39502646bde9db327" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager::Statistics</scope><name>in_doubt</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a2903fc5e296ad652742a215222019ec2" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager::Statistics</scope><name>recovered</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a29bef8912c778c75b91bf8fb2c1706d4" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager::Statistics</scope><name>timeout_aborts</name></member>
+      <member refid="structthemis_1_1transaction_1_1_distributed_transaction_manager_1_1_statistics_1a7b8b54ee7e960bd83597a7323161dfbc" prot="public" virt="non-virtual"><scope>themis::transaction::DistributedTransactionManager::Statistics</scope><name>total_transactions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

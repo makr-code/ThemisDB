@@ -1,0 +1,511 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_training_incident_emitter" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::TrainingIncidentEmitter</compoundname>
+    <includes refid="training__incident__emitter_8h" local="no">training_incident_emitter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_incident_emitter_1a527d3133354623becc42d89d524f7b49" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::training::TrainingIncidentEmitter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="318" column="62" bodyfile="include/training/training_incident_emitter.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_training_incident_emitter_1aa77fcd52687a1bca2f90f19a2494d164" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1training_1_1_training_incident_listener" kindref="compound">TrainingIncidentListener</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;TrainingIncidentListener&gt; &gt; themis::training::TrainingIncidentEmitter::listeners_</definition>
+        <argsstring></argsstring>
+        <name>listeners_</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::listeners_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="319" column="19" bodyfile="include/training/training_incident_emitter.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1a9539ea762d7abfb9c32a67c1c350c403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingIncidentEmitter::TrainingIncidentEmitter</definition>
+        <argsstring>()=default</argsstring>
+        <name>TrainingIncidentEmitter</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::TrainingIncidentEmitter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="171" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1a9a9c2924302e1e973b02badfb73e4869" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::TrainingIncidentEmitter::TrainingIncidentEmitter</definition>
+        <argsstring>(const TrainingIncidentEmitter &amp;)=delete</argsstring>
+        <name>TrainingIncidentEmitter</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::TrainingIncidentEmitter</qualifiedname>
+        <param>
+          <type>const TrainingIncidentEmitter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="174" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1a257fb602903b9aa89e8fa5f241233985" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1training_1_1_training_incident_emitter_1a9539ea762d7abfb9c32a67c1c350c403" kindref="member">TrainingIncidentEmitter</ref> &amp;</type>
+        <definition>TrainingIncidentEmitter &amp; themis::training::TrainingIncidentEmitter::operator=</definition>
+        <argsstring>(const TrainingIncidentEmitter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_training_incident_emitter_1a9539ea762d7abfb9c32a67c1c350c403" kindref="member">TrainingIncidentEmitter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="175" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1ab6e398428d68f7cdfa1ab845fdb1ab79" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingIncidentEmitter::addListener</definition>
+        <argsstring>(std::shared_ptr&lt; TrainingIncidentListener &gt; listener)</argsstring>
+        <name>addListener</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::addListener</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1training_1_1_training_incident_listener" kindref="compound">TrainingIncidentListener</ref> &gt;</type>
+          <declname>listener</declname>
+        </param>
+        <briefdescription>
+<para>Register a listener to receive all subsequent incidents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>listener</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null shared_ptr to the listener. Duplicate registrations result in duplicate notifications. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="187" column="10" bodyfile="include/training/training_incident_emitter.h" bodystart="187" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1af027bcb0586c14ddca0525a29cc5dee0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingIncidentEmitter::removeListeners</definition>
+        <argsstring>()</argsstring>
+        <name>removeListeners</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::removeListeners</qualifiedname>
+        <briefdescription>
+<para>Remove all registered listeners. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>After this call no incidents will be forwarded until new listeners are added. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="197" column="10" bodyfile="include/training/training_incident_emitter.h" bodystart="197" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1aba1b91699f8874699597940ee5e5b88c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::training::TrainingIncidentEmitter::listenerCount</definition>
+        <argsstring>() const</argsstring>
+        <name>listenerCount</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::listenerCount</qualifiedname>
+        <briefdescription>
+<para>Number of currently registered listeners. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="205" column="12" bodyfile="include/training/training_incident_emitter.h" bodystart="205" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1a57850951304d78fe3f179fbac9faf92c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingIncidentEmitter::emitDatasetIncident</definition>
+        <argsstring>(TrainingErrorCode error_code, const std::string &amp;component, const std::string &amp;operation, const std::string &amp;message, bool recoverable=false, const std::string &amp;context={})</argsstring>
+        <name>emitDatasetIncident</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::emitDatasetIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recoverable</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Emit a dataset-class incident (labeling, enrichment, validation). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Structured error code from the training taxonomy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Emitting component (e.g., &quot;auto_labeler&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name (e.g., &quot;label_batch&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable incident summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recoverable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the fault can recover without operator action. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional key=value diagnostic context string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="224" column="10" bodyfile="include/training/training_incident_emitter.h" bodystart="224" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1ad7dc50ed5ba68e172d09b42706864f67" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingIncidentEmitter::emitTrainingIncident</definition>
+        <argsstring>(TrainingErrorCode error_code, const std::string &amp;component, const std::string &amp;operation, const std::string &amp;message, bool recoverable=false, const std::string &amp;context={})</argsstring>
+        <name>emitTrainingIncident</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::emitTrainingIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recoverable</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Emit a training-class incident (step, convergence, checkpoint). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Structured error code from the training taxonomy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Emitting component (e.g., &quot;incremental_lora_trainer&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name (e.g., &quot;train_step&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable incident summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recoverable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the fault can recover without operator action. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional key=value diagnostic context string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="249" column="10" bodyfile="include/training/training_incident_emitter.h" bodystart="249" bodyend="258"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1af49dda816f668e79d9bc8ea65d10f8b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingIncidentEmitter::emitAdapterIncident</definition>
+        <argsstring>(TrainingErrorCode error_code, const std::string &amp;component, const std::string &amp;operation, const std::string &amp;message, bool recoverable=false, const std::string &amp;context={})</argsstring>
+        <name>emitAdapterIncident</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::emitAdapterIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recoverable</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Emit an adapter-class incident (merge, serving, handoff). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>error_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Structured error code from the training taxonomy. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Emitting component (e.g., &quot;adapter_serving&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>operation</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name (e.g., &quot;deploy_version&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Human-readable incident summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recoverable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the fault can recover without operator action. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional key=value diagnostic context string. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="274" column="10" bodyfile="include/training/training_incident_emitter.h" bodystart="274" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1a6a4ecac81ed8a0a9f9b6f254a9921b83" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_training_incident" kindref="compound">TrainingIncident</ref></type>
+        <definition>static TrainingIncident themis::training::TrainingIncidentEmitter::makeIncident</definition>
+        <argsstring>(TrainingIncidentClass cls, TrainingErrorCode error_code, const std::string &amp;component, const std::string &amp;operation, const std::string &amp;message, bool recoverable, const std::string &amp;context)</argsstring>
+        <name>makeIncident</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::makeIncident</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1aa0f731bb4ce8174243dc9202b7263daf" kindref="member">TrainingIncidentClass</ref></type>
+          <declname>cls</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>error_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>recoverable</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="290" column="29" bodyfile="include/training/training_incident_emitter.h" bodystart="290" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_training_incident_emitter_1a104d81f23b821f76f6b229e954e35da5" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::training::TrainingIncidentEmitter::broadcast</definition>
+        <argsstring>(const TrainingIncident &amp;incident)</argsstring>
+        <name>broadcast</name>
+        <qualifiedname>themis::training::TrainingIncidentEmitter::broadcast</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_training_incident" kindref="compound">TrainingIncident</ref> &amp;</type>
+          <declname>incident</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_incident_emitter.h" line="309" column="10" bodyfile="include/training/training_incident_emitter.h" bodystart="309" bodyend="316"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe incident emitter for all three training incident classes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Centralises structured diagnostic emission across labeling/enrichment (dataset), training execution (training), and adapter lifecycle (adapter) code paths. Any number of <ref refid="classthemis_1_1training_1_1_training_incident_listener" kindref="compound">TrainingIncidentListener</ref> instances may be registered; all are notified synchronously on each <computeroutput>emit*</computeroutput> call.</para>
+<para><simplesect kind="par"><title>Registration</title><para>Listeners are stored as <computeroutput>shared_ptr</computeroutput>. The emitter does not extend their lifetime beyond its own destruction, but the <computeroutput>shared_ptr</computeroutput> prevents premature deletion while the emitter holds a reference.</para>
+</simplesect>
+<simplesect kind="par"><title>Performance</title><para><computeroutput>emit*</computeroutput> calls acquire a <computeroutput>std::mutex</computeroutput>; keep listeners lightweight or forward events asynchronously to avoid stalling training hot paths. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/training/training_incident_emitter.h" line="169" column="1" bodyfile="include/training/training_incident_emitter.h" bodystart="169" bodyend="320"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1ab6e398428d68f7cdfa1ab845fdb1ab79" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>addListener</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1a104d81f23b821f76f6b229e954e35da5" prot="private" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>broadcast</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1af49dda816f668e79d9bc8ea65d10f8b6" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>emitAdapterIncident</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1a57850951304d78fe3f179fbac9faf92c" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>emitDatasetIncident</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1ad7dc50ed5ba68e172d09b42706864f67" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>emitTrainingIncident</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1aba1b91699f8874699597940ee5e5b88c" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>listenerCount</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1aa77fcd52687a1bca2f90f19a2494d164" prot="private" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>listeners_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1a6a4ecac81ed8a0a9f9b6f254a9921b83" prot="private" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>makeIncident</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1a527d3133354623becc42d89d524f7b49" prot="private" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1a257fb602903b9aa89e8fa5f241233985" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1af027bcb0586c14ddca0525a29cc5dee0" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>removeListeners</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1a9539ea762d7abfb9c32a67c1c350c403" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>TrainingIncidentEmitter</name></member>
+      <member refid="classthemis_1_1training_1_1_training_incident_emitter_1a9a9c2924302e1e973b02badfb73e4869" prot="public" virt="non-virtual"><scope>themis::training::TrainingIncidentEmitter</scope><name>TrainingIncidentEmitter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="llm__reranker__interface_8h" kind="file" language="C++">
+    <compoundname>llm_reranker_interface.h</compoundname>
+    <includes refid="llm__reranker__types_8h" local="yes">themis/search/llm_reranker_types.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="llm__reranker__factory_8h" local="yes">include/themis/search/llm_reranker_factory.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/themis/search/llm_reranker_interface.h</label>
+        <link refid="llm__reranker__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis/search/llm_reranker_types.h</label>
+        <link refid="llm__reranker__types_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/themis/search/llm_reranker_factory.h</label>
+        <link refid="llm__reranker__factory_8h"/>
+      </node>
+      <node id="1">
+        <label>include/themis/search/llm_reranker_interface.h</label>
+        <link refid="llm__reranker__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_i_llm_reranker" prot="public">themis::ILlmReranker</innerclass>
+    <innerclass refid="structthemis_1_1_i_llm_reranker_1_1_config" prot="public">themis::ILlmReranker::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__reranker__types_8h" kindref="compound">themis/search/llm_reranker_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_llm_rerank_candidate" kindref="compound">LlmRerankCandidate</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_llm_rerank_result" kindref="compound">LlmRerankResult</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12" refid="classthemis_1_1_i_llm_reranker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_i_llm_reranker" kindref="compound">ILlmReranker</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="14" refid="classthemis_1_1_i_llm_reranker_1aa638928653d5f2cc4280ce05b1c62a7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_i_llm_reranker_1aa638928653d5f2cc4280ce05b1c62a7c" kindref="member">LlmBackend</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;;</highlight></codeline>
+<codeline lineno="15" refid="structthemis_1_1_i_llm_reranker_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_i_llm_reranker_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="16" refid="structthemis_1_1_i_llm_reranker_1_1_config_1af64c6ab80fa77bfbbedf31463bc48bcf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1af64c6ab80fa77bfbbedf31463bc48bcf" kindref="member">batch_size</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="17" refid="structthemis_1_1_i_llm_reranker_1_1_config_1a3b1497284b6271b784ae323107fe3108" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1a3b1497284b6271b784ae323107fe3108" kindref="member">llm_weight</ref><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline lineno="18" refid="structthemis_1_1_i_llm_reranker_1_1_config_1ac48099b429a7e130416376819e236871" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1ac48099b429a7e130416376819e236871" kindref="member">max_snippet_length</ref><sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="19" refid="structthemis_1_1_i_llm_reranker_1_1_config_1a394dc7e5d3605e8d05306f925af9ce7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1a394dc7e5d3605e8d05306f925af9ce7e" kindref="member">fallback_to_original</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20" refid="structthemis_1_1_i_llm_reranker_1_1_config_1a84882d8728142f8dbe9e6e969852d1d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1a84882d8728142f8dbe9e6e969852d1d5" kindref="member">max_tokens</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="21" refid="structthemis_1_1_i_llm_reranker_1_1_config_1a8b4a69846881a22800863eae811f4107" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1a8b4a69846881a22800863eae811f4107" kindref="member">temperature</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="22" refid="structthemis_1_1_i_llm_reranker_1_1_config_1a9bdd1e94e4138db4f43ddcb170e84d83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1a9bdd1e94e4138db4f43ddcb170e84d83" kindref="member">min_score_threshold</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="23" refid="structthemis_1_1_i_llm_reranker_1_1_config_1a00dc79f99e4fe70c070f3acd9f8b5958" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config_1a00dc79f99e4fe70c070f3acd9f8b5958" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classthemis_1_1_i_llm_reranker_1a661b8812e5d9065f4415d0811a2f64c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_i_llm_reranker_1a661b8812e5d9065f4415d0811a2f64c4" kindref="member">~ILlmReranker</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1_i_llm_reranker_1ab872d0e8d67023f9b47e200878ea5df9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_i_llm_reranker_1ab872d0e8d67023f9b47e200878ea5df9" kindref="member">setBackend</ref>(<ref refid="classthemis_1_1_i_llm_reranker_1aa638928653d5f2cc4280ce05b1c62a7c" kindref="member">LlmBackend</ref><sp/>backend)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="28" refid="classthemis_1_1_i_llm_reranker_1a06531816da557902da237a302a6f3043" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;LlmRerankResult&gt;<sp/><ref refid="classthemis_1_1_i_llm_reranker_1a06531816da557902da237a302a6f3043" kindref="member">rerank</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;LlmRerankCandidate&gt;&amp;<sp/>candidates)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1_i_llm_reranker_1a850888196adb1dbac620dd6db85322e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_i_llm_reranker_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1_i_llm_reranker_1a850888196adb1dbac620dd6db85322e8" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/search/llm_reranker_interface.h"/>
+  </compounddef>
+</doxygen>

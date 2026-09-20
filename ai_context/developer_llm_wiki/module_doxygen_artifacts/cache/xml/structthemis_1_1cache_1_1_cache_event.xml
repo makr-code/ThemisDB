@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheEvent</compoundname>
+    <includes refid="cache__manager_8h" local="no">cache_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41" prot="public" static="no" strong="no">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::cache::CacheEvent::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41af1353821449930ff0f0d1dcd1b13fd7d" prot="public">
+          <name>MISS</name>
+          <briefdescription>
+<para>Cache miss occurred. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41abba130cd416694ffcf899bad32d8670d" prot="public">
+          <name>HIT</name>
+          <briefdescription>
+<para>Cache hit occurred. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41a91cec736f25d61158c48aef1818a90df" prot="public">
+          <name>EVICTION</name>
+          <briefdescription>
+<para>Entry evicted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41ab8d81b20968fb2202ee9b3839b03d2a5" prot="public">
+          <name>CLEAR</name>
+          <briefdescription>
+<para>Cache cleared. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41ad7a1aaf54b5a1cc3bb2ba395e35c614b" prot="public">
+          <name>POLICY_CHANGE</name>
+          <briefdescription>
+<para>Eviction policy changed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="42" column="5" bodyfile="include/cache/cache_manager.h" bodystart="42" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_event_1a0e86bf2507ab5a0aadcbfadda9b50f12" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41" kindref="member">Type</ref></type>
+        <definition>Type themis::cache::CacheEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::cache::CacheEvent::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="50" column="10" bodyfile="include/cache/cache_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_event_1a354c83c7c75b6844939660a49e4db1c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheEvent::cache_name</definition>
+        <argsstring></argsstring>
+        <name>cache_name</name>
+        <qualifiedname>themis::cache::CacheEvent::cache_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="51" column="17" bodyfile="include/cache/cache_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_event_1a5426085138058aa0c8cd29ac13ed11d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::CacheEvent::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="52" column="17" bodyfile="include/cache/cache_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_event_1ad182a22601f7edf8a30f5e28fcc1f766" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::CacheEvent::timestamp_us</definition>
+        <argsstring></argsstring>
+        <name>timestamp_us</name>
+        <qualifiedname>themis::cache::CacheEvent::timestamp_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_manager.h" line="53" column="13" bodyfile="include/cache/cache_manager.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_manager.h" line="41" column="1" bodyfile="include/cache/cache_manager.h" bodystart="41" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1a354c83c7c75b6844939660a49e4db1c0" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>cache_name</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41ab8d81b20968fb2202ee9b3839b03d2a5" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>CLEAR</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41a91cec736f25d61158c48aef1818a90df" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>EVICTION</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41abba130cd416694ffcf899bad32d8670d" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>HIT</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1a5426085138058aa0c8cd29ac13ed11d5" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41af1353821449930ff0f0d1dcd1b13fd7d" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>MISS</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41ad7a1aaf54b5a1cc3bb2ba395e35c614b" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>POLICY_CHANGE</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1ad182a22601f7edf8a30f5e28fcc1f766" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>timestamp_us</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1ad74c9ae07b1b00b1b6cdc6feca682d41" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>Type</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_event_1a0e86bf2507ab5a0aadcbfadda9b50f12" prot="public" virt="non-virtual"><scope>themis::cache::CacheEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

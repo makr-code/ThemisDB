@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_blockchain_integrity_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::BlockchainIntegrityVerifier</compoundname>
+    <includes refid="blockchain__integrity_8h" local="no">blockchain_integrity.h</includes>
+    <innerclass refid="structthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_integrity_proof" prot="public">themis::importers::BlockchainIntegrityVerifier::IntegrityProof</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_merkle_tree_builder" prot="public">themis::importers::BlockchainIntegrityVerifier::MerkleTreeBuilder</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_blockchain_integrity_verifier_1_1_blockchain_anchor" prot="public">themis::importers::BlockchainIntegrityVerifier::BlockchainAnchor</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/blockchain_integrity.h" line="23" column="1" bodyfile="include/importers/blockchain_integrity.h" bodystart="23" bodyend="86"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

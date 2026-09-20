@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_observability_test" kind="class" language="C++" prot="public">
+    <compoundname>ObservabilityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_observability_test_1a2dfac4030c57340c54ddda7c471c5dd6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="struct_temp_w_a_l_dir" kindref="compound">TempWALDir</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TempWALDir&gt; ObservabilityTest::wal_dir_</definition>
+        <argsstring></argsstring>
+        <name>wal_dir_</name>
+        <qualifiedname>ObservabilityTest::wal_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_new_features.cpp" line="123" column="29" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_observability_test_1abfe57f46591dbc83402bcc86250906f5" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemisdb_1_1replication_1_1_replication_manager" kindref="compound">ReplicationManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ReplicationManager&gt; ObservabilityTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>ObservabilityTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_new_features.cpp" line="124" column="21" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_observability_test_1ad14fe320e50da2b10e91ec4af24864f1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ObservabilityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ObservabilityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_new_features.cpp" line="112" column="10" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="112" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="class_observability_test_1a46759487439d928aeac6f87306a7df6f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ObservabilityTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ObservabilityTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_new_features.cpp" line="119" column="10" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ObservabilityTest</label>
+        <link refid="class_observability_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ObservabilityTest</label>
+        <link refid="class_observability_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/replication/test_replication_new_features.cpp" line="110" column="1" bodyfile="tests/replication/test_replication_new_features.cpp" bodystart="110" bodyend="125"/>
+    <listofallmembers>
+      <member refid="class_observability_test_1abfe57f46591dbc83402bcc86250906f5" prot="protected" virt="non-virtual"><scope>ObservabilityTest</scope><name>mgr_</name></member>
+      <member refid="class_observability_test_1ad14fe320e50da2b10e91ec4af24864f1" prot="protected" virt="non-virtual"><scope>ObservabilityTest</scope><name>SetUp</name></member>
+      <member refid="class_observability_test_1a46759487439d928aeac6f87306a7df6f" prot="protected" virt="non-virtual"><scope>ObservabilityTest</scope><name>TearDown</name></member>
+      <member refid="class_observability_test_1a2dfac4030c57340c54ddda7c471c5dd6" prot="protected" virt="non-virtual"><scope>ObservabilityTest</scope><name>wal_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

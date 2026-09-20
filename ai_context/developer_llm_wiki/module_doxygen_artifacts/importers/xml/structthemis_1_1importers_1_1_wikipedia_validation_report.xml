@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_validation_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaValidationReport</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_validation_report_1ac564935016203cabef1dbbc5c77bd48d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaValidationReport::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::importers::WikipediaValidationReport::success</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="379" column="10" bodyfile="include/importers/wikipedia_types.hpp" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_validation_report_1ada2b8d9d84c587bc20281e59d04abe38" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaValidationReport::orphan_revisions</definition>
+        <argsstring></argsstring>
+        <name>orphan_revisions</name>
+        <qualifiedname>themis::importers::WikipediaValidationReport::orphan_revisions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="380" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="380" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_validation_report_1afd260595634d1a1e7935929bf037ff19" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaValidationReport::dangling_redirects</definition>
+        <argsstring></argsstring>
+        <name>dangling_redirects</name>
+        <qualifiedname>themis::importers::WikipediaValidationReport::dangling_redirects</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="381" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="381" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_validation_report_1ab4c2a9f6a51d8b488ab81ef55113f071" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaValidationReport::dead_letters</definition>
+        <argsstring></argsstring>
+        <name>dead_letters</name>
+        <qualifiedname>themis::importers::WikipediaValidationReport::dead_letters</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="382" column="12" bodyfile="include/importers/wikipedia_types.hpp" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_validation_report_1ac9cf50622493f727612c68b1a73e1e73" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::WikipediaValidationReport::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::importers::WikipediaValidationReport::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="383" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_validation_report_1ad07e04d8f22a9c2ab87d719fa4de34eb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::WikipediaValidationReport::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::importers::WikipediaValidationReport::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="384" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="384" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_validation_report_1ab5d80a9b4b65bf8e4fdee34b41e55017" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaValidationReport::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaValidationReport::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="386" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="386" bodyend="395"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Verification result for the portable Wikipedia database artifact. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="378" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="378" bodyend="396"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_validation_report_1afd260595634d1a1e7935929bf037ff19" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaValidationReport</scope><name>dangling_redirects</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_validation_report_1ab4c2a9f6a51d8b488ab81ef55113f071" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaValidationReport</scope><name>dead_letters</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_validation_report_1ad07e04d8f22a9c2ab87d719fa4de34eb" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaValidationReport</scope><name>errors</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_validation_report_1ada2b8d9d84c587bc20281e59d04abe38" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaValidationReport</scope><name>orphan_revisions</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_validation_report_1ac564935016203cabef1dbbc5c77bd48d" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaValidationReport</scope><name>success</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_validation_report_1ab5d80a9b4b65bf8e4fdee34b41e55017" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaValidationReport</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_validation_report_1ac9cf50622493f727612c68b1a73e1e73" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaValidationReport</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1replication_1_1crdt_1_1_dot" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::replication::crdt::Dot</compoundname>
+    <includes refid="crdt__types_8h" local="no">crdt_types.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1crdt_1_1_dot_1a75fa0db095e77c63c4502aedd34fc9ac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::crdt::Dot::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::replication::crdt::Dot::node_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="34" column="17" bodyfile="include/replication/crdt_types.h" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1replication_1_1crdt_1_1_dot_1aba623c69656ef090253093783ab19e5e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::crdt::Dot::counter</definition>
+        <argsstring></argsstring>
+        <name>counter</name>
+        <qualifiedname>themisdb::replication::crdt::Dot::counter</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="35" column="17" bodyfile="include/replication/crdt_types.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1crdt_1_1_dot_1a2d772a3a09221fb7ee3815cc0c80ec9d" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::crdt::Dot::operator==</definition>
+        <argsstring>(const Dot &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themisdb::replication::crdt::Dot::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="37" column="10" bodyfile="include/replication/crdt_types.h" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1replication_1_1crdt_1_1_dot_1acd0024a47af6d8f5f6b7f434ad749f72" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::replication::crdt::Dot::operator&lt;</definition>
+        <argsstring>(const Dot &amp;o) const noexcept</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>themisdb::replication::crdt::Dot::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/crdt_types.h" line="40" column="5" bodyfile="include/replication/crdt_types.h" bodystart="40" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A <ref refid="structthemisdb_1_1replication_1_1crdt_1_1_dot" kindref="compound">Dot</ref> is a unique event identifier: (node_id, logical_clock). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/crdt_types.h" line="33" column="1" bodyfile="include/replication/crdt_types.h" bodystart="33" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1replication_1_1crdt_1_1_dot_1aba623c69656ef090253093783ab19e5e" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::Dot</scope><name>counter</name></member>
+      <member refid="structthemisdb_1_1replication_1_1crdt_1_1_dot_1a75fa0db095e77c63c4502aedd34fc9ac" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::Dot</scope><name>node_id</name></member>
+      <member refid="structthemisdb_1_1replication_1_1crdt_1_1_dot_1acd0024a47af6d8f5f6b7f434ad749f72" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::Dot</scope><name>operator&lt;</name></member>
+      <member refid="structthemisdb_1_1replication_1_1crdt_1_1_dot_1a2d772a3a09221fb7ee3815cc0c80ec9d" prot="public" virt="non-virtual"><scope>themisdb::replication::crdt::Dot</scope><name>operator==</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::FactorizationPlacementHint</compoundname>
+    <includes refid="shard__placement_8h" local="no">shard_placement.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1a7342a302932ca869342325a05e8c9444" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::FactorizationPlacementHint::factorization_type</definition>
+        <argsstring></argsstring>
+        <name>factorization_type</name>
+        <qualifiedname>themis::distributed_tensor::FactorizationPlacementHint::factorization_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="47" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ae32ba5b64083ca1aadbd5717b56e8b9c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint32_t &gt;</type>
+        <definition>std::vector&lt;uint32_t&gt; themis::distributed_tensor::FactorizationPlacementHint::factor_dimensions</definition>
+        <argsstring></argsstring>
+        <name>factor_dimensions</name>
+        <qualifiedname>themis::distributed_tensor::FactorizationPlacementHint::factor_dimensions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="49" column="15" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ad1f2f162f11838780e910db3c2e646ea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::FactorizationPlacementHint::prefer_colocated_factors</definition>
+        <argsstring></argsstring>
+        <name>prefer_colocated_factors</name>
+        <qualifiedname>themis::distributed_tensor::FactorizationPlacementHint::prefer_colocated_factors</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="51" column="8" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ab92bf7e2e49ca77ffaed877da6042b0b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_tensor::FactorizationPlacementHint::prefer_hot_tier_for_frequent_factors</definition>
+        <argsstring></argsstring>
+        <name>prefer_hot_tier_for_frequent_factors</name>
+        <qualifiedname>themis::distributed_tensor::FactorizationPlacementHint::prefer_hot_tier_for_frequent_factors</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="53" column="8" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1a1104df453ff66db7d03eefeb4d4c31c0" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::distributed_tensor::FactorizationPlacementHint::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::distributed_tensor::FactorizationPlacementHint::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/shard_placement.h" line="55" column="22" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/shard_placement.h" line="46" column="1" bodyfile="include/distributed_tensor/shard_placement.h" bodystart="46" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1a1104df453ff66db7d03eefeb4d4c31c0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FactorizationPlacementHint</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ae32ba5b64083ca1aadbd5717b56e8b9c" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FactorizationPlacementHint</scope><name>factor_dimensions</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1a7342a302932ca869342325a05e8c9444" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FactorizationPlacementHint</scope><name>factorization_type</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ad1f2f162f11838780e910db3c2e646ea" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FactorizationPlacementHint</scope><name>prefer_colocated_factors</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_factorization_placement_hint_1ab92bf7e2e49ca77ffaed877da6042b0b" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::FactorizationPlacementHint</scope><name>prefer_hot_tier_for_frequent_factors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1prompt__engineering_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::prompt_engineering::detail</compoundname>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node" prot="public">themis::prompt_engineering::detail::ASTNode</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1prompt__engineering_1_1detail_1aca4ac9e30beb90e123ecd6ddf5a9c3c4" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node" kindref="compound">ASTNode</ref> &gt;</type>
+        <definition>using themis::prompt_engineering::detail::ASTNodePtr = std::shared_ptr&lt;ASTNode&gt;</definition>
+        <argsstring></argsstring>
+        <name>ASTNodePtr</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNodePtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/prompt_template_compiler.h" line="188" column="1" bodyfile="include/prompt_engineering/prompt_template_compiler.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/prompt_template_compiler.h" line="186" column="1"/>
+  </compounddef>
+</doxygen>

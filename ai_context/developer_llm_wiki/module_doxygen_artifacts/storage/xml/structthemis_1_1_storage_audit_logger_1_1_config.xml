@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_storage_audit_logger_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::StorageAuditLogger::Config</compoundname>
+    <includes refid="storage__audit__logger_8h" local="no">storage_audit_logger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_storage_audit_logger_1_1_config_1a50f48e8b1c5c3e5312bd7cae814651d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::StorageAuditLogger::Config::dir</definition>
+        <argsstring></argsstring>
+        <name>dir</name>
+        <qualifiedname>themis::StorageAuditLogger::Config::dir</qualifiedname>
+        <briefdescription>
+<para>Directory for audit log files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="68" column="21" bodyfile="include/storage/storage_audit_logger.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_audit_logger_1_1_config_1abd7a85402980c038b94c4cb42e294cb8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::StorageAuditLogger::Config::max_file_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_file_bytes</name>
+        <qualifiedname>themis::StorageAuditLogger::Config::max_file_bytes</qualifiedname>
+        <initializer>= 32 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Rotate at 32 MiB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="69" column="21" bodyfile="include/storage/storage_audit_logger.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_storage_audit_logger_1_1_config_1ae1e3b96d80c95da0c0116f81ff17b543" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::StorageAuditLogger::Config::sync_on_write</definition>
+        <argsstring></argsstring>
+        <name>sync_on_write</name>
+        <qualifiedname>themis::StorageAuditLogger::Config::sync_on_write</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>fsync every entry (slower, safer) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/storage_audit_logger.h" line="70" column="21" bodyfile="include/storage/storage_audit_logger.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration options. </para>
+    </detaileddescription>
+    <location file="include/storage/storage_audit_logger.h" line="67" column="5" bodyfile="include/storage/storage_audit_logger.h" bodystart="67" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_storage_audit_logger_1_1_config_1a50f48e8b1c5c3e5312bd7cae814651d3" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger::Config</scope><name>dir</name></member>
+      <member refid="structthemis_1_1_storage_audit_logger_1_1_config_1abd7a85402980c038b94c4cb42e294cb8" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger::Config</scope><name>max_file_bytes</name></member>
+      <member refid="structthemis_1_1_storage_audit_logger_1_1_config_1ae1e3b96d80c95da0c0116f81ff17b543" prot="public" virt="non-virtual"><scope>themis::StorageAuditLogger::Config</scope><name>sync_on_write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_workload_forecast" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::WorkloadForecast</compoundname>
+    <includes refid="workload__predictor_8h" local="no">workload_predictor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_forecast_1aef154cba30a2d594b8f5fcb5098c9ee9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::WorkloadForecast::forecast_timestamp_us</definition>
+        <argsstring></argsstring>
+        <name>forecast_timestamp_us</name>
+        <qualifiedname>themis::performance::WorkloadForecast::forecast_timestamp_us</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Target time of prediction. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="62" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_forecast_1a1fb20381dd2afcf9e8ea2668e3d8d190" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadForecast::predicted_qps</definition>
+        <argsstring></argsstring>
+        <name>predicted_qps</name>
+        <qualifiedname>themis::performance::WorkloadForecast::predicted_qps</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Forecasted queries per second. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="63" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_forecast_1a2eb9d8ea5533977068861b369d3a7a1d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadForecast::predicted_cpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>predicted_cpu_utilization</name>
+        <qualifiedname>themis::performance::WorkloadForecast::predicted_cpu_utilization</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Forecasted CPU utilization [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="64" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_forecast_1a8b9f8d694a06efa19970d37428665c46" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadForecast::predicted_memory_utilization</definition>
+        <argsstring></argsstring>
+        <name>predicted_memory_utilization</name>
+        <qualifiedname>themis::performance::WorkloadForecast::predicted_memory_utilization</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Forecasted memory utilization [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="65" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_forecast_1af8714ec5a149bf3397d35903b668fab5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadForecast::predicted_avg_latency_us</definition>
+        <argsstring></argsstring>
+        <name>predicted_avg_latency_us</name>
+        <qualifiedname>themis::performance::WorkloadForecast::predicted_avg_latency_us</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Forecasted average latency (µs). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="66" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_workload_forecast_1a6f69cf065b91df6263d6f7372388d576" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::WorkloadForecast::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::performance::WorkloadForecast::confidence</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Forecast confidence [0.0, 1.0]; higher = more reliable. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/workload_predictor.h" line="67" column="14" bodyfile="include/performance/workload_predictor.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Predicted workload at a future point in time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/workload_predictor.h" line="61" column="1" bodyfile="include/performance/workload_predictor.h" bodystart="61" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_workload_forecast_1a6f69cf065b91df6263d6f7372388d576" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadForecast</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_forecast_1aef154cba30a2d594b8f5fcb5098c9ee9" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadForecast</scope><name>forecast_timestamp_us</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_forecast_1af8714ec5a149bf3397d35903b668fab5" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadForecast</scope><name>predicted_avg_latency_us</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_forecast_1a2eb9d8ea5533977068861b369d3a7a1d" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadForecast</scope><name>predicted_cpu_utilization</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_forecast_1a8b9f8d694a06efa19970d37428665c46" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadForecast</scope><name>predicted_memory_utilization</name></member>
+      <member refid="structthemis_1_1performance_1_1_workload_forecast_1a1fb20381dd2afcf9e8ea2668e3d8d190" prot="public" virt="non-virtual"><scope>themis::performance::WorkloadForecast</scope><name>predicted_qps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

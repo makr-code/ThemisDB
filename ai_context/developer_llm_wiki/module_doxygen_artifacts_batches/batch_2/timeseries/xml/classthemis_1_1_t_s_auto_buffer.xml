@@ -1,0 +1,1085 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_t_s_auto_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::TSAutoBuffer</compoundname>
+    <includes refid="ts__auto__buffer_8h" local="no">ts_auto_buffer.h</includes>
+    <innerclass refid="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer" prot="private">themis::TSAutoBuffer::MetricBuffer</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_auto_buffer_1_1_flush_controller" prot="private">themis::TSAutoBuffer::FlushController</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_t_s_auto_buffer_1a7229c6da262581770585cf2efb95e2fa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PushStatus</name>
+        <qualifiedname>themis::TSAutoBuffer::PushStatus</qualifiedname>
+        <enumvalue id="classthemis_1_1_t_s_auto_buffer_1a7229c6da262581770585cf2efb95e2faae0aa021e21dddbd6d8cecec71e9cf564" prot="public">
+          <name>OK</name>
+          <briefdescription>
+<para>Point accepted and buffered successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_t_s_auto_buffer_1a7229c6da262581770585cf2efb95e2faaf46524fa13d0e02e2743d1db7279375d" prot="public">
+          <name>BUFFER_FULL</name>
+          <briefdescription>
+<para>Total in-memory buffer bytes exceed config_.max_buffer_bytes; caller should back off. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_t_s_auto_buffer_1a7229c6da262581770585cf2efb95e2faac063281d4adc16ebccfec66aa885b4dd" prot="public">
+          <name>INVALID_INPUT</name>
+          <briefdescription>
+<para>Point has empty metric or entity; permanent error, do not retry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Status returned by <ref refid="classthemis_1_1_t_s_auto_buffer_1a2d7c5b434f319d6958d08ef468ed75ef" kindref="member">push()</ref> for non-blocking single-point inserts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="195" column="5" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="195" bodyend="199"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1a5d02294cb103d785fc9533679d3952b6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::TSAutoBuffer::tsstore_</definition>
+        <argsstring></argsstring>
+        <name>tsstore_</name>
+        <qualifiedname>themis::TSAutoBuffer::tsstore_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="415" column="13" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="415" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1aa6f7e4c59b266fa53c1bf53fb223c036" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_t_s_auto_buffer_config" kindref="compound">TSAutoBufferConfig</ref></type>
+        <definition>TSAutoBufferConfig themis::TSAutoBuffer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::TSAutoBuffer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="416" column="24" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1aa147cb4547f7e8faca89f100ec982f9c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, MetricBuffer &gt;</type>
+        <definition>std::map&lt;std::string, MetricBuffer&gt; themis::TSAutoBuffer::buffers_</definition>
+        <argsstring></argsstring>
+        <name>buffers_</name>
+        <qualifiedname>themis::TSAutoBuffer::buffers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="419" column="14" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="419" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1a62bbc05a90deed672214b7162ffa49cc" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TSAutoBuffer::buffers_mutex_</definition>
+        <argsstring></argsstring>
+        <name>buffers_mutex_</name>
+        <qualifiedname>themis::TSAutoBuffer::buffers_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="420" column="24" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1a55886358607894874da63c8bc5cd1608" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::TSAutoBuffer::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::TSAutoBuffer::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="423" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="423" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1a59d860175406397856cdbc5f19e95c90" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::TSAutoBuffer::flush_thread_</definition>
+        <argsstring></argsstring>
+        <name>flush_thread_</name>
+        <qualifiedname>themis::TSAutoBuffer::flush_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="424" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="424" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1ac68e5607b3560d24ace0dbe0b5d3de83" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::TSAutoBuffer::flush_cv_</definition>
+        <argsstring></argsstring>
+        <name>flush_cv_</name>
+        <qualifiedname>themis::TSAutoBuffer::flush_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="425" column="29" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="425" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1add20711972937828c89d6d8d7c2d3ae8" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TSAutoBuffer::flush_mutex_</definition>
+        <argsstring></argsstring>
+        <name>flush_mutex_</name>
+        <qualifiedname>themis::TSAutoBuffer::flush_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="426" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1aa96e432bcbc42864082eaeb3854f5b22" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::TSAutoBuffer::backpressure_cv_</definition>
+        <argsstring></argsstring>
+        <name>backpressure_cv_</name>
+        <qualifiedname>themis::TSAutoBuffer::backpressure_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="429" column="29" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="429" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1a784c2cb43484a045a1c3e22b37b906d6" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TSAutoBuffer::backpressure_mutex_</definition>
+        <argsstring></argsstring>
+        <name>backpressure_mutex_</name>
+        <qualifiedname>themis::TSAutoBuffer::backpressure_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="430" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1aef4a8f7714417a0668357a37791ad5b9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::TSAutoBuffer::bp_buffer_size_</definition>
+        <argsstring></argsstring>
+        <name>bp_buffer_size_</name>
+        <qualifiedname>themis::TSAutoBuffer::bp_buffer_size_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="433" column="17" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="433" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1a29288aef28e70a839e9445617a794e14" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; FlushController &gt;</type>
+        <definition>std::unique_ptr&lt;FlushController&gt; themis::TSAutoBuffer::flush_controller_</definition>
+        <argsstring></argsstring>
+        <name>flush_controller_</name>
+        <qualifiedname>themis::TSAutoBuffer::flush_controller_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="436" column="21" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="436" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_auto_buffer_1af0cdbed68d02403df3bcea5982842440" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_t_s_auto_buffer_stats" kindref="compound">TSAutoBufferStats</ref></type>
+        <definition>TSAutoBufferStats themis::TSAutoBuffer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::TSAutoBuffer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="439" column="23" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="439" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a8d98f58d8db098adc5ed1edecd49d101" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSAutoBuffer::TSAutoBuffer</definition>
+        <argsstring>(TSStore *tsstore, TSAutoBufferConfig config=TSAutoBufferConfig{})</argsstring>
+        <name>TSAutoBuffer</name>
+        <qualifiedname>themis::TSAutoBuffer::TSAutoBuffer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>tsstore</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_t_s_auto_buffer_config" kindref="compound">TSAutoBufferConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1_t_s_auto_buffer_config" kindref="compound">TSAutoBufferConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct auto-batching buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>tsstore</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> instance (not owned) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Buffer configuration </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="206" column="14" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="25" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a11809ac2c76b783b693805a1191568d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSAutoBuffer::~TSAutoBuffer</definition>
+        <argsstring>()</argsstring>
+        <name>~TSAutoBuffer</name>
+        <qualifiedname>themis::TSAutoBuffer::~TSAutoBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="208" column="5" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="43" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1ac4ffcb122c1ce9b44cc7b63f29152141" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSAutoBuffer::TSAutoBuffer</definition>
+        <argsstring>(const TSAutoBuffer &amp;)=delete</argsstring>
+        <name>TSAutoBuffer</name>
+        <qualifiedname>themis::TSAutoBuffer::TSAutoBuffer</qualifiedname>
+        <param>
+          <type>const TSAutoBuffer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="211" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1aeaa4a9d26c39ddbf440f6fb6996c9024" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_t_s_auto_buffer_1a8d98f58d8db098adc5ed1edecd49d101" kindref="member">TSAutoBuffer</ref> &amp;</type>
+        <definition>TSAutoBuffer &amp; themis::TSAutoBuffer::operator=</definition>
+        <argsstring>(const TSAutoBuffer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TSAutoBuffer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_t_s_auto_buffer_1a8d98f58d8db098adc5ed1edecd49d101" kindref="member">TSAutoBuffer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="212" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a719b627f878026f0a9b39cfd4357bac5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSAutoBuffer::TSAutoBuffer</definition>
+        <argsstring>(TSAutoBuffer &amp;&amp;)=delete</argsstring>
+        <name>TSAutoBuffer</name>
+        <qualifiedname>themis::TSAutoBuffer::TSAutoBuffer</qualifiedname>
+        <param>
+          <type>TSAutoBuffer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="213" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a94d3588056378aafd6b166f82663c4b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_t_s_auto_buffer_1a8d98f58d8db098adc5ed1edecd49d101" kindref="member">TSAutoBuffer</ref> &amp;</type>
+        <definition>TSAutoBuffer &amp; themis::TSAutoBuffer::operator=</definition>
+        <argsstring>(TSAutoBuffer &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::TSAutoBuffer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_auto_buffer_1a8d98f58d8db098adc5ed1edecd49d101" kindref="member">TSAutoBuffer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="214" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a76bb13dc27c6d7ed15a5d97aaa5e3ddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSAutoBuffer::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::TSAutoBuffer::start</qualifiedname>
+        <briefdescription>
+<para>Start background flush thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start.</para>
+<para>Calls: exchange(), THEMIS_WARN(), THEMIS_INFO(), count(), std::thread(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="219" column="10" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="53" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1ad20bdbfd759723d57f06e92c3ee48fec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSAutoBuffer::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::TSAutoBuffer::stop</qualifiedname>
+        <briefdescription>
+<para>Stop background flush thread and flush remaining points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Calls: exchange(), THEMIS_INFO(), notify_all(), joinable(), join(), <ref refid="classthemis_1_1_t_s_auto_buffer_1a1c98a62d1ebc677b6d080119b3e33dd1" kindref="member">flush()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="224" column="10" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="72" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a2d7c5b434f319d6958d08ef468ed75ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_t_s_auto_buffer_1a7229c6da262581770585cf2efb95e2fa" kindref="member">PushStatus</ref></type>
+        <definition>TSAutoBuffer::PushStatus themis::TSAutoBuffer::push</definition>
+        <argsstring>(const TSStore::DataPoint &amp;point)</argsstring>
+        <name>push</name>
+        <qualifiedname>themis::TSAutoBuffer::push</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Non-blocking single-point push for Gorilla single-point insert buffering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Push.</para>
+<para>Routes single data points through the auto-buffer rather than writing directly to RocksDB. Points accumulate until gorilla_batch_size is reached, at which point they are encoded with Gorilla and written as a single compressed chunk.</para>
+<para>Unlike <ref refid="classthemis_1_1_t_s_auto_buffer_1acf21c940f798f75f2977f8a215cc2966" kindref="member">add()</ref>, this method never blocks producers. When the total in-memory buffer size exceeds config_.max_buffer_bytes it returns BUFFER_FULL so the caller can apply its own backpressure strategy.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data point to buffer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="classthemis_1_1_t_s_auto_buffer_1a7229c6da262581770585cf2efb95e2faae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">PushStatus::OK</ref> on success, <ref refid="classthemis_1_1_t_s_auto_buffer_1a7229c6da262581770585cf2efb95e2faaf46524fa13d0e02e2743d1db7279375d" kindref="member">PushStatus::BUFFER_FULL</ref> when buffer is saturated</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), makeBufferKey(), lock(), THEMIS_WARN(), <ref refid="classthemis_1_1_t_s_auto_buffer_1acf21c940f798f75f2977f8a215cc2966" kindref="member">add()</ref>, fetch_add(), effectiveBatchSize(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="240" column="16" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="631" bodyend="682"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1acf21c940f798f75f2977f8a215cc2966" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::TSAutoBuffer::add</definition>
+        <argsstring>(const TSStore::DataPoint &amp;point)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::TSAutoBuffer::add</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Add a data point (will be buffered). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Data point to buffer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result&lt;void&gt; - success or error</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), empty(), ErrVoid(), load(), isBackpressure(), THEMIS_WARN(), recordBackpressure(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="247" column="12" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="106" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a1c98a62d1ebc677b6d080119b3e33dd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::TSAutoBuffer::flush</qualifiedname>
+        <briefdescription>
+<para>Force immediate flush of all buffered points. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para><simplesect kind="return"><para>Number of points flushed</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: flushInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="253" column="12" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a9aad776d0510203a26fa6043d0c36051" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::flushFor</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;entity)</argsstring>
+        <name>flushFor</name>
+        <qualifiedname>themis::TSAutoBuffer::flushFor</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Flush buffered points for specific metric:entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush For.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Metric name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Entity ID </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of points flushed</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeBufferKey(), lock(), find(), end(), empty(), flushBuffer(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="261" column="12" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="246" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1af9dac2ac165feb7b2149dd40802cc303" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_t_s_auto_buffer_stats" kindref="compound">TSAutoBufferStats</ref></type>
+        <definition>TSAutoBufferStats themis::TSAutoBuffer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::TSAutoBuffer::getStats</qualifiedname>
+        <briefdescription>
+<para>Get current buffer statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="267" column="23" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="461" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1af6d0a5cf42d03602cc5e9f1a631dfbdb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_t_s_auto_buffer_config" kindref="compound">TSAutoBufferConfig</ref> &amp;</type>
+        <definition>const TSAutoBufferConfig &amp; themis::TSAutoBuffer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::TSAutoBuffer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="272" column="30" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a0ef7f4b65f8322f1170c3fdcb39852c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSAutoBuffer::setConfig</definition>
+        <argsstring>(const TSAutoBufferConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::TSAutoBuffer::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_auto_buffer_config" kindref="compound">TSAutoBufferConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration (takes effect on next flush). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), reset(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="278" column="10" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="495" bodyend="516"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1adefd95facd683cd350c5152059b63a36" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TSAutoBuffer::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::TSAutoBuffer::isRunning</qualifiedname>
+        <briefdescription>
+<para>Check if buffer is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="283" column="10" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="283" bodyend="283"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1ab8616a4620fc5e975128f647663b902b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::persistToWAL</definition>
+        <argsstring>(const std::string &amp;wal_path)</argsstring>
+        <name>persistToWAL</name>
+        <qualifiedname>themis::TSAutoBuffer::persistToWAL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wal_path</declname>
+        </param>
+        <briefdescription>
+<para>Persist To WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>========== WAL Persistence ==========</para>
+<para>Persist the current in-memory buffer state to a WAL file. This allows crash-recovery: unflushed points can be replayed after restart.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File path where the WAL snapshot is written </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of points persisted (0 if buffer is empty)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the wal. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), ofs(), is_open(), THEMIS_ERROR(), dump(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="295" column="12" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="525" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a22bdc3daff25b1955647ae1071762c42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ptrdiff_t</type>
+        <definition>std::ptrdiff_t themis::TSAutoBuffer::restoreFromWAL</definition>
+        <argsstring>(const std::string &amp;wal_path)</argsstring>
+        <name>restoreFromWAL</name>
+        <qualifiedname>themis::TSAutoBuffer::restoreFromWAL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wal_path</declname>
+        </param>
+        <briefdescription>
+<para>Restore From WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Restore buffer state from a previously written WAL file. Points are re-enqueued into the buffer; the caller must call <ref refid="classthemis_1_1_t_s_auto_buffer_1a1c98a62d1ebc677b6d080119b3e33dd1" kindref="member">flush()</ref> or <ref refid="classthemis_1_1_t_s_auto_buffer_1a76bb13dc27c6d7ed15a5d97aaa5e3ddb" kindref="member">start()</ref> to replay them to <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File path of the WAL snapshot to restore </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of points restored (-1 on error)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the wal. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: ifs(), is_open(), THEMIS_WARN(), std::getline(), empty(), nlohmann::json::parse(), at(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="306" column="20" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="559" bodyend="606"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a78c94c33b07dded700a9b90f733a981b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TSAutoBuffer::removeWAL</definition>
+        <argsstring>(const std::string &amp;wal_path)</argsstring>
+        <name>removeWAL</name>
+        <qualifiedname>themis::TSAutoBuffer::removeWAL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>wal_path</declname>
+        </param>
+        <briefdescription>
+<para>Remove WAL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Delete a WAL file (call after a successful flush to avoid replaying already-flushed data on next startup).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>File to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if file was deleted (or did not exist)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">wal_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the wal. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), std::filesystem::exists(), std::filesystem::remove(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="316" column="17" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="614" bodyend="623"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1ad535363f7f101f07ae7269e423762b66" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TSAutoBuffer::makeBufferKey</definition>
+        <argsstring>(const std::string &amp;metric, const std::string &amp;entity) const</argsstring>
+        <name>makeBufferKey</name>
+        <qualifiedname>themis::TSAutoBuffer::makeBufferKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <briefdescription>
+<para>Helper functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="447" column="17" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a85129c56d84753357713c3879fbf7db8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSAutoBuffer::flushThread</definition>
+        <argsstring>()</argsstring>
+        <name>flushThread</name>
+        <qualifiedname>themis::TSAutoBuffer::flushThread</qualifiedname>
+        <briefdescription>
+<para>Flush Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: THEMIS_INFO(), load(), lock(), wait_for(), shouldFlushGlobal(), unlock(), std::chrono::steady_clock::now(), buf_lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="451" column="10" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="397" bodyend="452"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1ae7e30b6711e3472ebac33c063f1c4012" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::flushInternal</definition>
+        <argsstring>(bool lock_held=false)</argsstring>
+        <name>flushInternal</name>
+        <qualifiedname>themis::TSAutoBuffer::flushInternal</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>lock_held</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffers_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">defer_lock</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="452" column="12" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="259" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1af962303d11aa23fa2d83a135378e0441" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::flushBuffer</definition>
+        <argsstring>(const std::string &amp;buffer_key, MetricBuffer &amp;buffer)</argsstring>
+        <name>flushBuffer</name>
+        <qualifiedname>themis::TSAutoBuffer::flushBuffer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>buffer_key</declname>
+        </param>
+        <param>
+          <type>MetricBuffer &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Flush Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), Tracer::startSpan(), setAttribute(), size(), std::chrono::steady_clock::now(), points(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="459" column="12" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="305" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a06b660511c90d19bfd7c850a10c46fbc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TSAutoBuffer::shouldFlushBuffer</definition>
+        <argsstring>(const MetricBuffer &amp;buffer) const</argsstring>
+        <name>shouldFlushBuffer</name>
+        <qualifiedname>themis::TSAutoBuffer::shouldFlushBuffer</qualifiedname>
+        <param>
+          <type>const MetricBuffer &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <briefdescription>
+<para>Should Flush Buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="465" column="10" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="357" bodyend="370"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a2384c523f2ba4752c818ec7e64ecf012" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TSAutoBuffer::shouldFlushGlobal</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldFlushGlobal</name>
+        <qualifiedname>themis::TSAutoBuffer::shouldFlushGlobal</qualifiedname>
+        <briefdescription>
+<para>Should Flush Global. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="470" column="10" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="372" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_auto_buffer_1a642e7e3581712c323389312173c3b38f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::effectiveBatchSize</definition>
+        <argsstring>() const</argsstring>
+        <name>effectiveBatchSize</name>
+        <qualifiedname>themis::TSAutoBuffer::effectiveBatchSize</qualifiedname>
+        <briefdescription>
+<para>Returns the effective per-metric flush size (adaptive or configured). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="472" column="12" bodyfile="src/timeseries/ts_auto_buffer.cpp" bodystart="454" bodyend="459"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Auto-batching buffer for time series data points. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Automatically buffers single data points and flushes them as compressed batches. Thread-safe, with configurable size and time thresholds.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal">TSAutoBufferConfig<sp/>config;</highlight></codeline>
+<codeline><highlight class="normal">config.max_points_per_buffer<sp/>=<sp/>500;</highlight></codeline>
+<codeline><highlight class="normal">config.flush_interval<sp/>=<sp/>std::chrono::seconds(10);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1_t_s_auto_buffer_1a8d98f58d8db098adc5ed1edecd49d101" kindref="member">TSAutoBuffer</ref><sp/>buffer(tsstore,<sp/>config);</highlight></codeline>
+<codeline><highlight class="normal">buffer.start();<sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>background<sp/>flush<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Add<sp/>points<sp/>(will<sp/>be<sp/>buffered)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">buffer.add(point1);</highlight></codeline>
+<codeline><highlight class="normal">buffer.add(point2);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>points<sp/>are<sp/>automatically<sp/>flushed<sp/>in<sp/>batches</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">buffer.stop();<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>and<sp/>flush<sp/>remaining<sp/>points</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/timeseries/ts_auto_buffer.h" line="190" column="1" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="190" bodyend="473"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1acf21c940f798f75f2977f8a215cc2966" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>add</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1aa96e432bcbc42864082eaeb3854f5b22" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>backpressure_cv_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a784c2cb43484a045a1c3e22b37b906d6" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>backpressure_mutex_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1aef4a8f7714417a0668357a37791ad5b9" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>bp_buffer_size_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1aa147cb4547f7e8faca89f100ec982f9c" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>buffers_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a62bbc05a90deed672214b7162ffa49cc" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>buffers_mutex_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1aa6f7e4c59b266fa53c1bf53fb223c036" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a642e7e3581712c323389312173c3b38f" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>effectiveBatchSize</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a1c98a62d1ebc677b6d080119b3e33dd1" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flush</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a29288aef28e70a839e9445617a794e14" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flush_controller_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1ac68e5607b3560d24ace0dbe0b5d3de83" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flush_cv_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1add20711972937828c89d6d8d7c2d3ae8" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flush_mutex_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a59d860175406397856cdbc5f19e95c90" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flush_thread_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1af962303d11aa23fa2d83a135378e0441" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flushBuffer</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a9aad776d0510203a26fa6043d0c36051" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flushFor</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1ae7e30b6711e3472ebac33c063f1c4012" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flushInternal</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a85129c56d84753357713c3879fbf7db8" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>flushThread</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1af6d0a5cf42d03602cc5e9f1a631dfbdb" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1af9dac2ac165feb7b2149dd40802cc303" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1adefd95facd683cd350c5152059b63a36" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1ad535363f7f101f07ae7269e423762b66" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>makeBufferKey</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1aeaa4a9d26c39ddbf440f6fb6996c9024" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a94d3588056378aafd6b166f82663c4b5" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1ab8616a4620fc5e975128f647663b902b" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>persistToWAL</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a2d7c5b434f319d6958d08ef468ed75ef" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>push</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a7229c6da262581770585cf2efb95e2fa" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>PushStatus</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a78c94c33b07dded700a9b90f733a981b" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>removeWAL</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a22bdc3daff25b1955647ae1071762c42" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>restoreFromWAL</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a55886358607894874da63c8bc5cd1608" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a0ef7f4b65f8322f1170c3fdcb39852c0" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a06b660511c90d19bfd7c850a10c46fbc" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>shouldFlushBuffer</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a2384c523f2ba4752c818ec7e64ecf012" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>shouldFlushGlobal</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a76bb13dc27c6d7ed15a5d97aaa5e3ddb" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>start</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1af0cdbed68d02403df3bcea5982842440" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1ad20bdbfd759723d57f06e92c3ee48fec" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a8d98f58d8db098adc5ed1edecd49d101" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>TSAutoBuffer</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1ac4ffcb122c1ce9b44cc7b63f29152141" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>TSAutoBuffer</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a719b627f878026f0a9b39cfd4357bac5" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>TSAutoBuffer</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a5d02294cb103d785fc9533679d3952b6" prot="private" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>tsstore_</name></member>
+      <member refid="classthemis_1_1_t_s_auto_buffer_1a11809ac2c76b783b693805a1191568d7" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer</scope><name>~TSAutoBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

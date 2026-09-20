@@ -1,0 +1,295 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_ingestion_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaIngestionConfig</compoundname>
+    <includes refid="wikipedia__config_8hpp" local="no">wikipedia_config.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a4afdf3e6617a6f14360e0e206d08c13d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionConfig::strict_mode</definition>
+        <argsstring></argsstring>
+        <name>strict_mode</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::strict_mode</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="66" column="10" bodyfile="include/importers/wikipedia_config.hpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a583679183edbfc1f2433557ded8d5328" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionConfig::best_effort</definition>
+        <argsstring></argsstring>
+        <name>best_effort</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::best_effort</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="67" column="10" bodyfile="include/importers/wikipedia_config.hpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a3a875376ef254b03faaad6a13ecde60a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::WikipediaIngestionConfig::checkpoint_interval_pages</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_interval_pages</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::checkpoint_interval_pages</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="68" column="12" bodyfile="include/importers/wikipedia_config.hpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a9c4be6e795622e3aec29a1398f1560ab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaIngestionConfig::checkpoint_path</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_path</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::checkpoint_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="69" column="17" bodyfile="include/importers/wikipedia_config.hpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a7766e37b8b39ef7a5bc4491c7d1f86d7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaIngestionConfig::dead_letter_path</definition>
+        <argsstring></argsstring>
+        <name>dead_letter_path</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::dead_letter_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="70" column="17" bodyfile="include/importers/wikipedia_config.hpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a1af9fadcc269bbb625dae8527b9fdad1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaIngestionConfig::importer_version</definition>
+        <argsstring></argsstring>
+        <name>importer_version</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::importer_version</qualifiedname>
+        <initializer>= &quot;0.1.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="71" column="17" bodyfile="include/importers/wikipedia_config.hpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1ae3ca93c2a23a3430c9553e673ca2f6e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionConfig::enable_graph_projection</definition>
+        <argsstring></argsstring>
+        <name>enable_graph_projection</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::enable_graph_projection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="72" column="10" bodyfile="include/importers/wikipedia_config.hpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a835b29e6df1e0aad0ff435aa076095cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionConfig::enable_vector_projection</definition>
+        <argsstring></argsstring>
+        <name>enable_vector_projection</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::enable_vector_projection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="73" column="10" bodyfile="include/importers/wikipedia_config.hpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a512e8a0e2f97daacf3fc716a73848fea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionConfig::enable_process_projection</definition>
+        <argsstring></argsstring>
+        <name>enable_process_projection</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::enable_process_projection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="74" column="10" bodyfile="include/importers/wikipedia_config.hpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1aa88043bfec47dc17d370db485e8db3c0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::importers::WikipediaIngestionConfig::enable_timeseries_projection</definition>
+        <argsstring></argsstring>
+        <name>enable_timeseries_projection</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::enable_timeseries_projection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="75" column="10" bodyfile="include/importers/wikipedia_config.hpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a77c942e2fbdbaba18e120315eba55ed5" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_embedding_hook_config" kindref="compound">WikipediaEmbeddingHookConfig</ref></type>
+        <definition>WikipediaEmbeddingHookConfig themis::importers::WikipediaIngestionConfig::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::embedding</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="76" column="34" bodyfile="include/importers/wikipedia_config.hpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1ae86f2a58ed23187287bc4b6ebcc33363" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_portable_export_config" kindref="compound">WikipediaPortableExportConfig</ref></type>
+        <definition>WikipediaPortableExportConfig themis::importers::WikipediaIngestionConfig::export_config</definition>
+        <argsstring></argsstring>
+        <name>export_config</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::export_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="77" column="35" bodyfile="include/importers/wikipedia_config.hpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a6341e319493bd04dba0c84b4203be563" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::importers::WikipediaIngestionConfig::external_tool_references</definition>
+        <argsstring></argsstring>
+        <name>external_tool_references</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::external_tool_references</qualifiedname>
+        <initializer>{
+        &quot;mwdumper-compatible XML preprocessing&quot;,
+        &quot;WikiExtractor-style article text cleanup&quot;,
+        &quot;Wikimedia dump tooling ecosystem: https://meta.wikimedia.org/wiki/Data_dumps/Other_tools&quot;
+    }</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="78" column="17" bodyfile="include/importers/wikipedia_config.hpp" bodystart="78" bodyend="82"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a780d53c199e1d7a422d9357eaca7614c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaIngestionConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="84" column="11" bodyfile="include/importers/wikipedia_config.hpp" bodystart="84" bodyend="100"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a171237ed411ac61f9d96e67c266f4db6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config" kindref="compound">WikipediaIngestionConfig</ref></type>
+        <definition>static WikipediaIngestionConfig themis::importers::WikipediaIngestionConfig::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::importers::WikipediaIngestionConfig::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), contains(), is_object(), is_array(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_config.hpp" line="108" column="37" bodyfile="include/importers/wikipedia_config.hpp" bodystart="108" bodyend="130"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::importers::WikipediaEmbeddingHookConfig</label>
+        <link refid="structthemis_1_1importers_1_1_wikipedia_embedding_hook_config"/>
+      </node>
+      <node id="1">
+        <label>themis::importers::WikipediaIngestionConfig</label>
+        <link refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>embedding</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>export_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::importers::WikipediaPortableExportConfig</label>
+        <link refid="structthemis_1_1importers_1_1_wikipedia_portable_export_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/importers/wikipedia_config.hpp" line="65" column="1" bodyfile="include/importers/wikipedia_config.hpp" bodystart="65" bodyend="131"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a583679183edbfc1f2433557ded8d5328" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>best_effort</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a3a875376ef254b03faaad6a13ecde60a" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>checkpoint_interval_pages</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a9c4be6e795622e3aec29a1398f1560ab" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>checkpoint_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a7766e37b8b39ef7a5bc4491c7d1f86d7" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>dead_letter_path</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a77c942e2fbdbaba18e120315eba55ed5" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1ae3ca93c2a23a3430c9553e673ca2f6e0" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>enable_graph_projection</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a512e8a0e2f97daacf3fc716a73848fea" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>enable_process_projection</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1aa88043bfec47dc17d370db485e8db3c0" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>enable_timeseries_projection</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a835b29e6df1e0aad0ff435aa076095cb" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>enable_vector_projection</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1ae86f2a58ed23187287bc4b6ebcc33363" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>export_config</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a6341e319493bd04dba0c84b4203be563" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>external_tool_references</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a171237ed411ac61f9d96e67c266f4db6" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a1af9fadcc269bbb625dae8527b9fdad1" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>importer_version</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a4afdf3e6617a6f14360e0e206d08c13d" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>strict_mode</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_ingestion_config_1a780d53c199e1d7a422d9357eaca7614c" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaIngestionConfig</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoFaissKnn::Config</compoundname>
+    <includes refid="geo__faiss__knn_8h" local="no">geo_faiss_knn.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config_1a0799fc4ac7ba2959818bf463dbba6889" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::geo::GeoFaissKnn::Config::cuda_device_id</definition>
+        <argsstring></argsstring>
+        <name>cuda_device_id</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::Config::cuda_device_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="31" column="13" bodyfile="include/geo/geo_faiss_knn.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config_1a74fccd2a6c70e11230c78c487fbaae75" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoFaissKnn::Config::force_cpu</definition>
+        <argsstring></argsstring>
+        <name>force_cpu</name>
+        <qualifiedname>themis::geo::GeoFaissKnn::Config::force_cpu</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_faiss_knn.h" line="32" column="14" bodyfile="include/geo/geo_faiss_knn.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_faiss_knn.h" line="30" column="5" bodyfile="include/geo/geo_faiss_knn.h" bodystart="30" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config_1a0799fc4ac7ba2959818bf463dbba6889" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn::Config</scope><name>cuda_device_id</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_faiss_knn_1_1_config_1a74fccd2a6c70e11230c78c487fbaae75" prot="public" virt="non-virtual"><scope>themis::geo::GeoFaissKnn::Config</scope><name>force_cpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

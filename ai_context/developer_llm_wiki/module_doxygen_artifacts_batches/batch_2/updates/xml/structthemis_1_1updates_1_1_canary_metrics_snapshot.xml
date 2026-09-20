@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_canary_metrics_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::CanaryMetricsSnapshot</compoundname>
+    <includes refid="canary__rollout_8h" local="no">canary_rollout.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1ac6a26c9cff1c22d4991198e8221df801" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_latency_stats" kindref="compound">LatencyStats</ref></type>
+        <definition>LatencyStats themis::updates::CanaryMetricsSnapshot::latency</definition>
+        <argsstring></argsstring>
+        <name>latency</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::latency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="320" column="18" bodyfile="include/updates/canary_rollout.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a41364f4b973b418ee5447643e245a0b9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryMetricsSnapshot::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::memory_bytes</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Latest observed memory usage in bytes (0 if not reported). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="323" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aacdf536001436aae096ded71ef97a1f6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryMetricsSnapshot::cpu_fraction</definition>
+        <argsstring></argsstring>
+        <name>cpu_fraction</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::cpu_fraction</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Latest observed CPU utilisation fraction 0.0–1.0 (0 if not reported). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="326" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1af3ba5cfa82edf7c3c8a813d3c67c13ee" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryMetricsSnapshot::disk_io_bytes_per_sec</definition>
+        <argsstring></argsstring>
+        <name>disk_io_bytes_per_sec</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::disk_io_bytes_per_sec</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Latest observed disk I/O throughput in bytes/s (0 if not reported). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="329" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1adc514e8819e45de27c6db0d2166533da" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::updates::CanaryMetricsSnapshot::custom_metrics</definition>
+        <argsstring></argsstring>
+        <name>custom_metrics</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::custom_metrics</qualifiedname>
+        <briefdescription>
+<para>Registered custom metrics (name → latest value). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="332" column="24" bodyfile="include/updates/canary_rollout.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aa394614720fb42baba4cb9e3a3570682" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::CanaryMetricsSnapshot::error_count</definition>
+        <argsstring></argsstring>
+        <name>error_count</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::error_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="334" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aa61a93e36fb4be689af3c1c7bd627a95" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::CanaryMetricsSnapshot::success_count</definition>
+        <argsstring></argsstring>
+        <name>success_count</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::success_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="335" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a5b74e5a5b163d9096438eeaaf5798eef" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::updates::CanaryMetricsSnapshot::error_rate</definition>
+        <argsstring></argsstring>
+        <name>error_rate</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::error_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="336" column="12" bodyfile="include/updates/canary_rollout.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a71a53d71c7096ef2a9c4ab9e76dd0391" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::CanaryMetricsSnapshot::latency_threshold_exceeded</definition>
+        <argsstring></argsstring>
+        <name>latency_threshold_exceeded</name>
+        <qualifiedname>themis::updates::CanaryMetricsSnapshot::latency_threshold_exceeded</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the tracked p99 latency exceeds the configured threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/canary_rollout.h" line="339" column="10" bodyfile="include/updates/canary_rollout.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A snapshot of all metrics tracked by <ref refid="classthemis_1_1updates_1_1_canary_deployment" kindref="compound">CanaryDeployment</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::updates::CanaryMetricsSnapshot</label>
+        <link refid="structthemis_1_1updates_1_1_canary_metrics_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>latency</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::updates::LatencyStats</label>
+        <link refid="structthemis_1_1updates_1_1_latency_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/updates/canary_rollout.h" line="319" column="1" bodyfile="include/updates/canary_rollout.h" bodystart="319" bodyend="340"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aacdf536001436aae096ded71ef97a1f6" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>cpu_fraction</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1adc514e8819e45de27c6db0d2166533da" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>custom_metrics</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1af3ba5cfa82edf7c3c8a813d3c67c13ee" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>disk_io_bytes_per_sec</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aa394614720fb42baba4cb9e3a3570682" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>error_count</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a5b74e5a5b163d9096438eeaaf5798eef" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>error_rate</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1ac6a26c9cff1c22d4991198e8221df801" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>latency</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a71a53d71c7096ef2a9c4ab9e76dd0391" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>latency_threshold_exceeded</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1a41364f4b973b418ee5447643e245a0b9" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1updates_1_1_canary_metrics_snapshot_1aa61a93e36fb4be689af3c1c7bd627a95" prot="public" virt="non-virtual"><scope>themis::updates::CanaryMetricsSnapshot</scope><name>success_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_cuda_operation_batch" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::CudaOperationBatch</compoundname>
+    <includes refid="cuda__operations_8h" local="no">cuda_operations.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1ac66bb2f951225db63d7e3f3d8d9ccaaf" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1gpu_1_1_cuda_stream" kindref="compound">CudaStream</ref> *</type>
+        <definition>const CudaStream* themis::gpu::CudaOperationBatch::stream_</definition>
+        <argsstring></argsstring>
+        <name>stream_</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::stream_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="239" column="22" bodyfile="include/gpu/cuda_operations.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a0de17da19404b13d1b7c608c096c61a8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classthemis_1_1gpu_1_1_cuda_operation" kindref="compound">CudaOperation</ref> &gt;</type>
+        <definition>std::vector&lt;CudaOperation&gt; themis::gpu::CudaOperationBatch::operations_</definition>
+        <argsstring></argsstring>
+        <name>operations_</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::operations_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="240" column="17" bodyfile="include/gpu/cuda_operations.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1add463632e57fd555a61e3fe3e2a2ee86" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaOperationBatch::is_moved_from_</definition>
+        <argsstring></argsstring>
+        <name>is_moved_from_</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::is_moved_from_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="241" column="10" bodyfile="include/gpu/cuda_operations.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a61a6857ac05c43dc679d82b112556cc6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaOperationBatch::CudaOperationBatch</definition>
+        <argsstring>(const CudaStream &amp;stream)</argsstring>
+        <name>CudaOperationBatch</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::CudaOperationBatch</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_cuda_stream" kindref="compound">CudaStream</ref> &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Cuda Operation <ref refid="test__gpu__training__loop_8cpp_1af47983e44c7b4c07e44229aedf03c895" kindref="member">Batch</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="183" column="14" bodyfile="src/gpu/cuda_operations.cpp" bodystart="301" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a63c50a001411c9dd2896609ae66963f2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaOperationBatch::~CudaOperationBatch</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CudaOperationBatch</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::~CudaOperationBatch</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="185" column="5" bodyfile="src/gpu/cuda_operations.cpp" bodystart="310" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a8b150e7a3db2a1d6906ba4aebf059c78" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaOperationBatch::CudaOperationBatch</definition>
+        <argsstring>(CudaOperationBatch &amp;&amp;other) noexcept</argsstring>
+        <name>CudaOperationBatch</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::CudaOperationBatch</qualifiedname>
+        <param>
+          <type>CudaOperationBatch &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="188" column="5" bodyfile="src/gpu/cuda_operations.cpp" bodystart="320" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a008de6f379e6674cc14586d59ba36558" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a61a6857ac05c43dc679d82b112556cc6" kindref="member">CudaOperationBatch</ref> &amp;</type>
+        <definition>CudaOperationBatch &amp; themis::gpu::CudaOperationBatch::operator=</definition>
+        <argsstring>(CudaOperationBatch &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a61a6857ac05c43dc679d82b112556cc6" kindref="member">CudaOperationBatch</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="189" column="24" bodyfile="src/gpu/cuda_operations.cpp" bodystart="329" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1ae913d9d2fa58165e1d429b07f340346b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaOperationBatch::CudaOperationBatch</definition>
+        <argsstring>(const CudaOperationBatch &amp;)=delete</argsstring>
+        <name>CudaOperationBatch</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::CudaOperationBatch</qualifiedname>
+        <param>
+          <type>const CudaOperationBatch &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="192" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1affe9c66293884177f4dd0614d0c6a239" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a61a6857ac05c43dc679d82b112556cc6" kindref="member">CudaOperationBatch</ref> &amp;</type>
+        <definition>CudaOperationBatch &amp; themis::gpu::CudaOperationBatch::operator=</definition>
+        <argsstring>(const CudaOperationBatch &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a61a6857ac05c43dc679d82b112556cc6" kindref="member">CudaOperationBatch</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="193" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1ade09e760ba3fa2f505f2f36d7a2be331" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::CudaOperationBatch::add_operation</definition>
+        <argsstring>(CudaOperation &amp;&amp;op)</argsstring>
+        <name>add_operation</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::add_operation</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_cuda_operation" kindref="compound">CudaOperation</ref> &amp;&amp;</type>
+          <declname>op</declname>
+        </param>
+        <briefdescription>
+<para>Add operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1aabb23bd297ee126fc0b77ea98342c4bb" kindref="member">is_moved_from()</ref>, push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="199" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="359" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a65dd32e27ffa6b0d330e8e0cbf5ae5bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaOperationBatch::wait_all</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::milliseconds(0))</argsstring>
+        <name>wait_all</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::wait_all</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::milliseconds(0)</defval>
+        </param>
+        <briefdescription>
+<para>Wait all. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: wait().</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::logic_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: mark_completed(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="201" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="378" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a47b88eba8643044f6921b248732e8fc4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::CudaOperationBatch::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::size</qualifiedname>
+        <briefdescription>
+<para>Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="208" column="12" bodyfile="src/gpu/cuda_operations.cpp" bodystart="392" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a62e102f8259d8c693b9760ad11497973" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaOperationBatch::all_completed</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>all_completed</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::all_completed</qualifiedname>
+        <briefdescription>
+<para>All completed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="215" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="396" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1a0eebb706b044aa0df698dfd65531e2e6" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::CudaOperationBatch::failed_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>failed_count</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::failed_count</qualifiedname>
+        <briefdescription>
+<para>Failed count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="222" column="12" bodyfile="src/gpu/cuda_operations.cpp" bodystart="407" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1aa7312810b5288c9edded46ff0e2400c5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaOperationBatch::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::is_valid</qualifiedname>
+        <briefdescription>
+<para>Is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="229" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="417" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_operation_batch_1aabb23bd297ee126fc0b77ea98342c4bb" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::CudaOperationBatch::is_moved_from</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_moved_from</name>
+        <qualifiedname>themis::gpu::CudaOperationBatch::is_moved_from</qualifiedname>
+        <briefdescription>
+<para>Is moved from. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/cuda_operations.h" line="236" column="10" bodyfile="src/gpu/cuda_operations.cpp" bodystart="421" bodyend="423"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/cuda_operations.h" line="176" column="1" bodyfile="include/gpu/cuda_operations.h" bodystart="176" bodyend="242"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1ade09e760ba3fa2f505f2f36d7a2be331" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>add_operation</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a62e102f8259d8c693b9760ad11497973" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>all_completed</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a61a6857ac05c43dc679d82b112556cc6" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>CudaOperationBatch</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a8b150e7a3db2a1d6906ba4aebf059c78" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>CudaOperationBatch</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1ae913d9d2fa58165e1d429b07f340346b" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>CudaOperationBatch</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a0eebb706b044aa0df698dfd65531e2e6" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>failed_count</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1aabb23bd297ee126fc0b77ea98342c4bb" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>is_moved_from</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1add463632e57fd555a61e3fe3e2a2ee86" prot="private" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>is_moved_from_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1aa7312810b5288c9edded46ff0e2400c5" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>is_valid</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a0de17da19404b13d1b7c608c096c61a8" prot="private" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>operations_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a008de6f379e6674cc14586d59ba36558" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1affe9c66293884177f4dd0614d0c6a239" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a47b88eba8643044f6921b248732e8fc4" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>size</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1ac66bb2f951225db63d7e3f3d8d9ccaaf" prot="private" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>stream_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a65dd32e27ffa6b0d330e8e0cbf5ae5bf" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>wait_all</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_operation_batch_1a63c50a001411c9dd2896609ae66963f2" prot="public" virt="non-virtual"><scope>themis::gpu::CudaOperationBatch</scope><name>~CudaOperationBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

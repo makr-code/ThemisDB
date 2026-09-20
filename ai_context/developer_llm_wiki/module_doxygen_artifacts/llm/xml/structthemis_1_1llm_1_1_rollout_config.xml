@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_rollout_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RolloutConfig</compoundname>
+    <includes refid="lora__router_8h" local="no">lora_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rollout_config_1a058339d6ee6c312664d921589a3093f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RolloutConfig::new_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>new_adapter_id</name>
+        <qualifiedname>themis::llm::RolloutConfig::new_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="51" column="17" bodyfile="include/llm/lora_router.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rollout_config_1aae5a9a9ce6dab9ee407d58954ff93490" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RolloutConfig::baseline_adapter_id</definition>
+        <argsstring></argsstring>
+        <name>baseline_adapter_id</name>
+        <qualifiedname>themis::llm::RolloutConfig::baseline_adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="52" column="17" bodyfile="include/llm/lora_router.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rollout_config_1af998116822cf755a9cca4924c83534c9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::RolloutConfig::rollout_percentage</definition>
+        <argsstring></argsstring>
+        <name>rollout_percentage</name>
+        <qualifiedname>themis::llm::RolloutConfig::rollout_percentage</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="53" column="11" bodyfile="include/llm/lora_router.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rollout_config_1af8f7a7976e693222e0b4a6fca9124e1f" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::RolloutConfig::increment_step</definition>
+        <argsstring></argsstring>
+        <name>increment_step</name>
+        <qualifiedname>themis::llm::RolloutConfig::increment_step</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="54" column="11" bodyfile="include/llm/lora_router.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rollout_config_1a377bdbf622c9f70793ae38c0d6a413b2" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::RolloutConfig::increment_interval</definition>
+        <argsstring></argsstring>
+        <name>increment_interval</name>
+        <qualifiedname>themis::llm::RolloutConfig::increment_interval</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="55" column="26" bodyfile="include/llm/lora_router.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rollout_config_1a5e52a08b95bf1c8098b7922fe8be9c77" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::RolloutConfig::last_increment</definition>
+        <argsstring></argsstring>
+        <name>last_increment</name>
+        <qualifiedname>themis::llm::RolloutConfig::last_increment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="56" column="43" bodyfile="include/llm/lora_router.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rollout_config_1ad442e642a0a10c74a628041c6b004a27" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::RolloutConfig::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::llm::RolloutConfig::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="57" column="43" bodyfile="include/llm/lora_router.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_rollout_config_1aba108cc6f7ec1550de64b5dff90838e7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::RolloutConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::RolloutConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_router.h" line="58" column="10" bodyfile="include/llm/lora_router.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_router.h" line="50" column="1" bodyfile="include/llm/lora_router.h" bodystart="50" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_rollout_config_1aae5a9a9ce6dab9ee407d58954ff93490" prot="public" virt="non-virtual"><scope>themis::llm::RolloutConfig</scope><name>baseline_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_rollout_config_1aba108cc6f7ec1550de64b5dff90838e7" prot="public" virt="non-virtual"><scope>themis::llm::RolloutConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_rollout_config_1a377bdbf622c9f70793ae38c0d6a413b2" prot="public" virt="non-virtual"><scope>themis::llm::RolloutConfig</scope><name>increment_interval</name></member>
+      <member refid="structthemis_1_1llm_1_1_rollout_config_1af8f7a7976e693222e0b4a6fca9124e1f" prot="public" virt="non-virtual"><scope>themis::llm::RolloutConfig</scope><name>increment_step</name></member>
+      <member refid="structthemis_1_1llm_1_1_rollout_config_1a5e52a08b95bf1c8098b7922fe8be9c77" prot="public" virt="non-virtual"><scope>themis::llm::RolloutConfig</scope><name>last_increment</name></member>
+      <member refid="structthemis_1_1llm_1_1_rollout_config_1a058339d6ee6c312664d921589a3093f9" prot="public" virt="non-virtual"><scope>themis::llm::RolloutConfig</scope><name>new_adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_rollout_config_1af998116822cf755a9cca4924c83534c9" prot="public" virt="non-virtual"><scope>themis::llm::RolloutConfig</scope><name>rollout_percentage</name></member>
+      <member refid="structthemis_1_1llm_1_1_rollout_config_1ad442e642a0a10c74a628041c6b004a27" prot="public" virt="non-virtual"><scope>themis::llm::RolloutConfig</scope><name>start_time</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

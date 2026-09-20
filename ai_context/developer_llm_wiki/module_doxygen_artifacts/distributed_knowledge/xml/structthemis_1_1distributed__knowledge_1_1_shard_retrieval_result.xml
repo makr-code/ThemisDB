@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::ShardRetrievalResult</compoundname>
+    <includes refid="federated__rag__merger_8h" local="no">federated_rag_merger.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1ab6974bbe8ab12905731cbb15dc0dddd3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::ShardRetrievalResult::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_knowledge::ShardRetrievalResult::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="74" column="34" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afcf1705a753bc7b6e33cc63c394744a7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; themis::distributed_knowledge::ShardRetrievalResult::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::distributed_knowledge::ShardRetrievalResult::documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="75" column="17" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1aefc60359dbb6d940f746c7f59bff0029" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::ShardRetrievalResult::adapter_accuracy_delta</definition>
+        <argsstring></argsstring>
+        <name>adapter_accuracy_delta</name>
+        <qualifiedname>themis::distributed_knowledge::ShardRetrievalResult::adapter_accuracy_delta</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>From <ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="76" column="14" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a7a9f20c4153a91ed17c083cdac767d66" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::ShardRetrievalResult::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::distributed_knowledge::ShardRetrievalResult::latency_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="77" column="14" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::ShardRetrievalResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::distributed_knowledge::ShardRetrievalResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="78" column="14" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::ShardRetrievalResult::timed_out</definition>
+        <argsstring></argsstring>
+        <name>timed_out</name>
+        <qualifiedname>themis::distributed_knowledge::ShardRetrievalResult::timed_out</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>DK-OR-T: set true when shard exceeded deadline. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="79" column="14" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a1fe8f356aa7a3fded473ac6b4f36b3a8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::ShardRetrievalResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::distributed_knowledge::ShardRetrievalResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty when ok == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_rag_merger.h" line="80" column="17" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete retrieval response from one shard. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/federated_rag_merger.h" line="73" column="1" bodyfile="include/distributed_knowledge/federated_rag_merger.h" bodystart="73" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1aefc60359dbb6d940f746c7f59bff0029" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::ShardRetrievalResult</scope><name>adapter_accuracy_delta</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afcf1705a753bc7b6e33cc63c394744a7" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::ShardRetrievalResult</scope><name>documents</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a1fe8f356aa7a3fded473ac6b4f36b3a8" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::ShardRetrievalResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a7a9f20c4153a91ed17c083cdac767d66" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::ShardRetrievalResult</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1a5e6d0935fbb904a360f9bf7bd1cbb18c" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::ShardRetrievalResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1ab6974bbe8ab12905731cbb15dc0dddd3" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::ShardRetrievalResult</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_shard_retrieval_result_1afa5b372339833639f4c8f369862f7aa7" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::ShardRetrievalResult</scope><name>timed_out</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

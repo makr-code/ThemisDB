@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_shard_placement" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::ShardPlacement</compoundname>
+    <includes refid="include_2distributed__tensor_2artifact__manifest_8h" local="no">artifact_manifest.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_placement_1a854492a65b6ad1a918f3e2872774eb9f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardPlacement::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacement::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="28" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_placement_1aa1d55a9565eea61198b00b4cd3c25f31" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardPlacement::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacement::node_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="30" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_placement_1a84c3d57eed618b6c4ef92c09d04609a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardPlacement::tier_level</definition>
+        <argsstring></argsstring>
+        <name>tier_level</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacement::tier_level</qualifiedname>
+        <initializer>= &quot;warm&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="32" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_placement_1a908af3c62c0866b70ab1cd0bd7988eb7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::ShardPlacement::shard_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>shard_size_bytes</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacement::shard_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="34" column="12" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_placement_1a1b11073b91c4bdf8e77e081704ff8857" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardPlacement::shard_content_hash</definition>
+        <argsstring></argsstring>
+        <name>shard_content_hash</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacement::shard_content_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="36" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_placement_1ac418c48ec8dd43c9e9cbe956cf45343d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::ShardPlacement::replication_factor</definition>
+        <argsstring></argsstring>
+        <name>replication_factor</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacement::replication_factor</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="38" column="12" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_placement_1a72bdc09b96fc0029a9e68a1d717f9112" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::ShardPlacement::erasure_coding_scheme</definition>
+        <argsstring></argsstring>
+        <name>erasure_coding_scheme</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacement::erasure_coding_scheme</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="40" column="15" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_shard_placement_1aee8e2f7e3644ea457ae2ce2b07027e55" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::distributed_tensor::ShardPlacement::custom_metadata</definition>
+        <argsstring></argsstring>
+        <name>custom_metadata</name>
+        <qualifiedname>themis::distributed_tensor::ShardPlacement::custom_metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/artifact_manifest.h" line="42" column="22" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/artifact_manifest.h" line="27" column="1" bodyfile="include/distributed_tensor/artifact_manifest.h" bodystart="27" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1aee8e2f7e3644ea457ae2ce2b07027e55" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacement</scope><name>custom_metadata</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a72bdc09b96fc0029a9e68a1d717f9112" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacement</scope><name>erasure_coding_scheme</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1aa1d55a9565eea61198b00b4cd3c25f31" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacement</scope><name>node_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1ac418c48ec8dd43c9e9cbe956cf45343d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacement</scope><name>replication_factor</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a1b11073b91c4bdf8e77e081704ff8857" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacement</scope><name>shard_content_hash</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a854492a65b6ad1a918f3e2872774eb9f" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacement</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a908af3c62c0866b70ab1cd0bd7988eb7" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacement</scope><name>shard_size_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_shard_placement_1a84c3d57eed618b6c4ef92c09d04609a4" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::ShardPlacement</scope><name>tier_level</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

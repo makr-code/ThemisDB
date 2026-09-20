@@ -1,0 +1,605 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_remote_registry_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::RemoteRegistryClient</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; RemoteRegistryClient &gt;</basecompoundref>
+    <includes refid="remote__registry__client_8h" local="no">remote_registry_client.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1modules_1_1_request_stats" kindref="compound">RequestStats</ref> &amp;)&gt;</type>
+        <definition>using themis::modules::RemoteRegistryClient::ObservabilityHook = std::function&lt;void(const RequestStats&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ObservabilityHook</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::ObservabilityHook</qualifiedname>
+        <briefdescription>
+<para>Callback type for retry-exhaust and timeout observability events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called with the updated <computeroutput><ref refid="structthemis_1_1modules_1_1_request_stats" kindref="compound">RequestStats</ref></computeroutput> snapshot each time a request sequence exhausts its retry budget (<computeroutput>retry_exhausted_count</computeroutput> was incremented) or a per-attempt timeout occurs (<computeroutput>timeout_count</computeroutput> was incremented). Callbacks are invoked under the internal <computeroutput>stats_mutex_</computeroutput>, so implementations must be non-blocking and must not re-enter any <computeroutput><ref refid="classthemis_1_1modules_1_1_remote_registry_client" kindref="compound">RemoteRegistryClient</ref></computeroutput> method. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="238" column="5" bodyfile="include/themis/base/remote_registry_client.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_remote_registry_client_1a6c462ae4a0466552f8c0570416235173" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_registry_config" kindref="compound">RegistryConfig</ref></type>
+        <definition>RegistryConfig themis::modules::RemoteRegistryClient::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="280" column="20" bodyfile="include/themis/base/remote_registry_client.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_remote_registry_client_1a06ecec0f5978a9c9e09cbbb118e24231" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::modules::RemoteRegistryClient::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="282" column="24" bodyfile="include/themis/base/remote_registry_client.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_remote_registry_client_1a79536311af6f674f483ce302f9bb3241" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_request_stats" kindref="compound">RequestStats</ref></type>
+        <definition>RequestStats themis::modules::RemoteRegistryClient::last_stats_</definition>
+        <argsstring></argsstring>
+        <name>last_stats_</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::last_stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="283" column="24" bodyfile="include/themis/base/remote_registry_client.h" bodystart="283" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_remote_registry_client_1afdee5c0e3a172c27cdff4e24f6e7245d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" kindref="member">ObservabilityHook</ref></type>
+        <definition>ObservabilityHook themis::modules::RemoteRegistryClient::observability_hook_</definition>
+        <argsstring></argsstring>
+        <name>observability_hook_</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::observability_hook_</qualifiedname>
+        <briefdescription>
+<para>Wave D exporter hook. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="285" column="24" bodyfile="include/themis/base/remote_registry_client.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1add00f1b649d80442ebaa7fb73e0356c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::RemoteRegistryClient::setObservabilityHook</definition>
+        <argsstring>(ObservabilityHook hook)</argsstring>
+        <name>setObservabilityHook</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::setObservabilityHook</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" kindref="member">ObservabilityHook</ref></type>
+          <declname>hook</declname>
+        </param>
+        <briefdescription>
+<para>Register a callback to receive retry-exhaust and timeout events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Replaces any previously registered hook. Pass a default-constructed <computeroutput><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" kindref="member">ObservabilityHook</ref></computeroutput> (empty function) to disable the hook.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hook</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callback; must be thread-safe and non-blocking. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="248" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::RemoteRegistryClient::RemoteRegistryClient</definition>
+        <argsstring>(const RegistryConfig &amp;config)</argsstring>
+        <name>RemoteRegistryClient</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::RemoteRegistryClient</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_registry_config" kindref="compound">RegistryConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="250" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a2300663fac3b236e2a21bfa7e96748c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::RemoteRegistryClient::~RemoteRegistryClient</definition>
+        <argsstring>()</argsstring>
+        <name>~RemoteRegistryClient</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::~RemoteRegistryClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="251" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1ab2f918ece1d16f3b9f875f34f6e72a44" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::RemoteRegistryClient::RemoteRegistryClient</definition>
+        <argsstring>(const RemoteRegistryClient &amp;)=delete</argsstring>
+        <name>RemoteRegistryClient</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::RemoteRegistryClient</qualifiedname>
+        <param>
+          <type>const RemoteRegistryClient &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="253" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1aa68cbc2a1fccf4fe20f07541640ae299" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" kindref="member">RemoteRegistryClient</ref> &amp;</type>
+        <definition>RemoteRegistryClient &amp; themis::modules::RemoteRegistryClient::operator=</definition>
+        <argsstring>(const RemoteRegistryClient &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" kindref="member">RemoteRegistryClient</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="254" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a8c8cf9958328a7cbc14074c55d5580b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref> &gt;</type>
+        <definition>std::vector&lt; RegistryPluginEntry &gt; themis::modules::RemoteRegistryClient::listPlugins</definition>
+        <argsstring>()</argsstring>
+        <name>listPlugins</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::listPlugins</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="256" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a40789ee914c2fd19b4b45dd1a83c704c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; std::vector&lt; <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref> &gt; &gt;</type>
+        <definition>std::future&lt; std::vector&lt; RegistryPluginEntry &gt; &gt; themis::modules::RemoteRegistryClient::listPluginsAsync</definition>
+        <argsstring>()</argsstring>
+        <name>listPluginsAsync</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::listPluginsAsync</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="257" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a502456a0f017a9525b3aa1b9df646f29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref> &gt;</type>
+        <definition>std::optional&lt; RegistryPluginEntry &gt; themis::modules::RemoteRegistryClient::fetchPlugin</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>fetchPlugin</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::fetchPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="259" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a16edf931420b76a9532c3ed9d8bd858d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; std::optional&lt; <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref> &gt; &gt;</type>
+        <definition>std::future&lt; std::optional&lt; RegistryPluginEntry &gt; &gt; themis::modules::RemoteRegistryClient::fetchPluginAsync</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>fetchPluginAsync</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::fetchPluginAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="260" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a03c901d3b9a6a4742c1a8acf1e65c53a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_plugin_download_result" kindref="compound">PluginDownloadResult</ref></type>
+        <definition>PluginDownloadResult themis::modules::RemoteRegistryClient::downloadPlugin</definition>
+        <argsstring>(const RegistryPluginEntry &amp;entry)</argsstring>
+        <name>downloadPlugin</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::downloadPlugin</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="262" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a8f688dbe88d26843503a8b9057af4689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1modules_1_1_plugin_download_result" kindref="compound">PluginDownloadResult</ref> &gt;</type>
+        <definition>std::future&lt; PluginDownloadResult &gt; themis::modules::RemoteRegistryClient::downloadPluginAsync</definition>
+        <argsstring>(const RegistryPluginEntry &amp;entry)</argsstring>
+        <name>downloadPluginAsync</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::downloadPluginAsync</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="263" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1adbbbc538a81f476453c0d3ee59dc9fab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_verification_result" kindref="compound">ModuleVerificationResult</ref></type>
+        <definition>ModuleVerificationResult themis::modules::RemoteRegistryClient::downloadAndLoad</definition>
+        <argsstring>(const RegistryPluginEntry &amp;entry, ModuleLoader &amp;loader)</argsstring>
+        <name>downloadAndLoad</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::downloadAndLoad</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> &amp;</type>
+          <declname>loader</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="265" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a1c2fd15a6624dacd5c650d7ceea33710" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1modules_1_1_registry_config" kindref="compound">RegistryConfig</ref> &amp;</type>
+        <definition>const RegistryConfig &amp; themis::modules::RemoteRegistryClient::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="268" column="26" bodyfile="include/themis/base/remote_registry_client.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1aa62fc70486a350556729d9f72942cd49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; std::string &gt;</type>
+        <definition>std::future&lt; std::string &gt; themis::modules::RemoteRegistryClient::httpGetAsync</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>httpGetAsync</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::httpGetAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="270" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a2e562cb03c72eafe58bfacff965a80bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; bool &gt;</type>
+        <definition>std::future&lt; bool &gt; themis::modules::RemoteRegistryClient::httpGetBinaryAsync</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;out_path)</argsstring>
+        <name>httpGetBinaryAsync</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::httpGetBinaryAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>out_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="271" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a5aa33181e84254983cb0f1a505a85c9b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_request_stats" kindref="compound">RequestStats</ref></type>
+        <definition>RequestStats themis::modules::RemoteRegistryClient::lastRequestStats</definition>
+        <argsstring>() const</argsstring>
+        <name>lastRequestStats</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::lastRequestStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="277" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1aea0a13a287b4c7baf00daf855596e2a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::modules::RemoteRegistryClient::setBackoffDispatcher</definition>
+        <argsstring>(std::function&lt; std::future&lt; void &gt;(std::chrono::milliseconds)&gt; dispatcher)</argsstring>
+        <name>setBackoffDispatcher</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::setBackoffDispatcher</qualifiedname>
+        <param>
+          <type>std::function&lt; std::future&lt; void &gt;(std::chrono::milliseconds)&gt;</type>
+          <declname>dispatcher</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="274" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1ac7d841ee59abd0e5a5a6b38a5d4df2a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RemoteRegistryClient::httpGet</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="287" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1ab3cbf7fc972e1397bdaf9a85eef2166d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::RemoteRegistryClient::httpGetBinary</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;out_path)</argsstring>
+        <name>httpGetBinary</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::httpGetBinary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>out_path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="288" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1abe9bb0bc61b6917009ae2ccc86ecff03" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::RemoteRegistryClient::buildAuthorizationHeader</definition>
+        <argsstring>() const</argsstring>
+        <name>buildAuthorizationHeader</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::buildAuthorizationHeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="292" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a5abc567cc886c964c0136c02784b2fb0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::modules::RemoteRegistryClient::verifyIntegrity</definition>
+        <argsstring>(const std::string &amp;file_path, const std::string &amp;expected_sha256)</argsstring>
+        <name>verifyIntegrity</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::verifyIntegrity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>expected_sha256</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="290" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a338ecf7ffbcfcc306ed2604da21af98a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::modules::RemoteRegistryClient::asyncBackoffSleep</definition>
+        <argsstring>(int ms)</argsstring>
+        <name>asyncBackoffSleep</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::asyncBackoffSleep</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="293" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_remote_registry_client_1a80b94903b0f9153287bd4a9ad71ad489" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::modules::RemoteRegistryClient::parseEntry</definition>
+        <argsstring>(const nlohmann::json &amp;obj, RegistryPluginEntry &amp;out)</argsstring>
+        <name>parseEntry</name>
+        <qualifiedname>themis::modules::RemoteRegistryClient::parseEntry</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_registry_plugin_entry" kindref="compound">RegistryPluginEntry</ref> &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/remote_registry_client.h" line="294" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Client for loading plugins from an authenticated remote registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Features:<itemizedlist>
+<listitem><para>Bearer token / API key authentication</para>
+</listitem><listitem><para>Plugin listing via HTTP GET /plugins</para>
+</listitem><listitem><para>Plugin binary download with SHA-256 integrity verification</para>
+</listitem><listitem><para>Integration with <ref refid="classthemis_1_1modules_1_1_module_loader" kindref="compound">ModuleLoader</ref> for final loading</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread safety: all public methods are safe to call from multiple threads.</para>
+<para>Async usage: the *Async variants (listPluginsAsync, fetchPluginAsync, downloadPluginAsync) return a std::future and run the entire operation — including retry back-off sleeps — on a detached worker thread, so the calling thread is never blocked. The client must be owned by a std::shared_ptr for those methods to work; they call shared_from_this() internally and throw std::bad_weak_ptr if the client is stack-allocated.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>client<sp/>=<sp/>std::make_shared&lt;RemoteRegistryClient&gt;(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Synchronous</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugins<sp/>=<sp/>client-&gt;listPlugins();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Asynchronous<sp/>(calling<sp/>thread<sp/>released<sp/>immediately)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>future<sp/>=<sp/>client-&gt;listPluginsAsync();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugins<sp/>=<sp/>future.get();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Synchronous<sp/>usage<sp/>(calling<sp/>thread<sp/>blocks<sp/>during<sp/>retries):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" kindref="member">RemoteRegistryClient</ref><sp/>client(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugins<sp/>=<sp/>client.listPlugins();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Async<sp/>usage<sp/>(calling<sp/>thread<sp/>is<sp/>released<sp/>during<sp/>retry<sp/>backoffs):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>client<sp/>=<sp/>std::make_shared&lt;RemoteRegistryClient&gt;(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fut<sp/>=<sp/>client-&gt;listPluginsAsync();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>…<sp/>do<sp/>other<sp/>work<sp/>…</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plugins<sp/>=<sp/>fut.get();</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entry<sp/>:<sp/>plugins)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>client-&gt;downloadPlugin(entry);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.success)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>loader.loadModule(result.local_path,<sp/>entry.name);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; RemoteRegistryClient &gt;</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::RemoteRegistryClient</label>
+        <link refid="classthemis_1_1modules_1_1_remote_registry_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::enable_shared_from_this&lt; RemoteRegistryClient &gt;</label>
+      </node>
+      <node id="1">
+        <label>themis::modules::RemoteRegistryClient</label>
+        <link refid="classthemis_1_1modules_1_1_remote_registry_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/themis/base/remote_registry_client.h" line="222" column="1" bodyfile="include/themis/base/remote_registry_client.h" bodystart="222" bodyend="295"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a338ecf7ffbcfcc306ed2604da21af98a" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>asyncBackoffSleep</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1abe9bb0bc61b6917009ae2ccc86ecff03" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>buildAuthorizationHeader</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a1c2fd15a6624dacd5c650d7ceea33710" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>config</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a6c462ae4a0466552f8c0570416235173" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>config_</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1adbbbc538a81f476453c0d3ee59dc9fab" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>downloadAndLoad</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a03c901d3b9a6a4742c1a8acf1e65c53a" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>downloadPlugin</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a8f688dbe88d26843503a8b9057af4689" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>downloadPluginAsync</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a502456a0f017a9525b3aa1b9df646f29" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>fetchPlugin</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a16edf931420b76a9532c3ed9d8bd858d" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>fetchPluginAsync</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1ac7d841ee59abd0e5a5a6b38a5d4df2a9" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>httpGet</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1aa62fc70486a350556729d9f72942cd49" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>httpGetAsync</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1ab3cbf7fc972e1397bdaf9a85eef2166d" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>httpGetBinary</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a2e562cb03c72eafe58bfacff965a80bf" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>httpGetBinaryAsync</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a79536311af6f674f483ce302f9bb3241" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>last_stats_</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a5aa33181e84254983cb0f1a505a85c9b" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>lastRequestStats</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a8c8cf9958328a7cbc14074c55d5580b1" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>listPlugins</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a40789ee914c2fd19b4b45dd1a83c704c" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>listPluginsAsync</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1afdee5c0e3a172c27cdff4e24f6e7245d" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>observability_hook_</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a1313e356829cdaae86cb9f7fef2f2605" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>ObservabilityHook</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1aa68cbc2a1fccf4fe20f07541640ae299" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a80b94903b0f9153287bd4a9ad71ad489" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>parseEntry</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a18d7989b14dff43388cd8e85cce4f6b0" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>RemoteRegistryClient</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1ab2f918ece1d16f3b9f875f34f6e72a44" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>RemoteRegistryClient</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1aea0a13a287b4c7baf00daf855596e2a6" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>setBackoffDispatcher</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1add00f1b649d80442ebaa7fb73e0356c6" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>setObservabilityHook</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a06ecec0f5978a9c9e09cbbb118e24231" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a5abc567cc886c964c0136c02784b2fb0" prot="private" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>verifyIntegrity</name></member>
+      <member refid="classthemis_1_1modules_1_1_remote_registry_client_1a2300663fac3b236e2a21bfa7e96748c2" prot="public" virt="non-virtual"><scope>themis::modules::RemoteRegistryClient</scope><name>~RemoteRegistryClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

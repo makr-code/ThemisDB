@@ -1,0 +1,549 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__acceleration__dispatch_8cpp" kind="file" language="C++">
+    <compoundname>bench_acceleration_dispatch.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="cpu__backend_8h" local="yes">acceleration/cpu_backend.h</includes>
+    <includes refid="kernel__invocation_8h" local="yes">acceleration/kernel_invocation.h</includes>
+    <includes local="no">random</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/acceleration/bench_acceleration_dispatch.cpp</label>
+        <link refid="bench__acceleration__dispatch_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>acceleration/compute_backend.h</label>
+        <link refid="compute__backend_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>acceleration/compute_future.h</label>
+        <link refid="compute__future_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>acceleration/cpu_backend.h</label>
+        <link refid="cpu__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>acceleration/error_codes.h</label>
+        <link refid="error__codes_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>acceleration/error_context.h</label>
+        <link refid="error__context_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>acceleration/kernel_invocation.h</label>
+        <link refid="kernel__invocation_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>acceleration/tensor_core_matmul.h</label>
+        <link refid="tensor__core__matmul_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="20">
+        <label>functional</label>
+      </node>
+      <node id="21">
+        <label>future</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="24">
+        <label>random</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="22">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_ann_dispatch_bench_fixture" prot="public">AnnDispatchBenchFixture</innerclass>
+    <innerclass refid="class_geo_dispatch_bench_fixture" prot="public">GeoDispatchBenchFixture</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__acceleration__dispatch_8cpp_1ad8aca6918d73814c45a0524b526325d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(AnnDispatchBenchFixture, L2Distance)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>L2Distance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="82" column="1" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="82" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__acceleration__dispatch_8cpp_1a67e654901245b1ab6ba40b8e0321a181" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Args</definition>
+        <argsstring>({32, 100}) -&gt; Args({128, 100}) -&gt;Args({128, 1000}) -&gt;Args({512, 100}) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Args</name>
+        <param>
+          <type>{32, 100}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="105" column="5" declfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" declline="105" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__acceleration__dispatch_8cpp_1a81950e095d70bef320e24d3e899c1e6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(AnnDispatchBenchFixture, CosineDistance)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>CosineDistance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="115" column="1" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="115" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__acceleration__dispatch_8cpp_1a1f431b52bfab82f945f5d72b6056951e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Arg</definition>
+        <argsstring>(100) -&gt; Arg(1000) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Arg</name>
+        <param>
+          <type>100</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="135" column="5" declfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" declline="135" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__acceleration__dispatch_8cpp_1ab1757a9fecbd22ffe90e2164e1908e13" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(AnnDispatchBenchFixture, TopK)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>TopK</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="143" column="1" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="143" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__acceleration__dispatch_8cpp_1a1bb5135d5276080a0b7298979d5c1521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Args</definition>
+        <argsstring>({1, 100}) -&gt; Args({10, 100}) -&gt;Args({1, 1000}) -&gt;Args({10, 1000}) -&gt;Unit(benchmark::kMicrosecond)</argsstring>
+        <name>Args</name>
+        <param>
+          <type>{1, 100}</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="172" column="5" declfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" declline="172" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__acceleration__dispatch_8cpp_1aa282c5bda46612814daece350cd0a669" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_DEFINE_F</definition>
+        <argsstring>(GeoDispatchBenchFixture, HaversineBatch)(benchmark</argsstring>
+        <name>BENCHMARK_DEFINE_F</name>
+        <param>
+          <type><ref refid="class_geo_dispatch_bench_fixture" kindref="compound">GeoDispatchBenchFixture</ref></type>
+        </param>
+        <param>
+          <type>HaversineBatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="197" column="1" bodyfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" bodystart="197" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__acceleration__dispatch_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp" line="235" column="1" declfile="benchmarks/acceleration/bench_acceleration_dispatch.cpp" declline="235" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Performance benchmarks for the CPU acceleration dispatch layer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses the kernel dispatch table populated by <ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" kindref="compound">CPUVectorBackend</ref> and <ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" kindref="compound">CPUGeoBackend</ref>, matching the actual production execution path.</para>
+<para>Covers:<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a496471d178fff443b65c821858573ea9" kindref="member">ANNKernelDispatch::launchL2Distance</ref> (CPU ANN, L2 metric)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a92a3b823f21bc6d47c6074186d7345a4" kindref="member">ANNKernelDispatch::launchCosine</ref> (CPU ANN, cosine metric)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a6f7dee0b9389fa9e6e3b15d0cc597715" kindref="member">ANNKernelDispatch::launchTopK</ref> (top-k selection)</para>
+</listitem><listitem><para><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch_1a0f3faf63cb20ab2fa29a1721c0b2ba76" kindref="member">GeoKernelDispatch::launchDistance</ref> (haversine batch)</para>
+</listitem></itemizedlist>
+</para>
+<para>Performance targets (src/acceleration/ROADMAP.md):<itemizedlist>
+<listitem><para>launchL2Distance 128-dim, 1 query vs 1000 vecs: &lt; 500 µs</para>
+</listitem><listitem><para>launchTopK 10 queries, 1000 vecs, k=10: &lt; 200 µs</para>
+</listitem><listitem><para>launchDistance 1000 pairs: &lt; 100 µs </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cpu__backend_8h" kindref="compound">acceleration/cpu_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kernel__invocation_8h" kindref="compound">acceleration/kernel_invocation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">themis::acceleration</ref>;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">std::vector&lt;float&gt;<sp/>randomFloatVectors(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>42)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dist(-1.0f,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>data(count<sp/>*<sp/>dim);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>v<sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>v<sp/>=<sp/>dist(rng);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal">std::vector&lt;double&gt;<sp/>randomDoubleVectors(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count,<sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/>seed<sp/>=<sp/>7)<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/>rng(seed);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>lat_dist(-90.0,<sp/>90.0);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;double&gt;<sp/>lon_dist(-180.0,<sp/>180.0);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>data;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>data.reserve(count<sp/>*<sp/>2);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data.push_back(lat_dist(rng));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data.push_back(lon_dist(rng));</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>data;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ANN<sp/>dispatch<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="class_ann_dispatch_bench_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_ann_dispatch_bench_fixture_1a8c4e50939a0ec2949b5cd061a44e7483" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_ann_dispatch_bench_fixture_1a0a78ef7b5fba002b72cb59544d259863" kindref="member">backend_</ref>.initialize())<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mutable_state<sp/>=<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="normal">benchmark::State&amp;</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutable_state.SkipWithError(</highlight><highlight class="stringliteral">&quot;CPUVectorBackend::initialize()<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_ann_dispatch_bench_fixture_1ab938d6852f3113c33fb5eca62c53763b" kindref="member">disp_</ref><sp/>=<sp/><ref refid="class_ann_dispatch_bench_fixture_1a0a78ef7b5fba002b72cb59544d259863" kindref="member">backend_</ref>.populateANNDispatch();</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" kindref="compound">CPUVectorBackend</ref><sp/><ref refid="class_ann_dispatch_bench_fixture_1a0a78ef7b5fba002b72cb59544d259863" kindref="member">backend_</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref><sp/><ref refid="class_ann_dispatch_bench_fixture_1ab938d6852f3113c33fb5eca62c53763b" kindref="member">disp_</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>launchL2Distance<sp/>–<sp/>throughput<sp/>vs.<sp/>vector-set<sp/>size</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="bench__acceleration__dispatch_8cpp_1ad8aca6918d73814c45a0524b526325d6" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref>,<sp/>L2Distance)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_vecs<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(1));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>nQry<sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>queries<sp/>=<sp/>randomFloatVectors(nQry,<sp/><sp/><sp/><sp/><sp/>dim);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vectors<sp/>=<sp/>randomFloatVectors(num_vecs,<sp/>dim);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>out(nQry<sp/>*<sp/>num_vecs,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>disp_.launchL2Distance(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>queries.data(),<sp/>vectors.data(),<sp/>out.data(),</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nQry,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_vecs),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dim),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(rc);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(out[0]);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_vecs));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;L2,<sp/>dim=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(dim)<sp/>+</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>vecs=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(num_vecs));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref>,<sp/>L2Distance)</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Args({32,<sp/><sp/><sp/>100})</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<ref refid="bench__acceleration__dispatch_8cpp_1a67e654901245b1ab6ba40b8e0321a181" kindref="member">Args</ref>({128,<sp/><sp/>100})</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<ref refid="bench__acceleration__dispatch_8cpp_1a67e654901245b1ab6ba40b8e0321a181" kindref="member">Args</ref>({128,<sp/>1000})</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<ref refid="bench__acceleration__dispatch_8cpp_1a67e654901245b1ab6ba40b8e0321a181" kindref="member">Args</ref>({512,<sp/><sp/>100})</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>launchCosine<sp/>–<sp/>cosine<sp/>distance<sp/>dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="bench__acceleration__dispatch_8cpp_1ad8aca6918d73814c45a0524b526325d6" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref>,<sp/>CosineDistance)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dim<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_vecs<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>nQry<sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>queries<sp/>=<sp/>randomFloatVectors(nQry,<sp/><sp/><sp/><sp/><sp/>dim);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vectors<sp/>=<sp/>randomFloatVectors(num_vecs,<sp/>dim);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>out(nQry<sp/>*<sp/>num_vecs,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>disp_.launchCosine(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>queries.data(),<sp/>vectors.data(),<sp/>out.data(),</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nQry,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_vecs),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dim),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(rc);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(num_vecs));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref>,<sp/>CosineDistance)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100)</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1000)</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>launchTopK<sp/>–<sp/>top-k<sp/>selection<sp/>from<sp/>precomputed<sp/>distance<sp/>matrix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="bench__acceleration__dispatch_8cpp_1ad8aca6918d73814c45a0524b526325d6" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref>,<sp/>TopK)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>nQry<sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_vecs<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(1));</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>k<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pre-compute<sp/>distances</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>queries<sp/>=<sp/>randomFloatVectors(nQry,<sp/><sp/><sp/><sp/><sp/>128);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vectors<sp/>=<sp/>randomFloatVectors(num_vecs,<sp/>128);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>distances(nQry<sp/>*<sp/>num_vecs,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>disp_.launchL2Distance(queries.data(),<sp/>vectors.data(),<sp/>distances.data(),</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nQry,<sp/>num_vecs,<sp/>128,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/>topk_idx(nQry<sp/>*<sp/>k);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><sp/>topk_dists(nQry<sp/>*<sp/>k);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>disp_.launchTopK(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>distances.data(),<sp/>topk_idx.data(),<sp/>topk_dists.data(),</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nQry,<sp/>num_vecs,<sp/>k,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(rc);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(topk_idx[0]);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/>nQry);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;k=10,<sp/>queries=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(nQry)<sp/>+</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;<sp/>vecs=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(num_vecs));</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_ann_dispatch_bench_fixture" kindref="compound">AnnDispatchBenchFixture</ref>,<sp/>TopK)</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Args({1,<sp/><sp/><sp/>100})</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<ref refid="bench__acceleration__dispatch_8cpp_1a67e654901245b1ab6ba40b8e0321a181" kindref="member">Args</ref>({10,<sp/><sp/>100})</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<ref refid="bench__acceleration__dispatch_8cpp_1a67e654901245b1ab6ba40b8e0321a181" kindref="member">Args</ref>({1,<sp/><sp/>1000})</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;<ref refid="bench__acceleration__dispatch_8cpp_1a67e654901245b1ab6ba40b8e0321a181" kindref="member">Args</ref>({10,<sp/>1000})</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Geo<sp/>dispatch<sp/>–<sp/>launchDistance<sp/>(haversine<sp/>batch)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="class_geo_dispatch_bench_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_geo_dispatch_bench_fixture" kindref="compound">GeoDispatchBenchFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>benchmark::Fixture<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_geo_dispatch_bench_fixture_1ab461d881ba151c8d66445107f35d2f7b" kindref="member">SetUp</ref>(const<sp/>::benchmark::State&amp;<sp/>state)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_geo_dispatch_bench_fixture_1a4475308617ef5f6791baad846ba9870c" kindref="member">backend_</ref>.initialize())<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>mutable_state<sp/>=<sp/></highlight><highlight class="keyword">const_cast&lt;</highlight><highlight class="normal">benchmark::State&amp;</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutable_state.SkipWithError(</highlight><highlight class="stringliteral">&quot;CPUGeoBackend::initialize()<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_geo_dispatch_bench_fixture_1a81629e3b50b03c023d3bbac6293143f2" kindref="member">disp_</ref><sp/>=<sp/><ref refid="class_geo_dispatch_bench_fixture_1a4475308617ef5f6791baad846ba9870c" kindref="member">backend_</ref>.populateGeoDispatch();</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1acceleration_1_1_c_p_u_geo_backend" kindref="compound">CPUGeoBackend</ref><sp/><sp/><sp/><sp/><sp/><ref refid="class_geo_dispatch_bench_fixture_1a4475308617ef5f6791baad846ba9870c" kindref="member">backend_</ref>;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref><sp/><ref refid="class_geo_dispatch_bench_fixture_1a81629e3b50b03c023d3bbac6293143f2" kindref="member">disp_</ref>;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="bench__acceleration__dispatch_8cpp_1ad8aca6918d73814c45a0524b526325d6" kindref="member">BENCHMARK_DEFINE_F</ref>(<ref refid="class_geo_dispatch_bench_fixture" kindref="compound">GeoDispatchBenchFixture</ref>,<sp/>HaversineBatch)(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>n<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(state.range(0));</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>coords1<sp/>=<sp/>randomDoubleVectors(n,<sp/>3);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>coords2<sp/>=<sp/>randomDoubleVectors(n,<sp/>5);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>lats1(n),<sp/>lons1(n),<sp/>lats2(n),<sp/>lons2(n);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>n;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lats1[i]<sp/>=<sp/>coords1[2<sp/>*<sp/>i];</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lons1[i]<sp/>=<sp/>coords1[2<sp/>*<sp/>i<sp/>+<sp/>1];</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lats2[i]<sp/>=<sp/>coords2[2<sp/>*<sp/>i];</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lons2[i]<sp/>=<sp/>coords2[2<sp/>*<sp/>i<sp/>+<sp/>1];</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>out(n,<sp/>0.0f);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rc<sp/>=<sp/>disp_.launchDistance(</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lats1.data(),<sp/>lons1.data(),</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lats2.data(),<sp/>lons2.data(),</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.data(),</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n),</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1ad9eabbc5644f0e13cb01dce2e86e6cd8a81c921de8f8e0770b86be8ad22767827" kindref="member">GeoDistanceFormula::HAVERSINE</ref>,</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(rc);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(out[0]);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetItemsProcessed(state.iterations()<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(n));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>state.SetLabel(</highlight><highlight class="stringliteral">&quot;n=&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(n));</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal">BENCHMARK_REGISTER_F(<ref refid="class_geo_dispatch_bench_fixture" kindref="compound">GeoDispatchBenchFixture</ref>,<sp/>HaversineBatch)</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(100)</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(1000)</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Arg(10000)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="bench__acceleration__dispatch_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/acceleration/bench_acceleration_dispatch.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,2414 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1modules_1_1_module_loader" kind="class" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleLoader</compoundname>
+    <includes refid="module__loader_8h" local="no">module_loader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a5c95bb28c18bdc5ab239f05aa6bfde39" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1modules_1_1_loaded_module" kindref="compound">LoadedModule</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, LoadedModule&gt; themis::modules::ModuleLoader::loadedModules_</definition>
+        <argsstring></argsstring>
+        <name>loadedModules_</name>
+        <qualifiedname>themis::modules::ModuleLoader::loadedModules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="686" column="24" bodyfile="include/themis/base/module_loader.h" bodystart="686" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1aa451dee9123d08fbde962eb21a246fa3" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::modules::ModuleLoader::modulesMutex_</definition>
+        <argsstring></argsstring>
+        <name>modulesMutex_</name>
+        <qualifiedname>themis::modules::ModuleLoader::modulesMutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="687" column="31" bodyfile="include/themis/base/module_loader.h" bodystart="687" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1ab4b55b23e600bcad7f2295d71488c64e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1modules_1_1_module_security_verifier" kindref="compound">ModuleSecurityVerifier</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ModuleSecurityVerifier&gt; themis::modules::ModuleLoader::verifier_</definition>
+        <argsstring></argsstring>
+        <name>verifier_</name>
+        <qualifiedname>themis::modules::ModuleLoader::verifier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="688" column="21" bodyfile="include/themis/base/module_loader.h" bodystart="688" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a4103f96ea38e4e0f1064abb1c5505d39" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1modules_1_1_module_hash_verifier" kindref="compound">ModuleHashVerifier</ref></type>
+        <definition>ModuleHashVerifier themis::modules::ModuleLoader::hashVerifier_</definition>
+        <argsstring></argsstring>
+        <name>hashVerifier_</name>
+        <qualifiedname>themis::modules::ModuleLoader::hashVerifier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="691" column="24" bodyfile="include/themis/base/module_loader.h" bodystart="691" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a4a0f7f56fe46f8a736e4d3d264eaed25" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1modules_1_1_module_failure_history" kindref="compound">ModuleFailureHistory</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ModuleFailureHistory&gt; themis::modules::ModuleLoader::failureHistory_</definition>
+        <argsstring></argsstring>
+        <name>failureHistory_</name>
+        <qualifiedname>themis::modules::ModuleLoader::failureHistory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="694" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="694" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a2120efdd7b33002d7dd5cb7f41fb4aaa" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::ModuleLoader::quarantineThreshold_</definition>
+        <argsstring></argsstring>
+        <name>quarantineThreshold_</name>
+        <qualifiedname>themis::modules::ModuleLoader::quarantineThreshold_</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="695" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="695" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1afa0e7d419ec96cb2792c4c914e680614" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::ModuleLoader::maxBackoffSeconds_</definition>
+        <argsstring></argsstring>
+        <name>maxBackoffSeconds_</name>
+        <qualifiedname>themis::modules::ModuleLoader::maxBackoffSeconds_</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="696" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="696" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1aaa63c5e55bcb69c5db517923bfcc615b" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_module_metrics" kindref="compound">ModuleMetrics</ref></type>
+        <definition>ModuleMetrics themis::modules::ModuleLoader::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::modules::ModuleLoader::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="699" column="19" bodyfile="include/themis/base/module_loader.h" bodystart="699" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a6706f5979528740dad44b74969e4549c" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::ModuleLoader::themisABIMajor_</definition>
+        <argsstring></argsstring>
+        <name>themisABIMajor_</name>
+        <qualifiedname>themis::modules::ModuleLoader::themisABIMajor_</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="702" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="702" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a741b22d3f522d64a026eabea4d3de044" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::modules::ModuleLoader::themisABIMinor_</definition>
+        <argsstring></argsstring>
+        <name>themisABIMinor_</name>
+        <qualifiedname>themis::modules::ModuleLoader::themisABIMinor_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="703" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="703" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a3bc9bd22bacfcbfced7e4f1e508f1829" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::stagedLoadingEnabled_</definition>
+        <argsstring></argsstring>
+        <name>stagedLoadingEnabled_</name>
+        <qualifiedname>themis::modules::ModuleLoader::stagedLoadingEnabled_</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="706" column="10" bodyfile="include/themis/base/module_loader.h" bodystart="706" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a3f8ffc66d6f6429a17804ac2af4855de" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="namespacethemis_1_1modules_1a247a06ddf27e20bcdd99cb9339b9114a" kindref="member">HealthCheckFunction</ref> &gt;</type>
+        <definition>std::map&lt;std::string, HealthCheckFunction&gt; themis::modules::ModuleLoader::healthChecks_</definition>
+        <argsstring></argsstring>
+        <name>healthChecks_</name>
+        <qualifiedname>themis::modules::ModuleLoader::healthChecks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="707" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="707" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1aefde201ddf1c1ae74599b6322c1a66c9" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ModuleMetadata&gt; themis::modules::ModuleLoader::metadataCache_</definition>
+        <argsstring></argsstring>
+        <name>metadataCache_</name>
+        <qualifiedname>themis::modules::ModuleLoader::metadataCache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="708" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="708" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a22abdea99e6c4bb66dc7e78cc9c87b22" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1modules_1_1_watchdog_config" kindref="compound">WatchdogConfig</ref></type>
+        <definition>WatchdogConfig themis::modules::ModuleLoader::watchdogConfig_</definition>
+        <argsstring></argsstring>
+        <name>watchdogConfig_</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogConfig_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="713" column="20" bodyfile="include/themis/base/module_loader.h" bodystart="713" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1af6c87f65fcbf5f2874d8ebf26062dade" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1modules_1_1_watchdog_module_stats" kindref="compound">WatchdogModuleStats</ref> &gt;</type>
+        <definition>std::map&lt;std::string, WatchdogModuleStats&gt; themis::modules::ModuleLoader::watchdogStats_</definition>
+        <argsstring></argsstring>
+        <name>watchdogStats_</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogStats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="714" column="14" bodyfile="include/themis/base/module_loader.h" bodystart="714" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1ace0ef5323d6ce9cfd39b09e25822d2fa" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::modules::ModuleLoader::watchdogThread_</definition>
+        <argsstring></argsstring>
+        <name>watchdogThread_</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogThread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="715" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="715" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1aab494498a0ce2bdcf9d369cf971f4e21" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::modules::ModuleLoader::watchdogMutex_</definition>
+        <argsstring></argsstring>
+        <name>watchdogMutex_</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogMutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="716" column="24" bodyfile="include/themis/base/module_loader.h" bodystart="716" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a910d771390038e6698d957529a75c2c2" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::modules::ModuleLoader::watchdogCv_</definition>
+        <argsstring></argsstring>
+        <name>watchdogCv_</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogCv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="717" column="29" bodyfile="include/themis/base/module_loader.h" bodystart="717" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1modules_1_1_module_loader_1a3936b51a686ef2abc549f7743e1311c6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::modules::ModuleLoader::watchdogRunning_</definition>
+        <argsstring></argsstring>
+        <name>watchdogRunning_</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogRunning_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="718" column="17" bodyfile="include/themis/base/module_loader.h" bodystart="718" bodyend="718"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a53e6022c1aae39d4a99737d8a5289568" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleLoader::ModuleLoader</definition>
+        <argsstring>()</argsstring>
+        <name>ModuleLoader</name>
+        <qualifiedname>themis::modules::ModuleLoader::ModuleLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="352" column="5" bodyfile="src/themis/module_loader.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a708902e841184aadebf4b6670cd4cdb5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleLoader::~ModuleLoader</definition>
+        <argsstring>()</argsstring>
+        <name>~ModuleLoader</name>
+        <qualifiedname>themis::modules::ModuleLoader::~ModuleLoader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="353" column="5" bodyfile="src/themis/module_loader.cpp" bodystart="69" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a70094e1b467ea8dfc9c4bae12ed500fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::modules::ModuleLoader::ModuleLoader</definition>
+        <argsstring>(const ModuleLoader &amp;)=delete</argsstring>
+        <name>ModuleLoader</name>
+        <qualifiedname>themis::modules::ModuleLoader::ModuleLoader</qualifiedname>
+        <param>
+          <type>const ModuleLoader &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="356" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1af4b818d977376c9b39ab7d7de0b48bec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1modules_1_1_module_loader_1a53e6022c1aae39d4a99737d8a5289568" kindref="member">ModuleLoader</ref> &amp;</type>
+        <definition>ModuleLoader &amp; themis::modules::ModuleLoader::operator=</definition>
+        <argsstring>(const ModuleLoader &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::modules::ModuleLoader::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1modules_1_1_module_loader_1a53e6022c1aae39d4a99737d8a5289568" kindref="member">ModuleLoader</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="357" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a9aa0491353fa7587c8794e801c5c8f97" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_verification_result" kindref="compound">ModuleVerificationResult</ref></type>
+        <definition>ModuleVerificationResult themis::modules::ModuleLoader::loadModule</definition>
+        <argsstring>(const std::string &amp;modulePath, const std::string &amp;moduleName)</argsstring>
+        <name>loadModule</name>
+        <qualifiedname>themis::modules::ModuleLoader::loadModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Load a ThemisDB module with security verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load Module.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to the module DLL/SO </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected module name (e.g., &quot;themis_storage&quot;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result with success status</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), std::time(), spdlog::info(), checkQuarantine(), updateMetrics(), <ref refid="classthemis_1_1modules_1_1_module_loader_1a37938deaaabeadd827657e959e2e9d89" kindref="member">isModuleLoaded()</ref>, categorizeError(), getErrorMessage(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="365" column="30" bodyfile="src/themis/module_loader.cpp" bodystart="163" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1ac7744eb631cf7d23c200ab76075b50d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::modules::ModuleLoader::loadAllModules</definition>
+        <argsstring>(const std::string &amp;moduleDirectory)</argsstring>
+        <name>loadAllModules</name>
+        <qualifiedname>themis::modules::ModuleLoader::loadAllModules</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleDirectory</declname>
+        </param>
+        <briefdescription>
+<para>Load all required modules from a directory. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load All Modules.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleDirectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Directory containing themis_* modules </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of successfully loaded modules</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">moduleDirectory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: spdlog::info(), std::filesystem::exists(), spdlog::error(), std::filesystem::directory_iterator(), is_regular_file(), path(), filename(), string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="373" column="12" bodyfile="src/themis/module_loader.cpp" bodystart="444" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a9526dc3d025a4674722949ac10ddde77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::unloadModule</definition>
+        <argsstring>(const std::string &amp;moduleName)</argsstring>
+        <name>unloadModule</name>
+        <qualifiedname>themis::modules::ModuleLoader::unloadModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Unload a specific module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload Module.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module to unload</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), find(), end(), spdlog::info(), std::time(), PluginSecurityAuditor::instance(), logEvent(), unloadLibrary(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="379" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="499" bodyend="521"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1aff405309db50510ebe1ebde6ec969ef9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::unloadAllModules</definition>
+        <argsstring>()</argsstring>
+        <name>unloadAllModules</name>
+        <qualifiedname>themis::modules::ModuleLoader::unloadAllModules</qualifiedname>
+        <briefdescription>
+<para>Unload all modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unload All Modules.</para>
+<para>Calls: lk(), spdlog::info(), size(), PluginSecurityAuditor::instance(), std::time(), logEvent(), unloadLibrary(), <ref refid="classthemis_1_1modules_1_1_module_registry_1a8af9eca1422ec1a7516c242191a1b760" kindref="member">ModuleRegistry::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="384" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="527" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a37938deaaabeadd827657e959e2e9d89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::isModuleLoaded</definition>
+        <argsstring>(const std::string &amp;moduleName) const</argsstring>
+        <name>isModuleLoaded</name>
+        <qualifiedname>themis::modules::ModuleLoader::isModuleLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Check if a module is loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if loaded, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulesMutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="391" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="551" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a3c325c223b340a1d30f844f316a07e22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1modules_1_1_loaded_module" kindref="compound">LoadedModule</ref> &gt;</type>
+        <definition>std::optional&lt; LoadedModule &gt; themis::modules::ModuleLoader::getModuleInfo</definition>
+        <argsstring>(const std::string &amp;moduleName) const</argsstring>
+        <name>getModuleInfo</name>
+        <qualifiedname>themis::modules::ModuleLoader::getModuleInfo</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Get information about a loaded module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional module info (nullopt if not loaded) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulesMutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="398" column="19" bodyfile="src/themis/module_loader.cpp" bodystart="562" bodyend="576"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1abbe81ad282cb66c5d5545bd57c6287f5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_loaded_module" kindref="compound">LoadedModule</ref> &gt;</type>
+        <definition>std::vector&lt; LoadedModule &gt; themis::modules::ModuleLoader::getAllLoadedModules</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllLoadedModules</name>
+        <qualifiedname>themis::modules::ModuleLoader::getAllLoadedModules</qualifiedname>
+        <briefdescription>
+<para>Get all loaded modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of all loaded modules </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulesMutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="404" column="17" bodyfile="src/themis/module_loader.cpp" bodystart="578" bodyend="596"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a9382f63fc21c25d4bd4d76a001bf5c53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::setRequireSignature</definition>
+        <argsstring>(bool require)</argsstring>
+        <name>setRequireSignature</name>
+        <qualifiedname>themis::modules::ModuleLoader::setRequireSignature</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>require</declname>
+        </param>
+        <briefdescription>
+<para>Set whether to require signature verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Require Signature.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>require</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, reject unsigned modules (production mode)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">require</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRequireSignature without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="410" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="607" bodyend="609"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a1c132e8fbe215723fddac27b65931e62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::setAllowUnsigned</definition>
+        <argsstring>(bool allow)</argsstring>
+        <name>setAllowUnsigned</name>
+        <qualifiedname>themis::modules::ModuleLoader::setAllowUnsigned</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>allow</declname>
+        </param>
+        <briefdescription>
+<para>Set whether to allow unsigned modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Allow Unsigned.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>allow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, allow unsigned modules (development mode)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">allow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAllowUnsigned without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="416" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="616" bodyend="618"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a534c53c1e75fcd19261ffc1fe4ad9967" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::addWhitelistedHash</definition>
+        <argsstring>(const std::string &amp;hash)</argsstring>
+        <name>addWhitelistedHash</name>
+        <qualifiedname>themis::modules::ModuleLoader::addWhitelistedHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+<para>Add a hash to the module whitelist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Whitelisted Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SHA-256 hash to whitelist</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addWhitelistedHash without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="422" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="625" bodyend="627"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a94ba532ebbac333cf96ea964b8d5aabc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::addBlacklistedHash</definition>
+        <argsstring>(const std::string &amp;hash)</argsstring>
+        <name>addBlacklistedHash</name>
+        <qualifiedname>themis::modules::ModuleLoader::addBlacklistedHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>hash</declname>
+        </param>
+        <briefdescription>
+<para>Add a hash to the module blacklist. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Blacklisted Hash.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>SHA-256 hash to blacklist</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements addBlacklistedHash without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="428" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="634" bodyend="636"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a6cc00885d5d6133b04970ba4af814167" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1modules_1_1_module_failure_history" kindref="compound">ModuleFailureHistory</ref> &gt;</type>
+        <definition>std::optional&lt; ModuleFailureHistory &gt; themis::modules::ModuleLoader::getFailureHistory</definition>
+        <argsstring>(const std::string &amp;modulePath) const</argsstring>
+        <name>getFailureHistory</name>
+        <qualifiedname>themis::modules::ModuleLoader::getFailureHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+<para>Get failure history for a module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional failure history (nullopt if no failures) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="435" column="19" bodyfile="src/themis/module_loader.cpp" bodystart="1117" bodyend="1123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1acb98c6c3cfe30ffccc659e2566fe2867" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::modules::ModuleLoader::getQuarantinedModules</definition>
+        <argsstring>() const</argsstring>
+        <name>getQuarantinedModules</name>
+        <qualifiedname>themis::modules::ModuleLoader::getQuarantinedModules</qualifiedname>
+        <briefdescription>
+<para>Get all quarantined modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of quarantined module paths </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="441" column="17" bodyfile="src/themis/module_loader.cpp" bodystart="1125" bodyend="1134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1abc1d9b84fd7acd5e1ae7ce0104759080" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::releaseFromQuarantine</definition>
+        <argsstring>(const std::string &amp;modulePath)</argsstring>
+        <name>releaseFromQuarantine</name>
+        <qualifiedname>themis::modules::ModuleLoader::releaseFromQuarantine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+<para>Release a module from quarantine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release From Quarantine.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to module to release </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if released, false if not quarantined</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), isQuarantined(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="448" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1142" bodyend="1157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a04dc5ca36ab797bcb5aba62b47475104" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::clearFailureHistory</definition>
+        <argsstring>(const std::string &amp;modulePath)</argsstring>
+        <name>clearFailureHistory</name>
+        <qualifiedname>themis::modules::ModuleLoader::clearFailureHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+<para>Clear failure history for a module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Failure History.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to module</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), isQuarantined(), erase(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="454" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1164" bodyend="1173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a284311ceacc676b8a1b5b0a051a53f99" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_metrics" kindref="compound">ModuleMetrics</ref></type>
+        <definition>ModuleMetrics themis::modules::ModuleLoader::getMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>getMetrics</name>
+        <qualifiedname>themis::modules::ModuleLoader::getMetrics</qualifiedname>
+        <briefdescription>
+<para>Get current module metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current metrics snapshot </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="460" column="19" bodyfile="src/themis/module_loader.cpp" bodystart="1265" bodyend="1267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1afb62d66fa3b67b44c6421826eb5532be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::resetMetrics</definition>
+        <argsstring>()</argsstring>
+        <name>resetMetrics</name>
+        <qualifiedname>themis::modules::ModuleLoader::resetMetrics</qualifiedname>
+        <briefdescription>
+<para>Reset all metrics to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Metrics.</para>
+<para>Calls: ModuleMetrics(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="465" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1273" bodyend="1276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1afbb7367db00baded6fa19724347926a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::isABICompatible</definition>
+        <argsstring>(const ModuleMetadata &amp;metadata) const</argsstring>
+        <name>isABICompatible</name>
+        <qualifiedname>themis::modules::ModuleLoader::isABICompatible</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Check if ABI is compatible with ThemisDB. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Module metadata to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if compatible, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="472" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1199" bodyend="1226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a99b696eb1c3e486e2573ac1decd2eadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::setQuarantineThreshold</definition>
+        <argsstring>(uint32_t threshold)</argsstring>
+        <name>setQuarantineThreshold</name>
+        <qualifiedname>themis::modules::ModuleLoader::setQuarantineThreshold</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Set quarantine threshold (consecutive failures before quarantine). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Quarantine Threshold.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of failures (default: 3)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="478" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1180" bodyend="1183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a9278809641d208f5cb30ad03e86bfc6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::setMaxBackoffSeconds</definition>
+        <argsstring>(uint32_t maxSeconds)</argsstring>
+        <name>setMaxBackoffSeconds</name>
+        <qualifiedname>themis::modules::ModuleLoader::setMaxBackoffSeconds</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>maxSeconds</declname>
+        </param>
+        <briefdescription>
+<para>Set maximum backoff time in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Max Backoff Seconds.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>maxSeconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum backoff time (default: 300 = 5 minutes)</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">maxSeconds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="484" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1190" bodyend="1193"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1ab5c81192c7d4f5af484c7112c4e13730" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::registerHealthCheck</definition>
+        <argsstring>(const std::string &amp;checkName, HealthCheckFunction checkFunc)</argsstring>
+        <name>registerHealthCheck</name>
+        <qualifiedname>themis::modules::ModuleLoader::registerHealthCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>checkName</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1a247a06ddf27e20bcdd99cb9339b9114a" kindref="member">HealthCheckFunction</ref></type>
+          <declname>checkFunc</declname>
+        </param>
+        <briefdescription>
+<para>Register a health check function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register Health Check.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique name for this health check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>checkFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Health check function</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">checkFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="491" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1288" bodyend="1292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1af1eea6c8f79bd99463dd59b542e187b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::clearHealthChecks</definition>
+        <argsstring>()</argsstring>
+        <name>clearHealthChecks</name>
+        <qualifiedname>themis::modules::ModuleLoader::clearHealthChecks</qualifiedname>
+        <briefdescription>
+<para>Clear all registered health checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear Health Checks.</para>
+<para>Calls: clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="496" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1298" bodyend="1301"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a2838a078aa2bee435c28cf9e03456968" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fed" kindref="member">LoadStage</ref> &gt;</type>
+        <definition>std::optional&lt; LoadStage &gt; themis::modules::ModuleLoader::queryModuleStage</definition>
+        <argsstring>(const std::string &amp;moduleName) const</argsstring>
+        <name>queryModuleStage</name>
+        <qualifiedname>themis::modules::ModuleLoader::queryModuleStage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Query current load stage of a module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional load stage (nullopt if not found) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulesMutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="503" column="19" bodyfile="src/themis/module_loader.cpp" bodystart="1314" bodyend="1328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a7069bd64231023917c22d10469f9f509" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1modules_1_1_health_check_result" kindref="compound">HealthCheckResult</ref> &gt;</type>
+        <definition>std::vector&lt; HealthCheckResult &gt; themis::modules::ModuleLoader::getHealthCheckResults</definition>
+        <argsstring>(const std::string &amp;moduleName) const</argsstring>
+        <name>getHealthCheckResults</name>
+        <qualifiedname>themis::modules::ModuleLoader::getHealthCheckResults</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Get health check results for a module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of health check results </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulesMutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="510" column="17" bodyfile="src/themis/module_loader.cpp" bodystart="1331" bodyend="1345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a66c0e94ddd3be68eb3872e2a4c8d3754" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::setStagedLoadingEnabled</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>setStagedLoadingEnabled</name>
+        <qualifiedname>themis::modules::ModuleLoader::setStagedLoadingEnabled</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Enable or disable staged loading. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Staged Loading Enabled.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If true, use staged loading; if false, load directly</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="516" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1308" bodyend="1311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1af6195221592bd8b8359d0de1163cac29" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::setHashManifest</definition>
+        <argsstring>(const std::string &amp;manifestPath)</argsstring>
+        <name>setHashManifest</name>
+        <qualifiedname>themis::modules::ModuleLoader::setHashManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifestPath</declname>
+        </param>
+        <briefdescription>
+<para>Load a SHA-256 hash manifest for module integrity verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Hash Manifest.</para>
+<para>When a manifest is set, every call to <ref refid="classthemis_1_1modules_1_1_module_loader_1a9aa0491353fa7587c8794e801c5c8f97" kindref="member">loadModule()</ref> verifies the module&apos;s SHA-256 hash against the manifest entry for that module name. If the module name is present in the manifest and the hashes do not match, the load is rejected with HASH_MISMATCH. Modules not listed in the manifest are still loaded — the manifest acts as an integrity verification list for known modules, not a global block/allowlist.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>manifestPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to JSON manifest file (format: { &quot;moduleName&quot;: &quot;hex-sha256&quot;, … }). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if manifest was loaded successfully, false on I/O or parse error.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifestPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: loadManifest(), spdlog::info(), manifestSize(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="533" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="644" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a88c8376dce20c70082f1b2783222bc9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::exportAuditLog</definition>
+        <argsstring>(const std::string &amp;outputPath) const</argsstring>
+        <name>exportAuditLog</name>
+        <qualifiedname>themis::modules::ModuleLoader::exportAuditLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>outputPath</declname>
+        </param>
+        <briefdescription>
+<para>Export security audit log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>outputPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to export JSON audit log </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful, false otherwise </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="540" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="660" bodyend="663"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1adda0273dfc016a4ad9d547d82701b9bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; themis::acceleration::PluginSecurityEvent &gt;</type>
+        <definition>std::vector&lt; PluginSecurityEvent &gt; themis::modules::ModuleLoader::getPluginAuditTrail</definition>
+        <argsstring>(const std::string &amp;modulePath) const</argsstring>
+        <name>getPluginAuditTrail</name>
+        <qualifiedname>themis::modules::ModuleLoader::getPluginAuditTrail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+<para>Get the per-plugin audit trail (load, unload, errors). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns all recorded security and lifecycle events for the given module path in chronological order. Events include PLUGIN_LOADED, PLUGIN_UNLOADED, PLUGIN_LOAD_FAILED, and related security events.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full path to the module (as supplied to loadModule) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of audit events for that specific plugin </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="553" column="5" bodyfile="src/themis/module_loader.cpp" bodystart="666" bodyend="669"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a0f61c4bdb3fbfb806b2882c4b6c5dc5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::configureWatchdog</definition>
+        <argsstring>(const WatchdogConfig &amp;config)</argsstring>
+        <name>configureWatchdog</name>
+        <qualifiedname>themis::modules::ModuleLoader::configureWatchdog</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1modules_1_1_watchdog_config" kindref="compound">WatchdogConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Configure the watchdog before starting it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Configure Watchdog.</para>
+<para>May be called before or after <ref refid="classthemis_1_1modules_1_1_module_loader_1a7e887490de6ce0f23c314a5ccd7b0c6f" kindref="member">startWatchdog()</ref>; if called while the watchdog is running the new settings take effect on the next sweep.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Watchdog configuration parameters.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="567" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1450" bodyend="1458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a7e887490de6ce0f23c314a5ccd7b0c6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::startWatchdog</definition>
+        <argsstring>()</argsstring>
+        <name>startWatchdog</name>
+        <qualifiedname>themis::modules::ModuleLoader::startWatchdog</qualifiedname>
+        <briefdescription>
+<para>Start the watchdog background thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Start Watchdog.</para>
+<para>The thread performs periodic health checks on all loaded modules and automatically restarts any module that fails its checks, applying exponential backoff between successive restart attempts.</para>
+<para>Calling <ref refid="classthemis_1_1modules_1_1_module_loader_1a7e887490de6ce0f23c314a5ccd7b0c6f" kindref="member">startWatchdog()</ref> while it is already running is a no-op.</para>
+<para>Calls: exchange(), std::thread(), watchdogLoop(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="578" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1464" bodyend="1470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1aee262b872f356f097984f9c9403faab8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::stopWatchdog</definition>
+        <argsstring>()</argsstring>
+        <name>stopWatchdog</name>
+        <qualifiedname>themis::modules::ModuleLoader::stopWatchdog</qualifiedname>
+        <briefdescription>
+<para>Stop the watchdog background thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop Watchdog.</para>
+<para>Blocks until the background thread has exited. Calling <ref refid="classthemis_1_1modules_1_1_module_loader_1aee262b872f356f097984f9c9403faab8" kindref="member">stopWatchdog()</ref> when the watchdog is not running is a no-op.</para>
+<para>Calls: exchange(), notify_all(), joinable(), join(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="586" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1476" bodyend="1485"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a9b8bade5d910d906e3dd8f3f3839ab98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::isWatchdogRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isWatchdogRunning</name>
+        <qualifiedname>themis::modules::ModuleLoader::isWatchdogRunning</qualifiedname>
+        <briefdescription>
+<para>Return true if the watchdog background thread is running. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="591" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1487" bodyend="1489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a0cb5daca22bb034b1d4f87f4604a5a8e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1modules_1_1_watchdog_module_stats" kindref="compound">WatchdogModuleStats</ref> &gt;</type>
+        <definition>std::optional&lt; WatchdogModuleStats &gt; themis::modules::ModuleLoader::getWatchdogStats</definition>
+        <argsstring>(const std::string &amp;moduleName) const</argsstring>
+        <name>getWatchdogStats</name>
+        <qualifiedname>themis::modules::ModuleLoader::getWatchdogStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <briefdescription>
+<para>Get watchdog statistics for a specific module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Optional stats (nullopt if module not tracked). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">watchdogMutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="599" column="19" bodyfile="src/themis/module_loader.cpp" bodystart="1492" bodyend="1504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a46e43b010718ce2c691ca5c6d3aa0493" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1modules_1_1_watchdog_module_stats" kindref="compound">WatchdogModuleStats</ref> &gt;</type>
+        <definition>std::map&lt; std::string, WatchdogModuleStats &gt; themis::modules::ModuleLoader::getAllWatchdogStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllWatchdogStats</name>
+        <qualifiedname>themis::modules::ModuleLoader::getAllWatchdogStats</qualifiedname>
+        <briefdescription>
+<para>Get watchdog statistics for all tracked modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Map from module name to watchdog stats. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">watchdogMutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="606" column="14" bodyfile="src/themis/module_loader.cpp" bodystart="1507" bodyend="1515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a15454f3bdf7fac41f4430da11bef65ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::resetWatchdogStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetWatchdogStats</name>
+        <qualifiedname>themis::modules::ModuleLoader::resetWatchdogStats</qualifiedname>
+        <briefdescription>
+<para>Reset watchdog statistics for all modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Watchdog Stats.</para>
+<para>Clears restart counts, failure counters, and permanently_failed flags. Does not stop the watchdog if it is running.</para>
+<para>Calls: lk(), clear(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="614" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1521" bodyend="1525"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1afbc27cfe308312ec5f9d64624ae6080d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::modules::ModuleLoader::loadLibrary</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>loadLibrary</name>
+        <qualifiedname>themis::modules::ModuleLoader::loadLibrary</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Platform-independent OS loader primitives ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: LoadLibraryA(), c_str(), dlopen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="721" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a73032fcf637a22f9fa6a950bd703e240" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::unloadLibrary</definition>
+        <argsstring>(void *handle)</argsstring>
+        <name>unloadLibrary</name>
+        <qualifiedname>themis::modules::ModuleLoader::unloadLibrary</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Unload Library. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: FreeLibrary(), dlclose(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="722" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="94" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a4eefb2d08679d8f7ba775192604a1b4a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::modules::ModuleLoader::getSymbol</definition>
+        <argsstring>(void *handle, const std::string &amp;symbolName)</argsstring>
+        <name>getSymbol</name>
+        <qualifiedname>themis::modules::ModuleLoader::getSymbol</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>symbolName</declname>
+        </param>
+        <briefdescription>
+<para>Get Symbol. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">symbolName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: GetProcAddress(), c_str(), dlsym(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="723" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="112" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a948b3eddb6f995f814ad570c6fc3f4bb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::verifyModuleSignature</definition>
+        <argsstring>(const std::string &amp;modulePath, std::string &amp;errorMessage)</argsstring>
+        <name>verifyModuleSignature</name>
+        <qualifiedname>themis::modules::ModuleLoader::verifyModuleSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="726" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1aacefea753979a4e5d937f3f9360f4880" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleLoader::calculateModuleHash</definition>
+        <argsstring>(const std::string &amp;modulePath)</argsstring>
+        <name>calculateModuleHash</name>
+        <qualifiedname>themis::modules::ModuleLoader::calculateModuleHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="727" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a9d448a32fde79aa44a829c156e0ebef2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleLoader::getModuleNameFromPath</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>getModuleNameFromPath</name>
+        <qualifiedname>themis::modules::ModuleLoader::getModuleNameFromPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Get Module Name From Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: p(), stem(), string(), rfind(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="728" column="17" bodyfile="src/themis/module_loader.cpp" bodystart="127" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a1f3b165e57132bb6df63969a562ec2c9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::isThemisModule</definition>
+        <argsstring>(const std::string &amp;filename)</argsstring>
+        <name>isThemisModule</name>
+        <qualifiedname>themis::modules::ModuleLoader::isThemisModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <briefdescription>
+<para>Is Themis Module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: rfind(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="729" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="147" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1af5a6e01de9a4ecb4dec5f2b808720015" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref></type>
+        <definition>ModuleMetadata themis::modules::ModuleLoader::extractModuleMetadata</definition>
+        <argsstring>(const std::string &amp;modulePath)</argsstring>
+        <name>extractModuleMetadata</name>
+        <qualifiedname>themis::modules::ModuleLoader::extractModuleMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="732" column="20" bodyfile="src/themis/module_loader.cpp" bodystart="857" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a2530e98964210753c968e468e5abe647" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleLoader::getErrorMessage</definition>
+        <argsstring>(ModuleErrorCode code) const</argsstring>
+        <name>getErrorMessage</name>
+        <qualifiedname>themis::modules::ModuleLoader::getErrorMessage</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783" kindref="member">ModuleErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="733" column="17" bodyfile="src/themis/module_loader.cpp" bodystart="735" bodyend="795"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a588619c77b6ccb93493d08198c70535a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1modules_1ac67f7d9ae6bcf0b03d4763ddfcb75626" kindref="member">ErrorCategory</ref></type>
+        <definition>ErrorCategory themis::modules::ModuleLoader::categorizeError</definition>
+        <argsstring>(ModuleErrorCode code) const</argsstring>
+        <name>categorizeError</name>
+        <qualifiedname>themis::modules::ModuleLoader::categorizeError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783" kindref="member">ModuleErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="734" column="19" bodyfile="src/themis/module_loader.cpp" bodystart="797" bodyend="850"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a03c79a00d6eb4c48326948c6feab989d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::recordFailure</definition>
+        <argsstring>(const std::string &amp;modulePath, ModuleErrorCode errorCode, const std::string &amp;errorMessage)</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::modules::ModuleLoader::recordFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783" kindref="member">ModuleErrorCode</ref></type>
+          <declname>errorCode</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">errorCode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">errorMessage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::time(), push_back(), calculateBackoffTime(), spdlog::warn(), shouldQuarantine(), quarantineModule(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="737" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1000" bodyend="1023"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a21f89c5c468e9f269a6b399c00ebc66a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::shouldQuarantine</definition>
+        <argsstring>(const std::string &amp;modulePath) const</argsstring>
+        <name>shouldQuarantine</name>
+        <qualifiedname>themis::modules::ModuleLoader::shouldQuarantine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="738" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1025" bodyend="1031"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a01911852e116d46f47d78a448fd93965" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::quarantineModule</definition>
+        <argsstring>(const std::string &amp;modulePath)</argsstring>
+        <name>quarantineModule</name>
+        <qualifiedname>themis::modules::ModuleLoader::quarantineModule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+<para>Quarantine Module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), std::time(), spdlog::critical(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="739" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1038" bodyend="1059"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a6a86f5a2e0762f425c0ed47462f0dbe9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleLoader::calculateBackoffTime</definition>
+        <argsstring>(uint32_t consecutiveFailures) const</argsstring>
+        <name>calculateBackoffTime</name>
+        <qualifiedname>themis::modules::ModuleLoader::calculateBackoffTime</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>consecutiveFailures</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="740" column="14" bodyfile="src/themis/module_loader.cpp" bodystart="1061" bodyend="1070"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a764f469c55d366de04ce81216191277e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::checkQuarantine</definition>
+        <argsstring>(const std::string &amp;modulePath, ModuleVerificationResult &amp;result)</argsstring>
+        <name>checkQuarantine</name>
+        <qualifiedname>themis::modules::ModuleLoader::checkQuarantine</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_module_verification_result" kindref="compound">ModuleVerificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check Quarantine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), isQuarantined(), getErrorMessage(), std::to_string(), spdlog::error(), std::time(), canRetry(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="741" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1079" bodyend="1114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a90974067623adb7b8712d9ae7cdcefff" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::updateMetrics</definition>
+        <argsstring>(bool success, uint64_t durationMs, ModuleErrorCode errorCode)</argsstring>
+        <name>updateMetrics</name>
+        <qualifiedname>themis::modules::ModuleLoader::updateMetrics</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>durationMs</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1a1dc6402cd67a74fddd0228330bc56783" kindref="member">ModuleErrorCode</ref></type>
+          <declname>errorCode</declname>
+        </param>
+        <briefdescription>
+<para>Update Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">durationMs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">errorCode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="744" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1239" bodyend="1263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1aa134e51f884cbf3975ee3f307425d58c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::updateModuleStage</definition>
+        <argsstring>(const std::string &amp;moduleName, LoadStage newStage)</argsstring>
+        <name>updateModuleStage</name>
+        <qualifiedname>themis::modules::ModuleLoader::updateModuleStage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>moduleName</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1modules_1a69b3d03cad22e237a2a7220befd57fed" kindref="member">LoadStage</ref></type>
+          <declname>newStage</declname>
+        </param>
+        <briefdescription>
+<para>Update Module Stage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">moduleName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">newStage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), find(), end(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="747" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1354" bodyend="1367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a6e59cf03fc61782938df813e90753e3b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::runHealthChecks</definition>
+        <argsstring>(LoadedModule &amp;module, ModuleVerificationResult &amp;result)</argsstring>
+        <name>runHealthChecks</name>
+        <qualifiedname>themis::modules::ModuleLoader::runHealthChecks</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_loaded_module" kindref="compound">LoadedModule</ref> &amp;</type>
+          <declname>module</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_module_verification_result" kindref="compound">ModuleVerificationResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Run Health Checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">module</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), spdlog::debug(), spdlog::info(), size(), std::chrono::steady_clock::now(), checkFunc(), count(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="748" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1376" bodyend="1428"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1ac9b5e9f501c1986f952928c58cd0c9ce" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref></type>
+        <definition>ModuleMetadata themis::modules::ModuleLoader::extractMetadataFromHandle</definition>
+        <argsstring>(void *handle)</argsstring>
+        <name>extractMetadataFromHandle</name>
+        <qualifiedname>themis::modules::ModuleLoader::extractMetadataFromHandle</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+<para>Extract Metadata From Handle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">handle</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: uint32_t(), getSymbol(), getVersionStr(), getAbiVersion(), getBuildId(), getMajor(), getMinor(), getPatch(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="749" column="20" bodyfile="src/themis/module_loader.cpp" bodystart="922" bodyend="965"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a8ef0db81cf302163708c24756d89a0b2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1modules_1_1_module_metadata" kindref="compound">ModuleMetadata</ref></type>
+        <definition>ModuleMetadata themis::modules::ModuleLoader::getCachedMetadata</definition>
+        <argsstring>(const std::string &amp;modulePath)</argsstring>
+        <name>getCachedMetadata</name>
+        <qualifiedname>themis::modules::ModuleLoader::getCachedMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+<para>Get Cached Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(), spdlog::debug(), extractModuleMetadata(), isValid(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="750" column="20" bodyfile="src/themis/module_loader.cpp" bodystart="973" bodyend="987"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1ab2c560eac13b4538259a6be098f2675f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::watchdogLoop</definition>
+        <argsstring>()</argsstring>
+        <name>watchdogLoop</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogLoop</qualifiedname>
+        <briefdescription>
+<para>Watchdog Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: spdlog::debug(), load(), lk(), wait_for(), std::chrono::milliseconds(), watchdogCheckAllModules(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="753" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1531" bodyend="1559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1ae6886c2838a45a89a3a21d61251d3d73" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::ModuleLoader::watchdogCheckAllModules</definition>
+        <argsstring>()</argsstring>
+        <name>watchdogCheckAllModules</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogCheckAllModules</qualifiedname>
+        <briefdescription>
+<para>Watchdog Check All Modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(), emplace_back(), load(), find(), end(), empty(), watchdogRunHealthChecks(), nowMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="754" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1565" bodyend="1670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a75d944da388d327a9b544f0e66cda423" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::watchdogRunHealthChecks</definition>
+        <argsstring>(LoadedModule &amp;module, std::string &amp;errorMessage)</argsstring>
+        <name>watchdogRunHealthChecks</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogRunHealthChecks</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_loaded_module" kindref="compound">LoadedModule</ref> &amp;</type>
+          <declname>module</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+<para>Watchdog Run Health Checks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">module</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">errorMessage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), checkFunc(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="755" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1679" bodyend="1699"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1ad4bd856e597c679035f6f939963e6e81" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleLoader::watchdogRestartModule</definition>
+        <argsstring>(WatchdogModuleStats &amp;stats, const std::string &amp;modulePath)</argsstring>
+        <name>watchdogRestartModule</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogRestartModule</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1modules_1_1_watchdog_module_stats" kindref="compound">WatchdogModuleStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modulePath</declname>
+        </param>
+        <briefdescription>
+<para>Watchdog Restart Module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">modulePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), <ref refid="classthemis_1_1modules_1_1_module_loader_1a9526dc3d025a4674722949ac10ddde77" kindref="member">unloadModule()</ref>, <ref refid="classthemis_1_1modules_1_1_module_loader_1a9aa0491353fa7587c8794e801c5c8f97" kindref="member">loadModule()</ref>, nowMs(), watchdogCalculateBackoff(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="756" column="10" bodyfile="src/themis/module_loader.cpp" bodystart="1708" bodyend="1739"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1ad0a33ff8b3fea34d70c27ee5de26504f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleLoader::watchdogCalculateBackoff</definition>
+        <argsstring>(uint32_t consecutiveFailures) const</argsstring>
+        <name>watchdogCalculateBackoff</name>
+        <qualifiedname>themis::modules::ModuleLoader::watchdogCalculateBackoff</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>consecutiveFailures</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="757" column="14" bodyfile="src/themis/module_loader.cpp" bodystart="1741" bodyend="1756"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1modules_1_1_module_loader_1a137e8fa92d87edf76b6876fb49ffd1fa" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::modules::ModuleLoader::nowMs</definition>
+        <argsstring>()</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::modules::ModuleLoader::nowMs</qualifiedname>
+        <briefdescription>
+<para>Now Ms. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/module_loader.h" line="758" column="21" bodyfile="src/themis/module_loader.cpp" bodystart="1439" bodyend="1443"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Module loader with security verification. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class is responsible for loading ThemisDB modular libraries with mandatory signature verification to prevent corrupted or malicious DLL injection.</para>
+<para>Key features:<itemizedlist>
+<listitem><para>SHA-256 hash verification</para>
+</listitem><listitem><para>Digital signature verification (X.509)</para>
+</listitem><listitem><para>Blacklist/whitelist support</para>
+</listitem><listitem><para>Certificate chain validation</para>
+</listitem><listitem><para>Audit logging of all load attempts </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/themis/base/module_loader.h" line="350" column="1" bodyfile="include/themis/base/module_loader.h" bodystart="350" bodyend="759"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a94ba532ebbac333cf96ea964b8d5aabc" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>addBlacklistedHash</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a534c53c1e75fcd19261ffc1fe4ad9967" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>addWhitelistedHash</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a6a86f5a2e0762f425c0ed47462f0dbe9" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>calculateBackoffTime</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1aacefea753979a4e5d937f3f9360f4880" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>calculateModuleHash</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a588619c77b6ccb93493d08198c70535a" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>categorizeError</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a764f469c55d366de04ce81216191277e" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>checkQuarantine</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a04dc5ca36ab797bcb5aba62b47475104" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>clearFailureHistory</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1af1eea6c8f79bd99463dd59b542e187b2" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>clearHealthChecks</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a0f61c4bdb3fbfb806b2882c4b6c5dc5b" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>configureWatchdog</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a88c8376dce20c70082f1b2783222bc9e" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>exportAuditLog</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ac9b5e9f501c1986f952928c58cd0c9ce" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>extractMetadataFromHandle</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1af5a6e01de9a4ecb4dec5f2b808720015" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>extractModuleMetadata</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a4a0f7f56fe46f8a736e4d3d264eaed25" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>failureHistory_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1abbe81ad282cb66c5d5545bd57c6287f5" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getAllLoadedModules</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a46e43b010718ce2c691ca5c6d3aa0493" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getAllWatchdogStats</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a8ef0db81cf302163708c24756d89a0b2" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getCachedMetadata</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a2530e98964210753c968e468e5abe647" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getErrorMessage</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a6cc00885d5d6133b04970ba4af814167" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getFailureHistory</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a7069bd64231023917c22d10469f9f509" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getHealthCheckResults</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a284311ceacc676b8a1b5b0a051a53f99" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getMetrics</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a3c325c223b340a1d30f844f316a07e22" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getModuleInfo</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a9d448a32fde79aa44a829c156e0ebef2" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getModuleNameFromPath</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1adda0273dfc016a4ad9d547d82701b9bd" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getPluginAuditTrail</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1acb98c6c3cfe30ffccc659e2566fe2867" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getQuarantinedModules</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a4eefb2d08679d8f7ba775192604a1b4a" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getSymbol</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a0cb5daca22bb034b1d4f87f4604a5a8e" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>getWatchdogStats</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a4103f96ea38e4e0f1064abb1c5505d39" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>hashVerifier_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a3f8ffc66d6f6429a17804ac2af4855de" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>healthChecks_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1afbb7367db00baded6fa19724347926a9" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>isABICompatible</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a37938deaaabeadd827657e959e2e9d89" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>isModuleLoaded</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a1f3b165e57132bb6df63969a562ec2c9" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>isThemisModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a9b8bade5d910d906e3dd8f3f3839ab98" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>isWatchdogRunning</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ac7744eb631cf7d23c200ab76075b50d9" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>loadAllModules</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a5c95bb28c18bdc5ab239f05aa6bfde39" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>loadedModules_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1afbc27cfe308312ec5f9d64624ae6080d" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>loadLibrary</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a9aa0491353fa7587c8794e801c5c8f97" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>loadModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1afa0e7d419ec96cb2792c4c914e680614" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>maxBackoffSeconds_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1aefde201ddf1c1ae74599b6322c1a66c9" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>metadataCache_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1aaa63c5e55bcb69c5db517923bfcc615b" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a53e6022c1aae39d4a99737d8a5289568" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>ModuleLoader</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a70094e1b467ea8dfc9c4bae12ed500fe" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>ModuleLoader</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1aa451dee9123d08fbde962eb21a246fa3" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>modulesMutex_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a137e8fa92d87edf76b6876fb49ffd1fa" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1af4b818d977376c9b39ab7d7de0b48bec" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a01911852e116d46f47d78a448fd93965" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>quarantineModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a2120efdd7b33002d7dd5cb7f41fb4aaa" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>quarantineThreshold_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a2838a078aa2bee435c28cf9e03456968" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>queryModuleStage</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a03c79a00d6eb4c48326948c6feab989d" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ab5c81192c7d4f5af484c7112c4e13730" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>registerHealthCheck</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1abc1d9b84fd7acd5e1ae7ce0104759080" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>releaseFromQuarantine</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1afb62d66fa3b67b44c6421826eb5532be" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>resetMetrics</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a15454f3bdf7fac41f4430da11bef65ea" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>resetWatchdogStats</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a6e59cf03fc61782938df813e90753e3b" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>runHealthChecks</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a1c132e8fbe215723fddac27b65931e62" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>setAllowUnsigned</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1af6195221592bd8b8359d0de1163cac29" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>setHashManifest</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a9278809641d208f5cb30ad03e86bfc6d" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>setMaxBackoffSeconds</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a99b696eb1c3e486e2573ac1decd2eadb" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>setQuarantineThreshold</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a9382f63fc21c25d4bd4d76a001bf5c53" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>setRequireSignature</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a66c0e94ddd3be68eb3872e2a4c8d3754" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>setStagedLoadingEnabled</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a21f89c5c468e9f269a6b399c00ebc66a" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>shouldQuarantine</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a3bc9bd22bacfcbfced7e4f1e508f1829" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>stagedLoadingEnabled_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a7e887490de6ce0f23c314a5ccd7b0c6f" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>startWatchdog</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1aee262b872f356f097984f9c9403faab8" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>stopWatchdog</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a6706f5979528740dad44b74969e4549c" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>themisABIMajor_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a741b22d3f522d64a026eabea4d3de044" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>themisABIMinor_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1aff405309db50510ebe1ebde6ec969ef9" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>unloadAllModules</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a73032fcf637a22f9fa6a950bd703e240" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>unloadLibrary</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a9526dc3d025a4674722949ac10ddde77" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>unloadModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a90974067623adb7b8712d9ae7cdcefff" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>updateMetrics</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1aa134e51f884cbf3975ee3f307425d58c" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>updateModuleStage</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ab4b55b23e600bcad7f2295d71488c64e" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>verifier_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a948b3eddb6f995f814ad570c6fc3f4bb" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>verifyModuleSignature</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ad0a33ff8b3fea34d70c27ee5de26504f" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogCalculateBackoff</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ae6886c2838a45a89a3a21d61251d3d73" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogCheckAllModules</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a22abdea99e6c4bb66dc7e78cc9c87b22" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogConfig_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a910d771390038e6698d957529a75c2c2" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogCv_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ab2c560eac13b4538259a6be098f2675f" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogLoop</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1aab494498a0ce2bdcf9d369cf971f4e21" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogMutex_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ad4bd856e597c679035f6f939963e6e81" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogRestartModule</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a75d944da388d327a9b544f0e66cda423" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogRunHealthChecks</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a3936b51a686ef2abc549f7743e1311c6" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogRunning_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1af6c87f65fcbf5f2874d8ebf26062dade" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogStats_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1ace0ef5323d6ce9cfd39b09e25822d2fa" prot="private" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>watchdogThread_</name></member>
+      <member refid="classthemis_1_1modules_1_1_module_loader_1a708902e841184aadebf4b6670cd4cdb5" prot="public" virt="non-virtual"><scope>themis::modules::ModuleLoader</scope><name>~ModuleLoader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CoherenceEvaluator::Config</compoundname>
+    <includes refid="coherence__evaluator_8h" local="no">coherence_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1a748f14620301c547278104b788b63da8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceEvaluator::Config::logical_flow_weight</definition>
+        <argsstring></argsstring>
+        <name>logical_flow_weight</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Config::logical_flow_weight</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="48" column="16" bodyfile="include/rag/coherence_evaluator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1ab10b8357c4a1e32811af9765ccfe1379" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceEvaluator::Config::structural_weight</definition>
+        <argsstring></argsstring>
+        <name>structural_weight</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Config::structural_weight</qualifiedname>
+        <initializer>= 0.20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="49" column="16" bodyfile="include/rag/coherence_evaluator.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1a2e8698e9cf1376097f9fc1d80845bee5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceEvaluator::Config::linguistic_weight</definition>
+        <argsstring></argsstring>
+        <name>linguistic_weight</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Config::linguistic_weight</qualifiedname>
+        <initializer>= 0.20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="50" column="16" bodyfile="include/rag/coherence_evaluator.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1a0e33324e260dffd5bf6bd1f24794b71e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoherenceEvaluator::Config::consistency_weight</definition>
+        <argsstring></argsstring>
+        <name>consistency_weight</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Config::consistency_weight</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="51" column="16" bodyfile="include/rag/coherence_evaluator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1a3733401df497cccfc6e61c1802aca183" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::CoherenceEvaluator::Config::enable_contradiction_detection</definition>
+        <argsstring></argsstring>
+        <name>enable_contradiction_detection</name>
+        <qualifiedname>themis::rag::judge::CoherenceEvaluator::Config::enable_contradiction_detection</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/coherence_evaluator.h" line="52" column="14" bodyfile="include/rag/coherence_evaluator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for coherence evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/coherence_evaluator.h" line="47" column="5" bodyfile="include/rag/coherence_evaluator.h" bodystart="47" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1a0e33324e260dffd5bf6bd1f24794b71e" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Config</scope><name>consistency_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1a3733401df497cccfc6e61c1802aca183" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Config</scope><name>enable_contradiction_detection</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1a2e8698e9cf1376097f9fc1d80845bee5" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Config</scope><name>linguistic_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1a748f14620301c547278104b788b63da8" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Config</scope><name>logical_flow_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_coherence_evaluator_1_1_config_1ab10b8357c4a1e32811af9765ccfe1379" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoherenceEvaluator::Config</scope><name>structural_weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

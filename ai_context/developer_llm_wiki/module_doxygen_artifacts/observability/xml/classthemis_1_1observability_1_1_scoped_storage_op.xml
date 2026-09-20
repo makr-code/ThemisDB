@@ -1,0 +1,340 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_scoped_storage_op" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::ScopedStorageOp</compoundname>
+    <includes refid="storage__profiler_8h" local="no">storage_profiler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_scoped_storage_op_1a23256ce3ffda1799d07108f7c1242768" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+        <definition>StorageProfiler&amp; themis::observability::ScopedStorageOp::profiler_</definition>
+        <argsstring></argsstring>
+        <name>profiler_</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::profiler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="267" column="21" bodyfile="include/observability/storage_profiler.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_scoped_storage_op_1aee5d6f8901930205b1329090fe015175" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1observability_1_1_storage_op_stats" kindref="compound">StorageOpStats</ref></type>
+        <definition>StorageOpStats themis::observability::ScopedStorageOp::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="268" column="20" bodyfile="include/observability/storage_profiler.h" bodystart="268" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_scoped_storage_op_1a9d52b75ef299bcfa29ac96dc18f8db29" prot="private" static="no" mutable="no">
+        <type>std::chrono::high_resolution_clock::time_point</type>
+        <definition>std::chrono::high_resolution_clock::time_point themis::observability::ScopedStorageOp::start_</definition>
+        <argsstring></argsstring>
+        <name>start_</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="269" column="52" bodyfile="include/observability/storage_profiler.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ScopedStorageOp::ScopedStorageOp</definition>
+        <argsstring>(StorageProfiler &amp;profiler, StorageOpType type, const std::string &amp;column_family=&quot;&quot;)</argsstring>
+        <name>ScopedStorageOp</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::ScopedStorageOp</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_storage_profiler" kindref="compound">StorageProfiler</ref> &amp;</type>
+          <declname>profiler</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1a819d489d045bf8cd21be9a7c4ed6d6fd" kindref="member">StorageOpType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>column_family</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="250" column="5" bodyfile="src/observability/storage_profiler.cpp" bodystart="442" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1a3ce630e69eea4c27d779a98c829a1347" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ScopedStorageOp::~ScopedStorageOp</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedStorageOp</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::~ScopedStorageOp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="252" column="5" bodyfile="src/observability/storage_profiler.cpp" bodystart="449" bodyend="453"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1ace1bc4dcb099942caf5c985ed563529d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::ScopedStorageOp::ScopedStorageOp</definition>
+        <argsstring>(const ScopedStorageOp &amp;)=delete</argsstring>
+        <name>ScopedStorageOp</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::ScopedStorageOp</qualifiedname>
+        <param>
+          <type>const ScopedStorageOp &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="255" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1a36fb9192df0cf48f80b81caf6525854b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" kindref="member">ScopedStorageOp</ref> &amp;</type>
+        <definition>ScopedStorageOp &amp; themis::observability::ScopedStorageOp::operator=</definition>
+        <argsstring>(const ScopedStorageOp &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" kindref="member">ScopedStorageOp</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="256" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1a7162a934ee97d9374b27ba761f70a1fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedStorageOp::record_bytes_read</definition>
+        <argsstring>(size_t bytes)</argsstring>
+        <name>record_bytes_read</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::record_bytes_read</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record bytes read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_bytes_read without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="258" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="460" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1a82244e77c8ba042f5d9af031195aea38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedStorageOp::record_bytes_written</definition>
+        <argsstring>(size_t bytes)</argsstring>
+        <name>record_bytes_written</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::record_bytes_written</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record bytes written. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_bytes_written without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="259" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="469" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1aef89a0f8671586a3cb2adaed3cfc8bde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedStorageOp::record_keys</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>record_keys</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::record_keys</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Record keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_keys without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="260" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="478" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1a5d224e29f2cb51fee3181aeda88ce795" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedStorageOp::set_cache_hit</definition>
+        <argsstring>(bool hit)</argsstring>
+        <name>set_cache_hit</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::set_cache_hit</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>hit</declname>
+        </param>
+        <briefdescription>
+<para>Set cache hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_cache_hit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="261" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="487" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1ad53230bf861d724354dac645bcb3060a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedStorageOp::set_from_sst</definition>
+        <argsstring>(bool from_sst)</argsstring>
+        <name>set_from_sst</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::set_from_sst</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>from_sst</declname>
+        </param>
+        <briefdescription>
+<para>Set from sst. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_from_sst without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="262" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="496" bodyend="498"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1a036f21307fb66675c74d6d66a8521b2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedStorageOp::set_from_memtable</definition>
+        <argsstring>(bool from_memtable)</argsstring>
+        <name>set_from_memtable</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::set_from_memtable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>from_memtable</declname>
+        </param>
+        <briefdescription>
+<para>Set from memtable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_memtable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements set_from_memtable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="263" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="505" bodyend="507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_scoped_storage_op_1a8aab41fc8f66d57d155e766b8633136b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::ScopedStorageOp::record_sst_read</definition>
+        <argsstring>()</argsstring>
+        <name>record_sst_read</name>
+        <qualifiedname>themis::observability::ScopedStorageOp::record_sst_read</qualifiedname>
+        <briefdescription>
+<para>Record sst read. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements record_sst_read without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/storage_profiler.h" line="264" column="10" bodyfile="src/observability/storage_profiler.cpp" bodystart="513" bodyend="515"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII helper for storage operation profiling. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/storage_profiler.h" line="248" column="1" bodyfile="include/observability/storage_profiler.h" bodystart="248" bodyend="270"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a36fb9192df0cf48f80b81caf6525854b" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a23256ce3ffda1799d07108f7c1242768" prot="private" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>profiler_</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a7162a934ee97d9374b27ba761f70a1fd" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>record_bytes_read</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a82244e77c8ba042f5d9af031195aea38" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>record_bytes_written</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1aef89a0f8671586a3cb2adaed3cfc8bde" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>record_keys</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a8aab41fc8f66d57d155e766b8633136b" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>record_sst_read</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a2c16e3b98b21c31cb88c86f4e67f9327" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>ScopedStorageOp</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1ace1bc4dcb099942caf5c985ed563529d" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>ScopedStorageOp</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a5d224e29f2cb51fee3181aeda88ce795" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>set_cache_hit</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a036f21307fb66675c74d6d66a8521b2e" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>set_from_memtable</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1ad53230bf861d724354dac645bcb3060a" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>set_from_sst</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a9d52b75ef299bcfa29ac96dc18f8db29" prot="private" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>start_</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1aee5d6f8901930205b1329090fe015175" prot="private" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1observability_1_1_scoped_storage_op_1a3ce630e69eea4c27d779a98c829a1347" prot="public" virt="non-virtual"><scope>themis::observability::ScopedStorageOp</scope><name>~ScopedStorageOp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

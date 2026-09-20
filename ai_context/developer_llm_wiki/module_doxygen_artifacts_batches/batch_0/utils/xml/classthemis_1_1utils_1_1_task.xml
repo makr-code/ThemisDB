@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_task" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::Task</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Priority</name>
+        <qualifiedname>themis::utils::Task::Priority</qualifiedname>
+        <enumvalue id="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2cab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="33" column="5" bodyfile="include/utils/thread_pool_manager.h" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::utils::Task::Callback = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>Callback</name>
+        <qualifiedname>themis::utils::Task::Callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="40" column="5" bodyfile="include/utils/thread_pool_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_task_1a8af6e7f840709ad99e69b7d2c9d2742f" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" kindref="member">Callback</ref></type>
+        <definition>Callback themis::utils::Task::callback_</definition>
+        <argsstring></argsstring>
+        <name>callback_</name>
+        <qualifiedname>themis::utils::Task::callback_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="61" column="14" bodyfile="include/utils/thread_pool_manager.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_task_1a25f1df9b808cd9921e8b61cf1407454a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Priority</ref></type>
+        <definition>Priority themis::utils::Task::priority_</definition>
+        <argsstring></argsstring>
+        <name>priority_</name>
+        <qualifiedname>themis::utils::Task::priority_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="62" column="14" bodyfile="include/utils/thread_pool_manager.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_task_1aa6e4e77462b7114ebba7ff1992f4b58b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::Task::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themis::utils::Task::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="63" column="17" bodyfile="include/utils/thread_pool_manager.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_task_1a78db55d0fd5fb9af80c6e2328d7c43f9" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::utils::Task::created_at_</definition>
+        <argsstring></argsstring>
+        <name>created_at_</name>
+        <qualifiedname>themis::utils::Task::created_at_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="64" column="43" bodyfile="include/utils/thread_pool_manager.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_task_1a4ad31f1b5b4a6729c20936073e36ccd4" prot="private" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::utils::Task::execution_time_</definition>
+        <argsstring></argsstring>
+        <name>execution_time_</name>
+        <qualifiedname>themis::utils::Task::execution_time_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="65" column="31" bodyfile="include/utils/thread_pool_manager.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_task_1a8fc5aa61d53e8bff1c0c0a00db71e4af" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::Task::Task</definition>
+        <argsstring>(Callback callback, Priority priority=Priority::NORMAL, std::string name=&quot;&quot;)</argsstring>
+        <name>Task</name>
+        <qualifiedname>themis::utils::Task::Task</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" kindref="member">Callback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Priority</ref></type>
+          <declname>priority</declname>
+          <defval><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" kindref="member">Priority::NORMAL</ref></defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="42" column="14" bodyfile="include/utils/thread_pool_manager.h" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_task_1a2a43bdaa40613fc37dde81d126ba2db4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::Task::execute</definition>
+        <argsstring>()</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::utils::Task::execute</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="49" column="10" bodyfile="include/utils/thread_pool_manager.h" bodystart="49" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_task_1a81ec22c72ed19719e9f28f9e9bb6e69a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" kindref="member">Priority</ref></type>
+        <definition>Priority themis::utils::Task::getPriority</definition>
+        <argsstring>() const</argsstring>
+        <name>getPriority</name>
+        <qualifiedname>themis::utils::Task::getPriority</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="56" column="14" bodyfile="include/utils/thread_pool_manager.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_task_1a8f6a11cdbf4d982287ef7758fe8cc1de" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::utils::Task::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <qualifiedname>themis::utils::Task::getName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="57" column="23" bodyfile="include/utils/thread_pool_manager.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_task_1ae6615e4dcb218ec307aa7ab1b83fb542" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>auto</type>
+        <definition>auto themis::utils::Task::getExecutionTime</definition>
+        <argsstring>() const</argsstring>
+        <name>getExecutionTime</name>
+        <qualifiedname>themis::utils::Task::getExecutionTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/thread_pool_manager.h" line="58" column="10" bodyfile="include/utils/thread_pool_manager.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> to be executed in thread pool. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/thread_pool_manager.h" line="31" column="1" bodyfile="include/utils/thread_pool_manager.h" bodystart="31" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_task_1a81b721c170147c7c7da8d9c73e01174a" prot="public" virt="non-virtual"><scope>themis::utils::Task</scope><name>Callback</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1a8af6e7f840709ad99e69b7d2c9d2742f" prot="private" virt="non-virtual"><scope>themis::utils::Task</scope><name>callback_</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1a78db55d0fd5fb9af80c6e2328d7c43f9" prot="private" virt="non-virtual"><scope>themis::utils::Task</scope><name>created_at_</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1a2a43bdaa40613fc37dde81d126ba2db4" prot="public" virt="non-virtual"><scope>themis::utils::Task</scope><name>execute</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1a4ad31f1b5b4a6729c20936073e36ccd4" prot="private" virt="non-virtual"><scope>themis::utils::Task</scope><name>execution_time_</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1ae6615e4dcb218ec307aa7ab1b83fb542" prot="public" virt="non-virtual"><scope>themis::utils::Task</scope><name>getExecutionTime</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1a8f6a11cdbf4d982287ef7758fe8cc1de" prot="public" virt="non-virtual"><scope>themis::utils::Task</scope><name>getName</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1a81ec22c72ed19719e9f28f9e9bb6e69a" prot="public" virt="non-virtual"><scope>themis::utils::Task</scope><name>getPriority</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1aa6e4e77462b7114ebba7ff1992f4b58b" prot="private" virt="non-virtual"><scope>themis::utils::Task</scope><name>name_</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2c" prot="public" virt="non-virtual"><scope>themis::utils::Task</scope><name>Priority</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1a25f1df9b808cd9921e8b61cf1407454a" prot="private" virt="non-virtual"><scope>themis::utils::Task</scope><name>priority_</name></member>
+      <member refid="classthemis_1_1utils_1_1_task_1a8fc5aa61d53e8bff1c0c0a00db71e4af" prot="public" virt="non-virtual"><scope>themis::utils::Task</scope><name>Task</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

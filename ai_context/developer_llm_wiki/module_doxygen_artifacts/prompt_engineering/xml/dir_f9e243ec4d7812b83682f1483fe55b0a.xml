@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_f9e243ec4d7812b83682f1483fe55b0a" kind="dir">
+    <compoundname>benchmarks/prompt_engineering</compoundname>
+    <innerfile refid="bench__prompt__engineering_8cpp">bench_prompt_engineering.cpp</innerfile>
+    <innerfile refid="bench__rewrite__engine_8cpp">bench_rewrite_engine.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/prompt_engineering/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_root_cause_report" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::RootCauseReport</compoundname>
+    <includes refid="root__cause__analyzer_8h" local="no">root_cause_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_root_cause_report_1a6fa9c8abba422143ace2b98e47df6c00" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RootCauseReport::primary_cause</definition>
+        <argsstring></argsstring>
+        <name>primary_cause</name>
+        <qualifiedname>themis::observability::RootCauseReport::primary_cause</qualifiedname>
+        <briefdescription>
+<para>Short description of the most likely root cause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="157" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_root_cause_report_1ab86a4c133eb152c43d696c10f3c6b44b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RootCauseReport::primary_reason_code</definition>
+        <argsstring></argsstring>
+        <name>primary_reason_code</name>
+        <qualifiedname>themis::observability::RootCauseReport::primary_reason_code</qualifiedname>
+        <briefdescription>
+<para>Stable machine-readable reason code describing the primary cause class. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="160" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_root_cause_report_1a663c815836c73f678314b6bfbfb00edc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::RootCauseReport::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::observability::RootCauseReport::confidence</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>Confidence in the primary cause, in [0, 1]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="163" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_root_cause_report_1ac5358af7b50e810832d3e2d23147defb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::RootCauseReport::contributing_factors</definition>
+        <argsstring></argsstring>
+        <name>contributing_factors</name>
+        <qualifiedname>themis::observability::RootCauseReport::contributing_factors</qualifiedname>
+        <briefdescription>
+<para>Secondary factors that contributed to the issue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="166" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_root_cause_report_1adf9645b7fb382dd7928dd0cfc140f0c3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::RootCauseReport::remediation_steps</definition>
+        <argsstring></argsstring>
+        <name>remediation_steps</name>
+        <qualifiedname>themis::observability::RootCauseReport::remediation_steps</qualifiedname>
+        <briefdescription>
+<para>Ordered list of recommended remediation actions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="169" column="17" bodyfile="include/observability/root_cause_analyzer.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_root_cause_report_1a75b0473aaac8bc4bd178d8baa6935cd1" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::observability::RootCauseReport::metric_impacts</definition>
+        <argsstring></argsstring>
+        <name>metric_impacts</name>
+        <qualifiedname>themis::observability::RootCauseReport::metric_impacts</qualifiedname>
+        <briefdescription>
+<para>Per-metric change percentages observed during the incident. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="172" column="14" bodyfile="include/observability/root_cause_analyzer.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_root_cause_report_1a913fcacad4330e121816863357535769" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::RootCauseReport::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::RootCauseReport::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="174" column="10" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="121" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_root_cause_report_1a734e655d66b54e186171f58117e0b0b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RootCauseReport::toReport</definition>
+        <argsstring>() const</argsstring>
+        <name>toReport</name>
+        <qualifiedname>themis::observability::RootCauseReport::toReport</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="175" column="17" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="136" bodyend="173"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The result of an automated root cause analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Example: <programlisting><codeline><highlight class="normal">RootCauseReport<sp/>report<sp/>=<sp/>analyzer.analyzeIssue(issue,<sp/>before,<sp/>after);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>report.primary_cause<sp/><sp/>→<sp/>&quot;High<sp/>compaction<sp/>rate&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>report.confidence<sp/><sp/><sp/><sp/><sp/>→<sp/>0.87</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/observability/root_cause_analyzer.h" line="155" column="1" bodyfile="include/observability/root_cause_analyzer.h" bodystart="155" bodyend="176"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_root_cause_report_1a663c815836c73f678314b6bfbfb00edc" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseReport</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1observability_1_1_root_cause_report_1ac5358af7b50e810832d3e2d23147defb" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseReport</scope><name>contributing_factors</name></member>
+      <member refid="structthemis_1_1observability_1_1_root_cause_report_1a75b0473aaac8bc4bd178d8baa6935cd1" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseReport</scope><name>metric_impacts</name></member>
+      <member refid="structthemis_1_1observability_1_1_root_cause_report_1a6fa9c8abba422143ace2b98e47df6c00" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseReport</scope><name>primary_cause</name></member>
+      <member refid="structthemis_1_1observability_1_1_root_cause_report_1ab86a4c133eb152c43d696c10f3c6b44b" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseReport</scope><name>primary_reason_code</name></member>
+      <member refid="structthemis_1_1observability_1_1_root_cause_report_1adf9645b7fb382dd7928dd0cfc140f0c3" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseReport</scope><name>remediation_steps</name></member>
+      <member refid="structthemis_1_1observability_1_1_root_cause_report_1a913fcacad4330e121816863357535769" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseReport</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1observability_1_1_root_cause_report_1a734e655d66b54e186171f58117e0b0b0" prot="public" virt="non-virtual"><scope>themis::observability::RootCauseReport</scope><name>toReport</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

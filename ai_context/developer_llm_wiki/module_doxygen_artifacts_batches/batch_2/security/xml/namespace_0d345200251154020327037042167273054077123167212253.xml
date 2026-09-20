@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d345200251154020327037042167273054077123167212253" kind="namespace" language="C++">
+    <compoundname>@345200251154020327037042167273054077123167212253</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_hsm_bundle_signing.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

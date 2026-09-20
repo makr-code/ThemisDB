@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_byzantine_detector_factory" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ByzantineDetectorFactory</compoundname>
+    <includes refid="byzantine__detector_8h" local="no">byzantine_detector.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_byzantine_detector_factory_1a259f3f15a133506a5dfb1e5163c6b459" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_byzantine_detector" kindref="compound">ByzantineDetector</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ByzantineDetector &gt; themis::llm::ByzantineDetectorFactory::create</definition>
+        <argsstring>(ByzantineDetectionMethod method, float threshold=3.0f, int max_byzantine_shards=1)</argsstring>
+        <name>create</name>
+        <qualifiedname>themis::llm::ByzantineDetectorFactory::create</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1ad52f13f3b541d96c1742b95fd08cea47" kindref="member">ByzantineDetectionMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+          <defval>3.0f</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_byzantine_shards</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Create. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_byzantine_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements create without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/byzantine_detector.h" line="326" column="28" bodyfile="src/llm/byzantine_detector.cpp" bodystart="606" bodyend="630"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/byzantine_detector.h" line="324" column="1" bodyfile="include/llm/byzantine_detector.h" bodystart="324" bodyend="331"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_byzantine_detector_factory_1a259f3f15a133506a5dfb1e5163c6b459" prot="public" virt="non-virtual"><scope>themis::llm::ByzantineDetectorFactory</scope><name>create</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

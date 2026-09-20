@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__performance__allocator_8cpp" kind="file" language="C++">
+    <compoundname>test_performance_allocator.cpp</compoundname>
+    <includes refid="allocator_8h" local="no">performance/allocator.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">chrono</includes>
+    <includes local="yes">../test_performance_helpers.h</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>../test_performance_helpers.h</label>
+      </node>
+      <node id="2">
+        <label>performance/allocator.h</label>
+        <link refid="allocator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/test_performance_allocator.cpp</label>
+        <link refid="test__performance__allocator_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstring</label>
+      </node>
+      <node id="5">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>new</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__performance__allocator_8cpp_1ade3cc650397e16e144770cd54af0e735" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PerformanceAllocatorTest, BasicAllocation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PerformanceAllocatorTest</type>
+        </param>
+        <param>
+          <type>BasicAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_allocator.cpp" line="14" column="1" bodyfile="tests/performance/test_performance_allocator.cpp" bodystart="14" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__allocator_8cpp_1a81e10cefe9d1070f828b5f89b33b05db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PerformanceAllocatorTest, MultipleAllocations)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PerformanceAllocatorTest</type>
+        </param>
+        <param>
+          <type>MultipleAllocations</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_allocator.cpp" line="30" column="1" bodyfile="tests/performance/test_performance_allocator.cpp" bodystart="30" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__allocator_8cpp_1a2ff4fe7a0c2a8551ac09cbda96337fa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PerformanceAllocatorTest, AlignedAllocation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PerformanceAllocatorTest</type>
+        </param>
+        <param>
+          <type>AlignedAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_allocator.cpp" line="46" column="1" bodyfile="tests/performance/test_performance_allocator.cpp" bodystart="46" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__allocator_8cpp_1aee743a87ec51da154ccd91c0d9377428" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PerformanceAllocatorTest, LargeAllocation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PerformanceAllocatorTest</type>
+        </param>
+        <param>
+          <type>LargeAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_allocator.cpp" line="58" column="1" bodyfile="tests/performance/test_performance_allocator.cpp" bodystart="58" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__allocator_8cpp_1a63cc892645af904cb7a9c8749d433e70" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PerformanceAllocatorTest, NullDeallocation)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PerformanceAllocatorTest</type>
+        </param>
+        <param>
+          <type>NullDeallocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_allocator.cpp" line="75" column="1" bodyfile="tests/performance/test_performance_allocator.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__allocator_8cpp_1a8d2fa9ef344f40ac9f8ab50e23639811" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PerformanceAllocatorTest, AllocatorInfo)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PerformanceAllocatorTest</type>
+        </param>
+        <param>
+          <type>AllocatorInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_allocator.cpp" line="81" column="1" bodyfile="tests/performance/test_performance_allocator.cpp" bodystart="81" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__performance__allocator_8cpp_1ab219d688e4a95b404f1b41fc5f28269c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PerformanceAllocatorTest, PerformanceBenchmark)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PerformanceAllocatorTest</type>
+        </param>
+        <param>
+          <type>PerformanceBenchmark</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_allocator.cpp" line="102" column="1" bodyfile="tests/performance/test_performance_allocator.cpp" bodystart="102" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Test<sp/>for<sp/>performance<sp/>allocator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>memory<sp/>allocation<sp/>with<sp/>optional<sp/>jemalloc<sp/>or<sp/>mimalloc<sp/>optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="allocator_8h" kindref="compound">performance/allocator.h</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../test_performance_helpers.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1memory" kindref="compound">themis::memory</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><ref refid="test__performance__allocator_8cpp_1ade3cc650397e16e144770cd54af0e735" kindref="member">TEST</ref>(PerformanceAllocatorTest,<sp/>BasicAllocation)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>basic<sp/>allocation<sp/>and<sp/>deallocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a26ed3e746a740cda3c8c5b69c5744431" kindref="member">allocate</ref>(1024);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>some<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>std::memset(ptr,<sp/>0x42,<sp/>1024);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>we<sp/>can<sp/>read<sp/>it<sp/>back</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>bytes<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bytes[0],<sp/>0x42);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bytes[1023],<sp/>0x42);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a98ef7f69731bc134b4fb2d05816f48e4" kindref="member">deallocate</ref>(ptr);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><ref refid="test__performance__allocator_8cpp_1ade3cc650397e16e144770cd54af0e735" kindref="member">TEST</ref>(PerformanceAllocatorTest,<sp/>MultipleAllocations)<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>multiple<sp/>allocations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;void*&gt;<sp/>ptrs<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a26ed3e746a740cda3c8c5b69c5744431" kindref="member">allocate</ref>(128);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ptrs.push_back(ptr);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>all</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>:<sp/>ptrs)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a98ef7f69731bc134b4fb2d05816f48e4" kindref="member">deallocate</ref>(ptr);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__performance__allocator_8cpp_1ade3cc650397e16e144770cd54af0e735" kindref="member">TEST</ref>(PerformanceAllocatorTest,<sp/>AlignedAllocation)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>aligned<sp/>allocation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a36f5dcf421bfb761dfd82c90d8c7fad5" kindref="member">allocate_aligned</ref>(1024,<sp/>64);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>alignment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>uintptr_t<sp/>addr<sp/>=<sp/></highlight><highlight class="keyword">reinterpret_cast&lt;</highlight><highlight class="normal">uintptr_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(addr<sp/>%<sp/>64,<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Pointer<sp/>is<sp/>not<sp/>64-byte<sp/>aligned&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a598c541b22e30184c831596fb2fa0873" kindref="member">deallocate_aligned</ref>(ptr,<sp/>64);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><ref refid="test__performance__allocator_8cpp_1ade3cc650397e16e144770cd54af0e735" kindref="member">TEST</ref>(PerformanceAllocatorTest,<sp/>LargeAllocation)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>large<sp/>allocation<sp/>(10MB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size<sp/>=<sp/>10<sp/>*<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a26ed3e746a740cda3c8c5b69c5744431" kindref="member">allocate</ref>(size);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>bytes<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ptr);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>bytes[0]<sp/>=<sp/>0xAA;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>bytes[size<sp/>-<sp/>1]<sp/>=<sp/>0xBB;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bytes[0],<sp/>0xAA);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(bytes[size<sp/>-<sp/>1],<sp/>0xBB);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a98ef7f69731bc134b4fb2d05816f48e4" kindref="member">deallocate</ref>(ptr);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__performance__allocator_8cpp_1ade3cc650397e16e144770cd54af0e735" kindref="member">TEST</ref>(PerformanceAllocatorTest,<sp/>NullDeallocation)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Deallocating<sp/>null<sp/>should<sp/>be<sp/>safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="namespacethemis_1_1memory_1a98ef7f69731bc134b4fb2d05816f48e4" kindref="member">deallocate</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="namespacethemis_1_1memory_1a598c541b22e30184c831596fb2fa0873" kindref="member">deallocate_aligned</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>64));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__performance__allocator_8cpp_1ade3cc650397e16e144770cd54af0e735" kindref="member">TEST</ref>(PerformanceAllocatorTest,<sp/>AllocatorInfo)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>allocator<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>name<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a0750aef65eaabe8d8da701072064d267" kindref="member">allocator_name</ref>();</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(name,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(std::strlen(name)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>THEMIS_ENABLE_JEMALLOC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(name,<sp/></highlight><highlight class="stringliteral">&quot;jemalloc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1memory_1a6ca70ee4ce88d7ac6f2b158f47e11636" kindref="member">is_jemalloc_enabled</ref>());</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1memory_1ad3cf93f6524fc9a5166aa2213fed9d15" kindref="member">is_mimalloc_enabled</ref>());</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#elif<sp/>defined(THEMIS_ENABLE_MIMALLOC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(name,<sp/></highlight><highlight class="stringliteral">&quot;mimalloc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1memory_1ad3cf93f6524fc9a5166aa2213fed9d15" kindref="member">is_mimalloc_enabled</ref>());</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1memory_1a6ca70ee4ce88d7ac6f2b158f47e11636" kindref="member">is_jemalloc_enabled</ref>());</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(name,<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1memory_1ad3cf93f6524fc9a5166aa2213fed9d15" kindref="member">is_mimalloc_enabled</ref>());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="namespacethemis_1_1memory_1a6ca70ee4ce88d7ac6f2b158f47e11636" kindref="member">is_jemalloc_enabled</ref>());</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__performance__allocator_8cpp_1ade3cc650397e16e144770cd54af0e735" kindref="member">TEST</ref>(PerformanceAllocatorTest,<sp/>PerformanceBenchmark)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simple<sp/>performance<sp/>test<sp/>(not<sp/>a<sp/>real<sp/>benchmark,<sp/>just<sp/>for<sp/>smoke<sp/>testing)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iterations<sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>alloc_size<sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>samples<sp/>=<sp/>themis::test::sampleLatencyMs([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>iterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr<sp/>=<sp/><ref refid="namespacethemis_1_1memory_1a26ed3e746a740cda3c8c5b69c5744431" kindref="member">allocate</ref>(alloc_size);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(ptr,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1memory_1a98ef7f69731bc134b4fb2d05816f48e4" kindref="member">deallocate</ref>(ptr);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>p95_ms<sp/>=<sp/>themis::test::percentileValue(samples,<sp/>95);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Historical<sp/>CI<sp/>budget:<sp/>100ms<sp/>for<sp/>1000<sp/>allocations/deallocations.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(p95_ms,<sp/>100.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Allocations<sp/>took<sp/>too<sp/>long:<sp/>p95=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>p95_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ms&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#ifdef<sp/>THEMIS_ENABLE_JEMALLOC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Jemalloc<sp/>performance<sp/>p95:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>p95_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ms<sp/>for<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>iterations<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>allocations&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#elif<sp/>defined(THEMIS_ENABLE_MIMALLOC)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Mimalloc<sp/>performance<sp/>p95:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>p95_ms<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;ms<sp/>for<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/>iterations<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>allocations&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/test_performance_allocator.cpp"/>
+  </compounddef>
+</doxygen>

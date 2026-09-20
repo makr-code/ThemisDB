@@ -1,0 +1,514 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ProTeGiOptimizer</compoundname>
+    <includes refid="protegi__optimizer_8h" local="no">protegi_optimizer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a9835d8210dd849e1beede6405690c08c" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; std::string &gt;( const std::string &amp;prompt, const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt; &amp;mini_batch)&gt;</type>
+        <definition>using themis::prompt_engineering::ProTeGiOptimizer::MiniBatchErrorFn = std::function&lt;std::vector&lt;std::string&gt;(
+       const std::string&amp; prompt,
+       const std::vector&lt;TestCase&gt;&amp; mini_batch)&gt;</definition>
+        <argsstring></argsstring>
+        <name>MiniBatchErrorFn</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::MiniBatchErrorFn</qualifiedname>
+        <briefdescription>
+<para>Function type for extracting per-example error strings from a mini-batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Takes the prompt and a subset of test cases; returns one error string per failed case (empty string for a passing case). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="167" column="5" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1aed70f7b74f8ab61932616f3d3ee05923" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config" kindref="compound">ProTeGiConfig</ref></type>
+        <definition>ProTeGiConfig themis::prompt_engineering::ProTeGiOptimizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="238" column="43" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1ab640d59442340682f66c7803735b3945" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider" kindref="compound">IProTeGiLLMProvider</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IProTeGiLLMProvider&gt; themis::prompt_engineering::ProTeGiOptimizer::llm_provider_</definition>
+        <argsstring></argsstring>
+        <name>llm_provider_</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::llm_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="239" column="22" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a4f03388ccf10b173efbb3627dec2611f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::ProTeGiOptimizer::ProTeGiOptimizer</definition>
+        <argsstring>(const ProTeGiConfig &amp;config=ProTeGiConfig{})</argsstring>
+        <name>ProTeGiOptimizer</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::ProTeGiOptimizer</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config" kindref="compound">ProTeGiConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config" kindref="compound">ProTeGiConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="174" column="14" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1ac0839b3915b8ff6d48a95c472c8206c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a4f03388ccf10b173efbb3627dec2611f" kindref="member">ProTeGiOptimizer</ref> &amp;</type>
+        <definition>ProTeGiOptimizer &amp; themis::prompt_engineering::ProTeGiOptimizer::setLLMProvider</definition>
+        <argsstring>(std::shared_ptr&lt; IProTeGiLLMProvider &gt; provider)</argsstring>
+        <name>setLLMProvider</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::setLLMProvider</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1prompt__engineering_1_1_i_pro_te_gi_l_l_m_provider" kindref="compound">IProTeGiLLMProvider</ref> &gt;</type>
+          <declname>provider</declname>
+        </param>
+        <briefdescription>
+<para>Inject the LLM provider used for gradient and candidate generation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set LLMProvider.</para>
+<para>If not called, a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_heuristic_pro_te_gi_provider" kindref="compound">HeuristicProTeGiProvider</ref></computeroutput> is used automatically.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">provider</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="181" column="22" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="143" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a1e4c9a236ee228ff64fe89c75a029545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result" kindref="compound">ProTeGiResult</ref></type>
+        <definition>ProTeGiResult themis::prompt_engineering::ProTeGiOptimizer::optimize</definition>
+        <argsstring>(const std::string &amp;initial_prompt, const std::vector&lt; TestCase &gt; &amp;test_cases, EvaluationFunction eval_fn, MiniBatchErrorFn error_fn=nullptr)</argsstring>
+        <name>optimize</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::optimize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>initial_prompt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt; &amp;</type>
+          <declname>test_cases</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a57816934201209c26107444f149c499e" kindref="member">EvaluationFunction</ref></type>
+          <declname>eval_fn</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a9835d8210dd849e1beede6405690c08c" kindref="member">MiniBatchErrorFn</ref></type>
+          <declname>error_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Run ProTeGi optimization. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>initial_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Starting prompt text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full evaluation corpus. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>eval_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Scoring function (0–1 range). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional: per-example error extractor for mini-batch. Defaults to a simple threshold-based fallback. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_result" kindref="compound">ProTeGiResult</ref> Best prompt and convergence diagnostics.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">test_cases</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">eval_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="193" column="19" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="176" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a55035ab3d1457b450a16145d515cac84" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config" kindref="compound">ProTeGiConfig</ref> &amp;</type>
+        <definition>const ProTeGiConfig &amp; themis::prompt_engineering::ProTeGiOptimizer::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="202" column="25" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="150" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a5d40a41528e8da8ca5179f1008c0a525" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::ProTeGiOptimizer::setConfig</definition>
+        <argsstring>(const ProTeGiConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_config" kindref="compound">ProTeGiConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update the configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="207" column="10" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="159" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1aa15a8e63db70af6aea2b6c44f29e97c7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ProTeGiOptimizer::buildGradientPrompt</definition>
+        <argsstring>(const std::string &amp;prompt, const std::vector&lt; std::string &gt; &amp;errors)</argsstring>
+        <name>buildGradientPrompt</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::buildGradientPrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>errors</declname>
+        </param>
+        <briefdescription>
+<para>Build the meta-prompt used to compute a textual gradient. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Gradient Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Per-example failure descriptions. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted gradient-computation prompt.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="220" column="24" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="327" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a8ebf9696ef98cbccdb40b57a344e4075" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ProTeGiOptimizer::buildCandidatePrompt</definition>
+        <argsstring>(const std::string &amp;prompt, const ProTeGiGradient &amp;gradient, size_t k)</argsstring>
+        <name>buildCandidatePrompt</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::buildCandidatePrompt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1prompt__engineering_1_1_pro_te_gi_gradient" kindref="compound">ProTeGiGradient</ref> &amp;</type>
+          <declname>gradient</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Build the meta-prompt used to generate improved candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Candidate Prompt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current prompt. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gradient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Textual gradient. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of candidates to request. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Formatted candidate-generation prompt.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">gradient</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="232" column="24" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="353" bodyend="367"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a602494612128bc13032f891e147c85cc" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt;</type>
+        <definition>std::vector&lt; TestCase &gt; themis::prompt_engineering::ProTeGiOptimizer::sampleMiniBatch</definition>
+        <argsstring>(const std::vector&lt; TestCase &gt; &amp;test_cases, size_t n) const</argsstring>
+        <name>sampleMiniBatch</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::sampleMiniBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt; &amp;</type>
+          <declname>test_cases</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="242" column="17" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="373" bodyend="393"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1afa4405153c293da45376a4fc0defa251" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::prompt_engineering::ProTeGiOptimizer::defaultErrorFn</definition>
+        <argsstring>(const std::string &amp;prompt, const std::vector&lt; TestCase &gt; &amp;mini_batch)</argsstring>
+        <name>defaultErrorFn</name>
+        <qualifiedname>themis::prompt_engineering::ProTeGiOptimizer::defaultErrorFn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_test_case" kindref="compound">TestCase</ref> &gt; &amp;</type>
+          <declname>mini_batch</declname>
+        </param>
+        <briefdescription>
+<para>Default Error Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">mini_batch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/protegi_optimizer.h" line="250" column="24" bodyfile="src/prompt_engineering/protegi_optimizer.cpp" bodystart="401" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ProTeGi – textual gradient descent optimizer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage: <programlisting><codeline><highlight class="normal">ProTeGiConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.beam_width<sp/><sp/><sp/><sp/><sp/>=<sp/>4;</highlight></codeline>
+<codeline><highlight class="normal">cfg.num_candidates<sp/>=<sp/>4;</highlight></codeline>
+<codeline><highlight class="normal">cfg.max_steps<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a4f03388ccf10b173efbb3627dec2611f" kindref="member">ProTeGiOptimizer</ref><sp/>opt(cfg);</highlight></codeline>
+<codeline><highlight class="normal">opt.setLLMProvider(std::make_shared&lt;MyLLMProvider&gt;());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">ProTeGiResult<sp/>result<sp/>=<sp/>opt.optimize(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>initial_prompt,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>test_cases,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>my_eval_fn,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>mini_batch_error_fn<sp/><sp/></highlight><highlight class="comment">//<sp/>optional:<sp/>extract<sp/>error<sp/>strings<sp/>from<sp/>mini-batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal">std::cout<sp/>&lt;&lt;<sp/>result.best_prompt<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/protegi_optimizer.h" line="159" column="1" bodyfile="include/prompt_engineering/protegi_optimizer.h" bodystart="159" bodyend="253"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a8ebf9696ef98cbccdb40b57a344e4075" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>buildCandidatePrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1aa15a8e63db70af6aea2b6c44f29e97c7" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>buildGradientPrompt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1aed70f7b74f8ab61932616f3d3ee05923" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1afa4405153c293da45376a4fc0defa251" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>defaultErrorFn</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a55035ab3d1457b450a16145d515cac84" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1ab640d59442340682f66c7803735b3945" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>llm_provider_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a9835d8210dd849e1beede6405690c08c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>MiniBatchErrorFn</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a1e4c9a236ee228ff64fe89c75a029545" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>optimize</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a4f03388ccf10b173efbb3627dec2611f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>ProTeGiOptimizer</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a602494612128bc13032f891e147c85cc" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>sampleMiniBatch</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1a5d40a41528e8da8ca5179f1008c0a525" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_pro_te_gi_optimizer_1ac0839b3915b8ff6d48a95c472c8206c1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ProTeGiOptimizer</scope><name>setLLMProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

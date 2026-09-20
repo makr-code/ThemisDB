@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_consistent_hash_ring" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::ConsistentHashRing</compoundname>
+    <includes refid="distributed__gateway_8h" local="no">distributed_gateway.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_consistent_hash_ring_1af55aa97b3eaaef53f8022f50814e4c67" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::ConsistentHashRing::virtual_nodes_</definition>
+        <argsstring></argsstring>
+        <name>virtual_nodes_</name>
+        <qualifiedname>themis::server::ConsistentHashRing::virtual_nodes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="129" column="14" bodyfile="include/server/distributed_gateway.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_consistent_hash_ring_1a8033301145f7a52f9da68be9fd98c646" prot="private" static="no" mutable="no">
+        <type>std::map&lt; uint64_t, <ref refid="structthemis_1_1server_1_1_gateway_node" kindref="compound">GatewayNode</ref> &gt;</type>
+        <definition>std::map&lt;uint64_t, GatewayNode&gt; themis::server::ConsistentHashRing::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::server::ConsistentHashRing::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="131" column="14" bodyfile="include/server/distributed_gateway.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_consistent_hash_ring_1a50afb42a0054b9a4ee06545df7f0b46b" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::server::ConsistentHashRing::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::server::ConsistentHashRing::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="132" column="31" bodyfile="include/server/distributed_gateway.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_consistent_hash_ring_1a32a95c3d50a8be4bbeb48002866a4941" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::ConsistentHashRing::ConsistentHashRing</definition>
+        <argsstring>(uint32_t virtual_nodes=150)</argsstring>
+        <name>ConsistentHashRing</name>
+        <qualifiedname>themis::server::ConsistentHashRing::ConsistentHashRing</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>virtual_nodes</declname>
+          <defval>150</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="101" column="14" bodyfile="src/server/distributed_gateway.cpp" bodystart="124" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_consistent_hash_ring_1adf2519c370d93bafe0d4e881a5d10bfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ConsistentHashRing::addNode</definition>
+        <argsstring>(const GatewayNode &amp;node)</argsstring>
+        <name>addNode</name>
+        <qualifiedname>themis::server::ConsistentHashRing::addNode</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1server_1_1_gateway_node" kindref="compound">GatewayNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <briefdescription>
+<para>Add Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), hash(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="107" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="152" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_consistent_hash_ring_1a7171840b426afe957a78bd23666d02af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::ConsistentHashRing::removeNode</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>removeNode</name>
+        <qualifiedname>themis::server::ConsistentHashRing::removeNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), hash(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="113" column="10" bodyfile="src/server/distributed_gateway.cpp" bodystart="167" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_consistent_hash_ring_1a762ba9f6a2683762fd9c34f9c8315893" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1server_1_1_gateway_node" kindref="compound">GatewayNode</ref> &gt;</type>
+        <definition>std::optional&lt; GatewayNode &gt; themis::server::ConsistentHashRing::getNode</definition>
+        <argsstring>(const std::string &amp;session_key) const</argsstring>
+        <name>getNode</name>
+        <qualifiedname>themis::server::ConsistentHashRing::getNode</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_key</declname>
+        </param>
+        <briefdescription>
+<para>Get Node. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="120" column="19" bodyfile="src/server/distributed_gateway.cpp" bodystart="176" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_consistent_hash_ring_1a2199b316cb8aa59c432604d3e74465b2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::server::ConsistentHashRing::nodeCount</definition>
+        <argsstring>() const</argsstring>
+        <name>nodeCount</name>
+        <qualifiedname>themis::server::ConsistentHashRing::nodeCount</qualifiedname>
+        <briefdescription>
+<para>Node Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="126" column="17" bodyfile="src/server/distributed_gateway.cpp" bodystart="196" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_consistent_hash_ring_1a96b61c4eb9491532ae95cc4251252595" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::server::ConsistentHashRing::hash</definition>
+        <argsstring>(const std::string &amp;key, uint32_t replica)</argsstring>
+        <name>hash</name>
+        <qualifiedname>themis::server::ConsistentHashRing::hash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+<para>Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>FNV-1a 64-bit hash with a replica seed suffix for virtual nodes.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replica</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/distributed_gateway.h" line="140" column="21" bodyfile="src/server/distributed_gateway.cpp" bodystart="134" bodyend="145"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/distributed_gateway.h" line="99" column="1" bodyfile="include/server/distributed_gateway.h" bodystart="99" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1adf2519c370d93bafe0d4e881a5d10bfe" prot="public" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>addNode</name></member>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1a32a95c3d50a8be4bbeb48002866a4941" prot="public" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>ConsistentHashRing</name></member>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1a762ba9f6a2683762fd9c34f9c8315893" prot="public" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>getNode</name></member>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1a96b61c4eb9491532ae95cc4251252595" prot="private" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>hash</name></member>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1a50afb42a0054b9a4ee06545df7f0b46b" prot="private" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1a2199b316cb8aa59c432604d3e74465b2" prot="public" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>nodeCount</name></member>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1a7171840b426afe957a78bd23666d02af" prot="public" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>removeNode</name></member>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1a8033301145f7a52f9da68be9fd98c646" prot="private" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1server_1_1_consistent_hash_ring_1af55aa97b3eaaef53f8022f50814e4c67" prot="private" virt="non-virtual"><scope>themis::server::ConsistentHashRing</scope><name>virtual_nodes_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

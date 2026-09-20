@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::retrieval::testing::MockExactRetriever</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a1d5574ec76bcb06c929909fa24107662" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::retrieval::testing::MockExactRetriever::documents_</definition>
+        <argsstring></argsstring>
+        <name>documents_</name>
+        <qualifiedname>themis::retrieval::testing::MockExactRetriever::documents_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="98" column="24" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a0b23ed525ced19ad88bcdbb5e969fc8c" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::testing::MockExactRetriever::max_results_</definition>
+        <argsstring></argsstring>
+        <name>max_results_</name>
+        <qualifiedname>themis::retrieval::testing::MockExactRetriever::max_results_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="99" column="12" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a99b95b0111040db57ef29491ebff6a0a" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::retrieval::testing::MockExactRetriever::exact_search_time_us_</definition>
+        <argsstring></argsstring>
+        <name>exact_search_time_us_</name>
+        <qualifiedname>themis::retrieval::testing::MockExactRetriever::exact_search_time_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="100" column="9" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a3e37798f195ca2990dd0f45c27779264" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::retrieval::testing::MockExactRetriever::MockExactRetriever</definition>
+        <argsstring>()</argsstring>
+        <name>MockExactRetriever</name>
+        <qualifiedname>themis::retrieval::testing::MockExactRetriever::MockExactRetriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="54" column="5" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a1da299d652fbbc4ca7f05f7416832ff5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result" kindref="compound">RetrievalResult</ref> &gt;</type>
+        <definition>std::vector&lt; RetrievalResult &gt; themis::retrieval::testing::MockExactRetriever::retrieveExact</definition>
+        <argsstring>(const std::string &amp;query, size_t top_k=10)</argsstring>
+        <name>retrieveExact</name>
+        <qualifiedname>themis::retrieval::testing::MockExactRetriever::retrieveExact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Perform exact match retrieval </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="59" column="17" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="59" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1ab169f4532d67f09a4054ca6f893f2c10" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::testing::MockExactRetriever::addDocument</definition>
+        <argsstring>(const std::string &amp;id, const std::string &amp;content)</argsstring>
+        <name>addDocument</name>
+        <qualifiedname>themis::retrieval::testing::MockExactRetriever::addDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="85" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1af78e76001e8c68e3b0391794a10965b6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::testing::MockExactRetriever::clearDocuments</definition>
+        <argsstring>()</argsstring>
+        <name>clearDocuments</name>
+        <qualifiedname>themis::retrieval::testing::MockExactRetriever::clearDocuments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="89" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="89" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1ae525035c3045f7386d4794af385ab11a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::testing::MockExactRetriever::documentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>documentCount</name>
+        <qualifiedname>themis::retrieval::testing::MockExactRetriever::documentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="93" column="12" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Mock implementation of exact-first retrieval. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="52" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="52" bodyend="101"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1ab169f4532d67f09a4054ca6f893f2c10" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockExactRetriever</scope><name>addDocument</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1af78e76001e8c68e3b0391794a10965b6" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockExactRetriever</scope><name>clearDocuments</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1ae525035c3045f7386d4794af385ab11a" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockExactRetriever</scope><name>documentCount</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a1d5574ec76bcb06c929909fa24107662" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::MockExactRetriever</scope><name>documents_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a99b95b0111040db57ef29491ebff6a0a" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::MockExactRetriever</scope><name>exact_search_time_us_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a0b23ed525ced19ad88bcdbb5e969fc8c" prot="private" virt="non-virtual"><scope>themis::retrieval::testing::MockExactRetriever</scope><name>max_results_</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a3e37798f195ca2990dd0f45c27779264" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockExactRetriever</scope><name>MockExactRetriever</name></member>
+      <member refid="classthemis_1_1retrieval_1_1testing_1_1_mock_exact_retriever_1a1da299d652fbbc4ca7f05f7416832ff5" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::MockExactRetriever</scope><name>retrieveExact</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

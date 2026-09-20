@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_operation_preview" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::OperationPreview</compoundname>
+    <includes refid="ai__operation__guard_8h" local="no">ai_operation_guard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_operation_preview_1abaae92e2f7fdcbf1e02d70872bbfc797" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::OperationPreview::tool_name</definition>
+        <argsstring></argsstring>
+        <name>tool_name</name>
+        <qualifiedname>themis::security::OperationPreview::tool_name</qualifiedname>
+        <briefdescription>
+<para>MCP tool name (e.g. &quot;delete_entity&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="88" column="17" bodyfile="include/security/ai_operation_guard.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_operation_preview_1a95fc1b6d38f955d9e853f31f3950ca8d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::OperationPreview::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::security::OperationPreview::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="89" column="17" bodyfile="include/security/ai_operation_guard.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_operation_preview_1aef6f8c5e59ad6a3ee3287610cb3c451d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1aa011c72b7a086ff5ae78f7690d66ad7c" kindref="member">json</ref></type>
+        <definition>json themis::security::OperationPreview::args</definition>
+        <argsstring></argsstring>
+        <name>args</name>
+        <qualifiedname>themis::security::OperationPreview::args</qualifiedname>
+        <briefdescription>
+<para>Sanitised args (no credentials). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="90" column="17" bodyfile="include/security/ai_operation_guard.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_operation_preview_1a16f90a6e7525fd4c37c564195edb6d5f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::OperationPreview::aql_query</definition>
+        <argsstring></argsstring>
+        <name>aql_query</name>
+        <qualifiedname>themis::security::OperationPreview::aql_query</qualifiedname>
+        <briefdescription>
+<para>Only set when tool_name == &quot;query&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="91" column="17" bodyfile="include/security/ai_operation_guard.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_operation_preview_1a0054ad5b0e9538cf710ee153f716ac72" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::OperationPreview::target_collection</definition>
+        <argsstring></argsstring>
+        <name>target_collection</name>
+        <qualifiedname>themis::security::OperationPreview::target_collection</qualifiedname>
+        <briefdescription>
+<para>Affected collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="92" column="17" bodyfile="include/security/ai_operation_guard.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_operation_preview_1af7f4b30658bcae42395f1bb34d2cf5d7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::OperationPreview::estimated_affected</definition>
+        <argsstring></argsstring>
+        <name>estimated_affected</name>
+        <qualifiedname>themis::security::OperationPreview::estimated_affected</qualifiedname>
+        <briefdescription>
+<para>Estimated affected records (0 = unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/ai_operation_guard.h" line="93" column="17" bodyfile="include/security/ai_operation_guard.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/ai_operation_guard.h" line="87" column="1" bodyfile="include/security/ai_operation_guard.h" bodystart="87" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_operation_preview_1a16f90a6e7525fd4c37c564195edb6d5f" prot="public" virt="non-virtual"><scope>themis::security::OperationPreview</scope><name>aql_query</name></member>
+      <member refid="structthemis_1_1security_1_1_operation_preview_1aef6f8c5e59ad6a3ee3287610cb3c451d" prot="public" virt="non-virtual"><scope>themis::security::OperationPreview</scope><name>args</name></member>
+      <member refid="structthemis_1_1security_1_1_operation_preview_1a95fc1b6d38f955d9e853f31f3950ca8d" prot="public" virt="non-virtual"><scope>themis::security::OperationPreview</scope><name>description</name></member>
+      <member refid="structthemis_1_1security_1_1_operation_preview_1af7f4b30658bcae42395f1bb34d2cf5d7" prot="public" virt="non-virtual"><scope>themis::security::OperationPreview</scope><name>estimated_affected</name></member>
+      <member refid="structthemis_1_1security_1_1_operation_preview_1a0054ad5b0e9538cf710ee153f716ac72" prot="public" virt="non-virtual"><scope>themis::security::OperationPreview</scope><name>target_collection</name></member>
+      <member refid="structthemis_1_1security_1_1_operation_preview_1abaae92e2f7fdcbf1e02d70872bbfc797" prot="public" virt="non-virtual"><scope>themis::security::OperationPreview</scope><name>tool_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

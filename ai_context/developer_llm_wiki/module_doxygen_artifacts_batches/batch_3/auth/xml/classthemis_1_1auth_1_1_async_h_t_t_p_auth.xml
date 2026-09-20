@@ -1,0 +1,399 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_async_h_t_t_p_auth" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::AsyncHTTPAuth</compoundname>
+    <includes refid="http__auth__async_8h" local="no">http_auth_async.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a7b86b3a4201acc17d994c114294dec3c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config" kindref="compound">HTTPAuthConfig</ref></type>
+        <definition>HTTPAuthConfig themis::auth::AsyncHTTPAuth::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="109" column="20" bodyfile="include/auth/http_auth_async.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a2a0ac2da6796732b93b7b28ab94e57ac" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_auth_worker_thread_pool" kindref="compound">AuthWorkerThreadPool</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AuthWorkerThreadPool&gt; themis::auth::AsyncHTTPAuth::worker_pool_</definition>
+        <argsstring></argsstring>
+        <name>worker_pool_</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::worker_pool_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="112" column="21" bodyfile="include/auth/http_auth_async.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a63fab6e8d7de07041dc89424f6944df6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AsyncHTTPAuth::AsyncHTTPAuth</definition>
+        <argsstring>(const HTTPAuthConfig &amp;config=HTTPAuthConfig())</argsstring>
+        <name>AsyncHTTPAuth</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::AsyncHTTPAuth</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config" kindref="compound">HTTPAuthConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config" kindref="compound">HTTPAuthConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="74" column="14" bodyfile="src/auth/http_auth_async.cpp" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a8af40ce8613a1056f4bb6d6f5be94346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AsyncHTTPAuth::~AsyncHTTPAuth</definition>
+        <argsstring>()</argsstring>
+        <name>~AsyncHTTPAuth</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::~AsyncHTTPAuth</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="75" column="5" bodyfile="src/auth/http_auth_async.cpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a7461f02f7ca9314f22077e3f975887d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AsyncHTTPAuth::AsyncHTTPAuth</definition>
+        <argsstring>(const AsyncHTTPAuth &amp;)=delete</argsstring>
+        <name>AsyncHTTPAuth</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::AsyncHTTPAuth</qualifiedname>
+        <param>
+          <type>const AsyncHTTPAuth &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="78" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a17ba84940ca4db082bf5efe69ff51cfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a63fab6e8d7de07041dc89424f6944df6" kindref="member">AsyncHTTPAuth</ref> &amp;</type>
+        <definition>AsyncHTTPAuth &amp; themis::auth::AsyncHTTPAuth::operator=</definition>
+        <argsstring>(const AsyncHTTPAuth &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a63fab6e8d7de07041dc89424f6944df6" kindref="member">AsyncHTTPAuth</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="79" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1acf5d17f2e9c41902ab77b67ab8f5ca93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::AsyncHTTPAuth::AsyncHTTPAuth</definition>
+        <argsstring>(AsyncHTTPAuth &amp;&amp;)=delete</argsstring>
+        <name>AsyncHTTPAuth</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::AsyncHTTPAuth</qualifiedname>
+        <param>
+          <type>AsyncHTTPAuth &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a73c30e676d6adc830505300de4f28214" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a63fab6e8d7de07041dc89424f6944df6" kindref="member">AsyncHTTPAuth</ref> &amp;</type>
+        <definition>AsyncHTTPAuth &amp; themis::auth::AsyncHTTPAuth::operator=</definition>
+        <argsstring>(AsyncHTTPAuth &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a63fab6e8d7de07041dc89424f6944df6" kindref="member">AsyncHTTPAuth</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="81" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a4d48806c8e735b0b85cbd2f29832130b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response" kindref="compound">HTTPAuthResponse</ref> &gt;</type>
+        <definition>std::future&lt; HTTPAuthResponse &gt; themis::auth::AsyncHTTPAuth::getAsync</definition>
+        <argsstring>(const std::string &amp;url, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;headers={})</argsstring>
+        <name>getAsync</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::getAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="83" column="17" bodyfile="src/auth/http_auth_async.cpp" bodystart="75" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a623f5c3400536f3eebf3ab03e53e52a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; <ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response" kindref="compound">HTTPAuthResponse</ref> &gt;</type>
+        <definition>std::future&lt; HTTPAuthResponse &gt; themis::auth::AsyncHTTPAuth::postAsync</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;body, const std::string &amp;content_type=&quot;application/json&quot;, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;headers={})</argsstring>
+        <name>postAsync</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::postAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_type</declname>
+          <defval>&quot;application/json&quot;</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>headers</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="87" column="17" bodyfile="src/auth/http_auth_async.cpp" bodystart="92" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a12275776283897b9c6cba447f2358414" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::future&lt; bool &gt;</type>
+        <definition>std::future&lt; bool &gt; themis::auth::AsyncHTTPAuth::checkConnectivityAsync</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>checkConnectivityAsync</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::checkConnectivityAsync</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Check Connectivity Async. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="98" column="17" bodyfile="src/auth/http_auth_async.cpp" bodystart="124" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a032fc35400a5a54487c6860cc5f72eb4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_config" kindref="compound">HTTPAuthConfig</ref> &amp;</type>
+        <definition>const HTTPAuthConfig &amp; themis::auth::AsyncHTTPAuth::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="100" column="26" bodyfile="include/auth/http_auth_async.h" bodystart="100" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a2a1055efba39e0b79baf9cdd6c10134e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::auth::AsyncHTTPAuth::threadCount</definition>
+        <argsstring>() const</argsstring>
+        <name>threadCount</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::threadCount</qualifiedname>
+        <briefdescription>
+<para>Thread Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="106" column="12" bodyfile="src/auth/http_auth_async.cpp" bodystart="413" bodyend="416"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1acb70c7ae57e38c8d5ea43463fe343262" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response" kindref="compound">HTTPAuthResponse</ref></type>
+        <definition>HTTPAuthResponse themis::auth::AsyncHTTPAuth::performGet</definition>
+        <argsstring>(const std::string &amp;url, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;headers)</argsstring>
+        <name>performGet</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::performGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="114" column="22" bodyfile="src/auth/http_auth_async.cpp" bodystart="186" bodyend="262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a188823f1af1e21d088774c140ae85ba2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_h_t_t_p_auth_response" kindref="compound">HTTPAuthResponse</ref></type>
+        <definition>HTTPAuthResponse themis::auth::AsyncHTTPAuth::performPost</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;body, const std::string &amp;content_type, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;headers)</argsstring>
+        <name>performPost</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::performPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_type</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="118" column="22" bodyfile="src/auth/http_auth_async.cpp" bodystart="264" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1ab131dd871a478741eeea1fcf0a33681f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::AsyncHTTPAuth::performConnectivityCheck</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>performConnectivityCheck</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::performConnectivityCheck</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Perform Connectivity Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="129" column="10" bodyfile="src/auth/http_auth_async.cpp" bodystart="360" bodyend="411"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a3124d14b154773cdc60915e289353d5c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::AsyncHTTPAuth::validateURL</definition>
+        <argsstring>(const std::string &amp;url)</argsstring>
+        <name>validateURL</name>
+        <qualifiedname>themis::auth::AsyncHTTPAuth::validateURL</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <briefdescription>
+<para>Validate URL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>=========================================================================== Helper: Validate URL format ===========================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/http_auth_async.h" line="135" column="17" bodyfile="src/auth/http_auth_async.cpp" bodystart="32" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/http_auth_async.h" line="72" column="1" bodyfile="include/auth/http_auth_async.h" bodystart="72" bodyend="136"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a63fab6e8d7de07041dc89424f6944df6" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>AsyncHTTPAuth</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a7461f02f7ca9314f22077e3f975887d0" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>AsyncHTTPAuth</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1acf5d17f2e9c41902ab77b67ab8f5ca93" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>AsyncHTTPAuth</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a12275776283897b9c6cba447f2358414" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>checkConnectivityAsync</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a032fc35400a5a54487c6860cc5f72eb4" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>config</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a7b86b3a4201acc17d994c114294dec3c" prot="private" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a4d48806c8e735b0b85cbd2f29832130b" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>getAsync</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a17ba84940ca4db082bf5efe69ff51cfe" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a73c30e676d6adc830505300de4f28214" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1ab131dd871a478741eeea1fcf0a33681f" prot="private" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>performConnectivityCheck</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1acb70c7ae57e38c8d5ea43463fe343262" prot="private" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>performGet</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a188823f1af1e21d088774c140ae85ba2" prot="private" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>performPost</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a623f5c3400536f3eebf3ab03e53e52a1" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>postAsync</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a2a1055efba39e0b79baf9cdd6c10134e" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>threadCount</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a3124d14b154773cdc60915e289353d5c" prot="private" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>validateURL</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a2a0ac2da6796732b93b7b28ab94e57ac" prot="private" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>worker_pool_</name></member>
+      <member refid="classthemis_1_1auth_1_1_async_h_t_t_p_auth_1a8af40ce8613a1056f4bb6d6f5be94346" prot="public" virt="non-virtual"><scope>themis::auth::AsyncHTTPAuth</scope><name>~AsyncHTTPAuth</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_zstd_stream_decompressor_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::ZstdStreamDecompressor::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_zstd_stream_decompressor_1_1_impl_1aa9391b25b956d23ab20902e95f0595d2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::ZstdStreamDecompressor::Impl::done</definition>
+        <argsstring></argsstring>
+        <name>done</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::Impl::done</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/zstd_codec.cpp" line="555" column="10" bodyfile="src/utils/zstd_codec.cpp" bodystart="555" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_zstd_stream_decompressor_1_1_impl_1a01106c8664a557f5592443411a0ade08" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::ZstdStreamDecompressor::Impl::Impl</definition>
+        <argsstring>()</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::utils::ZstdStreamDecompressor::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/zstd_codec.cpp" line="556" column="5" bodyfile="src/utils/zstd_codec.cpp" bodystart="556" bodyend="556"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/zstd_codec.cpp" line="531" column="1" bodyfile="src/utils/zstd_codec.cpp" bodystart="531" bodyend="558"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_zstd_stream_decompressor_1_1_impl_1aa9391b25b956d23ab20902e95f0595d2" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor::Impl</scope><name>done</name></member>
+      <member refid="structthemis_1_1utils_1_1_zstd_stream_decompressor_1_1_impl_1a01106c8664a557f5592443411a0ade08" prot="public" virt="non-virtual"><scope>themis::utils::ZstdStreamDecompressor::Impl</scope><name>Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

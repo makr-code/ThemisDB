@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1compression_1_1_r_l_e_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::compression::RLECodec</compoundname>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_r_l_e_codec_1ad3af2172f70c2d6aabd95b8cd4f1b7c8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::RLECodec::compress</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::compression::RLECodec::compress</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress using RLE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress.</para>
+<para>Format: [count:varint][value:byte]... Efficient for data with long runs of repeated bytes</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_DEBUG(), max(), reserve(), encode_varint(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="243" column="24" bodyfile="src/storage/compression_strategy.cpp" bodystart="672" bodyend="702"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_r_l_e_codec_1a2240124cab30b9a43c8533f43f3a40c2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::RLECodec::decompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::compression::RLECodec::decompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress RLE data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), THEMIS_DEBUG(), size(), max(), reserve(), data(), decode_varint(), insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="248" column="24" bodyfile="src/storage/compression_strategy.cpp" bodystart="710" bodyend="739"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_r_l_e_codec_1aafd1e2ef85031282f952a916fff26642" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::compression::RLECodec::encode_varint</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;output, uint32_t value)</argsstring>
+        <name>encode_varint</name>
+        <qualifiedname>themis::compression::RLECodec::encode_varint</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode varint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="251" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="635" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_r_l_e_codec_1ac232222c39587663f76d4d27324e9030" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::compression::RLECodec::decode_varint</definition>
+        <argsstring>(const uint8_t *&amp;ptr)</argsstring>
+        <name>decode_varint</name>
+        <qualifiedname>themis::compression::RLECodec::decode_varint</qualifiedname>
+        <param>
+          <type>const uint8_t *&amp;</type>
+          <declname>ptr</declname>
+        </param>
+        <briefdescription>
+<para>Decode varint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements decode_varint without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="252" column="21" bodyfile="src/storage/compression_strategy.cpp" bodystart="649" bodyend="663"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Run-Length Encoding utilities. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/compression_strategy.h" line="235" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="235" bodyend="253"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1compression_1_1_r_l_e_codec_1ad3af2172f70c2d6aabd95b8cd4f1b7c8" prot="public" virt="non-virtual"><scope>themis::compression::RLECodec</scope><name>compress</name></member>
+      <member refid="classthemis_1_1compression_1_1_r_l_e_codec_1ac232222c39587663f76d4d27324e9030" prot="private" virt="non-virtual"><scope>themis::compression::RLECodec</scope><name>decode_varint</name></member>
+      <member refid="classthemis_1_1compression_1_1_r_l_e_codec_1a2240124cab30b9a43c8533f43f3a40c2" prot="public" virt="non-virtual"><scope>themis::compression::RLECodec</scope><name>decompress</name></member>
+      <member refid="classthemis_1_1compression_1_1_r_l_e_codec_1aafd1e2ef85031282f952a916fff26642" prot="private" virt="non-virtual"><scope>themis::compression::RLECodec</scope><name>encode_varint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

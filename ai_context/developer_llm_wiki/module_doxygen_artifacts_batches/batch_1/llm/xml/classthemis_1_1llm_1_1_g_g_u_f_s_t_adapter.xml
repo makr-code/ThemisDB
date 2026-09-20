@@ -1,0 +1,916 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::GGUFSTAdapter</compoundname>
+    <includes refid="gguf__st__adapter_8h" local="no">gguf_st_adapter.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components" prot="public">themis::llm::GGUFSTAdapter::AdapterComponents</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result" prot="public">themis::llm::GGUFSTAdapter::VerificationResult</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info" prot="public">themis::llm::GGUFSTAdapter::FormatInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats" prot="public">themis::llm::GGUFSTAdapter::CompressionStats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a6bf8eceb6788fb65670b790c877732ee" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; storage::BlobStorageManager &gt;</type>
+        <definition>std::shared_ptr&lt;storage::BlobStorageManager&gt; themis::llm::GGUFSTAdapter::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="244" column="21" bodyfile="include/llm/gguf_st_adapter.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a20f6d655787e308106ed7b6aeca33e9f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref></type>
+        <definition>GGUFSTConfig themis::llm::GGUFSTAdapter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="245" column="18" bodyfile="include/llm/gguf_st_adapter.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a4389bf7ca2254a8c8d0255f8c47e8414" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::llm::GGUFSTAdapter::SAFETENSORS_MAGIC[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>SAFETENSORS_MAGIC</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::SAFETENSORS_MAGIC</qualifiedname>
+        <initializer>= {&apos;S&apos;, &apos;T&apos;, &apos;N&apos;, &apos;S&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="304" column="30" bodyfile="include/llm/gguf_st_adapter.h" bodystart="304" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a309c94a0befbffab6a742bbde6a633b2" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::llm::GGUFSTAdapter::SIGNATURE_MAGIC[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>SIGNATURE_MAGIC</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::SIGNATURE_MAGIC</qualifiedname>
+        <initializer>= {&apos;T&apos;, &apos;S&apos;, &apos;G&apos;, &apos;N&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="305" column="30" bodyfile="include/llm/gguf_st_adapter.h" bodystart="305" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a4f3ebb9dbfdf31711e95ec0c2cb29426" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::llm::GGUFSTAdapter::MANIFEST_MAGIC[4]</definition>
+        <argsstring>[4]</argsstring>
+        <name>MANIFEST_MAGIC</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::MANIFEST_MAGIC</qualifiedname>
+        <initializer>= {&apos;T&apos;, &apos;M&apos;, &apos;F&apos;, &apos;T&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="306" column="30" bodyfile="include/llm/gguf_st_adapter.h" bodystart="306" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a10c867ea90b799da7561c72794613550" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::GGUFSTAdapter::SECTION_VERSION</definition>
+        <argsstring></argsstring>
+        <name>SECTION_VERSION</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::SECTION_VERSION</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="307" column="31" bodyfile="include/llm/gguf_st_adapter.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a69f2ee1a53af1e007eb916cc7497c112" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::GGUFSTAdapter::FLAG_COMPRESSED_ZSTD</definition>
+        <argsstring></argsstring>
+        <name>FLAG_COMPRESSED_ZSTD</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::FLAG_COMPRESSED_ZSTD</qualifiedname>
+        <initializer>= 0x0001</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="310" column="31" bodyfile="include/llm/gguf_st_adapter.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aa75e45f1e5e56c564e2653c343888776" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::GGUFSTAdapter::FLAG_COMPRESSED_LZ4</definition>
+        <argsstring></argsstring>
+        <name>FLAG_COMPRESSED_LZ4</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::FLAG_COMPRESSED_LZ4</qualifiedname>
+        <initializer>= 0x0002</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="311" column="31" bodyfile="include/llm/gguf_st_adapter.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aeef324bad0ed22d9f2448dd1336b65a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::GGUFSTAdapter::~GGUFSTAdapter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GGUFSTAdapter</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::~GGUFSTAdapter</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter" kindref="compound">GGUFSTAdapter</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="86" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GGUFSTAdapter::GGUFSTAdapter</definition>
+        <argsstring>(GGUFSTAdapter &amp;&amp;) noexcept=default</argsstring>
+        <name>GGUFSTAdapter</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::GGUFSTAdapter</qualifiedname>
+        <param>
+          <type>GGUFSTAdapter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="88" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a00749da304d5fa6c06308e42f8d0bc63" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref> &amp;</type>
+        <definition>GGUFSTAdapter &amp; themis::llm::GGUFSTAdapter::operator=</definition>
+        <argsstring>(GGUFSTAdapter &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="90" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a3b093a857b1f359541166e61d4115852" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GGUFSTAdapter::GGUFSTAdapter</definition>
+        <argsstring>(const GGUFSTAdapter &amp;)=delete</argsstring>
+        <name>GGUFSTAdapter</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::GGUFSTAdapter</qualifiedname>
+        <param>
+          <type>const GGUFSTAdapter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a498fcde4c70f39fa6f6a478778696d55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref> &amp;</type>
+        <definition>GGUFSTAdapter &amp; themis::llm::GGUFSTAdapter::operator=</definition>
+        <argsstring>(const GGUFSTAdapter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" kindref="member">GGUFSTAdapter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="93" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a0153d44094a62008e2d2e8ba8df49387" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::GGUFSTAdapter::GGUFSTAdapter</definition>
+        <argsstring>(std::shared_ptr&lt; storage::BlobStorageManager &gt; storage, const GGUFSTConfig &amp;config={})</argsstring>
+        <name>GGUFSTAdapter</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::GGUFSTAdapter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; storage::BlobStorageManager &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="95" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a85117eefd7c2efc983e3b752c03f6a6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; storage::BlobRef &gt;</type>
+        <definition>std::optional&lt; storage::BlobRef &gt; themis::llm::GGUFSTAdapter::writeAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterComponents &amp;components)</argsstring>
+        <name>writeAdapter</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::writeAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components" kindref="compound">AdapterComponents</ref> &amp;</type>
+          <declname>components</declname>
+        </param>
+        <briefdescription>
+<para>Write Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">components</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="115" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a5e35cba20ba86c2150a1945e43a300cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_adapter_components" kindref="compound">AdapterComponents</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterComponents &gt; themis::llm::GGUFSTAdapter::readAdapter</definition>
+        <argsstring>(const storage::BlobRef &amp;ref)</argsstring>
+        <name>readAdapter</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::readAdapter</qualifiedname>
+        <param>
+          <type>const storage::BlobRef &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Read Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="127" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1abe0eee2ac7369cce55f19cdb1d4987b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::GGUFSTAdapter::readMetadata</definition>
+        <argsstring>(const storage::BlobRef &amp;ref)</argsstring>
+        <name>readMetadata</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::readMetadata</qualifiedname>
+        <param>
+          <type>const storage::BlobRef &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Read Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="134" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a25d95fb7ab056aa35080a8024a582b36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterSignature &gt; themis::llm::GGUFSTAdapter::readSignature</definition>
+        <argsstring>(const storage::BlobRef &amp;ref)</argsstring>
+        <name>readSignature</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::readSignature</qualifiedname>
+        <param>
+          <type>const storage::BlobRef &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Read Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="141" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a5aec357be04746d2955131d3dfec40fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_verification_result" kindref="compound">VerificationResult</ref></type>
+        <definition>VerificationResult themis::llm::GGUFSTAdapter::verifyAdapter</definition>
+        <argsstring>(const storage::BlobRef &amp;ref)</argsstring>
+        <name>verifyAdapter</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::verifyAdapter</qualifiedname>
+        <param>
+          <type>const storage::BlobRef &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Verify Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="164" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a237186eeee3ea5eb37f242c495d65848" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_format_info" kindref="compound">FormatInfo</ref></type>
+        <definition>FormatInfo themis::llm::GGUFSTAdapter::getFormatInfo</definition>
+        <argsstring>(const storage::BlobRef &amp;ref)</argsstring>
+        <name>getFormatInfo</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::getFormatInfo</qualifiedname>
+        <param>
+          <type>const storage::BlobRef &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Get Format Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="192" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1af84d971cbe3e581d769fa7e70292c0e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>std::optional&lt; std::vector&lt; uint8_t &gt; &gt; themis::llm::GGUFSTAdapter::extractSafeTensors</definition>
+        <argsstring>(const storage::BlobRef &amp;ref)</argsstring>
+        <name>extractSafeTensors</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::extractSafeTensors</qualifiedname>
+        <param>
+          <type>const storage::BlobRef &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Extract Safe Tensors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="199" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a890413ffcae8acd824e02f367718dc14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; storage::BlobRef &gt;</type>
+        <definition>std::optional&lt; storage::BlobRef &gt; themis::llm::GGUFSTAdapter::requantize</definition>
+        <argsstring>(const storage::BlobRef &amp;ref, GGUFSTConfig::QuantizationType target_quantization)</argsstring>
+        <name>requantize</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::requantize</qualifiedname>
+        <param>
+          <type>const storage::BlobRef &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config_1ad4c67ae8aff425d0597b1e5521948212" kindref="member">GGUFSTConfig::QuantizationType</ref></type>
+          <declname>target_quantization</declname>
+        </param>
+        <briefdescription>
+<para>Requantize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_quantization</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="207" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1ae00ff36e7ee4bee8628762ee02251bd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1_1_compression_stats" kindref="compound">CompressionStats</ref></type>
+        <definition>CompressionStats themis::llm::GGUFSTAdapter::getCompressionStats</definition>
+        <argsstring>(const storage::BlobRef &amp;ref)</argsstring>
+        <name>getCompressionStats</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::getCompressionStats</qualifiedname>
+        <param>
+          <type>const storage::BlobRef &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Get Compression Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="232" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1ab8398ac4d4719c3ca901910fc5e7ccd4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref> &amp;</type>
+        <definition>const GGUFSTConfig &amp; themis::llm::GGUFSTAdapter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="234" column="24" bodyfile="include/llm/gguf_st_adapter.h" bodystart="234" bodyend="234"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7f16aa639e9adcef0663fed918441602" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::GGUFSTAdapter::setConfig</definition>
+        <argsstring>(const GGUFSTConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_g_g_u_f_s_t_config" kindref="compound">GGUFSTConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Set Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="241" column="10" bodyfile="include/llm/gguf_st_adapter.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aa1833cc6742ad62be1b9bb97c7182888" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llm::GGUFSTAdapter::compressData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, int level)</argsstring>
+        <name>compressData</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::compressData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Compress Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="254" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7861ff5f5a350e43c1b871e44e2a54cc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llm::GGUFSTAdapter::decompressData</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;compressed_data)</argsstring>
+        <name>decompressData</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::decompressData</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>compressed_data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="260" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7280904b485376dadac92bc39e2d97c8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::GGUFSTAdapter::writeSectionHeader</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buffer, const SectionHeader &amp;header)</argsstring>
+        <name>writeSectionHeader</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::writeSectionHeader</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_section_header" kindref="compound">SectionHeader</ref> &amp;</type>
+          <declname>header</declname>
+        </param>
+        <briefdescription>
+<para>Write Section Header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buffer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="268" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7be7f55fb28d101959be88a3e27cd495" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_section_header" kindref="compound">SectionHeader</ref> &gt;</type>
+        <definition>std::optional&lt; SectionHeader &gt; themis::llm::GGUFSTAdapter::readSectionHeader</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, size_t offset)</argsstring>
+        <name>readSectionHeader</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::readSectionHeader</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+        </param>
+        <briefdescription>
+<para>Read Section Header. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">offset</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="275" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aba5ee81a5ab2e65ad67af052a3fd865a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llm::GGUFSTAdapter::serializeMetadata</definition>
+        <argsstring>(const AdapterMetadata &amp;metadata)</argsstring>
+        <name>serializeMetadata</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::serializeMetadata</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Serialize Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="282" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a26c3a0aae5a69e4cca9cd9701c3b2b69" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterMetadata &gt; themis::llm::GGUFSTAdapter::deserializeMetadata</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserializeMetadata</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::deserializeMetadata</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="288" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a693bf4525ee3cb8d5b307570181ad7b8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::llm::GGUFSTAdapter::serializeSignature</definition>
+        <argsstring>(const AdapterSignature &amp;signature)</argsstring>
+        <name>serializeSignature</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::serializeSignature</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref> &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <briefdescription>
+<para>Serialize Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="295" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aca698beb5564090550bed9ee67574398" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_adapter_signature" kindref="compound">AdapterSignature</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterSignature &gt; themis::llm::GGUFSTAdapter::deserializeSignature</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>deserializeSignature</name>
+        <qualifiedname>themis::llm::GGUFSTAdapter::deserializeSignature</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/gguf_st_adapter.h" line="301" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/gguf_st_adapter.h" line="80" column="1" bodyfile="include/llm/gguf_st_adapter.h" bodystart="80" bodyend="312"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aa1833cc6742ad62be1b9bb97c7182888" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>compressData</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a20f6d655787e308106ed7b6aeca33e9f" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7861ff5f5a350e43c1b871e44e2a54cc" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>decompressData</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a26c3a0aae5a69e4cca9cd9701c3b2b69" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>deserializeMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aca698beb5564090550bed9ee67574398" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>deserializeSignature</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1af84d971cbe3e581d769fa7e70292c0e0" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>extractSafeTensors</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aa75e45f1e5e56c564e2653c343888776" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>FLAG_COMPRESSED_LZ4</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a69f2ee1a53af1e007eb916cc7497c112" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>FLAG_COMPRESSED_ZSTD</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1ae00ff36e7ee4bee8628762ee02251bd1" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>getCompressionStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1ab8398ac4d4719c3ca901910fc5e7ccd4" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a237186eeee3ea5eb37f242c495d65848" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>getFormatInfo</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a616e0f0ed5d39e809095e65096c72d8e" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>GGUFSTAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a3b093a857b1f359541166e61d4115852" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>GGUFSTAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a0153d44094a62008e2d2e8ba8df49387" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>GGUFSTAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a4f3ebb9dbfdf31711e95ec0c2cb29426" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>MANIFEST_MAGIC</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a00749da304d5fa6c06308e42f8d0bc63" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a498fcde4c70f39fa6f6a478778696d55" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a5e35cba20ba86c2150a1945e43a300cb" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>readAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1abe0eee2ac7369cce55f19cdb1d4987b1" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>readMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7be7f55fb28d101959be88a3e27cd495" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>readSectionHeader</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a25d95fb7ab056aa35080a8024a582b36" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>readSignature</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a890413ffcae8acd824e02f367718dc14" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>requantize</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a4389bf7ca2254a8c8d0255f8c47e8414" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>SAFETENSORS_MAGIC</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a10c867ea90b799da7561c72794613550" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>SECTION_VERSION</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aba5ee81a5ab2e65ad67af052a3fd865a" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>serializeMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a693bf4525ee3cb8d5b307570181ad7b8" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>serializeSignature</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7f16aa639e9adcef0663fed918441602" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a309c94a0befbffab6a742bbde6a633b2" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>SIGNATURE_MAGIC</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a6bf8eceb6788fb65670b790c877732ee" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a5aec357be04746d2955131d3dfec40fe" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>verifyAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a85117eefd7c2efc983e3b752c03f6a6c" prot="public" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>writeAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1a7280904b485376dadac92bc39e2d97c8" prot="private" virt="non-virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>writeSectionHeader</name></member>
+      <member refid="classthemis_1_1llm_1_1_g_g_u_f_s_t_adapter_1aeef324bad0ed22d9f2448dd1336b65a1" prot="public" virt="virtual"><scope>themis::llm::GGUFSTAdapter</scope><name>~GGUFSTAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

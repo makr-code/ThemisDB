@@ -1,0 +1,1270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__conversation__context_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_conversation_context.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="aql__conversation__context_8h" local="yes">aql/aql_conversation_context.h</includes>
+    <includes refid="llm__aql__handler_8h" local="yes">aql/llm_aql_handler.h</includes>
+    <includes refid="llm__token__estimator_8h" local="yes">aql/llm_token_estimator.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>aql/aql_confidence_scorer.h</label>
+        <link refid="aql__confidence__scorer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>aql/aql_conversation_context.h</label>
+        <link refid="aql__conversation__context_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>aql/aql_fewshot_example_library.h</label>
+        <link refid="aql__fewshot__example__library_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>aql/aql_syntax_highlighter.h</label>
+        <link refid="aql__syntax__highlighter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>aql/i_history_compressor.h</label>
+        <link refid="i__history__compressor_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>aql/llm_aql_handler.h</label>
+        <link refid="llm__aql__handler_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>aql/llm_error_codes.h</label>
+        <link refid="llm__error__codes_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>aql/llm_timeout_manager.h</label>
+        <link refid="llm__timeout__manager_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>aql/llm_token_estimator.h</label>
+        <link refid="llm__token__estimator_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>aql/llm_validation_pipeline.h</label>
+        <link refid="llm__validation__pipeline_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/aql/test_aql_conversation_context.cpp</label>
+        <link refid="test__aql__conversation__context_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="19">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>cstddef</label>
+      </node>
+      <node id="31">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="33">
+        <label>llm/i_history_compressor.h</label>
+      </node>
+      <node id="27">
+        <label>llm/llama_wrapper.h</label>
+      </node>
+      <node id="25">
+        <label>llm/llm_client.h</label>
+      </node>
+      <node id="26">
+        <label>llm/llm_plugin_interface.h</label>
+      </node>
+      <node id="21">
+        <label>memory</label>
+      </node>
+      <node id="34">
+        <label>mutex</label>
+      </node>
+      <node id="30">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="24">
+        <label>query/aql_parser_service.h</label>
+      </node>
+      <node id="28">
+        <label>sharding/circuit_breaker.h</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="22">
+        <label>thread</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="29">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_q_l_conversation_context_test" prot="public">AQLConversationContextTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a62ff699c9f12a9e01fe6bf237ccd0341" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, InitialTurnCountIsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>InitialTurnCountIsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="43" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a66d6208cc1cbc857f026b191f27eabc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, InitialLastQueryIsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>InitialLastQueryIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="47" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a241f8ee1f2a9ab28889e716c521cc3c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, InitialHistoryIsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>InitialHistoryIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="51" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a9b1e4e8a100b22a3eebd14a97c90dd14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, InitialSchemaContextIsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>InitialSchemaContextIsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="55" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a859472eb29c72b10148e6af903e0c8b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, SetSchemaContextStored)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>SetSchemaContextStored</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="63" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="63" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a98716b17ddc9d4a7d38c11feae7db263" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, UpdateSchemaContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>UpdateSchemaContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="68" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="68" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a733c15b1026cd2d2550e244144f56b54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, StartWithEmptyIntentThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>StartWithEmptyIntentThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="78" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1ad593bfd33883784b1a07116127c6b3a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, RefineWithEmptyInstructionThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>RefineWithEmptyInstructionThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="82" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="82" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a8075f3608c6788bc7bb43daf425215f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, RefineBeforeStartThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>RefineBeforeStartThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="93" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a8f0656d9658efd7600cf39e689efed88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, StartDoesNotThrowWithoutModel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>StartDoesNotThrowWithoutModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="101" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="101" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1ae668f9de2d2686aa438d4a63c804fcd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, StartClearsHistoryOnSecondCall)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>StartClearsHistoryOnSecondCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="110" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="110" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1acf1aeafec8e21f6bfece2abe785b1833" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, ResetClearsState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>ResetClearsState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="128" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="128" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1af0c7d3b308d7cd3059c323ffce3978f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, RefineAfterResetThrows)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>RefineAfterResetThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="136" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="136" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1aad6591bc6df201ec91653f0dfcc772a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, RefineDoesNotThrowWithoutModel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>RefineDoesNotThrowWithoutModel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="146" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="146" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a8517aaaa6456502c3d71e89eaf7c7c55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, HistoryContainsSystemMessage)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryContainsSystemMessage</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="166" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="166" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a653468a556329daf4506f63d9a7bcc01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, HistoryRolesAreValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>HistoryRolesAreValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="174" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="174" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a920c548450ab877ced139badd3285e14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, MoveConstructible)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>MoveConstructible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="186" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="186" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a1691c861bc220f3ef034feae0e08c4a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref></type>
+        <definition>static AQLConversationContext makeContextWithFakeLLM</definition>
+        <argsstring>(LLMAQLHandler &amp;handler, std::size_t max_turns, std::size_t max_history_tokens=0)</argsstring>
+        <name>makeContextWithFakeLLM</name>
+        <param>
+          <type><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref> &amp;</type>
+          <declname>handler</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_turns</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>max_history_tokens</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="197" column="31" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="197" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a1fdc0687976e0e933493b2f8c756fe50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, MaxTurns_EvictsOldestPairWhenLimitReached)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>MaxTurns_EvictsOldestPairWhenLimitReached</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="211" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="211" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a156924b895382823a1719de282275edb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, MaxTurns_SystemMessageAlwaysPreserved)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>MaxTurns_SystemMessageAlwaysPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="229" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="229" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1af0f47195c02b1debecb693379f7b58d4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, MaxTurns_TurnCountNeverExceedsLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>MaxTurns_TurnCountNeverExceedsLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="240" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="240" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a6b66912065aae79e796c84dfe15dedd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, MaxTurns_DefaultConfigFiftyTurns)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>MaxTurns_DefaultConfigFiftyTurns</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="251" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="251" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1ac6fe2e112a69ca99983b1db94b310713" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, MaxHistoryTokens_EvictsWhenBudgetExceeded)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>MaxHistoryTokens_EvictsWhenBudgetExceeded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="271" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="271" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1ad91b392537a66008db1f29fda7ef4c1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, TokenCount_IsZeroOnFreshContext)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>TokenCount_IsZeroOnFreshContext</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="295" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="295" bodyend="297"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1af836df87671218b610d8fad47790899c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, TokenCount_PositiveAfterStart)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>TokenCount_PositiveAfterStart</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="299" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="299" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a56e501785d7a28903e0e9d113ac6b648" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, TokenCount_ResetToZeroAfterReset)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>TokenCount_ResetToZeroAfterReset</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="309" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="309" bodyend="319"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a43a6fc6760fd75bf69b35151936a0245" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlConversationCharDivisionEstimatorTest, EmptyStringReturnsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlConversationCharDivisionEstimatorTest</type>
+        </param>
+        <param>
+          <type>EmptyStringReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="325" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="325" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1aa7a1d143fd8886f1c75347139471d452" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlConversationCharDivisionEstimatorTest, DefaultRatioFour)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlConversationCharDivisionEstimatorTest</type>
+        </param>
+        <param>
+          <type>DefaultRatioFour</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="330" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="330" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a9dd40bba52ec9450efe9b50ec89909af" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlConversationCharDivisionEstimatorTest, CustomRatio)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlConversationCharDivisionEstimatorTest</type>
+        </param>
+        <param>
+          <type>CustomRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="336" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="336" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a00f255c4c6068d1ee242d9719cdc6c6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AqlConversationCharDivisionEstimatorTest, ZeroRatioFallsBackToFour)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AqlConversationCharDivisionEstimatorTest</type>
+        </param>
+        <param>
+          <type>ZeroRatioFallsBackToFour</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="342" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="342" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="test__aql__conversation__context_8cpp_1a563e211e0356a259702f1aee76444bc3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(AQLConversationContextTest, ConcurrentTurnCountReadIsConsistent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentTurnCountReadIsConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_conversation_context.cpp" line="351" column="1" bodyfile="tests/aql/test_aql_conversation_context.cpp" bodystart="351" bodyend="396"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for <ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__conversation__context_8h" kindref="compound">aql/aql_conversation_context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__aql__handler_8h" kindref="compound">aql/llm_aql_handler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__token__estimator_8h" kindref="compound">aql/llm_token_estimator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1aql" kindref="compound">themis::aql</ref>;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_a_q_l_conversation_context_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_conversation_context_test_1a31847f4d768f93e16c4ebce1044141b8" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_conversation_context_test_1a5d2e89a31ba3a72ae804afbd08568eed" kindref="member">handler</ref><sp/>=<sp/>std::make_unique&lt;LLMAQLHandler&gt;();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_conversation_context_test_1add2d670f91c690dcbf63709304d8e58c" kindref="member">ctx</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;AQLConversationContext&gt;(*<ref refid="class_a_q_l_conversation_context_test_1a5d2e89a31ba3a72ae804afbd08568eed" kindref="member">handler</ref>);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_q_l_conversation_context_test_1a324d9888ceb92336896dba29e425ad61" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_conversation_context_test_1add2d670f91c690dcbf63709304d8e58c" kindref="member">ctx</ref>.reset();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_conversation_context_test_1a5d2e89a31ba3a72ae804afbd08568eed" kindref="member">handler</ref>.reset();</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LLMAQLHandler&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_q_l_conversation_context_test_1a5d2e89a31ba3a72ae804afbd08568eed" kindref="member">handler</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AQLConversationContext&gt;<sp/><ref refid="class_a_q_l_conversation_context_test_1add2d670f91c690dcbf63709304d8e58c" kindref="member">ctx</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Initial<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>InitialTurnCountIsZero)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx-&gt;turnCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>InitialLastQueryIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx-&gt;lastQuery().empty());</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>InitialHistoryIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx-&gt;getHistory().empty());</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>InitialSchemaContextIsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx-&gt;getSchemaContext().empty());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Schema<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>SetSchemaContextStored)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx-&gt;setSchemaContext(</highlight><highlight class="stringliteral">&quot;Collections:\n-<sp/>users:<sp/>{name,<sp/>city}\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx-&gt;getSchemaContext(),<sp/></highlight><highlight class="stringliteral">&quot;Collections:\n-<sp/>users:<sp/>{name,<sp/>city}\n&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>UpdateSchemaContext)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx-&gt;setSchemaContext(</highlight><highlight class="stringliteral">&quot;schema<sp/>v1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx-&gt;setSchemaContext(</highlight><highlight class="stringliteral">&quot;schema<sp/>v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx-&gt;getSchemaContext(),<sp/></highlight><highlight class="stringliteral">&quot;schema<sp/>v2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Input<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>StartWithEmptyIntentThrows)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>RefineWithEmptyInstructionThrows)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Inject<sp/>one<sp/>fake<sp/>turn<sp/>so<sp/>refine()<sp/>doesn&apos;t<sp/>throw<sp/>on<sp/>turn_count_<sp/>==<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>do<sp/>this<sp/>by<sp/>calling<sp/>start()<sp/>and<sp/>accepting<sp/>a<sp/>possible<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;dummy<sp/>intent&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>turn<sp/>count<sp/>to<sp/>1<sp/>so<sp/>refine&apos;s<sp/>precondition<sp/>passes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(If<sp/>start<sp/>succeeded,<sp/>turnCount()<sp/>==<sp/>1;<sp/>if<sp/>it<sp/>failed,<sp/>we<sp/>need<sp/>to<sp/>test<sp/>separately)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx-&gt;turnCount()<sp/>&gt;=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_THROW(ctx-&gt;refine(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>RefineBeforeStartThrows)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(ctx-&gt;refine(</highlight><highlight class="stringliteral">&quot;add<sp/>a<sp/>filter&quot;</highlight><highlight class="normal">),<sp/>std::logic_error);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Start<sp/>(graceful<sp/>LLM<sp/>absence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>StartDoesNotThrowWithoutModel)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Without<sp/>a<sp/>loaded<sp/>LLM<sp/>model,<sp/>start()<sp/>should<sp/>return<sp/>an<sp/>empty<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>but<sp/>must<sp/>NOT<sp/>throw<sp/>or<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>result<sp/>=<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;Find<sp/>all<sp/>users&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>is<sp/>either<sp/>a<sp/>valid<sp/>AQL<sp/>string<sp/>or<sp/>empty<sp/>(no<sp/>model<sp/>loaded)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)result;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>StartClearsHistoryOnSecondCall)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>conversation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;intent<sp/>A&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>start<sp/>–<sp/>should<sp/>reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;intent<sp/>B&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>History<sp/>should<sp/>contain:<sp/>system<sp/>+<sp/>(user+assistant<sp/>pairs<sp/>for<sp/>intent<sp/>B<sp/>only)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>can<sp/>check<sp/>that<sp/>&quot;intent<sp/>A&quot;<sp/>is<sp/>no<sp/>longer<sp/>in<sp/>the<sp/>history</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[role,<sp/>content]<sp/>:<sp/>ctx-&gt;getHistory())<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(content.find(</highlight><highlight class="stringliteral">&quot;intent<sp/>A&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Old<sp/>conversation<sp/>should<sp/>have<sp/>been<sp/>cleared<sp/>by<sp/>second<sp/>start()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Reset</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>ResetClearsState)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;Find<sp/>users&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx-&gt;reset();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx-&gt;turnCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx-&gt;lastQuery().empty());</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx-&gt;getHistory().empty());</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>RefineAfterResetThrows)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;Find<sp/>users&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx-&gt;reset();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(ctx-&gt;refine(</highlight><highlight class="stringliteral">&quot;add<sp/>limit&quot;</highlight><highlight class="normal">),<sp/>std::logic_error);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Refine<sp/>(graceful<sp/>LLM<sp/>absence)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>RefineDoesNotThrowWithoutModel)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>start()<sp/>may<sp/>fail<sp/>silently<sp/>when<sp/>no<sp/>model<sp/>is<sp/>loaded,<sp/>so<sp/>manually<sp/>inject</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>fake<sp/>turn<sp/>to<sp/>bypass<sp/>the<sp/>precondition<sp/>and<sp/>test<sp/>refine()<sp/>independently.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>expose<sp/>turn_count_<sp/>indirectly:<sp/>call<sp/>start()<sp/>which<sp/>at<sp/>minimum<sp/>either</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>succeeds<sp/>(turn_count_<sp/>=<sp/>1)<sp/>or<sp/>fails<sp/>silently<sp/>(turn_count_<sp/>=<sp/>0).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>way<sp/>refine()<sp/>must<sp/>not<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempt<sp/>start;<sp/>if<sp/>turn<sp/>count<sp/>becomes<sp/>1<sp/>we<sp/>can<sp/>call<sp/>refine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;find<sp/>all<sp/>users&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ctx-&gt;turnCount()<sp/>&gt;=<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>result<sp/>=<sp/>ctx-&gt;refine(</highlight><highlight class="stringliteral">&quot;also<sp/>filter<sp/>by<sp/>age<sp/>&gt;<sp/>18&quot;</highlight><highlight class="normal">);<sp/>});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)result;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>History<sp/>inspection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>HistoryContainsSystemMessage)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;Find<sp/>all<sp/>orders&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>history<sp/>=<sp/>ctx-&gt;getHistory();</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!history.empty())<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(history.front().first,<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>HistoryRolesAreValid)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/>ctx-&gt;start(</highlight><highlight class="stringliteral">&quot;Find<sp/>all<sp/>products&quot;</highlight><highlight class="normal">);<sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[role,<sp/>content]<sp/>:<sp/>ctx-&gt;getHistory())<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>valid_role<sp/>=<sp/>(role<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal"><sp/>||<sp/>role<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal"><sp/>||<sp/>role<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;assistant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(valid_role)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;unexpected<sp/>role:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>role;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Move<sp/>semantics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>MoveConstructible)<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref><sp/>moved(std::move(*ctx));</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(moved.turnCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>/<sp/>Bounded<sp/>history<sp/>(max_turns)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>create<sp/>a<sp/>context<sp/>with<sp/>a<sp/>fake<sp/>LLM<sp/>that<sp/>echoes<sp/>a<sp/>fixed<sp/>response,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="comment">//<sp/>using<sp/>the<sp/>injected<sp/>executor<sp/>mechanism.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref><sp/>makeContextWithFakeLLM(</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_l_l_m_a_q_l_handler" kindref="compound">LLMAQLHandler</ref>&amp;<sp/>handler,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>max_turns,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>max_history_tokens<sp/>=<sp/>0<sp/></highlight><highlight class="comment">/*<sp/>0<sp/>=<sp/>disabled<sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config" kindref="compound">AQLConversationContext::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a9892df25588a2db80300382a720ea1c7" kindref="member">max_turns</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>max_turns;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a69e316141d2be81a1c4bcc85bd6b9af2" kindref="member">max_history_tokens</ref><sp/>=<sp/>max_history_tokens;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a2e875d569c26b97ba4b03c5da6b7f507" kindref="member">llm_executor</ref><sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>col<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref>(handler,<sp/>std::move(cfg));</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>MaxTurns_EvictsOldestPairWhenLimitReached)<sp/>{</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>max_turns=3:<sp/>after<sp/>5<sp/>turns<sp/>the<sp/>context<sp/>should<sp/>retain<sp/>only<sp/>3<sp/>pairs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx3<sp/>=<sp/>makeContextWithFakeLLM(*handler,<sp/></highlight><highlight class="comment">/*max_turns=*/</highlight><highlight class="normal">3);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drive<sp/>5<sp/>turns<sp/>(1<sp/>start<sp/>+<sp/>4<sp/>refines)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx3.start(</highlight><highlight class="stringliteral">&quot;turn<sp/>1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx3.refine(</highlight><highlight class="stringliteral">&quot;turn<sp/>2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx3.refine(</highlight><highlight class="stringliteral">&quot;turn<sp/>3&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx3.refine(</highlight><highlight class="stringliteral">&quot;turn<sp/>4&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx3.refine(</highlight><highlight class="stringliteral">&quot;turn<sp/>5&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>turn_count()<sp/>must<sp/>reflect<sp/>the<sp/>retained<sp/>window<sp/>size,<sp/>not<sp/>the<sp/>total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx3.turnCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>history:<sp/>system<sp/>+<sp/>3×(user+assistant)<sp/>=<sp/>7<sp/>messages</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx3.getHistory().size(),<sp/>7u);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>MaxTurns_SystemMessageAlwaysPreserved)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx3<sp/>=<sp/>makeContextWithFakeLLM(*handler,<sp/></highlight><highlight class="comment">/*max_turns=*/</highlight><highlight class="normal">2);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx3.start(</highlight><highlight class="stringliteral">&quot;intent<sp/>A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx3.refine(</highlight><highlight class="stringliteral">&quot;refine<sp/>B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx3.refine(</highlight><highlight class="stringliteral">&quot;refine<sp/>C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hist<sp/>=<sp/>ctx3.getHistory();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(hist.empty());</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hist.front().first,<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>MaxTurns_TurnCountNeverExceedsLimit)<sp/>{</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx3<sp/>=<sp/>makeContextWithFakeLLM(*handler,<sp/></highlight><highlight class="comment">/*max_turns=*/</highlight><highlight class="normal">3);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx3.start(</highlight><highlight class="stringliteral">&quot;first<sp/>turn&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx3.refine(</highlight><highlight class="stringliteral">&quot;refine<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(ctx3.turnCount(),<sp/>3u);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>MaxTurns_DefaultConfigFiftyTurns)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>max_turns<sp/>is<sp/>50<sp/>–<sp/>verify<sp/>the<sp/>default<sp/>is<sp/>honoured.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config" kindref="compound">AQLConversationContext::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a2e875d569c26b97ba4b03c5da6b7f507" kindref="member">llm_executor</ref><sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref><sp/>ctx2(*handler,<sp/>std::move(cfg));</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx2.start(</highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx2.refine(</highlight><highlight class="stringliteral">&quot;refine<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>21<sp/>turns,<sp/>well<sp/>below<sp/>the<sp/>50-turn<sp/>limit<sp/>–<sp/>nothing<sp/>should<sp/>be<sp/>evicted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx2.turnCount(),<sp/>21u);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Config<sp/>/<sp/>Bounded<sp/>history<sp/>(max_history_tokens)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>MaxHistoryTokens_EvictsWhenBudgetExceeded)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>very<sp/>small<sp/>token<sp/>budget<sp/>to<sp/>force<sp/>eviction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CharDivisionEstimator(4):<sp/>each<sp/>message<sp/>≈<sp/>len/4<sp/>tokens.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>budget<sp/>tight:<sp/>50<sp/>tokens<sp/>=&gt;<sp/>roughly<sp/>200<sp/>chars.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config" kindref="compound">AQLConversationContext::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a9892df25588a2db80300382a720ea1c7" kindref="member">max_turns</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>100;<sp/></highlight><highlight class="comment">//<sp/>high,<sp/>so<sp/>only<sp/>token<sp/>budget<sp/>triggers<sp/>eviction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a69e316141d2be81a1c4bcc85bd6b9af2" kindref="member">max_history_tokens</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a2e875d569c26b97ba4b03c5da6b7f507" kindref="member">llm_executor</ref><sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">);<sp/></highlight><highlight class="comment">//<sp/>~5<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref><sp/>tctx(*handler,<sp/>std::move(cfg));</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drive<sp/>several<sp/>turns<sp/>and<sp/>verify<sp/>we<sp/>never<sp/>exceed<sp/>the<sp/>budget.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>tctx.start(</highlight><highlight class="stringliteral">&quot;find<sp/>all<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tctx.refine(</highlight><highlight class="stringliteral">&quot;add<sp/>filter<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LE(tctx.tokenCount(),<sp/>50u);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight><highlight class="comment">//<sp/>tokenCount()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>TokenCount_IsZeroOnFreshContext)<sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx-&gt;tokenCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>TokenCount_PositiveAfterStart)<sp/>{</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config" kindref="compound">AQLConversationContext::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a2e875d569c26b97ba4b03c5da6b7f507" kindref="member">llm_executor</ref><sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref><sp/>tctx(*handler,<sp/>std::move(cfg));</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>tctx.start(</highlight><highlight class="stringliteral">&quot;find<sp/>all<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(tctx.tokenCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>TokenCount_ResetToZeroAfterReset)<sp/>{</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config" kindref="compound">AQLConversationContext::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a2e875d569c26b97ba4b03c5da6b7f507" kindref="member">llm_executor</ref><sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref><sp/>tctx(*handler,<sp/>std::move(cfg));</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>tctx.start(</highlight><highlight class="stringliteral">&quot;find<sp/>all<sp/>users&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(tctx.tokenCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>tctx.reset();</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tctx.tokenCount(),<sp/>0u);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CharDivisionEstimator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><ref refid="test__aql__conversation__context_8cpp_1a43a6fc6760fd75bf69b35151936a0245" kindref="member">TEST</ref>(AqlConversationCharDivisionEstimatorTest,<sp/>EmptyStringReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_char_division_estimator" kindref="compound">CharDivisionEstimator</ref><sp/>est;</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(est.<ref refid="classthemis_1_1aql_1_1_char_division_estimator_1a90445f27aeb6a94b4bad3c1a0358922d" kindref="member">estimate</ref>(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">),<sp/>0u);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><ref refid="test__aql__conversation__context_8cpp_1a43a6fc6760fd75bf69b35151936a0245" kindref="member">TEST</ref>(AqlConversationCharDivisionEstimatorTest,<sp/>DefaultRatioFour)<sp/>{</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_char_division_estimator" kindref="compound">CharDivisionEstimator</ref><sp/>est;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;hello&quot;<sp/>=<sp/>5<sp/>chars<sp/>=&gt;<sp/>ceil(5/4)<sp/>=<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(est.<ref refid="classthemis_1_1aql_1_1_char_division_estimator_1a90445f27aeb6a94b4bad3c1a0358922d" kindref="member">estimate</ref>(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">),<sp/>2u);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><ref refid="test__aql__conversation__context_8cpp_1a43a6fc6760fd75bf69b35151936a0245" kindref="member">TEST</ref>(AqlConversationCharDivisionEstimatorTest,<sp/>CustomRatio)<sp/>{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_char_division_estimator" kindref="compound">CharDivisionEstimator</ref><sp/>est(2);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;hello&quot;<sp/>=<sp/>5<sp/>chars<sp/>=&gt;<sp/>ceil(5/2)<sp/>=<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(est.estimate(</highlight><highlight class="stringliteral">&quot;hello&quot;</highlight><highlight class="normal">),<sp/>3u);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><ref refid="test__aql__conversation__context_8cpp_1a43a6fc6760fd75bf69b35151936a0245" kindref="member">TEST</ref>(AqlConversationCharDivisionEstimatorTest,<sp/>ZeroRatioFallsBackToFour)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_char_division_estimator" kindref="compound">CharDivisionEstimator</ref><sp/>est(0);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(est.estimate(</highlight><highlight class="stringliteral">&quot;abcd&quot;</highlight><highlight class="normal">),<sp/>1u);</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread<sp/>safety<sp/>(basic<sp/>smoke<sp/>test)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="namespacethemis_1_1aql_1a0bc93ae994c072d5add5b61fc3edb193" kindref="member">TEST_F</ref>(<ref refid="class_a_q_l_conversation_context_test" kindref="compound">AQLConversationContextTest</ref>,<sp/>ConcurrentTurnCountReadIsConsistent)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config" kindref="compound">AQLConversationContext::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a9892df25588a2db80300382a720ea1c7" kindref="member">max_turns</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1aql_1_1_a_q_l_conversation_context_1_1_config_1a2e875d569c26b97ba4b03c5da6b7f507" kindref="member">llm_executor</ref><sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(</highlight><highlight class="stringliteral">&quot;FOR<sp/>x<sp/>IN<sp/>c<sp/>RETURN<sp/>x&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1aql_1_1_a_q_l_conversation_context" kindref="compound">AQLConversationContext</ref><sp/>tctx(*handler,<sp/>std::move(cfg));</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>tctx.start(</highlight><highlight class="stringliteral">&quot;first&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reader<sp/>threads<sp/>track<sp/>the<sp/>maximum<sp/>turn<sp/>count<sp/>observed.<sp/><sp/>Using<sp/>an<sp/>atomic</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>avoids<sp/>the<sp/>lock<sp/>+<sp/>unbounded<sp/>vector<sp/>of<sp/>the<sp/>previous<sp/>implementation,<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>yield<sp/>prevents<sp/>a<sp/>tight<sp/>CPU<sp/>spin<sp/>in<sp/>CI.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>max_observed_turns{0};</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>readers<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>readers.emplace_back([&amp;tctx,<sp/>&amp;stop,<sp/>&amp;max_observed_turns]()<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!stop.load(std::memory_order_relaxed))<sp/>{</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>tc<sp/>=<sp/>tctx.turnCount();</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CAS-loop<sp/>to<sp/>update<sp/>max_observed_turns</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>prev<sp/>=<sp/>max_observed_turns.load(std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(tc<sp/>&gt;<sp/>prev<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!max_observed_turns.compare_exchange_weak(</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>prev,<sp/>tc,<sp/>std::memory_order_relaxed))<sp/>{}</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)tctx.tokenCount();</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tctx.refine(</highlight><highlight class="stringliteral">&quot;step<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>stop<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>readers)<sp/>{</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>observed<sp/>turn<sp/>counts<sp/>must<sp/>have<sp/>been<sp/>within<sp/>the<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(max_observed_turns.load(),<sp/>5u)</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;turnCount()<sp/>exceeded<sp/>max_turns<sp/>during<sp/>concurrent<sp/>reads&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(tctx.turnCount(),<sp/>5u);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_conversation_context.cpp"/>
+  </compounddef>
+</doxygen>

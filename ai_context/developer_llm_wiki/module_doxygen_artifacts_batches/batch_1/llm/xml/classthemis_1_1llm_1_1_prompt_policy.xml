@@ -1,0 +1,407 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_prompt_policy" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::PromptPolicy</compoundname>
+    <includes refid="prompt__policy_8h" local="no">prompt_policy.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_prompt_policy_1_1_compiled_rule" prot="public">themis::llm::PromptPolicy::CompiledRule</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_prompt_policy_1a829f5494455806897d3e636dd2a7fbeb" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_prompt_policy_1_1_compiled_rule" kindref="compound">CompiledRule</ref> &gt;</type>
+        <definition>std::vector&lt;CompiledRule&gt; themis::llm::PromptPolicy::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::llm::PromptPolicy::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="96" column="17" bodyfile="include/llm/prompt_policy.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1ae19be4e260ed9a9d3ec04235170d8fd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PromptPolicy::PromptPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>PromptPolicy</name>
+        <qualifiedname>themis::llm::PromptPolicy::PromptPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a61666f8a5b2d990442eec0607e724942" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PromptPolicy::~PromptPolicy</definition>
+        <argsstring>()=default</argsstring>
+        <name>~PromptPolicy</name>
+        <qualifiedname>themis::llm::PromptPolicy::~PromptPolicy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a90704a526506d59ecbbcf1857c42d810" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PromptPolicy::PromptPolicy</definition>
+        <argsstring>(const PromptPolicy &amp;)=delete</argsstring>
+        <name>PromptPolicy</name>
+        <qualifiedname>themis::llm::PromptPolicy::PromptPolicy</qualifiedname>
+        <param>
+          <type>const PromptPolicy &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1ac67d923e2744e96312db381b49b519cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_prompt_policy_1ae19be4e260ed9a9d3ec04235170d8fd1" kindref="member">PromptPolicy</ref> &amp;</type>
+        <definition>PromptPolicy &amp; themis::llm::PromptPolicy::operator=</definition>
+        <argsstring>(const PromptPolicy &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::PromptPolicy::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_prompt_policy_1ae19be4e260ed9a9d3ec04235170d8fd1" kindref="member">PromptPolicy</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="52" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a5bbab4bef856e636d5ca9f911f20668d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::PromptPolicy::PromptPolicy</definition>
+        <argsstring>(PromptPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>PromptPolicy</name>
+        <qualifiedname>themis::llm::PromptPolicy::PromptPolicy</qualifiedname>
+        <param>
+          <type>PromptPolicy &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="55" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a37b1da4126cedea41c503935db9dc1d2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_prompt_policy_1ae19be4e260ed9a9d3ec04235170d8fd1" kindref="member">PromptPolicy</ref> &amp;</type>
+        <definition>PromptPolicy &amp; themis::llm::PromptPolicy::operator=</definition>
+        <argsstring>(PromptPolicy &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::PromptPolicy::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_prompt_policy_1ae19be4e260ed9a9d3ec04235170d8fd1" kindref="member">PromptPolicy</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="56" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a976a771318d44d88a40d7a6e26aa049b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PromptPolicy::addBlockRule</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;pattern)</argsstring>
+        <name>addBlockRule</name>
+        <qualifiedname>themis::llm::PromptPolicy::addBlockRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Add Block Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: addRule(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="68" column="10" bodyfile="src/llm/prompt_policy.cpp" bodystart="54" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a840d8d9520e6e41f9a01689fb18d1bbc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PromptPolicy::addRedactRule</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;pattern, const std::string &amp;replacement=&quot;[REDACTED]&quot;)</argsstring>
+        <name>addRedactRule</name>
+        <qualifiedname>themis::llm::PromptPolicy::addRedactRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replacement</declname>
+          <defval>&quot;[REDACTED]&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Add Redact Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">replacement</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: r(), addRule(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="70" column="10" bodyfile="src/llm/prompt_policy.cpp" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1ad1cc6156a3671c5468f5247388ca171f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::PromptPolicy::removeRule</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>removeRule</name>
+        <qualifiedname>themis::llm::PromptPolicy::removeRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Remove Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::find_if(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="78" column="10" bodyfile="src/llm/prompt_policy.cpp" bodystart="79" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1aa2ccf3bef36bb785c84c307b48497f4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::PromptPolicy::ruleCount</definition>
+        <argsstring>() const</argsstring>
+        <name>ruleCount</name>
+        <qualifiedname>themis::llm::PromptPolicy::ruleCount</qualifiedname>
+        <briefdescription>
+<para>Rule Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="84" column="12" bodyfile="src/llm/prompt_policy.cpp" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a92eb1744a58134af68b01d4db93139c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_policy_result" kindref="compound">PolicyResult</ref></type>
+        <definition>PolicyResult themis::llm::PromptPolicy::apply</definition>
+        <argsstring>(const std::string &amp;prompt) const</argsstring>
+        <name>apply</name>
+        <qualifiedname>themis::llm::PromptPolicy::apply</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prompt</declname>
+        </param>
+        <briefdescription>
+<para>Apply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="91" column="18" bodyfile="src/llm/prompt_policy.cpp" bodystart="95" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a3cf59248c0a78910ba6e779401174390" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1_prompt_policy_1_1_compiled_rule" kindref="compound">CompiledRule</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; CompiledRule &gt; &amp; themis::llm::PromptPolicy::rules</definition>
+        <argsstring>() const</argsstring>
+        <name>rules</name>
+        <qualifiedname>themis::llm::PromptPolicy::rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="93" column="23" bodyfile="include/llm/prompt_policy.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_prompt_policy_1a918f23b059098341efc97efcc99fa8e2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::PromptPolicy::addRule</definition>
+        <argsstring>(PolicyRule rule)</argsstring>
+        <name>addRule</name>
+        <qualifiedname>themis::llm::PromptPolicy::addRule</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1_policy_rule" kindref="compound">PolicyRule</ref></type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Add Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: compiled(), push_back(), std::move(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_policy.h" line="102" column="10" bodyfile="src/llm/prompt_policy.cpp" bodystart="30" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_policy.h" line="45" column="1" bodyfile="include/llm/prompt_policy.h" bodystart="45" bodyend="103"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a976a771318d44d88a40d7a6e26aa049b" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>addBlockRule</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a840d8d9520e6e41f9a01689fb18d1bbc" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>addRedactRule</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a918f23b059098341efc97efcc99fa8e2" prot="private" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>addRule</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a92eb1744a58134af68b01d4db93139c6" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>apply</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1ac67d923e2744e96312db381b49b519cc" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a37b1da4126cedea41c503935db9dc1d2" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1ae19be4e260ed9a9d3ec04235170d8fd1" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>PromptPolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a90704a526506d59ecbbcf1857c42d810" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>PromptPolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a5bbab4bef856e636d5ca9f911f20668d" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>PromptPolicy</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1ad1cc6156a3671c5468f5247388ca171f" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>removeRule</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1aa2ccf3bef36bb785c84c307b48497f4b" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>ruleCount</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a3cf59248c0a78910ba6e779401174390" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>rules</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a829f5494455806897d3e636dd2a7fbeb" prot="private" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>rules_</name></member>
+      <member refid="classthemis_1_1llm_1_1_prompt_policy_1a61666f8a5b2d990442eec0607e724942" prot="public" virt="non-virtual"><scope>themis::llm::PromptPolicy</scope><name>~PromptPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

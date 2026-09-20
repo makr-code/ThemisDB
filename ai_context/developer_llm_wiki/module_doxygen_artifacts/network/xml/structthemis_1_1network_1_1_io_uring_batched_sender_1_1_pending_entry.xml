@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_pending_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::network::IoUringBatchedSender::PendingEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_pending_entry_1a48b5287e173d97807627cfca41ce97fb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::IoUringBatchedSender::PendingEntry::fd</definition>
+        <argsstring></argsstring>
+        <name>fd</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::PendingEntry::fd</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="133" column="31" bodyfile="include/network/io_uring_batcher.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_pending_entry_1a4b36700eb41aff54d66db67711a83c29" prot="public" static="no" mutable="no">
+        <type>std::vector&lt;::iovec &gt;</type>
+        <definition>std::vector&lt;::iovec&gt; themis::network::IoUringBatchedSender::PendingEntry::iovs</definition>
+        <argsstring></argsstring>
+        <name>iovs</name>
+        <qualifiedname>themis::network::IoUringBatchedSender::PendingEntry::iovs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/io_uring_batcher.h" line="134" column="22" bodyfile="include/network/io_uring_batcher.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/io_uring_batcher.h" line="132" column="5" bodyfile="include/network/io_uring_batcher.h" bodystart="132" bodyend="135"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_pending_entry_1a48b5287e173d97807627cfca41ce97fb" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender::PendingEntry</scope><name>fd</name></member>
+      <member refid="structthemis_1_1network_1_1_io_uring_batched_sender_1_1_pending_entry_1a4b36700eb41aff54d66db67711a83c29" prot="public" virt="non-virtual"><scope>themis::network::IoUringBatchedSender::PendingEntry</scope><name>iovs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

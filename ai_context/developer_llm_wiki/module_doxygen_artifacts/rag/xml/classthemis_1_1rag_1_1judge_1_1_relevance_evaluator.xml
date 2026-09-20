@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RelevanceEvaluator</compoundname>
+    <includes refid="relevance__evaluator_8h" local="no">relevance_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config" prot="public">themis::rag::judge::RelevanceEvaluator::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl" prot="public">themis::rag::judge::RelevanceEvaluator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ae971de2d4a1cb4617dadcd0dfd804473" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::RelevanceEvaluator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="124" column="21" bodyfile="include/rag/relevance_evaluator.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ad6ac6a173f01c134205e1c4520969fd7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::RelevanceEvaluator::RelevanceEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>RelevanceEvaluator</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::RelevanceEvaluator</qualifiedname>
+        <briefdescription>
+<para>Construct evaluator with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="67" column="5" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="130" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ad8251d144c4b6f0e5c2453b3d0a7454e" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::RelevanceEvaluator::RelevanceEvaluator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>RelevanceEvaluator</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::RelevanceEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="68" column="14" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="134" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a875a3cf25866ba677d2e5230d2955db1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::RelevanceEvaluator::~RelevanceEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>~RelevanceEvaluator</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::~RelevanceEvaluator</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="73" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a8952ff56f7e95ad9b6d0511c12e2c0b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_relevance_result" kindref="compound">RelevanceResult</ref></type>
+        <definition>RelevanceResult themis::rag::judge::RelevanceEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;answer, const std::string &amp;query)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate relevance of an answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Relevance evaluation result</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a5a79aa1c1529e5aa775b718a7eca363a" kindref="member">generateReverseQuestions()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ac6862b3c0ab086305be70235906fa3f8" kindref="member">calculateSemanticSimilarity()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a29a1fd153cab4c8835776e1aa7562cb7" kindref="member">analyzeIntent()</ref>, <ref refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a4f076bff413d965906a99d7fde5b44c3" kindref="member">detectNoise()</ref>, sentence_regex(), std::sregex_iterator(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="81" column="21" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="339" bodyend="424"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a5a79aa1c1529e5aa775b718a7eca363a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::RelevanceEvaluator::generateReverseQuestions</definition>
+        <argsstring>(const std::string &amp;answer)</argsstring>
+        <name>generateReverseQuestions</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::generateReverseQuestions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <briefdescription>
+<para>Generate questions that this answer would address. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Reverse Questions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of reverse-generated questions</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), empty(), std::to_string(), evaluateDimension(), parseJSONResponse(), contains(), is_array(), is_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="91" column="17" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="156" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a29a1fd153cab4c8835776e1aa7562cb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1judge_1a66b11213e2afc6e84b97662e01d700b7" kindref="member">QueryIntent</ref></type>
+        <definition>QueryIntent themis::rag::judge::RelevanceEvaluator::analyzeIntent</definition>
+        <argsstring>(const std::string &amp;query)</argsstring>
+        <name>analyzeIntent</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::analyzeIntent</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Analyze query intent. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Analyze Intent.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query to analyze </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detected intent type</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::transform(), begin(), end(), find(), count_matches(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="98" column="17" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="205" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a4f076bff413d965906a99d7fde5b44c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::RelevanceEvaluator::detectNoise</definition>
+        <argsstring>(const std::string &amp;answer, const std::string &amp;query)</argsstring>
+        <name>detectNoise</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::detectNoise</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Detect irrelevant information in answer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Detect Noise.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of irrelevant segments</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), sentence_regex(), std::sregex_iterator(), begin(), end(), str(), computeSemanticSimilarity(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="106" column="17" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="277" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ac6862b3c0ab086305be70235906fa3f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::RelevanceEvaluator::calculateSemanticSimilarity</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; std::string &gt; &amp;questions)</argsstring>
+        <name>calculateSemanticSimilarity</name>
+        <qualifiedname>themis::rag::judge::RelevanceEvaluator::calculateSemanticSimilarity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>questions</declname>
+        </param>
+        <briefdescription>
+<para>Calculate semantic similarity between query and questions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Semantic Similarity.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>questions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated questions </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Similarity score 0-1</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">questions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), computeSemanticSimilarity(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/relevance_evaluator.h" line="117" column="12" bodyfile="src/rag/relevance_evaluator.cpp" bodystart="314" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Relevance evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates answer relevance through:<orderedlist>
+<listitem><para>Reverse question generation</para>
+</listitem><listitem><para>Query intent analysis</para>
+</listitem><listitem><para>Noise detection </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/relevance_evaluator.h" line="52" column="1" bodyfile="include/rag/relevance_evaluator.h" bodystart="52" bodyend="125"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a29a1fd153cab4c8835776e1aa7562cb7" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>analyzeIntent</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ac6862b3c0ab086305be70235906fa3f8" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>calculateSemanticSimilarity</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a4f076bff413d965906a99d7fde5b44c3" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>detectNoise</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a8952ff56f7e95ad9b6d0511c12e2c0b6" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a5a79aa1c1529e5aa775b718a7eca363a" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>generateReverseQuestions</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ae971de2d4a1cb4617dadcd0dfd804473" prot="private" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ad6ac6a173f01c134205e1c4520969fd7" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>RelevanceEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1ad8251d144c4b6f0e5c2453b3d0a7454e" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>RelevanceEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_relevance_evaluator_1a875a3cf25866ba677d2e5230d2955db1" prot="public" virt="non-virtual"><scope>themis::rag::judge::RelevanceEvaluator</scope><name>~RelevanceEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

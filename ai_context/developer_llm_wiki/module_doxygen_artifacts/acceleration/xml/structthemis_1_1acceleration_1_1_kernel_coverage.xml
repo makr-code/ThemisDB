@@ -1,0 +1,150 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_kernel_coverage" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::KernelCoverage</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_coverage_1ad9ecafd72f2bc16ac0e0e5511f6221e1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::KernelCoverage::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::acceleration::KernelCoverage::backend</qualifiedname>
+        <briefdescription>
+<para>Backend type being tracked. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="516" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_coverage_1a7fbd6a1e5c2437cbc3c90931926d4be3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelCoverage::hasANN</definition>
+        <argsstring></argsstring>
+        <name>hasANN</name>
+        <qualifiedname>themis::acceleration::KernelCoverage::hasANN</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Has ANN (vector) kernels registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="517" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="517" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_coverage_1ae76d3fd8cc808c0caa3eea14a136fa9a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelCoverage::hasGeo</definition>
+        <argsstring></argsstring>
+        <name>hasGeo</name>
+        <qualifiedname>themis::acceleration::KernelCoverage::hasGeo</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Has geo kernels registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="518" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_coverage_1aacd638c9d09b8bbff957a277398b65bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelCoverage::hasMatrix</definition>
+        <argsstring></argsstring>
+        <name>hasMatrix</name>
+        <qualifiedname>themis::acceleration::KernelCoverage::hasMatrix</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Has matrix kernels registered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="519" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="519" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_coverage_1add751cede2e86f47950046a867d88b43" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelCoverage::annComplete</definition>
+        <argsstring></argsstring>
+        <name>annComplete</name>
+        <qualifiedname>themis::acceleration::KernelCoverage::annComplete</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>All ANN kernels implemented. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="520" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_coverage_1adc24ee84476bcc39746dbdda7a6d1f56" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelCoverage::geoComplete</definition>
+        <argsstring></argsstring>
+        <name>geoComplete</name>
+        <qualifiedname>themis::acceleration::KernelCoverage::geoComplete</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>All geo kernels implemented. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="521" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="521" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_coverage_1a11fce44dac5495e913b6f353d63f459e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelCoverage::matrixComplete</definition>
+        <argsstring></argsstring>
+        <name>matrixComplete</name>
+        <qualifiedname>themis::acceleration::KernelCoverage::matrixComplete</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>All matrix kernels implemented. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="522" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="522" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_kernel_coverage_1a0ac7dc7cb3fe33da3f05b6357602b081" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::acceleration::KernelCoverage::missingSlots</definition>
+        <argsstring></argsstring>
+        <name>missingSlots</name>
+        <qualifiedname>themis::acceleration::KernelCoverage::missingSlots</qualifiedname>
+        <briefdescription>
+<para>Missing or incomplete kernel implementations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="523" column="17" bodyfile="include/acceleration/compute_backend.h" bodystart="523" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="515" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="515" bodyend="524"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_coverage_1add751cede2e86f47950046a867d88b43" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelCoverage</scope><name>annComplete</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_coverage_1ad9ecafd72f2bc16ac0e0e5511f6221e1" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelCoverage</scope><name>backend</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_coverage_1adc24ee84476bcc39746dbdda7a6d1f56" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelCoverage</scope><name>geoComplete</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_coverage_1a7fbd6a1e5c2437cbc3c90931926d4be3" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelCoverage</scope><name>hasANN</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_coverage_1ae76d3fd8cc808c0caa3eea14a136fa9a" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelCoverage</scope><name>hasGeo</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_coverage_1aacd638c9d09b8bbff957a277398b65bf" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelCoverage</scope><name>hasMatrix</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_coverage_1a11fce44dac5495e913b6f353d63f459e" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelCoverage</scope><name>matrixComplete</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_kernel_coverage_1a0ac7dc7cb3fe33da3f05b6357602b081" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelCoverage</scope><name>missingSlots</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

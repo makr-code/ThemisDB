@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_q_l_few_shot_example_library_test" kind="class" language="C++" prot="public">
+    <compoundname>AQLFewShotExampleLibraryTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_q_l_few_shot_example_library_test_1acbc0942d3541f752cd009bf503beb6fa" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library" kindref="compound">AQLFewShotExampleLibrary</ref></type>
+        <definition>AQLFewShotExampleLibrary AQLFewShotExampleLibraryTest::lib</definition>
+        <argsstring></argsstring>
+        <name>lib</name>
+        <qualifiedname>AQLFewShotExampleLibraryTest::lib</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_fewshot_example_library.cpp" line="20" column="30" bodyfile="tests/aql/test_aql_fewshot_example_library.cpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AQLFewShotExampleLibraryTest</label>
+        <link refid="class_a_q_l_few_shot_example_library_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AQLFewShotExampleLibraryTest</label>
+        <link refid="class_a_q_l_few_shot_example_library_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>lib</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::aql::AQLFewShotExampleLibrary</label>
+        <link refid="classthemis_1_1aql_1_1_a_q_l_few_shot_example_library"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_fewshot_example_library.cpp" line="18" column="1" bodyfile="tests/aql/test_aql_fewshot_example_library.cpp" bodystart="18" bodyend="21"/>
+    <listofallmembers>
+      <member refid="class_a_q_l_few_shot_example_library_test_1acbc0942d3541f752cd009bf503beb6fa" prot="protected" virt="non-virtual"><scope>AQLFewShotExampleLibraryTest</scope><name>lib</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</compoundname>
+    <includes refid="llm__wiki__plugin__interface_8h" local="no">llm_wiki_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a75143b24aafff709d1756e9a29893c09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::recall_at_k1</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k1</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::recall_at_k1</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Recall@1 over tracked query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="160" column="16" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="160" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1ade595e57fad307f24ff5a605f21db3b6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::recall_at_k3</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k3</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::recall_at_k3</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Recall@3 over tracked query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="161" column="16" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1ac3efcdea7318e6e9aedaa78fef846d7d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::recall_at_k5</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k5</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::recall_at_k5</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Recall@5 over tracked query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="162" column="16" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a815231410b52525b4fc5f0dabfd61131" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::recall_at_k10</definition>
+        <argsstring></argsstring>
+        <name>recall_at_k10</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::recall_at_k10</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Recall@10 over tracked query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="163" column="16" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a12ef878cd669cd637c81a21a1ceccc7b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::mrr</definition>
+        <argsstring></argsstring>
+        <name>mrr</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::mrr</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean reciprocal rank over tracked query window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="164" column="16" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a755a1d6e8290778f481784695a055f54" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::p95_query_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p95_query_latency_ms</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::p95_query_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>p95 query latency in milliseconds </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="165" column="16" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a5266419029ba0ed6bc2aa9f16096169e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::query_count</definition>
+        <argsstring></argsstring>
+        <name>query_count</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats::query_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of queries contributing to metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="166" column="21" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="159" column="5" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="159" bodyend="167"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a12ef878cd669cd637c81a21a1ceccc7b" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</scope><name>mrr</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a755a1d6e8290778f481784695a055f54" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</scope><name>p95_query_latency_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a5266419029ba0ed6bc2aa9f16096169e" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</scope><name>query_count</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a75143b24aafff709d1756e9a29893c09" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</scope><name>recall_at_k1</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1a815231410b52525b4fc5f0dabfd61131" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</scope><name>recall_at_k10</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1ade595e57fad307f24ff5a605f21db3b6" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</scope><name>recall_at_k3</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_workspace_stats_1_1_evaluation_stats_1ac3efcdea7318e6e9aedaa78fef846d7d" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiWorkspaceStats::EvaluationStats</scope><name>recall_at_k5</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

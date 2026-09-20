@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task" kind="struct" language="C++" prot="private">
+    <compoundname>themis::sharding::HotSpareManager::RebuildTask</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a55fc3c9784d5f0e4a407a882d3f2497e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HotSpareManager::RebuildTask::spare_shard_id</definition>
+        <argsstring></argsstring>
+        <name>spare_shard_id</name>
+        <qualifiedname>themis::sharding::HotSpareManager::RebuildTask::spare_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="307" column="21" bodyfile="include/sharding/hot_spare_manager.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a291bee5042e39d18e818e4a76deccca3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HotSpareManager::RebuildTask::source_shard_id</definition>
+        <argsstring></argsstring>
+        <name>source_shard_id</name>
+        <qualifiedname>themis::sharding::HotSpareManager::RebuildTask::source_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="308" column="21" bodyfile="include/sharding/hot_spare_manager.h" bodystart="308" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a484578891b120acef8aa025f7af2fceb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::HotSpareManager::RebuildTask::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::sharding::HotSpareManager::RebuildTask::documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="309" column="21" bodyfile="include/sharding/hot_spare_manager.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a725b968cba126f502f6c9edbc13884ee" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::HotSpareManager::RebuildTask::total_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_bytes</name>
+        <qualifiedname>themis::sharding::HotSpareManager::RebuildTask::total_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="310" column="18" bodyfile="include/sharding/hot_spare_manager.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a5fb4887cac75edaed5d7e7c6e54d4928" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HotSpareManager::RebuildTask::paused</definition>
+        <argsstring></argsstring>
+        <name>paused</name>
+        <qualifiedname>themis::sharding::HotSpareManager::RebuildTask::paused</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="311" column="14" bodyfile="include/sharding/hot_spare_manager.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1ab48cede34c5f9adc067d07a1ce35dfd9" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> *</type>
+        <definition>ConsistentHashRing* themis::sharding::HotSpareManager::RebuildTask::ring</definition>
+        <argsstring></argsstring>
+        <name>ring</name>
+        <qualifiedname>themis::sharding::HotSpareManager::RebuildTask::ring</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="314" column="28" bodyfile="include/sharding/hot_spare_manager.h" bodystart="314" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a3a8bfb5f1e589d41d8295c8633d32aff" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1a0c7dcf2a2e48520a1a1b7034aae85282" kindref="member">ReadHandler</ref></type>
+        <definition>ReadHandler themis::sharding::HotSpareManager::RebuildTask::read_handler</definition>
+        <argsstring></argsstring>
+        <name>read_handler</name>
+        <qualifiedname>themis::sharding::HotSpareManager::RebuildTask::read_handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="315" column="21" bodyfile="include/sharding/hot_spare_manager.h" bodystart="315" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a0a26832b15233ac5a5f85ad0f09a6a29" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_hot_spare_manager_1aebb530709a04f13f05993eaa853c02df" kindref="member">WriteHandler</ref></type>
+        <definition>WriteHandler themis::sharding::HotSpareManager::RebuildTask::write_handler</definition>
+        <argsstring></argsstring>
+        <name>write_handler</name>
+        <qualifiedname>themis::sharding::HotSpareManager::RebuildTask::write_handler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hot_spare_manager.h" line="316" column="22" bodyfile="include/sharding/hot_spare_manager.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::ConsistentHashRing</label>
+        <link refid="classthemis_1_1sharding_1_1_consistent_hash_ring"/>
+      </node>
+      <node id="1">
+        <label>themis::sharding::HotSpareManager::RebuildTask</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>ring</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/hot_spare_manager.h" line="306" column="5" bodyfile="include/sharding/hot_spare_manager.h" bodystart="306" bodyend="317"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a484578891b120acef8aa025f7af2fceb" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager::RebuildTask</scope><name>documents</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a5fb4887cac75edaed5d7e7c6e54d4928" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager::RebuildTask</scope><name>paused</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a3a8bfb5f1e589d41d8295c8633d32aff" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager::RebuildTask</scope><name>read_handler</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1ab48cede34c5f9adc067d07a1ce35dfd9" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager::RebuildTask</scope><name>ring</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a291bee5042e39d18e818e4a76deccca3" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager::RebuildTask</scope><name>source_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a55fc3c9784d5f0e4a407a882d3f2497e" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager::RebuildTask</scope><name>spare_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a725b968cba126f502f6c9edbc13884ee" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager::RebuildTask</scope><name>total_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_hot_spare_manager_1_1_rebuild_task_1a0a26832b15233ac5a5f85ad0f09a6a29" prot="public" virt="non-virtual"><scope>themis::sharding::HotSpareManager::RebuildTask</scope><name>write_handler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_quantization_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::QuantizationBlock</compoundname>
+    <includes refid="quantization_8h" local="no">quantization.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a763a2133dc87f672843967607e7ac794" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::QuantizationBlock::scale</definition>
+        <argsstring></argsstring>
+        <name>scale</name>
+        <qualifiedname>themis::llm::lora::QuantizationBlock::scale</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="65" column="11" bodyfile="include/llm/lora_framework/quantization.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a7ff2ff34f0d8c58bfdbb71a234b1c861" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::QuantizationBlock::zero_point</definition>
+        <argsstring></argsstring>
+        <name>zero_point</name>
+        <qualifiedname>themis::llm::lora::QuantizationBlock::zero_point</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="66" column="11" bodyfile="include/llm/lora_framework/quantization.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a69851e526b6c09a255089579e13e1441" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::QuantizationBlock::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::lora::QuantizationBlock::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="67" column="12" bodyfile="include/llm/lora_framework/quantization.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_quantization_block_1ac222540853f4ae221f9bcf8d95b469cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::QuantizationBlock::~QuantizationBlock</definition>
+        <argsstring>()=default</argsstring>
+        <name>~QuantizationBlock</name>
+        <qualifiedname>themis::llm::lora::QuantizationBlock::~QuantizationBlock</qualifiedname>
+        <briefdescription>
+<para>Quantization Block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="64" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a651b68af3c3c54bd450cf76e00a49306" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::QuantizationBlock::QuantizationBlock</definition>
+        <argsstring>()</argsstring>
+        <name>QuantizationBlock</name>
+        <qualifiedname>themis::llm::lora::QuantizationBlock::QuantizationBlock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="69" column="5" bodyfile="include/llm/lora_framework/quantization.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a2a03dd21901f075be17267110edd6984" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::QuantizationBlock::QuantizationBlock</definition>
+        <argsstring>(float s, float z, size_t sz)</argsstring>
+        <name>QuantizationBlock</name>
+        <qualifiedname>themis::llm::lora::QuantizationBlock::QuantizationBlock</qualifiedname>
+        <param>
+          <type>float</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>z</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sz</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/quantization.h" line="70" column="5" bodyfile="include/llm/lora_framework/quantization.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/quantization.h" line="59" column="1" bodyfile="include/llm/lora_framework/quantization.h" bodystart="59" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a651b68af3c3c54bd450cf76e00a49306" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizationBlock</scope><name>QuantizationBlock</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a2a03dd21901f075be17267110edd6984" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizationBlock</scope><name>QuantizationBlock</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a763a2133dc87f672843967607e7ac794" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizationBlock</scope><name>scale</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a69851e526b6c09a255089579e13e1441" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizationBlock</scope><name>size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_quantization_block_1a7ff2ff34f0d8c58bfdbb71a234b1c861" prot="public" virt="non-virtual"><scope>themis::llm::lora::QuantizationBlock</scope><name>zero_point</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_quantization_block_1ac222540853f4ae221f9bcf8d95b469cb" prot="public" virt="virtual"><scope>themis::llm::lora::QuantizationBlock</scope><name>~QuantizationBlock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

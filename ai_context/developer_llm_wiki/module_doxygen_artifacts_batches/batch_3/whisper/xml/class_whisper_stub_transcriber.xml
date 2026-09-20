@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_whisper_stub_transcriber" kind="class" language="C++" prot="public">
+    <compoundname>WhisperStubTranscriber</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IWhisperTranscriber</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1a473bdc947ff046cdfea9623c1f5cc281" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>WhisperStubTranscriber::WhisperStubTranscriber</definition>
+        <argsstring>()=default</argsstring>
+        <name>WhisperStubTranscriber</name>
+        <qualifiedname>WhisperStubTranscriber::WhisperStubTranscriber</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="148" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1a8e2588341f42f159919088b8724f32bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>WhisperStubTranscriber::~WhisperStubTranscriber</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~WhisperStubTranscriber</name>
+        <qualifiedname>WhisperStubTranscriber::~WhisperStubTranscriber</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="149" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1ad7c62d41757ed415e90af345fb394c1b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool WhisperStubTranscriber::initialize</definition>
+        <argsstring>(const WhisperConfig &amp;cfg) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>WhisperStubTranscriber::initialize</qualifiedname>
+        <param>
+          <type>const WhisperConfig &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="151" column="11" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1a79d6f5f1c8ad3881199bdf0959f9cc1b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool WhisperStubTranscriber::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>WhisperStubTranscriber::isInitialized</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="157" column="11" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1a55df38bc65d8d039e9a214c2f6d14b01" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>audio::TranscriptionResult</type>
+        <definition>audio::TranscriptionResult WhisperStubTranscriber::transcribe</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm, float sample_rate) override</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>WhisperStubTranscriber::transcribe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="160" column="33" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="160" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1ac414db547d26f93ff2628b7fbe35c1db" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>audio::LanguageDetectionResult</type>
+        <definition>audio::LanguageDetectionResult WhisperStubTranscriber::detectLanguage</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm, float sample_rate) override</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>WhisperStubTranscriber::detectLanguage</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="171" column="37" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="171" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1a5a660c5bc4c9cff1a4f5c7de42fd04fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>audio::TranscriptionResult</type>
+        <definition>virtual audio::TranscriptionResult WhisperStubTranscriber::transcribeStream</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm, float sample_rate, audio::StreamCallback callback)</argsstring>
+        <name>transcribeStream</name>
+        <qualifiedname>WhisperStubTranscriber::transcribeStream</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>audio::StreamCallback</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="181" column="40" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="181" bodyend="193"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1a38d65733ee8be4f0b5a7786f43e0cb3e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string WhisperStubTranscriber::getModelId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>WhisperStubTranscriber::getModelId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="195" column="26" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="195" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1aafd230555c0ea400f880d819d951674b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; char &gt;</type>
+        <definition>std::vector&lt; char &gt; WhisperStubTranscriber::serialize</definition>
+        <argsstring>() const override</argsstring>
+        <name>serialize</name>
+        <qualifiedname>WhisperStubTranscriber::serialize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="201" column="17" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="201" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1acc4cee66a67c76e990324c822b5db71d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WhisperStubTranscriber::loadState</definition>
+        <argsstring>(const std::vector&lt; char &gt; &amp;stateData) override</argsstring>
+        <name>loadState</name>
+        <qualifiedname>WhisperStubTranscriber::loadState</qualifiedname>
+        <param>
+          <type>const std::vector&lt; char &gt; &amp;</type>
+          <declname>stateData</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="206" column="10" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="206" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1ae7e7959cecd29e7803612657a28d764f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool WhisperStubTranscriber::serialize</definition>
+        <argsstring>(std::ostream &amp;stream) const override</argsstring>
+        <name>serialize</name>
+        <qualifiedname>WhisperStubTranscriber::serialize</qualifiedname>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="210" column="10" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="210" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1a355e110a6607a4d0b5edadff926fb336" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool WhisperStubTranscriber::deserialize</definition>
+        <argsstring>(std::istream &amp;stream) override</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>WhisperStubTranscriber::deserialize</qualifiedname>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="216" column="10" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="216" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1a68cfaefdaf03f3560206251e41019e52" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool WhisperStubTranscriber::isVersionSupported</definition>
+        <argsstring>(const std::string &amp;version_id) const override</argsstring>
+        <name>isVersionSupported</name>
+        <qualifiedname>WhisperStubTranscriber::isVersionSupported</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="225" column="10" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="225" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="class_whisper_stub_transcriber_1ac57522983b07d09b917efb53455dfed6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool WhisperStubTranscriber::isModelVersionSupported</definition>
+        <argsstring>(const std::string &amp;version_id) const override</argsstring>
+        <name>isModelVersionSupported</name>
+        <qualifiedname>WhisperStubTranscriber::isModelVersionSupported</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.cpp" line="231" column="11" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="231" bodyend="235"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>providing safe placeholders for complex logic that will be implemented later. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IWhisperTranscriber</label>
+      </node>
+      <node id="1">
+        <label>WhisperStubTranscriber</label>
+        <link refid="class_whisper_stub_transcriber"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IWhisperTranscriber</label>
+      </node>
+      <node id="1">
+        <label>WhisperStubTranscriber</label>
+        <link refid="class_whisper_stub_transcriber"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/whisper/whisper_transcriber.cpp" line="146" column="1" bodyfile="include/whisper/whisper_transcriber.cpp" bodystart="146" bodyend="237"/>
+    <listofallmembers>
+      <member refid="class_whisper_stub_transcriber_1a355e110a6607a4d0b5edadff926fb336" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>deserialize</name></member>
+      <member refid="class_whisper_stub_transcriber_1ac414db547d26f93ff2628b7fbe35c1db" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>detectLanguage</name></member>
+      <member refid="class_whisper_stub_transcriber_1a38d65733ee8be4f0b5a7786f43e0cb3e" prot="public" virt="virtual"><scope>WhisperStubTranscriber</scope><name>getModelId</name></member>
+      <member refid="class_whisper_stub_transcriber_1ad7c62d41757ed415e90af345fb394c1b" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>initialize</name></member>
+      <member refid="class_whisper_stub_transcriber_1a79d6f5f1c8ad3881199bdf0959f9cc1b" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>isInitialized</name></member>
+      <member refid="class_whisper_stub_transcriber_1ac57522983b07d09b917efb53455dfed6" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>isModelVersionSupported</name></member>
+      <member refid="class_whisper_stub_transcriber_1a68cfaefdaf03f3560206251e41019e52" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>isVersionSupported</name></member>
+      <member refid="class_whisper_stub_transcriber_1acc4cee66a67c76e990324c822b5db71d" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>loadState</name></member>
+      <member refid="class_whisper_stub_transcriber_1aafd230555c0ea400f880d819d951674b" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>serialize</name></member>
+      <member refid="class_whisper_stub_transcriber_1ae7e7959cecd29e7803612657a28d764f" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>serialize</name></member>
+      <member refid="class_whisper_stub_transcriber_1a55df38bc65d8d039e9a214c2f6d14b01" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>transcribe</name></member>
+      <member refid="class_whisper_stub_transcriber_1a5a660c5bc4c9cff1a4f5c7de42fd04fc" prot="public" virt="virtual"><scope>WhisperStubTranscriber</scope><name>transcribeStream</name></member>
+      <member refid="class_whisper_stub_transcriber_1a473bdc947ff046cdfea9623c1f5cc281" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>WhisperStubTranscriber</name></member>
+      <member refid="class_whisper_stub_transcriber_1a8e2588341f42f159919088b8724f32bd" prot="public" virt="non-virtual"><scope>WhisperStubTranscriber</scope><name>~WhisperStubTranscriber</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

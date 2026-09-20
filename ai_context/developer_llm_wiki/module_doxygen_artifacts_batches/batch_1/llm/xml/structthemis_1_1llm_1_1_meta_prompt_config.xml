@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_meta_prompt_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::MetaPromptConfig</compoundname>
+    <includes refid="meta__prompt__generator_8h" local="no">meta_prompt_generator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_meta_prompt_config_1aa6cc8c7120edb457be8e46596a3c5fef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::MetaPromptConfig::improvement_strategy</definition>
+        <argsstring></argsstring>
+        <name>improvement_strategy</name>
+        <qualifiedname>themis::llm::MetaPromptConfig::improvement_strategy</qualifiedname>
+        <initializer>= &quot;iterative&quot;</initializer>
+        <briefdescription>
+<para>Strategy: iterative, analytical, creative. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/meta_prompt_generator.h" line="21" column="17" bodyfile="include/llm/meta_prompt_generator.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_meta_prompt_config_1a2d7b8ad3afd1525546ac481839447464" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MetaPromptConfig::include_examples</definition>
+        <argsstring></argsstring>
+        <name>include_examples</name>
+        <qualifiedname>themis::llm::MetaPromptConfig::include_examples</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include few-shot examples in meta-prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/meta_prompt_generator.h" line="22" column="10" bodyfile="include/llm/meta_prompt_generator.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_meta_prompt_config_1a9c6dedfdf14c00eb7870dc95d04ddfcf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::MetaPromptConfig::include_constraints</definition>
+        <argsstring></argsstring>
+        <name>include_constraints</name>
+        <qualifiedname>themis::llm::MetaPromptConfig::include_constraints</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Include constraints and requirements. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/meta_prompt_generator.h" line="23" column="10" bodyfile="include/llm/meta_prompt_generator.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_meta_prompt_config_1ac303e6847689cbe32d53b2810a3c4b3d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::MetaPromptConfig::max_prompt_length</definition>
+        <argsstring></argsstring>
+        <name>max_prompt_length</name>
+        <qualifiedname>themis::llm::MetaPromptConfig::max_prompt_length</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+<para>Maximum meta-prompt length. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/meta_prompt_generator.h" line="24" column="12" bodyfile="include/llm/meta_prompt_generator.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/meta_prompt_generator.h" line="20" column="1" bodyfile="include/llm/meta_prompt_generator.h" bodystart="20" bodyend="25"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_meta_prompt_config_1aa6cc8c7120edb457be8e46596a3c5fef" prot="public" virt="non-virtual"><scope>themis::llm::MetaPromptConfig</scope><name>improvement_strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_meta_prompt_config_1a9c6dedfdf14c00eb7870dc95d04ddfcf" prot="public" virt="non-virtual"><scope>themis::llm::MetaPromptConfig</scope><name>include_constraints</name></member>
+      <member refid="structthemis_1_1llm_1_1_meta_prompt_config_1a2d7b8ad3afd1525546ac481839447464" prot="public" virt="non-virtual"><scope>themis::llm::MetaPromptConfig</scope><name>include_examples</name></member>
+      <member refid="structthemis_1_1llm_1_1_meta_prompt_config_1ac303e6847689cbe32d53b2810a3c4b3d" prot="public" virt="non-virtual"><scope>themis::llm::MetaPromptConfig</scope><name>max_prompt_length</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

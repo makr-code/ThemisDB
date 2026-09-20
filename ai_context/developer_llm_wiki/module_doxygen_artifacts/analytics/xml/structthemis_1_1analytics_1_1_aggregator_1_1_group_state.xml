@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_aggregator_1_1_group_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::analytics::Aggregator::GroupState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_group_state_1ab64a9077f7305af1fd18eb100478492e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1a8e2030c50dde352cea9922af1d5fad76" kindref="member">AggregationRow</ref></type>
+        <definition>AggregationRow themis::analytics::Aggregator::GroupState::key_values</definition>
+        <argsstring></argsstring>
+        <name>key_values</name>
+        <qualifiedname>themis::analytics::Aggregator::GroupState::key_values</qualifiedname>
+        <briefdescription>
+<para>GROUP BY column snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="138" column="42" bodyfile="include/analytics/aggregation.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregator_1_1_group_state_1a129cae345748ad3f1ab49717ca444388" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; AccState &gt;</type>
+        <definition>std::vector&lt;AccState&gt; themis::analytics::Aggregator::GroupState::accs</definition>
+        <argsstring></argsstring>
+        <name>accs</name>
+        <qualifiedname>themis::analytics::Aggregator::GroupState::accs</qualifiedname>
+        <briefdescription>
+<para>One entry per agg_spec_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="139" column="32" bodyfile="include/analytics/aggregation.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/aggregation.h" line="137" column="5" bodyfile="include/analytics/aggregation.h" bodystart="137" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_group_state_1a129cae345748ad3f1ab49717ca444388" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::GroupState</scope><name>accs</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregator_1_1_group_state_1ab64a9077f7305af1fd18eb100478492e" prot="public" virt="non-virtual"><scope>themis::analytics::Aggregator::GroupState</scope><name>key_values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

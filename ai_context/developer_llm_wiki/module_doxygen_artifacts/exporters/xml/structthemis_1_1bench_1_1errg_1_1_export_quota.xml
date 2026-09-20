@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1errg_1_1_export_quota" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::errg::ExportQuota</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_export_quota_1ae560e7c5c866a7172ff3046848314479" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::errg::ExportQuota::max_rows</definition>
+        <argsstring></argsstring>
+        <name>max_rows</name>
+        <qualifiedname>themis::bench::errg::ExportQuota::max_rows</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="199" column="19" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1errg_1_1_export_quota_1a18280d4940350f8af1b52e1e2b33c04c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::bench::errg::ExportQuota::used</definition>
+        <argsstring></argsstring>
+        <name>used</name>
+        <qualifiedname>themis::bench::errg::ExportQuota::used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="200" column="17" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="200" bodyend="200"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1errg_1_1_export_quota_1a7d7b74225543ffcfc1fb01405be04fb6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1exporters_1a91b58c95d2ff61139d6688b10c201c3a" kindref="member">ExporterErrorCode</ref></type>
+        <definition>ExporterErrorCode themis::bench::errg::ExportQuota::check</definition>
+        <argsstring>(std::uint64_t rows) noexcept</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::bench::errg::ExportQuota::check</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="202" column="23" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="202" bodyend="208"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/exporters/bench_exporters_release_gates.cpp" line="198" column="1" bodyfile="benchmarks/exporters/bench_exporters_release_gates.cpp" bodystart="198" bodyend="209"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_export_quota_1a7d7b74225543ffcfc1fb01405be04fb6" prot="public" virt="non-virtual"><scope>themis::bench::errg::ExportQuota</scope><name>check</name></member>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_export_quota_1ae560e7c5c866a7172ff3046848314479" prot="public" virt="non-virtual"><scope>themis::bench::errg::ExportQuota</scope><name>max_rows</name></member>
+      <member refid="structthemis_1_1bench_1_1errg_1_1_export_quota_1a18280d4940350f8af1b52e1e2b33c04c" prot="public" virt="non-virtual"><scope>themis::bench::errg::ExportQuota</scope><name>used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1417 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1_voice_session_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceSessionManager</compoundname>
+    <includes refid="voice__session__manager_8h" local="no">voice_session_manager.h</includes>
+    <innerclass refid="structthemis_1_1voice_1_1_voice_session_manager_1_1_teardown_info" prot="private">themis::voice::VoiceSessionManager::TeardownInfo</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_session_manager_1a55b8bff5045f55bddee8acf7940dc7f6" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1voice_1_1_session_timeout_config" kindref="compound">SessionTimeoutConfig</ref></type>
+        <definition>SessionTimeoutConfig themis::voice::VoiceSessionManager::timeout_config_</definition>
+        <argsstring></argsstring>
+        <name>timeout_config_</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::timeout_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="440" column="26" bodyfile="include/voice/voice_session_manager.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_session_manager_1afa0872a150d388c91e249a7222caeeb8" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend" kindref="compound">ISessionPersistenceBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ISessionPersistenceBackend&gt; themis::voice::VoiceSessionManager::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="441" column="21" bodyfile="include/voice/voice_session_manager.h" bodystart="441" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_session_manager_1a2fd72fe565994fc7d3fbbb0e3fa63cd5" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::voice::VoiceSessionManager::manager_mutex_</definition>
+        <argsstring></argsstring>
+        <name>manager_mutex_</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::manager_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="442" column="24" bodyfile="include/voice/voice_session_manager.h" bodystart="442" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_session_manager_1a2f70a372a91f411d0628f74ebd67c4c3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, VoiceSessionData&gt; themis::voice::VoiceSessionManager::active_cache_</definition>
+        <argsstring></argsstring>
+        <name>active_cache_</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::active_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="444" column="24" bodyfile="include/voice/voice_session_manager.h" bodystart="444" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_session_manager_1a00a39d060dc11a62b7682dd21e385358" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>std::map&lt;std::string, int64_t&gt; themis::voice::VoiceSessionManager::state_change_timestamps_</definition>
+        <argsstring></argsstring>
+        <name>state_change_timestamps_</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::state_change_timestamps_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="447" column="14" bodyfile="include/voice/voice_session_manager.h" bodystart="447" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1_voice_session_manager_1a3905d665889ded1b1bd64dd9fac2a19e" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, TeardownInfo &gt;</type>
+        <definition>std::map&lt;std::string, TeardownInfo&gt; themis::voice::VoiceSessionManager::teardown_tracker_</definition>
+        <argsstring></argsstring>
+        <name>teardown_tracker_</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::teardown_tracker_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="455" column="14" bodyfile="include/voice/voice_session_manager.h" bodystart="455" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a1ec88a448dee03b4c3809126f8631e98" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceSessionManager::VoiceSessionManager</definition>
+        <argsstring>(const SessionTimeoutConfig &amp;timeout_config={}, std::unique_ptr&lt; ISessionPersistenceBackend &gt; backend=nullptr)</argsstring>
+        <name>VoiceSessionManager</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::VoiceSessionManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_session_timeout_config" kindref="compound">SessionTimeoutConfig</ref> &amp;</type>
+          <declname>timeout_config</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1voice_1_1_i_session_persistence_backend" kindref="compound">ISessionPersistenceBackend</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="227" column="14" bodyfile="src/voice/voice_session_manager.cpp" bodystart="179" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a234584420407dc76b65af203037f4050" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::voice::VoiceSessionManager::~VoiceSessionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VoiceSessionManager</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::~VoiceSessionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="231" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a7c709b5b1200ac250257ee16b30501e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref></type>
+        <definition>VoiceSessionData themis::voice::VoiceSessionManager::createSession</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;device_id=&quot;&quot;)</argsstring>
+        <name>createSession</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::createSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>device_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create a new voice session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a session for an authenticated user.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier (non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Device identifier (optional, defaults to empty string)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="pre"><para>user_id must not be empty; empty user_id is rejected fail-closed </para>
+</simplesect>
+<simplesect kind="post"><para>On success: <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> with valid session_id in ACTIVE state </para>
+</simplesect>
+<simplesect kind="post"><para>On failure: <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> with empty session_id returned</para>
+</simplesect>
+<simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> with valid session_id if created; empty session_id if validation failed (fail-closed) </para>
+</simplesect>
+<simplesect kind="note"><para>Rejects empty user_id fail-closed to prevent ghost sessions; returns <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> with empty session_id on validation failure @error 6600 Session creation failed (backend error) @error 6605 User ID validation failed (empty or invalid)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">device_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the device. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Session token. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="248" column="22" bodyfile="src/voice/voice_session_manager.cpp" bodystart="246" bodyend="308"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1ab70bd1132cb5971cb843cbea31c708ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &gt;</type>
+        <definition>std::optional&lt; VoiceSessionData &gt; themis::voice::VoiceSessionManager::getSession</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>getSession</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::getSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Get existing session by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Session.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::optional&lt;VoiceSessionData&gt; containing the session if found and not expired; std::nullopt if not found or expired @error 6601 Session not found @error 6602 Session expired</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), spdlog::debug(), lock(), find(), end(), isExpired(), finalizeSessionTeardownLocked(), nowMs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="258" column="19" bodyfile="src/voice/voice_session_manager.cpp" bodystart="316" bodyend="367"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a0d045122b55be1e4334990180a8a11e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::updateSession</definition>
+        <argsstring>(const std::string &amp;session_id, const json &amp;context_update)</argsstring>
+        <name>updateSession</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::updateSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref> &amp;</type>
+          <declname>context_update</declname>
+        </param>
+        <briefdescription>
+<para>Update session context and metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Session.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context_update</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON context data to merge into session.context</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="pre"><para>Session must exist and not be in TERMINATED state </para>
+</simplesect>
+<simplesect kind="post"><para>Session context is updated; last_activity_ms is refreshed</para>
+</simplesect>
+<simplesect kind="return"><para>true if update succeeded; false if session not found or expired @error 6601 Session not found @error 6603 Session state transition invalid</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context_update</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="271" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="375" bodyend="415"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1af4e782da01727a27158b6cd0cc08e4d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::addConversationTurn</definition>
+        <argsstring>(const std::string &amp;session_id, const std::string &amp;user_msg, const std::string &amp;assistant_msg)</argsstring>
+        <name>addConversationTurn</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::addConversationTurn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_msg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>assistant_msg</declname>
+        </param>
+        <briefdescription>
+<para>Add a conversation turn to session history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Conversation Turn.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User message (non-empty required) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>assistant_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Assistant response (non-empty required)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="pre"><para>Session must exist and be in ACTIVE or IDLE state </para>
+</simplesect>
+<simplesect kind="pre"><para>user_msg and assistant_msg must both be non-empty </para>
+</simplesect>
+<simplesect kind="post"><para>Conversation turn is appended to session.conversation_history </para>
+</simplesect>
+<simplesect kind="post"><para>total_turns counter is incremented</para>
+</simplesect>
+<simplesect kind="return"><para>true if turn was added; false if session not found or messages empty </para>
+</simplesect>
+<simplesect kind="note"><para>Rejects empty messages fail-closed to prevent silent history corruption @error 6601 Session not found @error 6603 Invalid message content</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">assistant_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="288" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="424" bodyend="501"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1aefe169a93c52902b54fe3e7f752ca14f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::touchSession</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>touchSession</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::touchSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Touch session (update last activity). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Touch Session.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="pre"><para>Session must exist </para>
+</simplesect>
+<simplesect kind="post"><para>last_activity_ms is updated to current time </para>
+</simplesect>
+<simplesect kind="post"><para>If session state is IDLE, transitions back to ACTIVE</para>
+</simplesect>
+<simplesect kind="return"><para>true if touched; false if session not found @error 6601 Session not found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), isExpired(), finalizeSessionTeardownLocked(), nowMs(), isValidSessionTransition(), save(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="300" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="509" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a5d56fdac867dd02c5fe3a3a593d8cf20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::updatePreferredLanguage</definition>
+        <argsstring>(const std::string &amp;session_id, const std::string &amp;language_code)</argsstring>
+        <name>updatePreferredLanguage</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::updatePreferredLanguage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>language_code</declname>
+        </param>
+        <briefdescription>
+<para>Update the preferred language for a session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Update Preferred Language.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>language_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>BCP-47 language code (e.g., &quot;en&quot;, &quot;fr&quot;, &quot;es&quot;)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if language updated; false if session not found @error 6601 Session not found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">language_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="309" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="541" bodyend="573"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1ae2a9e5c0dd948bfdd37ea7ad92e00478" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::terminateSession</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>terminateSession</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::terminateSession</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Terminate session explicitly with timeout guard (Wave A Block 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Terminate Session.</para>
+<para>Initiates graceful session shutdown with fail-closed timeout enforcement. On timeout or error, forces resource release (fail-closed behavior).</para>
+<para>State transition: ACTIVE/IDLE/EXPIRED → CLOSING → TERMINATED</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="pre"><para>Session must exist </para>
+</simplesect>
+<simplesect kind="post"><para>Session transitions to TERMINATED state </para>
+</simplesect>
+<simplesect kind="post"><para>All session references cleared (no dangling pointers) </para>
+</simplesect>
+<simplesect kind="post"><para>Audit event logged (terminateSession action)</para>
+</simplesect>
+<simplesect kind="return"><para>true if terminated successfully; false if session not found or timeout @error 6601 Session not found @error 6608 Teardown timeout exceeded (Wave A Block 2)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), THEMIS_DEBUG(), isValidSessionTransition(), THEMIS_WARN(), <ref refid="namespacethemis_1_1voice_1ad887c865bacb2688224293c52e047e74" kindref="member">sessionStateToString()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="328" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="581" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1aaae1d1f5cd3a59ca34a214ddc6d98bd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::terminateSessionWithTimeout</definition>
+        <argsstring>(const std::string &amp;session_id, int64_t timeout_ms)</argsstring>
+        <name>terminateSessionWithTimeout</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::terminateSessionWithTimeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Terminate session with explicit timeout override (Wave A Block 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Wave A Block 2: Multi-Session Teardown Safety &amp; Audit Logging ============================================================================</para>
+<para>Identical to <ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ae2a9e5c0dd948bfdd37ea7ad92e00478" kindref="member">terminateSession()</ref> but allows caller to specify timeout duration. Useful for emergency shutdowns or testing teardown timeout behavior.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Override timeout in milliseconds</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if terminated successfully; false if timeout/not found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), teardownSessionLocked(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="339" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="871" bodyend="877"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1af2f487c143ba75091d20a071f9f219f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceSessionManager::terminateAllSessions</definition>
+        <argsstring>(int64_t timeout_ms=10000)</argsstring>
+        <name>terminateAllSessions</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::terminateAllSessions</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timeout_ms</declname>
+          <defval>10000</defval>
+        </param>
+        <briefdescription>
+<para>Force-terminate all sessions (cleanup/shutdown scenario). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Terminate All Sessions.</para>
+<para>Terminates all active sessions in concurrent-safe manner. Ignores individual session timeouts; applies global timeout guard. Used during graceful shutdown or resource exhaustion scenarios.</para>
+<para>Wave A Block 2: Reverse-dependency cleanup Order: Sessions → Authenticator → Storage</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Global timeout for entire cleanup (default = 10s) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of sessions successfully terminated</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nowMs(), lock(), push_back(), spdlog::warn(), teardownSessionLocked(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="355" column="12" bodyfile="src/voice/voice_session_manager.cpp" bodystart="951" bodyend="989"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a8ca46db7a5d76367a600800eb37da2f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::isDoubleCloseAttempt</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>isDoubleCloseAttempt</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::isDoubleCloseAttempt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Detect double-close attempt (fail-closed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Double Close Attempt.</para>
+<para>Prevents double-termination bugs (resource cleanup races). Returns true if session is already CLOSING or TERMINATED.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if session already in CLOSING/TERMINATED state; false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="364" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="997" bodyend="1013"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1af1dc167a715ebb6587d1912da6d4e402" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::VoiceSessionManager::getSessionTeardownStatus</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>getSessionTeardownStatus</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::getSessionTeardownStatus</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Get session teardown status (Wave A Block 2 diagnostics). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Session Teardown Status.</para>
+<para>Returns structured info about session teardown progress. Useful for debugging resource leaks and timeout issues.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON object with: state, teardown_start_ms, elapsed_ms, error_code</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), nowMs(), find(), end(), <ref refid="namespacethemis_1_1voice_1ad887c865bacb2688224293c52e047e74" kindref="member">sessionStateToString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="373" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="1021" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a716034547d0307a5571c5a6b64610d35" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceSessionManager::expireOldSessions</definition>
+        <argsstring>()</argsstring>
+        <name>expireOldSessions</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::expireOldSessions</qualifiedname>
+        <briefdescription>
+<para>Expire old sessions (cleanup). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Expire Old Sessions.</para>
+<para>Scans all sessions and transitions IDLE/EXPIRED sessions to TERMINATED. Intended to be called periodically (e.g., every cleanup_interval_ms).</para>
+<para><simplesect kind="post"><para>All expired sessions removed from cache </para>
+</simplesect>
+<simplesect kind="return"><para>Number of sessions expired/cleaned up</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), nowMs(), isExpired(), push_back(), THEMIS_DEBUG(), THEMIS_WARN(), size(), std::distance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="382" column="12" bodyfile="src/voice/voice_session_manager.cpp" bodystart="617" bodyend="665"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a559781abd8b8258f5e6a48b71c2bb3a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &gt;</type>
+        <definition>std::vector&lt; VoiceSessionData &gt; themis::voice::VoiceSessionManager::getSessionsForUser</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>getSessionsForUser</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::getSessionsForUser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Get all sessions for a user (multi-device sync). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Sessions For User.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User identifier</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> for all non-terminated sessions owned by user_id </para>
+</simplesect>
+<simplesect kind="note"><para>Returns empty vector if user has no active sessions</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), isExpired(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="390" column="17" bodyfile="src/voice/voice_session_manager.cpp" bodystart="673" bodyend="686"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a4d68c6c8cb9ca54a0e51efcc6ef06fe7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1voice_1_1_session_analytics" kindref="compound">SessionAnalytics</ref></type>
+        <definition>SessionAnalytics themis::voice::VoiceSessionManager::getAnalytics</definition>
+        <argsstring>() const</argsstring>
+        <name>getAnalytics</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::getAnalytics</qualifiedname>
+        <briefdescription>
+<para>Get analytics summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para><ref refid="structthemis_1_1voice_1_1_session_analytics" kindref="compound">SessionAnalytics</ref> with aggregate statistics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="395" column="22" bodyfile="src/voice/voice_session_manager.cpp" bodystart="688" bodyend="725"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a08a04b2204331287242a13a0ea03d89a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::isSessionActive</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>isSessionActive</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::isSessionActive</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Check if session is active. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Session Active.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if session exists and state is ACTIVE; false otherwise</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1voice_1_1_voice_session_manager_1ab70bd1132cb5971cb843cbea31c708ea" kindref="member">getSession()</ref>, has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="402" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="733" bodyend="736"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a48c1726094bd315c9d253ed06df4db53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref></type>
+        <definition>SessionState themis::voice::VoiceSessionManager::getSessionState</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>getSessionState</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::getSessionState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Get session state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Session State.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref> if session found; <ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">SessionState::TERMINATED</ref> if not found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="409" column="18" bodyfile="src/voice/voice_session_manager.cpp" bodystart="744" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1ae6b74f810d4ecf174db85e367bf72ab0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::validateStateTransition</definition>
+        <argsstring>(const std::string &amp;session_id, SessionState new_state)</argsstring>
+        <name>validateStateTransition</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::validateStateTransition</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7" kindref="member">SessionState</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <briefdescription>
+<para>Validate state transition (fail-closed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Phase 3: Session State Guard Violations ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target state </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if transition is valid; false if violates state machine @error 6603 Invalid state transition</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">new_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manager_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="422" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="760" bodyend="792"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a729b993395a2b7492a196962e51c0fb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::isUseAfterFreeAttempt</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>isUseAfterFreeAttempt</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::isUseAfterFreeAttempt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Detect use-after-free (fail-closed). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Is Use After Free Attempt.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if session has expired; false if active</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), load(), isExpired(), spdlog::warn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="427" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="800" bodyend="824"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a1b50dbb2058d6249e21064fb66d0effb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::sessionIdExists</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>sessionIdExists</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::sessionIdExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a session identifier is known to the manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Session Id Exists.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true when the session exists in the active cache or backend</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), lock(), find(), end(), load(), has_value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="432" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="832" bodyend="846"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a241ec1d68c48159b62c7e0a00237b5ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceSessionManager::getStateChangeTimestamp</definition>
+        <argsstring>(const std::string &amp;session_id)</argsstring>
+        <name>getStateChangeTimestamp</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::getStateChangeTimestamp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <briefdescription>
+<para>Get the last state-change timestamp for a session. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get State Change Timestamp.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>timestamp in milliseconds, or 0 if unknown</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="437" column="13" bodyfile="src/voice/voice_session_manager.cpp" bodystart="854" bodyend="861"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1ae4fbbeeac2b715317b06ece516ff043c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::voice::VoiceSessionManager::generateSessionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateSessionId</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::generateSessionId</qualifiedname>
+        <briefdescription>
+<para>Generate a unique session ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Session Id.</para>
+<para><simplesect kind="return"><para>UUID-style session identifier (e.g., &quot;session_12345678abcdef&quot;) </para>
+</simplesect>
+<simplesect kind="note"><para>Format is stable and suitable for logging/debugging</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), rng(), dist(), fetch_add(), std::setw(), std::setfill(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="415" column="24" bodyfile="src/voice/voice_session_manager.cpp" bodystart="223" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a779bd28b11c9dd1ad0ce4111b1c0d012" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::isExpired</definition>
+        <argsstring>(const VoiceSessionData &amp;session) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::isExpired</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1voice_1_1_voice_session_data" kindref="compound">VoiceSessionData</ref> &amp;</type>
+          <declname>session</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="457" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="199" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1a476b926ed4a7b0ec28e1699b313447be" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::VoiceSessionManager::nowMs</definition>
+        <argsstring>() const</argsstring>
+        <name>nowMs</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::nowMs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="458" column="13" bodyfile="src/voice/voice_session_manager.cpp" bodystart="194" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1_voice_session_manager_1ad9e817481b3fedc166e01ce70246402c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceSessionManager::teardownSessionLocked</definition>
+        <argsstring>(const std::string &amp;session_id, int64_t timeout_ms)</argsstring>
+        <name>teardownSessionLocked</name>
+        <qualifiedname>themis::voice::VoiceSessionManager::teardownSessionLocked</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>session_id</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Internal: Perform teardown with timeout enforcement (Wave A Block 2). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Teardown Session Locked.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Session identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Timeout in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successfully terminated; false on timeout</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">session_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the session. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), spdlog::warn(), nowMs(), spdlog::error(), finalizeSessionTeardownLocked(), erase(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="464" column="10" bodyfile="src/voice/voice_session_manager.cpp" bodystart="886" bodyend="943"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages voice session lifecycle with immutable state machine. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="classthemis_1_1voice_1_1_voice_session_manager_1autotoc_md31_1s1"><sect2 id="classthemis_1_1voice_1_1_voice_session_manager_1autotoc_md31">
+<title>Lifecycle Overview</title><para><ref refid="classthemis_1_1voice_1_1_voice_session_manager" kindref="compound">VoiceSessionManager</ref> orchestrates the complete session lifecycle:<orderedlist>
+<listitem><para>Creation: new sessions transition to ACTIVE state</para>
+</listitem><listitem><para>Activity tracking: last_activity_ms updated on <ref refid="classthemis_1_1voice_1_1_voice_session_manager_1aefe169a93c52902b54fe3e7f752ca14f" kindref="member">touchSession()</ref></para>
+</listitem><listitem><para>Expiration: automated cleanup via <ref refid="classthemis_1_1voice_1_1_voice_session_manager_1a716034547d0307a5571c5a6b64610d35" kindref="member">expireOldSessions()</ref></para>
+</listitem><listitem><para>Termination: explicit or implicit state transitions remove the session from active storage fail-closed</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1voice_1_1_voice_session_manager_1autotoc_md32_1s1"><sect2 id="classthemis_1_1voice_1_1_voice_session_manager_1autotoc_md32">
+<title>State Transitions (Frozen)</title><para><programlisting><codeline><highlight class="normal"><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref><sp/>──idle_timeout──&gt;<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref><sp/>──max_duration──&gt;<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a38afd7ae34bd5e3e6fc170d8b09178a3" kindref="member">EXPIRED</ref></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref><sp/>──terminate()───&gt;<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">TERMINATED</ref></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref><sp/>───touchSession──&gt;<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7aa5daf7f2ebbba4975d61dab1c40188c7" kindref="member">IDLE</ref><sp/>────cleanup──────&gt;<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">TERMINATED</ref></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a38afd7ae34bd5e3e6fc170d8b09178a3" kindref="member">EXPIRED</ref><sp/>──cleanup─────&gt;<sp/><ref refid="namespacethemis_1_1voice_1aca5129214a7de5c927ae456dc1d133e7a9d725163e44a2e9cf094059c0abfdef1" kindref="member">TERMINATED</ref></highlight></codeline>
+</programlisting></para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1voice_1_1_voice_session_manager_1autotoc_md33_1s1"><sect2 id="classthemis_1_1voice_1_1_voice_session_manager_1autotoc_md33">
+<title>Thread Safety Guarantees</title><para><itemizedlist>
+<listitem><para>All public methods acquire internal mutex_</para>
+</listitem><listitem><para>Backend persistence calls are serialized</para>
+</listitem><listitem><para>Session data snapshots are returned by value (copy-safe)</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="classthemis_1_1voice_1_1_voice_session_manager_1autotoc_md34_1s1"><sect2 id="classthemis_1_1voice_1_1_voice_session_manager_1autotoc_md34">
+<title>Resource Limits (Frozen)</title><para><itemizedlist>
+<listitem><para>Maximum concurrent sessions: 1000 per manager instance</para>
+</listitem><listitem><para>Session timeout: idle_timeout_ms (default 5 min)</para>
+</listitem><listitem><para>Maximum duration: max_session_duration_ms (default 30 min)</para>
+</listitem><listitem><para>Cleanup interval: cleanup_interval_ms (default 30 sec) </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/voice/voice_session_manager.h" line="225" column="1" bodyfile="include/voice/voice_session_manager.h" bodystart="225" bodyend="468"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a2f70a372a91f411d0628f74ebd67c4c3" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>active_cache_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1af4e782da01727a27158b6cd0cc08e4d3" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>addConversationTurn</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1afa0872a150d388c91e249a7222caeeb8" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a7c709b5b1200ac250257ee16b30501e8" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>createSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a716034547d0307a5571c5a6b64610d35" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>expireOldSessions</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1ae4fbbeeac2b715317b06ece516ff043c" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>generateSessionId</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a4d68c6c8cb9ca54a0e51efcc6ef06fe7" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>getAnalytics</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1ab70bd1132cb5971cb843cbea31c708ea" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>getSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a559781abd8b8258f5e6a48b71c2bb3a7" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>getSessionsForUser</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a48c1726094bd315c9d253ed06df4db53" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>getSessionState</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1af1dc167a715ebb6587d1912da6d4e402" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>getSessionTeardownStatus</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a241ec1d68c48159b62c7e0a00237b5ac" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>getStateChangeTimestamp</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a8ca46db7a5d76367a600800eb37da2f7" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>isDoubleCloseAttempt</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a779bd28b11c9dd1ad0ce4111b1c0d012" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>isExpired</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a08a04b2204331287242a13a0ea03d89a" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>isSessionActive</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a729b993395a2b7492a196962e51c0fb7" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>isUseAfterFreeAttempt</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a2fd72fe565994fc7d3fbbb0e3fa63cd5" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>manager_mutex_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a476b926ed4a7b0ec28e1699b313447be" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>nowMs</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a1b50dbb2058d6249e21064fb66d0effb" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>sessionIdExists</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a00a39d060dc11a62b7682dd21e385358" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>state_change_timestamps_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a3905d665889ded1b1bd64dd9fac2a19e" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>teardown_tracker_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1ad9e817481b3fedc166e01ce70246402c" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>teardownSessionLocked</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1af2f487c143ba75091d20a071f9f219f8" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>terminateAllSessions</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1ae2a9e5c0dd948bfdd37ea7ad92e00478" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>terminateSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1aaae1d1f5cd3a59ca34a214ddc6d98bd4" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>terminateSessionWithTimeout</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a55b8bff5045f55bddee8acf7940dc7f6" prot="private" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>timeout_config_</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1aefe169a93c52902b54fe3e7f752ca14f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>touchSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a5d56fdac867dd02c5fe3a3a593d8cf20" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>updatePreferredLanguage</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a0d045122b55be1e4334990180a8a11e1" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>updateSession</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1ae6b74f810d4ecf174db85e367bf72ab0" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>validateStateTransition</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a1ec88a448dee03b4c3809126f8631e98" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>VoiceSessionManager</name></member>
+      <member refid="classthemis_1_1voice_1_1_voice_session_manager_1a234584420407dc76b65af203037f4050" prot="public" virt="non-virtual"><scope>themis::voice::VoiceSessionManager</scope><name>~VoiceSessionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

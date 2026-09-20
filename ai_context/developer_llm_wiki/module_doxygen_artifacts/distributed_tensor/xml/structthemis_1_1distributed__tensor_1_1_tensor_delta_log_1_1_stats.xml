@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::TensorDeltaLog::Stats</compoundname>
+    <includes refid="tensor__delta__log_8h" local="no">tensor_delta_log.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a72c8cb31a150c1efca9194f2507a7455" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::TensorDeltaLog::Stats::total_deltas</definition>
+        <argsstring></argsstring>
+        <name>total_deltas</name>
+        <qualifiedname>themis::distributed_tensor::TensorDeltaLog::Stats::total_deltas</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="269" column="14" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a9c1de9ebb064d08f2bc1563e10492e80" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::TensorDeltaLog::Stats::total_insert_mutations</definition>
+        <argsstring></argsstring>
+        <name>total_insert_mutations</name>
+        <qualifiedname>themis::distributed_tensor::TensorDeltaLog::Stats::total_insert_mutations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="270" column="14" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1adc1bf894e2ec63b5648b3beaa4d7c2ca" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::TensorDeltaLog::Stats::total_update_mutations</definition>
+        <argsstring></argsstring>
+        <name>total_update_mutations</name>
+        <qualifiedname>themis::distributed_tensor::TensorDeltaLog::Stats::total_update_mutations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="271" column="14" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a04283da679280f2116602b7a287ac70d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::TensorDeltaLog::Stats::total_delete_mutations</definition>
+        <argsstring></argsstring>
+        <name>total_delete_mutations</name>
+        <qualifiedname>themis::distributed_tensor::TensorDeltaLog::Stats::total_delete_mutations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="272" column="14" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a705cb2c8b12fe1d1da759fb07f5264f8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::TensorDeltaLog::Stats::total_shard_change_mutations</definition>
+        <argsstring></argsstring>
+        <name>total_shard_change_mutations</name>
+        <qualifiedname>themis::distributed_tensor::TensorDeltaLog::Stats::total_shard_change_mutations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="273" column="14" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a7cea69f194997654244402fdae766480" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::TensorDeltaLog::Stats::total_payload_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_payload_bytes</name>
+        <qualifiedname>themis::distributed_tensor::TensorDeltaLog::Stats::total_payload_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="274" column="14" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="274" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a0fa192acafe84ee87cf22e13d7ca6ab3" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::TensorDeltaLog::Stats::oldest_delta_ms</definition>
+        <argsstring></argsstring>
+        <name>oldest_delta_ms</name>
+        <qualifiedname>themis::distributed_tensor::TensorDeltaLog::Stats::oldest_delta_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="275" column="13" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1aa084778aaaa7713b0793539bf4074603" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::distributed_tensor::TensorDeltaLog::Stats::newest_delta_ms</definition>
+        <argsstring></argsstring>
+        <name>newest_delta_ms</name>
+        <qualifiedname>themis::distributed_tensor::TensorDeltaLog::Stats::newest_delta_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/tensor_delta_log.h" line="276" column="13" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/tensor_delta_log.h" line="268" column="3" bodyfile="src/distributed_tensor/include/tensor_delta_log.h" bodystart="268" bodyend="277"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1aa084778aaaa7713b0793539bf4074603" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDeltaLog::Stats</scope><name>newest_delta_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a0fa192acafe84ee87cf22e13d7ca6ab3" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDeltaLog::Stats</scope><name>oldest_delta_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a04283da679280f2116602b7a287ac70d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDeltaLog::Stats</scope><name>total_delete_mutations</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a72c8cb31a150c1efca9194f2507a7455" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDeltaLog::Stats</scope><name>total_deltas</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a9c1de9ebb064d08f2bc1563e10492e80" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDeltaLog::Stats</scope><name>total_insert_mutations</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a7cea69f194997654244402fdae766480" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDeltaLog::Stats</scope><name>total_payload_bytes</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1a705cb2c8b12fe1d1da759fb07f5264f8" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDeltaLog::Stats</scope><name>total_shard_change_mutations</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_tensor_delta_log_1_1_stats_1adc1bf894e2ec63b5648b3beaa4d7c2ca" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::TensorDeltaLog::Stats</scope><name>total_update_mutations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

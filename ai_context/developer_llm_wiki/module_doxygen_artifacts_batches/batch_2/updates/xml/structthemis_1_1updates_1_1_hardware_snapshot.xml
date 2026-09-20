@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_hardware_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::HardwareSnapshot</compoundname>
+    <includes refid="hardware__telemetry_8h" local="no">hardware_telemetry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1a8cf7f5d845b12c0be66df850ae4b065c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareSnapshot::instance_id</definition>
+        <argsstring></argsstring>
+        <name>instance_id</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::instance_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Random UUID identifying this ThemisDB instance for the current run. Not persisted to disk – changes on every restart. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="135" column="17" bodyfile="include/updates/hardware_telemetry.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1a2c44e542ac8fa2d53dbf63554a5e2337" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareSnapshot::themis_version</definition>
+        <argsstring></argsstring>
+        <name>themis_version</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::themis_version</qualifiedname>
+        <briefdescription>
+<para>ThemisDB version string (e.g. &quot;2.0.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="138" column="17" bodyfile="include/updates/hardware_telemetry.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1ad03442341d9d6079b8cd6efe4ae0c910" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareSnapshot::cpu_model</definition>
+        <argsstring></argsstring>
+        <name>cpu_model</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::cpu_model</qualifiedname>
+        <briefdescription>
+<para>CPU model name string (may be empty if not determinable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="141" column="17" bodyfile="include/updates/hardware_telemetry.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1ad163c8ae8afbd46a371cab93b9f98daa" prot="public" static="no" mutable="no">
+        <type>unsigned int</type>
+        <definition>unsigned int themis::updates::HardwareSnapshot::cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>cpu_cores</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::cpu_cores</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of logical CPU cores (0 if not determinable). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="144" column="18" bodyfile="include/updates/hardware_telemetry.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1a84c713d56926d54691ee3dbdab295fa2" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::updates::HardwareSnapshot::total_ram_mb</definition>
+        <argsstring></argsstring>
+        <name>total_ram_mb</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::total_ram_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Total RAM in megabytes, rounded down to the nearest 1 024 MiB bucket (0 if not determinable). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="148" column="14" bodyfile="include/updates/hardware_telemetry.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1abfcde3de4f41a329338c1ec4a52faf16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareSnapshot::os_family</definition>
+        <argsstring></argsstring>
+        <name>os_family</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::os_family</qualifiedname>
+        <briefdescription>
+<para>OS family: &quot;Linux&quot;, &quot;Windows&quot;, &quot;macOS&quot;, or &quot;Unknown&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="151" column="17" bodyfile="include/updates/hardware_telemetry.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1add169cab3f70c4feb2e238992ada1c62" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareSnapshot::cpu_arch</definition>
+        <argsstring></argsstring>
+        <name>cpu_arch</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::cpu_arch</qualifiedname>
+        <briefdescription>
+<para>CPU architecture: &quot;x86_64&quot;, &quot;aarch64&quot;, &quot;arm&quot;, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="154" column="17" bodyfile="include/updates/hardware_telemetry.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1a626327336532f391d8248ce02eb85fc8" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::updates::HardwareSnapshot::timestamp_utc</definition>
+        <argsstring></argsstring>
+        <name>timestamp_utc</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::timestamp_utc</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>UTC timestamp (seconds since epoch) when the snapshot was taken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="157" column="13" bodyfile="include/updates/hardware_telemetry.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1ae8248bbf809cf40abc00a1eae3e466f4" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_performance_snapshot" kindref="compound">PerformanceSnapshot</ref> &gt;</type>
+        <definition>std::optional&lt;PerformanceSnapshot&gt; themis::updates::HardwareSnapshot::performance</definition>
+        <argsstring></argsstring>
+        <name>performance</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::performance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Optional performance metrics (present only when include_performance is true and a <ref refid="classthemis_1_1updates_1_1_i_performance_metrics_provider" kindref="compound">IPerformanceMetricsProvider</ref> has been wired). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="161" column="19" bodyfile="include/updates/hardware_telemetry.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1ac064f7a0bad1c7f622bf9c6a31db6d13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareSnapshot::build_channel</definition>
+        <argsstring></argsstring>
+        <name>build_channel</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::build_channel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Build channel: &quot;official&quot; (signed CI build) or &quot;community&quot; (self-compiled). Sourced from the compile-time constant THEMIS_BUILD_CHANNEL. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="167" column="17" bodyfile="include/updates/hardware_telemetry.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1a0b8dbd615c978c06e06b748cd8965024" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareSnapshot::build_id</definition>
+        <argsstring></argsstring>
+        <name>build_id</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::build_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Short Git SHA of the source tree at build time (e.g. &quot;a1b2c3d&quot;). Sourced from THEMIS_BUILD_ID. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="171" column="17" bodyfile="include/updates/hardware_telemetry.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_hardware_snapshot_1a9eb251a708eb86c680f43e16ea7b49c9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::updates::HardwareSnapshot::build_verified</definition>
+        <argsstring></argsstring>
+        <name>build_verified</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::build_verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>True when the Ed25519 build signature embedded at compile-time has been verified successfully against the hard-coded public key. Always false for community builds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="176" column="10" bodyfile="include/updates/hardware_telemetry.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_hardware_snapshot_1aa59df734ec2f9cfde04c12d2d2ac7103" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::HardwareSnapshot::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::HardwareSnapshot::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize to a compact JSON string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object string suitable for an HTTP POST body. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="182" column="18" bodyfile="src/updates/hardware_telemetry.cpp" bodystart="84" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single anonymised telemetry snapshot (hardware + optional perf). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Fields that could not be determined are left as their default empty/zero values; the receiver is expected to treat them as &quot;unknown&quot;. </para>
+    </detaileddescription>
+    <location file="include/updates/hardware_telemetry.h" line="132" column="1" bodyfile="include/updates/hardware_telemetry.h" bodystart="132" bodyend="183"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1ac064f7a0bad1c7f622bf9c6a31db6d13" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>build_channel</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1a0b8dbd615c978c06e06b748cd8965024" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>build_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1a9eb251a708eb86c680f43e16ea7b49c9" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>build_verified</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1add169cab3f70c4feb2e238992ada1c62" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>cpu_arch</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1ad163c8ae8afbd46a371cab93b9f98daa" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>cpu_cores</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1ad03442341d9d6079b8cd6efe4ae0c910" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>cpu_model</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1a8cf7f5d845b12c0be66df850ae4b065c" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>instance_id</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1abfcde3de4f41a329338c1ec4a52faf16" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>os_family</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1ae8248bbf809cf40abc00a1eae3e466f4" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>performance</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1a2c44e542ac8fa2d53dbf63554a5e2337" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>themis_version</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1a626327336532f391d8248ce02eb85fc8" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>timestamp_utc</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1aa59df734ec2f9cfde04c12d2d2ac7103" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_hardware_snapshot_1a84c713d56926d54691ee3dbdab295fa2" prot="public" virt="non-virtual"><scope>themis::updates::HardwareSnapshot</scope><name>total_ram_mb</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::voice::benchmark::SessionLifecycleFixture</compoundname>
+    <basecompoundref refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture" prot="public" virt="non-virtual">themis::voice::benchmark::VoiceBenchmarkFixture</basecompoundref>
+    <includes refid="benchmark__fixtures_8h" local="no">benchmark_fixtures.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a7c59098faa4b0c3cefe824aca31042d7" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::benchmark::SessionLifecycleFixture::sessions_</definition>
+        <argsstring></argsstring>
+        <name>sessions_</name>
+        <qualifiedname>themis::voice::benchmark::SessionLifecycleFixture::sessions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="330" column="17" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="330" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a3f821b243ae6cd64625f55d83bf380df" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::benchmark::SessionLifecycleFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::voice::benchmark::SessionLifecycleFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="319" column="10" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="319" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a78391928760c034a584fd847dd2e54ef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::voice::benchmark::SessionLifecycleFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;state) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::voice::benchmark::SessionLifecycleFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/benchmark_fixtures.h" line="324" column="10" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="324" bodyend="327"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Fixture for session lifecycle benchmarks (Task 5.3). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::benchmark::SessionLifecycleFixture</label>
+        <link refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::voice::benchmark::VoiceBenchmarkFixture</label>
+        <link refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::voice::benchmark::SessionLifecycleFixture</label>
+        <link refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::voice::benchmark::VoiceBenchmarkFixture</label>
+        <link refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/voice/benchmark_fixtures.h" line="317" column="1" bodyfile="benchmarks/voice/benchmark_fixtures.h" bodystart="317" bodyend="331"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1af4d357267ecd08ecc0c6a50c9ba1a5d8" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>generateAudio</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1ad43061488e0b85f871ab1a7285f92bdb" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>generateSessionId</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a02cdbfc4bac9702f1db46d8982d7f382" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>llm_processor_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a1169e907f1f75a134ea2ef71d4ce91cb" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a7c59098faa4b0c3cefe824aca31042d7" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>sessions_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a3f821b243ae6cd64625f55d83bf380df" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a4781f0de1af36d0d9b1933f8a372640b" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>sleepMicroseconds</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1abeefe60c46bd9f7c51c6fdeb3f8558a7" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>stream_buffer_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a4373e88e5437baec54e131620dd0ba1b" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>stt_processor_</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_session_lifecycle_fixture_1a78391928760c034a584fd847dd2e54ef" prot="public" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1voice_1_1benchmark_1_1_voice_benchmark_fixture_1a5ae284b10413be0b1ad8dfef2f2401ca" prot="protected" virt="non-virtual"><scope>themis::voice::benchmark::SessionLifecycleFixture</scope><name>tts_processor_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

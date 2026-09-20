@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1sharding_1_1optimizations" kind="namespace" language="C++">
+    <compoundname>themisdb::sharding::optimizations</compoundname>
+    <innerclass refid="classthemisdb_1_1sharding_1_1optimizations_1_1_parallel_write_optimizer" prot="public">themisdb::sharding::optimizations::ParallelWriteOptimizer</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1optimizations_1_1_zero_copy_buffer" prot="public">themisdb::sharding::optimizations::ZeroCopyBuffer</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1optimizations_1_1_s_i_m_d_erasure_coder" prot="public">themisdb::sharding::optimizations::SIMDErasureCoder</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1optimizations_1_1_prefetch_optimizer" prot="public">themisdb::sharding::optimizations::PrefetchOptimizer</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1optimizations_1_1_compression_optimizer" prot="public">themisdb::sharding::optimizations::CompressionOptimizer</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1optimizations_1_1_batch_read_optimizer" prot="public">themisdb::sharding::optimizations::BatchReadOptimizer</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1optimizations_1_1_cache_aware_striping" prot="public">themisdb::sharding::optimizations::CacheAwareStriping</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1optimizations_1_1_performance_monitor" prot="public">themisdb::sharding::optimizations::PerformanceMonitor</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raid_optimizations.h" line="35" column="1"/>
+  </compounddef>
+</doxygen>

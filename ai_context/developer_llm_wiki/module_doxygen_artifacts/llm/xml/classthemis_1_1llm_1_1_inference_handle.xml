@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_inference_handle" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::InferenceHandle</compoundname>
+    <includes refid="inference__handle_8h" local="no">inference_handle.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_handle_1a3510defe42588f5e278f640015791e38" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::InferenceHandle::request_id_</definition>
+        <argsstring></argsstring>
+        <name>request_id_</name>
+        <qualifiedname>themis::llm::InferenceHandle::request_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_handle.h" line="54" column="17" bodyfile="include/llm/inference_handle.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_handle_1a9583e20afc426f196c4cc7f421bb8849" prot="private" static="no" mutable="no">
+        <type>std::shared_future&lt; <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &gt;</type>
+        <definition>std::shared_future&lt;InferenceResponse&gt; themis::llm::InferenceHandle::future_</definition>
+        <argsstring></argsstring>
+        <name>future_</name>
+        <qualifiedname>themis::llm::InferenceHandle::future_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_handle.h" line="55" column="24" bodyfile="include/llm/inference_handle.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_inference_handle_1ae7fff498b57f295d17cabd36f7ed1dca" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt;</type>
+        <definition>std::shared_ptr&lt;std::atomic&lt;bool&gt; &gt; themis::llm::InferenceHandle::cancel_token_</definition>
+        <argsstring></argsstring>
+        <name>cancel_token_</name>
+        <qualifiedname>themis::llm::InferenceHandle::cancel_token_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_handle.h" line="56" column="21" bodyfile="include/llm/inference_handle.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_handle_1abedc3b5a8d6491cf210362d51b4aaaeb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::InferenceHandle::InferenceHandle</definition>
+        <argsstring>(const std::string &amp;request_id, std::shared_future&lt; InferenceResponse &gt; future, std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt; cancel_token=nullptr)</argsstring>
+        <name>InferenceHandle</name>
+        <qualifiedname>themis::llm::InferenceHandle::InferenceHandle</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>std::shared_future&lt; <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> &gt;</type>
+          <declname>future</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; std::atomic&lt; bool &gt; &gt;</type>
+          <declname>cancel_token</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_handle.h" line="27" column="5" bodyfile="include/llm/inference_handle.h" bodystart="27" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_handle_1abee50bf6b541b14ccf0e665f37f0b2ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse themis::llm::InferenceHandle::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::InferenceHandle::get</qualifiedname>
+        <briefdescription>
+<para>Wait for result (blocking). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements get without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_handle.h" line="38" column="23" bodyfile="include/llm/inference_handle.h" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_handle_1ab6534a5db83307f9c34fc50024320733" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::InferenceHandle::ready</definition>
+        <argsstring>() const</argsstring>
+        <name>ready</name>
+        <qualifiedname>themis::llm::InferenceHandle::ready</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_handle.h" line="41" column="10" bodyfile="include/llm/inference_handle.h" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_handle_1ae0a45bfc90001922dabbe6d199df1c89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::InferenceHandle::cancel</definition>
+        <argsstring>()</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::llm::InferenceHandle::cancel</qualifiedname>
+        <briefdescription>
+<para>Cancel request (best effort) — sets the shared cancel token so the worker thread will stop processing at the next check point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cancel.</para>
+<para>Calls: store(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_handle.h" line="49" column="10" bodyfile="src/llm/inference_handle.cpp" bodystart="22" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_inference_handle_1a29291d7b1288ea4aabf63b2852bb62d9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::llm::InferenceHandle::requestId</definition>
+        <argsstring>() const</argsstring>
+        <name>requestId</name>
+        <qualifiedname>themis::llm::InferenceHandle::requestId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/inference_handle.h" line="51" column="23" bodyfile="include/llm/inference_handle.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/inference_handle.h" line="25" column="1" bodyfile="include/llm/inference_handle.h" bodystart="25" bodyend="57"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_inference_handle_1ae0a45bfc90001922dabbe6d199df1c89" prot="public" virt="non-virtual"><scope>themis::llm::InferenceHandle</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_handle_1ae7fff498b57f295d17cabd36f7ed1dca" prot="private" virt="non-virtual"><scope>themis::llm::InferenceHandle</scope><name>cancel_token_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_handle_1a9583e20afc426f196c4cc7f421bb8849" prot="private" virt="non-virtual"><scope>themis::llm::InferenceHandle</scope><name>future_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_handle_1abee50bf6b541b14ccf0e665f37f0b2ba" prot="public" virt="non-virtual"><scope>themis::llm::InferenceHandle</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_handle_1abedc3b5a8d6491cf210362d51b4aaaeb" prot="public" virt="non-virtual"><scope>themis::llm::InferenceHandle</scope><name>InferenceHandle</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_handle_1ab6534a5db83307f9c34fc50024320733" prot="public" virt="non-virtual"><scope>themis::llm::InferenceHandle</scope><name>ready</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_handle_1a3510defe42588f5e278f640015791e38" prot="private" virt="non-virtual"><scope>themis::llm::InferenceHandle</scope><name>request_id_</name></member>
+      <member refid="classthemis_1_1llm_1_1_inference_handle_1a29291d7b1288ea4aabf63b2852bb62d9" prot="public" virt="non-virtual"><scope>themis::llm::InferenceHandle</scope><name>requestId</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

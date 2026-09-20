@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_adapter_apply_service" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IAdapterApplyService</compoundname>
+    <derivedcompoundref refid="class_recording_adapter_apply_service" prot="public" virt="non-virtual">RecordingAdapterApplyService</derivedcompoundref>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_adapter_apply_service_1aee873627b3f2fcd1194cc9397ec03f02" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::IAdapterApplyService::~IAdapterApplyService</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAdapterApplyService</name>
+        <qualifiedname>themis::llm::IAdapterApplyService::~IAdapterApplyService</qualifiedname>
+        <briefdescription>
+<para>IAdapter Apply Service. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="436" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_adapter_apply_service_1afb2921a1513c6b3b5d15c66fd00a1caf" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::IAdapterApplyService::applyAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;tenant, float scale)=0</argsstring>
+        <name>applyAdapter</name>
+        <qualifiedname>themis::llm::IAdapterApplyService::applyAdapter</qualifiedname>
+        <reimplementedby refid="class_recording_adapter_apply_service_1a274563b17319bf028c2439917cd62a57">applyAdapter</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tenant</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scale</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="438" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_adapter_apply_service_1aac71345e440b6191f50a3044c596e032" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IAdapterApplyService::currentAdapter</definition>
+        <argsstring>() const =0</argsstring>
+        <name>currentAdapter</name>
+        <qualifiedname>themis::llm::IAdapterApplyService::currentAdapter</qualifiedname>
+        <reimplementedby refid="class_recording_adapter_apply_service_1a9773b4e7fc1effe74f504d067f014f34">currentAdapter</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="442" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_adapter_apply_service_1a77ad796f666ce82699eb1f01a26cd5f6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::IAdapterApplyService::canSwitch</definition>
+        <argsstring>() const =0</argsstring>
+        <name>canSwitch</name>
+        <qualifiedname>themis::llm::IAdapterApplyService::canSwitch</qualifiedname>
+        <reimplementedby refid="class_recording_adapter_apply_service_1a5108ab58fdeb116fb5d433ff2580b7d4">canSwitch</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="444" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>RecordingAdapterApplyService</label>
+        <link refid="class_recording_adapter_apply_service"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::llm::IAdapterApplyService</label>
+        <link refid="classthemis_1_1llm_1_1_i_adapter_apply_service"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/llm/ai_orchestrator.h" line="430" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="430" bodyend="445"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_apply_service_1afb2921a1513c6b3b5d15c66fd00a1caf" prot="public" virt="pure-virtual"><scope>themis::llm::IAdapterApplyService</scope><name>applyAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_apply_service_1a77ad796f666ce82699eb1f01a26cd5f6" prot="public" virt="pure-virtual"><scope>themis::llm::IAdapterApplyService</scope><name>canSwitch</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_apply_service_1aac71345e440b6191f50a3044c596e032" prot="public" virt="pure-virtual"><scope>themis::llm::IAdapterApplyService</scope><name>currentAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_adapter_apply_service_1aee873627b3f2fcd1194cc9397ec03f02" prot="public" virt="virtual"><scope>themis::llm::IAdapterApplyService</scope><name>~IAdapterApplyService</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

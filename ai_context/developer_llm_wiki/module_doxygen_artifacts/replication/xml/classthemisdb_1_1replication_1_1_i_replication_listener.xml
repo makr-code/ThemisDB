@@ -1,0 +1,356 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_i_replication_listener" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themisdb::replication::IReplicationListener</compoundname>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_c_d_c_manager" prot="public" virt="non-virtual">themisdb::replication::CDCManager</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_cross_cluster_publication" prot="public" virt="non-virtual">themisdb::replication::CrossClusterPublication</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_logical_replication_manager" prot="public" virt="non-virtual">themisdb::replication::LogicalReplicationManager</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_replication_event_stream" prot="public" virt="non-virtual">themisdb::replication::ReplicationEventStream</derivedcompoundref>
+    <derivedcompoundref refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge" prot="public" virt="non-virtual">themisdb::replication::SchemaAwareCDCBridge</derivedcompoundref>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1acb88cf6198e73097f327c58dbbe23d67" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::replication::IReplicationListener::~IReplicationListener</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IReplicationListener</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::~IReplicationListener</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="386" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a2cdbbc2a8a075ed4a4285542d16b3c7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onRoleChange</definition>
+        <argsstring>(ReplicationRole old_role, ReplicationRole new_role)=0</argsstring>
+        <name>onRoleChange</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onRoleChange</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a258fbe68da730999eab65d2f715444f5">onRoleChange</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1accceefe9cf69dfaf2205dac5549d90bc">onRoleChange</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a8c14e2d00d68bdaa3b9fdd1f53a742a5">onRoleChange</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a3e6f7fed05ddc9b333ef13fa3b0a1992">onRoleChange</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a35b8a85783973f0bb8950da818c589e8">onRoleChange</reimplementedby>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+          <declname>old_role</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+          <declname>new_role</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="388" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a3fcbfce08a82f5f74f1b060a5a6d082f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onLeaderElected</definition>
+        <argsstring>(const std::string &amp;leader_id)=0</argsstring>
+        <name>onLeaderElected</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onLeaderElected</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1ac6a147f77a26ada7bbcea1322c65f285">onLeaderElected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a31f6c3a67cc8e7cbed8c8ff298b726cd">onLeaderElected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a7a7297545efb3ab4b3dcbd5d5619869f">onLeaderElected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a7cdaef9eccfb1d854fab5606fe4658d2">onLeaderElected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a8604d559425ed3661bce06a4b128ee2f">onLeaderElected</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="389" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a16aa55efb52c2495bf50b719e7497b43" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onReplicaAdded</definition>
+        <argsstring>(const ReplicaInfo &amp;replica)=0</argsstring>
+        <name>onReplicaAdded</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onReplicaAdded</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aaffee5daaa2bb0e08b619336ce80f77f">onReplicaAdded</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a8382e666839b10e706accadf5dd408ca">onReplicaAdded</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a2173113451bee2d1a9bca07495b4f6a9">onReplicaAdded</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a9f512f72ef848fa683694c62a7054d9d">onReplicaAdded</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a215e68632ba9a2e669257a0dcb39c2b0">onReplicaAdded</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+          <declname>replica</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="390" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a4303b3ab155bb1c2df41f89069b02931" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onReplicaRemoved</definition>
+        <argsstring>(const std::string &amp;node_id)=0</argsstring>
+        <name>onReplicaRemoved</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onReplicaRemoved</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a19c0a90ea1dd12e3b5f99fec0bf76da8">onReplicaRemoved</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a65a85f63453fc3f9959a96e1ce914843">onReplicaRemoved</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aa6a647094eee57928eae267cc63f6d32">onReplicaRemoved</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ab4d2cb15821589fdaa3ed1d9633561cd">onReplicaRemoved</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5ea7bc7f4757c22b2d20a5cb07b9a7eb">onReplicaRemoved</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="391" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a261c025241caa1597f4ae8cb0f20947f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onConflictDetected</definition>
+        <argsstring>(const std::string &amp;document_id)=0</argsstring>
+        <name>onConflictDetected</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onConflictDetected</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aa1eb5ebafdd1572a464e3e370c7042c3">onConflictDetected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a1ba908dc021d7c3d027bc311867f186e">onConflictDetected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ac2045265984f37a75cac7ef6be9c6fd5">onConflictDetected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a7fc48cb30a971e75b3d4a5113e81f4e1">onConflictDetected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1aae274d6ccc7cdcc3f176982be78e520f">onConflictDetected</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="392" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a5f00cb59d9e5f4286dbee3f8418c1375" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onReplicationLagWarning</definition>
+        <argsstring>(int64_t lag_ms)=0</argsstring>
+        <name>onReplicationLagWarning</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onReplicationLagWarning</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a315acb7516620f35412bdfe71c17aea7">onReplicationLagWarning</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a28b8bc441a576f063a2a3cd09d8668e1">onReplicationLagWarning</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a33c1422fb46b3627822ca20e61f314de">onReplicationLagWarning</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a66208a77b2fc4c1a2385bd83e4a90603">onReplicationLagWarning</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a5b5e8a73cc1f6ca44f99c902d82ab9ed">onReplicationLagWarning</reimplementedby>
+        <param>
+          <type>int64_t</type>
+          <declname>lag_ms</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="393" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1ace538bfc02cb257542fb2b11d55e7139" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onReplicaHealthChanged</definition>
+        <argsstring>(const std::string &amp;node_id, HealthStatus old_status, HealthStatus new_status)=0</argsstring>
+        <name>onReplicaHealthChanged</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onReplicaHealthChanged</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1abaa710656a2a6d8f6a0a5d7299b73e41">onReplicaHealthChanged</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1af07974945ea1d517b2604c69cfc9cfde">onReplicaHealthChanged</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a9736129c7e2ef2ce325cb388d16802da">onReplicaHealthChanged</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a760666c37c3decfae1c863421fb6ff9c">onReplicaHealthChanged</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9ed8d40b7ca171bbf326f607351bc485">onReplicaHealthChanged</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+          <declname>old_status</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+          <declname>new_status</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="394" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a03c09e34da59b2594d79810c33b2420d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onFailoverStarted</definition>
+        <argsstring>(const std::string &amp;failed_leader_id, const std::string &amp;new_leader_id)=0</argsstring>
+        <name>onFailoverStarted</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onFailoverStarted</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a09659f876d7317eeed953baf9ba21d53">onFailoverStarted</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a6b422503e10068815ff84e536842f52b">onFailoverStarted</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a230d51e35802fb25c627eaa2fbbf2392">onFailoverStarted</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a56377fc7bc663ec9f903ec2b15e5f493">onFailoverStarted</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a13e8a9b30103eceaca6eb4aa091b1d0c">onFailoverStarted</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failed_leader_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_leader_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="395" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a68c566bb34bb71967ab672e492b4024f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onFailoverCompleted</definition>
+        <argsstring>(const std::string &amp;new_leader_id, bool success)=0</argsstring>
+        <name>onFailoverCompleted</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onFailoverCompleted</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1aae85d59f0a5ee89daceab89cfc4a9aa5">onFailoverCompleted</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ab4963a2699d9aeb4af453ac1e80a9f22">onFailoverCompleted</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a37a7275118b5d0d2bc505fd34f211591">onFailoverCompleted</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1ae75d93f943260295628534ce963b100c">onFailoverCompleted</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1a9d9fc89d904a2f28a956f19afd9c98b1">onFailoverCompleted</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_leader_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>success</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="396" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1a1e9909fe6f6bc69a4fd284819647ff7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onNetworkPartitionDetected</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;unreachable_nodes)=0</argsstring>
+        <name>onNetworkPartitionDetected</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onNetworkPartitionDetected</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1ae817e6fa2fc083c0c73988d2e11a59b7">onNetworkPartitionDetected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1adb6ab0a34d6b43877a92a6bfcd2064d5">onNetworkPartitionDetected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ad0527d252378da456c5025cff3405602">onNetworkPartitionDetected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1aa6fdd9a3b3dce8deb128281e066f723a">onNetworkPartitionDetected</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ad097bfe64e1d11cf1b0dc8d51beb2e38">onNetworkPartitionDetected</reimplementedby>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>unreachable_nodes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="397" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_i_replication_listener_1af5af59bfb9d4a5136514552f110de9c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themisdb::replication::IReplicationListener::onWALEntryApplied</definition>
+        <argsstring>(const WALEntry &amp;)</argsstring>
+        <name>onWALEntryApplied</name>
+        <qualifiedname>themisdb::replication::IReplicationListener::onWALEntryApplied</qualifiedname>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_c_d_c_manager_1a8117a933d976f3ffce656edbcf6ad485">onWALEntryApplied</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1aebaeba13ca6d487e86e5df408871a80d">onWALEntryApplied</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a4fa7e9af0bc36181cea6fd239ff42df3">onWALEntryApplied</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_replication_event_stream_1a91a3cc03f3496e5c951907c145cc77e7">onWALEntryApplied</reimplementedby>
+        <reimplementedby refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge_1ac55fd6725f3fb18770313165c59d57fd">onWALEntryApplied</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="400" column="18" bodyfile="include/replication/replication_manager.h" bodystart="400" bodyend="400"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Replication Event Listener </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::replication::CDCManager</label>
+        <link refid="classthemisdb_1_1replication_1_1_c_d_c_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themisdb::replication::CrossClusterPublication</label>
+        <link refid="classthemisdb_1_1replication_1_1_cross_cluster_publication"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+      <node id="4">
+        <label>themisdb::replication::LogicalReplicationManager</label>
+        <link refid="classthemisdb_1_1replication_1_1_logical_replication_manager"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themisdb::replication::ReplicationEventStream</label>
+        <link refid="classthemisdb_1_1replication_1_1_replication_event_stream"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themisdb::replication::SchemaAwareCDCBridge</label>
+        <link refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/replication/replication_manager.h" line="384" column="1" bodyfile="include/replication/replication_manager.h" bodystart="384" bodyend="401"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a261c025241caa1597f4ae8cb0f20947f" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onConflictDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a68c566bb34bb71967ab672e492b4024f" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onFailoverCompleted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a03c09e34da59b2594d79810c33b2420d" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onFailoverStarted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a3fcbfce08a82f5f74f1b060a5a6d082f" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onLeaderElected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a1e9909fe6f6bc69a4fd284819647ff7c" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onNetworkPartitionDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a16aa55efb52c2495bf50b719e7497b43" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onReplicaAdded</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1ace538bfc02cb257542fb2b11d55e7139" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onReplicaHealthChanged</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a4303b3ab155bb1c2df41f89069b02931" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onReplicaRemoved</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a5f00cb59d9e5f4286dbee3f8418c1375" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onReplicationLagWarning</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a2cdbbc2a8a075ed4a4285542d16b3c7a" prot="public" virt="pure-virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onRoleChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1af5af59bfb9d4a5136514552f110de9c8" prot="public" virt="virtual"><scope>themisdb::replication::IReplicationListener</scope><name>onWALEntryApplied</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1acb88cf6198e73097f327c58dbbe23d67" prot="public" virt="virtual"><scope>themisdb::replication::IReplicationListener</scope><name>~IReplicationListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

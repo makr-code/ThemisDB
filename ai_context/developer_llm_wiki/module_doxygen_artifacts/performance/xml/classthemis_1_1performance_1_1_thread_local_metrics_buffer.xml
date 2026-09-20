@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1_thread_local_metrics_buffer" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::ThreadLocalMetricsBuffer</compoundname>
+    <includes refid="lockfree__metrics__buffer_8h" local="no">lockfree_metrics_buffer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1add7a6f5fd55b92aff32ed3026b48a812" prot="public" static="no">
+        <type><ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer" kindref="compound">LockFreeRingBuffer</ref>&lt; <ref refid="structthemis_1_1performance_1_1_metrics_entry" kindref="compound">MetricsEntry</ref>, <ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a6a11709d0a27b31b1471366f3d918d9d" kindref="member">BUFFER_CAPACITY</ref> &gt;</type>
+        <definition>using themis::performance::ThreadLocalMetricsBuffer::BufferType = LockFreeRingBuffer&lt;MetricsEntry, BUFFER_CAPACITY&gt;</definition>
+        <argsstring></argsstring>
+        <name>BufferType</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::BufferType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="178" column="5" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a6a11709d0a27b31b1471366f3d918d9d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::ThreadLocalMetricsBuffer::BUFFER_CAPACITY</definition>
+        <argsstring></argsstring>
+        <name>BUFFER_CAPACITY</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::BUFFER_CAPACITY</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="177" column="29" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a8e16fadef8d6cb45ca0e5d20e8c64d00" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1add7a6f5fd55b92aff32ed3026b48a812" kindref="member">BufferType</ref></type>
+        <definition>BufferType themis::performance::ThreadLocalMetricsBuffer::buffer_</definition>
+        <argsstring></argsstring>
+        <name>buffer_</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::buffer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="262" column="16" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a681230759bd374f706c3dba85316b25f" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::performance::ThreadLocalMetricsBuffer::valid_</definition>
+        <argsstring></argsstring>
+        <name>valid_</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::valid_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="263" column="17" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="263" bodyend="263"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a4bc98523464f0da8913163fb1f884637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::ThreadLocalMetricsBuffer::ThreadLocalMetricsBuffer</definition>
+        <argsstring>()=default</argsstring>
+        <name>ThreadLocalMetricsBuffer</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::ThreadLocalMetricsBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="180" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a9a0e1975ab5ec586c28e1dc71c628285" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::ThreadLocalMetricsBuffer::recordOperation</definition>
+        <argsstring>(const std::string &amp;operation_name, const OperationCycleMetrics &amp;metrics)</argsstring>
+        <name>recordOperation</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::recordOperation</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation_name</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Record operation metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>operation_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Operation name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cycle metrics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if recorded, false if buffer full </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="188" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="188" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a602306c681f1e623c1cf360dc1759ad8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Container</type>
+          </param>
+        </templateparamlist>
+        <type>size_t</type>
+        <definition>size_t themis::performance::ThreadLocalMetricsBuffer::drain</definition>
+        <argsstring>(Container &amp;output)</argsstring>
+        <name>drain</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::drain</qualifiedname>
+        <param>
+          <type>Container &amp;</type>
+          <declname>output</declname>
+        </param>
+        <briefdescription>
+<para>Drain buffer (called by background thread). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>output</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output container </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of entries drained </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="203" column="12" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="203" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a3c96cb3748591db3f1d6291909c91072" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::performance::ThreadLocalMetricsBuffer::dropped_count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>dropped_count</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::dropped_count</qualifiedname>
+        <briefdescription>
+<para>Get dropped metrics count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of dropped metrics </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="220" column="14" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a79237e9ecfb3cdb79820c4394aae8ca0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::ThreadLocalMetricsBuffer::reset_dropped_count</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset_dropped_count</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::reset_dropped_count</qualifiedname>
+        <briefdescription>
+<para>Reset dropped count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="227" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="227" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a2ffae96a77cab0649d4f9040b7815780" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::ThreadLocalMetricsBuffer::empty</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::empty</qualifiedname>
+        <briefdescription>
+<para>Check if buffer is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if empty </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="235" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a8f13c0c8ffd616b093d6673b2570d39a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::ThreadLocalMetricsBuffer::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::size</qualifiedname>
+        <briefdescription>
+<para>Get approximate buffer size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="243" column="12" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="243" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a24a3bfe8117c58f4746fb518ed9961c1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::ThreadLocalMetricsBuffer::invalidate</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>invalidate</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::invalidate</qualifiedname>
+        <briefdescription>
+<para>Mark buffer as invalid (being destroyed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="250" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="250" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a1d240dc743560fe61e267a119824f10e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::performance::ThreadLocalMetricsBuffer::is_valid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::performance::ThreadLocalMetricsBuffer::is_valid</qualifiedname>
+        <briefdescription>
+<para>Check if buffer is valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/lockfree_metrics_buffer.h" line="257" column="10" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="257" bodyend="259"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-local metrics buffer with automatic deregistration. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each thread has its own buffer to avoid contention. Background thread periodically drains all buffers. RAII wrapper ensures buffer is deregistered when thread exits. </para>
+    </detaileddescription>
+    <location file="include/performance/lockfree_metrics_buffer.h" line="175" column="1" bodyfile="include/performance/lockfree_metrics_buffer.h" bodystart="175" bodyend="264"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a8e16fadef8d6cb45ca0e5d20e8c64d00" prot="private" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>buffer_</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a6a11709d0a27b31b1471366f3d918d9d" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>BUFFER_CAPACITY</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1add7a6f5fd55b92aff32ed3026b48a812" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>BufferType</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a602306c681f1e623c1cf360dc1759ad8" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>drain</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a3c96cb3748591db3f1d6291909c91072" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>dropped_count</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a2ffae96a77cab0649d4f9040b7815780" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>empty</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a24a3bfe8117c58f4746fb518ed9961c1" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>invalidate</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a1d240dc743560fe61e267a119824f10e" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>is_valid</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a9a0e1975ab5ec586c28e1dc71c628285" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>recordOperation</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a79237e9ecfb3cdb79820c4394aae8ca0" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>reset_dropped_count</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a8f13c0c8ffd616b093d6673b2570d39a" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>size</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a4bc98523464f0da8913163fb1f884637" prot="public" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>ThreadLocalMetricsBuffer</name></member>
+      <member refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a681230759bd374f706c3dba85316b25f" prot="private" virt="non-virtual"><scope>themis::performance::ThreadLocalMetricsBuffer</scope><name>valid_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

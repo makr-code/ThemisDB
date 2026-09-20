@@ -1,0 +1,451 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_no_op_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::NoOpLogger</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_logger" prot="public" virt="non-virtual">themis::core::concerns::ILogger</basecompoundref>
+    <includes refid="noop__implementations_8h" local="no">noop_implementations.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a6efbe754566cfbda3789f53b64641c23" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+        <definition>Level themis::core::concerns::NoOpLogger::level_</definition>
+        <argsstring></argsstring>
+        <name>level_</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::level_</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7a551b723eafd6a31d444fcb2f5920fbd3" kindref="member">Level::INFO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="57" column="11" bodyfile="include/core/concerns/noop_implementations.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a78a4c1104df184ab435278fe0bedaa12" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::log</definition>
+        <argsstring>(Level level, const std::string &amp;message) override</argsstring>
+        <name>log</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::log</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3cbb94ad1481ea5b7e98ad520a1a97fb">log</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="39" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a6206a195cef1ad730113558c2a0100ff" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::trace</definition>
+        <argsstring>(const std::string &amp;message) override</argsstring>
+        <name>trace</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::trace</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3b15536718a2c1ceb3ea0ac93982400c">trace</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Trace. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="40" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7c830bfd7f6de52ff1b22d7af778926a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::debug</definition>
+        <argsstring>(const std::string &amp;message) override</argsstring>
+        <name>debug</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::debug</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a02a28dc1041e6ef6a9040c3c22109e4d">debug</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Debug. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="41" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1accda141392ace128c05e3640c0bccdeb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::info</definition>
+        <argsstring>(const std::string &amp;message) override</argsstring>
+        <name>info</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::info</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2dac2d96344e01cb6ee307713805f75b">info</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="42" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a00cc15148999272163ef420b3cd6d6eb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::warn</definition>
+        <argsstring>(const std::string &amp;message) override</argsstring>
+        <name>warn</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::warn</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1acbfce41c2de5ad245dcb8f9bc1839b99">warn</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Warn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="43" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a41f80b4521e6c16ca2f05fb2c5b78755" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::error</definition>
+        <argsstring>(const std::string &amp;message) override</argsstring>
+        <name>error</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::error</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a98af42df2ab45c06e7f19a4cf758bd77">error</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="44" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a8e25a3498f45c1da3736b7f2c18de056" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::critical</definition>
+        <argsstring>(const std::string &amp;message) override</argsstring>
+        <name>critical</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::critical</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a74c91729ce0cf5ec240198a6a6e1613f">critical</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Critical. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="45" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1ada1dc79219447addd17a6968620826d3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::logStructured</definition>
+        <argsstring>(Level level, const std::string &amp;message, const Fields &amp;fields={}) override</argsstring>
+        <name>logStructured</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::logStructured</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1ade28b8d3e27ba1f168c62afa7cc1b09e">logStructured</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" kindref="member">Fields</ref> &amp;</type>
+          <declname>fields</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="46" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a63a1df5211d7df14e682963dc1682932" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::setLevel</definition>
+        <argsstring>(Level level) override</argsstring>
+        <name>setLevel</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::setLevel</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a2b633b28775590ef129aef091de16a08">setLevel</reimplements>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+          <declname>level</declname>
+        </param>
+        <briefdescription>
+<para>Set <ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">level</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="48" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1ae339a00da7167cb6f322e18bda3d51b2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" kindref="member">Level</ref></type>
+        <definition>Level themis::core::concerns::NoOpLogger::getLevel</definition>
+        <argsstring>() const override</argsstring>
+        <name>getLevel</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::getLevel</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1abb3373117236c57a6d905fc959c976f8">getLevel</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="49" column="11" bodyfile="include/core/concerns/noop_implementations.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7de4c2bf95e1e51a1c6e06138c69743d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::setPattern</definition>
+        <argsstring>(const std::string &amp;pattern) override</argsstring>
+        <name>setPattern</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::setPattern</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aaab9e858ed3d1bb39ac08baf18ca1c50">setPattern</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pattern</declname>
+        </param>
+        <briefdescription>
+<para>Set Pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pattern</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="50" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7e50d007f9fb6f1afe45211124e9d44a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a8638ec5d5d5a91ccfb78f6d659a06b1c">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="52" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1af8841818ffa1c6d1ed32d3c732ac7262" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpLogger::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1af0d99633502a4f1eb497c3feddbf63d7">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="53" column="10" bodyfile="include/core/concerns/noop_implementations.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a2e8bbc24d99c357a5af369e365a305ad" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::NoOpLogger::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::NoOpLogger::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aadf51ad97e545469e7adf1da0ed81d2f">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="54" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op logger implementation for testing or when logging is disabled. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>All logging calls are intentionally dropped. <ref refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a63a1df5211d7df14e682963dc1682932" kindref="member">setLevel()</ref>/getLevel() keep local state so tests can still verify configuration plumbing. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ILogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_logger"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ILogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_logger"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpLogger</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/noop_implementations.h" line="37" column="1" bodyfile="include/core/concerns/noop_implementations.h" bodystart="37" bodyend="58"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a8e25a3498f45c1da3736b7f2c18de056" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>critical</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7c830bfd7f6de52ff1b22d7af778926a" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>debug</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a41f80b4521e6c16ca2f05fb2c5b78755" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>error</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a7e409e2eff508738d84906f03b9a2650" prot="public" virt="non-virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>Fields</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7e50d007f9fb6f1afe45211124e9d44a" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1ae339a00da7167cb6f322e18bda3d51b2" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>getLevel</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1accda141392ace128c05e3640c0bccdeb" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>info</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a2e8bbc24d99c357a5af369e365a305ad" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a5abc2b6d0a96cddf7eccc71534b737a7" prot="public" virt="non-virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>Level</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a6efbe754566cfbda3789f53b64641c23" prot="private" virt="non-virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>level_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1afed30568fb21bc6e89370ef3336ef472" prot="public" virt="non-virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>levelFromString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a3e3a77f56de7d4c1e09951b87f46c963" prot="public" virt="non-virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>levelToString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a78a4c1104df184ab435278fe0bedaa12" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>log</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1ada1dc79219447addd17a6968620826d3" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>logStructured</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1aee543d2fa572acb5e1927b6b1234abd1" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>logWithContext</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a63a1df5211d7df14e682963dc1682932" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>setLevel</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a7de4c2bf95e1e51a1c6e06138c69743d" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>setPattern</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1af8841818ffa1c6d1ed32d3c732ac7262" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a6206a195cef1ad730113558c2a0100ff" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>trace</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_logger_1a00cc15148999272163ef420b3cd6d6eb" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>warn</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_logger_1a4449e4e4226d7c424496828cd120c498" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpLogger</scope><name>~ILogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

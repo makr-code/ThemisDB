@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_heuristic_compression_selector" kind="class" language="C++" prot="public">
+    <compoundname>themis::HeuristicCompressionSelector</compoundname>
+    <basecompoundref refid="classthemis_1_1_i_compression_selector" prot="public" virt="non-virtual">themis::ICompressionSelector</basecompoundref>
+    <includes refid="compression__selector_8h" local="no">compression_selector.h</includes>
+    <innerclass refid="structthemis_1_1_heuristic_compression_selector_1_1_config" prot="public">themis::HeuristicCompressionSelector::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_heuristic_compression_selector_1ac400f7859b44f282f89f12fde6768858" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_heuristic_compression_selector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::HeuristicCompressionSelector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::HeuristicCompressionSelector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="157" column="12" bodyfile="include/timeseries/compression_selector.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_heuristic_compression_selector_1a963023b854897e3e9b8e2775a76caf42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HeuristicCompressionSelector::HeuristicCompressionSelector</definition>
+        <argsstring>()</argsstring>
+        <name>HeuristicCompressionSelector</name>
+        <qualifiedname>themis::HeuristicCompressionSelector::HeuristicCompressionSelector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="141" column="5" bodyfile="src/timeseries/compression_selector.cpp" bodystart="104" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_heuristic_compression_selector_1a5164dd8a3e5c76c353e142f84242c142" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::HeuristicCompressionSelector::HeuristicCompressionSelector</definition>
+        <argsstring>(Config cfg)</argsstring>
+        <name>HeuristicCompressionSelector</name>
+        <qualifiedname>themis::HeuristicCompressionSelector::HeuristicCompressionSelector</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_heuristic_compression_selector_1_1_config" kindref="compound">Config</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Heuristic Compression Selector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="147" column="14" bodyfile="src/timeseries/compression_selector.cpp" bodystart="107" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_heuristic_compression_selector_1a86b7305bb796223a51491f5ebaeebc80" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref></type>
+        <definition>CompressionStrategy themis::HeuristicCompressionSelector::select</definition>
+        <argsstring>(const SeriesProfile &amp;profile) const override</argsstring>
+        <name>select</name>
+        <qualifiedname>themis::HeuristicCompressionSelector::select</qualifiedname>
+        <reimplements refid="classthemis_1_1_i_compression_selector_1a6efa7e7e611cf3798fe711ce8cdaa838">select</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1_series_profile" kindref="compound">SeriesProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Select a compression strategy from a pre-computed profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="149" column="25" bodyfile="src/timeseries/compression_selector.cpp" bodystart="110" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_heuristic_compression_selector_1ac61b5639173d8b7b191805789f19aace" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1a8d703d274585c059c53eb99e50403e39" kindref="member">CompressionStrategy</ref></type>
+        <definition>CompressionStrategy themis::HeuristicCompressionSelector::selectForPoints</definition>
+        <argsstring>(const std::vector&lt; TSStore::DataPoint &gt; &amp;points) const override</argsstring>
+        <name>selectForPoints</name>
+        <qualifiedname>themis::HeuristicCompressionSelector::selectForPoints</qualifiedname>
+        <reimplements refid="classthemis_1_1_i_compression_selector_1a1660275f8d30d4d60094864195a2b4ae">selectForPoints</reimplements>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt; &amp;</type>
+          <declname>points</declname>
+        </param>
+        <briefdescription>
+<para>Convenience overload: profile the points internally and select. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="151" column="25" bodyfile="src/timeseries/compression_selector.cpp" bodystart="129" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_heuristic_compression_selector_1ac76ea2f2d00c742e90da4c4b2e4df922" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_heuristic_compression_selector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::HeuristicCompressionSelector::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::HeuristicCompressionSelector::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/compression_selector.h" line="154" column="18" bodyfile="include/timeseries/compression_selector.h" bodystart="154" bodyend="154"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Rule-based heuristic compression selector. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Decision logic (evaluated in order):<orderedlist>
+<listitem><para>sample_count &lt; min_samples → None (too little data to compress)</para>
+</listitem><listitem><para>run_length_ratio &gt; rle_run_ratio_threshold → RLE</para>
+</listitem><listitem><para>dod_mean_abs ≤ dod_mean_abs_threshold AND timestamp_regularity ≥ regularity_threshold → DeltaOfDelta</para>
+</listitem><listitem><para>default → Gorilla </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::HeuristicCompressionSelector</label>
+        <link refid="classthemis_1_1_heuristic_compression_selector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ICompressionSelector</label>
+        <link refid="classthemis_1_1_i_compression_selector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::HeuristicCompressionSelector</label>
+        <link refid="classthemis_1_1_heuristic_compression_selector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::ICompressionSelector</label>
+        <link refid="classthemis_1_1_i_compression_selector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/timeseries/compression_selector.h" line="125" column="1" bodyfile="include/timeseries/compression_selector.h" bodystart="125" bodyend="158"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_heuristic_compression_selector_1ac76ea2f2d00c742e90da4c4b2e4df922" prot="public" virt="non-virtual"><scope>themis::HeuristicCompressionSelector</scope><name>config</name></member>
+      <member refid="classthemis_1_1_heuristic_compression_selector_1ac400f7859b44f282f89f12fde6768858" prot="private" virt="non-virtual"><scope>themis::HeuristicCompressionSelector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_heuristic_compression_selector_1a963023b854897e3e9b8e2775a76caf42" prot="public" virt="non-virtual"><scope>themis::HeuristicCompressionSelector</scope><name>HeuristicCompressionSelector</name></member>
+      <member refid="classthemis_1_1_heuristic_compression_selector_1a5164dd8a3e5c76c353e142f84242c142" prot="public" virt="non-virtual"><scope>themis::HeuristicCompressionSelector</scope><name>HeuristicCompressionSelector</name></member>
+      <member refid="classthemis_1_1_heuristic_compression_selector_1a86b7305bb796223a51491f5ebaeebc80" prot="public" virt="virtual"><scope>themis::HeuristicCompressionSelector</scope><name>select</name></member>
+      <member refid="classthemis_1_1_heuristic_compression_selector_1ac61b5639173d8b7b191805789f19aace" prot="public" virt="virtual"><scope>themis::HeuristicCompressionSelector</scope><name>selectForPoints</name></member>
+      <member refid="classthemis_1_1_i_compression_selector_1a647534bfe18aa352418a8914ce5bc7e4" prot="public" virt="virtual"><scope>themis::HeuristicCompressionSelector</scope><name>~ICompressionSelector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

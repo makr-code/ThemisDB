@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="mtls__connection__pool_8h" kind="file" language="C++">
+    <compoundname>mtls_connection_pool.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">set</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">thread</includes>
+    <includedby refid="bench__shard__routing_8cpp" local="yes">benchmarks/sharding/bench_shard_routing.cpp</includedby>
+    <includedby refid="mtls__client_8cpp" local="yes">src/sharding/mtls_client.cpp</includedby>
+    <includedby refid="mtls__connection__pool_8cpp" local="yes">src/sharding/mtls_connection_pool.cpp</includedby>
+    <includedby refid="shard__rpc__client_8cpp" local="yes">src/sharding/shard_rpc_client.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/mtls_connection_pool.h</label>
+        <link refid="mtls__connection__pool_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="13">
+        <label>condition_variable</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>queue</label>
+      </node>
+      <node id="9">
+        <label>set</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/sharding/bench_shard_routing.cpp</label>
+        <link refid="bench__shard__routing_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/sharding/mtls_connection_pool.h</label>
+        <link refid="mtls__connection__pool_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/sharding/mtls_client.cpp</label>
+        <link refid="mtls__client_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/sharding/mtls_connection_pool.cpp</label>
+        <link refid="mtls__connection__pool_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/sharding/shard_rpc_client.cpp</label>
+        <link refid="shard__rpc__client_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_s_s_l_deleter" prot="public">themis::sharding::SSLDeleter</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_endpoint_connection_pool" prot="public">themis::sharding::EndpointConnectionPool</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config" prot="public">themis::sharding::EndpointConnectionPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics" prot="public">themis::sharding::EndpointConnectionPool::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_pooled_connection" prot="private">themis::sharding::EndpointConnectionPool::PooledConnection</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager" prot="public">themis::sharding::MTLSConnectionPoolManager</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" prot="public">themis::sharding::MTLSConnectionPoolManager::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics" prot="public">themis::sharding::MTLSConnectionPoolManager::GlobalStatistics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations<sp/>for<sp/>OpenSSL<sp/>SSL<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">ssl_st<sp/><ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Custom<sp/>deleter<sp/>for<sp/>SSL<sp/>pointers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_s_s_l_deleter" kindref="compound">SSLDeleter</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1sharding_1_1_s_s_l_deleter_1aa0b2521d18035cc8f7c9bd4e2a477ac0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_s_l_deleter_1aa0b2521d18035cc8f7c9bd4e2a477ac0" kindref="member">operator()</ref>(<ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>*<sp/>ptr)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="classthemis_1_1sharding_1_1_endpoint_connection_pool" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>pool<sp/>sizing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a1c9213e126182aac4cbcff7c0c79eb3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a1c9213e126182aac4cbcff7c0c79eb3c" kindref="member">min_connections</ref><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>pre-allocated<sp/>connections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a0e8700348c30d6879f1d6037074ab985" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a0e8700348c30d6879f1d6037074ab985" kindref="member">max_connections</ref><sp/>=<sp/>50;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>connections<sp/>per<sp/>endpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a197c41351aae1de4855742cf3cc2d27d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a197c41351aae1de4855742cf3cc2d27d" kindref="member">connection_ttl</ref>{300};<sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>time-to-live</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a7317dcf6450f738e455eaf3819a12f50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1a7317dcf6450f738e455eaf3819a12f50" kindref="member">idle_timeout</ref>{60};<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Close<sp/>idle<sp/>connections<sp/>after<sp/>60s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Health<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1ad0dfd148342407c88a9ca425efb0dccf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1ad0dfd148342407c88a9ca425efb0dccf" kindref="member">enable_health_checks</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1ae80dee99d9d2682f76ea0b4e34504226" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config_1ae80dee99d9d2682f76ea0b4e34504226" kindref="member">health_check_interval</ref>{30};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics" kindref="compound">Statistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1aabef97d1c9e83962130a33454cad14f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1aabef97d1c9e83962130a33454cad14f6" kindref="member">active_connections</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Currently<sp/>in<sp/>use</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1a4773e5c2646b45717fbc793414388b3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1a4773e5c2646b45717fbc793414388b3c" kindref="member">idle_connections</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Available<sp/>in<sp/>pool</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1ac80b7410bb57bb062ad1423923862102" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1ac80b7410bb57bb062ad1423923862102" kindref="member">total_created</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>created<sp/>since<sp/>start</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1a7f48ee2b3345c622465914c76c3fc286" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1a7f48ee2b3345c622465914c76c3fc286" kindref="member">connections_failed</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Failed<sp/>connections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1aa4bd8d93ec01d69984cdcc391e73730b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics_1aa4bd8d93ec01d69984cdcc391e73730b" kindref="member">utilization_percent</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(active<sp/>/<sp/>max)<sp/>*<sp/>100</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1adf6e7fbea34ad46ffec1b7c9b68ba8aa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1adf6e7fbea34ad46ffec1b7c9b68ba8aa" kindref="member">ConnectionFactory</ref><sp/>=</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;std::optional&lt;std::unique_ptr&lt;SSL,<sp/>SSLDeleter&gt;&gt;(</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint)&gt;;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a38b45d27c254cbe07edeb20ec1da323e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a38b45d27c254cbe07edeb20ec1da323e" kindref="member">setConnectionFactory</ref>(<ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1adf6e7fbea34ad46ffec1b7c9b68ba8aa" kindref="member">ConnectionFactory</ref><sp/>factory)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>connection_factory_<sp/>=<sp/>std::move(factory);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref>(</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1adf6e7fbea34ad46ffec1b7c9b68ba8aa" kindref="member">ConnectionFactory</ref><sp/>factory</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8cf2297f6016fdbd9172d439e39f17eb" kindref="member">~EndpointConnectionPool</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying<sp/>and<sp/>moving</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1ade2d18445a391d121b187b52da84be08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1ade2d18445a391d121b187b52da84be08" kindref="member">EndpointConnectionPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1aecf1ab764a369842b50fba6e303567d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1aecf1ab764a369842b50fba6e303567d3" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a46f55d39204ca58ca737a3e204dc0d15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a46f55d39204ca58ca737a3e204dc0d15" kindref="member">EndpointConnectionPool</ref>(<ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1ab3021988df04f99e5a4e3f03906624ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1ab3021988df04f99e5a4e3f03906624ab" kindref="member">operator=</ref>(<ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a8c4876dc95d556008c8007a99d851feb" kindref="member">EndpointConnectionPool</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::unique_ptr&lt;SSL,<sp/>SSLDeleter&gt;&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1ad4e0a66d2c6aa3c568042041b906968f" kindref="member">getConnection</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(5)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1aee0faf8f2a8c4cacd5fb09ab08ed86d3" kindref="member">releaseConnection</ref>(std::unique_ptr&lt;SSL,<sp/>SSLDeleter&gt;<sp/>connection);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a7a732e242703616750233df50de8fc04" kindref="member">invalidateConnection</ref>(<ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>*<sp/>connection);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_statistics" kindref="compound">Statistics</ref><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1afccc8d8bc2ccb0a6e8c4fdd8a3989795" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a034dd0fda2927f879c5b6b907f638ddb" kindref="member">warmUp</ref>();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1a082b0d7bc0ccb97b33d82660a053379c" kindref="member">closeAll</ref>();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PooledConnection<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;SSL,<sp/>SSLDeleter&gt;<sp/><ref refid="namespaceboost_1_1asio_1_1ssl" kindref="compound">ssl</ref>;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>created_at;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_used;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_valid<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Connection<sp/>lifecycle<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::unique_ptr&lt;SSL,<sp/>SSLDeleter&gt;&gt;<sp/>createNewConnection();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateConnection(<ref refid="mtls__connection__factory_8h_1a71f21e09bf365489dab9d85bd4785e24" kindref="member">SSL</ref>*<sp/>conn);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isConnectionExpired(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PooledConnection&amp;<sp/>pooled);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupExpiredConnections();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>cleanupLoop();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>endpoint_;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_endpoint_connection_pool_1adf6e7fbea34ad46ffec1b7c9b68ba8aa" kindref="member">ConnectionFactory</ref><sp/>connection_factory_;<sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Thread-safe<sp/>queue<sp/>for<sp/>idle<sp/>connections</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::queue&lt;PooledConnection&gt;<sp/>idle_pool_;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::set&lt;SSL*&gt;<sp/>active_connections_;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>pool_mutex_;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::condition_variable_any<sp/>available_cv_;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_created_{0};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>connections_failed_{0};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Background<sp/>cleanup<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>cleanup_thread_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="228" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="229" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a20abc9b73944123528939026fbabc581" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_endpoint_connection_pool_1_1_config" kindref="compound">EndpointConnectionPool::Config</ref><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a20abc9b73944123528939026fbabc581" kindref="member">endpoint_config</ref>;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Global<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1acd64ab69c89cf80d906e347e35740e49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1acd64ab69c89cf80d906e347e35740e49" kindref="member">max_total_connections</ref><sp/>=<sp/>500;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Across<sp/>all<sp/>endpoints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Eviction<sp/>policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a49b9fd275a470bb0a0f230338fc2c0c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a49b9fd275a470bb0a0f230338fc2c0c3" kindref="member">enable_endpoint_eviction</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a45b4d41512379608ca86acc8050ebd6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config_1a45b4d41512379608ca86acc8050ebd6c" kindref="member">max_endpoints</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>cached<sp/>endpoint<sp/>pools</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics" kindref="compound">GlobalStatistics</ref><sp/>{</highlight></codeline>
+<codeline lineno="243" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics_1a6c0c1aba7ec1019386bebb7a3ac06e60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics_1a6c0c1aba7ec1019386bebb7a3ac06e60" kindref="member">total_active_connections</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="244" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics_1ac7f9933a28af1ff8092e0bb07bd343c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics_1ac7f9933a28af1ff8092e0bb07bd343c4" kindref="member">total_idle_connections</ref>;</highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics_1ad6000a8e16ba6c765699caf5c6668037" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics_1ad6000a8e16ba6c765699caf5c6668037" kindref="member">cached_endpoint_pools</ref>;</highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics_1ace9ece95cb661bcef99aca27e79d4392" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>EndpointConnectionPool::Statistics&gt;<sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics_1ace9ece95cb661bcef99aca27e79d4392" kindref="member">per_endpoint_stats</ref>;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a8c59b5ac4781190737c75ff9238bd954" kindref="member">MTLSConnectionPoolManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a8c59b5ac4781190737c75ff9238bd954" kindref="member">MTLSConnectionPoolManager</ref>();</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a89f5350df8fb702075d0acb28e6f63ad" kindref="member">~MTLSConnectionPoolManager</ref>();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying<sp/>and<sp/>moving</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a5dd133ebcc839f8d1f1b7c0266d14650" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a5dd133ebcc839f8d1f1b7c0266d14650" kindref="member">MTLSConnectionPoolManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="263" refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab6696763163ce383a2c63bef1aacb2d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab6696763163ce383a2c63bef1aacb2d7" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab85ade67c8286f6ddaf3d8f67ba9d273" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab85ade67c8286f6ddaf3d8f67ba9d273" kindref="member">MTLSConnectionPoolManager</ref>(<ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265" refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a861d0a0c7ff0ce3cefcf6c27e95e3b65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a861d0a0c7ff0ce3cefcf6c27e95e3b65" kindref="member">operator=</ref>(<ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ac6c25b7e167ee3bd48c3ab94312415a8" kindref="member">MTLSConnectionPoolManager</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;EndpointConnectionPool&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a5cc3df91894a7ee399ff3c600adb2edc" kindref="member">getPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::unique_ptr&lt;SSL,<sp/>SSLDeleter&gt;&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a56a1eb45f2b77c158db302596d70ab86" kindref="member">getConnection</ref>(</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::seconds(5)</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a0cd8280ab6ef5d31138f1d5f1325ebf8" kindref="member">releaseConnection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint,<sp/>std::unique_ptr&lt;SSL,<sp/>SSLDeleter&gt;<sp/>conn);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_global_statistics" kindref="compound">GlobalStatistics</ref><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1ab4dbf004b23d1622293aa795f0ab5027" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a4f43af64982ff670964ed292dfa1a70e" kindref="member">shutdown</ref>();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1a41989cb14b9813ac1b21c500f78fcbba" kindref="member">onCertificateRotated</ref>();</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::shared_ptr&lt;EndpointConnectionPool&gt;&gt;<sp/>pools_;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>pools_mutex_;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_m_t_l_s_connection_pool_manager_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_connections_{0};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::sharding</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/mtls_connection_pool.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1007 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_parser" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::Parser</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_1ad3877c9c59fb1520ec0395202f4e1df1" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_token" kindref="compound">Token</ref> &gt;</type>
+        <definition>std::vector&lt;Token&gt; themis::query::Parser::tokens_</definition>
+        <argsstring></argsstring>
+        <name>tokens_</name>
+        <qualifiedname>themis::query::Parser::tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="754" column="17" bodyfile="src/query/aql_parser.cpp" bodystart="754" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_1ab3d5ed0a35f2b73d27f3b3b844f57a1d" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::Parser::pos_</definition>
+        <argsstring></argsstring>
+        <name>pos_</name>
+        <qualifiedname>themis::query::Parser::pos_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="755" column="12" bodyfile="src/query/aql_parser.cpp" bodystart="755" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_1a04f4ec6596ad8419361bb24fc73be171" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query_1_1_traversal_node" kindref="compound">Query::TraversalNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Query::TraversalNode&gt; themis::query::Parser::lastTraversal_</definition>
+        <argsstring></argsstring>
+        <name>lastTraversal_</name>
+        <qualifiedname>themis::query::Parser::lastTraversal_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="756" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="756" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_1a90b5cb7b5a2fc153d839fa0ffb0a3393" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::Parser::depth_</definition>
+        <argsstring></argsstring>
+        <name>depth_</name>
+        <qualifiedname>themis::query::Parser::depth_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="759" column="9" bodyfile="src/query/aql_parser.cpp" bodystart="759" bodyend="759"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_1aefae1f2f69e0345d30165d4e4957ca03" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::Parser::allow_in_membership_operator_</definition>
+        <argsstring></argsstring>
+        <name>allow_in_membership_operator_</name>
+        <qualifiedname>themis::query::Parser::allow_in_membership_operator_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="761" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="761" bodyend="761"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_1a145f8d25a14de3223f50ceeae844148e" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_parser_scope_context" kindref="compound">ParserScopeContext</ref></type>
+        <definition>ParserScopeContext themis::query::Parser::scope_context_</definition>
+        <argsstring></argsstring>
+        <name>scope_context_</name>
+        <qualifiedname>themis::query::Parser::scope_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="763" column="24" bodyfile="src/query/aql_parser.cpp" bodystart="763" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_parser_1a7035a9d5e30366d08103a350c032c814" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::query::Parser::kMaxExprDepth</definition>
+        <argsstring></argsstring>
+        <name>kMaxExprDepth</name>
+        <qualifiedname>themis::query::Parser::kMaxExprDepth</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="760" column="26" bodyfile="src/query/aql_parser.cpp" bodystart="760" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a884bfbf5fd7169c0446e1e568a79ad14" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::Parser::Parser</definition>
+        <argsstring>(std::vector&lt; Token &gt; tokens)</argsstring>
+        <name>Parser</name>
+        <qualifiedname>themis::query::Parser::Parser</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_token" kindref="compound">Token</ref> &gt;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1query_1_1_parser" kindref="compound">Parser</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="682" column="14" bodyfile="src/query/aql_parser.cpp" bodystart="682" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1ac457b76a59431fb8276e2f4cf1adbf1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; Query &gt; &gt; themis::query::Parser::parse</definition>
+        <argsstring>()</argsstring>
+        <name>parse</name>
+        <qualifiedname>themis::query::Parser::parse</qualifiedname>
+        <briefdescription>
+<para>Parse. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fmt::format(), parseQuery(), Ok(), current(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="690" column="12" bodyfile="src/query/aql_parser.cpp" bodystart="690" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a7e6c2e54027797f11cecb918c8676336" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; Expression &gt; &gt; themis::query::Parser::parseStandaloneExpression</definition>
+        <argsstring>()</argsstring>
+        <name>parseStandaloneExpression</name>
+        <qualifiedname>themis::query::Parser::parseStandaloneExpression</qualifiedname>
+        <briefdescription>
+<para>Parse Standalone <ref refid="structthemis_1_1query_1_1_expression" kindref="compound">Expression</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fmt::format(), parseExpression(), match(), current(), Ok(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="720" column="12" bodyfile="src/query/aql_parser.cpp" bodystart="720" bodyend="751"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a2fa6aa41f5f90c29c9ab7e69e521402f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>Result&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt; &gt;</type>
+        <definition>Result&lt; std::shared_ptr&lt; MutationNode &gt; &gt; themis::query::Parser::parseMutation</definition>
+        <argsstring>()</argsstring>
+        <name>parseMutation</name>
+        <qualifiedname>themis::query::Parser::parseMutation</qualifiedname>
+        <briefdescription>
+<para>Parse Mutation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fmt::format(), match(), parseInsertStatement(), parseUpdateStatement(), parseDeleteStatement(), parseRemoveStatement(), parseReplaceStatement(), parseUpsertStatement(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1907" column="12" bodyfile="src/query/aql_parser.cpp" bodystart="1907" bodyend="1959"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a4d11cfe8de82939bcaa4d956a32b03df" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_token" kindref="compound">Token</ref> &amp;</type>
+        <definition>const Token &amp; themis::query::Parser::current</definition>
+        <argsstring>() const</argsstring>
+        <name>current</name>
+        <qualifiedname>themis::query::Parser::current</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="765" column="17" bodyfile="src/query/aql_parser.cpp" bodystart="765" bodyend="771"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1ad25e78e6c7226cb0cf5936a743294b68" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1query_1_1_token" kindref="compound">Token</ref> &amp;</type>
+        <definition>const Token &amp; themis::query::Parser::peek</definition>
+        <argsstring>(size_t offset=1) const</argsstring>
+        <name>peek</name>
+        <qualifiedname>themis::query::Parser::peek</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>offset</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="773" column="17" bodyfile="src/query/aql_parser.cpp" bodystart="773" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a4ff36afc592fff7250cd2dde91266f16" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::Parser::advance</definition>
+        <argsstring>()</argsstring>
+        <name>advance</name>
+        <qualifiedname>themis::query::Parser::advance</qualifiedname>
+        <briefdescription>
+<para>Advance an iterator within the validated range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="786" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="786" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a9dae8425e9af14f520093ea8f6ed651c" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::Parser::match</definition>
+        <argsstring>(TokenType type) const</argsstring>
+        <name>match</name>
+        <qualifiedname>themis::query::Parser::match</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="792" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="792" bodyend="794"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a2c385541b30a95c67403091b2b6ad75b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::Parser::expect</definition>
+        <argsstring>(TokenType type, const std::string &amp;msg)</argsstring>
+        <name>expect</name>
+        <qualifiedname>themis::query::Parser::expect</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3" kindref="member">TokenType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Expect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: match(), advance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="803" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="803" bodyend="808"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a5420bf0090fbf17747d754e47c186e67" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Query &gt; themis::query::Parser::parseQuery</definition>
+        <argsstring>(bool isSubquery=false)</argsstring>
+        <name>parseQuery</name>
+        <qualifiedname>themis::query::Parser::parseQuery</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>isSubquery</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="810" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="810" bodyend="897"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1ab18405c6de6e0b930cc079b71ea1c74a" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_search_clause_node" kindref="compound">SearchClauseNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; SearchClauseNode &gt; themis::query::Parser::parseSearchClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseSearchClause</name>
+        <qualifiedname>themis::query::Parser::parseSearchClause</qualifiedname>
+        <briefdescription>
+<para>Parse Search Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), match(), advance(), current(), std::stoul(), THEMIS_WARN(), std::stod(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="905" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="905" bodyend="1102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a14159b91fc6c0080f5ba358745671d23" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_for_node" kindref="compound">ForNode</ref></type>
+        <definition>ForNode themis::query::Parser::parseForClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseForClause</name>
+        <qualifiedname>themis::query::Parser::parseForClause</qualifiedname>
+        <briefdescription>
+<para>Parse For Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), match(), current(), advance(), registerCollection(), std::stoi(), peek(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1110" column="13" bodyfile="src/query/aql_parser.cpp" bodystart="1110" bodyend="1262"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a36e267b2c0880ccd24619e569c0c4de7" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_let_node" kindref="compound">LetNode</ref></type>
+        <definition>LetNode themis::query::Parser::parseLetClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseLetClause</name>
+        <qualifiedname>themis::query::Parser::parseLetClause</qualifiedname>
+        <briefdescription>
+<para>Parse Let Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), match(), current(), advance(), parseExpression(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1270" column="13" bodyfile="src/query/aql_parser.cpp" bodystart="1270" bodyend="1281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1aaae19a93f5bc9755c412650a08b87f21" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_filter_node" kindref="compound">FilterNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; FilterNode &gt; themis::query::Parser::parseFilterClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseFilterClause</name>
+        <qualifiedname>themis::query::Parser::parseFilterClause</qualifiedname>
+        <briefdescription>
+<para>Parse Filter Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: expect(), parseExpression(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1288" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1288" bodyend="1293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a1ed4698171d1f0836b3891540c4a0c52" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_sort_node" kindref="compound">SortNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; SortNode &gt; themis::query::Parser::parseSortClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseSortClause</name>
+        <qualifiedname>themis::query::Parser::parseSortClause</qualifiedname>
+        <briefdescription>
+<para>Parse Sort Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: expect(), empty(), parseExpression(), match(), advance(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1300" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1300" bodyend="1327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a07c779ac07027ca52bd4898073dd19df" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_limit_node" kindref="compound">LimitNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; LimitNode &gt; themis::query::Parser::parseLimitClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseLimitClause</name>
+        <qualifiedname>themis::query::Parser::parseLimitClause</qualifiedname>
+        <briefdescription>
+<para>Parse Limit Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), match(), std::stoll(), current(), THEMIS_WARN(), advance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1335" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1335" bodyend="1365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a6c347b796bf01ff5379d810a2a11ae3c" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_return_node" kindref="compound">ReturnNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ReturnNode &gt; themis::query::Parser::parseReturnClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseReturnClause</name>
+        <qualifiedname>themis::query::Parser::parseReturnClause</qualifiedname>
+        <briefdescription>
+<para>Parse Return Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: expect(), parseExpression(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1372" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1372" bodyend="1377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1af1f76a4ca999dbe59db8f419af5a72f2" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_with_node" kindref="compound">WithNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; WithNode &gt; themis::query::Parser::parseWithClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseWithClause</name>
+        <qualifiedname>themis::query::Parser::parseWithClause</qualifiedname>
+        <briefdescription>
+<para>Parse With Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), empty(), match(), current(), advance(), parseQuery(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1385" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1385" bodyend="1421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1afdf0273a73995f39acf0a356e0f710f9" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_collect_node" kindref="compound">CollectNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; CollectNode &gt; themis::query::Parser::parseCollectClause</definition>
+        <argsstring>()</argsstring>
+        <name>parseCollectClause</name>
+        <qualifiedname>themis::query::Parser::parseCollectClause</qualifiedname>
+        <briefdescription>
+<para>Parse Collect Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), match(), current(), advance(), parseExpression(), emplace_back(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1429" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1429" bodyend="1481"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1ae50149a7753b8c005f9452cc24f0e2a6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parseExpression</definition>
+        <argsstring>()</argsstring>
+        <name>parseExpression</name>
+        <qualifiedname>themis::query::Parser::parseExpression</qualifiedname>
+        <briefdescription>
+<para>Parse <ref refid="structthemis_1_1query_1_1_expression" kindref="compound">Expression</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: fmt::format(), DepthGuard(), parseLogicalOr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1489" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1489" bodyend="1500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1aec1819a9459d2b473fef3fd272837071" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parseLogicalOr</definition>
+        <argsstring>()</argsstring>
+        <name>parseLogicalOr</name>
+        <qualifiedname>themis::query::Parser::parseLogicalOr</qualifiedname>
+        <briefdescription>
+<para>Parse Logical Or. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseLogicalAnd(), match(), advance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1507" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1507" bodyend="1518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a4097fdc36675df7abdad337ca178e145" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parseLogicalAnd</definition>
+        <argsstring>()</argsstring>
+        <name>parseLogicalAnd</name>
+        <qualifiedname>themis::query::Parser::parseLogicalAnd</qualifiedname>
+        <briefdescription>
+<para>Parse Logical And. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseComparison(), match(), advance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1525" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1525" bodyend="1535"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a518b0db0525581fba8675d6c05edde8f" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parseComparison</definition>
+        <argsstring>()</argsstring>
+        <name>parseComparison</name>
+        <qualifiedname>themis::query::Parser::parseComparison</qualifiedname>
+        <briefdescription>
+<para>Parse Comparison. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseAdditive(), get(), match(), current(), advance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1542" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1542" bodyend="1595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a97101c54cba4b266dac0f417f53bb7e0" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parseAdditive</definition>
+        <argsstring>()</argsstring>
+        <name>parseAdditive</name>
+        <qualifiedname>themis::query::Parser::parseAdditive</qualifiedname>
+        <briefdescription>
+<para>Parse Additive. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseMultiplicative(), match(), advance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1602" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1602" bodyend="1613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1aae724e28d9be8b093ad1f8a87cfabb77" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parseMultiplicative</definition>
+        <argsstring>()</argsstring>
+        <name>parseMultiplicative</name>
+        <qualifiedname>themis::query::Parser::parseMultiplicative</qualifiedname>
+        <briefdescription>
+<para>Parse Multiplicative. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: parseUnary(), match(), advance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1620" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1620" bodyend="1638"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1ab1e6252b3aa8ef10e3c6b260792c6999" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parseUnary</definition>
+        <argsstring>()</argsstring>
+        <name>parseUnary</name>
+        <qualifiedname>themis::query::Parser::parseUnary</qualifiedname>
+        <briefdescription>
+<para>Parse Unary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: match(), advance(), parsePostfix(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1645" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1645" bodyend="1658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1abab7b010ea3adb31787647fcbe11bfcc" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parsePostfix</definition>
+        <argsstring>()</argsstring>
+        <name>parsePostfix</name>
+        <qualifiedname>themis::query::Parser::parsePostfix</qualifiedname>
+        <briefdescription>
+<para>Parse Postfix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: parsePrimary(), match(), advance(), current(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1666" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1666" bodyend="1681"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a726d2cd5949001555af4d90874e79662" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; Expression &gt; themis::query::Parser::parsePrimary</definition>
+        <argsstring>()</argsstring>
+        <name>parsePrimary</name>
+        <qualifiedname>themis::query::Parser::parsePrimary</qualifiedname>
+        <briefdescription>
+<para>Parse Primary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: match(), advance(), parseQuery(), expect(), parseExpression(), current(), emplace_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1689" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="1689" bodyend="1896"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a71946a2f8b0f872e2d042eb7d2df4149" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::Parser::expectCollectionName</definition>
+        <argsstring>(const std::string &amp;context)</argsstring>
+        <name>expectCollectionName</name>
+        <qualifiedname>themis::query::Parser::expectCollectionName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Expect Collection Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: current(), advance(), registerCollection(), fmt::format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="1974" column="17" bodyfile="src/query/aql_parser.cpp" bodystart="1974" bodyend="1997"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1ae6ded319083af107e4807f28744a2a29" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::Parser::parseReturnClause</definition>
+        <argsstring>(bool &amp;return_new, bool &amp;return_old)</argsstring>
+        <name>parseReturnClause</name>
+        <qualifiedname>themis::query::Parser::parseReturnClause</qualifiedname>
+        <param>
+          <type>bool &amp;</type>
+          <declname>return_new</declname>
+        </param>
+        <param>
+          <type>bool &amp;</type>
+          <declname>return_old</declname>
+        </param>
+        <briefdescription>
+<para>Parse Return Clause. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">return_new</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">return_old</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: match(), advance(), current(), std::transform(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2005" column="10" bodyfile="src/query/aql_parser.cpp" bodystart="2005" bodyend="2024"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1aa47999ba83367c1228e66f424f59b155" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MutationNode &gt; themis::query::Parser::parseInsertStatement</definition>
+        <argsstring>()</argsstring>
+        <name>parseInsertStatement</name>
+        <qualifiedname>themis::query::Parser::parseInsertStatement</qualifiedname>
+        <briefdescription>
+<para>Parse Insert Statement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), match(), advance(), expectCollectionName(), empty(), push_back(), parseExpression(), parseReturnClause(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2036" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2036" bodyend="2068"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a2a8dba4efdf925bdc39f858b3961a149" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MutationNode &gt; themis::query::Parser::parseUpdateStatement</definition>
+        <argsstring>()</argsstring>
+        <name>parseUpdateStatement</name>
+        <qualifiedname>themis::query::Parser::parseUpdateStatement</qualifiedname>
+        <briefdescription>
+<para>Parse Update Statement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), current(), peek(), expectCollectionName(), empty(), match(), advance(), parseExpression(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2080" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2080" bodyend="2149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a1a699c9db3f526c7e2dcde6e83bdf401" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MutationNode &gt; themis::query::Parser::parseDeleteStatement</definition>
+        <argsstring>()</argsstring>
+        <name>parseDeleteStatement</name>
+        <qualifiedname>themis::query::Parser::parseDeleteStatement</qualifiedname>
+        <briefdescription>
+<para>Parse Delete Statement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: expect(), expectCollectionName(), match(), advance(), parseExpression(), std::stoll(), current(), parseReturnClause(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2161" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2161" bodyend="2187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a7774008aa6ac5cd5a566cb666335bcb7" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MutationNode &gt; themis::query::Parser::parseRemoveStatement</definition>
+        <argsstring>()</argsstring>
+        <name>parseRemoveStatement</name>
+        <qualifiedname>themis::query::Parser::parseRemoveStatement</qualifiedname>
+        <briefdescription>
+<para>Parse Remove Statement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: expect(), MembershipInGuard(), flag(), parseExpression(), expectCollectionName(), parseReturnClause(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2198" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2198" bodyend="2215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1ad84ba66026d47c26bbf9eb970b7158da" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MutationNode &gt; themis::query::Parser::parseReplaceStatement</definition>
+        <argsstring>()</argsstring>
+        <name>parseReplaceStatement</name>
+        <qualifiedname>themis::query::Parser::parseReplaceStatement</qualifiedname>
+        <briefdescription>
+<para>Parse Replace Statement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: expect(), parseExpression(), expectCollectionName(), parseReturnClause(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2226" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2226" bodyend="2238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_parser_1a89da3046a5d33dfffab93657b88afed1" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_mutation_node" kindref="compound">MutationNode</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; MutationNode &gt; themis::query::Parser::parseUpsertStatement</definition>
+        <argsstring>()</argsstring>
+        <name>parseUpsertStatement</name>
+        <qualifiedname>themis::query::Parser::parseUpsertStatement</qualifiedname>
+        <briefdescription>
+<para>Parse Upsert Statement. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: expect(), parseExpression(), expectCollectionName(), parseReturnClause(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/aql_parser.cpp" line="2249" column="21" bodyfile="src/query/aql_parser.cpp" bodystart="2249" bodyend="2263"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/aql_parser.cpp" line="675" column="1" bodyfile="src/query/aql_parser.cpp" bodystart="675" bodyend="2264"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_parser_1a4ff36afc592fff7250cd2dde91266f16" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>advance</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1aefae1f2f69e0345d30165d4e4957ca03" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>allow_in_membership_operator_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a4d11cfe8de82939bcaa4d956a32b03df" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>current</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a90b5cb7b5a2fc153d839fa0ffb0a3393" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>depth_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a2c385541b30a95c67403091b2b6ad75b" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>expect</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a71946a2f8b0f872e2d042eb7d2df4149" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>expectCollectionName</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a7035a9d5e30366d08103a350c032c814" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>kMaxExprDepth</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a04f4ec6596ad8419361bb24fc73be171" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>lastTraversal_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a9dae8425e9af14f520093ea8f6ed651c" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>match</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ac457b76a59431fb8276e2f4cf1adbf1d" prot="public" virt="non-virtual"><scope>themis::query::Parser</scope><name>parse</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a97101c54cba4b266dac0f417f53bb7e0" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseAdditive</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1afdf0273a73995f39acf0a356e0f710f9" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseCollectClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a518b0db0525581fba8675d6c05edde8f" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseComparison</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a1a699c9db3f526c7e2dcde6e83bdf401" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseDeleteStatement</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ae50149a7753b8c005f9452cc24f0e2a6" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseExpression</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1aaae19a93f5bc9755c412650a08b87f21" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseFilterClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a14159b91fc6c0080f5ba358745671d23" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseForClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1aa47999ba83367c1228e66f424f59b155" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseInsertStatement</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a36e267b2c0880ccd24619e569c0c4de7" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseLetClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a07c779ac07027ca52bd4898073dd19df" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseLimitClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a4097fdc36675df7abdad337ca178e145" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseLogicalAnd</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1aec1819a9459d2b473fef3fd272837071" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseLogicalOr</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1aae724e28d9be8b093ad1f8a87cfabb77" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseMultiplicative</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a2fa6aa41f5f90c29c9ab7e69e521402f" prot="public" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseMutation</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1abab7b010ea3adb31787647fcbe11bfcc" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parsePostfix</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a726d2cd5949001555af4d90874e79662" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parsePrimary</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a5420bf0090fbf17747d754e47c186e67" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a884bfbf5fd7169c0446e1e568a79ad14" prot="public" virt="non-virtual"><scope>themis::query::Parser</scope><name>Parser</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a7774008aa6ac5cd5a566cb666335bcb7" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseRemoveStatement</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ad84ba66026d47c26bbf9eb970b7158da" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseReplaceStatement</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a6c347b796bf01ff5379d810a2a11ae3c" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseReturnClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ae6ded319083af107e4807f28744a2a29" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseReturnClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ab18405c6de6e0b930cc079b71ea1c74a" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseSearchClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a1ed4698171d1f0836b3891540c4a0c52" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseSortClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a7e6c2e54027797f11cecb918c8676336" prot="public" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseStandaloneExpression</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ab1e6252b3aa8ef10e3c6b260792c6999" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseUnary</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a2a8dba4efdf925bdc39f858b3961a149" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseUpdateStatement</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a89da3046a5d33dfffab93657b88afed1" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseUpsertStatement</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1af1f76a4ca999dbe59db8f419af5a72f2" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>parseWithClause</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ad25e78e6c7226cb0cf5936a743294b68" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>peek</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ab3d5ed0a35f2b73d27f3b3b844f57a1d" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>pos_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1a145f8d25a14de3223f50ceeae844148e" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>scope_context_</name></member>
+      <member refid="classthemis_1_1query_1_1_parser_1ad3877c9c59fb1520ec0395202f4e1df1" prot="private" virt="non-virtual"><scope>themis::query::Parser</scope><name>tokens_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

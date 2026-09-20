@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_hugging_face_feature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::HuggingFaceFeature</compoundname>
+    <includes refid="huggingface__exporter_8h" local="no">huggingface_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_feature_1a99aa70dbd43da008f2674ccbe73099ac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceFeature::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::exporters::HuggingFaceFeature::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="26" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_feature_1ae469e55e47cb74bc113570ffa78c84ed" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceFeature::dtype</definition>
+        <argsstring></argsstring>
+        <name>dtype</name>
+        <qualifiedname>themis::exporters::HuggingFaceFeature::dtype</qualifiedname>
+        <initializer>= &quot;string&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="27" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hugging_face_feature_1a0bc067e88ae8e72cbe37767c9c4735e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HuggingFaceFeature::hf_type</definition>
+        <argsstring></argsstring>
+        <name>hf_type</name>
+        <qualifiedname>themis::exporters::HuggingFaceFeature::hf_type</qualifiedname>
+        <initializer>= &quot;Value&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_exporter.h" line="28" column="17" bodyfile="include/exporters/huggingface_exporter.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/huggingface_exporter.h" line="25" column="1" bodyfile="include/exporters/huggingface_exporter.h" bodystart="25" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_feature_1ae469e55e47cb74bc113570ffa78c84ed" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceFeature</scope><name>dtype</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_feature_1a0bc067e88ae8e72cbe37767c9c4735e9" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceFeature</scope><name>hf_type</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hugging_face_feature_1a99aa70dbd43da008f2674ccbe73099ac" prot="public" virt="non-virtual"><scope>themis::exporters::HuggingFaceFeature</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

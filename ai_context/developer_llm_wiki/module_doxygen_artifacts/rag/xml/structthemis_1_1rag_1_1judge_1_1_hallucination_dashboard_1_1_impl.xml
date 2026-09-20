@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::HallucinationDashboard::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl_1a595e33dd4132268a6780a6f12b152874" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_entry" kindref="compound">HallucinationEntry</ref> &gt;</type>
+        <definition>std::deque&lt;HallucinationEntry&gt; themis::rag::judge::HallucinationDashboard::Impl::window</definition>
+        <argsstring></argsstring>
+        <name>window</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::Impl::window</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/hallucination_dashboard.cpp" line="28" column="16" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl_1a2156c0006d2b305ba0f3a8a5a7703324" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; double &gt;</type>
+        <definition>std::deque&lt;double&gt; themis::rag::judge::HallucinationDashboard::Impl::faithfulness_history</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_history</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::Impl::faithfulness_history</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/hallucination_dashboard.cpp" line="29" column="28" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl_1ac1a5f211852334ff34c3dad2f093e0dc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::HallucinationDashboard::Impl::total_recorded</definition>
+        <argsstring></argsstring>
+        <name>total_recorded</name>
+        <qualifiedname>themis::rag::judge::HallucinationDashboard::Impl::total_recorded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/hallucination_dashboard.cpp" line="30" column="36" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/hallucination_dashboard.cpp" line="27" column="1" bodyfile="src/rag/hallucination_dashboard.cpp" bodystart="27" bodyend="31"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl_1a2156c0006d2b305ba0f3a8a5a7703324" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard::Impl</scope><name>faithfulness_history</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl_1ac1a5f211852334ff34c3dad2f093e0dc" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard::Impl</scope><name>total_recorded</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_hallucination_dashboard_1_1_impl_1a595e33dd4132268a6780a6f12b152874" prot="public" virt="non-virtual"><scope>themis::rag::judge::HallucinationDashboard::Impl</scope><name>window</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

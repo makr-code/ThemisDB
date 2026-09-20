@@ -1,0 +1,236 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_cuda_device_memory" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::CudaDeviceMemory</compoundname>
+    <includes refid="gpu__safe__operations_8h" local="no">gpu_safe_operations.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_device_memory_1abcc1830070466b08802770d95ebd9139" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::gpu::CudaDeviceMemory::device_ptr_</definition>
+        <argsstring></argsstring>
+        <name>device_ptr_</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::device_ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="201" column="10" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_device_memory_1ac14c00de24cb7e949109bbbfcb31649f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::CudaDeviceMemory::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="202" column="12" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_cuda_device_memory_1a984a3e2a1c2153f424845ceaa44291b0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::gpu::CudaDeviceMemory::device_id_</definition>
+        <argsstring></argsstring>
+        <name>device_id_</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::device_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="203" column="9" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemory::CudaDeviceMemory</definition>
+        <argsstring>(size_t size, int device_id=0)</argsstring>
+        <name>CudaDeviceMemory</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::CudaDeviceMemory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>device_id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="140" column="14" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="140" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1a65e67842f7a101837108a54f111a85e2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemory::~CudaDeviceMemory</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~CudaDeviceMemory</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::~CudaDeviceMemory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="152" column="5" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="152" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1a88681a685ee57197dc2532ac01bcd98a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemory::CudaDeviceMemory</definition>
+        <argsstring>(const CudaDeviceMemory &amp;)=delete</argsstring>
+        <name>CudaDeviceMemory</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::CudaDeviceMemory</qualifiedname>
+        <param>
+          <type>const CudaDeviceMemory &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="161" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1afc632e6b041beec21414bf81f3b84638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref> &amp;</type>
+        <definition>CudaDeviceMemory &amp; themis::gpu::CudaDeviceMemory::operator=</definition>
+        <argsstring>(const CudaDeviceMemory &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="162" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1ad39cded8d5319f6236936e3ca05426d6" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::CudaDeviceMemory::CudaDeviceMemory</definition>
+        <argsstring>(CudaDeviceMemory &amp;&amp;other) noexcept</argsstring>
+        <name>CudaDeviceMemory</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::CudaDeviceMemory</qualifiedname>
+        <param>
+          <type>CudaDeviceMemory &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="164" column="5" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="164" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1a11f5d0d71ced89e73619da14bf5268a0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref> &amp;</type>
+        <definition>CudaDeviceMemory &amp; themis::gpu::CudaDeviceMemory::operator=</definition>
+        <argsstring>(CudaDeviceMemory &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" kindref="member">CudaDeviceMemory</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="170" column="22" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="170" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1a758d5340065e94bc048fb6ec573d4597" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::CudaDeviceMemory::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="187" column="11" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1a51002605c7d32e7338b3d91e7c157ead" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::CudaDeviceMemory::size</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="189" column="13" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="189" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1af9c071c1dfb39fba9008af8dd71866bd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::gpu::CudaDeviceMemory::device_id</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>device_id</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::device_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="191" column="10" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="191" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_cuda_device_memory_1a694a636efeb16bd2110bd72d3a660c64" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::gpu::CudaDeviceMemory::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::gpu::CudaDeviceMemory::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="193" column="11" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="193" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_safe_operations.h" line="138" column="1" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="138" bodyend="204"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ae3e517b848d8a491ef6d38708eb3af08" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>CudaDeviceMemory</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a88681a685ee57197dc2532ac01bcd98a" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>CudaDeviceMemory</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ad39cded8d5319f6236936e3ca05426d6" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>CudaDeviceMemory</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1af9c071c1dfb39fba9008af8dd71866bd" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>device_id</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a984a3e2a1c2153f424845ceaa44291b0" prot="private" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>device_id_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1abcc1830070466b08802770d95ebd9139" prot="private" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>device_ptr_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a758d5340065e94bc048fb6ec573d4597" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>get</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1afc632e6b041beec21414bf81f3b84638" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a11f5d0d71ced89e73619da14bf5268a0" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a694a636efeb16bd2110bd72d3a660c64" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>release</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a51002605c7d32e7338b3d91e7c157ead" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>size</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1ac14c00de24cb7e949109bbbfcb31649f" prot="private" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>size_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_cuda_device_memory_1a65e67842f7a101837108a54f111a85e2" prot="public" virt="non-virtual"><scope>themis::gpu::CudaDeviceMemory</scope><name>~CudaDeviceMemory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

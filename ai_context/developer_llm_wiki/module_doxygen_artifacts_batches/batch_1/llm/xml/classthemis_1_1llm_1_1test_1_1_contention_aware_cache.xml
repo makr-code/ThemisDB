@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_contention_aware_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::ContentionAwareCache</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1afdf9956ab6d1cc3221c0245469c721f3" prot="public" static="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>using themis::llm::test::ContentionAwareCache::Entry = std::vector&lt;uint8_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>Entry</name>
+        <qualifiedname>themis::llm::test::ContentionAwareCache::Entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="368" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="368" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1a1c8e6514be1cf13133cd3337198435c3" prot="private" static="no" mutable="no">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::test::ContentionAwareCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::test::ContentionAwareCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="394" column="14" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="394" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1a38f1a468d14e15aac10ef2ef28fd61c7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1afdf9956ab6d1cc3221c0245469c721f3" kindref="member">Entry</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, Entry&gt; themis::llm::test::ContentionAwareCache::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::llm::test::ContentionAwareCache::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="395" column="22" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="395" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1ab8b161e43ada2862b4672e65ee4b6d09" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::test::ContentionAwareCache::put</definition>
+        <argsstring>(const std::string &amp;key, Entry value, size_t max_size)</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::llm::test::ContentionAwareCache::put</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1afdf9956ab6d1cc3221c0245469c721f3" kindref="member">Entry</ref></type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="370" column="8" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="370" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1a82696f6a9d838291bce0531c2b7704d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1afdf9956ab6d1cc3221c0245469c721f3" kindref="member">Entry</ref> &gt;</type>
+        <definition>std::optional&lt; Entry &gt; themis::llm::test::ContentionAwareCache::get</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::test::ContentionAwareCache::get</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="384" column="17" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="384" bodyend="391"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="366" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="366" bodyend="396"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1a38f1a468d14e15aac10ef2ef28fd61c7" prot="private" virt="non-virtual"><scope>themis::llm::test::ContentionAwareCache</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1afdf9956ab6d1cc3221c0245469c721f3" prot="public" virt="non-virtual"><scope>themis::llm::test::ContentionAwareCache</scope><name>Entry</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1a82696f6a9d838291bce0531c2b7704d9" prot="public" virt="non-virtual"><scope>themis::llm::test::ContentionAwareCache</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1a1c8e6514be1cf13133cd3337198435c3" prot="private" virt="non-virtual"><scope>themis::llm::test::ContentionAwareCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_contention_aware_cache_1ab8b161e43ada2862b4672e65ee4b6d09" prot="public" virt="non-virtual"><scope>themis::llm::test::ContentionAwareCache</scope><name>put</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

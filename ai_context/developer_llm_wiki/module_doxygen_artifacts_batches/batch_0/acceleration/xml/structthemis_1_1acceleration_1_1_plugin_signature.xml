@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_plugin_signature" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::PluginSignature</compoundname>
+    <includes refid="plugin__security_8h" local="no">plugin_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_signature_1a11329358897ee750d0743f052c006b40" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSignature::sha256Hash</definition>
+        <argsstring></argsstring>
+        <name>sha256Hash</name>
+        <qualifiedname>themis::acceleration::PluginSignature::sha256Hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hash of the DLL/SO binary file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="28" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_signature_1a5b1eb5053df65bae44c64a844133caa4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSignature::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::acceleration::PluginSignature::signature</qualifiedname>
+        <briefdescription>
+<para>Digital signature (RSA or ECDSA). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="29" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_signature_1a2e5259b412689f9f6309aa3d6861523c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSignature::signingCertificate</definition>
+        <argsstring></argsstring>
+        <name>signingCertificate</name>
+        <qualifiedname>themis::acceleration::PluginSignature::signingCertificate</qualifiedname>
+        <briefdescription>
+<para>X.509 certificate of the signer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="30" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_signature_1a507a362ddb6e0dff7cecb4587cfc897a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSignature::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::acceleration::PluginSignature::issuer</qualifiedname>
+        <briefdescription>
+<para>Certificate issuer Distinguished Name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="31" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_signature_1aefb63d06f42276dc6aa04b84dca01750" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::PluginSignature::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::acceleration::PluginSignature::subject</qualifiedname>
+        <briefdescription>
+<para>Certificate subject Distinguished Name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="32" column="17" bodyfile="include/acceleration/plugin_security.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_signature_1ab5a36a172229793b1470d02f7d52c004" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::acceleration::PluginSignature::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::acceleration::PluginSignature::timestamp</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp when signature was created. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="33" column="14" bodyfile="include/acceleration/plugin_security.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_plugin_signature_1a30e5eb0b3c48c683436c8ce1ff08682d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::PluginSignature::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::acceleration::PluginSignature::verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if signature verification succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/plugin_security.h" line="34" column="10" bodyfile="include/acceleration/plugin_security.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/plugin_security.h" line="27" column="1" bodyfile="include/acceleration/plugin_security.h" bodystart="27" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_signature_1a507a362ddb6e0dff7cecb4587cfc897a" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSignature</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_signature_1a11329358897ee750d0743f052c006b40" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSignature</scope><name>sha256Hash</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_signature_1a5b1eb5053df65bae44c64a844133caa4" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSignature</scope><name>signature</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_signature_1a2e5259b412689f9f6309aa3d6861523c" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSignature</scope><name>signingCertificate</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_signature_1aefb63d06f42276dc6aa04b84dca01750" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSignature</scope><name>subject</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_signature_1ab5a36a172229793b1470d02f7d52c004" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSignature</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_plugin_signature_1a30e5eb0b3c48c683436c8ce1ff08682d" prot="public" virt="non-virtual"><scope>themis::acceleration::PluginSignature</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

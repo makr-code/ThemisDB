@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1tensor_1_1_hnsw_t_t_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::tensor::HnswTTConfig</compoundname>
+    <includes refid="hnsw__tt__bridge_8h" local="no">hnsw_tt_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1ae275fa79e785de51253b522370df2392" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::HnswTTConfig::M</definition>
+        <argsstring></argsstring>
+        <name>M</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::M</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+<para>HNSW M-parameter (neighbours per node). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="31" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a55e5c06d8ee4428eb0ccb6a7c52a00ce" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::HnswTTConfig::ef_construction</definition>
+        <argsstring></argsstring>
+        <name>ef_construction</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::ef_construction</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>ef during index construction </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="32" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a1e667552d5ac70b872af28cafb3641a8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::HnswTTConfig::ef_search</definition>
+        <argsstring></argsstring>
+        <name>ef_search</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::ef_search</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+<para>ef during search (candidate pool) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="33" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a7478b695f4c2d16463ce6863059ec025" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::HnswTTConfig::sketch_dim</definition>
+        <argsstring></argsstring>
+        <name>sketch_dim</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::sketch_dim</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>First-core sketch dimension for HNSW (0 = use full first-core dimension) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="34" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1ab5926aef4a18f3871698dcee9e1b7656" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::HnswTTConfig::rerank_candidates</definition>
+        <argsstring></argsstring>
+        <name>rerank_candidates</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::rerank_candidates</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+<para>Candidates passed to TT re-ranker. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="38" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1af42a5d5b16db24f3600ee3f21f95e7cd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::tensor::HnswTTConfig::max_tt_rank</definition>
+        <argsstring></argsstring>
+        <name>max_tt_rank</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::max_tt_rank</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+<para>Maximum TT-rank for compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="39" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a27c718a1b21089ecba090b276bdbece3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HnswTTConfig::epsilon</definition>
+        <argsstring></argsstring>
+        <name>epsilon</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::epsilon</qualifiedname>
+        <initializer>= 0.01</initializer>
+        <briefdescription>
+<para>Relative reconstruction error bound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="40" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1ac09f1ce4684a99b9ea1f58557e2320fe" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HnswTTConfig::kappa_min</definition>
+        <argsstring></argsstring>
+        <name>kappa_min</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::kappa_min</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+<para>Minimum compressibility for HYBRID route. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="43" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a5d7c8430ba85824d72dfa693f7a5bd89" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::tensor::HnswTTConfig::kappa_max</definition>
+        <argsstring></argsstring>
+        <name>kappa_max</name>
+        <qualifiedname>themis::tensor::HnswTTConfig::kappa_max</qualifiedname>
+        <initializer>= 6.0</initializer>
+        <briefdescription>
+<para>Maximum compressibility (above → pure TT). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/hnsw_tt_bridge.h" line="44" column="13" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/tensor/hnsw_tt_bridge.h" line="29" column="1" bodyfile="include/tensor/hnsw_tt_bridge.h" bodystart="29" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a55e5c06d8ee4428eb0ccb6a7c52a00ce" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>ef_construction</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a1e667552d5ac70b872af28cafb3641a8" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>ef_search</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a27c718a1b21089ecba090b276bdbece3" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>epsilon</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a5d7c8430ba85824d72dfa693f7a5bd89" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>kappa_max</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1ac09f1ce4684a99b9ea1f58557e2320fe" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>kappa_min</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1ae275fa79e785de51253b522370df2392" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>M</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1af42a5d5b16db24f3600ee3f21f95e7cd" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>max_tt_rank</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1ab5926aef4a18f3871698dcee9e1b7656" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>rerank_candidates</name></member>
+      <member refid="structthemis_1_1tensor_1_1_hnsw_t_t_config_1a7478b695f4c2d16463ce6863059ec025" prot="public" virt="non-virtual"><scope>themis::tensor::HnswTTConfig</scope><name>sketch_dim</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

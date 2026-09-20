@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_39d63249add476b585f846bdf72681e0" kind="dir">
+    <compoundname>include/core/concerns</compoundname>
+    <innerfile refid="adapter__metadata_8h">adapter_metadata.h</innerfile>
+    <innerfile refid="adapter__registry_8h">adapter_registry.h</innerfile>
+    <innerfile refid="adapter__signing_8h">adapter_signing.h</innerfile>
+    <innerfile refid="cache__strategies_8h">cache_strategies.h</innerfile>
+    <innerfile refid="concerns__context_8h">concerns_context.h</innerfile>
+    <innerfile refid="context__propagation_8h">context_propagation.h</innerfile>
+    <innerfile refid="eviction__strategies_8h">eviction_strategies.h</innerfile>
+    <innerfile refid="i__async__cache_8h">i_async_cache.h</innerfile>
+    <innerfile refid="i__async__logger_8h">i_async_logger.h</innerfile>
+    <innerfile refid="i__audit__log_8h">i_audit_log.h</innerfile>
+    <innerfile refid="i__cache_8h">i_cache.h</innerfile>
+    <innerfile refid="i__circuit__breaker_8h">i_circuit_breaker.h</innerfile>
+    <innerfile refid="i__context_8h">i_context.h</innerfile>
+    <innerfile refid="i__feature__flags_8h">i_feature_flags.h</innerfile>
+    <innerfile refid="i__logger_8h">i_logger.h</innerfile>
+    <innerfile refid="i__metrics_8h">i_metrics.h</innerfile>
+    <innerfile refid="i__secrets_8h">i_secrets.h</innerfile>
+    <innerfile refid="i__tracer_8h">i_tracer.h</innerfile>
+    <innerfile refid="inmemory__cache__impl_8h">inmemory_cache_impl.h</innerfile>
+    <innerfile refid="inmemory__secrets_8h">inmemory_secrets.h</innerfile>
+    <innerfile refid="jaeger__tracer__adapter_8h">jaeger_tracer_adapter.h</innerfile>
+    <innerfile refid="lifecycle_8h">lifecycle.h</innerfile>
+    <innerfile refid="lockfree__metrics_8h">lockfree_metrics.h</innerfile>
+    <innerfile refid="metric__labels_8h">metric_labels.h</innerfile>
+    <innerfile refid="noop__implementations_8h">noop_implementations.h</innerfile>
+    <innerfile refid="otel__tracer__adapter_8h">otel_tracer_adapter.h</innerfile>
+    <innerfile refid="plugin__api_8h">plugin_api.h</innerfile>
+    <innerfile refid="prometheus__metrics__adapter_8h">prometheus_metrics_adapter.h</innerfile>
+    <innerfile refid="redis__cache_8h">redis_cache.h</innerfile>
+    <innerfile refid="spdlog__logger__adapter_8h">spdlog_logger_adapter.h</innerfile>
+    <innerfile refid="strategic__cache__impl_8h">strategic_cache_impl.h</innerfile>
+    <innerfile refid="w3c__trace__context__propagator_8h">w3c_trace_context_propagator.h</innerfile>
+    <innerfile refid="zero__copy__logger_8h">zero_copy_logger.h</innerfile>
+    <innerfile refid="zipkin__tracer__adapter_8h">zipkin_tracer_adapter.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/"/>
+  </compounddef>
+</doxygen>

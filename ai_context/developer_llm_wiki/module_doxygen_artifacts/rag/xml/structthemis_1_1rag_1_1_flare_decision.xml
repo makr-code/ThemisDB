@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_flare_decision" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::FlareDecision</compoundname>
+    <includes refid="flare__retrieval_8h" local="no">flare_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_decision_1ad303f886666b95144877e80dfab707c8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FlareDecision::should_retrieve</definition>
+        <argsstring></argsstring>
+        <name>should_retrieve</name>
+        <qualifiedname>themis::rag::FlareDecision::should_retrieve</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True → trigger retrieval + regenerate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="115" column="11" bodyfile="include/rag/flare_retrieval.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_decision_1a9cee7096a6ab33c07fc4d361a144d987" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FlareDecision::in_cooldown</definition>
+        <argsstring></argsstring>
+        <name>in_cooldown</name>
+        <qualifiedname>themis::rag::FlareDecision::in_cooldown</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True → suppressed by cooldown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="116" column="11" bodyfile="include/rag/flare_retrieval.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_decision_1ae1a72189bf8de715c73632a70e51d4a8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::FlareDecision::max_steps_reached</definition>
+        <argsstring></argsstring>
+        <name>max_steps_reached</name>
+        <qualifiedname>themis::rag::FlareDecision::max_steps_reached</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True → suppressed by max_retrieval_steps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="117" column="11" bodyfile="include/rag/flare_retrieval.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_decision_1a65d2b0bc0783fc4bbf71012057c744d3" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::FlareDecision::last_log_prob</definition>
+        <argsstring></argsstring>
+        <name>last_log_prob</name>
+        <qualifiedname>themis::rag::FlareDecision::last_log_prob</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Log-probability of most-recent token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="118" column="11" bodyfile="include/rag/flare_retrieval.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_decision_1a8d2870806d6fc7deb3c32356fd2d3e04" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareDecision::consecutive_uncertain</definition>
+        <argsstring></argsstring>
+        <name>consecutive_uncertain</name>
+        <qualifiedname>themis::rag::FlareDecision::consecutive_uncertain</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Running uncertain-token count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="119" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_flare_decision_1a09ab9268b59f4a3c37ae404c4eb31d56" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::FlareDecision::retrieval_steps_done</definition>
+        <argsstring></argsstring>
+        <name>retrieval_steps_done</name>
+        <qualifiedname>themis::rag::FlareDecision::retrieval_steps_done</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total retrievals so far this session. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/flare_retrieval.h" line="120" column="17" bodyfile="include/rag/flare_retrieval.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Output of <computeroutput><ref refid="classthemis_1_1rag_1_1_flare_retrieval_1abce2e41256c1de0a49ede98c4f0e6fc9" kindref="member">FlareRetrieval::decide()</ref></computeroutput>, describing the gating decision. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/flare_retrieval.h" line="114" column="1" bodyfile="include/rag/flare_retrieval.h" bodystart="114" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_flare_decision_1a8d2870806d6fc7deb3c32356fd2d3e04" prot="public" virt="non-virtual"><scope>themis::rag::FlareDecision</scope><name>consecutive_uncertain</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_decision_1a9cee7096a6ab33c07fc4d361a144d987" prot="public" virt="non-virtual"><scope>themis::rag::FlareDecision</scope><name>in_cooldown</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_decision_1a65d2b0bc0783fc4bbf71012057c744d3" prot="public" virt="non-virtual"><scope>themis::rag::FlareDecision</scope><name>last_log_prob</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_decision_1ae1a72189bf8de715c73632a70e51d4a8" prot="public" virt="non-virtual"><scope>themis::rag::FlareDecision</scope><name>max_steps_reached</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_decision_1a09ab9268b59f4a3c37ae404c4eb31d56" prot="public" virt="non-virtual"><scope>themis::rag::FlareDecision</scope><name>retrieval_steps_done</name></member>
+      <member refid="structthemis_1_1rag_1_1_flare_decision_1ad303f886666b95144877e80dfab707c8" prot="public" virt="non-virtual"><scope>themis::rag::FlareDecision</scope><name>should_retrieve</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

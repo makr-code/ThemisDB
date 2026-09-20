@@ -1,0 +1,766 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ingestion__builtin__steps__v14_8cpp" kind="file" language="C++">
+    <compoundname>test_ingestion_builtin_steps_v14.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="ingestion__step_8h" local="yes">ingestion/ingestion_step.h</includes>
+    <includes refid="builtin__step__factories_8h" local="yes">ingestion/builtin_step_factories.h</includes>
+    <includes refid="inference__backend_8h" local="yes">ingestion/inference_backend.h</includes>
+    <includes refid="extraction__context_8h" local="yes">ingestion/extraction_context.h</includes>
+    <includes refid="file__manifest_8h" local="yes">ingestion/file_manifest.h</includes>
+    <includes refid="base__entity_8h" local="yes">ingestion/base_entity.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>ingestion/base_entity.h</label>
+        <link refid="base__entity_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>ingestion/builtin_step_factories.h</label>
+        <link refid="builtin__step__factories_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>ingestion/extraction_context.h</label>
+        <link refid="extraction__context_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>ingestion/file_format.h</label>
+        <link refid="file__format_8h"/>
+      </node>
+      <node id="5">
+        <label>ingestion/file_manifest.h</label>
+        <link refid="file__manifest_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>ingestion/format_extractor.h</label>
+        <link refid="format__extractor_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>ingestion/inference_backend.h</label>
+        <link refid="inference__backend_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>ingestion/ingestion_sinks.h</label>
+        <link refid="ingestion__sinks_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ingestion/ingestion_step.h</label>
+        <link refid="ingestion__step_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ingestion/test_ingestion_builtin_steps_v14.cpp</label>
+        <link refid="test__ingestion__builtin__steps__v14_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="26">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>document/document_store.h</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="23">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="19">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="16">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="27">
+        <label>span</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="24">
+        <label>unordered_set</label>
+      </node>
+      <node id="18">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="17">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_stub_embedding_backend" prot="public">StubEmbeddingBackend</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a17998febb6ec0cfbe65817f83d93fca3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref></type>
+        <definition>static ExtractionContext makeCtx</definition>
+        <argsstring>(const std::string &amp;path=&quot;&quot;, const std::string &amp;mime=&quot;&quot;)</argsstring>
+        <name>makeCtx</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="27" column="26" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="27" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a4ead4a44cba14c218595aa1f4af58782" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref></type>
+        <definition>static StepConfig makeConfig</definition>
+        <argsstring>(const nlohmann::json &amp;cfg={})</argsstring>
+        <name>makeConfig</name>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>cfg</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="36" column="19" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DecompressStepTest, ING01_NameAndVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DecompressStepTest</type>
+        </param>
+        <param>
+          <type>ING01_NameAndVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="45" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a69bc537cbf947f1ba96e6b811a3ba6a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DecompressStepTest, ING02_SupportedMimeTypes)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DecompressStepTest</type>
+        </param>
+        <param>
+          <type>ING02_SupportedMimeTypes</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="55" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="55" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1ae07bfbd207b5ab701c69e19031bd5bcb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DecompressStepTest, ING03_EmptyPathProducesWarning)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DecompressStepTest</type>
+        </param>
+        <param>
+          <type>ING03_EmptyPathProducesWarning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="72" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="72" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a963958d11a72615e33886a0fafcd9ed9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(DecompressStepTest, ING04_UnknownMimeTypeProducesWarning)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>DecompressStepTest</type>
+        </param>
+        <param>
+          <type>ING04_UnknownMimeTypeProducesWarning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="85" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="85" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1acb5ee49cc51db1753944f7998adabfdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LegalReferenceExtractorStepTest, ING05_NameAndVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LegalReferenceExtractorStepTest</type>
+        </param>
+        <param>
+          <type>ING05_NameAndVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="105" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="105" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a9c037635a3fe183b1cbc6c4e756955a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LegalReferenceExtractorStepTest, ING06_EmptyTextSetsZeroCounts)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LegalReferenceExtractorStepTest</type>
+        </param>
+        <param>
+          <type>ING06_EmptyTextSetsZeroCounts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="115" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="115" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a53ddcef83c0dbd3b3a480e49dd8719f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LegalReferenceExtractorStepTest, ING07_ExtractsReferences)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LegalReferenceExtractorStepTest</type>
+        </param>
+        <param>
+          <type>ING07_ExtractsReferences</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="130" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="130" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a4add35c0662d5b0b8661ab1eef1a205d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LegalReferenceExtractorStepTest, ING08_DanglingRefProducesWarning)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LegalReferenceExtractorStepTest</type>
+        </param>
+        <param>
+          <type>ING08_DanglingRefProducesWarning</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="149" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="149" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a0d5d969bd77860f23110a1cad8b27093" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChunkEmbedStepTest, ING09_NameAndVersion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChunkEmbedStepTest</type>
+        </param>
+        <param>
+          <type>ING09_NameAndVersion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="168" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="168" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a0cf2f8998b0e8ecd43c1824a1de49a00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChunkEmbedStepTest, ING10_UnavailableBackendSkipped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChunkEmbedStepTest</type>
+        </param>
+        <param>
+          <type>ING10_UnavailableBackendSkipped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="179" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="179" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1a54459c1e8e44e138ff31e81ee9ed008d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChunkEmbedStepTest, ING11_UnavailableBackendError)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChunkEmbedStepTest</type>
+        </param>
+        <param>
+          <type>ING11_UnavailableBackendError</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="201" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="201" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ingestion__builtin__steps__v14_8cpp_1ad6583d2a2dca999b3fb5ba1fbca1851a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ChunkEmbedStepTest, ING12_AvailableBackendProducesVectorRecords)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ChunkEmbedStepTest</type>
+        </param>
+        <param>
+          <type>ING12_AvailableBackendProducesVectorRecords</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" line="235" column="1" bodyfile="tests/ingestion/test_ingestion_builtin_steps_v14.cpp" bodystart="235" bodyend="261"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>test_ingestion_builtin_steps_v14.cpp</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Tests<sp/>for<sp/>the<sp/>three<sp/>new<sp/>v1.4.0<sp/>builtin<sp/>ingestion<sp/>steps:</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/><sp/><sp/>ING-01..04<sp/><sp/>builtin.decompress<sp/><sp/>(DecompressStep)</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/><sp/><sp/>ING-05..08<sp/><sp/>builtin.legal_reference_extractor<sp/><sp/>(LegalReferenceExtractorStep)</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/><sp/><sp/>ING-09..12<sp/><sp/>builtin.chunk_embed<sp/><sp/>(ChunkEmbedStep<sp/>+<sp/>IEmbeddingBackend)</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__step_8h" kindref="compound">ingestion/ingestion_step.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="builtin__step__factories_8h" kindref="compound">ingestion/builtin_step_factories.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="inference__backend_8h" kindref="compound">ingestion/inference_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="extraction__context_8h" kindref="compound">ingestion/extraction_context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="file__manifest_8h" kindref="compound">ingestion/file_manifest.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="base__entity_8h" kindref="compound">ingestion/base_entity.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">themis::ingestion</ref>;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1_1builtin" kindref="compound">themis::ingestion::builtin</ref>;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>makeCtx(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_extraction_context" kindref="compound">ExtractionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ae32bf028bb5090986929a9dc643d9102" kindref="member">manifest</ref>.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1aba0b09535e871dd29dd5e4e12576bad2" kindref="member">original_path</ref><sp/>=<sp/>path;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ae32bf028bb5090986929a9dc643d9102" kindref="member">manifest</ref>.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a8cb1225e4bcde8e185e93b11bfbce7ac" kindref="member">detected_mime</ref><sp/>=<sp/>mime;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_extraction_context_1ae32bf028bb5090986929a9dc643d9102" kindref="member">manifest</ref>.<ref refid="structthemis_1_1ingestion_1_1_file_manifest_1a016f0084474c1d8b71c0a1d314587542" kindref="member">file_id</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256:deadbeef&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ctx;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref><sp/>makeConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>cfg<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_step_config" kindref="compound">StepConfig</ref><sp/>sc;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>sc.<ref refid="structthemis_1_1ingestion_1_1_step_config_1a4c189c325c2f66d96bd26b4856e4fff8" kindref="member">config</ref><sp/>=<sp/>cfg;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sc;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-01:<sp/>DecompressStep<sp/>—<sp/>getName()/getVersion()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(DecompressStepTest,<sp/>ING01_NameAndVersion)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a3be922f537aea20db156beb9cf6c9108" kindref="member">createDecompressStep</ref>();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(step,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(step-&gt;getName(),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;builtin.decompress&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(step-&gt;getVersion(),<sp/></highlight><highlight class="stringliteral">&quot;1.4.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-02:<sp/>DecompressStep<sp/>—<sp/>supported<sp/>MIME<sp/>types<sp/>advertised</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(DecompressStepTest,<sp/>ING02_SupportedMimeTypes)<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a3be922f537aea20db156beb9cf6c9108" kindref="member">createDecompressStep</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mimes<sp/>=<sp/>step-&gt;supportedMimeTypes();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(mimes.empty());</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ZIP<sp/>must<sp/>be<sp/>in<sp/>the<sp/>list</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>has_zip<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>m<sp/>:<sp/>mimes)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(m<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;application/zip&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>has_zip<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(has_zip)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;application/zip<sp/>not<sp/>in<sp/>supportedMimeTypes()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-03:<sp/>DecompressStep<sp/>—<sp/>empty<sp/>path<sp/>produces<sp/>warning,<sp/>no<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(DecompressStepTest,<sp/>ING03_EmptyPathProducesWarning)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a3be922f537aea20db156beb9cf6c9108" kindref="member">createDecompressStep</ref>();</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/><sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;application/zip&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/><sp/><sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/><sp/>=<sp/>step-&gt;execute(ctx,<sp/>sc);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>succeed<sp/>(non-fatal)<sp/>on<sp/>empty<sp/>path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.warnings.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>produce<sp/>a<sp/>warning<sp/>for<sp/>empty<sp/>path&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.extracted_file_paths.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-04:<sp/>DecompressStep<sp/>—<sp/>unknown<sp/>MIME<sp/>type<sp/>→<sp/>warning,<sp/>no<sp/>extraction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(DecompressStepTest,<sp/>ING04_UnknownMimeTypeProducesWarning)<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a3be922f537aea20db156beb9cf6c9108" kindref="member">createDecompressStep</ref>();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/><sp/>=<sp/>makeCtx(</highlight><highlight class="stringliteral">&quot;/some/file.xyz&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;application/octet-stream&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/><sp/><sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/><sp/>=<sp/>step-&gt;execute(ctx,<sp/>sc);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Unknown<sp/>MIME<sp/>type<sp/>should<sp/>not<sp/>cause<sp/>error&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warning<sp/>should<sp/>mention<sp/>unrecognised<sp/>archive<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w<sp/>:<sp/>ctx.warnings)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(w.find(</highlight><highlight class="stringliteral">&quot;unrecognised<sp/>archive<sp/>type&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>found<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(found)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>&apos;unrecognised<sp/>archive<sp/>type&apos;<sp/>in<sp/>warnings&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.extracted_file_paths.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-05:<sp/>LegalReferenceExtractorStep<sp/>—<sp/>getName()/getVersion()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(LegalReferenceExtractorStepTest,<sp/>ING05_NameAndVersion)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a66e5e0a065b42088ec2bef9a2670f203" kindref="member">createLegalReferenceExtractorStep</ref>();</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(step,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(step-&gt;getName(),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;builtin.legal_reference_extractor&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(step-&gt;getVersion(),<sp/></highlight><highlight class="stringliteral">&quot;1.4.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-06:<sp/>LegalReferenceExtractorStep<sp/>—<sp/>empty<sp/>raw_text<sp/>sets<sp/>counts<sp/>to<sp/>zero</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(LegalReferenceExtractorStepTest,<sp/>ING06_EmptyTextSetsZeroCounts)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a66e5e0a065b42088ec2bef9a2670f203" kindref="member">createLegalReferenceExtractorStep</ref>();</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/><sp/>=<sp/>makeCtx();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.raw_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/><sp/>=<sp/>makeConfig();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>step-&gt;execute(ctx,<sp/>sc);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.extra.at(</highlight><highlight class="stringliteral">&quot;legal_refs.extracted_count&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.extra.at(</highlight><highlight class="stringliteral">&quot;legal_refs.dangling_count&quot;</highlight><highlight class="normal">),<sp/><sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.extra.at(</highlight><highlight class="stringliteral">&quot;legal_refs.warnings_json&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;[]&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-07:<sp/>LegalReferenceExtractorStep<sp/>—<sp/>extracts<sp/>references<sp/>and<sp/>stores<sp/>counts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(LegalReferenceExtractorStepTest,<sp/>ING07_ExtractsReferences)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a66e5e0a065b42088ec2bef9a2670f203" kindref="member">createLegalReferenceExtractorStep</ref>();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/><sp/>=<sp/>makeCtx();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>German<sp/>legal<sp/>text<sp/>with<sp/>a<sp/>known<sp/>§-reference<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.raw_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Gemäß<sp/>§<sp/>4<sp/>BImSchG<sp/>sind<sp/>folgende<sp/>Maßnahmen<sp/>erforderlich.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>cfg;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg[</highlight><highlight class="stringliteral">&quot;known_laws&quot;</highlight><highlight class="normal">]<sp/>=<sp/>nlohmann::json::array({</highlight><highlight class="stringliteral">&quot;BImSchG&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/><sp/>=<sp/>makeConfig(cfg);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>step-&gt;execute(ctx,<sp/>sc);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Extracted<sp/>count<sp/>should<sp/>be<sp/>stored</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.extra.count(</highlight><highlight class="stringliteral">&quot;legal_refs.extracted_count&quot;</highlight><highlight class="normal">)<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.extra.count(</highlight><highlight class="stringliteral">&quot;legal_refs.dangling_count&quot;</highlight><highlight class="normal">)<sp/><sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.extra.count(</highlight><highlight class="stringliteral">&quot;legal_refs.warnings_json&quot;</highlight><highlight class="normal">)<sp/><sp/><sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-08:<sp/>LegalReferenceExtractorStep<sp/>—<sp/>dangling<sp/>refs<sp/>produce<sp/>ctx.warnings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(LegalReferenceExtractorStepTest,<sp/>ING08_DanglingRefProducesWarning)<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a66e5e0a065b42088ec2bef9a2670f203" kindref="member">createLegalReferenceExtractorStep</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/><sp/>=<sp/>makeCtx();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reference<sp/>to<sp/>unknown<sp/>law:<sp/>no<sp/>known<sp/>laws<sp/>registered</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.raw_text<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Siehe<sp/>§<sp/>99<sp/>UnbekanntesGesetz.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/><sp/>=<sp/>makeConfig();<sp/><sp/></highlight><highlight class="comment">//<sp/>no<sp/>known_laws<sp/>configured</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>step-&gt;execute(ctx,<sp/>sc);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dangling_count<sp/>should<sp/>be<sp/>&gt;<sp/>0<sp/>and<sp/>warning<sp/>should<sp/>propagate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dangling_str<sp/>=<sp/>ctx.extra.at(</highlight><highlight class="stringliteral">&quot;legal_refs.dangling_count&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dangling<sp/>=<sp/>std::stoi(dangling_str);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(dangling,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>may<sp/>or<sp/>may<sp/>not<sp/>resolve<sp/>depending<sp/>on<sp/>regex</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>warnings_json<sp/>must<sp/>be<sp/>a<sp/>valid<sp/>JSON<sp/>array<sp/>string</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.extra.at(</highlight><highlight class="stringliteral">&quot;legal_refs.warnings_json&quot;</highlight><highlight class="normal">).front(),<sp/></highlight><highlight class="charliteral">&apos;[&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-09:<sp/>ChunkEmbedStep<sp/>—<sp/>getName()/getVersion()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(ChunkEmbedStepTest,<sp/>ING09_NameAndVersion)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a572f717a60c0216cf8b6e3d1e3c922b7" kindref="member">createChunkEmbedStep</ref>();</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(step,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(step-&gt;getName(),<sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;builtin.chunk_embed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_STREQ(step-&gt;getVersion(),<sp/></highlight><highlight class="stringliteral">&quot;1.4.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-10:<sp/>ChunkEmbedStep<sp/>—<sp/>unavailable<sp/>backend<sp/>+<sp/>skip_when_unavailable=true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/>step<sp/>is<sp/>a<sp/>no-op<sp/>(no<sp/>embeddings,<sp/>no<sp/>error)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(ChunkEmbedStepTest,<sp/>ING10_UnavailableBackendSkipped)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a572f717a60c0216cf8b6e3d1e3c922b7" kindref="member">createChunkEmbedStep</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>NullEmbeddingBackend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/><sp/>=<sp/>makeCtx();</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref><sp/>chunk;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>chunk.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1a38fa6b89d9d9b1609c076aeaa35dc3a9" kindref="member">seq</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>chunk.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1afb8f6b5a88d870623a61ff6cc32fd9ad" kindref="member">text</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>world&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.chunks.push_back(chunk);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>cfg;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg[</highlight><highlight class="stringliteral">&quot;skip_when_unavailable&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/><sp/>=<sp/>makeConfig(cfg);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>step-&gt;execute(ctx,<sp/>sc);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.embeddings.size(),<sp/>0u)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>embeddings<sp/>when<sp/>backend<sp/>unavailable<sp/>+<sp/>skip=true&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.warnings.empty())<sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>have<sp/>a<sp/>skip<sp/>warning&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-11:<sp/>ChunkEmbedStep<sp/>—<sp/>unavailable<sp/>backend<sp/>+<sp/>skip_when_unavailable=false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>→<sp/>error<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(ChunkEmbedStepTest,<sp/>ING11_UnavailableBackendError)<sp/>{</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a572f717a60c0216cf8b6e3d1e3c922b7" kindref="member">createChunkEmbedStep</ref>(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>NullEmbeddingBackend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/><sp/>=<sp/>makeCtx();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref><sp/>chunk;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>chunk.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1a38fa6b89d9d9b1609c076aeaa35dc3a9" kindref="member">seq</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>chunk.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1afb8f6b5a88d870623a61ff6cc32fd9ad" kindref="member">text</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Hello<sp/>world&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.chunks.push_back(chunk);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>cfg;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg[</highlight><highlight class="stringliteral">&quot;skip_when_unavailable&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/><sp/>=<sp/>makeConfig(cfg);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>step-&gt;execute(ctx,<sp/>sc);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(res.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Should<sp/>fail<sp/>when<sp/>backend<sp/>unavailable<sp/>+<sp/>skip=false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING-12:<sp/>ChunkEmbedStep<sp/>—<sp/>available<sp/>backend<sp/>produces<sp/>VectorRecord<sp/>per<sp/>chunk</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>minimal<sp/>stub<sp/>backend<sp/>that<sp/>is<sp/>available<sp/>and<sp/>returns<sp/>deterministic<sp/>vectors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="class_stub_embedding_backend" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_embedding_backend_1ae4cbdbaf1927d40b5f5cc660a687fcc5" kindref="member">StubEmbeddingBackend</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1ingestion_1_1_i_embedding_backend" kindref="compound">IEmbeddingBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_stub_embedding_backend_1ae4cbdbaf1927d40b5f5cc660a687fcc5" kindref="member">StubEmbeddingBackend</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dims<sp/>=<sp/>4)<sp/>:<sp/>dims_(dims)<sp/>{}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_stub_embedding_backend_1a3c80536681d2ccf558f759c5cd41e59b" kindref="member">embed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*text*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(dims_),<sp/>1.0f);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="class_stub_embedding_backend_1a909e4b0b85442667fb5a971d9f179497" kindref="member">dimensions</ref>()</highlight><highlight class="keyword"><sp/><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dims_;<sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_stub_embedding_backend_1a8ac8c3c951a5f6d9b9ea2c6a0a634118" kindref="member">isAvailable</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_stub_embedding_backend_1a2e18df54e71d5c5cce8f253834eda2aa" kindref="member">description</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;StubEmbedding&quot;</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>dims_<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__ingestion__builtin__steps__v14_8cpp_1ac0336dfd1ef1172ed84740cbbb0dba33" kindref="member">TEST</ref>(ChunkEmbedStepTest,<sp/>ING12_AvailableBackendProducesVectorRecords)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backend<sp/>=<sp/>std::make_shared&lt;StubEmbeddingBackend&gt;(4);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>step<sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1_1builtin_1a572f717a60c0216cf8b6e3d1e3c922b7" kindref="member">createChunkEmbedStep</ref>(backend);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/><sp/><sp/><sp/><sp/>=<sp/>makeCtx();</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.manifest.file_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;sha256:abc123&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_text_chunk" kindref="compound">TextChunk</ref><sp/>c;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1a38fa6b89d9d9b1609c076aeaa35dc3a9" kindref="member">seq</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>c.<ref refid="structthemis_1_1ingestion_1_1_text_chunk_1afb8f6b5a88d870623a61ff6cc32fd9ad" kindref="member">text</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;chunk<sp/>text<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.chunks.push_back(c);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>cfg;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg[</highlight><highlight class="stringliteral">&quot;skip_when_unavailable&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sc<sp/><sp/>=<sp/>makeConfig(cfg);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>step-&gt;execute(ctx,<sp/>sc);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(ctx.embeddings.size(),<sp/>3u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(std::size_t<sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>ctx.embeddings.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.embeddings[i].embedding.size(),<sp/>4u);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.embeddings[i].source_file_id,<sp/></highlight><highlight class="stringliteral">&quot;sha256:abc123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.embeddings[i].chunk_id.empty());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(ctx.embeddings[i].embedding[0],<sp/>1.0f);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ingestion/test_ingestion_builtin_steps_v14.cpp"/>
+  </compounddef>
+</doxygen>

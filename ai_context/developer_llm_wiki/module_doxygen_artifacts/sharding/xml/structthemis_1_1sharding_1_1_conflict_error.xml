@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_conflict_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ConflictError</compoundname>
+    <includes refid="sharding__interfaces_8h" local="no">sharding_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_conflict_error_1ab316d6c0b20ae5d7a383e3e06f347b5e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ConflictError::conflicting_tx_id</definition>
+        <argsstring></argsstring>
+        <name>conflicting_tx_id</name>
+        <qualifiedname>themis::sharding::ConflictError::conflicting_tx_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/sharding_interfaces.h" line="141" column="17" bodyfile="include/sharding/sharding_interfaces.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prepare failed because a conflicting transaction is holding a lock. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/sharding_interfaces.h" line="140" column="1" bodyfile="include/sharding/sharding_interfaces.h" bodystart="140" bodyend="142"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_conflict_error_1ab316d6c0b20ae5d7a383e3e06f347b5e" prot="public" virt="non-virtual"><scope>themis::sharding::ConflictError</scope><name>conflicting_tx_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

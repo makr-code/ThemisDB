@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::GPUVectorIndex::SearchResult</compoundname>
+    <includes refid="gpu__vector__index_8h" local="no">gpu_vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result_1ad3bdca5b2877a4e3f2b79299f66b2d83" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::index::GPUVectorIndex::SearchResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::index::GPUVectorIndex::SearchResult::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="78" column="21" bodyfile="include/index/gpu_vector_index.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result_1ab65131f54ce4c8d2d2c37a99f27bd4da" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::index::GPUVectorIndex::SearchResult::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>themis::index::GPUVectorIndex::SearchResult::distance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/gpu_vector_index.h" line="79" column="15" bodyfile="include/index/gpu_vector_index.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/gpu_vector_index.h" line="77" column="5" bodyfile="include/index/gpu_vector_index.h" bodystart="77" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result_1ab65131f54ce4c8d2d2c37a99f27bd4da" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::SearchResult</scope><name>distance</name></member>
+      <member refid="structthemis_1_1index_1_1_g_p_u_vector_index_1_1_search_result_1ad3bdca5b2877a4e3f2b79299f66b2d83" prot="public" virt="non-virtual"><scope>themis::index::GPUVectorIndex::SearchResult</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

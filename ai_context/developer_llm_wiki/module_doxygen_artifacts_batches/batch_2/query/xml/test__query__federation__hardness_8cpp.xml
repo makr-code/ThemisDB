@@ -1,0 +1,1405 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__federation__hardness_8cpp" kind="file" language="C++">
+    <compoundname>test_query_federation_hardness.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes refid="query__federation__timeout_8h" local="yes">query/query_federation_timeout.h</includes>
+    <includes refid="query__federation__memory_8h" local="yes">query/query_federation_memory.h</includes>
+    <incdepgraph>
+      <node id="15">
+        <label>query/query_federation_memory.h</label>
+        <link refid="query__federation__memory_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>query/query_federation_timeout.h</label>
+        <link refid="query__federation__timeout_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_query_federation_hardness.cpp</label>
+        <link refid="test__query__federation__hardness_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="18">
+        <label>deque</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="19">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>random</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="17">
+        <label>string_view</label>
+      </node>
+      <node id="5">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>unordered_map</label>
+      </node>
+      <node id="14">
+        <label>utils/retry_contract.h</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_timeout_policy_test" prot="public">TimeoutPolicyTest</innerclass>
+    <innerclass refid="class_query_timeout_context_test" prot="public">QueryTimeoutContextTest</innerclass>
+    <innerclass refid="class_memory_policy_test" prot="public">MemoryPolicyTest</innerclass>
+    <innerclass refid="class_result_accumulator_test" prot="public">ResultAccumulatorTest</innerclass>
+    <innerclass refid="class_federation_hardness_integration_test" prot="public">FederationHardnessIntegrationTest</innerclass>
+    <innerclass refid="class_federation_fault_injection_test" prot="public">FederationFaultInjectionTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1aaabf601ae52b1b5462c76cc77918cf77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeoutPolicyTest, BuilderValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>BuilderValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="42" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="42" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1aca89c58a8ebeaf91a4c447815b2d53e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeoutPolicyTest, PerShardTimeoutEnforcement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>PerShardTimeoutEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="74" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="74" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1ac53fc196258b2363f226920b79dc9f50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeoutPolicyTest, MaxRetriesEnforcement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>MaxRetriesEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="81" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="81" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1aed3daf0cb02191e62967fcfa24daeb38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeoutPolicyTest, BackoffCalculation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>BackoffCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="89" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="89" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a2782646cf3c4fc0501f4ef07f0181508" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeoutPolicyTest, OverallTimeoutEnforcement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>OverallTimeoutEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="104" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a70c30f8d8160628f0f36d7df5ef25622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeoutPolicyTest, TimeoutEventRecording)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>TimeoutEventRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="110" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="110" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a09a1a70940d60d3085203d5d94c2009a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(TimeoutPolicyTest, RetryStatsRecording)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>RetryStatsRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="130" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="130" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1ab58ff8b86dc4f13fdc718b5db3ad2cd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryTimeoutContextTest, ShardAttemptTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref></type>
+        </param>
+        <param>
+          <type>ShardAttemptTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="171" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="171" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a5cdb9907a39eecfef982c35431d3696d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryTimeoutContextTest, RetryTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref></type>
+        </param>
+        <param>
+          <type>RetryTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="183" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="183" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1aa2c97549959895c028c1c70a50bd324e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryTimeoutContextTest, RemainingTimeCalculation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref></type>
+        </param>
+        <param>
+          <type>RemainingTimeCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="204" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="204" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a1a08311c371b5ea03fffdee9631a02c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryTimeoutContextTest, OverallTimeoutDetection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref></type>
+        </param>
+        <param>
+          <type>OverallTimeoutDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="210" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="210" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a681a0daeb4b7939326855fc9e8d8e15d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryPolicyTest, BuilderValidation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>BuilderValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="234" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="234" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a3849028ac9c2d7d95ddd9c929221d2b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryPolicyTest, UtilizationCalculation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>UtilizationCalculation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="253" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="253" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1af5005f6be6382e2ea36a396659e17220" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryPolicyTest, PressureLevelClassification)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>PressureLevelClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="259" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a26802c49c203b0ee58561048b8ca5ae3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryPolicyTest, UnderPressureDetection)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>UnderPressureDetection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="266" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="266" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a0a2cd4608ea8d81dda70fb4bcc8fc202" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryPolicyTest, MemoryLimitEnforcement)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryLimitEnforcement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="272" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="272" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1aba3798e9949e14f02bcea931340fd58d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryPolicyTest, PressureEventRecording)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>PressureEventRecording</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="278" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="278" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a38cc056abca65be889d96aa1299aa374" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultAccumulatorTest, BasicResultAddition)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref></type>
+        </param>
+        <param>
+          <type>BasicResultAddition</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="327" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="327" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1aa24657dfbfb19a15c7acab4f3e9184d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultAccumulatorTest, MultiShardResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref></type>
+        </param>
+        <param>
+          <type>MultiShardResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="334" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="334" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a7d427f8695d53b8f327a413ed2adff58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultAccumulatorTest, MemoryTracking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryTracking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="346" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="346" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a8c00cad2419532390575411165f758cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultAccumulatorTest, RejectPolicyOnOverflow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref></type>
+        </param>
+        <param>
+          <type>RejectPolicyOnOverflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="355" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="355" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a67ea985857cfe606701f483e1fbeb4b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultAccumulatorTest, TruncatePolicyOnOverflow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref></type>
+        </param>
+        <param>
+          <type>TruncatePolicyOnOverflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="368" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="368" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1afaa5cafe9add09c6b14721415e1b4754" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultAccumulatorTest, MergedResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref></type>
+        </param>
+        <param>
+          <type>MergedResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="383" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="383" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a14276f45d8e83771034213aae3610b31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultAccumulatorTest, Clear)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref></type>
+        </param>
+        <param>
+          <type>Clear</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="392" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="392" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a1b088e9e83fc0a9deb87c5c3e6d528bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(ResultAccumulatorTest, Statistics)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref></type>
+        </param>
+        <param>
+          <type>Statistics</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="401" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="401" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a2db74c4d3b9cf4d2fd80468bfca7d57d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationHardnessIntegrationTest, BoundedMemoryUnderTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_hardness_integration_test" kindref="compound">FederationHardnessIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>BoundedMemoryUnderTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="437" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="437" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a114f1f44ea02a7283d22e5d7c592197b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationFaultInjectionTest, FED_01_ShardTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>FED_01_ShardTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="472" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="472" bodyend="485"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1aa1c7787ed8669d7df2afe1cde2b3fe4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationFaultInjectionTest, FED_02_RetryExhaustion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>FED_02_RetryExhaustion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="488" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="488" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a04595cbed422982ad19bd1bae829b3e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationFaultInjectionTest, FED_03_OverallQueryTimeout)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>FED_03_OverallQueryTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="509" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="509" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a9c55770042a107873873768eb613a106" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationFaultInjectionTest, FED_04_MemoryPressure)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>FED_04_MemoryPressure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="522" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="522" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a28182a259616a6990564df85a17bf5cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationFaultInjectionTest, FED_05_BackpressureDropPolicy)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>FED_05_BackpressureDropPolicy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="541" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="541" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a40922447ea6b3c7d6e5463be39eb288a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationFaultInjectionTest, FED_06_PartialFailureRouting)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>FED_06_PartialFailureRouting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="563" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="563" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a314a9bb1affac8f15b99f38d67e582f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationFaultInjectionTest, FED_07_ExponentialBackoff)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>FED_07_ExponentialBackoff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="580" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="580" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__federation__hardness_8cpp_1a4c37d014d47a721a386a932dd0c0f0f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(FederationFaultInjectionTest, FED_08_BoundedResourceGrowth)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref></type>
+        </param>
+        <param>
+          <type>FED_08_BoundedResourceGrowth</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_hardness.cpp" line="592" column="1" bodyfile="tests/query/test_query_federation_hardness.cpp" bodystart="592" bodyend="613"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive federation hardness tests: timeouts, retries, memory, and routing. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-08-05 </para>
+</simplesect>
+<simplesect kind="copyright"><para>Apache-2.0, (c) 2026 ThemisDB Contributors </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__federation__timeout_8h" kindref="compound">query/query_federation_timeout.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__federation__memory_8h" kindref="compound">query/query_federation_memory.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TimeoutPolicy<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="class_timeout_policy_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_timeout_policy_test_1a5e0eecfe96729364ed9a19ce8035b906" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_timeout_policy_test_1aca46d2f57eb6e7021de036b37c268333" kindref="member">policy</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" kindref="member">withPerShardTimeout</ref>(std::chrono::milliseconds(5000))</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a5b19605b760fb3376d584af63b385939" kindref="member">withOverallTimeout</ref>(std::chrono::milliseconds(30000))</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" kindref="member">withMaxRetries</ref>(3)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a976d79f3802b8880df804bedf645d4af" kindref="member">withInitialBackoffMs</ref>(100)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ae0db5a6f050077e8c2712c4c67f8f290" kindref="member">withMaxBackoffMs</ref>(5000)</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a36602fd127dec759e24166d10cec7de0" kindref="member">withBackoffMultiplier</ref>(2.0)</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9802863d5b32bbae8f04535ccc81b045" kindref="member">withJitterFraction</ref>(0.1)</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy" kindref="compound">TimeoutPolicy</ref><sp/><ref refid="class_timeout_policy_test_1aca46d2f57eb6e7021de036b37c268333" kindref="member">policy</ref>{<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" kindref="member">build</ref>()};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref>,<sp/>BuilderValidation)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>builder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" kindref="member">withPerShardTimeout</ref>(std::chrono::milliseconds(5000))</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.withOverallTimeout(std::chrono::milliseconds(30000))</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build());</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>per_shard_timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" kindref="member">withPerShardTimeout</ref>(std::chrono::milliseconds(0))</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build(),</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>overall_timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a5b19605b760fb3376d584af63b385939" kindref="member">withOverallTimeout</ref>(std::chrono::milliseconds(-1))</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build(),</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>max_retries</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" kindref="member">withMaxRetries</ref>(-1)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build(),</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>backoff_multiplier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a36602fd127dec759e24166d10cec7de0" kindref="member">withBackoffMultiplier</ref>(0.5)</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build(),</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref>,<sp/>PerShardTimeoutEnforcement)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.shouldRetry(std::chrono::milliseconds(1000),<sp/>0));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.shouldRetry(std::chrono::milliseconds(4999),<sp/>0));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.shouldRetry(std::chrono::milliseconds(5000),<sp/>0));</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.shouldRetry(std::chrono::milliseconds(6000),<sp/>0));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref>,<sp/>MaxRetriesEnforcement)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.shouldRetry(std::chrono::milliseconds(1000),<sp/>0));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.shouldRetry(std::chrono::milliseconds(1000),<sp/>1));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.shouldRetry(std::chrono::milliseconds(1000),<sp/>2));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.shouldRetry(std::chrono::milliseconds(1000),<sp/>3));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.shouldRetry(std::chrono::milliseconds(1000),<sp/>4));</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref>,<sp/>BackoffCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backoff0<sp/>=<sp/>policy.calculateBackoff(0);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backoff1<sp/>=<sp/>policy.calculateBackoff(1);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backoff2<sp/>=<sp/>policy.calculateBackoff(2);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Backoff<sp/>should<sp/>increase<sp/>exponentially</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(backoff0.count(),<sp/>120);<sp/><sp/></highlight><highlight class="comment">//<sp/>100ms<sp/>+/-<sp/>jitter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(backoff1.count(),<sp/>240);<sp/><sp/></highlight><highlight class="comment">//<sp/>~200ms<sp/>+/-<sp/>jitter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(backoff2.count(),<sp/>480);<sp/><sp/></highlight><highlight class="comment">//<sp/>~400ms<sp/>+/-<sp/>jitter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Later<sp/>backoffs<sp/>should<sp/>be<sp/>capped<sp/>at<sp/>max_backoff</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backoff_many<sp/>=<sp/>policy.calculateBackoff(10);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(backoff_many.count(),<sp/>5500);<sp/><sp/></highlight><highlight class="comment">//<sp/>5000ms<sp/>+/-<sp/>jitter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref>,<sp/>OverallTimeoutEnforcement)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.isOverallTimeoutExceeded(std::chrono::milliseconds(29999)));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.isOverallTimeoutExceeded(std::chrono::milliseconds(30000)));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.isOverallTimeoutExceeded(std::chrono::milliseconds(30001)));</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref>,<sp/>TimeoutEventRecording)<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getTimeoutEvents().size(),<sp/>0);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event" kindref="compound">TimeoutPolicy::TimeoutEvent</ref><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_timeout_event_1ab3f6ac21e5599dd9de1e35057ae0b7c0a85e8cb24e1d413ef772d0ef903955516" kindref="member">TimeoutPolicy::TimeoutEvent::Type::SHARD_TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(5000),</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Connection<sp/>timeout&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.recordTimeoutEvent(event);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getTimeoutEvents().size(),<sp/>1);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>recorded<sp/>=<sp/>policy.getTimeoutEvents()[0];</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recorded.shard_id,<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recorded.elapsed.count(),<sp/>5000);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recorded.exhaustion_reason,<sp/>themis::utils::RetryExhaustionReason::NONE);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recorded.timeout_source,<sp/>themis::utils::RetryTimeoutSource::NONE);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_timeout_policy_test" kindref="compound">TimeoutPolicyTest</ref>,<sp/>RetryStatsRecording)<sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats" kindref="compound">TimeoutPolicy::RetryStats</ref><sp/>stats{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2,<sp/><sp/></highlight><highlight class="comment">//<sp/>successful<sp/>on<sp/>3rd<sp/>attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>3,<sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>total<sp/>attempts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(15000)<sp/><sp/></highlight><highlight class="comment">//<sp/>15<sp/>seconds<sp/>total</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a68cb130d652772cf6320a632504d6020" kindref="member">attempt_latencies</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(5000),</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(5000),</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds(5000)};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>stats.<ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1ae93328057531b3b3a4771bc88595c8e1" kindref="member">failure_reasons</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;connection_reset&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.recordRetryStats(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,<sp/>stats);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>retrieved<sp/>=<sp/>policy.getRetryStats(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(retrieved.has_value());</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;successful_attempt,<sp/>2);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;total_attempts,<sp/>3);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(retrieved-&gt;total_elapsed.count(),<sp/>15000);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/>QueryTimeoutContext<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155" refid="class_query_timeout_context_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_query_timeout_context_test_1a9776b50462411d5ddda41eee4822098d" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_timeout_context_test_1a8a271b2b517a7413cd2a9143dcf6fee7" kindref="member">policy</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" kindref="member">withPerShardTimeout</ref>(std::chrono::milliseconds(2000))</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a5b19605b760fb3376d584af63b385939" kindref="member">withOverallTimeout</ref>(std::chrono::milliseconds(10000))</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" kindref="member">withMaxRetries</ref>(2)</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_timeout_context_test_1a1975fd08c0cbcc9394b02bfb57faa5f8" kindref="member">context</ref><sp/>=<sp/>std::make_unique&lt;QueryTimeoutContext&gt;(<ref refid="class_query_timeout_context_test_1a8a271b2b517a7413cd2a9143dcf6fee7" kindref="member">policy</ref>);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy" kindref="compound">TimeoutPolicy</ref><sp/><ref refid="class_query_timeout_context_test_1a8a271b2b517a7413cd2a9143dcf6fee7" kindref="member">policy</ref>{<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" kindref="member">build</ref>()};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryTimeoutContext&gt;<sp/><ref refid="class_query_timeout_context_test_1a1975fd08c0cbcc9394b02bfb57faa5f8" kindref="member">context</ref>;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref>,<sp/>ShardAttemptTracking)<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>context-&gt;startShardAttempt(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>context-&gt;endShardAttempt(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>context-&gt;getShardStats(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.has_value());</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats-&gt;<ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a88a945542d7a3bb9cb4106228b13e134" kindref="member">successful_attempt</ref>,<sp/>0);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats-&gt;<ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a4d374965bc33554f40db9f5a83361d68" kindref="member">total_attempts</ref>,<sp/>1);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats-&gt;<ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1abd68070186290406c032afb037d4c56e" kindref="member">total_elapsed</ref>.count(),<sp/>100);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref>,<sp/>RetryTracking)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;<sp/>attempt<sp/>&lt;<sp/>3;<sp/>++attempt)<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>context-&gt;startShardAttempt(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>attempt);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>context-&gt;endShardAttempt(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>attempt<sp/>==<sp/>2);<sp/><sp/></highlight><highlight class="comment">//<sp/>success<sp/>on<sp/>3rd<sp/>attempt</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>context-&gt;getShardStats(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.has_value());</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats-&gt;<ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a88a945542d7a3bb9cb4106228b13e134" kindref="member">successful_attempt</ref>,<sp/>2);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats-&gt;<ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1a4d374965bc33554f40db9f5a83361d68" kindref="member">total_attempts</ref>,<sp/>3);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats-&gt;<ref refid="structthemis_1_1query_1_1_timeout_policy_1_1_retry_stats_1ae93328057531b3b3a4771bc88595c8e1" kindref="member">failure_reasons</ref>.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>context-&gt;getRetryMetadata(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metadata.retry_count,<sp/>2u);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metadata.retry_budget,<sp/>2u);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(metadata.retriable);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metadata.exhaustion_reason,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref>,<sp/>RemainingTimeCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>remaining<sp/>=<sp/>context-&gt;getRemainingTime();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(remaining.count(),<sp/>9900);<sp/><sp/></highlight><highlight class="comment">//<sp/>Close<sp/>to<sp/>10000ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(remaining.count(),<sp/>10000);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_query_timeout_context_test" kindref="compound">QueryTimeoutContextTest</ref>,<sp/>OverallTimeoutDetection)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(context-&gt;isOverallTimeoutExceeded());</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sleep<sp/>past<sp/>timeout<sp/>(can&apos;t<sp/>actually<sp/>wait,<sp/>so<sp/>we&apos;d<sp/>need<sp/>to<sp/>mock<sp/>time)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>is<sp/>validated<sp/>in<sp/>integration<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MemoryPolicy<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221" refid="class_memory_policy_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_memory_policy_test_1a748323085b039284ec800341e7ab8b67" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_policy_test_1a13c836b9bf3e03934725a4680aec4828" kindref="member">policy</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(1024<sp/>*<sp/>1024)<sp/><sp/></highlight><highlight class="comment">//<sp/>1MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1af4277278565bb702c67c23b5749cd010" kindref="member">withOverflowPolicy</ref>(<ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a0a83d15fde12983f199bdeb76667660f" kindref="member">MemoryPolicy::OverflowPolicy::TRUNCATE</ref>)</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ab8cca6575d7d20aec62bd17b8eb5b380" kindref="member">withPressureThresholds</ref>(70.0,<sp/>85.0,<sp/>95.0)</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_memory_policy" kindref="compound">MemoryPolicy</ref><sp/><ref refid="class_memory_policy_test_1a13c836b9bf3e03934725a4680aec4828" kindref="member">policy</ref>{<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>()};</highlight></codeline>
+<codeline lineno="232"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref>,<sp/>BuilderValidation)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Valid<sp/>builder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(1024)</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build());</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>max_result_bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(0)</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build(),</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalid<sp/>pressure<sp/>thresholds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ab8cca6575d7d20aec62bd17b8eb5b380" kindref="member">withPressureThresholds</ref>(100.0,<sp/>50.0,<sp/>90.0)</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.build(),</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref>,<sp/>UtilizationCalculation)<sp/>{</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getUtilizationPercent(0),<sp/>0.0);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getUtilizationPercent(512<sp/>*<sp/>1024),<sp/>50.0);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getUtilizationPercent(1024<sp/>*<sp/>1024),<sp/>100.0);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref>,<sp/>PressureLevelClassification)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getPressureLevel(0),<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874ada1e23852820b9154316c7c06e2b7ba051" kindref="member">MemoryPolicy::PressureLevel::NORMAL</ref>);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getPressureLevel(700<sp/>*<sp/>1024),<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874adacb98253aaa42bddafe3662d0cadb74b0" kindref="member">MemoryPolicy::PressureLevel::ELEVATED</ref>);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getPressureLevel(850<sp/>*<sp/>1024),<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874adab89de3b4b81c4facfac906edf29aec8c" kindref="member">MemoryPolicy::PressureLevel::HIGH</ref>);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getPressureLevel(950<sp/>*<sp/>1024),<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874ada99cd1c61610c76a57cb8d10d6df6b870" kindref="member">MemoryPolicy::PressureLevel::CRITICAL</ref>);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref>,<sp/>UnderPressureDetection)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.isUnderPressure(600<sp/>*<sp/>1024));</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.isUnderPressure(700<sp/>*<sp/>1024));</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.isUnderPressure(950<sp/>*<sp/>1024));</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref>,<sp/>MemoryLimitEnforcement)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.isLimitExceeded(1024<sp/>*<sp/>1024<sp/>-<sp/>1));</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.isLimitExceeded(1024<sp/>*<sp/>1024));</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy.isLimitExceeded(1024<sp/>*<sp/>1024<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_memory_policy_test" kindref="compound">MemoryPolicyTest</ref>,<sp/>PressureEventRecording)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getPressureEvents().size(),<sp/>0);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_memory_policy_1_1_memory_pressure_event" kindref="compound">MemoryPolicy::MemoryPressureEvent</ref><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874adab89de3b4b81c4facfac906edf29aec8c" kindref="member">MemoryPolicy::PressureLevel::HIGH</ref>,</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>900<sp/>*<sp/>1024,</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1024<sp/>*<sp/>1024,</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>87.89,</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>event&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.recordPressureEvent(event);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(policy.getPressureEvents().size(),<sp/>1);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>recorded<sp/>=<sp/>policy.getPressureEvents()[0];</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recorded.shard_id,<sp/></highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recorded.level,<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1a1d11d9e4f24139ba4e522186ff4874adab89de3b4b81c4facfac906edf29aec8c" kindref="member">MemoryPolicy::PressureLevel::HIGH</ref>);</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ResultAccumulator<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="class_result_accumulator_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_result_accumulator_test_1a22f495840dd31c5d85a7d4409b5b79f9" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_result_accumulator_test_1abc22cc8cc5d4e4d37e2e79fb5342f09c" kindref="member">policy</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(10<sp/>*<sp/>1024)<sp/><sp/></highlight><highlight class="comment">//<sp/>10KB<sp/>for<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1af4277278565bb702c67c23b5749cd010" kindref="member">withOverflowPolicy</ref>(<ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a0a83d15fde12983f199bdeb76667660f" kindref="member">MemoryPolicy::OverflowPolicy::TRUNCATE</ref>)</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_result_accumulator_test_1a4e6144e80af232a29d7ceca3f41e7d2e" kindref="member">accumulator</ref><sp/>=<sp/>std::make_unique&lt;ResultAccumulator&gt;(<ref refid="class_result_accumulator_test_1abc22cc8cc5d4e4d37e2e79fb5342f09c" kindref="member">policy</ref>);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_memory_policy" kindref="compound">MemoryPolicy</ref><sp/><ref refid="class_result_accumulator_test_1abc22cc8cc5d4e4d37e2e79fb5342f09c" kindref="member">policy</ref>{<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>()};</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ResultAccumulator&gt;<sp/><ref refid="class_result_accumulator_test_1a4e6144e80af232a29d7ceca3f41e7d2e" kindref="member">accumulator</ref>;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>json<sp/><ref refid="class_result_accumulator_test_1a7621831de569eef6e2ed0836dc3d431c" kindref="member">createTestResult</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count)<sp/>{</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json<sp/>arr<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>count;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>arr.push_back({</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>i},</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)}</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>arr;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref>,<sp/>BasicResultAddition)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>createTestResult(5);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>result));</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulator-&gt;getResultCount(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulator-&gt;getTotalResultCount(),<sp/>1);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref>,<sp/>MultiShardResults)<sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>createTestResult(3);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>createTestResult(2);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>result1));</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,<sp/>result2));</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulator-&gt;getResultCount(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulator-&gt;getResultCount(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">),<sp/>1);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulator-&gt;getTotalResultCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref>,<sp/>MemoryTracking)<sp/>{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>createTestResult(5);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>result);</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(accumulator-&gt;getCurrentMemoryBytes(),<sp/>0);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(accumulator-&gt;getMemoryUtilizationPercent(),<sp/>0.0);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(accumulator-&gt;getMemoryUtilizationPercent(),<sp/>100.0);</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref>,<sp/>RejectPolicyOnOverflow)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_memory_policy" kindref="compound">MemoryPolicy</ref><sp/>reject_policy<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(100)<sp/><sp/></highlight><highlight class="comment">//<sp/>Very<sp/>small</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1af4277278565bb702c67c23b5749cd010" kindref="member">withOverflowPolicy</ref>(<ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a59b228d9fec9b88833bfe5d812ed8ad4" kindref="member">MemoryPolicy::OverflowPolicy::REJECT</ref>)</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_result_accumulator" kindref="compound">ResultAccumulator</ref><sp/>reject_accumulator(reject_policy);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>createTestResult(100);<sp/><sp/></highlight><highlight class="comment">//<sp/>Large<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(reject_accumulator.addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>result),</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref>,<sp/>TruncatePolicyOnOverflow)<sp/>{</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>createTestResult(10);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>createTestResult(10);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result3<sp/>=<sp/>createTestResult(10);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>fit<sp/>initially</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>result1));</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>result2));</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Third<sp/>might<sp/>trigger<sp/>truncation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>result3);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Either<sp/>succeeds<sp/>with<sp/>truncation<sp/>or<sp/>overflow<sp/>policy<sp/>handles<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!accumulator-&gt;isMemoryLimitExceeded()<sp/>||<sp/>!success);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref>,<sp/>MergedResults)<sp/>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/>accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>json::array({{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>1}}}));</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,<sp/>json::array({{{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>2}}}));</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>merged<sp/>=<sp/>accumulator-&gt;getMergedResults();</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(merged.is_array());</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(merged.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="390"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref>,<sp/>Clear)<sp/>{</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>createTestResult(5));</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(accumulator-&gt;getTotalResultCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/>accumulator-&gt;clear();</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulator-&gt;getTotalResultCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulator-&gt;getCurrentMemoryBytes(),<sp/>0);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_result_accumulator_test" kindref="compound">ResultAccumulatorTest</ref>,<sp/>Statistics)<sp/>{</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>accumulator-&gt;addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>createTestResult(5));</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>accumulator-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.find(</highlight><highlight class="stringliteral">&quot;ResultAccumulator<sp/>Statistics&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.find(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stats.find(</highlight><highlight class="stringliteral">&quot;utilization&quot;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="408"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>Tests<sp/>(Timeout<sp/>+<sp/>Memory)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414" refid="class_federation_hardness_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_federation_hardness_integration_test" kindref="compound">FederationHardnessIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_federation_hardness_integration_test_1a634d940829eeadb858cca02eded2d213" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federation_hardness_integration_test_1ae4f9e72c76b00a32e68f0c1b27d8a4dd" kindref="member">timeout_policy</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" kindref="member">withPerShardTimeout</ref>(std::chrono::milliseconds(1000))</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a5b19605b760fb3376d584af63b385939" kindref="member">withOverallTimeout</ref>(std::chrono::milliseconds(5000))</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" kindref="member">withMaxRetries</ref>(2)</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federation_hardness_integration_test_1a16d3d5ce7b8e0a359462aae694318d3d" kindref="member">memory_policy</ref><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(100<sp/>*<sp/>1024)<sp/><sp/></highlight><highlight class="comment">//<sp/>100KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federation_hardness_integration_test_1aa35073e39a6e02e5ef90dafaa7f3b218" kindref="member">context</ref><sp/>=<sp/>std::make_unique&lt;QueryTimeoutContext&gt;(<ref refid="class_federation_hardness_integration_test_1ae4f9e72c76b00a32e68f0c1b27d8a4dd" kindref="member">timeout_policy</ref>);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_federation_hardness_integration_test_1a00e8789e24376ce022e3e631f6217f92" kindref="member">accumulator</ref><sp/>=<sp/>std::make_unique&lt;ResultAccumulator&gt;(<ref refid="class_federation_hardness_integration_test_1a16d3d5ce7b8e0a359462aae694318d3d" kindref="member">memory_policy</ref>);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy" kindref="compound">TimeoutPolicy</ref><sp/><ref refid="class_federation_hardness_integration_test_1ae4f9e72c76b00a32e68f0c1b27d8a4dd" kindref="member">timeout_policy</ref>{<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" kindref="member">build</ref>()};</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_memory_policy" kindref="compound">MemoryPolicy</ref><sp/><ref refid="class_federation_hardness_integration_test_1a16d3d5ce7b8e0a359462aae694318d3d" kindref="member">memory_policy</ref>{<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>()};</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;QueryTimeoutContext&gt;<sp/><ref refid="class_federation_hardness_integration_test_1aa35073e39a6e02e5ef90dafaa7f3b218" kindref="member">context</ref>;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ResultAccumulator&gt;<sp/><ref refid="class_federation_hardness_integration_test_1a00e8789e24376ce022e3e631f6217f92" kindref="member">accumulator</ref>;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_hardness_integration_test" kindref="compound">FederationHardnessIntegrationTest</ref>,<sp/>BoundedMemoryUnderTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>multiple<sp/>shard<sp/>results<sp/>arriving<sp/>under<sp/>timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard<sp/>=<sp/>0;<sp/>shard<sp/>&lt;<sp/>3;<sp/>++shard)<sp/>{</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>context-&gt;startShardAttempt(</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard),<sp/>0);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>json<sp/>result<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back({{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/>i}});</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>added<sp/>=<sp/>accumulator-&gt;addResult(</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard),<sp/>result);</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(added);</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>context-&gt;endShardAttempt(</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"></highlight></codeline>
+<codeline lineno="454"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(accumulator-&gt;getTotalResultCount(),<sp/>3);</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(context-&gt;isOverallTimeoutExceeded());</highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(accumulator-&gt;getMemoryUtilizationPercent(),<sp/>100.0);</highlight></codeline>
+<codeline lineno="457"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fault<sp/>Injection<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463" refid="class_federation_fault_injection_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_timeout_policy" kindref="compound">TimeoutPolicy</ref><sp/><ref refid="class_federation_fault_injection_test_1aaca03d20032d47cf82647985c6cf9320" kindref="member">policy</ref>{<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder" kindref="compound">TimeoutPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a03a0c32b46e6cfbd6040dce27bb6182e" kindref="member">withPerShardTimeout</ref>(std::chrono::milliseconds(2000))</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1a9e0df505ff73f34eea1664706fb4fd06" kindref="member">withMaxRetries</ref>(3)</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_timeout_policy_1_1_builder_1ac0f2186d6cb7b9cd1b0c2a65a3c37017" kindref="member">build</ref>()};</highlight></codeline>
+<codeline lineno="469"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED-01:<sp/>Shard<sp/>Timeout<sp/>Injection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref>,<sp/>FED_01_ShardTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context" kindref="compound">QueryTimeoutContext</ref>(policy);</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.startShardAttempt(</highlight><highlight class="stringliteral">&quot;shard_slow&quot;</highlight><highlight class="normal">,<sp/>0);</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>slow<sp/>response<sp/>(would<sp/>exceed<sp/>timeout<sp/>in<sp/>real<sp/>scenario)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_before<sp/>=<sp/>ctx.getTotalElapsed();</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed_after<sp/>=<sp/>ctx.getTotalElapsed();</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(elapsed_after.count(),<sp/>elapsed_before.count());</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.endShardAttempt(</highlight><highlight class="stringliteral">&quot;shard_slow&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.isOverallTimeoutExceeded());</highlight></codeline>
+<codeline lineno="485"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED-02:<sp/>Retry<sp/>Exhaustion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref>,<sp/>FED_02_RetryExhaustion)<sp/>{</highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context" kindref="compound">QueryTimeoutContext</ref>(policy);</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>attempt<sp/>=<sp/>0;<sp/>attempt<sp/>&lt;<sp/>4;<sp/>++attempt)<sp/>{</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.startShardAttempt(</highlight><highlight class="stringliteral">&quot;shard_failing&quot;</highlight><highlight class="normal">,<sp/>attempt);</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.endShardAttempt(</highlight><highlight class="stringliteral">&quot;shard_failing&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;connection<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(attempt<sp/>&lt;<sp/>3)<sp/>{</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctx.shouldRetry(</highlight><highlight class="stringliteral">&quot;shard_failing&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>metadata<sp/>=<sp/>ctx.getRetryMetadata(</highlight><highlight class="stringliteral">&quot;shard_failing&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metadata.retry_count,<sp/>3u);</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(metadata.retriable);</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(metadata.exhaustion_reason,</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::utils::RetryExhaustionReason::MAX_ATTEMPTS_REACHED);</highlight></codeline>
+<codeline lineno="506"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"></highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED-03:<sp/>Overall<sp/>Query<sp/>Timeout</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref>,<sp/>FED_03_OverallQueryTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context" kindref="compound">QueryTimeoutContext</ref>(policy);</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"></highlight></codeline>
+<codeline lineno="512"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>multiple<sp/>slow<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard<sp/>=<sp/>0;<sp/>shard<sp/>&lt;<sp/>5;<sp/>++shard)<sp/>{</highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.startShardAttempt(</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard),<sp/>0);</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.endShardAttempt(</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"></highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.isOverallTimeoutExceeded());</highlight></codeline>
+<codeline lineno="519"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="520"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED-04:<sp/>Memory<sp/>Pressure<sp/>Handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref>,<sp/>FED_04_MemoryPressure)<sp/>{</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_memory_policy" kindref="compound">MemoryPolicy</ref><sp/>mem_policy<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="524"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(1024)</highlight></codeline>
+<codeline lineno="525"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1af4277278565bb702c67c23b5749cd010" kindref="member">withOverflowPolicy</ref>(<ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a0768201691a979ef7cee36b722fa99ce" kindref="member">MemoryPolicy::OverflowPolicy::DROP_OLDEST</ref>)</highlight></codeline>
+<codeline lineno="526"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="527"><highlight class="normal"></highlight></codeline>
+<codeline lineno="528"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_result_accumulator" kindref="compound">ResultAccumulator</ref><sp/>acc(mem_policy);</highlight></codeline>
+<codeline lineno="529"><highlight class="normal"></highlight></codeline>
+<codeline lineno="530"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>results<sp/>until<sp/>under<sp/>pressure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="531"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>small_result<sp/>=<sp/>json::array({1,<sp/>2,<sp/>3,<sp/>4,<sp/>5});</highlight></codeline>
+<codeline lineno="532"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acc.addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>small_result);</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="535"><highlight class="normal"></highlight></codeline>
+<codeline lineno="536"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>under<sp/>pressure<sp/>or<sp/>have<sp/>handled<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="537"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(!acc.isUnderPressure()<sp/>||<sp/>acc.getTotalResultCount()<sp/>&gt;<sp/>0);</highlight></codeline>
+<codeline lineno="538"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="539"><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED-05:<sp/>Backpressure<sp/>with<sp/>Drop<sp/>Policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="541"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref>,<sp/>FED_05_BackpressureDropPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_memory_policy" kindref="compound">MemoryPolicy</ref><sp/>mem_policy<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(500)</highlight></codeline>
+<codeline lineno="544"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1af4277278565bb702c67c23b5749cd010" kindref="member">withOverflowPolicy</ref>(<ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a0768201691a979ef7cee36b722fa99ce" kindref="member">MemoryPolicy::OverflowPolicy::DROP_OLDEST</ref>)</highlight></codeline>
+<codeline lineno="545"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_result_accumulator" kindref="compound">ResultAccumulator</ref><sp/>acc(mem_policy);</highlight></codeline>
+<codeline lineno="548"><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>result<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(i);</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"></highlight></codeline>
+<codeline lineno="554"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>drop<sp/>oldest<sp/>when<sp/>needed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>batch<sp/>=<sp/>0;<sp/>batch<sp/>&lt;<sp/>10;<sp/>++batch)<sp/>{</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acc.addResult(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/>result);</highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="558"><highlight class="normal"></highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(acc.getCurrentMemoryBytes(),<sp/>mem_policy.<ref refid="classthemis_1_1query_1_1_memory_policy_1a5be7f73b42aee6d16dd321918eaac4d2" kindref="member">getMaxResultBytes</ref>()<sp/>+<sp/>1000);</highlight></codeline>
+<codeline lineno="560"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="561"><highlight class="normal"></highlight></codeline>
+<codeline lineno="562"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED-06:<sp/>Shard<sp/>Routing<sp/>Under<sp/>Partial<sp/>Failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref>,<sp/>FED_06_PartialFailureRouting)<sp/>{</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_timeout_context" kindref="compound">QueryTimeoutContext</ref>(policy);</highlight></codeline>
+<codeline lineno="565"><highlight class="normal"></highlight></codeline>
+<codeline lineno="566"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>partial<sp/>failure:<sp/>2<sp/>succeed,<sp/>1<sp/>fails</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="567"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>shards<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;shard3&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="568"><highlight class="normal"></highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>shards.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.startShardAttempt(shards[i],<sp/>0);</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ctx.endShardAttempt(shards[i],<sp/>i<sp/>&lt;<sp/>2);<sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>2<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="572"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"></highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.getShardStats(</highlight><highlight class="stringliteral">&quot;shard1&quot;</highlight><highlight class="normal">)-&gt;successful_attempt,<sp/>0);</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.getShardStats(</highlight><highlight class="stringliteral">&quot;shard2&quot;</highlight><highlight class="normal">)-&gt;successful_attempt,<sp/>0);</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.getShardStats(</highlight><highlight class="stringliteral">&quot;shard3&quot;</highlight><highlight class="normal">)-&gt;successful_attempt,<sp/>-1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Failed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="577"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"></highlight></codeline>
+<codeline lineno="579"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED-07:<sp/>Exponential<sp/>Backoff<sp/>Correctness</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref>,<sp/>FED_07_ExponentialBackoff)<sp/>{</highlight></codeline>
+<codeline lineno="581"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backoff0<sp/>=<sp/>policy.calculateBackoff(0);</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backoff1<sp/>=<sp/>policy.calculateBackoff(1);</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>backoff2<sp/>=<sp/>policy.calculateBackoff(2);</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"></highlight></codeline>
+<codeline lineno="585"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>should<sp/>be<sp/>roughly<sp/>2x<sp/>previous<sp/>(with<sp/>jitter)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(backoff0.count(),<sp/>120);</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(backoff1.count(),<sp/>backoff0.count());</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(backoff2.count(),<sp/>backoff1.count());</highlight></codeline>
+<codeline lineno="589"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="590"><highlight class="normal"></highlight></codeline>
+<codeline lineno="591"><highlight class="normal"></highlight><highlight class="comment">//<sp/>FED-08:<sp/>Bounded<sp/>Resource<sp/>Growth<sp/>Under<sp/>Fault<sp/>Storm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="592"><highlight class="normal"><ref refid="namespacethemis_1_1query_1aa58d7fbb741be0c9784f0039f48a3d7a" kindref="member">TEST_F</ref>(<ref refid="class_federation_fault_injection_test" kindref="compound">FederationFaultInjectionTest</ref>,<sp/>FED_08_BoundedResourceGrowth)<sp/>{</highlight></codeline>
+<codeline lineno="593"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_memory_policy" kindref="compound">MemoryPolicy</ref><sp/>mem_policy<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder" kindref="compound">MemoryPolicy::Builder</ref>{}</highlight></codeline>
+<codeline lineno="594"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1a45bfa184a17b81245c51fdc10ab1da73" kindref="member">withMaxResultBytes</ref>(10<sp/>*<sp/>1024)</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1af4277278565bb702c67c23b5749cd010" kindref="member">withOverflowPolicy</ref>(<ref refid="classthemis_1_1query_1_1_memory_policy_1a686476a18250193950702a912cafb453a0a83d15fde12983f199bdeb76667660f" kindref="member">MemoryPolicy::OverflowPolicy::TRUNCATE</ref>)</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="classthemis_1_1query_1_1_memory_policy_1_1_builder_1ae14c96b966bfefeab666497306a4d276" kindref="member">build</ref>();</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"></highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_result_accumulator" kindref="compound">ResultAccumulator</ref><sp/>acc(mem_policy);</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"></highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>fault<sp/>storm:<sp/>many<sp/>shards<sp/>sending<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="601"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard<sp/>=<sp/>0;<sp/>shard<sp/>&lt;<sp/>20;<sp/>++shard)<sp/>{</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>result<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>item<sp/>=<sp/>0;<sp/>item<sp/>&lt;<sp/>100;<sp/>++item)<sp/>{</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back({{</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal">,<sp/>shard},<sp/>{</highlight><highlight class="stringliteral">&quot;item&quot;</highlight><highlight class="normal">,<sp/>item}});</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"></highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>acc.addResult(</highlight><highlight class="stringliteral">&quot;shard&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard),<sp/>result);</highlight></codeline>
+<codeline lineno="608"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"></highlight></codeline>
+<codeline lineno="610"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>never<sp/>exceed<sp/>memory<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(acc.getCurrentMemoryBytes(),</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mem_policy.<ref refid="classthemis_1_1query_1_1_memory_policy_1a5be7f73b42aee6d16dd321918eaac4d2" kindref="member">getMaxResultBytes</ref>()<sp/>+<sp/>1000);<sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>buffer<sp/>for<sp/>precision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="613"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_federation_hardness.cpp"/>
+  </compounddef>
+</doxygen>

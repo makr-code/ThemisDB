@@ -1,0 +1,770 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cdc__dead__letter__queue_8cpp" kind="file" language="C++">
+    <compoundname>test_cdc_dead_letter_queue.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="dead__letter__queue_8h" local="yes">cdc/dead_letter_queue.h</includes>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includes refid="changefeed__buffer_8h" local="yes">cdc/changefeed_buffer.h</includes>
+    <includes refid="cdc__error_8h" local="yes">cdc/cdc_error.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">stdexcept</includes>
+    <incdepgraph>
+      <node id="24">
+        <label>cdc/cdc_error.h</label>
+        <link refid="cdc__error_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>cdc/changefeed_buffer.h</label>
+        <link refid="changefeed__buffer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cdc/dead_letter_queue.h</label>
+        <link refid="dead__letter__queue_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/cdc/test_cdc_dead_letter_queue.cpp</label>
+        <link refid="test__cdc__dead__letter__queue_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="14">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>condition_variable</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="22">
+        <label>deque</label>
+      </node>
+      <node id="27">
+        <label>filesystem</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="23">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="18">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>set</label>
+      </node>
+      <node id="25">
+        <label>stdexcept</label>
+      </node>
+      <node id="26">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_dead_letter_queue_test" prot="public">DeadLetterQueueTest</innerclass>
+    <innerclass refid="class_d_l_q_buffer_integration_test" prot="public">DLQBufferIntegrationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, EnqueueAssignsDlqSequence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>EnqueueAssignsDlqSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="77" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="77" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a13ddc8da8e2f2e160209f43d37d5ae85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, EnqueueMultipleIncreasesSequence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>EnqueueMultipleIncreasesSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="88" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="88" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1ac7c15e8642f273bb82876c03a6e34231" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, SizeReflectsEnqueueCount)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>SizeReflectsEnqueueCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="99" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="99" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1adce72887d7ac235df6d5ff4c9f974f25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, ListEntriesReturnsAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>ListEntriesReturnsAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="109" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="109" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a13386432d45607c751b0f48fc6aa4f08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, ListEntriesRespectsLimit)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>ListEntriesRespectsLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="122" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="122" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1ae6345f8b290f9e647fa962a0204a7b86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, GetEntryRoundTrip)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>GetEntryRoundTrip</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="133" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="133" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1ab5b86bd120da6f08a0384a70b39441c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, GetEntryThrowsOnMissingSequence)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>GetEntryThrowsOnMissingSequence</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="145" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="145" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a3c135084620b6cb204bfbcda0681f003" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, RemoveDecreasesSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveDecreasesSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="151" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="151" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a756d2268cf7c7693fa4bf06bdc2f3d63" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, RemoveReturnsFalseForMissing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>RemoveReturnsFalseForMissing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="159" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a4b5ad3ddc805a7e86c7f3abd8518151c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, DrainRemovesAllEntries)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>DrainRemovesAllEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="165" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="165" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1aa2f905a2d19ce13303ca7519a635b5c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, DrainOnEmptyQueueReturnsZero)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>DrainOnEmptyQueueReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="175" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a85f2c2cff4fb95bf0333fe140a107c4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, ReplayRerecordsEventAndRemovesEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayRerecordsEventAndRemovesEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="181" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="181" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a62174c08d7f4eb6b1626049e5c30af19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, ReplayThrowsOnMissingEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>ReplayThrowsOnMissingEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="199" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="199" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1a835c1613b30bef2f38433d76e1260238" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DeadLetterQueueTest, DlqEntryRoundTripJson)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref></type>
+        </param>
+        <param>
+          <type>DlqEntryRoundTripJson</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="205" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="205" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cdc__dead__letter__queue_8cpp_1afadfaa2757cd6fc85a05f4c3bd3a80d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(DLQBufferIntegrationTest, GetAndSetDeadLetterQueue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_d_l_q_buffer_integration_test" kindref="compound">DLQBufferIntegrationTest</ref></type>
+        </param>
+        <param>
+          <type>GetAndSetDeadLetterQueue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cdc/test_cdc_dead_letter_queue.cpp" line="263" column="1" bodyfile="tests/cdc/test_cdc_dead_letter_queue.cpp" bodystart="263" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Test:<sp/>CDC<sp/>Dead-Letter<sp/>Queue</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Tests<sp/>for<sp/>DeadLetterQueue:<sp/>enqueue,<sp/>list,<sp/>replay,<sp/>remove,<sp/>drain</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="dead__letter__queue_8h" kindref="compound">cdc/dead_letter_queue.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed__buffer_8h" kindref="compound">cdc/changefeed_buffer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__error_8h" kindref="compound">cdc/cdc_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">themis::cdc</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Test<sp/>Fixture<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="class_dead_letter_queue_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_dead_letter_queue_test_1a21bed4012e1bff8127e09f90976390a0" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>_WIN32</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>CDC<sp/>dead-letter-queue<sp/>focused<sp/>tests<sp/>on<sp/>Windows<sp/>due<sp/>to<sp/>fixture<sp/>crash<sp/>in<sp/>current<sp/>runtime.&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" kindref="member">test_db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test_dlq_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count());</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" kindref="member">test_db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/><ref refid="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>raw<sp/>=<sp/><ref refid="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" kindref="member">db_</ref>-&gt;getDB();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_NE(raw,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1a0bdc190799bf7ffad75c45ae8d560053" kindref="member">changefeed_</ref><sp/>=<sp/>std::make_unique&lt;Changefeed&gt;(raw,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1a6412c941cb2e9286b1b2a81f190cf20e" kindref="member">dlq_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;DeadLetterQueue&gt;(raw,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_dead_letter_queue_test_1af78bb44fe579c7ad71f47eb9b034e6a5" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1a6412c941cb2e9286b1b2a81f190cf20e" kindref="member">dlq_</ref>.reset();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1a0bdc190799bf7ffad75c45ae8d560053" kindref="member">changefeed_</ref>.reset();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" kindref="member">db_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" kindref="member">test_db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/><ref refid="class_dead_letter_queue_test_1ade095c22fffc71de2367cb21b2fc2a28" kindref="member">makeEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>e;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.<ref refid="struct_changefeed_1_1_change_event_1a883b176a3fb4c5abc1dc20e30eb608a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" kindref="member">Changefeed::ChangeEventType::EVENT_PUT</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>key;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>value;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>e.<ref refid="struct_changefeed_1_1_change_event_1aa6cfc276ad4f8bd518cb0f27278905ae" kindref="member">timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_dead_letter_queue_test_1acf1bc39ab22a0cebabfd2585b745cd77" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1ab130e4b54f4508c68746bacf49b0ad52" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Changefeed&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_dead_letter_queue_test_1a0bdc190799bf7ffad75c45ae8d560053" kindref="member">changefeed_</ref>;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DeadLetterQueue&gt;<sp/><sp/><ref refid="class_dead_letter_queue_test_1a6412c941cb2e9286b1b2a81f190cf20e" kindref="member">dlq_</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Enqueue<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>EnqueueAssignsDlqSequence)<sp/>{</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;table:1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_d_l_q_entry" kindref="compound">DLQEntry</ref><sp/>entry<sp/>=<sp/>dlq_-&gt;enqueue(event,<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>error&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(entry.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a8a3c826cd00dd42f5149d8d80b6c3379" kindref="member">dlq_sequence</ref>,<sp/>uint64_t(1));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a5f34c5859aa5149b4f6a43518895cec1" kindref="member">event</ref>.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref>,<sp/></highlight><highlight class="stringliteral">&quot;table:1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1ad43d735586bcad6b9c02220d47de8e23" kindref="member">failure_reason</ref>,<sp/></highlight><highlight class="stringliteral">&quot;test<sp/>error&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a2d1bd8585964bdb4ae3faf80eaa81480" kindref="member">attempt_count</ref>,<sp/>3);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(entry.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1afc8c3c03dd520815901b765f86c55bd9" kindref="member">enqueued_at_ms</ref>,<sp/>int64_t(0));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>EnqueueMultipleIncreasesSequence)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;err1&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e2<sp/>=<sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;err2&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e3<sp/>=<sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;k3&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;err3&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(e1.dlq_sequence,<sp/>e2.dlq_sequence);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(e2.dlq_sequence,<sp/>e3.dlq_sequence);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>List<sp/>/<sp/>Size<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>SizeReflectsEnqueueCount)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dlq_-&gt;size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dlq_-&gt;size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(1));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;k2&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dlq_-&gt;size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(2));</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>ListEntriesReturnsAll)<sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;err-a&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;err-b&quot;</highlight><highlight class="normal">,<sp/>2);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;err-c&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entries<sp/>=<sp/>dlq_-&gt;listEntries();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(entries.size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(3));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>oldest-first<sp/>ordering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(entries[0].dlq_sequence,<sp/>entries[1].dlq_sequence);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(entries[1].dlq_sequence,<sp/>entries[2].dlq_sequence);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>ListEntriesRespectsLimit)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;k&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i)),<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entries<sp/>=<sp/>dlq_-&gt;listEntries(3);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entries.size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(3));</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>GetEntry<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>GetEntryRoundTrip)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>orig<sp/><sp/>=<sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;orders:99&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;{\&quot;qty\&quot;:5}&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;db<sp/>write<sp/>failed&quot;</highlight><highlight class="normal">,<sp/>4);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>found<sp/>=<sp/>dlq_-&gt;getEntry(orig.dlq_sequence);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found.dlq_sequence,<sp/><sp/><sp/>orig.dlq_sequence);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found.event.key,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;orders:99&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found.failure_reason,<sp/></highlight><highlight class="stringliteral">&quot;db<sp/>write<sp/>failed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(found.attempt_count,<sp/><sp/>4);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(found.event.value.has_value());</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*found.event.value,<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;{\&quot;qty\&quot;:5}&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>GetEntryThrowsOnMissingSequence)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(dlq_-&gt;getEntry(99999),<sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref>);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Remove<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>RemoveDecreasesSize)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;k1&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dlq_-&gt;size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(1));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dlq_-&gt;remove(entry.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a8a3c826cd00dd42f5149d8d80b6c3379" kindref="member">dlq_sequence</ref>));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dlq_-&gt;size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>RemoveReturnsFalseForMissing)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(dlq_-&gt;remove(99999));</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Drain<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>DrainRemovesAllEntries)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>dlq_-&gt;enqueue(makeEvent(</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;e&quot;</highlight><highlight class="normal">,<sp/>1);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>deleted<sp/>=<sp/>dlq_-&gt;drain();</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(deleted,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(3));</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dlq_-&gt;size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>DrainOnEmptyQueueReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dlq_-&gt;drain(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Replay<sp/>Tests<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>ReplayRerecordsEventAndRemovesEntry)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">event</highlight><highlight class="normal"><sp/>=<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;replay-key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;replay-value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/>dlq_-&gt;enqueue(event,<sp/></highlight><highlight class="stringliteral">&quot;simulated<sp/>failure&quot;</highlight><highlight class="normal">,<sp/>3);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>initial_changefeed_seq<sp/>=<sp/>changefeed_-&gt;getLatestSequence();</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>recorded<sp/>=<sp/>dlq_-&gt;replay(entry.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a8a3c826cd00dd42f5149d8d80b6c3379" kindref="member">dlq_sequence</ref>,<sp/>*changefeed_);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>New<sp/>sequence<sp/>should<sp/>be<sp/>&gt;<sp/>previous<sp/>latest</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(recorded.<ref refid="struct_changefeed_1_1_change_event_1a6768432c72d8a143488ea46d4ce45856" kindref="member">sequence</ref>,<sp/>initial_changefeed_seq);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(recorded.<ref refid="struct_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref>,<sp/></highlight><highlight class="stringliteral">&quot;replay-key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(recorded.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref>.has_value());</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(*recorded.<ref refid="struct_changefeed_1_1_change_event_1ad2d3a461fdb9d4deefc9935feb9d8c50" kindref="member">value</ref>,<sp/></highlight><highlight class="stringliteral">&quot;replay-value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Entry<sp/>should<sp/>have<sp/>been<sp/>removed<sp/>from<sp/>DLQ</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dlq_-&gt;size(),<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(0));</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>ReplayThrowsOnMissingEntry)<sp/>{</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(dlq_-&gt;replay(99999,<sp/>*changefeed_),<sp/><ref refid="classthemis_1_1cdc_1_1_c_d_c_exception" kindref="compound">CDCException</ref>);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>DLQEntry<sp/>JSON<sp/>Serialization<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_dead_letter_queue_test" kindref="compound">DeadLetterQueueTest</ref>,<sp/>DlqEntryRoundTripJson)<sp/>{</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_d_l_q_entry" kindref="compound">DLQEntry</ref><sp/>orig;</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a8a3c826cd00dd42f5149d8d80b6c3379" kindref="member">dlq_sequence</ref><sp/><sp/><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a5f34c5859aa5149b4f6a43518895cec1" kindref="member">event</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>makeEvent(</highlight><highlight class="stringliteral">&quot;json-key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;json-value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1ad43d735586bcad6b9c02220d47de8e23" kindref="member">failure_reason</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;round-trip<sp/>test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a2d1bd8585964bdb4ae3faf80eaa81480" kindref="member">attempt_count</ref><sp/><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1afc8c3c03dd520815901b765f86c55bd9" kindref="member">enqueued_at_ms</ref><sp/>=<sp/>1700000000000LL;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>j<sp/>=<sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a0853f4a6712bc7ef531e277fe16f787c" kindref="member">toJson</ref>();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_d_l_q_entry" kindref="compound">DLQEntry</ref><sp/>parsed<sp/><sp/>=<sp/><ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a4b009be207c706a27ca52710f0bf1b38" kindref="member">DLQEntry::fromJson</ref>(j);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parsed.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a8a3c826cd00dd42f5149d8d80b6c3379" kindref="member">dlq_sequence</ref>,<sp/><sp/><sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a8a3c826cd00dd42f5149d8d80b6c3379" kindref="member">dlq_sequence</ref>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parsed.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a5f34c5859aa5149b4f6a43518895cec1" kindref="member">event</ref>.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref>,<sp/><sp/><sp/><sp/><sp/><sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a5f34c5859aa5149b4f6a43518895cec1" kindref="member">event</ref>.<ref refid="structthemis_1_1_changefeed_1_1_change_event_1a3a217971c867a92b478cb1b593bec7f7" kindref="member">key</ref>);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parsed.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1ad43d735586bcad6b9c02220d47de8e23" kindref="member">failure_reason</ref>,<sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1ad43d735586bcad6b9c02220d47de8e23" kindref="member">failure_reason</ref>);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parsed.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a2d1bd8585964bdb4ae3faf80eaa81480" kindref="member">attempt_count</ref>,<sp/><sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1a2d1bd8585964bdb4ae3faf80eaa81480" kindref="member">attempt_count</ref>);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parsed.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1afc8c3c03dd520815901b765f86c55bd9" kindref="member">enqueued_at_ms</ref>,<sp/>orig.<ref refid="structthemis_1_1cdc_1_1_d_l_q_entry_1afc8c3c03dd520815901b765f86c55bd9" kindref="member">enqueued_at_ms</ref>);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>ChangefeedBuffer<sp/>Integration<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="class_d_l_q_buffer_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_d_l_q_buffer_integration_test" kindref="compound">DLQBufferIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_d_l_q_buffer_integration_test_1a68fa1e96e78ebe5d5024de3050398c2c" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" kindref="member">test_db_path_</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/test_dlq_buf_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now().time_since_epoch().count());</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" kindref="member">test_db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.db_path<sp/>=<sp/><ref refid="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.memtable_size_mb<sp/><sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.block_cache_size_mb<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a547eed5ce403cd6490bbd6f2a11868a8" kindref="member">db_</ref><sp/>=<sp/>std::make_unique&lt;RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_d_l_q_buffer_integration_test_1a547eed5ce403cd6490bbd6f2a11868a8" kindref="member">db_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">*<sp/>raw<sp/>=<sp/><ref refid="class_d_l_q_buffer_integration_test_1a547eed5ce403cd6490bbd6f2a11868a8" kindref="member">db_</ref>-&gt;getDB();</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a391e5986ecde08149dbef50fc5585394" kindref="member">changefeed_</ref><sp/>=<sp/>std::make_unique&lt;Changefeed&gt;(raw,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a0ebe09465a4f6b96fb2d48a26d79f80f" kindref="member">dlq_</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_unique&lt;DeadLetterQueue&gt;(raw,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_d_l_q_buffer_integration_test_1a89896558ab308a8dd9bc8cc1508bca99" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a0ebe09465a4f6b96fb2d48a26d79f80f" kindref="member">dlq_</ref>.reset();</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a391e5986ecde08149dbef50fc5585394" kindref="member">changefeed_</ref>.reset();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a547eed5ce403cd6490bbd6f2a11868a8" kindref="member">db_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a547eed5ce403cd6490bbd6f2a11868a8" kindref="member">db_</ref>.reset();</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(fs::exists(<ref refid="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" kindref="member">test_db_path_</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" kindref="member">test_db_path_</ref>);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_d_l_q_buffer_integration_test_1a2acd808081b79f080379590f927f0df6" kindref="member">test_db_path_</ref>;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;RocksDBWrapper&gt;<sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a547eed5ce403cd6490bbd6f2a11868a8" kindref="member">db_</ref>;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Changefeed&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_d_l_q_buffer_integration_test_1a391e5986ecde08149dbef50fc5585394" kindref="member">changefeed_</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DeadLetterQueue&gt;<sp/><ref refid="class_d_l_q_buffer_integration_test_1a0ebe09465a4f6b96fb2d48a26d79f80f" kindref="member">dlq_</ref>;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__cdc__dead__letter__queue_8cpp_1a3c38c003481c4547adf26d450a67e8d0" kindref="member">TEST_F</ref>(<ref refid="class_d_l_q_buffer_integration_test" kindref="compound">DLQBufferIntegrationTest</ref>,<sp/>GetAndSetDeadLetterQueue)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_changefeed_buffer_config_1af91d2957bf31603cf2420ee83daa73f4" kindref="member">async_flush</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1_changefeed_buffer_config_1aedadbeea1e5486d48ff343581b5cdeb4" kindref="member">max_retry_attempts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed_buffer" kindref="compound">ChangefeedBuffer</ref><sp/>buffer(changefeed_.get(),<sp/>cfg);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buffer.getDeadLetterQueue(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer.setDeadLetterQueue(dlq_.get());</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buffer.getDeadLetterQueue(),<sp/>dlq_.get());</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>buffer.setDeadLetterQueue(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buffer.getDeadLetterQueue(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/cdc/test_cdc_dead_letter_queue.cpp"/>
+  </compounddef>
+</doxygen>

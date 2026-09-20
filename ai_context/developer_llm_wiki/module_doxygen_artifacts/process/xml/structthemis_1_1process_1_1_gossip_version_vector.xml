@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_gossip_version_vector" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::GossipVersionVector</compoundname>
+    <includes refid="federated__consensus__contract_8h" local="no">federated_consensus_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, uint64_t &gt;</type>
+        <definition>std::map&lt;std::string, uint64_t&gt; themis::process::GossipVersionVector::clock</definition>
+        <argsstring></argsstring>
+        <name>clock</name>
+        <qualifiedname>themis::process::GossipVersionVector::clock</qualifiedname>
+        <briefdescription>
+<para>Map of shard_id -&gt; logical clock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="428" column="14" bodyfile="include/process/federated_consensus_contract.h" bodystart="428" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_gossip_version_vector_1a688af70028d97e9d983533c5fd8e4bdf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::GossipVersionVector::increment</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>increment</name>
+        <qualifiedname>themis::process::GossipVersionVector::increment</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Increment clock for a given shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to increment </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="434" column="10" bodyfile="include/process/federated_consensus_contract.h" bodystart="434" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_gossip_version_vector_1af17f40b6b9f9c2bf763a9d579b8b5f9b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::GossipVersionVector::merge</definition>
+        <argsstring>(const GossipVersionVector &amp;other)</argsstring>
+        <name>merge</name>
+        <qualifiedname>themis::process::GossipVersionVector::merge</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_gossip_version_vector" kindref="compound">GossipVersionVector</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Merge with another version vector (take maximum per shard). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version vector to merge </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="446" column="10" bodyfile="include/process/federated_consensus_contract.h" bodystart="446" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_gossip_version_vector_1aa04c10ac3c2b60061bcfe2904bb1e81f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::GossipVersionVector::happensBefore</definition>
+        <argsstring>(const GossipVersionVector &amp;other) const</argsstring>
+        <name>happensBefore</name>
+        <qualifiedname>themis::process::GossipVersionVector::happensBefore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_gossip_version_vector" kindref="compound">GossipVersionVector</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Check if this version vector has seen all events in another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Version vector to compare </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if this &gt;= other (elementwise) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/federated_consensus_contract.h" line="461" column="10" bodyfile="include/process/federated_consensus_contract.h" bodystart="461" bodyend="469"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Version vector for detecting causality and divergence in gossip protocol. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Maps shard_id → logical clock value; used to detect which events have been seen. </para>
+    </detaileddescription>
+    <location file="include/process/federated_consensus_contract.h" line="426" column="1" bodyfile="include/process/federated_consensus_contract.h" bodystart="426" bodyend="470"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_gossip_version_vector_1a1a993dbbefbe523c3c97e9ee9042093b" prot="public" virt="non-virtual"><scope>themis::process::GossipVersionVector</scope><name>clock</name></member>
+      <member refid="structthemis_1_1process_1_1_gossip_version_vector_1aa04c10ac3c2b60061bcfe2904bb1e81f" prot="public" virt="non-virtual"><scope>themis::process::GossipVersionVector</scope><name>happensBefore</name></member>
+      <member refid="structthemis_1_1process_1_1_gossip_version_vector_1a688af70028d97e9d983533c5fd8e4bdf" prot="public" virt="non-virtual"><scope>themis::process::GossipVersionVector</scope><name>increment</name></member>
+      <member refid="structthemis_1_1process_1_1_gossip_version_vector_1af17f40b6b9f9c2bf763a9d579b8b5f9b" prot="public" virt="non-virtual"><scope>themis::process::GossipVersionVector</scope><name>merge</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

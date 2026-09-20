@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_replication_event" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::CacheReplicationEvent</compoundname>
+    <includes refid="cache__replication_8h" local="no">cache_replication.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_event_1ab88fa6ad44a7a736dac3bb4c32c3253b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acd" kindref="member">CacheReplicationEventType</ref></type>
+        <definition>CacheReplicationEventType themis::cache::CacheReplicationEvent::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::cache::CacheReplicationEvent::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1cache_1aa1ff9c4fd0fc4d8605dbe67df12e7acdad4b9e47f65b6e79b010582f15785867e" kindref="member">CacheReplicationEventType::WRITE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="58" column="31" bodyfile="include/cache/cache_replication.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_event_1aca5c6d47887796749f198fcc3bf9fa44" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheReplicationEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::CacheReplicationEvent::key</qualifiedname>
+        <briefdescription>
+<para>Cache key (WRITE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="59" column="17" bodyfile="include/cache/cache_replication.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_event_1aada82c977d8d40b15cb368e15a935052" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheReplicationEvent::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::cache::CacheReplicationEvent::pattern</qualifiedname>
+        <briefdescription>
+<para>Invalidation pattern (INVALIDATE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="60" column="17" bodyfile="include/cache/cache_replication.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_event_1af2ff29f87ebca71ce14c21326c173e9c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheReplicationEvent::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::cache::CacheReplicationEvent::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant ID (WRITE / INVALIDATE_TENANT). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="61" column="17" bodyfile="include/cache/cache_replication.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_event_1a242e8b72096515dd44e4fea8dcecc1f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheReplicationEvent::payload</definition>
+        <argsstring></argsstring>
+        <name>payload</name>
+        <qualifiedname>themis::cache::CacheReplicationEvent::payload</qualifiedname>
+        <briefdescription>
+<para>Serialised entry or snapshot data. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="62" column="17" bodyfile="include/cache/cache_replication.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_event_1afe52284abc182bd335e2ef39135f6697" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::CacheReplicationEvent::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::cache::CacheReplicationEvent::ttl_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Remaining TTL in seconds (WRITE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="63" column="9" bodyfile="include/cache/cache_replication.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_event_1a21b519991d9d1a1dec1fe05da2dd3214" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::cache::CacheReplicationEvent::timestamp_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ms</name>
+        <qualifiedname>themis::cache::CacheReplicationEvent::timestamp_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Event wall-clock time (ms since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="64" column="13" bodyfile="include/cache/cache_replication.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_event_1ad0d8f7de5b0adfef1e71560d9dc22aba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::CacheReplicationEvent::sequence</definition>
+        <argsstring></argsstring>
+        <name>sequence</name>
+        <qualifiedname>themis::cache::CacheReplicationEvent::sequence</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monotonically increasing sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication.h" line="65" column="14" bodyfile="include/cache/cache_replication.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_replication.h" line="57" column="1" bodyfile="include/cache/cache_replication.h" bodystart="57" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_event_1aca5c6d47887796749f198fcc3bf9fa44" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationEvent</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_event_1aada82c977d8d40b15cb368e15a935052" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationEvent</scope><name>pattern</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_event_1a242e8b72096515dd44e4fea8dcecc1f4" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationEvent</scope><name>payload</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_event_1ad0d8f7de5b0adfef1e71560d9dc22aba" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationEvent</scope><name>sequence</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_event_1af2ff29f87ebca71ce14c21326c173e9c" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationEvent</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_event_1a21b519991d9d1a1dec1fe05da2dd3214" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationEvent</scope><name>timestamp_ms</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_event_1afe52284abc182bd335e2ef39135f6697" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationEvent</scope><name>ttl_seconds</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_event_1ab88fa6ad44a7a736dac3bb4c32c3253b" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationEvent</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

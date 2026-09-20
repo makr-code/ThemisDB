@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1benchmark_1_1_process_mining_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::benchmark::ProcessMiningEngine</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_mining_engine_1a3a341bc40d7baef70304e7b1eb87bc45" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref></type>
+        <definition>static EventLog themis::process::benchmark::ProcessMiningEngine::alphaMiner</definition>
+        <argsstring>(const EventLog &amp;input_log)</argsstring>
+        <name>alphaMiner</name>
+        <qualifiedname>themis::process::benchmark::ProcessMiningEngine::alphaMiner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>input_log</declname>
+        </param>
+        <briefdescription>
+<para>Alpha Miner algorithm simulation Discovers process model from event log using footprint matrix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="51" column="21" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="51" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_mining_engine_1a0cd2450ea6ed86cde6e457502fdb6163" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref></type>
+        <definition>static EventLog themis::process::benchmark::ProcessMiningEngine::heuristicMiner</definition>
+        <argsstring>(const EventLog &amp;input_log)</argsstring>
+        <name>heuristicMiner</name>
+        <qualifiedname>themis::process::benchmark::ProcessMiningEngine::heuristicMiner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>input_log</declname>
+        </param>
+        <briefdescription>
+<para>Heuristic Miner algorithm simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="81" column="21" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="81" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1process_1_1benchmark_1_1_process_mining_engine_1ae6a4ff6437d0cde01d11933c0d155a1e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref></type>
+        <definition>static EventLog themis::process::benchmark::ProcessMiningEngine::inductiveMiner</definition>
+        <argsstring>(const EventLog &amp;input_log)</argsstring>
+        <name>inductiveMiner</name>
+        <qualifiedname>themis::process::benchmark::ProcessMiningEngine::inductiveMiner</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1benchmark_1_1_event_log" kindref="compound">EventLog</ref> &amp;</type>
+          <declname>input_log</declname>
+        </param>
+        <briefdescription>
+<para>Inductive Miner algorithm simulation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="111" column="21" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="111" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Process mining algorithms simulator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/process/bench_process_advanced_workflows.cpp" line="45" column="1" bodyfile="benchmarks/process/bench_process_advanced_workflows.cpp" bodystart="45" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_mining_engine_1a3a341bc40d7baef70304e7b1eb87bc45" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessMiningEngine</scope><name>alphaMiner</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_mining_engine_1a0cd2450ea6ed86cde6e457502fdb6163" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessMiningEngine</scope><name>heuristicMiner</name></member>
+      <member refid="classthemis_1_1process_1_1benchmark_1_1_process_mining_engine_1ae6a4ff6437d0cde01d11933c0d155a1e" prot="public" virt="non-virtual"><scope>themis::process::benchmark::ProcessMiningEngine</scope><name>inductiveMiner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

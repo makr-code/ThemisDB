@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_edge" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::Edge</compoundname>
+    <includes refid="ligra_8h" local="no">ligra.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_edge_1a2bfefb47ee9e10ceb101683cdd4e3917" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1afff41a926807efadac62efcb39769d58" kindref="member">NodeID</ref></type>
+        <definition>NodeID themis::performance::Edge::src</definition>
+        <argsstring></argsstring>
+        <name>src</name>
+        <qualifiedname>themis::performance::Edge::src</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="125" column="12" bodyfile="include/performance/ligra.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_edge_1a6fcbcc895389c88e616675b211f7250b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1afff41a926807efadac62efcb39769d58" kindref="member">NodeID</ref></type>
+        <definition>NodeID themis::performance::Edge::dst</definition>
+        <argsstring></argsstring>
+        <name>dst</name>
+        <qualifiedname>themis::performance::Edge::dst</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/ligra.h" line="126" column="12" bodyfile="include/performance/ligra.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Edge-centric graph representation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/ligra.h" line="124" column="1" bodyfile="include/performance/ligra.h" bodystart="124" bodyend="128"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_edge_1a6fcbcc895389c88e616675b211f7250b" prot="public" virt="non-virtual"><scope>themis::performance::Edge</scope><name>dst</name></member>
+      <member refid="structthemis_1_1performance_1_1_edge_1a2bfefb47ee9e10ceb101683cdd4e3917" prot="public" virt="non-virtual"><scope>themis::performance::Edge</scope><name>src</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

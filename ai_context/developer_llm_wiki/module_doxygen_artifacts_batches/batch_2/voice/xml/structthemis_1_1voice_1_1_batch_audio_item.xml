@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_batch_audio_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::BatchAudioItem</compoundname>
+    <includes refid="voice__batch__processor_8h" local="no">voice_batch_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_audio_item_1a6d6b45a91956d992406336c28543e11c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::BatchAudioItem::item_id</definition>
+        <argsstring></argsstring>
+        <name>item_id</name>
+        <qualifiedname>themis::voice::BatchAudioItem::item_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="31" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_audio_item_1a039f8592f344199f70278f72edf09222" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::voice::BatchAudioItem::audio_data</definition>
+        <argsstring></argsstring>
+        <name>audio_data</name>
+        <qualifiedname>themis::voice::BatchAudioItem::audio_data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="32" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_audio_item_1a5616f60c3e6011b78f83056f609c2a6e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::voice::BatchAudioItem::sample_rate</definition>
+        <argsstring></argsstring>
+        <name>sample_rate</name>
+        <qualifiedname>themis::voice::BatchAudioItem::sample_rate</qualifiedname>
+        <initializer>= 16000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="33" column="9" bodyfile="include/voice/voice_batch_processor.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_audio_item_1ac5437fe34681497f9c67bfe1f7687027" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::BatchAudioItem::transcript_reference</definition>
+        <argsstring></argsstring>
+        <name>transcript_reference</name>
+        <qualifiedname>themis::voice::BatchAudioItem::transcript_reference</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="34" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_audio_item_1af6c3ea575baf0fc90d3596169ee18b54" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::BatchAudioItem::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::voice::BatchAudioItem::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="35" column="10" bodyfile="include/voice/voice_batch_processor.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_batch_processor.h" line="30" column="1" bodyfile="include/voice/voice_batch_processor.h" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_batch_audio_item_1a039f8592f344199f70278f72edf09222" prot="public" virt="non-virtual"><scope>themis::voice::BatchAudioItem</scope><name>audio_data</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_audio_item_1a6d6b45a91956d992406336c28543e11c" prot="public" virt="non-virtual"><scope>themis::voice::BatchAudioItem</scope><name>item_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_audio_item_1af6c3ea575baf0fc90d3596169ee18b54" prot="public" virt="non-virtual"><scope>themis::voice::BatchAudioItem</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_audio_item_1a5616f60c3e6011b78f83056f609c2a6e" prot="public" virt="non-virtual"><scope>themis::voice::BatchAudioItem</scope><name>sample_rate</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_audio_item_1ac5437fe34681497f9c67bfe1f7687027" prot="public" virt="non-virtual"><scope>themis::voice::BatchAudioItem</scope><name>transcript_reference</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_data_augmentation_test" kind="class" language="C++" prot="public">
+    <compoundname>DataAugmentationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_data_augmentation_test_1aa91a19b770029ff787a25fa9675d44ef" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; DataAugmentationTest::sampleEntities</definition>
+        <argsstring>() const</argsstring>
+        <name>sampleEntities</name>
+        <qualifiedname>DataAugmentationTest::sampleEntities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_data_augmentation.cpp" line="38" column="17" bodyfile="tests/exporters/test_data_augmentation.cpp" bodystart="38" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DataAugmentationTest</label>
+        <link refid="class_data_augmentation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DataAugmentationTest</label>
+        <link refid="class_data_augmentation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_data_augmentation.cpp" line="36" column="1" bodyfile="tests/exporters/test_data_augmentation.cpp" bodystart="36" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_data_augmentation_test_1aa91a19b770029ff787a25fa9675d44ef" prot="protected" virt="non-virtual"><scope>DataAugmentationTest</scope><name>sampleEntities</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

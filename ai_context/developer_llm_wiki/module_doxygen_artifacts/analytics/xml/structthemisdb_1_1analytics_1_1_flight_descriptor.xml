@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_flight_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::FlightDescriptor</compoundname>
+    <includes refid="arrow__flight_8h" local="no">arrow_flight.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themisdb::analytics::FlightDescriptor::Type</qualifiedname>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da5ffb5f0d0de78321df46fc7c93ca64a3" prot="public">
+          <name>PATH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da26097a57f572fe88a7cdf80543422cb1" prot="public">
+          <name>COMMAND</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="27" column="5" bodyfile="include/analytics/arrow_flight.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_descriptor_1a88129bb6b5a936a852e77fbf6859fe62" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15d" kindref="member">Type</ref></type>
+        <definition>Type themisdb::analytics::FlightDescriptor::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::FlightDescriptor::type</qualifiedname>
+        <initializer>= <ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15da5ffb5f0d0de78321df46fc7c93ca64a3" kindref="member">Type::PATH</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="29" column="10" bodyfile="include/analytics/arrow_flight.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_descriptor_1a82a66334d66965e62d5c8ec7e9b565da" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::analytics::FlightDescriptor::path</definition>
+        <argsstring></argsstring>
+        <name>path</name>
+        <qualifiedname>themisdb::analytics::FlightDescriptor::path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="31" column="17" bodyfile="include/analytics/arrow_flight.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7ada36399c20f8641beb730eb8912fbd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::FlightDescriptor::command</definition>
+        <argsstring></argsstring>
+        <name>command</name>
+        <qualifiedname>themisdb::analytics::FlightDescriptor::command</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="33" column="17" bodyfile="include/analytics/arrow_flight.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7822624063057f836e71f2bfe529b1d4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref></type>
+        <definition>static FlightDescriptor themisdb::analytics::FlightDescriptor::fromPath</definition>
+        <argsstring>(std::vector&lt; std::string &gt; components)</argsstring>
+        <name>fromPath</name>
+        <qualifiedname>themisdb::analytics::FlightDescriptor::fromPath</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>components</declname>
+        </param>
+        <briefdescription>
+<para>From Path. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">components</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="42" column="29" bodyfile="include/analytics/arrow_flight.h" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_flight_descriptor_1a876b86c26215cf7eec2f88276ab11453" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_flight_descriptor" kindref="compound">FlightDescriptor</ref></type>
+        <definition>static FlightDescriptor themisdb::analytics::FlightDescriptor::fromCommand</definition>
+        <argsstring>(std::string cmd)</argsstring>
+        <name>fromCommand</name>
+        <qualifiedname>themisdb::analytics::FlightDescriptor::fromCommand</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>cmd</declname>
+        </param>
+        <briefdescription>
+<para>From Command. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cmd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="55" column="29" bodyfile="include/analytics/arrow_flight.h" bodystart="55" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1analytics_1_1_flight_descriptor_1ab342ca9359824e88be8be9002f93a516" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::FlightDescriptor::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themisdb::analytics::FlightDescriptor::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/arrow_flight.h" line="66" column="17" bodyfile="src/analytics/arrow_flight.cpp" bodystart="62" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/arrow_flight.h" line="26" column="1" bodyfile="include/analytics/arrow_flight.h" bodystart="26" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7ada36399c20f8641beb730eb8912fbd" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightDescriptor</scope><name>command</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a876b86c26215cf7eec2f88276ab11453" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightDescriptor</scope><name>fromCommand</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a7822624063057f836e71f2bfe529b1d4" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightDescriptor</scope><name>fromPath</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a82a66334d66965e62d5c8ec7e9b565da" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightDescriptor</scope><name>path</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1ab342ca9359824e88be8be9002f93a516" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightDescriptor</scope><name>toString</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1aa9375ed5c9f2707d94bfbb052baae15d" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightDescriptor</scope><name>Type</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_flight_descriptor_1a88129bb6b5a936a852e77fbf6859fe62" prot="public" virt="non-virtual"><scope>themisdb::analytics::FlightDescriptor</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

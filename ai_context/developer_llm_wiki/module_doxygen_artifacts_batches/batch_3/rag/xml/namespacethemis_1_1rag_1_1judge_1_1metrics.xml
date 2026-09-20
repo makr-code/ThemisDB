@@ -1,0 +1,164 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1judge_1_1metrics" kind="namespace" language="C++">
+    <compoundname>themis::rag::judge::metrics</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1judge_1_1metrics_1ab774fb3bebe9af176aa73cb689ec62a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::metrics::calculateInterJudgeAgreement</definition>
+        <argsstring>(const std::vector&lt; EvaluationResult &gt; &amp;results)</argsstring>
+        <name>calculateInterJudgeAgreement</name>
+        <qualifiedname>themis::rag::judge::metrics::calculateInterJudgeAgreement</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt; &amp;</type>
+          <declname>results</declname>
+        </param>
+        <briefdescription>
+<para>Calculate agreement between judges. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Inter Judge Agreement.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of evaluation results </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Agreement score (0-1)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="1978" column="8" bodyfile="src/rag/rag_judge.cpp" bodystart="1978" bodyend="2002" declfile="include/rag/rag_judge.h" declline="566" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1judge_1_1metrics_1a0b97410879c6a126e1ca35f801bdba04" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::metrics::calculateCohensKappa</definition>
+        <argsstring>(const std::vector&lt; EvaluationResult &gt; &amp;judge1_results, const std::vector&lt; EvaluationResult &gt; &amp;judge2_results)</argsstring>
+        <name>calculateCohensKappa</name>
+        <qualifiedname>themis::rag::judge::metrics::calculateCohensKappa</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt; &amp;</type>
+          <declname>judge1_results</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt; &amp;</type>
+          <declname>judge2_results</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Cohen&apos;s Kappa for judge consistency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Cohens Kappa.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">judge1_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">judge2_results</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::min(), toBin(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="2011" column="8" bodyfile="src/rag/rag_judge.cpp" bodystart="2011" bodyend="2058" declfile="include/rag/rag_judge.h" declline="571" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1judge_1_1metrics_1aad8655c44b18b931249e884aab39b831" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::metrics::calculateCalibrationError</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;predictions, const std::vector&lt; double &gt; &amp;ground_truth)</argsstring>
+        <name>calculateCalibrationError</name>
+        <qualifiedname>themis::rag::judge::metrics::calculateCalibrationError</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>predictions</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>ground_truth</declname>
+        </param>
+        <briefdescription>
+<para>Calculate calibration error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Calibration Error.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Judge predictions </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ground_truth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ground truth values </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Expected Calibration Error (ECE)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">predictions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ground_truth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), std::max(), std::min(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/rag_judge.cpp" line="2067" column="8" bodyfile="src/rag/rag_judge.cpp" bodystart="2067" bodyend="2107" declfile="include/rag/rag_judge.h" declline="582" declcolumn="8"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Utilities for evaluation metrics and analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="559" column="1"/>
+  </compounddef>
+</doxygen>

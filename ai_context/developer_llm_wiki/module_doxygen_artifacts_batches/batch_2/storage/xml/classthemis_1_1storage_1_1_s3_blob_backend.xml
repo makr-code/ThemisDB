@@ -1,0 +1,355 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_s3_blob_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::S3BlobBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1storage_1_1_i_blob_storage_backend" prot="public" virt="non-virtual">themis::storage::IBlobStorageBackend</basecompoundref>
+    <includes refid="blob__backend__s3_8h" local="no">blob_backend_s3.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_s3_blob_backend_1a3fd4826ca57dee72ec9f81c2080199b6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Impl &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::storage::S3BlobBackend::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::storage::S3BlobBackend::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="95" column="21" bodyfile="include/storage/blob_backend_s3.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a8b196f7c0c924bd236ef56e1213443b5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::S3BlobBackend::S3BlobBackend</definition>
+        <argsstring>(const std::string &amp;bucket, const std::string &amp;region, const std::string &amp;prefix=&quot;&quot;)</argsstring>
+        <name>S3BlobBackend</name>
+        <qualifiedname>themis::storage::S3BlobBackend::S3BlobBackend</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>bucket</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>region</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct an S3 Blob Storage backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bucket</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the S3 bucket. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>region</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>AWS region (e.g. &quot;us-east-1&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional object-key prefix (e.g. &quot;blobs/&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="42" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a64c47ab26e39455228a7331e7fc9223e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::S3BlobBackend::~S3BlobBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~S3BlobBackend</name>
+        <qualifiedname>themis::storage::S3BlobBackend::~S3BlobBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a133eca76aeb08c3008374c1340aad756" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &gt;</type>
+        <definition>Result&lt; BlobRef &gt; themis::storage::S3BlobBackend::put</definition>
+        <argsstring>(const std::string &amp;blob_id, const std::vector&lt; uint8_t &gt; &amp;data) override</argsstring>
+        <name>put</name>
+        <qualifiedname>themis::storage::S3BlobBackend::put</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a95f20c9781e8494ebd196b26fa907fe7">put</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Store a blob in the S3 bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blob_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unique blob identifier (used as the S3 object key). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw blob data. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> on success, or an error if the SDK is unavailable or the upload fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="55" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1af1bc389701f1850bcf28317b668f4374" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::S3BlobBackend::get</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::storage::S3BlobBackend::get</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1ad9be71e35853a3f8fa0eb3ca8cd720e0">get</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Retrieve a blob from the S3 bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference previously returned by <ref refid="classthemis_1_1storage_1_1_s3_blob_backend_1a133eca76aeb08c3008374c1340aad756" kindref="member">put()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Blob data on success, or an error if the object does not exist or the download fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="64" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a9167949cb9d6a53e80a29a239cb55d54" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::storage::S3BlobBackend::remove</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::storage::S3BlobBackend::remove</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1adfcf671215efaedc0b1b8dcf3a04aaf4">remove</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Delete a blob from the S3 bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference previously returned by <ref refid="classthemis_1_1storage_1_1_s3_blob_backend_1a133eca76aeb08c3008374c1340aad756" kindref="member">put()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>void on success, or an error if deletion fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="71" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a52865c13ffdf155bc6f4072de83bfd5c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::S3BlobBackend::exists</definition>
+        <argsstring>(const BlobRef &amp;ref) override</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::storage::S3BlobBackend::exists</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a12a0da5953ed62e43fd0c7781ea2bffb">exists</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_blob_ref" kindref="compound">BlobRef</ref> &amp;</type>
+          <declname>ref</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a blob exists in the bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ref</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Blob reference to check. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the object exists. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="78" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a4c062f4f74f3c260356c038e54f29f92" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::S3BlobBackend::name</definition>
+        <argsstring>() const override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::storage::S3BlobBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a2ca43ee09ac2171de91232e3791ef3b6">name</reimplements>
+        <briefdescription>
+<para>Return the backend name (&quot;s3&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="83" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a5a37654c88f2ff8959ce0a46dd160cf3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::S3BlobBackend::isAvailable</definition>
+        <argsstring>() const override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::storage::S3BlobBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a7bca1f3bdefb0139f6988710880ef2c4">isAvailable</reimplements>
+        <briefdescription>
+<para>Check whether the S3 backend is operational. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false when the AWS SDK was not compiled in, when credentials are missing, or when the bucket cannot be reached. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="91" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a8b4decff0a190ed579926b5d500d7390" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::storage::S3BlobBackend::computeSHA256</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>computeSHA256</name>
+        <qualifiedname>themis::storage::S3BlobBackend::computeSHA256</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="97" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_s3_blob_backend_1a27bf1e43c6fa84dc1c1260e662f2de9b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::S3BlobBackend::getS3Key</definition>
+        <argsstring>(const std::string &amp;blob_id) const</argsstring>
+        <name>getS3Key</name>
+        <qualifiedname>themis::storage::S3BlobBackend::getS3Key</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_backend_s3.h" line="98" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>AWS S3 Blob Storage Backend. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores blobs in an AWS S3 bucket (or any S3-compatible object store) using the AWS SDK for C++ v3.</para>
+<para>The backend is conditionally compiled behind THEMIS_HAS_AWS_SDK. When the SDK is absent the constructor marks the instance as unavailable and all operations return an error, so no unimplemented path is reachable at runtime.</para>
+<para>Authentication uses the standard AWS credential chain (environment variables, ~/.aws/credentials, instance-profile metadata).</para>
+<para>Thread-Safety: All methods are thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::storage::S3BlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_s3_blob_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::storage::IBlobStorageBackend</label>
+        <link refid="classthemis_1_1storage_1_1_i_blob_storage_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::storage::S3BlobBackend</label>
+        <link refid="classthemis_1_1storage_1_1_s3_blob_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/storage/blob_backend_s3.h" line="34" column="1" bodyfile="include/storage/blob_backend_s3.h" bodystart="34" bodyend="99"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a8b4decff0a190ed579926b5d500d7390" prot="private" virt="non-virtual"><scope>themis::storage::S3BlobBackend</scope><name>computeSHA256</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a52865c13ffdf155bc6f4072de83bfd5c" prot="public" virt="virtual"><scope>themis::storage::S3BlobBackend</scope><name>exists</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1af1bc389701f1850bcf28317b668f4374" prot="public" virt="virtual"><scope>themis::storage::S3BlobBackend</scope><name>get</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a27bf1e43c6fa84dc1c1260e662f2de9b" prot="private" virt="non-virtual"><scope>themis::storage::S3BlobBackend</scope><name>getS3Key</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a3fd4826ca57dee72ec9f81c2080199b6" prot="private" virt="non-virtual"><scope>themis::storage::S3BlobBackend</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a5a37654c88f2ff8959ce0a46dd160cf3" prot="public" virt="virtual"><scope>themis::storage::S3BlobBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a4c062f4f74f3c260356c038e54f29f92" prot="public" virt="virtual"><scope>themis::storage::S3BlobBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a133eca76aeb08c3008374c1340aad756" prot="public" virt="virtual"><scope>themis::storage::S3BlobBackend</scope><name>put</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a9167949cb9d6a53e80a29a239cb55d54" prot="public" virt="virtual"><scope>themis::storage::S3BlobBackend</scope><name>remove</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a8b196f7c0c924bd236ef56e1213443b5" prot="public" virt="non-virtual"><scope>themis::storage::S3BlobBackend</scope><name>S3BlobBackend</name></member>
+      <member refid="classthemis_1_1storage_1_1_i_blob_storage_backend_1a9298452bf506be5cc61866a8010e8cd5" prot="public" virt="virtual"><scope>themis::storage::S3BlobBackend</scope><name>~IBlobStorageBackend</name></member>
+      <member refid="classthemis_1_1storage_1_1_s3_blob_backend_1a64c47ab26e39455228a7331e7fc9223e" prot="public" virt="non-virtual"><scope>themis::storage::S3BlobBackend</scope><name>~S3BlobBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

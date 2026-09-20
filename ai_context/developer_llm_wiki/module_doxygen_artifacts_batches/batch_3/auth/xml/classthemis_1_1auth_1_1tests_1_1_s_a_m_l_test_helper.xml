@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_test_helper" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::tests::SAMLTestHelper</compoundname>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_test_helper_1a6b77742f1a7a25381a5c88cd906f23e2" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::auth::tests::SAMLTestHelper::loadRepoTestCertificatePem</definition>
+        <argsstring>()</argsstring>
+        <name>loadRepoTestCertificatePem</name>
+        <qualifiedname>themis::auth::tests::SAMLTestHelper::loadRepoTestCertificatePem</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_saml_authenticator_focused.cpp" line="33" column="24" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="33" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_test_helper_1ae1b65bf9cb788e47230b2c7dfbcf64d6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_s_a_m_l_config" kindref="compound">SAMLConfig</ref></type>
+        <definition>static SAMLConfig themis::auth::tests::SAMLTestHelper::getValidConfig</definition>
+        <argsstring>()</argsstring>
+        <name>getValidConfig</name>
+        <qualifiedname>themis::auth::tests::SAMLTestHelper::getValidConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/auth/test_saml_authenticator_focused.cpp" line="47" column="23" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="47" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Helper to build valid SAML configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/auth/test_saml_authenticator_focused.cpp" line="31" column="1" bodyfile="tests/auth/test_saml_authenticator_focused.cpp" bodystart="31" bodyend="68"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_test_helper_1ae1b65bf9cb788e47230b2c7dfbcf64d6" prot="public" virt="non-virtual"><scope>themis::auth::tests::SAMLTestHelper</scope><name>getValidConfig</name></member>
+      <member refid="classthemis_1_1auth_1_1tests_1_1_s_a_m_l_test_helper_1a6b77742f1a7a25381a5c88cd906f23e2" prot="public" virt="non-virtual"><scope>themis::auth::tests::SAMLTestHelper</scope><name>loadRepoTestCertificatePem</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_hash_function" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::HashFunction</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1functions_1_1_i_function" prot="public" virt="non-virtual">themis::query::functions::IFunction</basecompoundref>
+    <includes refid="security__functions_8h" local="no">security_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_hash_function_1a4fe0d3ba63e87cb798b29abfbd6d0540" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::HashFunction::~HashFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~HashFunction</name>
+        <qualifiedname>themis::query::functions::HashFunction::~HashFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="762" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_hash_function_1add5a9a5568af6b4003f79cd5c1c86242" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref></type>
+        <definition>FunctionSignature themis::query::functions::HashFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::query::functions::HashFunction::signature</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478">signature</reimplements>
+        <briefdescription>
+<para>Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="763" column="23" bodyfile="include/query/functions/security_functions.h" bodystart="763" bodyend="774"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_hash_function_1a8aaee25237bafe5a000cb9bf7c5c542c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::HashFunction::execute</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;args, const FunctionContext &amp;ctx) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::functions::HashFunction::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a7e3401607dd70b42df4da3a392e24c60">execute</reimplements>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="776" column="20" bodyfile="include/query/functions/security_functions.h" bodystart="776" bodyend="798"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_hash_function_1abf38e954131ad1eae5018211b51123f1" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::query::functions::HashFunction::fnv1aHash</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>fnv1aHash</name>
+        <qualifiedname>themis::query::functions::HashFunction::fnv1aHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Fnv1a Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements fnv1aHash without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="807" column="21" bodyfile="include/query/functions/security_functions.h" bodystart="807" bodyend="814"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_hash_function_1acd99da56a4deffa31551ba5121f613e9" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t themis::query::functions::HashFunction::djb2Hash</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>djb2Hash</name>
+        <qualifiedname>themis::query::functions::HashFunction::djb2Hash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Djb2 Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements djb2Hash without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="822" column="21" bodyfile="include/query/functions/security_functions.h" bodystart="822" bodyend="828"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::query::functions::HashFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_hash_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::query::functions::HashFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_hash_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/security_functions.h" line="760" column="1" bodyfile="include/query/functions/security_functions.h" bodystart="760" bodyend="829"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_hash_function_1acd99da56a4deffa31551ba5121f613e9" prot="private" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>djb2Hash</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_hash_function_1a8aaee25237bafe5a000cb9bf7c5c542c" prot="public" virt="virtual"><scope>themis::query::functions::HashFunction</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_hash_function_1abf38e954131ad1eae5018211b51123f1" prot="private" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>fnv1aHash</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" prot="protected" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>isGeometry</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" prot="protected" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>isVector</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_hash_function_1add5a9a5568af6b4003f79cd5c1c86242" prot="public" virt="virtual"><scope>themis::query::functions::HashFunction</scope><name>signature</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" prot="protected" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>toBool</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" prot="protected" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>toNumber</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" prot="protected" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>toString</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a3c825841f6247644e1301cbf65c2d8ad" prot="public" virt="virtual"><scope>themis::query::functions::HashFunction</scope><name>validateArgs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" prot="protected" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>validateArgType</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_hash_function_1a4fe0d3ba63e87cb798b29abfbd6d0540" prot="public" virt="non-virtual"><scope>themis::query::functions::HashFunction</scope><name>~HashFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" prot="public" virt="virtual"><scope>themis::query::functions::HashFunction</scope><name>~IFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

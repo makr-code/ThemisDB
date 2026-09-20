@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_query_exec_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::QueryExecStatus</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_query_exec_status_1af2e8e6f62536e0ece84007fc10d7ed53" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::QueryExecStatus::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::server::QueryExecStatus::ok</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/query_api_handler.cpp" line="70" column="10" bodyfile="src/server/query_api_handler.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_query_exec_status_1ad92d10465fa9a1648b1da87278f55a72" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::QueryExecStatus::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::server::QueryExecStatus::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/query_api_handler.cpp" line="71" column="17" bodyfile="src/server/query_api_handler.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_query_exec_status_1a243341b291826f8818b6fe1d41ecd3e4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1server_1_1_query_exec_status" kindref="compound">QueryExecStatus</ref></type>
+        <definition>static QueryExecStatus themis::server::QueryExecStatus::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::server::QueryExecStatus::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/server/query_api_handler.cpp" line="78" column="28" bodyfile="src/server/query_api_handler.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/server/query_api_handler.cpp" line="69" column="1" bodyfile="src/server/query_api_handler.cpp" bodystart="69" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_query_exec_status_1ad92d10465fa9a1648b1da87278f55a72" prot="public" virt="non-virtual"><scope>themis::server::QueryExecStatus</scope><name>message</name></member>
+      <member refid="structthemis_1_1server_1_1_query_exec_status_1a243341b291826f8818b6fe1d41ecd3e4" prot="public" virt="non-virtual"><scope>themis::server::QueryExecStatus</scope><name>OK</name></member>
+      <member refid="structthemis_1_1server_1_1_query_exec_status_1af2e8e6f62536e0ece84007fc10d7ed53" prot="public" virt="non-virtual"><scope>themis::server::QueryExecStatus</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

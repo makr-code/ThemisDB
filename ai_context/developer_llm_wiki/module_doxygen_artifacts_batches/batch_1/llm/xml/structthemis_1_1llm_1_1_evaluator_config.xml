@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_evaluator_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::EvaluatorConfig</compoundname>
+    <includes refid="prompt__evaluator_8h" local="no">prompt_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluator_config_1ac6655a995587177bd2aa4288f53eb642" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::EvaluatorConfig::similarity_weight</definition>
+        <argsstring></argsstring>
+        <name>similarity_weight</name>
+        <qualifiedname>themis::llm::EvaluatorConfig::similarity_weight</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Weight for semantic similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="44" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluator_config_1a4a4ee84688a7ee2c5a7abf67202556a3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::EvaluatorConfig::exact_match_weight</definition>
+        <argsstring></argsstring>
+        <name>exact_match_weight</name>
+        <qualifiedname>themis::llm::EvaluatorConfig::exact_match_weight</qualifiedname>
+        <initializer>= 0.3</initializer>
+        <briefdescription>
+<para>Weight for exact matches. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="45" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluator_config_1a8b49b48054ff9970a7552da59712a171" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::EvaluatorConfig::relevance_weight</definition>
+        <argsstring></argsstring>
+        <name>relevance_weight</name>
+        <qualifiedname>themis::llm::EvaluatorConfig::relevance_weight</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+<para>Weight for relevance. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="46" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluator_config_1a8c6012c856ba0d168d46b7e7d67bda00" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::EvaluatorConfig::pass_threshold</definition>
+        <argsstring></argsstring>
+        <name>pass_threshold</name>
+        <qualifiedname>themis::llm::EvaluatorConfig::pass_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Minimum score to pass. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="47" column="12" bodyfile="include/llm/prompt_evaluator.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_evaluator_config_1a43461e514316a03bc684e236b60c8c41" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::EvaluatorConfig::enable_statistical_tests</definition>
+        <argsstring></argsstring>
+        <name>enable_statistical_tests</name>
+        <qualifiedname>themis::llm::EvaluatorConfig::enable_statistical_tests</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable significance testing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_evaluator.h" line="48" column="10" bodyfile="include/llm/prompt_evaluator.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_evaluator.h" line="43" column="1" bodyfile="include/llm/prompt_evaluator.h" bodystart="43" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_evaluator_config_1a43461e514316a03bc684e236b60c8c41" prot="public" virt="non-virtual"><scope>themis::llm::EvaluatorConfig</scope><name>enable_statistical_tests</name></member>
+      <member refid="structthemis_1_1llm_1_1_evaluator_config_1a4a4ee84688a7ee2c5a7abf67202556a3" prot="public" virt="non-virtual"><scope>themis::llm::EvaluatorConfig</scope><name>exact_match_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_evaluator_config_1a8c6012c856ba0d168d46b7e7d67bda00" prot="public" virt="non-virtual"><scope>themis::llm::EvaluatorConfig</scope><name>pass_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_evaluator_config_1a8b49b48054ff9970a7552da59712a171" prot="public" virt="non-virtual"><scope>themis::llm::EvaluatorConfig</scope><name>relevance_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1_evaluator_config_1ac6655a995587177bd2aa4288f53eb642" prot="public" virt="non-virtual"><scope>themis::llm::EvaluatorConfig</scope><name>similarity_weight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

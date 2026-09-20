@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d214126110051003237301135357221254340372107242217" kind="namespace" language="C++">
+    <compoundname>@214126110051003237301135357221254340372107242217</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/security/test_jwt_token_revocation_integration.cpp" line="33" column="1"/>
+  </compounddef>
+</doxygen>

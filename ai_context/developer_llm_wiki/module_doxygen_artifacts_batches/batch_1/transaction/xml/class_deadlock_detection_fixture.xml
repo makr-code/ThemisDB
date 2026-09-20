@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_deadlock_detection_fixture" kind="class" language="C++" prot="public">
+    <compoundname>DeadlockDetectionFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_deadlock_detection_fixture_1a4bade2b997f954774cf1eb3f0a9b357a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_deadlock_predictor" kindref="compound">DeadlockPredictor</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DeadlockPredictor&gt; DeadlockDetectionFixture::predictor_</definition>
+        <argsstring></argsstring>
+        <name>predictor_</name>
+        <qualifiedname>DeadlockDetectionFixture::predictor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="854" column="21" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="854" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_deadlock_detection_fixture_1ac1ae6a10190737792e3186c01bec4dd8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeadlockDetectionFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>DeadlockDetectionFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="815" column="10" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="815" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="class_deadlock_detection_fixture_1a34728c06a9211b8b776641034fb344d9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void DeadlockDetectionFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>DeadlockDetectionFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="846" column="10" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="846" bodyend="848"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_deadlock_detection_fixture_1a9e6e2d5861acbe122736102a7271b833" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_deadlock_predictor" kindref="compound">DeadlockPredictor</ref> &amp;</type>
+        <definition>DeadlockPredictor &amp; DeadlockDetectionFixture::predictor</definition>
+        <argsstring>()</argsstring>
+        <name>predictor</name>
+        <qualifiedname>DeadlockDetectionFixture::predictor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="851" column="23" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="851" bodyend="851"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for deadlock-detection overhead benchmarks (TX-6). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Pre-trains <ref refid="classthemis_1_1_deadlock_predictor" kindref="compound">DeadlockPredictor</ref> with 1 000 realistic lock patterns including a 5 % deadlock event rate before any benchmark iteration runs. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>DeadlockDetectionFixture</label>
+        <link refid="class_deadlock_detection_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>DeadlockDetectionFixture</label>
+        <link refid="class_deadlock_detection_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="813" column="1" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="813" bodyend="855"/>
+    <listofallmembers>
+      <member refid="class_deadlock_detection_fixture_1a9e6e2d5861acbe122736102a7271b833" prot="protected" virt="non-virtual"><scope>DeadlockDetectionFixture</scope><name>predictor</name></member>
+      <member refid="class_deadlock_detection_fixture_1a4bade2b997f954774cf1eb3f0a9b357a" prot="private" virt="non-virtual"><scope>DeadlockDetectionFixture</scope><name>predictor_</name></member>
+      <member refid="class_deadlock_detection_fixture_1ac1ae6a10190737792e3186c01bec4dd8" prot="public" virt="non-virtual"><scope>DeadlockDetectionFixture</scope><name>SetUp</name></member>
+      <member refid="class_deadlock_detection_fixture_1a34728c06a9211b8b776641034fb344d9" prot="public" virt="non-virtual"><scope>DeadlockDetectionFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

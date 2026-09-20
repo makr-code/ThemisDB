@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::rag::delegate_eval::PlainTextEvaluator</compoundname>
+    <basecompoundref refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator" prot="public" virt="non-virtual">themis::rag::delegate_eval::IDomainEvaluator</basecompoundref>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a83bd3d7ba274e002f51779f568bb7c69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::delegate_eval::PlainTextEvaluator::PlainTextEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>PlainTextEvaluator</name>
+        <qualifiedname>themis::rag::delegate_eval::PlainTextEvaluator::PlainTextEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="430" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a28d874d480dc1f06d7292118751e651a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref></type>
+        <definition>ReconstructionScore themis::rag::delegate_eval::PlainTextEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;original, const std::string &amp;recovered) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::delegate_eval::PlainTextEvaluator::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1ac2fea1fc81006d87b26d15705ed42f73">evaluate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>recovered</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate plain-text fidelity via normalised edit distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>original</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The original text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>recovered</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The recovered text. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RS in <computeroutput>[0.0, 1.0]</computeroutput>. </para>
+</simplesect>
+<simplesect kind="note"><para><bold>Large-string approximation:</bold> for inputs exceeding 10 000 characters the underlying <computeroutput>editDistance()</computeroutput> switches from the exact O(n×m) Levenshtein DP to an O(n) Hamming-style approximation (aligned-prefix character differences + length delta). This keeps RS computation under ~5 ms for 100 KB inputs at the cost of reduced accuracy when the edit distance is large relative to the string length. For document payloads beyond this size, consider using <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_xml_process_evaluator" kindref="compound">XmlProcessEvaluator</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1rag_1_1delegate__eval_1_1_json_document_evaluator" kindref="compound">JsonDocumentEvaluator</ref></computeroutput> instead. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="446" column="25" bodyfile="src/rag/delegate_evaluator.cpp" bodystart="337" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a694ec4e431d245c26d95bfc2147ff654" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a27a27b5e82f6b11343ccd146bb8cba8b" kindref="member">DomainType</ref></type>
+        <definition>DomainType themis::rag::delegate_eval::PlainTextEvaluator::domain</definition>
+        <argsstring>() const override</argsstring>
+        <name>domain</name>
+        <qualifiedname>themis::rag::delegate_eval::PlainTextEvaluator::domain</qualifiedname>
+        <reimplements refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a3ece17ca6928803268fe59fd4380be8c">domain</reimplements>
+        <briefdescription>
+<para>Domain identifier for logging and diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="449" column="16" bodyfile="include/rag/delegate_evaluator.h" bodystart="449" bodyend="449"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Plain-text evaluator using normalised character-level edit distance. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>RS = 1 − edit_distance(original, recovered) / max(len(original), len(recovered))</para>
+<para>Uses the standard Levenshtein distance. Efficient for documents up to ~100 KB; larger inputs should use the XML or JSON domain evaluators. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::rag::delegate_eval::IDomainEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::delegate_eval::PlainTextEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::delegate_eval::IDomainEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::delegate_eval::PlainTextEvaluator</label>
+        <link refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/delegate_evaluator.h" line="428" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="428" bodyend="450"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a694ec4e431d245c26d95bfc2147ff654" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::PlainTextEvaluator</scope><name>domain</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a28d874d480dc1f06d7292118751e651a" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::PlainTextEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_plain_text_evaluator_1a83bd3d7ba274e002f51779f568bb7c69" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::PlainTextEvaluator</scope><name>PlainTextEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1delegate__eval_1_1_i_domain_evaluator_1a38a888ec22474c19255361a3dafff5ed" prot="public" virt="virtual"><scope>themis::rag::delegate_eval::PlainTextEvaluator</scope><name>~IDomainEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

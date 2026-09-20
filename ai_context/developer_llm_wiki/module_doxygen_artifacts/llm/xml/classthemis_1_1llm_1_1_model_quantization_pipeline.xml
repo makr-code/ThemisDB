@@ -1,0 +1,763 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_model_quantization_pipeline" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ModelQuantizationPipeline</compoundname>
+    <includes refid="model__quantization__pipeline_8h" local="no">model_quantization_pipeline.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_model_quantization_pipeline_1_1_safe_tensor_desc" prot="private">themis::llm::ModelQuantizationPipeline::SafeTensorDesc</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_model_quantization_pipeline_1_1_safe_tensors_file" prot="private">themis::llm::ModelQuantizationPipeline::SafeTensorsFile</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1aa93159eec076452d4b416b10958b3804" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::ModelQuantizationPipeline::~ModelQuantizationPipeline</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ModelQuantizationPipeline</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::~ModelQuantizationPipeline</qualifiedname>
+        <briefdescription>
+<para>Model Quantization Pipeline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="49" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a75e1fbe0bfeb3bd032c7e70f0669d977" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_model" kindref="compound">lora::QuantizedModel</ref></type>
+        <definition>lora::QuantizedModel themis::llm::ModelQuantizationPipeline::load</definition>
+        <argsstring>(const std::string &amp;path, ModelFormat format=ModelFormat::AUTO, const QuantizationPipelineConfig &amp;config={})</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::load</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a225c648121e311d760743201a243fb17" kindref="member">ModelFormat</ref></type>
+          <declname>format</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1a225c648121e311d760743201a243fb17ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">ModelFormat::AUTO</ref></defval>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_quantization_pipeline_config" kindref="compound">QuantizationPipelineConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="50" column="33" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="53" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a4c411034dd6bf48be47dbfd3f478a7dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1a225c648121e311d760743201a243fb17" kindref="member">ModelFormat</ref></type>
+        <definition>ModelFormat themis::llm::ModelQuantizationPipeline::detect_format</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>detect_format</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::detect_format</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Detect format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>2) Directory: inspect config. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+json for quant_type</para>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="60" column="24" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="84" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1aec97944fe4b21af1d17523802ae704e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::llm::ModelQuantizationPipeline::format_name</definition>
+        <argsstring>(ModelFormat fmt)</argsstring>
+        <name>format_name</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::format_name</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1a225c648121e311d760743201a243fb17" kindref="member">ModelFormat</ref></type>
+          <declname>fmt</declname>
+        </param>
+        <briefdescription>
+<para>Format name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="67" column="23" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="174" bodyend="182"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1ab2475d65ed208002fbf800b77c839869" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_model" kindref="compound">lora::QuantizedModel</ref></type>
+        <definition>lora::QuantizedModel themis::llm::ModelQuantizationPipeline::load_gguf</definition>
+        <argsstring>(const std::string &amp;path, const QuantizationPipelineConfig &amp;cfg)</argsstring>
+        <name>load_gguf</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::load_gguf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_quantization_pipeline_config" kindref="compound">QuantizationPipelineConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>-<mdash/> Format-specific loaders -------------------------------------<mdash/> </para>
+        </briefdescription>
+        <detaileddescription>
+<para>------------------------------------------------------------------------<mdash/> GGUF loader (delegates to existing lora_framework implementation) ------------------------------------------------------------------------<mdash/></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="77" column="33" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="191" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a0f6e7a822998f65e4909767932fed092" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_model" kindref="compound">lora::QuantizedModel</ref></type>
+        <definition>lora::QuantizedModel themis::llm::ModelQuantizationPipeline::load_awq</definition>
+        <argsstring>(const std::string &amp;dir, const QuantizationPipelineConfig &amp;cfg)</argsstring>
+        <name>load_awq</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::load_awq</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_quantization_pipeline_config" kindref="compound">QuantizationPipelineConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Load awq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Model. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="87" column="33" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="558" bodyend="713"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a0d0b2f33d6730a2083bd43b3015284bd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_quantized_model" kindref="compound">lora::QuantizedModel</ref></type>
+        <definition>lora::QuantizedModel themis::llm::ModelQuantizationPipeline::load_gptq</definition>
+        <argsstring>(const std::string &amp;dir, const QuantizationPipelineConfig &amp;cfg)</argsstring>
+        <name>load_gptq</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::load_gptq</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dir</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_quantization_pipeline_config" kindref="compound">QuantizationPipelineConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Load gptq. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>F. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the retention policy configuration file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Model. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">model_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="97" column="33" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="725" bodyend="864"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a1cee481d1fea36025b4a3fe2468744f9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>SafeTensorsFile</type>
+        <definition>ModelQuantizationPipeline::SafeTensorsFile themis::llm::ModelQuantizationPipeline::parse_safetensors</definition>
+        <argsstring>(const std::string &amp;file_path)</argsstring>
+        <name>parse_safetensors</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::parse_safetensors</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <briefdescription>
+<para>Parse safetensors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Data. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="120" column="28" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="209" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a1adbe851f284c42a663610f060511804" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::ModelQuantizationPipeline::find_safetensor_shards</definition>
+        <argsstring>(const std::string &amp;dir)</argsstring>
+        <name>find_safetensor_shards</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::find_safetensor_shards</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dir</declname>
+        </param>
+        <briefdescription>
+<para>Find safetensor shards. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="127" column="24" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="301" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a20055b31f07b17b77e0854212879b5cd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::ModelQuantizationPipeline::unpack_int32_weights</definition>
+        <argsstring>(const void *packed_data, size_t n_packed, int bits=4)</argsstring>
+        <name>unpack_int32_weights</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::unpack_int32_weights</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>packed_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n_packed</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bits</declname>
+          <defval>4</defval>
+        </param>
+        <briefdescription>
+<para>Unpack int32 weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">packed_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n_packed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="132" column="24" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="328" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a67c9483e08f637abfb1c69fac6a40e53" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::ModelQuantizationPipeline::fp16_to_fp32_array</definition>
+        <argsstring>(const void *fp16_data, size_t n)</argsstring>
+        <name>fp16_to_fp32_array</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::fp16_to_fp32_array</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>fp16_data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Fp16 to fp32 array. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fp16_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Out. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="143" column="24" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="356" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a21facb5af0ea70543a41badbe7caea1b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::ModelQuantizationPipeline::dequantize_awq_layer</definition>
+        <argsstring>(const void *qweight_packed, const void *qzeros_packed, const void *scales_fp16, int64_t in_features, int64_t out_features, int group_size, int bits)</argsstring>
+        <name>dequantize_awq_layer</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::dequantize_awq_layer</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>qweight_packed</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>qzeros_packed</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>scales_fp16</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>in_features</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>out_features</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>group_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bits</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize awq layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">qweight_packed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">qzeros_packed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scales_fp16</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_features</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_features</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="158" column="24" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="408" bodyend="470"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_model_quantization_pipeline_1a5ca660b962d2df8b3ada994bdb5ab05d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::ModelQuantizationPipeline::dequantize_gptq_layer</definition>
+        <argsstring>(const void *qweight_packed, const void *qzeros_packed, const void *scales_fp16, int64_t in_features, int64_t out_features, int group_size, int bits)</argsstring>
+        <name>dequantize_gptq_layer</name>
+        <qualifiedname>themis::llm::ModelQuantizationPipeline::dequantize_gptq_layer</qualifiedname>
+        <param>
+          <type>const void *</type>
+          <declname>qweight_packed</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>qzeros_packed</declname>
+        </param>
+        <param>
+          <type>const void *</type>
+          <declname>scales_fp16</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>in_features</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>out_features</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>group_size</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>bits</declname>
+        </param>
+        <briefdescription>
+<para>Dequantize gptq layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">qweight_packed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">qzeros_packed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">scales_fp16</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">in_features</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">out_features</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">group_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_quantization_pipeline.h" line="178" column="24" bodyfile="src/llm/model_quantization_pipeline.cpp" bodystart="483" bodyend="546"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_quantization_pipeline.h" line="43" column="1" bodyfile="include/llm/model_quantization_pipeline.h" bodystart="43" bodyend="186"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a21facb5af0ea70543a41badbe7caea1b" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>dequantize_awq_layer</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a5ca660b962d2df8b3ada994bdb5ab05d" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>dequantize_gptq_layer</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a4c411034dd6bf48be47dbfd3f478a7dc" prot="public" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>detect_format</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a1adbe851f284c42a663610f060511804" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>find_safetensor_shards</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1aec97944fe4b21af1d17523802ae704e1" prot="public" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>format_name</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a67c9483e08f637abfb1c69fac6a40e53" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>fp16_to_fp32_array</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a75e1fbe0bfeb3bd032c7e70f0669d977" prot="public" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>load</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a0f6e7a822998f65e4909767932fed092" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>load_awq</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1ab2475d65ed208002fbf800b77c839869" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>load_gguf</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a0d0b2f33d6730a2083bd43b3015284bd" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>load_gptq</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a1cee481d1fea36025b4a3fe2468744f9" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>parse_safetensors</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1a20055b31f07b17b77e0854212879b5cd" prot="private" virt="non-virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>unpack_int32_weights</name></member>
+      <member refid="classthemis_1_1llm_1_1_model_quantization_pipeline_1aa93159eec076452d4b416b10958b3804" prot="public" virt="virtual"><scope>themis::llm::ModelQuantizationPipeline</scope><name>~ModelQuantizationPipeline</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

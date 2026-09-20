@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item" kind="struct" language="C++" prot="private">
+    <compoundname>themis::cache::CacheReplicationCoordinator::FanoutItem</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a373f44c3eefc6e505a7b6e954a5447ba" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Kind</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::FanoutItem::Kind</qualifiedname>
+        <enumvalue id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a373f44c3eefc6e505a7b6e954a5447baae1aff4215970c7f7b3dbdc259f53b3fb" prot="public">
+          <name>INVALIDATE_KEY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a373f44c3eefc6e505a7b6e954a5447baa099eea076c7110a8bd0f0758e7e615e7" prot="public">
+          <name>INVALIDATE_TENANT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="277" column="9" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="277" bodyend="277"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1aa23c3dc534e52ae96ed64e9c8fe2866a" prot="public" static="no" mutable="no">
+        <type>enum themis::cache::CacheReplicationCoordinator::FanoutItem::Kind</type>
+        <definition>enum themis::cache::CacheReplicationCoordinator::FanoutItem::Kind themis::cache::CacheReplicationCoordinator::FanoutItem::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::FanoutItem::kind</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="277" column="29"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1aaf0382e04c76471f4ea0ec965948e05d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheReplicationCoordinator::FanoutItem::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::FanoutItem::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="278" column="21" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="278" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a2fdd57da10758db8ffd688039a57bd79" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::CacheReplicationCoordinator::FanoutItem::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::FanoutItem::tenant_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="279" column="21" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a16269a383ec1c0d6300660b0c31ddb5e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::CacheReplicationCoordinator::FanoutItem::attempts</definition>
+        <argsstring></argsstring>
+        <name>attempts</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::FanoutItem::attempts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="280" column="21" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="280" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1ae58f87d10a01d2deea611f0e71ce646b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_i_remote_cache_peer" kindref="compound">IRemoteCachePeer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IRemoteCachePeer&gt; &gt; themis::cache::CacheReplicationCoordinator::FanoutItem::target_peers</definition>
+        <argsstring></argsstring>
+        <name>target_peers</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::FanoutItem::target_peers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="281" column="21" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a6fe3e0ead7ba7affd235798386aefa18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>FanoutItem</type>
+        <definition>FanoutItem themis::cache::CacheReplicationCoordinator::FanoutItem::asRetry</definition>
+        <argsstring>(std::vector&lt; std::shared_ptr&lt; IRemoteCachePeer &gt; &gt; peers) const</argsstring>
+        <name>asRetry</name>
+        <qualifiedname>themis::cache::CacheReplicationCoordinator::FanoutItem::asRetry</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1cache_1_1_i_remote_cache_peer" kindref="compound">IRemoteCachePeer</ref> &gt; &gt;</type>
+          <declname>peers</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="283" column="20" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="283" bodyend="288"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_replication_coordinator.h" line="276" column="5" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="276" bodyend="289"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a6fe3e0ead7ba7affd235798386aefa18" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator::FanoutItem</scope><name>asRetry</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a16269a383ec1c0d6300660b0c31ddb5e" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator::FanoutItem</scope><name>attempts</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1aaf0382e04c76471f4ea0ec965948e05d" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator::FanoutItem</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a373f44c3eefc6e505a7b6e954a5447ba" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator::FanoutItem</scope><name>Kind</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1aa23c3dc534e52ae96ed64e9c8fe2866a" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator::FanoutItem</scope><name>kind</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1ae58f87d10a01d2deea611f0e71ce646b" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator::FanoutItem</scope><name>target_peers</name></member>
+      <member refid="structthemis_1_1cache_1_1_cache_replication_coordinator_1_1_fanout_item_1a2fdd57da10758db8ffd688039a57bd79" prot="public" virt="non-virtual"><scope>themis::cache::CacheReplicationCoordinator::FanoutItem</scope><name>tenant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

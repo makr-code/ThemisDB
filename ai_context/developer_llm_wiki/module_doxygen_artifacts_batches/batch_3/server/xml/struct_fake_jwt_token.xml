@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_fake_jwt_token" kind="struct" language="C++" prot="public">
+    <compoundname>FakeJwtToken</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_fake_jwt_token_1acec146573c2ecb25cfaa6e8a517ddd92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FakeJwtToken::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>FakeJwtToken::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="54" column="17" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_jwt_token_1adcad3c594877f263259688b4b1125065" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool FakeJwtToken::is_structurally_valid</definition>
+        <argsstring></argsstring>
+        <name>is_structurally_valid</name>
+        <qualifiedname>FakeJwtToken::is_structurally_valid</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="55" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_jwt_token_1ae3a4342ad0b8ad44099e1a21af58ce22" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool FakeJwtToken::signature_ok</definition>
+        <argsstring></argsstring>
+        <name>signature_ok</name>
+        <qualifiedname>FakeJwtToken::signature_ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="56" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_jwt_token_1ad3864b3a0c4e51c1706691e7c2729790" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool FakeJwtToken::expired</definition>
+        <argsstring></argsstring>
+        <name>expired</name>
+        <qualifiedname>FakeJwtToken::expired</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="57" column="10" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_fake_jwt_token_1a8929bf080d9df8c9840a8d35cf81e5d0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string FakeJwtToken::scope</definition>
+        <argsstring></argsstring>
+        <name>scope</name>
+        <qualifiedname>FakeJwtToken::scope</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_contract_hardening_focused.cpp" line="58" column="17" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal JWT token representation for testing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_contract_hardening_focused.cpp" line="53" column="1" bodyfile="tests/server/test_server_contract_hardening_focused.cpp" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="struct_fake_jwt_token_1ad3864b3a0c4e51c1706691e7c2729790" prot="public" virt="non-virtual"><scope>FakeJwtToken</scope><name>expired</name></member>
+      <member refid="struct_fake_jwt_token_1adcad3c594877f263259688b4b1125065" prot="public" virt="non-virtual"><scope>FakeJwtToken</scope><name>is_structurally_valid</name></member>
+      <member refid="struct_fake_jwt_token_1a8929bf080d9df8c9840a8d35cf81e5d0" prot="public" virt="non-virtual"><scope>FakeJwtToken</scope><name>scope</name></member>
+      <member refid="struct_fake_jwt_token_1ae3a4342ad0b8ad44099e1a21af58ce22" prot="public" virt="non-virtual"><scope>FakeJwtToken</scope><name>signature_ok</name></member>
+      <member refid="struct_fake_jwt_token_1acec146573c2ecb25cfaa6e8a517ddd92" prot="public" virt="non-virtual"><scope>FakeJwtToken</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

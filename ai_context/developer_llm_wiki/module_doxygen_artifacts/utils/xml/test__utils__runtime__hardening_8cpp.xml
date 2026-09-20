@@ -1,0 +1,512 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__utils__runtime__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_utils_runtime_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">gmock/gmock.h</includes>
+    <includes refid="thread__pool__manager_8h" local="yes">utils/thread_pool_manager.h</includes>
+    <includes refid="rate__limiter_8h" local="yes">utils/rate_limiter.h</includes>
+    <includes refid="error__contracts_8h" local="yes">utils/error_contracts.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="18">
+        <label>utils/error_contracts.h</label>
+        <link refid="error__contracts_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>utils/rate_limiter.h</label>
+        <link refid="rate__limiter_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>utils/thread_pool_manager.h</label>
+        <link refid="thread__pool__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/utils/test_utils_runtime_hardening.cpp</label>
+        <link refid="test__utils__runtime__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>condition_variable</label>
+      </node>
+      <node id="19">
+        <label>cstdint</label>
+      </node>
+      <node id="20">
+        <label>fmt/format.h</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>gmock/gmock.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>queue</label>
+      </node>
+      <node id="13">
+        <label>shared_mutex</label>
+      </node>
+      <node id="15">
+        <label>spdlog/spdlog.h</label>
+      </node>
+      <node id="21">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__utils__runtime__hardening_8cpp_1a04c3678a92cd6bee9136a6128b3cd928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuntimeHardening, ThreadPoolSubmitReturnsFalseWhenStopped)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuntimeHardening</type>
+        </param>
+        <param>
+          <type>ThreadPoolSubmitReturnsFalseWhenStopped</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_runtime_hardening.cpp" line="57" column="1" bodyfile="tests/utils/test_utils_runtime_hardening.cpp" bodystart="57" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__runtime__hardening_8cpp_1a9903f466e755b0b8779f764b5055e921" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuntimeHardening, ThreadPoolSubmitReturnsFalseWhenQueueFull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuntimeHardening</type>
+        </param>
+        <param>
+          <type>ThreadPoolSubmitReturnsFalseWhenQueueFull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_runtime_hardening.cpp" line="74" column="1" bodyfile="tests/utils/test_utils_runtime_hardening.cpp" bodystart="74" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__runtime__hardening_8cpp_1a79c4abbf6cc419f1e6e6a1c3cee1ebd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuntimeHardening, RateLimiterReturnsExplicitFalseOnExhaustion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuntimeHardening</type>
+        </param>
+        <param>
+          <type>RateLimiterReturnsExplicitFalseOnExhaustion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_runtime_hardening.cpp" line="104" column="1" bodyfile="tests/utils/test_utils_runtime_hardening.cpp" bodystart="104" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__runtime__hardening_8cpp_1a82420ae003cfcdb3e4ad2d0da2d77069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuntimeHardening, RateLimiterConcurrencySafe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuntimeHardening</type>
+        </param>
+        <param>
+          <type>RateLimiterConcurrencySafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_runtime_hardening.cpp" line="124" column="1" bodyfile="tests/utils/test_utils_runtime_hardening.cpp" bodystart="124" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__runtime__hardening_8cpp_1a3bff40a171527980171dc4d07efa3fb3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuntimeHardening, ThreadPoolQueueFullCodeInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuntimeHardening</type>
+        </param>
+        <param>
+          <type>ThreadPoolQueueFullCodeInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_runtime_hardening.cpp" line="157" column="1" bodyfile="tests/utils/test_utils_runtime_hardening.cpp" bodystart="157" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__runtime__hardening_8cpp_1a9aa9829e30a27886f5733522a7281e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuntimeHardening, RateLimitExceededCodeInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuntimeHardening</type>
+        </param>
+        <param>
+          <type>RateLimitExceededCodeInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_runtime_hardening.cpp" line="166" column="1" bodyfile="tests/utils/test_utils_runtime_hardening.cpp" bodystart="166" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__runtime__hardening_8cpp_1a28f4908e66b8a3ea55bc99a2160d80d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuntimeHardening, ThreadPoolQueueFullCategoryIsThreadPool)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuntimeHardening</type>
+        </param>
+        <param>
+          <type>ThreadPoolQueueFullCategoryIsThreadPool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_runtime_hardening.cpp" line="175" column="1" bodyfile="tests/utils/test_utils_runtime_hardening.cpp" bodystart="175" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="test__utils__runtime__hardening_8cpp_1af5044fa22cb48bcc1554ed404a8aded0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(RuntimeHardening, RateLimiterRefillsOverTime)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>RuntimeHardening</type>
+        </param>
+        <param>
+          <type>RateLimiterRefillsOverTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/test_utils_runtime_hardening.cpp" line="191" column="1" bodyfile="tests/utils/test_utils_runtime_hardening.cpp" bodystart="191" bodyend="203"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 hardening tests for <ref refid="classthemis_1_1utils_1_1_thread_pool_manager" kindref="compound">ThreadPoolManager</ref> and <ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref>: fail-closed / explicit-error behavior under overload and shutdown. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coverage targets (Phase 4 gate):<itemizedlist>
+<listitem><para>RT-01: <ref refid="classthemis_1_1utils_1_1_thread_pool_1a472307827504c165bd4aa772b7a1443d" kindref="member">ThreadPool::submit()</ref> returns false when pool is stopped</para>
+</listitem><listitem><para>RT-02: <ref refid="classthemis_1_1utils_1_1_thread_pool_1a472307827504c165bd4aa772b7a1443d" kindref="member">ThreadPool::submit()</ref> returns false when queue is full (timeout)</para>
+</listitem><listitem><para>RT-03: <ref refid="classthemis_1_1utils_1_1_rate_limiter_1a09b2ae5423d57bb3210245b8f7ec9a21" kindref="member">RateLimiter::try_acquire()</ref> returns false when tokens exhausted</para>
+</listitem><listitem><para>RT-04: <ref refid="classthemis_1_1utils_1_1_rate_limiter_1a09b2ae5423d57bb3210245b8f7ec9a21" kindref="member">RateLimiter::try_acquire()</ref> is concurrency-safe</para>
+</listitem><listitem><para>RT-05: THREADPOOL_QUEUE_FULL error code is in concurrency range (9070-9079)</para>
+</listitem><listitem><para>RT-06: RATELIMIT_EXCEEDED error code is in concurrency range (9070-9079)</para>
+</listitem><listitem><para>RT-07: <ref refid="classthemis_1_1utils_1_1_thread_pool" kindref="compound">ThreadPool</ref> graceful shutdown drains queued tasks</para>
+</listitem><listitem><para>RT-08: <ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref> refills tokens over time</para>
+</listitem></itemizedlist>
+</para>
+<para>Test style: GoogleTest (same as existing utils test suite). </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="thread__pool__manager_8h" kindref="compound">utils/thread_pool_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rate__limiter_8h" kindref="compound">utils/rate_limiter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="error__contracts_8h" kindref="compound">utils/error_contracts.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>build<sp/>a<sp/>small<sp/>ThreadPool::Config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref><sp/>makeConfig(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_threads<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_threads<sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>queue_size<sp/>=<sp/>4)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a316f5d5fbe8d2f2644e8f69e8aaa3562" kindref="member">name</ref><sp/>=<sp/>name;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a686b97572e3df31b6d212c7181bd029b" kindref="member">min_threads</ref><sp/>=<sp/>min_threads;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a6ebad3fd893ac609fcfc774458bcbc45" kindref="member">max_threads</ref><sp/>=<sp/>max_threads;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config_1a63b434976e97880c69c5db9c8fc45b5d" kindref="member">queue_size</ref><sp/>=<sp/>queue_size;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>anonymous<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RT-01:<sp/>submit()<sp/>to<sp/>a<sp/>stopped<sp/>pool<sp/>returns<sp/>false<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(RuntimeHardening,<sp/>ThreadPoolSubmitReturnsFalseWhenStopped)<sp/>{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool" kindref="compound">ThreadPool</ref><sp/>pool(makeConfig(</highlight><highlight class="stringliteral">&quot;rt01&quot;</highlight><highlight class="normal">,<sp/>1,<sp/>1,<sp/>4));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>pool.shutdown();<sp/><sp/></highlight><highlight class="comment">//<sp/>shut<sp/>down<sp/>before<sp/>submitting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>cnt{0};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>task<sp/>=<sp/>std::make_shared&lt;Task&gt;([&amp;cnt]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cnt.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" kindref="member">Task::Priority::NORMAL</ref>,<sp/></highlight><highlight class="stringliteral">&quot;counting&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>pool.submit(task,<sp/>std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;submit()<sp/>to<sp/>stopped<sp/>pool<sp/>must<sp/>return<sp/>false<sp/>(fail-closed)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cnt.load(),<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;stopped<sp/>pool<sp/>must<sp/>not<sp/>execute<sp/>submitted<sp/>task&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RT-02:<sp/>submit()<sp/>returns<sp/>false<sp/>when<sp/>queue<sp/>is<sp/>full<sp/>and<sp/>times<sp/>out</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(RuntimeHardening,<sp/>ThreadPoolSubmitReturnsFalseWhenQueueFull)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>threads:<sp/>no<sp/>worker<sp/>to<sp/>drain<sp/>the<sp/>queue.<sp/><sp/>Queue<sp/>capacity<sp/>=<sp/>1.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_thread_pool_1_1_config" kindref="compound">ThreadPool::Config</ref><sp/>cfg<sp/>=<sp/>makeConfig(</highlight><highlight class="stringliteral">&quot;rt02&quot;</highlight><highlight class="normal">,<sp/>0,<sp/>0,<sp/>1);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_thread_pool" kindref="compound">ThreadPool</ref><sp/>pool(cfg);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>cnt{0};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>the<sp/>single<sp/>queue<sp/>slot.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>task1<sp/>=<sp/>std::make_shared&lt;Task&gt;([&amp;cnt]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cnt.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" kindref="member">Task::Priority::NORMAL</ref>,<sp/></highlight><highlight class="stringliteral">&quot;task1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>first<sp/>=<sp/>pool.submit(task1,<sp/>std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>submission<sp/>must<sp/>time<sp/>out<sp/>because<sp/>queue<sp/>is<sp/>full<sp/>and<sp/>no<sp/>thread<sp/>drains<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>task2<sp/>=<sp/>std::make_shared&lt;Task&gt;([&amp;cnt]()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cnt.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/><ref refid="classthemis_1_1utils_1_1_task_1adf547ac5f4268ff4ce8043efcf04fb2ca1e23852820b9154316c7c06e2b7ba051" kindref="member">Task::Priority::NORMAL</ref>,<sp/></highlight><highlight class="stringliteral">&quot;task2&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>second<sp/>=<sp/>pool.submit(task2,<sp/>std::chrono::milliseconds(20));</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>first<sp/>may<sp/>or<sp/>may<sp/>not<sp/>succeed<sp/>depending<sp/>on<sp/>internal<sp/>timing,<sp/>but</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>at<sp/>least<sp/>one<sp/>of<sp/>them<sp/>(the<sp/>second<sp/>overflow<sp/>attempt)<sp/>must<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>relax<sp/>to:<sp/>at<sp/>least<sp/>one<sp/>reject<sp/>must<sp/>be<sp/>observable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(first)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(second)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;second<sp/>submit<sp/>to<sp/>full<sp/>1-slot<sp/>queue<sp/>must<sp/>fail&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(if<sp/>first<sp/>also<sp/>failed,<sp/>the<sp/>queue<sp/>was<sp/>never<sp/>accessible<sp/>—<sp/>also<sp/>acceptable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RT-03:<sp/>RateLimiter::try_acquire()<sp/>returns<sp/>false<sp/>when<sp/>tokens<sp/>exhausted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(RuntimeHardening,<sp/>RateLimiterReturnsExplicitFalseOnExhaustion)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>bucket:<sp/>5<sp/>tokens,<sp/>refill<sp/>rate<sp/>1<sp/>token/s<sp/>(slow<sp/>refill)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>limiter(5.0<sp/></highlight><highlight class="comment">/*capacity*/</highlight><highlight class="normal">,<sp/>1.0<sp/></highlight><highlight class="comment">/*rate<sp/>tokens/s*/</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain<sp/>all<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>acquired<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(limiter.try_acquire(1.0))<sp/>{</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++acquired;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(acquired<sp/>&gt;<sp/>20)<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>guard<sp/>against<sp/>infinite<sp/>loop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Next<sp/>attempt<sp/>must<sp/>fail<sp/>explicitly,<sp/>not<sp/>silently<sp/>allow</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>rejected<sp/>=<sp/>!limiter.try_acquire(1.0);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(rejected)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;try_acquire<sp/>on<sp/>exhausted<sp/>bucket<sp/>must<sp/>return<sp/>false&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(acquired,<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;at<sp/>least<sp/>one<sp/>acquisition<sp/>should<sp/>have<sp/>succeeded&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RT-04:<sp/>RateLimiter::try_acquire()<sp/>is<sp/>concurrency-safe</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(RuntimeHardening,<sp/>RateLimiterConcurrencySafe)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>100-token<sp/>bucket,<sp/>1000<sp/>tokens/s<sp/>refill<sp/>—<sp/>drains<sp/>quickly<sp/>under<sp/>pressure.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>limiter(100.0,<sp/>1000.0);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>successes{0};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>failures{0};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;limiter,<sp/>&amp;successes,<sp/>&amp;failures]()<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>50;<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(limiter.try_acquire(1.0))<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>successes.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>failures.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>attempts<sp/>=<sp/>400;<sp/>successes<sp/>+<sp/>failures<sp/>must<sp/>equal<sp/>400</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(successes.load()<sp/>+<sp/>failures.load(),<sp/>400)</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;concurrency-safe:<sp/>every<sp/>try_acquire<sp/>must<sp/>return<sp/>true<sp/>or<sp/>false<sp/>exactly<sp/>once&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>a<sp/>100-token<sp/>bucket<sp/>and<sp/>8×50<sp/>attempts,<sp/>some<sp/>rejections<sp/>are<sp/>expected.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(failures.load(),<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;some<sp/>rejections<sp/>expected<sp/>under<sp/>pressure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RT-05:<sp/>THREADPOOL_QUEUE_FULL<sp/>code<sp/>is<sp/>in<sp/>concurrency<sp/>range<sp/>9070-9079</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(RuntimeHardening,<sp/>ThreadPoolQueueFullCodeInRange)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kCode<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aaed9742596c646c5d7577d45000d3f61" kindref="member">ErrorCode::THREADPOOL_QUEUE_FULL</ref>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(kCode,<sp/>9070u);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(kCode,<sp/>9079u);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RT-06:<sp/>RATELIMIT_EXCEEDED<sp/>code<sp/>is<sp/>in<sp/>concurrency<sp/>range<sp/>9070-9079</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(RuntimeHardening,<sp/>RateLimitExceededCodeInRange)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>kCode<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint16_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aad692d68691dc452af3a149fc962eab0" kindref="member">ErrorCode::RATELIMIT_EXCEEDED</ref>);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(kCode,<sp/>9070u);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(kCode,<sp/>9079u);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RT-07:<sp/>ErrorContext<sp/>for<sp/>THREADPOOL_QUEUE_FULL<sp/>has<sp/>ThreadPool<sp/>category</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(RuntimeHardening,<sp/>ThreadPoolQueueFullCategoryIsThreadPool)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ctx<sp/>=<sp/><ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">makeErrorContext</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7aaed9742596c646c5d7577d45000d3f61" kindref="member">ErrorCode::THREADPOOL_QUEUE_FULL</ref>,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;unit-test:<sp/>queue<sp/>full<sp/>simulation&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;RuntimeHardening::RT-07&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1utils_1a06c2669708f39fdee2c1ef0ff3039161a902b0d55fddef6f8d651fe1035b7d4bd" kindref="member">ErrorSeverity::Error</ref>,</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ctx.category,<sp/><ref refid="namespacethemis_1_1utils_1abf6d482be22b93d74e0622e7cc632bb6a22a9e7b1bdb6e93517fffe887f3b8eca" kindref="member">ErrorCategory::ThreadPool</ref>)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;THREADPOOL_QUEUE_FULL<sp/>must<sp/>map<sp/>to<sp/>ThreadPool<sp/>category&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctx.is_recoverable)</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;queue-full<sp/>error<sp/>should<sp/>be<sp/>non-recoverable<sp/>(fail-closed)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RT-08:<sp/>RateLimiter<sp/>refills<sp/>tokens<sp/>over<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><ref refid="namespacethemis_1_1utils_1acb782aa5e264e2141c4611b316989846" kindref="member">TEST</ref>(RuntimeHardening,<sp/>RateLimiterRefillsOverTime)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2<sp/>tokens<sp/>capacity,<sp/>100<sp/>tokens/s<sp/>(refill<sp/>1<sp/>token<sp/>in<sp/>10ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_rate_limiter" kindref="compound">RateLimiter</ref><sp/>limiter(2.0,<sp/>100.0);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain<sp/>fully</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(limiter.try_acquire(1.0))<sp/>{<sp/></highlight><highlight class="comment">/*<sp/>drain<sp/>*/</highlight><highlight class="normal"><sp/>}</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>~30<sp/>ms<sp/>—<sp/>should<sp/>refill<sp/>≥<sp/>2<sp/>tokens<sp/>(3×10ms)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(30));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/>limiter.try_acquire(1.0);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;rate<sp/>limiter<sp/>must<sp/>refill<sp/>tokens<sp/>over<sp/>time&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/utils/test_utils_runtime_hardening.cpp"/>
+  </compounddef>
+</doxygen>

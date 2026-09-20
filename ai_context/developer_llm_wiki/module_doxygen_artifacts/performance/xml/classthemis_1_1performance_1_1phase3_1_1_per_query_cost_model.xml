@@ -1,0 +1,469 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model" kind="class" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::PerQueryCostModel</compoundname>
+    <includes refid="per__query__cost__model_8h" local="no">per_query_cost_model.h</includes>
+    <innerclass refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard" prot="public">themis::performance::phase3::PerQueryCostModel::QueryGuard</innerclass>
+    <innerclass refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats" prot="public">themis::performance::phase3::PerQueryCostModel::Stats</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a20adccb1f320a4dc09e4ec8084d64eca" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::PerQueryCostModel::MAX_RECORDS</definition>
+        <argsstring></argsstring>
+        <name>MAX_RECORDS</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::MAX_RECORDS</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+<para>Maximum records kept in the rolling history. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="96" column="29" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="friend">
+      <memberdef kind="friend" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a211b89df3507cb720fcd7ae74bd9f173" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>class</type>
+        <definition>friend class QueryGuard</definition>
+        <argsstring></argsstring>
+        <name>QueryGuard</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::QueryGuard</qualifiedname>
+        <param>
+          <type>QueryGuard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="220" column="18" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a1681ee300fd15f579f1bd4e8d7d72792" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::phase3::PerQueryCostModel::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="229" column="37" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a8da22eddb32bba6c0a5c428882de005f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" kindref="compound">QueryCostRecord</ref> &gt;</type>
+        <definition>std::vector&lt;QueryCostRecord&gt; themis::performance::phase3::PerQueryCostModel::records_</definition>
+        <argsstring></argsstring>
+        <name>records_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::records_</qualifiedname>
+        <briefdescription>
+<para>Rolling window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="230" column="20" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a2a1b49f9d80dabb62ce04fcd497e57a1" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::phase3::PerQueryCostModel::total_queries_</definition>
+        <argsstring></argsstring>
+        <name>total_queries_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::total_queries_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="231" column="29" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="231" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a152bbebe1188cc4561972b066f606146" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::performance::phase3::PerQueryCostModel::write_pos_</definition>
+        <argsstring></argsstring>
+        <name>write_pos_</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::write_pos_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="232" column="29" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::PerQueryCostModel::PerQueryCostModel</definition>
+        <argsstring>()</argsstring>
+        <name>PerQueryCostModel</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::PerQueryCostModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="98" column="5" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="32" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a6e98f58914cbc38cf614c21d77887fd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::PerQueryCostModel::~PerQueryCostModel</definition>
+        <argsstring>()</argsstring>
+        <name>~PerQueryCostModel</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::~PerQueryCostModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="99" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a35b1d1a4ac12f8aedbc2ac0aedcb5009" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::performance::phase3::PerQueryCostModel::PerQueryCostModel</definition>
+        <argsstring>(const PerQueryCostModel &amp;)=delete</argsstring>
+        <name>PerQueryCostModel</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::PerQueryCostModel</qualifiedname>
+        <param>
+          <type>const PerQueryCostModel &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="102" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1ade214f1e7ea3d9adf9fb267083e21cf7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref> &amp;</type>
+        <definition>PerQueryCostModel &amp; themis::performance::phase3::PerQueryCostModel::operator=</definition>
+        <argsstring>(const PerQueryCostModel &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="103" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1aa2a744dc827dbac1b9d03f2a2b3bc6bb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard" kindref="compound">QueryGuard</ref></type>
+        <definition>PerQueryCostModel::QueryGuard themis::performance::phase3::PerQueryCostModel::beginQuery</definition>
+        <argsstring>(const std::string &amp;query_type, double estimated_cost=0.0) noexcept</argsstring>
+        <name>beginQuery</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::beginQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query_type</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>estimated_cost</declname>
+          <defval>0.0</defval>
+        </param>
+        <briefdescription>
+<para>Start timing a query execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical type label, e.g. &quot;table_scan&quot;. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>estimated_cost</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OptimizerCostModel estimate for this plan. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RAII guard – call guard.end() or let it destruct automatically. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="152" column="16" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="43" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a52bea5fa2d4a8f514c3d6b8424be2826" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt; std::string, double &gt; themis::performance::phase3::PerQueryCostModel::getCalibrationFactors</definition>
+        <argsstring>(const OptimizerCostModel::CostConstants *current=nullptr) const</argsstring>
+        <name>getCalibrationFactors</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::getCalibrationFactors</qualifiedname>
+        <param>
+          <type>const OptimizerCostModel::CostConstants *</type>
+          <declname>current</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Compute calibration factors from recorded history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a map of OptimizerCostModel constant names to updated values derived from measured CPU and I/O rates. Pass to OptimizerCostModel::calibrateCosts().</para>
+<para>Additionally emits:<itemizedlist>
+<listitem><para>&quot;gpu_row_threshold_low&quot; when GPU-path records show high serialization overhead (serialization_time_ms / execution_time_ms &gt; 0.5), suggesting the GPU breakeven threshold should be raised.</para>
+</listitem><listitem><para>&quot;msgpack_row_threshold&quot; when CPU_SINGLE records show the row count distribution warrants switching to binary format at a lower threshold.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional pointer to the model&apos;s current CostConstants. When provided the GPU/msgpack threshold adjustments are computed relative to the actual configured values rather than the compile-time defaults, preventing threshold oscillation after repeated calibrations. Pass nullptr (default) for backwards compatibility. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="179" column="24" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="152" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1acb4f5c29d3701747354e9c52837bd189" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::PerQueryCostModel::calibrate</definition>
+        <argsstring>(OptimizerCostModel &amp;model) const</argsstring>
+        <name>calibrate</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::calibrate</qualifiedname>
+        <param>
+          <type>OptimizerCostModel &amp;</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+<para>Apply calibration directly to an OptimizerCostModel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Convenience wrapper around <ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a52bea5fa2d4a8f514c3d6b8424be2826" kindref="member">getCalibrationFactors()</ref> + OptimizerCostModel::calibrateCosts(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="188" column="10" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="282" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1af6e1146de70be3f10780645188fcc13a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>PerQueryCostModel::Stats themis::performance::phase3::PerQueryCostModel::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::getStats</qualifiedname>
+        <briefdescription>
+<para>Aggregate statistics over all recorded queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="205" column="11" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="297" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1aff2f98dd0a6b5f1c48597b0b86e59da6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" kindref="compound">QueryCostRecord</ref> &gt;</type>
+        <definition>std::vector&lt; QueryCostRecord &gt; themis::performance::phase3::PerQueryCostModel::getRecentRecords</definition>
+        <argsstring>(size_t limit=100) const</argsstring>
+        <name>getRecentRecords</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::getRecentRecords</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+          <defval>100</defval>
+        </param>
+        <briefdescription>
+<para>Return the most recent records (up to <computeroutput>limit</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of records to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="211" column="17" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="99" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a9bbd0e181c61436ea532e5fa31ea8f09" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::PerQueryCostModel::reset</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::reset</qualifiedname>
+        <briefdescription>
+<para>Reset all accumulated records. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="214" column="10" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="82" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a189bfe6864451e3735f9fda716d84f6c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::performance::phase3::PerQueryCostModel::totalQueries</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalQueries</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::totalQueries</qualifiedname>
+        <briefdescription>
+<para>Total number of queries recorded since construction or last <ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a9bbd0e181c61436ea532e5fa31ea8f09" kindref="member">reset()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="217" column="12" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1afccdd18232872b3d0b06548a638fb0c5" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::performance::phase3::PerQueryCostModel::pushRecord</definition>
+        <argsstring>(QueryCostRecord record) noexcept</argsstring>
+        <name>pushRecord</name>
+        <qualifiedname>themis::performance::phase3::PerQueryCostModel::pushRecord</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1phase3_1_1_query_cost_record" kindref="compound">QueryCostRecord</ref></type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Push a completed record into the rolling buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Called from <ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1_1_query_guard_1a418cd367f915e3638020ec1e6686a629" kindref="member">QueryGuard::end()</ref>; internal use only. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/performance/phase3/per_query_cost_model.h" line="227" column="10" bodyfile="src/performance/phase3/per_query_cost_model.cpp" bodystart="57" bodyend="80"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-query cost model that integrates with OptimizerCostModel. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Records actual query execution costs using <ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter" kindref="compound">HardwareCycleCounter</ref> and derives calibration factors that can be applied to OptimizerCostModel constants so subsequent cost estimates are grounded in real hardware measurements.</para>
+<para>Thread-safety: all public methods are safe to call concurrently. The internal record store is protected by a mutex; the RAII timer helper is single-threaded per query.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" kindref="member">PerQueryCostModel</ref><sp/>pcm;</highlight></codeline>
+<codeline><highlight class="normal">OptimizerCostModel<sp/>model;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Wrap<sp/>a<sp/>query<sp/>execution:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>guard<sp/>=<sp/>pcm.beginQuery(</highlight><highlight class="stringliteral">&quot;index_scan&quot;</highlight><highlight class="normal">,<sp/>42.0);<sp/></highlight><highlight class="comment">//<sp/>estimated</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>execute<sp/>query<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>guard.end(rows_returned,<sp/>pages_read);</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Periodically<sp/>calibrate:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">pcm.calibrate(model);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/performance/phase3/per_query_cost_model.h" line="93" column="1" bodyfile="include/performance/phase3/per_query_cost_model.h" bodystart="93" bodyend="233"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1aa2a744dc827dbac1b9d03f2a2b3bc6bb" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>beginQuery</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1acb4f5c29d3701747354e9c52837bd189" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>calibrate</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a52bea5fa2d4a8f514c3d6b8424be2826" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>getCalibrationFactors</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1aff2f98dd0a6b5f1c48597b0b86e59da6" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>getRecentRecords</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1af6e1146de70be3f10780645188fcc13a" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a20adccb1f320a4dc09e4ec8084d64eca" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>MAX_RECORDS</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a1681ee300fd15f579f1bd4e8d7d72792" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1ade214f1e7ea3d9adf9fb267083e21cf7" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a0635cad475ea83bbbcd893fffd85040c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>PerQueryCostModel</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a35b1d1a4ac12f8aedbc2ac0aedcb5009" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>PerQueryCostModel</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1afccdd18232872b3d0b06548a638fb0c5" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>pushRecord</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a211b89df3507cb720fcd7ae74bd9f173" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>QueryGuard</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a8da22eddb32bba6c0a5c428882de005f" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>records_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a9bbd0e181c61436ea532e5fa31ea8f09" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>reset</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a2a1b49f9d80dabb62ce04fcd497e57a1" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>total_queries_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a189bfe6864451e3735f9fda716d84f6c" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>totalQueries</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a152bbebe1188cc4561972b066f606146" prot="private" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>write_pos_</name></member>
+      <member refid="classthemis_1_1performance_1_1phase3_1_1_per_query_cost_model_1a6e98f58914cbc38cf614c21d77887fd3" prot="public" virt="non-virtual"><scope>themis::performance::phase3::PerQueryCostModel</scope><name>~PerQueryCostModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

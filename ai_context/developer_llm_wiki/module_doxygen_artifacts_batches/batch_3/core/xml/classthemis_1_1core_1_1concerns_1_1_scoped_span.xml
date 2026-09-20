@@ -1,0 +1,333 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_scoped_span" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::ScopedSpan</compoundname>
+    <includes refid="i__tracer_8h" local="no">i_tracer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a9db09f41d8bf36e1f6d24f9a30e3585a" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ITracer::ISpan</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ITracer::ISpan&gt; themis::core::concerns::ScopedSpan::span_</definition>
+        <argsstring></argsstring>
+        <name>span_</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::span_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="223" column="21" bodyfile="include/core/concerns/i_tracer.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a3ffaec1d2f7e4fe7597986cba04fba04" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ScopedSpan::ScopedSpan</definition>
+        <argsstring>(ITracer &amp;tracer, const std::string &amp;name)</argsstring>
+        <name>ScopedSpan</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::ScopedSpan</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer" kindref="compound">ITracer</ref> &amp;</type>
+          <declname>tracer</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Scoped Span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tracer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="141" column="14" bodyfile="include/core/concerns/i_tracer.h" bodystart="141" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a05cdd1e0d1849b526c7c71118c032726" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ScopedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="150" column="10" bodyfile="include/core/concerns/i_tracer.h" bodystart="150" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1ab9bd5b3e72ae628ce8285e63144e4e0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ScopedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, int64_t value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="162" column="10" bodyfile="include/core/concerns/i_tracer.h" bodystart="162" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1af1239d3a84ab34ff85d02b88a077f43c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ScopedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, double value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="174" column="10" bodyfile="include/core/concerns/i_tracer.h" bodystart="174" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a1d050141c6321978cc8e8bfb1facf11f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ScopedSpan::setAttribute</definition>
+        <argsstring>(const std::string &amp;key, bool value)</argsstring>
+        <name>setAttribute</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::setAttribute</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Set Attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAttribute without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="186" column="10" bodyfile="include/core/concerns/i_tracer.h" bodystart="186" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a63ca7bef94d5700d00dded36f7020f73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ScopedSpan::recordError</definition>
+        <argsstring>(const std::string &amp;errorMessage)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::recordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>errorMessage</declname>
+        </param>
+        <briefdescription>
+<para>Record Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">errorMessage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordError without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="197" column="10" bodyfile="include/core/concerns/i_tracer.h" bodystart="197" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1add61c293a2cb0724affc433abb793102" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::ScopedSpan::setStatus</definition>
+        <argsstring>(bool ok, const std::string &amp;description=&quot;&quot;)</argsstring>
+        <name>setStatus</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::setStatus</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>ok</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="203" column="10" bodyfile="include/core/concerns/i_tracer.h" bodystart="203" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a57ecf8d87cf92863e0e84ef61be95fe8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_tracer_1_1_i_span" kindref="compound">ITracer::ISpan</ref> *</type>
+        <definition>ITracer::ISpan * themis::core::concerns::ScopedSpan::span</definition>
+        <argsstring>()</argsstring>
+        <name>span</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::span</qualifiedname>
+        <briefdescription>
+<para>Span. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="214" column="20" bodyfile="include/core/concerns/i_tracer.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a86161f9ad809fe19bec5560d0923c327" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::concerns::ScopedSpan::~ScopedSpan</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedSpan</name>
+        <qualifiedname>themis::core::concerns::ScopedSpan::~ScopedSpan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/i_tracer.h" line="216" column="5" bodyfile="include/core/concerns/i_tracer.h" bodystart="216" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/core/concerns/i_tracer.h" line="133" column="1" bodyfile="include/core/concerns/i_tracer.h" bodystart="133" bodyend="224"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a63ca7bef94d5700d00dded36f7020f73" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a3ffaec1d2f7e4fe7597986cba04fba04" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>ScopedSpan</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a05cdd1e0d1849b526c7c71118c032726" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1ab9bd5b3e72ae628ce8285e63144e4e0a" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1af1239d3a84ab34ff85d02b88a077f43c" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a1d050141c6321978cc8e8bfb1facf11f" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>setAttribute</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1add61c293a2cb0724affc433abb793102" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>setStatus</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a57ecf8d87cf92863e0e84ef61be95fe8" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>span</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a9db09f41d8bf36e1f6d24f9a30e3585a" prot="private" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>span_</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_scoped_span_1a86161f9ad809fe19bec5560d0923c327" prot="public" virt="non-virtual"><scope>themis::core::concerns::ScopedSpan</scope><name>~ScopedSpan</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

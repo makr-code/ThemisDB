@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_result_cache_1_1_key" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::ResultCache::Key</compoundname>
+    <includes refid="result__cache_8h" local="no">result_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_result_cache_1_1_key_1abd75a0c974cd093196fe3e5f25659720" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::ResultCache::Key::plan_hash</definition>
+        <argsstring></argsstring>
+        <name>plan_hash</name>
+        <qualifiedname>themis::cache::ResultCache::Key::plan_hash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="32" column="21" bodyfile="include/cache/result_cache.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_result_cache_1_1_key_1ab960f4e187bd0c4d9b2af50ea6f8a24b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::ResultCache::Key::namespace_</definition>
+        <argsstring></argsstring>
+        <name>namespace_</name>
+        <qualifiedname>themis::cache::ResultCache::Key::namespace_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="33" column="21" bodyfile="include/cache/result_cache.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_result_cache_1_1_key_1a2568839f20ea3e28600de1610ea6f4d7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::ResultCache::Key::shard_scope</definition>
+        <argsstring></argsstring>
+        <name>shard_scope</name>
+        <qualifiedname>themis::cache::ResultCache::Key::shard_scope</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="34" column="21" bodyfile="include/cache/result_cache.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_result_cache_1_1_key_1ab499293938c15c431c2c867f88bbeaae" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cache::ResultCache::Key::page</definition>
+        <argsstring></argsstring>
+        <name>page</name>
+        <qualifiedname>themis::cache::ResultCache::Key::page</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/result_cache.h" line="35" column="18" bodyfile="include/cache/result_cache.h" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/result_cache.h" line="31" column="5" bodyfile="include/cache/result_cache.h" bodystart="31" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_result_cache_1_1_key_1ab960f4e187bd0c4d9b2af50ea6f8a24b" prot="public" virt="non-virtual"><scope>themis::cache::ResultCache::Key</scope><name>namespace_</name></member>
+      <member refid="structthemis_1_1cache_1_1_result_cache_1_1_key_1ab499293938c15c431c2c867f88bbeaae" prot="public" virt="non-virtual"><scope>themis::cache::ResultCache::Key</scope><name>page</name></member>
+      <member refid="structthemis_1_1cache_1_1_result_cache_1_1_key_1abd75a0c974cd093196fe3e5f25659720" prot="public" virt="non-virtual"><scope>themis::cache::ResultCache::Key</scope><name>plan_hash</name></member>
+      <member refid="structthemis_1_1cache_1_1_result_cache_1_1_key_1a2568839f20ea3e28600de1610ea6f4d7" prot="public" virt="non-virtual"><scope>themis::cache::ResultCache::Key</scope><name>shard_scope</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

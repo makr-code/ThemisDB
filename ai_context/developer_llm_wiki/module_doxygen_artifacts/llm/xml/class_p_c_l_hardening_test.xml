@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_p_c_l_hardening_test" kind="class" language="C++" prot="public">
+    <compoundname>PCLHardeningTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_p_c_l_hardening_test_1a57e96dc73b9b65ef373284546e54a106" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_immediate_mock_plugin" kindref="compound">ImmediateMockPlugin</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ImmediateMockPlugin&gt; PCLHardeningTest::plugin_</definition>
+        <argsstring></argsstring>
+        <name>plugin_</name>
+        <qualifiedname>PCLHardeningTest::plugin_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="377" column="25" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="377" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_p_c_l_hardening_test_1a3d82480b1e737013349a16d424e5e80c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1_async_inference_engine" kindref="compound">AsyncInferenceEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;AsyncInferenceEngine&gt; PCLHardeningTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>PCLHardeningTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="378" column="24" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="378" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_p_c_l_hardening_test_1ac8d4be0071ad4715ab7c5ef4bf825a1d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PCLHardeningTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PCLHardeningTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="363" column="10" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="363" bodyend="369"/>
+      </memberdef>
+      <memberdef kind="function" id="class_p_c_l_hardening_test_1a148adb9d6ba44246ca9eba8a49b4249a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PCLHardeningTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PCLHardeningTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_hardening_phase4.cpp" line="371" column="10" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="371" bodyend="375"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PCLHardeningTest</label>
+        <link refid="class_p_c_l_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PCLHardeningTest</label>
+        <link refid="class_p_c_l_hardening_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_hardening_phase4.cpp" line="361" column="1" bodyfile="tests/llm/test_llm_hardening_phase4.cpp" bodystart="361" bodyend="379"/>
+    <listofallmembers>
+      <member refid="class_p_c_l_hardening_test_1a3d82480b1e737013349a16d424e5e80c" prot="protected" virt="non-virtual"><scope>PCLHardeningTest</scope><name>engine_</name></member>
+      <member refid="class_p_c_l_hardening_test_1a57e96dc73b9b65ef373284546e54a106" prot="protected" virt="non-virtual"><scope>PCLHardeningTest</scope><name>plugin_</name></member>
+      <member refid="class_p_c_l_hardening_test_1ac8d4be0071ad4715ab7c5ef4bf825a1d" prot="protected" virt="non-virtual"><scope>PCLHardeningTest</scope><name>SetUp</name></member>
+      <member refid="class_p_c_l_hardening_test_1a148adb9d6ba44246ca9eba8a49b4249a" prot="protected" virt="non-virtual"><scope>PCLHardeningTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

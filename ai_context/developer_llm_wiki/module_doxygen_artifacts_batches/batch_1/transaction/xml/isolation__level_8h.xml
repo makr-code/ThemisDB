@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="isolation__level_8h" kind="file" language="C++">
+    <compoundname>isolation_level.h</compoundname>
+    <includedby refid="bench__transaction__phase4_8cpp" local="yes">benchmarks/transaction/bench_transaction_phase4.cpp</includedby>
+    <includedby refid="crash__recovery__manager_8h" local="yes">include/transaction/crash_recovery_manager.h</includedby>
+    <includedby refid="transaction__auditor_8h" local="yes">include/transaction/transaction_auditor.h</includedby>
+    <includedby refid="transaction__coordinator_8h" local="yes">include/transaction/transaction_coordinator.h</includedby>
+    <includedby refid="transaction__manager_8h" local="yes">include/transaction/transaction_manager.h</includedby>
+    <includedby refid="test__transaction__error__path__determinism__phase1_8cpp" local="yes">tests/transaction/test_transaction_error_path_determinism_phase1.cpp</includedby>
+    <includedby refid="test__transaction__isolation__contention__phase1_8cpp" local="yes">tests/transaction/test_transaction_isolation_contention_phase1.cpp</includedby>
+    <includedby refid="test__transaction__lifecycle__phase1_8cpp" local="yes">tests/transaction/test_transaction_lifecycle_phase1.cpp</includedby>
+    <includedby refid="test__transaction__ssi_8cpp" local="yes">tests/transaction/test_transaction_ssi.cpp</includedby>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/transaction/bench_transaction_phase4.cpp</label>
+        <link refid="bench__transaction__phase4_8cpp"/>
+      </node>
+      <node id="5">
+        <label>benchmarks/transaction/bench_transaction_throughput.cpp</label>
+        <link refid="bench__transaction__throughput_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/transaction/crash_recovery_manager.h</label>
+        <link refid="crash__recovery__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/transaction/examples/transaction_semantic_advisor_example.cpp</label>
+        <link refid="transaction__semantic__advisor__example_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/transaction/isolation_level.h</label>
+        <link refid="isolation__level_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/transaction/transaction_auditor.h</label>
+        <link refid="transaction__auditor_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/transaction/transaction_coordinator.h</label>
+        <link refid="transaction__coordinator_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/transaction/transaction_manager.h</label>
+        <link refid="transaction__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>src/transaction/crash_recovery_manager.cpp</label>
+        <link refid="crash__recovery__manager_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/transaction/transaction_auditor.cpp</label>
+        <link refid="transaction__auditor_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/transaction/transaction_manager.cpp</label>
+        <link refid="transaction__manager_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/transaction/test_adaptive_deadlock_prevention.cpp</label>
+        <link refid="test__adaptive__deadlock__prevention_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/transaction/test_itransaction_coordinator.cpp</label>
+        <link refid="test__itransaction__coordinator_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/transaction/test_transaction_auditor.cpp</label>
+        <link refid="test__transaction__auditor_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/transaction/test_transaction_bulk.cpp</label>
+        <link refid="test__transaction__bulk_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/transaction/test_transaction_error_path_determinism_phase1.cpp</label>
+        <link refid="test__transaction__error__path__determinism__phase1_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/transaction/test_transaction_fault_injection_phase3.cpp</label>
+        <link refid="test__transaction__fault__injection__phase3_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/transaction/test_transaction_isolation_contention_phase1.cpp</label>
+        <link refid="test__transaction__isolation__contention__phase1_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/transaction/test_transaction_isolation_levels.cpp</label>
+        <link refid="test__transaction__isolation__levels_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/transaction/test_transaction_lifecycle_phase1.cpp</label>
+        <link refid="test__transaction__lifecycle__phase1_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/transaction/test_transaction_manager.cpp</label>
+        <link refid="test__transaction__manager_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/transaction/test_transaction_manager_comprehensive.cpp</label>
+        <link refid="test__transaction__manager__comprehensive_8cpp"/>
+      </node>
+      <node id="16">
+        <label>tests/transaction/test_transaction_occ.cpp</label>
+        <link refid="test__transaction__occ_8cpp"/>
+      </node>
+      <node id="17">
+        <label>tests/transaction/test_transaction_ssi.cpp</label>
+        <link refid="test__transaction__ssi_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/transaction/test_transaction_timeout.cpp</label>
+        <link refid="test__transaction__timeout_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/transaction/test_transaction_timeout_determinism.cpp</label>
+        <link refid="test__transaction__timeout__determinism_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.45 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7" kindref="member">IsolationLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>aliases<sp/>preserved<sp/>for<sp/>backward<sp/>compatibility</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a90ed941e4502c163cb075594c5f7df1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a90ed941e4502c163cb075594c5f7df1c" kindref="member">ReadCommitted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7ad4e2713d1b1725a1592f9268589f990d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7ad4e2713d1b1725a1592f9268589f990d" kindref="member">Snapshot</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7ae1525d4937a28d801a5263f8361a0de7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7ae1525d4937a28d801a5263f8361a0de7" kindref="member">SerializableSnapshot</ref><sp/>=<sp/>4,<sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Standard<sp/>SQL<sp/>names</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a7b5722b7d02a9d8ff3a8bdfcb7d278c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a7b5722b7d02a9d8ff3a8bdfcb7d278c3" kindref="member">READ_UNCOMMITTED</ref><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7a1671fb17b5ce9bd0af0cf47f3f4ea337" kindref="member">READ_COMMITTED</ref><sp/><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aa4b37efaa1a6b533614ed81660dbf912" kindref="member">REPEATABLE_READ</ref><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1af23e434d9cf54c52d3433977a3c0eeb7aadfafde622c8622bb72e4ff73e295cdb" kindref="member">SERIALIZABLE</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>4<sp/><sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/isolation_level.h"/>
+  </compounddef>
+</doxygen>

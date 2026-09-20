@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1search_1_1_provenance_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::search::ProvenanceEntry</compoundname>
+    <includes refid="layered__retrieval__orchestrator_8h" local="no">layered_retrieval_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_provenance_entry_1a88cae892de5f44885ba8926580be9b9d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::ProvenanceEntry::subject</definition>
+        <argsstring></argsstring>
+        <name>subject</name>
+        <qualifiedname>themis::search::ProvenanceEntry::subject</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="79" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_provenance_entry_1af72e3161cb70e77e727bd3b4e14f774b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::ProvenanceEntry::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>themis::search::ProvenanceEntry::predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="80" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_provenance_entry_1ad8ce81ebb4a30f5cb1633330aee1da19" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::ProvenanceEntry::object</definition>
+        <argsstring></argsstring>
+        <name>object</name>
+        <qualifiedname>themis::search::ProvenanceEntry::object</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="81" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_provenance_entry_1ad8ee2800518b80d6405f4a48be8d6f1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::search::ProvenanceEntry::rule_id</definition>
+        <argsstring></argsstring>
+        <name>rule_id</name>
+        <qualifiedname>themis::search::ProvenanceEntry::rule_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="82" column="17" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1search_1_1_provenance_entry_1af363ab4829ac5f2fd2f537afd21d575a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::search::ProvenanceEntry::lora_score</definition>
+        <argsstring></argsstring>
+        <name>lora_score</name>
+        <qualifiedname>themis::search::ProvenanceEntry::lora_score</qualifiedname>
+        <initializer>= -1.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/layered_retrieval_orchestrator.h" line="83" column="12" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One provenance edge produced by the graph layer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/layered_retrieval_orchestrator.h" line="78" column="1" bodyfile="include/search/layered_retrieval_orchestrator.h" bodystart="78" bodyend="84"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1search_1_1_provenance_entry_1af363ab4829ac5f2fd2f537afd21d575a" prot="public" virt="non-virtual"><scope>themis::search::ProvenanceEntry</scope><name>lora_score</name></member>
+      <member refid="structthemis_1_1search_1_1_provenance_entry_1ad8ce81ebb4a30f5cb1633330aee1da19" prot="public" virt="non-virtual"><scope>themis::search::ProvenanceEntry</scope><name>object</name></member>
+      <member refid="structthemis_1_1search_1_1_provenance_entry_1af72e3161cb70e77e727bd3b4e14f774b" prot="public" virt="non-virtual"><scope>themis::search::ProvenanceEntry</scope><name>predicate</name></member>
+      <member refid="structthemis_1_1search_1_1_provenance_entry_1ad8ee2800518b80d6405f4a48be8d6f1e" prot="public" virt="non-virtual"><scope>themis::search::ProvenanceEntry</scope><name>rule_id</name></member>
+      <member refid="structthemis_1_1search_1_1_provenance_entry_1a88cae892de5f44885ba8926580be9b9d" prot="public" virt="non-virtual"><scope>themis::search::ProvenanceEntry</scope><name>subject</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

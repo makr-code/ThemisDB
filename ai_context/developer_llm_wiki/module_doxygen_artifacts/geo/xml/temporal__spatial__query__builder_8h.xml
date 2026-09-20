@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="temporal__spatial__query__builder_8h" kind="file" language="C++">
+    <compoundname>temporal_spatial_query_builder.h</compoundname>
+    <includes refid="geo__json__geometry_8h" local="yes">geo/geo_json_geometry.h</includes>
+    <includes refid="spatial__join__filter_8h" local="yes">geo/spatial_join_filter.h</includes>
+    <includes local="yes">temporal/temporal_types.h</includes>
+    <includes local="yes">temporal/system_versioned_table.h</includes>
+    <includes local="yes">utils/geo/ewkb.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="temporal__spatial__query__builder_8cpp" local="yes">src/geo/temporal_spatial_query_builder.cpp</includedby>
+    <includedby refid="test__temporal__spatial__query__builder_8cpp" local="yes">tests/geo/test_temporal_spatial_query_builder.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>geo/geo_json_geometry.h</label>
+        <link refid="geo__json__geometry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>geo/spatial_join_filter.h</label>
+        <link refid="spatial__join__filter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/geo/temporal_spatial_query_builder.h</label>
+        <link refid="temporal__spatial__query__builder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>cmath</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>temporal/system_versioned_table.h</label>
+      </node>
+      <node id="10">
+        <label>temporal/temporal_types.h</label>
+      </node>
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="3">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/geo/temporal_spatial_query_builder.h</label>
+        <link refid="temporal__spatial__query__builder_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/geo/temporal_spatial_query_builder.cpp</label>
+        <link refid="temporal__spatial__query__builder_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/geo/test_temporal_spatial_query_builder.cpp</label>
+        <link refid="test__temporal__spatial__query__builder_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1geo_1_1_built_temporal_spatial_query" prot="public">themis::geo::BuiltTemporalSpatialQuery</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint" prot="public">themis::geo::BuiltTemporalSpatialQuery::TemporalConstraint</innerclass>
+    <innerclass refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint" prot="public">themis::geo::BuiltTemporalSpatialQuery::SpatialConstraint</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" prot="public">themis::geo::ITemporalSpatialQueryBuilder</innerclass>
+    <innerclass refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder" prot="public">themis::geo::TemporalSpatialQueryBuilder</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1geo">themis::geo</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="geo__json__geometry_8h" kindref="compound">geo/geo_json_geometry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__join__filter_8h" kindref="compound">geo/spatial_join_filter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;temporal/temporal_types.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;temporal/system_versioned_table.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/geo/ewkb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">geo</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TimeWindowType</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96" kindref="member">TimeWindowType</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96a6b72e92807bbffe084dc912f5eb753a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96a6b72e92807bbffe084dc912f5eb753a2" kindref="member">POINT_IN_TIME</ref>,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96a21ef3147a98040a9167367c1ad8d065e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96a21ef3147a98040a9167367c1ad8d065e" kindref="member">INTERVAL</ref>,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96a1909dcfa25e1c1f3aba6cb473cf1526e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96a1909dcfa25e1c1f3aba6cb473cf1526e" kindref="member">SLIDING_WINDOW</ref>,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BuiltTemporalSpatialQuery<sp/>—<sp/>immutable<sp/>value<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1geo_1_1_built_temporal_spatial_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1adf5cea3913f3218b9ccffae8e1d18b18" kindref="member">BuiltTemporalSpatialQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726ca4ecebc88bc894442fa42362605b3ad34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726c" kindref="member">SpatialType</ref><sp/>{<sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726ca4ecebc88bc894442fa42362605b3ad34" kindref="member">BBOX</ref>,<sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726ca1a6e096e1e9b142e671245bf278b66a2" kindref="member">PREDICATE</ref><sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint" kindref="compound">TemporalConstraint</ref><sp/>{</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a3d95348cd2a6758883b59f37f71cd8d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96" kindref="member">TimeWindowType</ref><sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a3d95348cd2a6758883b59f37f71cd8d4" kindref="member">window_type</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a95b870f652d6e519cf993457467c4f65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::temporal::Timestamp<sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a95b870f652d6e519cf993457467c4f65" kindref="member">point_in_time</ref>{0};</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1af9d953fe1e982e2bf27bb896f34c0a4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::temporal::Timestamp<sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1af9d953fe1e982e2bf27bb896f34c0a4b" kindref="member">interval_start</ref>{0};</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a7a131ab2ee969d8705796bf6c60ee891" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::temporal::Timestamp<sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1a7a131ab2ee969d8705796bf6c60ee891" kindref="member">interval_end</ref>{themisdb::temporal::kMaxTimestamp};</highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1accd2b8bd73440a6a642b1f127ee10d8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint_1accd2b8bd73440a6a642b1f127ee10d8d" kindref="member">sliding_window_ms</ref>{0};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint" kindref="compound">SpatialConstraint</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint_1a488d40ccd1bf6d6b77b28e87e9550bc0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726c" kindref="member">SpatialType</ref><sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint_1a488d40ccd1bf6d6b77b28e87e9550bc0" kindref="member">type</ref>{<ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1abd16449da2e8545b4efa783e473a726ca4ecebc88bc894442fa42362605b3ad34" kindref="member">SpatialType::BBOX</ref>};</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint_1ae44735a9c0534a914364fe52307409fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>MBR<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint_1ae44735a9c0534a914364fe52307409fa" kindref="member">bbox</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint_1a230c4689afa68198df184bd4255cc707" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ISpatialJoinFilter&gt;<sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint_1a230c4689afa68198df184bd4255cc707" kindref="member">predicate</ref>;<sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1adf5cea3913f3218b9ccffae8e1d18b18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1adf5cea3913f3218b9ccffae8e1d18b18" kindref="member">BuiltTemporalSpatialQuery</ref>(<ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_temporal_constraint" kindref="compound">TemporalConstraint</ref><sp/>temporal,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1geo_1_1_built_temporal_spatial_query_1_1_spatial_constraint" kindref="compound">SpatialConstraint</ref><sp/><sp/>spatial,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>geo_field)</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>temporal_(std::move(temporal))</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>spatial_(std::move(spatial))</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>geo_field_(std::move(geo_field))<sp/>{}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Accessors<sp/>(immutable<sp/>after<sp/>construction)<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a3b4c60ede269edcf0b60247d70705dc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1geo_1a65a45659c86e3526363eb5bdedbe6f96" kindref="member">TimeWindowType</ref><sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a3b4c60ede269edcf0b60247d70705dc2" kindref="member">windowType</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>temporal_.window_type;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ae49f2e2e5f70519493eb81e5c4576a4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR&amp;<sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ae49f2e2e5f70519493eb81e5c4576a4d" kindref="member">bbox</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>spatial_.bbox;<sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a4b9352deaadfeac010385b217d677563" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1a4b9352deaadfeac010385b217d677563" kindref="member">geoField</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>geo_field_;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>GeometryInfo&gt;&gt;<sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query_1ab1fa4b8c3da947b3c520e2b56fe10aab" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>themisdb::temporal::SystemVersionedTable&amp;<sp/>table)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>TemporalConstraint<sp/>temporal_;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>SpatialConstraint<sp/><sp/>spatial_;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>geo_field_;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ITemporalSpatialQueryBuilder<sp/>—<sp/>abstract<sp/>builder<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" kindref="compound">ITemporalSpatialQueryBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1a9158264acba05a0b50e73689590b65ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1a9158264acba05a0b50e73689590b65ec" kindref="member">~ITemporalSpatialQueryBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1a9b332e908493e2d45a4efc4da2990567" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" kindref="compound">ITemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1a9b332e908493e2d45a4efc4da2990567" kindref="member">withinBBox</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR&amp;<sp/>bbox)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1adb2a0f40e3245ca126552b8441d8ca17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" kindref="compound">ITemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1adb2a0f40e3245ca126552b8441d8ca17" kindref="member">withPredicate</ref>(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ISpatialJoinFilter&gt;<sp/>predicate)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1af43cfd8e72a6951776fc5a5fc4b92c84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" kindref="compound">ITemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1af43cfd8e72a6951776fc5a5fc4b92c84" kindref="member">duringInterval</ref>(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::temporal::Timestamp<sp/>start,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::temporal::Timestamp<sp/>end)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1aab9952efeeb85129cb33bbcca7d62f8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" kindref="compound">ITemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1aab9952efeeb85129cb33bbcca7d62f8a" kindref="member">atTime</ref>(</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::temporal::Timestamp<sp/>t)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1a0970b8d7f1de1e98c11ba8eee3e5a8fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" kindref="compound">ITemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1a0970b8d7f1de1e98c11ba8eee3e5a8fa" kindref="member">slidingWindow</ref>(int64_t<sp/>width_ms)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1ac53c35f3dadf835ea1c72df181bfbd89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" kindref="compound">ITemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1ac53c35f3dadf835ea1c72df181bfbd89" kindref="member">withGeoField</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1a69c7af668f8b2e55b29da15ff23cad78" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query" kindref="compound">BuiltTemporalSpatialQuery</ref><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder_1a69c7af668f8b2e55b29da15ff23cad78" kindref="member">build</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>TemporalSpatialQueryBuilder<sp/>—<sp/>concrete<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1geo_1_1_i_temporal_spatial_query_builder" kindref="compound">ITemporalSpatialQueryBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1aa1073c22d9c6f0269a880beb3f09cac1" kindref="member">withinBBox</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>MBR&amp;<sp/>bbox)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1a1031dcf405819ad02dacf9e7897c4d5d" kindref="member">withPredicate</ref>(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ISpatialJoinFilter&gt;<sp/>predicate)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1aabfad4dc33208519e9354b6cdacb0ee8" kindref="member">duringInterval</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::temporal::Timestamp<sp/>start,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themisdb::temporal::Timestamp<sp/>end)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1a1c92ea539e20977aeba4f8bcdc92474f" kindref="member">atTime</ref>(themisdb::temporal::Timestamp<sp/>t)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1a8de47ac0c81bf2f841d6b2375e88eee3" kindref="member">slidingWindow</ref>(int64_t<sp/>width_ms)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1adb7b1feb953d701a1fdbf2aa68ed7dcf" kindref="member">withGeoField</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>field)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="classthemis_1_1geo_1_1_built_temporal_spatial_query" kindref="compound">BuiltTemporalSpatialQuery</ref><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1a027c84ebd7382f1f713cb6466926c66e" kindref="member">build</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1ae6dd08657f6f329f173224d24b8649a2" kindref="member">TemporalSpatialQueryBuilder</ref>&amp;<sp/><ref refid="classthemis_1_1geo_1_1_temporal_spatial_query_builder_1a149311414d97942b2cce868d6c12c602" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;BuiltTemporalSpatialQuery::TemporalConstraint&gt;<sp/>temporal_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;BuiltTemporalSpatialQuery::SpatialConstraint&gt;<sp/><sp/>spatial_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>geo_field_{</highlight><highlight class="stringliteral">&quot;location&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>geo</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/geo/temporal_spatial_query_builder.h"/>
+  </compounddef>
+</doxygen>

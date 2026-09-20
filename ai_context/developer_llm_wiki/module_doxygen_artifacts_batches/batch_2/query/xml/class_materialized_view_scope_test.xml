@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_materialized_view_scope_test" kind="class" language="C++" prot="public">
+    <compoundname>MaterializedViewScopeTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_materialized_view_scope_test_1aa4de6ee309861e3b8e8314f81a8250f1" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_materialized_view_1_1_definition" kindref="compound">MaterializedView::Definition</ref></type>
+        <definition>MaterializedView::Definition MaterializedViewScopeTest::view_def</definition>
+        <argsstring></argsstring>
+        <name>view_def</name>
+        <qualifiedname>MaterializedViewScopeTest::view_def</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_materialized_view_scope_isolation.cpp" line="34" column="34" bodyfile="tests/query/test_materialized_view_scope_isolation.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_materialized_view_scope_test_1a385a3436c411c1a93e8ee9c46b160ace" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_materialized_view_1_1_config" kindref="compound">MaterializedView::Config</ref></type>
+        <definition>MaterializedView::Config MaterializedViewScopeTest::view_config</definition>
+        <argsstring></argsstring>
+        <name>view_config</name>
+        <qualifiedname>MaterializedViewScopeTest::view_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_materialized_view_scope_isolation.cpp" line="35" column="30" bodyfile="tests/query/test_materialized_view_scope_isolation.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_materialized_view_scope_test_1a95e28c3edef93b48856da2638e2df993" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void MaterializedViewScopeTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>MaterializedViewScopeTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_materialized_view_scope_isolation.cpp" line="37" column="10" bodyfile="tests/query/test_materialized_view_scope_isolation.cpp" bodystart="37" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_materialized_view_scope_test_1a941d4ad74a68b3b9a8ba90c37d95be09" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json MaterializedViewScopeTest::createTestDocument</definition>
+        <argsstring>(const std::string &amp;key, const std::string &amp;value)</argsstring>
+        <name>createTestDocument</name>
+        <qualifiedname>MaterializedViewScopeTest::createTestDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_materialized_view_scope_isolation.cpp" line="47" column="20" bodyfile="tests/query/test_materialized_view_scope_isolation.cpp" bodystart="47" bodyend="54"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>MaterializedViewScopeTest</label>
+        <link refid="class_materialized_view_scope_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>MaterializedViewScopeTest</label>
+        <link refid="class_materialized_view_scope_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>view_def</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>view_config</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="4">
+        <label>themis::query::MaterializedView::Config</label>
+        <link refid="structthemis_1_1query_1_1_materialized_view_1_1_config"/>
+      </node>
+      <node id="3">
+        <label>themis::query::MaterializedView::Definition</label>
+        <link refid="structthemis_1_1query_1_1_materialized_view_1_1_definition"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_materialized_view_scope_isolation.cpp" line="32" column="1" bodyfile="tests/query/test_materialized_view_scope_isolation.cpp" bodystart="32" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_materialized_view_scope_test_1a941d4ad74a68b3b9a8ba90c37d95be09" prot="protected" virt="non-virtual"><scope>MaterializedViewScopeTest</scope><name>createTestDocument</name></member>
+      <member refid="class_materialized_view_scope_test_1a95e28c3edef93b48856da2638e2df993" prot="protected" virt="non-virtual"><scope>MaterializedViewScopeTest</scope><name>SetUp</name></member>
+      <member refid="class_materialized_view_scope_test_1a385a3436c411c1a93e8ee9c46b160ace" prot="protected" virt="non-virtual"><scope>MaterializedViewScopeTest</scope><name>view_config</name></member>
+      <member refid="class_materialized_view_scope_test_1aa4de6ee309861e3b8e8314f81a8250f1" prot="protected" virt="non-virtual"><scope>MaterializedViewScopeTest</scope><name>view_def</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

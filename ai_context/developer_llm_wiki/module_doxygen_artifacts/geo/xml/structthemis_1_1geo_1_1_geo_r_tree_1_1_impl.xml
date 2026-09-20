@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::GeoRTree::Impl</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1add68ba17723393f822b6b3d0a56081f9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1geo_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::vector&lt;Entry&gt; themis::geo::GeoRTree::Impl::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::entries</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="173" column="17" bodyfile="src/geo/geo_rtree.cpp" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1ac59d328a4e08a56937d3099803f0bf7a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoRTree::Impl::bulkLoad</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; &amp;in)</argsstring>
+        <name>bulkLoad</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::bulkLoad</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, GeometryInfo &gt; &gt; &amp;</type>
+          <declname>in</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="175" column="10" bodyfile="src/geo/geo_rtree.cpp" bodystart="175" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a0745970a2a62f649f2fd13efd9c26655" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoRTree::Impl::insert</definition>
+        <argsstring>(const std::string &amp;key, const GeometryInfo &amp;geom)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom</declname>
+        </param>
+        <briefdescription>
+<para>Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">geom</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), computeMBR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="189" column="10" bodyfile="src/geo/geo_rtree.cpp" bodystart="189" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a38cedde99432a5390ffc2b6f1167080e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::GeoRTree::Impl::remove</definition>
+        <argsstring>(const std::string &amp;key, const GeometryInfo &amp;geom)</argsstring>
+        <name>remove</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::remove</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const GeometryInfo &amp;</type>
+          <declname>geom</declname>
+        </param>
+        <briefdescription>
+<para>Remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">geom</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: computeMBR(), begin(), end(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="200" column="10" bodyfile="src/geo/geo_rtree.cpp" bodystart="200" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1ac62af3e200a98df10dcb446e94ecade3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::geo::GeoRTree::Impl::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="217" column="10" bodyfile="src/geo/geo_rtree.cpp" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a31b151ef4ff80eed1481f5834e79dbf9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::GeoRTree::Impl::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="219" column="17" bodyfile="src/geo/geo_rtree.cpp" bodystart="219" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a1c48d43cd00ba46deee4cf8d6274ed27" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::geo::GeoRTree::Impl::intersects</definition>
+        <argsstring>(const MBR &amp;query_bbox) const</argsstring>
+        <name>intersects</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::intersects</qualifiedname>
+        <param>
+          <type>const MBR &amp;</type>
+          <declname>query_bbox</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="221" column="17" bodyfile="src/geo/geo_rtree.cpp" bodystart="221" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a685bb2807e51574c32a3650ca8f8c8c7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::geo::GeoRTree::Impl::contains</definition>
+        <argsstring>(double x, double y) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::contains</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="233" column="17" bodyfile="src/geo/geo_rtree.cpp" bodystart="233" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a9a0925202e920913a25205283e915ccd" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::geo::GeoRTree::Impl::memoryBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>memoryBytes</name>
+        <qualifiedname>themis::geo::GeoRTree::Impl::memoryBytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/geo/geo_rtree.cpp" line="245" column="17" bodyfile="src/geo/geo_rtree.cpp" bodystart="245" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/geo/geo_rtree.cpp" line="172" column="1" bodyfile="src/geo/geo_rtree.cpp" bodystart="172" bodyend="249"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1ac59d328a4e08a56937d3099803f0bf7a" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>bulkLoad</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1ac62af3e200a98df10dcb446e94ecade3" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>clear</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a685bb2807e51574c32a3650ca8f8c8c7" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>contains</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1add68ba17723393f822b6b3d0a56081f9" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>entries</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a0745970a2a62f649f2fd13efd9c26655" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>insert</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a1c48d43cd00ba46deee4cf8d6274ed27" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>intersects</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a9a0925202e920913a25205283e915ccd" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>memoryBytes</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a38cedde99432a5390ffc2b6f1167080e" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>remove</name></member>
+      <member refid="structthemis_1_1geo_1_1_geo_r_tree_1_1_impl_1a31b151ef4ff80eed1481f5834e79dbf9" prot="public" virt="non-virtual"><scope>themis::geo::GeoRTree::Impl</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

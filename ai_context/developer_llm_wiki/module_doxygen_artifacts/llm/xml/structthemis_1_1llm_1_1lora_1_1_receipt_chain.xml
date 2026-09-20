@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_receipt_chain" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::ReceiptChain</compoundname>
+    <includes refid="lora__package__provenance_8h" local="no">lora_package_provenance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a16a8f806bb268a969a3b184207398628" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ReceiptChain::chain_id</definition>
+        <argsstring></argsstring>
+        <name>chain_id</name>
+        <qualifiedname>themis::llm::lora::ReceiptChain::chain_id</qualifiedname>
+        <briefdescription>
+<para>Unique chain identifier (matches artifact_id in most cases). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="318" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a77c74da0c59f6c070038b31b9896ce0e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ReceiptChain::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::llm::lora::ReceiptChain::artifact_id</qualifiedname>
+        <briefdescription>
+<para>Artifact whose receipts this chain covers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="319" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a4ab81e5ca2c7af342c2d4477e23a6bc1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ReceiptChain::genesis_hash</definition>
+        <argsstring></argsstring>
+        <name>genesis_hash</name>
+        <qualifiedname>themis::llm::lora::ReceiptChain::genesis_hash</qualifiedname>
+        <briefdescription>
+<para>Seed hash used to initialise the chain (SHA-256 of chain_id). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="320" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a5da5d38fb3178fd876b43f19f4243fee" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_distribution_receipt" kindref="compound">DistributionReceipt</ref> &gt;</type>
+        <definition>std::vector&lt;DistributionReceipt&gt; themis::llm::lora::ReceiptChain::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>themis::llm::lora::ReceiptChain::entries</qualifiedname>
+        <briefdescription>
+<para>Ordered entries, oldest first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="321" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a89ef40a2f4f0721c85ed7db1ba561401" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::ReceiptChain::head_hash</definition>
+        <argsstring></argsstring>
+        <name>head_hash</name>
+        <qualifiedname>themis::llm::lora::ReceiptChain::head_hash</qualifiedname>
+        <briefdescription>
+<para>Current head hash (= receipt_hash of last entry). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="322" column="17" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1aca7073b6629ce5c49d7f4f15fbeb6b91" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::ReceiptChain::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::ReceiptChain::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="328" column="11" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="439" bodyend="451"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a8ef66779359cff181548bb822622d8a5" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain" kindref="compound">ReceiptChain</ref></type>
+        <definition>ReceiptChain themis::llm::lora::ReceiptChain::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::ReceiptChain::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialise from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source JSON object. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain" kindref="compound">ReceiptChain</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_package_provenance.h" line="335" column="26" bodyfile="src/llm/lora_framework/lora_package_provenance.cpp" bodystart="453" bodyend="465"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tamper-evident chain of DistributionReceipts for one artifact. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A <ref refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain" kindref="compound">ReceiptChain</ref> is the ordered, linked sequence of all DistributionReceipts ever issued for one artifact (identified by artifact_id). Each receipt in the chain carries the parent_receipt_hash of its predecessor.</para>
+<para><simplesect kind="note"><para>This is a value type. The <ref refid="classthemis_1_1llm_1_1lora_1_1_provenance_hash_ledger" kindref="compound">ProvenanceHashLedger</ref> is the authoritative store for live receipt chains. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_package_provenance.h" line="317" column="1" bodyfile="include/llm/lora_framework/lora_package_provenance.h" bodystart="317" bodyend="336"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a77c74da0c59f6c070038b31b9896ce0e" prot="public" virt="non-virtual"><scope>themis::llm::lora::ReceiptChain</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a16a8f806bb268a969a3b184207398628" prot="public" virt="non-virtual"><scope>themis::llm::lora::ReceiptChain</scope><name>chain_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a5da5d38fb3178fd876b43f19f4243fee" prot="public" virt="non-virtual"><scope>themis::llm::lora::ReceiptChain</scope><name>entries</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a8ef66779359cff181548bb822622d8a5" prot="public" virt="non-virtual"><scope>themis::llm::lora::ReceiptChain</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a4ab81e5ca2c7af342c2d4477e23a6bc1" prot="public" virt="non-virtual"><scope>themis::llm::lora::ReceiptChain</scope><name>genesis_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1a89ef40a2f4f0721c85ed7db1ba561401" prot="public" virt="non-virtual"><scope>themis::llm::lora::ReceiptChain</scope><name>head_hash</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_receipt_chain_1aca7073b6629ce5c49d7f4f15fbeb6b91" prot="public" virt="non-virtual"><scope>themis::llm::lora::ReceiptChain</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

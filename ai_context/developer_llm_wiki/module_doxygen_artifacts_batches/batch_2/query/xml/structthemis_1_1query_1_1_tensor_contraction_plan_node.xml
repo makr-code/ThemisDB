@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_tensor_contraction_plan_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::TensorContractionPlanNode</compoundname>
+    <includes refid="tensor__aware__query__optimizer_8h" local="no">tensor_aware_query_optimizer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a46462bae70ca40ae55f288a96daf38af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::TensorContractionPlanNode::function_name</definition>
+        <argsstring></argsstring>
+        <name>function_name</name>
+        <qualifiedname>themis::query::TensorContractionPlanNode::function_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="33" column="17" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a6caa14e21e4d68c989e52299c8f4f419" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::TensorContractionPlanNode::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::query::TensorContractionPlanNode::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="35" column="17" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_contraction_plan_node_1abc7fc706db514851c7c15a073a9fc609" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorContractionPlanNode::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::query::TensorContractionPlanNode::estimated_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="37" column="12" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_contraction_plan_node_1afc92297506899d113070fdbe7ba3b2fa" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::TensorContractionPlanNode::baseline_cost</definition>
+        <argsstring></argsstring>
+        <name>baseline_cost</name>
+        <qualifiedname>themis::query::TensorContractionPlanNode::baseline_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="39" column="12" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a1d2df69341c84edfa87fecd90c294997" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::TensorContractionPlanNode::rewritten</definition>
+        <argsstring></argsstring>
+        <name>rewritten</name>
+        <qualifiedname>themis::query::TensorContractionPlanNode::rewritten</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_aware_query_optimizer.h" line="41" column="10" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/tensor_aware_query_optimizer.h" line="32" column="1" bodyfile="include/query/tensor_aware_query_optimizer.h" bodystart="32" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1afc92297506899d113070fdbe7ba3b2fa" prot="public" virt="non-virtual"><scope>themis::query::TensorContractionPlanNode</scope><name>baseline_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a6caa14e21e4d68c989e52299c8f4f419" prot="public" virt="non-virtual"><scope>themis::query::TensorContractionPlanNode</scope><name>description</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1abc7fc706db514851c7c15a073a9fc609" prot="public" virt="non-virtual"><scope>themis::query::TensorContractionPlanNode</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a46462bae70ca40ae55f288a96daf38af" prot="public" virt="non-virtual"><scope>themis::query::TensorContractionPlanNode</scope><name>function_name</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_contraction_plan_node_1a1d2df69341c84edfa87fecd90c294997" prot="public" virt="non-virtual"><scope>themis::query::TensorContractionPlanNode</scope><name>rewritten</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

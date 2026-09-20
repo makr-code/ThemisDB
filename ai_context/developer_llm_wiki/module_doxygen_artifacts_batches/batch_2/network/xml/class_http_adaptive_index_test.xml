@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_http_adaptive_index_test" kind="class" language="C++" prot="public">
+    <compoundname>HttpAdaptiveIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_http_adaptive_index_test_1ab0ab37b7f275a5e5f918aec661141527" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path HttpAdaptiveIndexTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>HttpAdaptiveIndexTest::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="153" column="27" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_adaptive_index_test_1a3d54d33203ca3aa6caea23d3d3a6462e" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; HttpAdaptiveIndexTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>HttpAdaptiveIndexTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="154" column="21" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_adaptive_index_test_1a2a65631c64a1d2d73942ed2f2692aeb7" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; HttpAdaptiveIndexTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>HttpAdaptiveIndexTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="155" column="21" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_adaptive_index_test_1ac1e230b5bc699c7642188e7c5330a658" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; HttpAdaptiveIndexTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>HttpAdaptiveIndexTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="156" column="21" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_adaptive_index_test_1af411ba6ae65628fde9c4df13caa455fe" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; HttpAdaptiveIndexTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>HttpAdaptiveIndexTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="157" column="21" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_adaptive_index_test_1ab62a94b4925e4fc54c0df9c9479e8d5b" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;TransactionManager&gt; HttpAdaptiveIndexTest::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>HttpAdaptiveIndexTest::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="158" column="21" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_adaptive_index_test_1adae42f4f9a494d9ad93d25f4b8e84a24" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; HttpServer &gt;</type>
+        <definition>std::unique_ptr&lt;HttpServer&gt; HttpAdaptiveIndexTest::server_</definition>
+        <argsstring></argsstring>
+        <name>server_</name>
+        <qualifiedname>HttpAdaptiveIndexTest::server_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="159" column="21" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_http_adaptive_index_test_1ae1b725c493d65b34472117fadc1e4a0f" prot="protected" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t HttpAdaptiveIndexTest::port_</definition>
+        <argsstring></argsstring>
+        <name>port_</name>
+        <qualifiedname>HttpAdaptiveIndexTest::port_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="160" column="14" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="160" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_http_adaptive_index_test_1a152b55e598de9ead29a6fac14ec01e4d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAdaptiveIndexTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HttpAdaptiveIndexTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="29" column="10" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="29" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_adaptive_index_test_1a16ffb04dc350df094eb0d7f60167c622" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAdaptiveIndexTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HttpAdaptiveIndexTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="65" column="10" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="65" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_adaptive_index_test_1a593576f469b16786d8cdafb6797be4aa" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpAdaptiveIndexTest::httpGet</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>httpGet</name>
+        <qualifiedname>HttpAdaptiveIndexTest::httpGet</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="80" column="10" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="80" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_adaptive_index_test_1a7d8b1ab9c6bea2cad54459d2d7a98e47" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref></type>
+        <definition>json HttpAdaptiveIndexTest::httpPost</definition>
+        <argsstring>(const std::string &amp;path, const json &amp;body)</argsstring>
+        <name>httpPost</name>
+        <qualifiedname>HttpAdaptiveIndexTest::httpPost</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="104" column="10" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="104" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_http_adaptive_index_test_1a552ea376db5ac2cf6b0abaaf6a1f4a44" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HttpAdaptiveIndexTest::httpDelete</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>httpDelete</name>
+        <qualifiedname>HttpAdaptiveIndexTest::httpDelete</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_adaptive_index.cpp" line="131" column="10" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="131" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HttpAdaptiveIndexTest</label>
+        <link refid="class_http_adaptive_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HttpAdaptiveIndexTest</label>
+        <link refid="class_http_adaptive_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/network/test_http_adaptive_index.cpp" line="27" column="1" bodyfile="tests/network/test_http_adaptive_index.cpp" bodystart="27" bodyend="161"/>
+    <listofallmembers>
+      <member refid="class_http_adaptive_index_test_1ac1e230b5bc699c7642188e7c5330a658" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>graph_index_</name></member>
+      <member refid="class_http_adaptive_index_test_1a552ea376db5ac2cf6b0abaaf6a1f4a44" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>httpDelete</name></member>
+      <member refid="class_http_adaptive_index_test_1a593576f469b16786d8cdafb6797be4aa" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>httpGet</name></member>
+      <member refid="class_http_adaptive_index_test_1a7d8b1ab9c6bea2cad54459d2d7a98e47" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>httpPost</name></member>
+      <member refid="class_http_adaptive_index_test_1ae1b725c493d65b34472117fadc1e4a0f" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>port_</name></member>
+      <member refid="class_http_adaptive_index_test_1a2a65631c64a1d2d73942ed2f2692aeb7" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>secondary_index_</name></member>
+      <member refid="class_http_adaptive_index_test_1adae42f4f9a494d9ad93d25f4b8e84a24" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>server_</name></member>
+      <member refid="class_http_adaptive_index_test_1a152b55e598de9ead29a6fac14ec01e4d" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>SetUp</name></member>
+      <member refid="class_http_adaptive_index_test_1a3d54d33203ca3aa6caea23d3d3a6462e" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>storage_</name></member>
+      <member refid="class_http_adaptive_index_test_1a16ffb04dc350df094eb0d7f60167c622" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>TearDown</name></member>
+      <member refid="class_http_adaptive_index_test_1ab0ab37b7f275a5e5f918aec661141527" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>test_db_path_</name></member>
+      <member refid="class_http_adaptive_index_test_1ab62a94b4925e4fc54c0df9c9479e8d5b" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>tx_manager_</name></member>
+      <member refid="class_http_adaptive_index_test_1af411ba6ae65628fde9c4df13caa455fe" prot="protected" virt="non-virtual"><scope>HttpAdaptiveIndexTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_checkpoint_manifest_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::CheckpointManifestEntry</compoundname>
+    <includes refid="lora__checkpoint__manager_8h" local="no">lora_checkpoint_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointManifestEntry::checkpoint_path</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_path</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::checkpoint_path</qualifiedname>
+        <briefdescription>
+<para>Absolute path to the checkpoint file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="33" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a94fbcd2ad6bf098a5114dd01b3882d58" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointManifestEntry::sha256</definition>
+        <argsstring></argsstring>
+        <name>sha256</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::sha256</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hex digest of the checkpoint file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="34" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ac87b09f4469d7dd7ca6aefd7a57b7ba3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointManifestEntry::base_model_hash</definition>
+        <argsstring></argsstring>
+        <name>base_model_hash</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::base_model_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 of the base model used for training. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="35" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::CheckpointManifestEntry::adapter_version</definition>
+        <argsstring></argsstring>
+        <name>adapter_version</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::adapter_version</qualifiedname>
+        <briefdescription>
+<para>Version tag (e.g., &quot;legal_v1.2&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="36" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CheckpointManifestEntry::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Training epoch when checkpoint was saved. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="37" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::CheckpointManifestEntry::step</definition>
+        <argsstring></argsstring>
+        <name>step</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Training step within the epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="38" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::CheckpointManifestEntry::loss</definition>
+        <argsstring></argsstring>
+        <name>loss</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Training loss at checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="39" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::CheckpointManifestEntry::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Validation accuracy at checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="40" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a7fcd6a67b7300c28adb23a3f68c24c01" prot="public" static="no" mutable="no">
+        <type>std::time_t</type>
+        <definition>std::time_t themis::training::CheckpointManifestEntry::saved_at</definition>
+        <argsstring></argsstring>
+        <name>saved_at</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::saved_at</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Unix timestamp of save. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="41" column="17" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a417ba2c54b58c628b11942378d0bc981" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::CheckpointManifestEntry::CheckpointManifestEntry</definition>
+        <argsstring>()=default</argsstring>
+        <name>CheckpointManifestEntry</name>
+        <qualifiedname>themis::training::CheckpointManifestEntry::CheckpointManifestEntry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_checkpoint_manager.h" line="43" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Metadata stored in the checkpoint manifest alongside adapter weights. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/lora_checkpoint_manager.h" line="32" column="1" bodyfile="include/training/lora_checkpoint_manager.h" bodystart="32" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>adapter_version</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ac87b09f4469d7dd7ca6aefd7a57b7ba3" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>base_model_hash</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>checkpoint_path</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a417ba2c54b58c628b11942378d0bc981" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>CheckpointManifestEntry</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>loss</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a7fcd6a67b7300c28adb23a3f68c24c01" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>saved_at</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a94fbcd2ad6bf098a5114dd01b3882d58" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>sha256</name></member>
+      <member refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" prot="public" virt="non-virtual"><scope>themis::training::CheckpointManifestEntry</scope><name>step</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1269 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_schema_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::SchemaApiHandler</compoundname>
+    <includes refid="schema__api__handler_8h" local="no">schema_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1aa3475daa29d8008dcfb2051d21934d94" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::server::SchemaApiHandler::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="317" column="28" bodyfile="include/server/schema_api_handler.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1a2d08c55b5c510fa9f0de203708ebdb2e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; themis::server::SchemaApiHandler::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="318" column="21" bodyfile="include/server/schema_api_handler.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1a281b8386de8c61677d75e2e1293d0dc7" prot="private" static="no" mutable="no">
+        <type>SchemaManager *</type>
+        <definition>SchemaManager* themis::server::SchemaApiHandler::schema_mgr_</definition>
+        <argsstring></argsstring>
+        <name>schema_mgr_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::schema_mgr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="319" column="28" bodyfile="include/server/schema_api_handler.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1a03dba996176170939496ac036c367b52" prot="private" static="no" mutable="no">
+        <type>StatisticsCollector *</type>
+        <definition>StatisticsCollector* themis::server::SchemaApiHandler::stats_collector_</definition>
+        <argsstring></argsstring>
+        <name>stats_collector_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::stats_collector_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="320" column="28" bodyfile="include/server/schema_api_handler.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1a6127736d143ff90b262a850cc1f3a4b1" prot="private" static="no" mutable="no">
+        <type>SchemaConstraints *</type>
+        <definition>SchemaConstraints* themis::server::SchemaApiHandler::schema_constraints_</definition>
+        <argsstring></argsstring>
+        <name>schema_constraints_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::schema_constraints_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="321" column="28" bodyfile="include/server/schema_api_handler.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1a242452f01c2b456b02e08ec9c184e7df" prot="private" static="no" mutable="no">
+        <type>SchemaVersionManager *</type>
+        <definition>SchemaVersionManager* themis::server::SchemaApiHandler::version_mgr_</definition>
+        <argsstring></argsstring>
+        <name>version_mgr_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::version_mgr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="322" column="28" bodyfile="include/server/schema_api_handler.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1a98d92c2597b6747e8a5ead70f28cca8d" prot="private" static="no" mutable="no">
+        <type>metadata::IndexRecommender *</type>
+        <definition>metadata::IndexRecommender* themis::server::SchemaApiHandler::index_recommender_</definition>
+        <argsstring></argsstring>
+        <name>index_recommender_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::index_recommender_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="323" column="38" bodyfile="include/server/schema_api_handler.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1aad8828244ff36e828b84e0eabb0a4047" prot="private" static="no" mutable="no">
+        <type>SchemaAuditLog *</type>
+        <definition>SchemaAuditLog* themis::server::SchemaApiHandler::audit_log_</definition>
+        <argsstring></argsstring>
+        <name>audit_log_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::audit_log_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="324" column="28" bodyfile="include/server/schema_api_handler.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_schema_api_handler_1a0327e78bcf1423e8b4ed34ef8adcb3fa" prot="private" static="no" mutable="no">
+        <type>themis::metadata::ColumnLineageTracker *</type>
+        <definition>themis::metadata::ColumnLineageTracker* themis::server::SchemaApiHandler::column_lineage_tracker_</definition>
+        <argsstring></argsstring>
+        <name>column_lineage_tracker_</name>
+        <qualifiedname>themis::server::SchemaApiHandler::column_lineage_tracker_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Non-owning. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="325" column="44" bodyfile="include/server/schema_api_handler.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a65c53ede2cb98ae0ac68537c5ac4f6fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SchemaApiHandler::SchemaApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; storage, std::shared_ptr&lt; SecondaryIndexManager &gt; secondary_index, SchemaManager *schema_mgr)</argsstring>
+        <name>SchemaApiHandler</name>
+        <qualifiedname>themis::server::SchemaApiHandler::SchemaApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>storage</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+          <declname>secondary_index</declname>
+        </param>
+        <param>
+          <type>SchemaManager *</type>
+          <declname>schema_mgr</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="45" column="5" bodyfile="src/server/schema_api_handler.cpp" bodystart="36" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a8a8226a99a50ff07d64bff6adbb0e5a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::SchemaApiHandler::~SchemaApiHandler</definition>
+        <argsstring>()</argsstring>
+        <name>~SchemaApiHandler</name>
+        <qualifiedname>themis::server::SchemaApiHandler::~SchemaApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="51" column="5" bodyfile="src/server/schema_api_handler.cpp" bodystart="54" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a6e9bd41aa306774d4cb112bc5e7826ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SchemaApiHandler::setStatisticsCollector</definition>
+        <argsstring>(StatisticsCollector *stats_collector)</argsstring>
+        <name>setStatisticsCollector</name>
+        <qualifiedname>themis::server::SchemaApiHandler::setStatisticsCollector</qualifiedname>
+        <param>
+          <type>StatisticsCollector *</type>
+          <declname>stats_collector</declname>
+        </param>
+        <briefdescription>
+<para>Set Statistics Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats_collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats_collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setStatisticsCollector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="58" column="10" bodyfile="src/server/schema_api_handler.cpp" bodystart="608" bodyend="610"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a0e13139f7f49a866e21f3f38415ecca1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SchemaApiHandler::setSchemaConstraints</definition>
+        <argsstring>(SchemaConstraints *schema_constraints)</argsstring>
+        <name>setSchemaConstraints</name>
+        <qualifiedname>themis::server::SchemaApiHandler::setSchemaConstraints</qualifiedname>
+        <param>
+          <type>SchemaConstraints *</type>
+          <declname>schema_constraints</declname>
+        </param>
+        <briefdescription>
+<para>Set Schema Constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema_constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">schema_constraints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSchemaConstraints without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="64" column="10" bodyfile="src/server/schema_api_handler.cpp" bodystart="617" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1ad226cd2d30518089123a9ead546e69cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SchemaApiHandler::setSchemaVersionManager</definition>
+        <argsstring>(SchemaVersionManager *version_mgr)</argsstring>
+        <name>setSchemaVersionManager</name>
+        <qualifiedname>themis::server::SchemaApiHandler::setSchemaVersionManager</qualifiedname>
+        <param>
+          <type>SchemaVersionManager *</type>
+          <declname>version_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set Schema Version Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">version_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">version_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSchemaVersionManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="70" column="10" bodyfile="src/server/schema_api_handler.cpp" bodystart="626" bodyend="628"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a9e48ec6da2c6feeb8ae4254a067c66a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SchemaApiHandler::setIndexRecommender</definition>
+        <argsstring>(metadata::IndexRecommender *index_recommender)</argsstring>
+        <name>setIndexRecommender</name>
+        <qualifiedname>themis::server::SchemaApiHandler::setIndexRecommender</qualifiedname>
+        <param>
+          <type>metadata::IndexRecommender *</type>
+          <declname>index_recommender</declname>
+        </param>
+        <briefdescription>
+<para>Set Index Recommender. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">index_recommender</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">index_recommender</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setIndexRecommender without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="76" column="10" bodyfile="src/server/schema_api_handler.cpp" bodystart="635" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1abba5b500fae8642c64e51bf80fa11bc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SchemaApiHandler::setAuditLog</definition>
+        <argsstring>(SchemaAuditLog *audit_log)</argsstring>
+        <name>setAuditLog</name>
+        <qualifiedname>themis::server::SchemaApiHandler::setAuditLog</qualifiedname>
+        <param>
+          <type>SchemaAuditLog *</type>
+          <declname>audit_log</declname>
+        </param>
+        <briefdescription>
+<para>Set Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">audit_log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">audit_log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setAuditLog without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="82" column="10" bodyfile="src/server/schema_api_handler.cpp" bodystart="644" bodyend="646"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a51287c871b241bfb697f4ac2adc65443" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::SchemaApiHandler::setColumnLineageTracker</definition>
+        <argsstring>(themis::metadata::ColumnLineageTracker *tracker)</argsstring>
+        <name>setColumnLineageTracker</name>
+        <qualifiedname>themis::server::SchemaApiHandler::setColumnLineageTracker</qualifiedname>
+        <param>
+          <type>themis::metadata::ColumnLineageTracker *</type>
+          <declname>tracker</declname>
+        </param>
+        <briefdescription>
+<para>Set Column Lineage Tracker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tracker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">tracker</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setColumnLineageTracker without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="88" column="10" bodyfile="src/server/schema_api_handler.cpp" bodystart="653" bodyend="655"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1ae1eb546dfe482fcce7ed829a3af8418a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetSchema</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetSchema</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetSchema</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="99" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="64" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1ad66bcd4ab514d9e6546f7c6df98e2d77" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetTables</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetTables</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetTables</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Tables. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="107" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="115" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1afe95c8476c4d173c559771481d93b7c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetTable</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetTable</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetTable</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="115" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="182" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1abf123a55acc87f4f624ad917f79bc5f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetCapabilities</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetCapabilities</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetCapabilities</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Capabilities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="123" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="285" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a8f449ced008c7853dbfd1366f7233f6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handlePutSchema</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePutSchema</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handlePutSchema</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Put Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="131" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="365" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1aafcc58b380f86e46e7c2770243ca04a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handlePatchSchema</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePatchSchema</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handlePatchSchema</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Patch Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), version(), set(), keep_alive(), setStatus(), body(), dump(), result(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="139" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="503" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a0a4b18b10ccefc755658a94794632ab2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetInformationSchema</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetInformationSchema</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetInformationSchema</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Information Schema. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="151" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="707" bodyend="780"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a72f8614df1d91721ee6a49fedacde885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetStats</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="163" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="791" bodyend="829"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a713ae4300349712828e026707a8b2b25" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleCollectStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCollectStats</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleCollectStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Collect Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="171" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="836" bodyend="876"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a41151d01e1d1050acd7f09db9bd282cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetConstraints</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetConstraints</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetConstraints</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Constraints. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="183" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="887" bodyend="927"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a1796f6e5ed415ae9ca8cf3bf2ed24d72" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetIndexRecommendations</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetIndexRecommendations</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetIndexRecommendations</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Index Recommendations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="195" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="1121" bodyend="1190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1afcba8a4a532297a27160a44a791dba62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetAuditLog</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetAuditLog</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetAuditLog</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="207" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="1201" bodyend="1247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a099b24def3feea039a4fdde4bd7d15dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleSchemaImport</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleSchemaImport</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleSchemaImport</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Schema Import. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="219" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="1258" bodyend="1327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1ac07e40d77e462140344d320a9c9e45f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleBatchConstraintValidation</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleBatchConstraintValidation</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleBatchConstraintValidation</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Batch Constraint Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="231" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="1338" bodyend="1427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1afefb0efc8626f638e18106204b2332a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetVersionHistory</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetVersionHistory</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetVersionHistory</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Version History. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="243" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="938" bodyend="977"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a4331cad0a637f38d8ac3f11467da58e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleCreateVersion</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCreateVersion</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleCreateVersion</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="251" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="984" bodyend="1034"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a81f2098f48993d1c6bb213da32d28170" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetDiff</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetDiff</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetDiff</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Diff. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="259" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="1041" bodyend="1110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a420b009e74dce1fc1ea8b34d05f95d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleGetColumnLineage</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetColumnLineage</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleGetColumnLineage</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Column Lineage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="271" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="1438" bodyend="1495"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a2ad4444b114e53c0ef884be8a9e4b261" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::handleRecordLineageDerivation</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleRecordLineageDerivation</name>
+        <qualifiedname>themis::server::SchemaApiHandler::handleRecordLineageDerivation</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Record Lineage Derivation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="279" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="1502" bodyend="1568"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1ac4fc866e17b5ce7fc79357e97aa8caa5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::SchemaApiHandler::extractAndValidateSchemaTableName</definition>
+        <argsstring>(const std::string &amp;target, std::string &amp;table_name) const</argsstring>
+        <name>extractAndValidateSchemaTableName</name>
+        <qualifiedname>themis::server::SchemaApiHandler::extractAndValidateSchemaTableName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Extract And Validate Schema Table Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="289" column="17" bodyfile="src/server/schema_api_handler.cpp" bodystart="330" bodyend="357"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1aaeb4802746557575cf14be5ebbc60d85" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::SchemaApiHandler::extractTableName</definition>
+        <argsstring>(const std::string &amp;target, const std::string &amp;prefix, std::string &amp;table_name) const</argsstring>
+        <name>extractTableName</name>
+        <qualifiedname>themis::server::SchemaApiHandler::extractTableName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Extract Table Name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the table. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="300" column="17" bodyfile="src/server/schema_api_handler.cpp" bodystart="678" bodyend="696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_schema_api_handler_1a99abc2bfd31f439b80de95e47abc1ff2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::SchemaApiHandler::makeError</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, http::status status, const std::string &amp;message) const</argsstring>
+        <name>makeError</name>
+        <qualifiedname>themis::server::SchemaApiHandler::makeError</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Make Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/schema_api_handler.h" line="312" column="20" bodyfile="src/server/schema_api_handler.cpp" bodystart="661" bodyend="676"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/schema_api_handler.h" line="43" column="1" bodyfile="include/server/schema_api_handler.h" bodystart="43" bodyend="326"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1aad8828244ff36e828b84e0eabb0a4047" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>audit_log_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a0327e78bcf1423e8b4ed34ef8adcb3fa" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>column_lineage_tracker_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1ac4fc866e17b5ce7fc79357e97aa8caa5" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>extractAndValidateSchemaTableName</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1aaeb4802746557575cf14be5ebbc60d85" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>extractTableName</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1ac07e40d77e462140344d320a9c9e45f5" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleBatchConstraintValidation</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a713ae4300349712828e026707a8b2b25" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleCollectStats</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a4331cad0a637f38d8ac3f11467da58e4" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleCreateVersion</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1afcba8a4a532297a27160a44a791dba62" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetAuditLog</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1abf123a55acc87f4f624ad917f79bc5f8" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetCapabilities</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a420b009e74dce1fc1ea8b34d05f95d93" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetColumnLineage</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a41151d01e1d1050acd7f09db9bd282cb" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetConstraints</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a81f2098f48993d1c6bb213da32d28170" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetDiff</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a1796f6e5ed415ae9ca8cf3bf2ed24d72" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetIndexRecommendations</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a0a4b18b10ccefc755658a94794632ab2" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetInformationSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1ae1eb546dfe482fcce7ed829a3af8418a" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a72f8614df1d91721ee6a49fedacde885" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetStats</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1afe95c8476c4d173c559771481d93b7c4" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetTable</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1ad66bcd4ab514d9e6546f7c6df98e2d77" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetTables</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1afefb0efc8626f638e18106204b2332a1" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleGetVersionHistory</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1aafcc58b380f86e46e7c2770243ca04a7" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handlePatchSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a8f449ced008c7853dbfd1366f7233f6b" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handlePutSchema</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a2ad4444b114e53c0ef884be8a9e4b261" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleRecordLineageDerivation</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a099b24def3feea039a4fdde4bd7d15dd" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>handleSchemaImport</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a98d92c2597b6747e8a5ead70f28cca8d" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>index_recommender_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a99abc2bfd31f439b80de95e47abc1ff2" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>makeError</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a6127736d143ff90b262a850cc1f3a4b1" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>schema_constraints_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a281b8386de8c61677d75e2e1293d0dc7" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>schema_mgr_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a65c53ede2cb98ae0ac68537c5ac4f6fc" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>SchemaApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a2d08c55b5c510fa9f0de203708ebdb2e" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>secondary_index_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1abba5b500fae8642c64e51bf80fa11bc1" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>setAuditLog</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a51287c871b241bfb697f4ac2adc65443" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>setColumnLineageTracker</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a9e48ec6da2c6feeb8ae4254a067c66a3" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>setIndexRecommender</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a0e13139f7f49a866e21f3f38415ecca1" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>setSchemaConstraints</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1ad226cd2d30518089123a9ead546e69cc" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>setSchemaVersionManager</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a6e9bd41aa306774d4cb112bc5e7826ab" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>setStatisticsCollector</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a03dba996176170939496ac036c367b52" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>stats_collector_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1aa3475daa29d8008dcfb2051d21934d94" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>storage_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a242452f01c2b456b02e08ec9c184e7df" prot="private" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>version_mgr_</name></member>
+      <member refid="classthemis_1_1server_1_1_schema_api_handler_1a8a8226a99a50ff07d64bff6adbb0e5a1" prot="public" virt="non-virtual"><scope>themis::server::SchemaApiHandler</scope><name>~SchemaApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

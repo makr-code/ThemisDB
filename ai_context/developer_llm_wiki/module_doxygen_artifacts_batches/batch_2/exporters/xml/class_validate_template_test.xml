@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_validate_template_test" kind="class" language="C++" prot="public">
+    <compoundname>ValidateTemplateTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_validate_template_test_1a208c26992f0dfe218c3d3e0362a55cea" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_format_template_field_mapping" kindref="compound">FormatTemplateFieldMapping</ref></type>
+        <definition>FormatTemplateFieldMapping ValidateTemplateTest::defaultMapping</definition>
+        <argsstring>() const</argsstring>
+        <name>defaultMapping</name>
+        <qualifiedname>ValidateTemplateTest::defaultMapping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_format_template.cpp" line="535" column="32" bodyfile="tests/exporters/test_format_template.cpp" bodystart="535" bodyend="535"/>
+      </memberdef>
+      <memberdef kind="function" id="class_validate_template_test_1a285b3303954b341bae2e5814a510546b" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity ValidateTemplateTest::makeAlpacaEntity</definition>
+        <argsstring>(const std::string &amp;pk, bool with_instruction=true, bool with_output=true) const</argsstring>
+        <name>makeAlpacaEntity</name>
+        <qualifiedname>ValidateTemplateTest::makeAlpacaEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>with_instruction</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>with_output</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_format_template.cpp" line="537" column="16" bodyfile="tests/exporters/test_format_template.cpp" bodystart="537" bodyend="549"/>
+      </memberdef>
+      <memberdef kind="function" id="class_validate_template_test_1a83bcbe5a62c4887c9bfc53126b20991d" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>BaseEntity</type>
+        <definition>BaseEntity ValidateTemplateTest::makeChatEntity</definition>
+        <argsstring>(const std::string &amp;pk, bool with_user=true, bool with_assistant=true) const</argsstring>
+        <name>makeChatEntity</name>
+        <qualifiedname>ValidateTemplateTest::makeChatEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>pk</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>with_user</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>with_assistant</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_format_template.cpp" line="551" column="16" bodyfile="tests/exporters/test_format_template.cpp" bodystart="551" bodyend="563"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ValidateTemplateTest</label>
+        <link refid="class_validate_template_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ValidateTemplateTest</label>
+        <link refid="class_validate_template_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_format_template.cpp" line="533" column="1" bodyfile="tests/exporters/test_format_template.cpp" bodystart="533" bodyend="564"/>
+    <listofallmembers>
+      <member refid="class_validate_template_test_1a208c26992f0dfe218c3d3e0362a55cea" prot="protected" virt="non-virtual"><scope>ValidateTemplateTest</scope><name>defaultMapping</name></member>
+      <member refid="class_validate_template_test_1a285b3303954b341bae2e5814a510546b" prot="protected" virt="non-virtual"><scope>ValidateTemplateTest</scope><name>makeAlpacaEntity</name></member>
+      <member refid="class_validate_template_test_1a83bcbe5a62c4887c9bfc53126b20991d" prot="protected" virt="non-virtual"><scope>ValidateTemplateTest</scope><name>makeChatEntity</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

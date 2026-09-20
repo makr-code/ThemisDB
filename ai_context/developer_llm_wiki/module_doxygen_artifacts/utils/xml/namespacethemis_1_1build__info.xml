@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1build__info" kind="namespace" language="C++">
+    <compoundname>themis::build_info</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1a260131a45d3795075fad7e71484d7657" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>BuildConfiguration</type>
+        <definition>BuildConfiguration themis::build_info::getBuildConfiguration</definition>
+        <argsstring>()</argsstring>
+        <name>getBuildConfiguration</name>
+        <qualifiedname>themis::build_info::getBuildConfiguration</qualifiedname>
+        <briefdescription>
+<para>Get Build Configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: edition::EditionInfo::Get(), std::string(), defined(), std::to_string(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="55" column="20" bodyfile="src/utils/build_info.cpp" bodystart="55" bodyend="760"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1a51e2cf94f58ab2523ec7744072dca60b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::formatBuildInfo</definition>
+        <argsstring>(const BuildConfiguration &amp;config)</argsstring>
+        <name>formatBuildInfo</name>
+        <qualifiedname>themis::build_info::formatBuildInfo</qualifiedname>
+        <param>
+          <type>const BuildConfiguration &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Format Build Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="768" column="13" bodyfile="src/utils/build_info.cpp" bodystart="768" bodyend="838"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1a8bfdbe56c62732208d9c6424d389ff4f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::build_info::getVersionSummary</definition>
+        <argsstring>()</argsstring>
+        <name>getVersionSummary</name>
+        <qualifiedname>themis::build_info::getVersionSummary</qualifiedname>
+        <briefdescription>
+<para>Get Version Summary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1build__info_1a260131a45d3795075fad7e71484d7657" kindref="member">getBuildConfiguration()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="845" column="13" bodyfile="src/utils/build_info.cpp" bodystart="845" bodyend="856"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1a0b82edf368d2881afac5b32d6d925691" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::build_info::isModuleCompiledIn</definition>
+        <argsstring>(const std::string &amp;module_name)</argsstring>
+        <name>isModuleCompiledIn</name>
+        <qualifiedname>themis::build_info::isModuleCompiledIn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>module_name</declname>
+        </param>
+        <briefdescription>
+<para>Is Module Compiled In. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">module_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the module. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1build__info_1a260131a45d3795075fad7e71484d7657" kindref="member">getBuildConfiguration()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="864" column="6" bodyfile="src/utils/build_info.cpp" bodystart="864" bodyend="872"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1a3c4904f04b6337f8e2b2c77a5decdd2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::build_info::getCompiledModules</definition>
+        <argsstring>()</argsstring>
+        <name>getCompiledModules</name>
+        <qualifiedname>themis::build_info::getCompiledModules</qualifiedname>
+        <briefdescription>
+<para>Get Compiled Modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1build__info_1a260131a45d3795075fad7e71484d7657" kindref="member">getBuildConfiguration()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="879" column="13" bodyfile="src/utils/build_info.cpp" bodystart="879" bodyend="889"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1a32edd00495dbd52fe5af323b770a91a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::build_info::getDisabledModules</definition>
+        <argsstring>()</argsstring>
+        <name>getDisabledModules</name>
+        <qualifiedname>themis::build_info::getDisabledModules</qualifiedname>
+        <briefdescription>
+<para>Get Disabled Modules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1build__info_1a260131a45d3795075fad7e71484d7657" kindref="member">getBuildConfiguration()</ref>, push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="896" column="13" bodyfile="src/utils/build_info.cpp" bodystart="896" bodyend="906"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1acaf160397d53a28ed155c6177a821bec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::build_info::computeExecutableHash</definition>
+        <argsstring>()</argsstring>
+        <name>computeExecutableHash</name>
+        <qualifiedname>themis::build_info::computeExecutableHash</qualifiedname>
+        <briefdescription>
+<para>Compute Executable Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: defined(), readlink(), assign(), GetModuleFileNameA(), empty(), f(), EVP_MD_CTX_new(), EVP_DigestInit_ex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="942" column="20" bodyfile="src/utils/build_info.cpp" bodystart="942" bodyend="983"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1a30f453a0b17e4272e39050f5b9934e7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ReproducibilityInfo</type>
+        <definition>ReproducibilityInfo themis::build_info::getReproducibilityInfo</definition>
+        <argsstring>()</argsstring>
+        <name>getReproducibilityInfo</name>
+        <qualifiedname>themis::build_info::getReproducibilityInfo</qualifiedname>
+        <briefdescription>
+<para>Get Reproducibility Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1build__info_1a260131a45d3795075fad7e71484d7657" kindref="member">getBuildConfiguration()</ref>, computeExecutableHash(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="990" column="21" bodyfile="src/utils/build_info.cpp" bodystart="990" bodyend="1018"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1a0e90aa06606028c54c922914fc1cac7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::build_info::exportBuildManifest</definition>
+        <argsstring>(const std::string &amp;output_path)</argsstring>
+        <name>exportBuildManifest</name>
+        <qualifiedname>themis::build_info::exportBuildManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>output_path</declname>
+        </param>
+        <briefdescription>
+<para>Export Build Manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">output_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1build__info_1a30f453a0b17e4272e39050f5b9934e7c" kindref="member">getReproducibilityInfo()</ref>, <ref refid="namespacethemis_1_1build__info_1a260131a45d3795075fad7e71484d7657" kindref="member">getBuildConfiguration()</ref>, out(), good(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="1026" column="6" bodyfile="src/utils/build_info.cpp" bodystart="1026" bodyend="1058"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1build__info_1af8a4050dd7638736e34205b06bc70789" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::build_info::verifyBuildManifest</definition>
+        <argsstring>(const std::string &amp;manifest_path)</argsstring>
+        <name>verifyBuildManifest</name>
+        <qualifiedname>themis::build_info::verifyBuildManifest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>manifest_path</declname>
+        </param>
+        <briefdescription>
+<para>Verify Build Manifest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">manifest_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the manifest. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: in(), content(), <ref refid="namespacethemis_1_1build__info_1a30f453a0b17e4272e39050f5b9934e7c" kindref="member">getReproducibilityInfo()</ref>, find(), containsField(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/utils/build_info.cpp" line="1066" column="6" bodyfile="src/utils/build_info.cpp" bodystart="1066" bodyend="1085"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/utils/build_info.cpp" line="48" column="1"/>
+  </compounddef>
+</doxygen>

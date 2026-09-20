@@ -1,0 +1,360 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="slo__monitor_8h" kind="file" language="C++">
+    <compoundname>slo_monitor.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">thread</includes>
+    <includedby refid="shard__repair__engine_8h" local="yes">include/sharding/shard_repair_engine.h</includedby>
+    <includedby refid="slo__monitor_8cpp" local="yes">src/sharding/slo_monitor.cpp</includedby>
+    <includedby refid="test__sharding__repair_8cpp" local="yes">tests/sharding/test_sharding_repair.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/sharding/slo_monitor.h</label>
+        <link refid="slo__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>include/sharding/auto_recovery_manager.h</label>
+        <link refid="auto__recovery__manager_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/sharding/hot_spare_manager.h</label>
+        <link refid="hot__spare__manager_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/sharding/shard_repair_engine.h</label>
+        <link refid="shard__repair__engine_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/slo_monitor.h</label>
+        <link refid="slo__monitor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/sharding/admin_api.cpp</label>
+        <link refid="admin__api_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/sharding/hot_spare_manager.cpp</label>
+        <link refid="hot__spare__manager_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/sharding/shard_repair_engine.cpp</label>
+        <link refid="shard__repair__engine_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/sharding/slo_monitor.cpp</label>
+        <link refid="slo__monitor_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/sharding/test_sharding_repair.cpp</label>
+        <link refid="test__sharding__repair_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1sharding_1_1_s_l_o_target" prot="public">themis::sharding::SLOTarget</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_s_l_o_window" prot="public">themis::sharding::SLOWindow</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_s_l_o_monitor" prot="public">themis::sharding::SLOMonitor</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" prot="public">themis::sharding::SLOMonitor::Config</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" prot="public">themis::sharding::SLOMonitor::RepairProgress</innerclass>
+    <innerclass refid="classthemis_1_1sharding_1_1_s_l_o_reporter" prot="public">themis::sharding::SLOReporter</innerclass>
+    <innerclass refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config" prot="public">themis::sharding::SLOReporter::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1sharding">themis::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1sharding_1_1_s_l_o_target" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_s_l_o_target" kindref="compound">SLOTarget</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Availability<sp/>SLO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1sharding_1_1_s_l_o_target_1afea2a9676b979e8732aa56dfe26eb6e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1afea2a9676b979e8732aa56dfe26eb6e4" kindref="member">availability_target</ref><sp/>=<sp/>0.9999;<sp/><sp/></highlight><highlight class="comment">//<sp/>99.99%<sp/>(52.6<sp/>minutes/year<sp/>downtime)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>SLOs<sp/>(milliseconds)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1sharding_1_1_s_l_o_target_1a29fe7b649f6dfbd29e153c0854769318" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1a29fe7b649f6dfbd29e153c0854769318" kindref="member">single_shard_query_p50_ms</ref><sp/>=<sp/>10.0;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1sharding_1_1_s_l_o_target_1ac6a18ebfa9a4149c82b9a3c1ca83b1d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1ac6a18ebfa9a4149c82b9a3c1ca83b1d0" kindref="member">single_shard_query_p99_ms</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1sharding_1_1_s_l_o_target_1a83918e415099be10b8df7b74754392d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1a83918e415099be10b8df7b74754392d0" kindref="member">cross_shard_query_p50_ms</ref><sp/>=<sp/>50.0;</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1sharding_1_1_s_l_o_target_1abf5257029c31c3218751bbe6ed21a8ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1abf5257029c31c3218751bbe6ed21a8ed" kindref="member">cross_shard_query_p99_ms</ref><sp/>=<sp/>200.0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1sharding_1_1_s_l_o_target_1a7ba08001cd48ebabe95e6707d54ba864" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1a7ba08001cd48ebabe95e6707d54ba864" kindref="member">cross_shard_transaction_p50_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1sharding_1_1_s_l_o_target_1a896d0f3904508a26f6b3d0d0652afe0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1a896d0f3904508a26f6b3d0d0652afe0f" kindref="member">cross_shard_transaction_p99_ms</ref><sp/>=<sp/>500.0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Durability<sp/>SLO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1sharding_1_1_s_l_o_target_1ac21c99dff8711372d70f56fe144f2efb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1ac21c99dff8711372d70f56fe144f2efb" kindref="member">data_loss_tolerance</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>RPO<sp/>=<sp/>0<sp/>(no<sp/>data<sp/>loss)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1sharding_1_1_s_l_o_target_1ad112239d261cb06953c52fa58bfa060e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1ad112239d261cb06953c52fa58bfa060e" kindref="member">min_replicas</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consistency<sp/>SLO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1sharding_1_1_s_l_o_target_1a0f839fa4bb00dccc45e644bc3b42a906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1a0f839fa4bb00dccc45e644bc3b42a906" kindref="member">max_leader_election_time_s</ref><sp/>=<sp/>5.0;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1sharding_1_1_s_l_o_target_1a9a150e198200d5a68688113c0fb5fdb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target_1a9a150e198200d5a68688113c0fb5fdb6" kindref="member">max_replication_lag_ms</ref><sp/>=<sp/>100.0;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="classthemis_1_1sharding_1_1_s_l_o_window" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a8b728b8184a5b517d4e2c749be920291" kindref="member">SLOWindow</ref><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a8b728b8184a5b517d4e2c749be920291" kindref="member">SLOWindow</ref>(std::chrono::seconds<sp/>window_duration<sp/>=<sp/>std::chrono::seconds(3600));</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a1deb78c1f2e79e9debf22903199eb30d" kindref="member">recordUptime</ref>(std::chrono::milliseconds<sp/>duration);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1adff0ef52c6d0ad60935a364dc9654057" kindref="member">recordDowntime</ref>(std::chrono::milliseconds<sp/>duration);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a4b5059ba759f1742b83a01822e3731c0" kindref="member">recordLatency</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1ae92e7afbc7e1af3a0302dbfdca407b10" kindref="member">recordDataLoss</ref>(uint64_t<sp/>bytes_lost);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a4fc74273e85263a3c51d72ee4f474e0c" kindref="member">recordReplicationLag</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lag_ms);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1abc5f09ec9b1e04f9e5dca3aaa6a60210" kindref="member">getAvailability</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1afb5511118c304217fa1431bd2db5c82e" kindref="member">getLatencyP50</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a30392e623e28ad9c1c7b5e1a15546fbb" kindref="member">getLatencyP99</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1abec4d41f9b53668e61adcea3ab7a12f6" kindref="member">getDataLossRate</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a8f4d4cc62c4e5a41b23d0b507e1442d8" kindref="member">getAvgReplicationLag</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a35f4e57b1fefba422712865800f0f40f" kindref="member">getErrorBudget</ref>(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>target_availability)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_window_1a39e4ab430a39f6b1536ade3bfc3edd59" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/>window_duration_;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>window_start_;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Availability<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_uptime_ms_{0};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_downtime_ms_{0};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Latency<sp/>tracking<sp/>(ring<sp/>buffer)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>latency_samples_;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_latency_samples_{10000};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>loss<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_bytes_lost_{0};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>total_bytes_written_{0};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replication<sp/>lag<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>replication_lag_samples_;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_lag_samples_{1000};</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculatePercentile(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;double&gt;&amp;<sp/>samples,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>percentile)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1sharding_1_1_s_l_o_monitor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a1dcabd8b734c14fe6b02699682134276" kindref="member">SLOMonitor</ref><sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1ac29dc39e2d05df2bed5eb2a73026d9d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target" kindref="compound">SLOTarget</ref><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1ac29dc39e2d05df2bed5eb2a73026d9d4" kindref="member">targets</ref>;</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0ac6c514ae7d5b135a0997b89a438eea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0ac6c514ae7d5b135a0997b89a438eea" kindref="member">window_duration</ref><sp/>=<sp/>std::chrono::hours(24);</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1ab47f19ec351143846ba456c1ced3d007" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1ab47f19ec351143846ba456c1ced3d007" kindref="member">enable_alerting</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a1e29edbe401b9f709cf73736cfe76ada" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a1e29edbe401b9f709cf73736cfe76ada" kindref="member">alert_threshold</ref><sp/>=<sp/>0.9;<sp/><sp/></highlight><highlight class="comment">//<sp/>Alert<sp/>when<sp/>error<sp/>budget<sp/>reaches<sp/>90%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0f13ffc98a49fbc96a7ff2d443abad84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0f13ffc98a49fbc96a7ff2d443abad84" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" kindref="compound">RepairProgress</ref><sp/>{</highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ae9b766617da6968a64557ee97b5aa2d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ae9b766617da6968a64557ee97b5aa2d0" kindref="member">job_id</ref>;</highlight></codeline>
+<codeline lineno="147" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a2ef842bc7f527886c834063cce5e5f1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a2ef842bc7f527886c834063cce5e5f1a" kindref="member">documents_scanned</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1acf318e1e91de3076d74addba60eafa9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1acf318e1e91de3076d74addba60eafa9b" kindref="member">documents_total</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ac3518753ff4524e7fea8b5e04723a5c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ac3518753ff4524e7fea8b5e04723a5c8" kindref="member">documents_repaired</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="150" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a2b0257b5ec6ef6303922272614fc10b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a2b0257b5ec6ef6303922272614fc10b1" kindref="member">documents_failed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ae3cb0f55560aff4e7345bcfb4e60c8a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ae3cb0f55560aff4e7345bcfb4e60c8a1" kindref="member">percent_complete</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a594529e7c7574a2c7351222f2fb52812" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1a594529e7c7574a2c7351222f2fb52812" kindref="member">started_at</ref>;</highlight></codeline>
+<codeline lineno="153" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1acbab6bd8e0c06db07c11bc167968b4ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1acbab6bd8e0c06db07c11bc167968b4ca" kindref="member">updated_at</ref>;</highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ad721d6fc5289f7b9e71c7677e85e068b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress_1ad721d6fc5289f7b9e71c7677e85e068b" kindref="member">completed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a1dcabd8b734c14fe6b02699682134276" kindref="member">SLOMonitor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_config_1a0f13ffc98a49fbc96a7ff2d443abad84" kindref="member">Config::defaults</ref>());</highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a8460fe3e623e0eed3e8012e95ab915e4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a8460fe3e623e0eed3e8012e95ab915e4" kindref="member">~SLOMonitor</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a4d705f67d6ccb8ca21043d101562ae88" kindref="member">recordShardAvailability</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_available);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5b1c8e27274e304a8092f41199840d81" kindref="member">recordQueryLatency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_type,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1acde530e43671c6bc159de06d365d0cf9" kindref="member">recordTransactionLatency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>transaction_type,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>latency_ms);</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a66d17cd592555ca2252b537dbd577808" kindref="member">recordDataLoss</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/>uint64_t<sp/>bytes_lost);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5d36fd353ad9d99de6a20a84d58a99de" kindref="member">recordReplicationLag</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>lag_ms);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1ad82022382c9ad56aa35e80e30adac5c1" kindref="member">recordLeaderElection</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>duration_s);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1af3179d7ecd10555b347fa244a929c6df" kindref="member">recordRepairProgress</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" kindref="compound">RepairProgress</ref>&amp;<sp/>progress);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_monitor_1_1_repair_progress" kindref="compound">RepairProgress</ref><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a0febf84aa49958e82ca423afa1b069e0" kindref="member">getRepairProgress</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>job_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;RepairProgress&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a94962a34abb5957a8cab0fedf0262d61" kindref="member">getActiveRepairJobs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a2067180db2c30d793cf35a28587db33f" kindref="member">isAvailabilitySLOMet</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a800e16f132ece988fbe2333fda4d04f4" kindref="member">isLatencySLOMet</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_type)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1adca0d3cd379b5ec8236b7396f10bab06" kindref="member">isDurabilitySLOMet</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1aaf6223201c30120b6add6f2481bb4d99" kindref="member">isConsistencySLOMet</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a696fb1acc26719d41ad8c3271c1af494" kindref="member">getErrorBudget</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1abe36c2c925e319f99cfeae2b0afb196d" kindref="member">getGlobalErrorBudget</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a49ccdce90fd3b0811d530651c35091f8" kindref="member">isErrorBudgetExhausted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a3441cd3046b1ab0b107862334ea459e8" kindref="member">generateSLOReport</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a74b8415659a7b109135e4862592d8898" kindref="member">generateSLOReportJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a5675411a7d561a343e773e2a71fdec3d" kindref="member">getSLOCompliance</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1a82a8dac5faf5dd25e758050c28f13071" kindref="member">getActiveAlerts</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238" refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1adf2b08350ba411559a28ab71f09c7112" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target" kindref="compound">SLOTarget</ref>&amp;<sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1adf2b08350ba411559a28ab71f09c7112" kindref="member">getTargets</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.targets;<sp/>}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor_1acfdfb2be3bc867a87409f18486b6dcac" kindref="member">updateTargets</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_target" kindref="compound">SLOTarget</ref>&amp;<sp/>targets);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-shard<sp/>SLO<sp/>windows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::shared_ptr&lt;SLOWindow&gt;&gt;<sp/>shard_windows_;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-query-type<sp/>latency<sp/>windows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::shared_ptr&lt;SLOWindow&gt;&gt;<sp/>query_latency_windows_;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Transaction<sp/>latency<sp/>windows</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::shared_ptr&lt;SLOWindow&gt;&gt;<sp/>transaction_latency_windows_;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alert<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>active_alerts_;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-job<sp/>repair<sp/>progress<sp/>registry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>RepairProgress&gt;<sp/>repair_progress_;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SLOWindow&gt;<sp/>getOrCreateShardWindow(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SLOWindow&gt;<sp/>getOrCreateQueryWindow(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_type);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;SLOWindow&gt;<sp/>getOrCreateTransactionWindow(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tx_type);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkAndGenerateAlerts();</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>formatSLOViolation(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slo_name,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>actual,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>target)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="classthemis_1_1sharding_1_1_s_l_o_reporter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a06c585ff2bda90e3bf450519ce0bbbd5" kindref="member">SLOReporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="274" refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07" kindref="member">ReportFrequency</ref><sp/>{</highlight></codeline>
+<codeline lineno="275" refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07abaf6ff95d32557260caa379339315a4e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07abaf6ff95d32557260caa379339315a4e" kindref="member">HOURLY</ref>,</highlight></codeline>
+<codeline lineno="276" refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07a791490f9f4842958f00f3791f6c01576" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07a791490f9f4842958f00f3791f6c01576" kindref="member">DAILY</ref>,</highlight></codeline>
+<codeline lineno="277" refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07a35f20feb221d809190e45545c933c9dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07a35f20feb221d809190e45545c933c9dc" kindref="member">WEEKLY</ref>,</highlight></codeline>
+<codeline lineno="278" refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07ac107927c39e34b357b10099c2d852c75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07ac107927c39e34b357b10099c2d852c75" kindref="member">MONTHLY</ref></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281" refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="282" refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1aa33436288462fed1595530529d768c6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07" kindref="member">ReportFrequency</ref><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1aa33436288462fed1595530529d768c6c" kindref="member">frequency</ref><sp/>=<sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a093654965346ae933f7446cda4cfad07a791490f9f4842958f00f3791f6c01576" kindref="member">ReportFrequency::DAILY</ref>;</highlight></codeline>
+<codeline lineno="283" refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1aadc0395bb80e840642190d33d441c025" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1aadc0395bb80e840642190d33d441c025" kindref="member">output_path</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/log/themisdb/slo_reports/&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="284" refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1ab077553f583f4dc1ab0cd11e261f7efb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1ab077553f583f4dc1ab0cd11e261f7efb" kindref="member">enable_json_export</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285" refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a969050be3768980a229705ad3e97b60e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a969050be3768980a229705ad3e97b60e" kindref="member">enable_prometheus_export</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="286" refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a55778ef3d0400c536ee0aaf81fdfe269" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config" kindref="compound">Config</ref><sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a55778ef3d0400c536ee0aaf81fdfe269" kindref="member">defaults</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a06c585ff2bda90e3bf450519ce0bbbd5" kindref="member">SLOReporter</ref>(<ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor" kindref="compound">SLOMonitor</ref>&amp;<sp/>monitor,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_s_l_o_reporter_1_1_config_1a55778ef3d0400c536ee0aaf81fdfe269" kindref="member">Config::defaults</ref>());</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a573eeddef7b1c9ef5b4de0b238456aca" kindref="member">~SLOReporter</ref>();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a5f82a9a8f01dcf6d887cd1940f622768" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1aa9ed3f4c671e8e4f2f1dc83eb3de8ee6" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_reporter_1a501715fb035272eb1d2c177858c3559f" kindref="member">generateReport</ref>();</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1sharding_1_1_s_l_o_monitor" kindref="compound">SLOMonitor</ref>&amp;<sp/>monitor_;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;std::thread&gt;<sp/>reporter_thread_;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reporterLoop();</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>generateReportFilename()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>writeReport(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/slo_monitor.h"/>
+  </compounddef>
+</doxygen>

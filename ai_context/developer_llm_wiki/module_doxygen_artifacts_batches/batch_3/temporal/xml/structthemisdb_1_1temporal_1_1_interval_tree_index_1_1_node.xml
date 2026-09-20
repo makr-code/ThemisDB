@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node" kind="struct" language="C++" prot="private">
+    <compoundname>themisdb::temporal::IntervalTreeIndex::Node</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1a673732ca0024d0283c5a9b3451e554a0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref></type>
+        <definition>IntervalEntry themisdb::temporal::IntervalTreeIndex::Node::entry</definition>
+        <argsstring></argsstring>
+        <name>entry</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::Node::entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="210" column="23" bodyfile="include/temporal/interval_tree_index.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1aa6063be6524aa64aba3c9e33a85b7c4e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1temporal_1a020dc4059404c27c809d05b54399b803" kindref="member">Timestamp</ref></type>
+        <definition>Timestamp themisdb::temporal::IntervalTreeIndex::Node::subtree_max_end</definition>
+        <argsstring></argsstring>
+        <name>subtree_max_end</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::Node::subtree_max_end</qualifiedname>
+        <initializer>{kMinTimestamp}</initializer>
+        <briefdescription>
+<para>Maximum <computeroutput>range.end</computeroutput> in this subtree (augmentation field). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="213" column="19" bodyfile="include/temporal/interval_tree_index.h" bodystart="213" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1ade5728eda973f9fbf3481bab0ba6ab4a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::temporal::IntervalTreeIndex::Node::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::Node::height</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>AVL balance height (1 for a leaf node). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="216" column="13" bodyfile="include/temporal/interval_tree_index.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1a7540d29b7ab13be4f5a4aae42ec2d493" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt;Node&gt; themisdb::temporal::IntervalTreeIndex::Node::left</definition>
+        <argsstring></argsstring>
+        <name>left</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::Node::left</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="218" column="25" bodyfile="include/temporal/interval_tree_index.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1a0a8fe7aa6b7b88aa85998532f7702463" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Node &gt;</type>
+        <definition>std::unique_ptr&lt;Node&gt; themisdb::temporal::IntervalTreeIndex::Node::right</definition>
+        <argsstring></argsstring>
+        <name>right</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::Node::right</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="219" column="25" bodyfile="include/temporal/interval_tree_index.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1ad9f547bb5ad04c221e1a515795ded38b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::temporal::IntervalTreeIndex::Node::Node</definition>
+        <argsstring>(IntervalEntry e)</argsstring>
+        <name>Node</name>
+        <qualifiedname>themisdb::temporal::IntervalTreeIndex::Node::Node</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1temporal_1_1_interval_entry" kindref="compound">IntervalEntry</ref></type>
+          <declname>e</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/temporal/interval_tree_index.h" line="221" column="18" bodyfile="include/temporal/interval_tree_index.h" bodystart="221" bodyend="223"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::temporal::IntervalEntry</label>
+        <link refid="structthemisdb_1_1temporal_1_1_interval_entry"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>range</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themisdb::temporal::IntervalTreeIndex::Node</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>entry</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themisdb::temporal::TimeRange</label>
+        <link refid="structthemisdb_1_1temporal_1_1_time_range"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/temporal/interval_tree_index.h" line="209" column="5" bodyfile="include/temporal/interval_tree_index.h" bodystart="209" bodyend="224"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1a673732ca0024d0283c5a9b3451e554a0" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex::Node</scope><name>entry</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1ade5728eda973f9fbf3481bab0ba6ab4a" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex::Node</scope><name>height</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1a7540d29b7ab13be4f5a4aae42ec2d493" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex::Node</scope><name>left</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1ad9f547bb5ad04c221e1a515795ded38b" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex::Node</scope><name>Node</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1a0a8fe7aa6b7b88aa85998532f7702463" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex::Node</scope><name>right</name></member>
+      <member refid="structthemisdb_1_1temporal_1_1_interval_tree_index_1_1_node_1aa6063be6524aa64aba3c9e33a85b7c4e" prot="public" virt="non-virtual"><scope>themisdb::temporal::IntervalTreeIndex::Node</scope><name>subtree_max_end</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

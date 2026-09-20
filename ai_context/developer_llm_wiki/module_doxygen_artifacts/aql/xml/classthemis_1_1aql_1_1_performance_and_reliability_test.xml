@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_performance_and_reliability_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::aql::PerformanceAndReliabilityTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_performance_and_reliability_test_1aa856b6f4dc34e3682dd99cb5a1cd20e3" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_mock_validation_component" kindref="compound">MockValidationComponent</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockValidationComponent&gt; themis::aql::PerformanceAndReliabilityTest::validator</definition>
+        <argsstring></argsstring>
+        <name>validator</name>
+        <qualifiedname>themis::aql::PerformanceAndReliabilityTest::validator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="305" column="21" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_performance_and_reliability_test_1aa1de54b85e416079f7f460e23ff1c81b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_mock_translation_component" kindref="compound">MockTranslationComponent</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockTranslationComponent&gt; themis::aql::PerformanceAndReliabilityTest::translator</definition>
+        <argsstring></argsstring>
+        <name>translator</name>
+        <qualifiedname>themis::aql::PerformanceAndReliabilityTest::translator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="306" column="21" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1aql_1_1_performance_and_reliability_test_1a4be9a10f6d2e561ac4a4d0fbb06fa254" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1aql_1_1_mock_bridge_component" kindref="compound">MockBridgeComponent</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockBridgeComponent&gt; themis::aql::PerformanceAndReliabilityTest::bridge</definition>
+        <argsstring></argsstring>
+        <name>bridge</name>
+        <qualifiedname>themis::aql::PerformanceAndReliabilityTest::bridge</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="307" column="21" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="307" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_performance_and_reliability_test_1a21515e0e33d1c4403a48a241e4f4c3ca" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::PerformanceAndReliabilityTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::aql::PerformanceAndReliabilityTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="299" column="10" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="299" bodyend="303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::PerformanceAndReliabilityTest</label>
+        <link refid="classthemis_1_1aql_1_1_performance_and_reliability_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::PerformanceAndReliabilityTest</label>
+        <link refid="classthemis_1_1aql_1_1_performance_and_reliability_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/aql/test_aql_consistency_hardening_focused.cpp" line="297" column="1" bodyfile="tests/aql/test_aql_consistency_hardening_focused.cpp" bodystart="297" bodyend="308"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_performance_and_reliability_test_1a4be9a10f6d2e561ac4a4d0fbb06fa254" prot="protected" virt="non-virtual"><scope>themis::aql::PerformanceAndReliabilityTest</scope><name>bridge</name></member>
+      <member refid="classthemis_1_1aql_1_1_performance_and_reliability_test_1a21515e0e33d1c4403a48a241e4f4c3ca" prot="protected" virt="non-virtual"><scope>themis::aql::PerformanceAndReliabilityTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1aql_1_1_performance_and_reliability_test_1aa1de54b85e416079f7f460e23ff1c81b" prot="protected" virt="non-virtual"><scope>themis::aql::PerformanceAndReliabilityTest</scope><name>translator</name></member>
+      <member refid="classthemis_1_1aql_1_1_performance_and_reliability_test_1aa856b6f4dc34e3682dd99cb5a1cd20e3" prot="protected" virt="non-virtual"><scope>themis::aql::PerformanceAndReliabilityTest</scope><name>validator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

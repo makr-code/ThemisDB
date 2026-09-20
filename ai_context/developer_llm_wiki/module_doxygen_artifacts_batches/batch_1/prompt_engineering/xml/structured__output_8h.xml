@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structured__output_8h" kind="file" language="C++">
+    <compoundname>structured_output.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="structured__output_8cpp" local="yes">src/prompt_engineering/structured_output.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/structured_output.h</label>
+        <link refid="structured__output_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/prompt_engineering/structured_output.h</label>
+        <link refid="structured__output_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/prompt_engineering/structured_output.cpp</label>
+        <link refid="structured__output_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" prot="public">themis::prompt_engineering::JsonSchemaConstraint</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" prot="public">themis::prompt_engineering::RegexGrammarConstraint</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" prot="public">themis::prompt_engineering::StructuredOutputConfig</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" prot="public">themis::prompt_engineering::StructuredOutputResult</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" prot="public">themis::prompt_engineering::IStructuredOutputEnforcer</innerclass>
+    <innerclass refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer" prot="public">themis::prompt_engineering::StructuredOutputEnforcer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1prompt__engineering">themis::prompt_engineering</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1prompt__engineering" kindref="compound">prompt_engineering</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Constraint<sp/>types<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" kindref="compound">JsonSchemaConstraint</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1af750c9548a93e999b4995c515ea5d2ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1af750c9548a93e999b4995c515ea5d2ff" kindref="member">schema_json</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a7da3acf2a7fb4c460e40e7b4d714db15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a7da3acf2a7fb4c460e40e7b4d714db15" kindref="member">strict_mode</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a317ba4cc21acf66e36631a3e3d6ea25e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint_1a317ba4cc21acf66e36631a3e3d6ea25e" kindref="member">max_retries</ref><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" kindref="compound">RegexGrammarConstraint</ref><sp/>{</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1ae717d0d1c0a0f5d03e17977517f30a45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1ae717d0d1c0a0f5d03e17977517f30a45" kindref="member">pattern</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1a3d01f57a213a34bb93a14fbec6d52d94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1a3d01f57a213a34bb93a14fbec6d52d94" kindref="member">full_match</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1a2245e1fb18da60dd5de66ed5930ceda7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint_1a2245e1fb18da60dd5de66ed5930ceda7" kindref="member">max_tokens</ref><sp/><sp/>=<sp/>512;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4a" kindref="member">OutputConstraintType</ref><sp/>{</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aad50412d73dedf3e191f712be4d30d677" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aad50412d73dedf3e191f712be4d30d677" kindref="member">JSON_SCHEMA</ref>,<sp/></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aa17746ad0201dc8a388f2f979b50b071c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aa17746ad0201dc8a388f2f979b50b071c" kindref="member">REGEX</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="47" refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1abe6d05a739853e202ceda120a73cc0a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4a" kindref="member">OutputConstraintType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1abe6d05a739853e202ceda120a73cc0a9" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1prompt__engineering_1af0b204eff200ce0864b6c12c0f370b4aab50339a10e1de285ac99d4c3990b8693" kindref="member">OutputConstraintType::NONE</ref>;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1af8132a0da657e86dedf22219ca112ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" kindref="compound">JsonSchemaConstraint</ref><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1af8132a0da657e86dedf22219ca112ccd" kindref="member">json_schema</ref>;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1aaf47537a25b6f4a62d975f724c7a171a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" kindref="compound">RegexGrammarConstraint</ref><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1aaf47537a25b6f4a62d975f724c7a171a" kindref="member">regex_grammar</ref>;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1a4a581ff32ade9f1574370cf9653c597d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1a4a581ff32ade9f1574370cf9653c597d" kindref="member">repair_json</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1acd8e672561b0e54991bfca47add0226a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config_1acd8e672561b0e54991bfca47add0226a" kindref="member">strip_markdown</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Result<sp/>────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" kindref="compound">StructuredOutputResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a43b4b07e4384ce738f6027180f25f10c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a43b4b07e4384ce738f6027180f25f10c" kindref="member">raw_output</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1afcfd65ab12a48f2a312fb4f7a41d736c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1afcfd65ab12a48f2a312fb4f7a41d736c" kindref="member">validated_output</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a03ec71eaa14a8000880ca7f1426a96fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a03ec71eaa14a8000880ca7f1426a96fa" kindref="member">is_valid</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1ac9b1e5078ebc8c1eed5dcb2d0e40740e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1ac9b1e5078ebc8c1eed5dcb2d0e40740e" kindref="member">validation_errors</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a586c8cfdcf9bf9e1fe3372d04c2735ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a586c8cfdcf9bf9e1fe3372d04c2735ca" kindref="member">attempts_used</ref><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a3fd5dceffe57495b30d0e6ce568283eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a3fd5dceffe57495b30d0e6ce568283eb" kindref="member">total_latency_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Abstract<sp/>interface<sp/>────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" kindref="compound">IStructuredOutputEnforcer</ref><sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a79df19b85542724d98c6bc1e80c3469a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a79df19b85542724d98c6bc1e80c3469a" kindref="member">~IStructuredOutputEnforcer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a439543599b791e9f91775ba25a10fc68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" kindref="compound">StructuredOutputResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a439543599b791e9f91775ba25a10fc68" kindref="member">enforce</ref>(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>raw_output,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref>&amp;<sp/>config)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a5369c76fcb7a70978a1f017b1a5812cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer_1a5369c76fcb7a70978a1f017b1a5812cc" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/>errors)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Concrete<sp/>implementation<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer" kindref="compound">StructuredOutputEnforcer</ref><sp/>final<sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_i_structured_output_enforcer" kindref="compound">IStructuredOutputEnforcer</ref><sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_result" kindref="compound">StructuredOutputResult</ref><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1a2f68e362b40ed5b9b6772d379a7f8960" kindref="member">enforce</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>raw_output,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref>&amp;<sp/>config)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1prompt__engineering_1_1_structured_output_enforcer_1af8163c26f05c333577ce3884afab0bc6" kindref="member">validate</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_structured_output_config" kindref="compound">StructuredOutputConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/>errors)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Repair<sp/>helpers<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>stripMarkdownFences(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>removeTrailingCommas(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>stripLineComments(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>repairJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>JSON<sp/>validation<sp/>helpers<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkJsonStructure(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>text,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/>errors);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>extractStringArray(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>extractPropertyNames(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>schema);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>extractTopLevelKeys(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>json);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateJsonSchema(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_json_schema_constraint" kindref="compound">JsonSchemaConstraint</ref>&amp;<sp/>schema,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/>errors);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Regex<sp/>validation<sp/>helper<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>validateRegex(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1prompt__engineering_1_1_regex_grammar_constraint" kindref="compound">RegexGrammarConstraint</ref>&amp;<sp/><sp/>grammar,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/>errors);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>prompt_engineering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/prompt_engineering/structured_output.h"/>
+  </compounddef>
+</doxygen>

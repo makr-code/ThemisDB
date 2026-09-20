@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_hybrid_retriever_linear_test" kind="class" language="C++" prot="public">
+    <compoundname>HybridRetrieverLinearTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_hybrid_retriever_linear_test_1a31b6519eb77606fc94ca3cfce30dd042" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref></type>
+        <definition>HybridRetrieverConfig HybridRetrieverLinearTest::makeCfg</definition>
+        <argsstring>(double bm25_w=0.5, double vec_w=0.5, size_t top_k=0)</argsstring>
+        <name>makeCfg</name>
+        <qualifiedname>HybridRetrieverLinearTest::makeCfg</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>bm25_w</declname>
+          <defval>0.5</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>vec_w</declname>
+          <defval>0.5</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>top_k</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="354" column="27" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="354" bodyend="363"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HybridRetrieverLinearTest</label>
+        <link refid="class_hybrid_retriever_linear_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HybridRetrieverLinearTest</label>
+        <link refid="class_hybrid_retriever_linear_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_hybrid_retriever.cpp" line="352" column="1" bodyfile="tests/rag/test_rag_hybrid_retriever.cpp" bodystart="352" bodyend="364"/>
+    <listofallmembers>
+      <member refid="class_hybrid_retriever_linear_test_1a31b6519eb77606fc94ca3cfce30dd042" prot="protected" virt="non-virtual"><scope>HybridRetrieverLinearTest</scope><name>makeCfg</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

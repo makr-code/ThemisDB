@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_candidate_model_info" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::CandidateModelInfo</compoundname>
+    <includes refid="automl_8h" local="no">automl.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_candidate_model_info_1af38dd43c03ecde3610d68032226b5e3b" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177" kindref="member">ModelAlgorithm</ref></type>
+        <definition>ModelAlgorithm themisdb::analytics::CandidateModelInfo::algorithm</definition>
+        <argsstring></argsstring>
+        <name>algorithm</name>
+        <qualifiedname>themisdb::analytics::CandidateModelInfo::algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1aad5c668c9628098430facb376186e177a50951d8269614400bb32419b705bc3ca" kindref="member">ModelAlgorithm::DECISION_TREE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="174" column="20" bodyfile="include/analytics/automl.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_candidate_model_info_1a9437c3a26568ab10b00debcabc18f1fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::CandidateModelInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::analytics::CandidateModelInfo::name</qualifiedname>
+        <briefdescription>
+<para>human-readable name </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="175" column="20" bodyfile="include/analytics/automl.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_candidate_model_info_1a26b81c7b5e7420f30a7eb3c5e066eb5f" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_eval_metrics" kindref="compound">EvalMetrics</ref></type>
+        <definition>EvalMetrics themisdb::analytics::CandidateModelInfo::cv_metrics</definition>
+        <argsstring></argsstring>
+        <name>cv_metrics</name>
+        <qualifiedname>themisdb::analytics::CandidateModelInfo::cv_metrics</qualifiedname>
+        <briefdescription>
+<para>cross-validation metrics </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="176" column="20" bodyfile="include/analytics/automl.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_candidate_model_info_1a0ee117ac355d47d189594f604aba83a2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::CandidateModelInfo::cv_score</definition>
+        <argsstring></argsstring>
+        <name>cv_score</name>
+        <qualifiedname>themisdb::analytics::CandidateModelInfo::cv_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>primary metric on CV </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="177" column="20" bodyfile="include/analytics/automl.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_candidate_model_info_1a78e511be6bfb7ac65d8d101df6b2d4e0" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::analytics::CandidateModelInfo::train_time_ms</definition>
+        <argsstring></argsstring>
+        <name>train_time_ms</name>
+        <qualifiedname>themisdb::analytics::CandidateModelInfo::train_time_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="178" column="20" bodyfile="include/analytics/automl.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_candidate_model_info_1ae47cdc6dbdc6e533a52a40f04ee87827" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themisdb::analytics::CandidateModelInfo::hyperparameters</definition>
+        <argsstring></argsstring>
+        <name>hyperparameters</name>
+        <qualifiedname>themisdb::analytics::CandidateModelInfo::hyperparameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/automl.h" line="179" column="14" bodyfile="include/analytics/automl.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::CandidateModelInfo</label>
+        <link refid="structthemisdb_1_1analytics_1_1_candidate_model_info"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cv_metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::EvalMetrics</label>
+        <link refid="structthemisdb_1_1analytics_1_1_eval_metrics"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/automl.h" line="173" column="1" bodyfile="include/analytics/automl.h" bodystart="173" bodyend="180"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1af38dd43c03ecde3610d68032226b5e3b" prot="public" virt="non-virtual"><scope>themisdb::analytics::CandidateModelInfo</scope><name>algorithm</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a26b81c7b5e7420f30a7eb3c5e066eb5f" prot="public" virt="non-virtual"><scope>themisdb::analytics::CandidateModelInfo</scope><name>cv_metrics</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a0ee117ac355d47d189594f604aba83a2" prot="public" virt="non-virtual"><scope>themisdb::analytics::CandidateModelInfo</scope><name>cv_score</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1ae47cdc6dbdc6e533a52a40f04ee87827" prot="public" virt="non-virtual"><scope>themisdb::analytics::CandidateModelInfo</scope><name>hyperparameters</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a9437c3a26568ab10b00debcabc18f1fb" prot="public" virt="non-virtual"><scope>themisdb::analytics::CandidateModelInfo</scope><name>name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_candidate_model_info_1a78e511be6bfb7ac65d8d101df6b2d4e0" prot="public" virt="non-virtual"><scope>themisdb::analytics::CandidateModelInfo</scope><name>train_time_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

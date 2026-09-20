@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="server__api__contract_8h" kind="file" language="C++">
+    <compoundname>server_api_contract.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includedby refid="bench__server__hotpaths_8cpp" local="yes">benchmarks/server/bench_server_hotpaths.cpp</includedby>
+    <includedby refid="bench__server__http3__gates_8cpp" local="yes">benchmarks/server/bench_server_http3_gates.cpp</includedby>
+    <includedby refid="test__server__contract__hardening__focused_8cpp" local="yes">tests/server/test_server_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__server__gateway__resilience__focused_8cpp" local="yes">tests/server/test_server_gateway_resilience_focused.cpp</includedby>
+    <includedby refid="test__server__http3__stress__focused_8cpp" local="yes">tests/server/test_server_http3_stress_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/server/server_api_contract.h</label>
+        <link refid="server__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/server/bench_server_hotpaths.cpp</label>
+        <link refid="bench__server__hotpaths_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/server/bench_server_http3_gates.cpp</label>
+        <link refid="bench__server__http3__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/server/server_api_contract.h</label>
+        <link refid="server__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>tests/server/test_server_contract_hardening_focused.cpp</label>
+        <link refid="test__server__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/server/test_server_gateway_resilience_focused.cpp</label>
+        <link refid="test__server__gateway__resilience__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/server/test_server_http3_stress_focused.cpp</label>
+        <link refid="test__server__http3__stress__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1server">themis::server</innernamespace>
+    <briefdescription>
+<para>Frozen server module API contracts for the active v1.x line. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para><bold>Header-Only Contract</bold>: This file defines frozen semantics and invariants. No .cpp implementation needed. Consumers link to implementations of the contracts (e.g., HttpServer, Http2Session, WebSocketSession, ApiGateway, etc.).</para>
+</simplesect>
+This header defines the normative contract for all server module components including HTTP/gRPC/WebSocket/MQTT handler registration, auth gate enforcement, retry/timeout/backpressure semantics, graceful shutdown ordering, error taxonomy, and threading guarantees.</para>
+<sect1 id="server__api__contract_8h_1scope">
+<title>Contract Scope</title><para>The contracts below are binding for all implementations that participate in the ThemisDB server pipeline:<itemizedlist>
+<listitem><para>HTTP/1.1, HTTP/2, HTTP/3 request handlers (HttpServer, Http2Session, Http3Session)</para>
+</listitem><listitem><para>gRPC service implementations (RpcServiceImpl, ThemisCoreGrpcService)</para>
+</listitem><listitem><para>WebSocket sessions (WebSocketSession)</para>
+</listitem><listitem><para>MQTT sessions (MqttSession, MqttClientService)</para>
+</listitem><listitem><para>API gateway (ApiGateway, DistributedGateway)</para>
+</listitem><listitem><para>Auth middleware (AuthMiddleware)</para>
+</listitem><listitem><para>Rate limiting middleware (RateLimitingMiddleware, AdaptiveRateLimiter)</para>
+</listitem><listitem><para>Graceful shutdown manager (HttpShutdownManager)</para>
+</listitem></itemizedlist>
+</para>
+</sect1>
+<sect1 id="server__api__contract_8h_1versioning">
+<title>Versioning</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/server/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__server__contract__hardening__focused_8cpp" kindref="compound">tests/server/test_server_contract_hardening_focused.cpp</ref> — SCH-01..SCH-20 </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="bench__server__hotpaths_8cpp" kindref="compound">benchmarks/server/bench_server_hotpaths.cpp</ref> — SVR-01..SVR-08 </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">server</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Handler<sp/>Registration<sp/>Constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>handler<sp/>registrations<sp/>MUST<sp/>satisfy<sp/>the<sp/>following<sp/>before<sp/>the<sp/>first<sp/>request</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>is<sp/>accepted.<sp/>Violations<sp/>cause<sp/>a<sp/>hard<sp/>startup<sp/>assertion<sp/>(fail-fast).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1server_1a0a3eed95742d0f9daaa1bdd7f3cfbc34" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1a0a3eed95742d0f9daaa1bdd7f3cfbc34" kindref="member">kMaxRoutePathBytes</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1server_1a74d243e2d7ab6e9a06da93af53dfa36a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1a74d243e2d7ab6e9a06da93af53dfa36a" kindref="member">kMaxRegisteredRoutes</ref><sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1server_1a1f13e728df719699f818243e1e4de399" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1a1f13e728df719699f818243e1e4de399" kindref="member">kMaxRequestBodyBytes</ref><sp/>=<sp/>16u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1server_1a7d6415e951bed90e2551a33506b94efe" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1a7d6415e951bed90e2551a33506b94efe" kindref="member">kMaxGrpcMetadataValueBytes</ref><sp/>=<sp/>8192;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacethemis_1_1server_1ad0bd3aa600450caa57f465c2539a8bab" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1ad0bd3aa600450caa57f465c2539a8bab" kindref="member">kMaxMqttPayloadBytes</ref><sp/>=<sp/>256u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Auth<sp/>Gate<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Every<sp/>inbound<sp/>request<sp/>MUST<sp/>pass<sp/>through<sp/>the<sp/>auth<sp/>gate<sp/>before<sp/>handler</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>dispatch.<sp/>The<sp/>gate<sp/>is<sp/>applied<sp/>in<sp/>the<sp/>following<sp/>order:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Transport-layer<sp/>TLS<sp/>verification<sp/>(if<sp/>applicable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>JWT/API-key<sp/>token<sp/>extraction<sp/>and<sp/>structural<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Token<sp/>signature<sp/>and<sp/>expiry<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Scope/permission<sp/>gate<sp/>for<sp/>the<sp/>target<sp/>route</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>A<sp/>request<sp/>that<sp/>fails<sp/>at<sp/>any<sp/>gate<sp/>step<sp/>MUST<sp/>receive<sp/>AUTH_GATE_DENIED<sp/>(HTTP<sp/>401</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>or<sp/>gRPC<sp/>UNAUTHENTICATED).<sp/>Handler<sp/>code<sp/>MUST<sp/>NOT<sp/>execute<sp/>on<sp/>a<sp/>denied<sp/>request.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Routes<sp/>explicitly<sp/>marked<sp/>as<sp/>public<sp/>(e.g.,<sp/>/health,<sp/>/metrics/prometheus)<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>exempt<sp/>from<sp/>JWT<sp/>validation<sp/>but<sp/>MUST<sp/>still<sp/>pass<sp/>rate-limit<sp/>checks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1server_1a12e2b882fa48d468650991e328a67cdc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1server_1a12e2b882fa48d468650991e328a67cdc" kindref="member">kAuthClockSkewTolerance</ref>{30};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1server_1af025ce0fd3d8373abe6315b9e6f0ab07" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1af025ce0fd3d8373abe6315b9e6f0ab07" kindref="member">kServerMaxJwtTokenBytes</ref><sp/>=<sp/>16u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Retry<sp/>/<sp/>Backoff<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Retry<sp/>behaviour<sp/>is<sp/>governed<sp/>by<sp/>the<sp/>following<sp/>invariants:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Only<sp/>TRANSIENT_ERROR<sp/>class<sp/>failures<sp/>are<sp/>eligible<sp/>for<sp/>retry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>FATAL_ERROR<sp/>and<sp/>INVALID_INPUT<sp/>failures<sp/>must<sp/>fail-fast<sp/>(no<sp/>retry).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>exponential<sp/>backoff<sp/>formula:<sp/>delay<sp/>=<sp/>base<sp/>*<sp/>2^(attempt-1)<sp/>+<sp/>jitter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>global<sp/>retry<sp/>budget<sp/>(wall-clock)<sp/>caps<sp/>the<sp/>total<sp/>retry<sp/>window.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>After<sp/>budget<sp/>exhaustion<sp/>the<sp/>caller<sp/>receives<sp/>RETRY_BUDGET_EXHAUSTED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Idempotency:<sp/>retried<sp/>requests<sp/>MUST<sp/>carry<sp/>the<sp/>same<sp/>idempotency<sp/>key.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="namespacethemis_1_1server_1a3df3c1d52c55578320956007df1a7042" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1a3df3c1d52c55578320956007df1a7042" kindref="member">kDefaultMaxRetries</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1server_1a90b242ec7d2cbf47c971ac91d0be95f1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1server_1a90b242ec7d2cbf47c971ac91d0be95f1" kindref="member">kRetryBaseDelay</ref>{100};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="namespacethemis_1_1server_1a4513c9d5af2f5de713377004ba750cce" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1server_1a4513c9d5af2f5de713377004ba750cce" kindref="member">kRetryGlobalBudget</ref>{30};</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="namespacethemis_1_1server_1adb0678413d6f5c6aef332d1cff42950d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1server_1adb0678413d6f5c6aef332d1cff42950d" kindref="member">kRetryMaxBaseDelay</ref>{5000};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Timeout<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Request<sp/>handler<sp/>timeouts<sp/>are<sp/>enforced<sp/>at<sp/>the<sp/>server<sp/>layer<sp/>before<sp/>handler<sp/>code</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>can<sp/>run<sp/>indefinitely.<sp/>The<sp/>semantics<sp/>are:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Per-request<sp/>deadline<sp/>is<sp/>set<sp/>at<sp/>request<sp/>admission<sp/>time.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>If<sp/>the<sp/>handler<sp/>does<sp/>not<sp/>complete<sp/>within<sp/>the<sp/>deadline,<sp/>the<sp/>server<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>the<sp/>handler&apos;s<sp/>cancellation<sp/>path<sp/>and<sp/>returns<sp/>TRANSPORT_TIMEOUT<sp/>to<sp/>the<sp/>caller.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Graceful<sp/>shutdown<sp/>MUST<sp/>drain<sp/>all<sp/>in-flight<sp/>requests<sp/>within</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>kShutdownDrainTimeout<sp/>before<sp/>forcing<sp/>connection<sp/>close.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Keepalive<sp/>idle<sp/>timeout<sp/>triggers<sp/>connection<sp/>recycling<sp/>(no<sp/>error<sp/>response).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="namespacethemis_1_1server_1a5e6a4d602ceee384ff9a0feda954295a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1server_1a5e6a4d602ceee384ff9a0feda954295a" kindref="member">kDefaultRequestTimeout</ref>{30};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="namespacethemis_1_1server_1ac2b6b6bed238fa4039502af8fc766d67" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1server_1ac2b6b6bed238fa4039502af8fc766d67" kindref="member">kMaxRequestTimeout</ref>{300};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="namespacethemis_1_1server_1a2022ead71e3c0a2686c9bb1a059ac2d0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1server_1a2022ead71e3c0a2686c9bb1a059ac2d0" kindref="member">kShutdownDrainTimeout</ref>{60};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="namespacethemis_1_1server_1accf42aa5eb428f39c37b176c0d7a2799" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1server_1accf42aa5eb428f39c37b176c0d7a2799" kindref="member">kShutdownDrainMaxTimeout</ref>{120};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="namespacethemis_1_1server_1aee2337dd14eb641a288ee5e0d44f3fc3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1server_1aee2337dd14eb641a288ee5e0d44f3fc3" kindref="member">kKeepaliveIdleTimeout</ref>{90};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>5<sp/><sp/>Backpressure<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>server<sp/>applies<sp/>backpressure<sp/>to<sp/>prevent<sp/>resource<sp/>exhaustion:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>When<sp/>the<sp/>in-flight<sp/>request<sp/>queue<sp/>reaches<sp/>kBackpressureQueueLimit,<sp/>new</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>requests<sp/>are<sp/>rejected<sp/>with<sp/>BACKPRESSURE_SHED<sp/>(HTTP<sp/>503<sp/>/<sp/>gRPC<sp/>UNAVAILABLE).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>WebSocket<sp/>frame<sp/>backpressure:<sp/>if<sp/>the<sp/>write<sp/>buffer<sp/>exceeds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>kWebSocketWriteBufferLimit,<sp/>the<sp/>session<sp/>MUST<sp/>pause<sp/>reading<sp/>from<sp/>the<sp/>peer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>until<sp/>the<sp/>buffer<sp/>drains<sp/>below<sp/>kWebSocketWriteBufferResumeThreshold.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>MQTT<sp/>session<sp/>backpressure<sp/>follows<sp/>the<sp/>same<sp/>write-buffer<sp/>contract.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1server_1a8ae10c1c2a91613369dc1e5ad512358d" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1a8ae10c1c2a91613369dc1e5ad512358d" kindref="member">kBackpressureQueueLimit</ref><sp/>=<sp/>8192;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="namespacethemis_1_1server_1a67c68a7fd416d1acc604eaf0d61a2399" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1a67c68a7fd416d1acc604eaf0d61a2399" kindref="member">kWebSocketWriteBufferLimit</ref><sp/>=<sp/>1u<sp/>*<sp/>1024u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163" refid="namespacethemis_1_1server_1adf07b56dc150bb3bcef86081be6d8953" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1server_1adf07b56dc150bb3bcef86081be6d8953" kindref="member">kWebSocketWriteBufferResumeThreshold</ref><sp/>=<sp/>256u<sp/>*<sp/>1024u;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>6<sp/><sp/>Error<sp/>Taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>All<sp/>server<sp/>components<sp/>MUST<sp/>map<sp/>internal<sp/>error<sp/>states<sp/>to<sp/>one<sp/>of<sp/>these<sp/>canonical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>error<sp/>classes.<sp/>This<sp/>enables<sp/>uniform<sp/>operator<sp/>diagnostics<sp/>and<sp/>consistent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>fail-closed/fail-open<sp/>enforcement<sp/>across<sp/>transports.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="181" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ae0aa021e21dddbd6d8cecec71e9cf564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">OK</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>0,</highlight></codeline>
+<codeline lineno="183" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a6a6b6786495f87f7a838cb59a3373f9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a6a6b6786495f87f7a838cb59a3373f9b" kindref="member">AUTH_GATE_DENIED</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>1,</highlight></codeline>
+<codeline lineno="185" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a90f78850249c5344fd5ce82b9f22d112" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a90f78850249c5344fd5ce82b9f22d112" kindref="member">TRANSPORT_TIMEOUT</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>2,</highlight></codeline>
+<codeline lineno="187" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a1193fca3bf4099eba1478e3a40862512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a1193fca3bf4099eba1478e3a40862512" kindref="member">SHUTDOWN_DRAIN_TIMEOUT</ref><sp/>=<sp/><sp/>3,</highlight></codeline>
+<codeline lineno="189" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ad5396b5bf47321267f6db180394b4582" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ad5396b5bf47321267f6db180394b4582" kindref="member">RATE_LIMIT_EXCEEDED</ref><sp/><sp/><sp/><sp/>=<sp/><sp/>4,</highlight></codeline>
+<codeline lineno="191" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161aa224afc9af395429edad294f94a9ae14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161aa224afc9af395429edad294f94a9ae14" kindref="member">PROTOCOL_VIOLATION</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>5,</highlight></codeline>
+<codeline lineno="193" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac777724408cff35227adfacc541b55e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac777724408cff35227adfacc541b55e0" kindref="member">INPUT_VALIDATION_ERROR</ref><sp/>=<sp/><sp/>6,</highlight></codeline>
+<codeline lineno="195" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a3bddb6477bf76bf03253664033b46911" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a3bddb6477bf76bf03253664033b46911" kindref="member">RETRY_BUDGET_EXHAUSTED</ref><sp/>=<sp/><sp/>7,</highlight></codeline>
+<codeline lineno="197" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161aee8dff70d94c288b30780ea95d080a66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161aee8dff70d94c288b30780ea95d080a66" kindref="member">BACKPRESSURE_SHED</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>8,</highlight></codeline>
+<codeline lineno="199" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac07ff7b5d7be3b8a5d8435d9827dea76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">QUORUM_UNAVAILABLE</ref><sp/><sp/><sp/><sp/><sp/>=<sp/><sp/>9,</highlight></codeline>
+<codeline lineno="201" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a94f58f39fbe930b311f80bb571faa31e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a94f58f39fbe930b311f80bb571faa31e" kindref="member">VERSION_MISMATCH</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="203" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ad4381a52828e126b02907417a6e7abd4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ad4381a52828e126b02907417a6e7abd4" kindref="member">SERVER_DRAINING</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="205" refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ae8c0c70879b5895c615677261d64a1ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ae8c0c70879b5895c615677261d64a1ee" kindref="member">INTERNAL_ERROR</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>7<sp/><sp/>Lifecycle<sp/>and<sp/>Ownership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Request<sp/>handler<sp/>ownership:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>server<sp/>owns<sp/>the<sp/>request<sp/>object<sp/>until<sp/>handler<sp/>completion<sp/>or<sp/>timeout.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Handlers<sp/>MUST<sp/>NOT<sp/>retain<sp/>references<sp/>to<sp/>the<sp/>request<sp/>object<sp/>beyond<sp/>their</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>synchronous<sp/>call<sp/>frame;<sp/>async<sp/>continuations<sp/>must<sp/>copy<sp/>required<sp/>data.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Response<sp/>ownership<sp/>transfers<sp/>to<sp/>the<sp/>server<sp/>on<sp/>handler<sp/>return.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Connection<sp/>lifecycle:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Connections<sp/>are<sp/>owned<sp/>exclusively<sp/>by<sp/>the<sp/>session<sp/>layer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Handlers<sp/>access<sp/>connections<sp/>through<sp/>a<sp/>stable<sp/>reference<sp/>counted<sp/>handle;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>the<sp/>handle<sp/>becomes<sp/>invalid<sp/>after<sp/>session<sp/>close.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Sessions<sp/>are<sp/>destroyed<sp/>asynchronously;<sp/>handlers<sp/>MUST<sp/>check<sp/>validity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>before<sp/>any<sp/>post-handler<sp/>access.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>8<sp/><sp/>Threading<sp/>Guarantees</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Middleware<sp/>stack<sp/>thread-safety:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>The<sp/>auth<sp/>middleware<sp/>is<sp/>thread-safe:<sp/>concurrent<sp/>calls<sp/>from<sp/>different</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>request<sp/>threads<sp/>are<sp/>safe.<sp/>Internal<sp/>token<sp/>cache<sp/>uses<sp/>reader-writer<sp/>locking.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Rate<sp/>limit<sp/>middleware<sp/>is<sp/>thread-safe<sp/>for<sp/>in-memory<sp/>backends.<sp/>Distributed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>state<sp/>backends<sp/>add<sp/>network<sp/>latency<sp/>but<sp/>remain<sp/>safe<sp/>under<sp/>concurrent<sp/>access.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Route<sp/>registry<sp/>lookup<sp/>(OpenApiRouteRegistry)<sp/>is<sp/>read-only<sp/>after<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>start<sp/>and<sp/>is<sp/>lock-free<sp/>in<sp/>the<sp/>hot<sp/>read<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Handler<sp/>dispatch<sp/>is<sp/>per-request<sp/>concurrent;<sp/>handlers<sp/>MUST<sp/>NOT<sp/>share</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>mutable<sp/>state<sp/>without<sp/>explicit<sp/>synchronisation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Shutdown<sp/>sequencing<sp/>(HttpShutdownManager)<sp/>is<sp/>serialised<sp/>via<sp/>an<sp/>internal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>state<sp/>machine;<sp/>concurrent<sp/>shutdown<sp/>calls<sp/>are<sp/>idempotent.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="namespacethemis_1_1server_1a374934d4da895b2393c2e2c939acb6f9" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1a374934d4da895b2393c2e2c939acb6f9" kindref="member">isServerFailClosedClass</ref>(<ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161" kindref="member">ServerErrorClass</ref><sp/>ec)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ec<sp/>==<sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a6a6b6786495f87f7a838cb59a3373f9b" kindref="member">ServerErrorClass::AUTH_GATE_DENIED</ref></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>ec<sp/>==<sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ac07ff7b5d7be3b8a5d8435d9827dea76" kindref="member">ServerErrorClass::QUORUM_UNAVAILABLE</ref></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>ec<sp/>==<sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161ae8c0c70879b5895c615677261d64a1ee" kindref="member">ServerErrorClass::INTERNAL_ERROR</ref></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>ec<sp/>==<sp/><ref refid="namespacethemis_1_1server_1aaacfaf93937ca8afbe3dea4b3930d161a1193fca3bf4099eba1478e3a40862512" kindref="member">ServerErrorClass::SHUTDOWN_DRAIN_TIMEOUT</ref>;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>9<sp/><sp/>Graceful<sp/>Shutdown<sp/>Ordering<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>shutdown<sp/>sequence<sp/>MUST<sp/>follow<sp/>this<sp/>strict<sp/>ordering:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>1.<sp/>Stop<sp/>accepting<sp/>new<sp/>connections<sp/>(kRunning<sp/>→<sp/>kDraining).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>2.<sp/>Drain<sp/>existing<sp/>in-flight<sp/>requests<sp/>(up<sp/>to<sp/>kShutdownDrainTimeout).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>3.<sp/>Run<sp/>pre-shutdown<sp/>health<sp/>checks<sp/>and<sp/>notify<sp/>dependent<sp/>services.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>4.<sp/>Force-close<sp/>any<sp/>remaining<sp/>connections<sp/>after<sp/>timeout.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>5.<sp/>Transition<sp/>to<sp/>kStopped<sp/>state.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>No<sp/>handler<sp/>dispatch<sp/>is<sp/>permitted<sp/>in<sp/>kDraining<sp/>or<sp/>kStopped<sp/>states.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Health<sp/>probes<sp/>to<sp/>/health<sp/>MAY<sp/>return<sp/>503<sp/>during<sp/>kDraining.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252" kindref="member">ServerState</ref><sp/>:<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="271" refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252af5137a026a4b2f3b1c8a21cfc60dd14b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671af5137a026a4b2f3b1c8a21cfc60dd14b" kindref="member">kIdle</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0,<sp/></highlight></codeline>
+<codeline lineno="272" refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252a2fc7fbf0d19294f85dd3880460dd3c0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252a2fc7fbf0d19294f85dd3880460dd3c0a" kindref="member">kRunning</ref><sp/><sp/>=<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="273" refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252a4edb91985bca34f444ffdaacfa4ede22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1a7ce6dff9b3cfded32100181100a2f671a4edb91985bca34f444ffdaacfa4ede22" kindref="member">kDraining</ref><sp/>=<sp/>2,<sp/></highlight></codeline>
+<codeline lineno="274" refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252ad222414baa8a2c6f4d07524918f75fd1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1server_1ad934f1f43df5c6a76778c95ea7807252ad222414baa8a2c6f4d07524918f75fd1" kindref="member">kStopped</ref><sp/><sp/>=<sp/>3,<sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>10<sp/><sp/>Rate<sp/>Limit<sp/>State<sp/>Contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Rate<sp/>limit<sp/>enforcement<sp/>semantics:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>In-memory<sp/>(single-node)<sp/>rate<sp/>limits<sp/>are<sp/>evaluated<sp/>atomically<sp/>per<sp/>client<sp/>key.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Distributed<sp/>state<sp/>(multi-node)<sp/>rate<sp/>limits<sp/>use<sp/>eventual<sp/>consistency<sp/>with</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>a<sp/>configurable<sp/>synchronisation<sp/>interval<sp/>(kRateLimitSyncInterval).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>On<sp/>distributed<sp/>backend<sp/>failure<sp/>the<sp/>rate<sp/>limiter<sp/>MUST<sp/>fail-closed:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/>all<sp/>requests<sp/>that<sp/>cannot<sp/>be<sp/>evaluated<sp/>are<sp/>rejected<sp/>with<sp/>RATE_LIMIT_EXCEEDED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Per-client<sp/>limit<sp/>resets<sp/>are<sp/>based<sp/>on<sp/>sliding<sp/>window<sp/>(default<sp/>60s).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="namespacethemis_1_1server_1a8e633366b023fffef9ea9d665ddbab81" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1server_1a8e633366b023fffef9ea9d665ddbab81" kindref="member">kRateLimitWindow</ref>{60};</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="namespacethemis_1_1server_1ae46c98f7578281b27e9661eb967ec7bc" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::milliseconds<sp/><ref refid="namespacethemis_1_1server_1ae46c98f7578281b27e9661eb967ec7bc" kindref="member">kRateLimitSyncInterval</ref>{500};</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>server</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/server/server_api_contract.h"/>
+  </compounddef>
+</doxygen>

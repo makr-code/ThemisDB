@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::test::CMT_FIN_43_LinkFormatValidation</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1acaa1463b9b41a1638414ba2506817a9b" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_43_LinkFormatValidation::content_module_path</definition>
+        <argsstring></argsstring>
+        <name>content_module_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_43_LinkFormatValidation::content_module_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="139" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1afda63eb63383bdf7de4500b14fac848e" prot="protected" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::content::test::CMT_FIN_43_LinkFormatValidation::root_path</definition>
+        <argsstring></argsstring>
+        <name>root_path</name>
+        <qualifiedname>themis::content::test::CMT_FIN_43_LinkFormatValidation::root_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="140" column="14" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1a46f676a73a5bce82c1d2e7696b77ed9f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::test::CMT_FIN_43_LinkFormatValidation::extractMarkdownLinks</definition>
+        <argsstring>(const std::string &amp;content)</argsstring>
+        <name>extractMarkdownLinks</name>
+        <qualifiedname>themis::content::test::CMT_FIN_43_LinkFormatValidation::extractMarkdownLinks</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="142" column="17" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="142" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1a82839a389e0b74aa23e97e8425898b78" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::test::CMT_FIN_43_LinkFormatValidation::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::content::test::CMT_FIN_43_LinkFormatValidation::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_docs_linkset_validation.cpp" line="156" column="10" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="156" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_43_LinkFormatValidation</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::content::test::CMT_FIN_43_LinkFormatValidation</label>
+        <link refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_docs_linkset_validation.cpp" line="137" column="1" bodyfile="tests/content/test_content_docs_linkset_validation.cpp" bodystart="137" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1acaa1463b9b41a1638414ba2506817a9b" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_43_LinkFormatValidation</scope><name>content_module_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1a46f676a73a5bce82c1d2e7696b77ed9f" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_43_LinkFormatValidation</scope><name>extractMarkdownLinks</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1afda63eb63383bdf7de4500b14fac848e" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_43_LinkFormatValidation</scope><name>root_path</name></member>
+      <member refid="classthemis_1_1content_1_1test_1_1_c_m_t___f_i_n__43___link_format_validation_1a82839a389e0b74aa23e97e8425898b78" prot="protected" virt="non-virtual"><scope>themis::content::test::CMT_FIN_43_LinkFormatValidation</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

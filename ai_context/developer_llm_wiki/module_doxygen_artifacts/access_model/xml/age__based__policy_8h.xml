@@ -1,0 +1,316 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="age__based__policy_8h" kind="file" language="C++">
+    <compoundname>age_based_policy.h</compoundname>
+    <includes refid="access__tier__interface_8h" local="yes">access_tier_interface.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includedby refid="access__coordinator_8h" local="yes">include/access_model/access_coordinator.h</includedby>
+    <includedby refid="age__based__policy_8cpp" local="yes">src/access_model/age_based_policy.cpp</includedby>
+    <includedby refid="test__access__coordinator_8cpp" local="yes">tests/access_model/test_access_coordinator.cpp</includedby>
+    <includedby refid="test__access__coordinator__focused_8cpp" local="yes">tests/access_model/test_access_coordinator_focused.cpp</includedby>
+    <includedby refid="test__access__model__e2e_8cpp" local="yes">tests/access_model/test_access_model_e2e.cpp</includedby>
+    <includedby refid="test__promotion__demotion_8cpp" local="yes">tests/access_model/test_promotion_demotion.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>access_tier_interface.h</label>
+        <link refid="access__tier__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/access_model/age_based_policy.h</label>
+        <link refid="age__based__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>limits</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>string_view</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/access_model/bench_access_coordinator_gates.cpp</label>
+        <link refid="bench__access__coordinator__gates_8cpp"/>
+      </node>
+      <node id="2">
+        <label>include/access_model/access_coordinator.h</label>
+        <link refid="access__coordinator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/access_model/age_based_policy.h</label>
+        <link refid="age__based__policy_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/access_model/access_coordinator.cpp</label>
+        <link refid="access__coordinator_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/access_model/age_based_policy.cpp</label>
+        <link refid="age__based__policy_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/access_model/test_access_coordinator.cpp</label>
+        <link refid="test__access__coordinator_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/access_model/test_access_coordinator_focused.cpp</label>
+        <link refid="test__access__coordinator__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/access_model/test_access_model_e2e.cpp</label>
+        <link refid="test__access__model__e2e_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/access_model/test_cache_storage_integration.cpp</label>
+        <link refid="test__cache__storage__integration_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/access_model/test_coordination_concurrency.cpp</label>
+        <link refid="test__coordination__concurrency_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/access_model/test_promotion_demotion.cpp</label>
+        <link refid="test__promotion__demotion_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1access__model_1_1_age_based_policy" prot="public">themis::access_model::AgeBasedPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1access__model">themis::access_model</innernamespace>
+    <briefdescription>
+<para>Unified age-based migration policy for cache &amp; storage tiers. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB | File: <ref refid="age__based__policy_8h" kindref="compound">age_based_policy.h</ref> | Version: 2.0.0 Maturity: 🟡 ALPHA (Phase 2 Implementation) | Status: Active development Author: Copilot | Date: 2026-08-03</para>
+<para>The <computeroutput>AgeBasedPolicy</computeroutput> is the single source of truth for age-based tier migration decisions. Both cache and storage tiers use it to determine when data should be promoted to or demoted from a tier.</para>
+<para><simplesect kind="see"><para><ref refid="access__coordinator_8h" kindref="compound">include/access_model/access_coordinator.h</ref> </para>
+</simplesect>
+<simplesect kind="see"><para>docs/architecture/UNIFIED_ACCESS_MODEL.md </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="access__tier__interface_8h" kindref="compound">access_tier_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1access__model" kindref="compound">access_model</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Data<sp/>Hotness<sp/>Classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0" kindref="member">DataHotnessLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0ac429fde8b1b986d42f84ba63dbfef6ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0ac429fde8b1b986d42f84ba63dbfef6ac" kindref="member">HOT</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a11523c55fca0d056eda7dbbe810490ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a11523c55fca0d056eda7dbbe810490ca" kindref="member">WARM</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a79ce8508b165746597039bd1dbeb6957" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a79ce8508b165746597039bd1dbeb6957" kindref="member">COOL</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a3f7ff4daa99912d1b0c8c64340edb9fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0a3f7ff4daa99912d1b0c8c64340edb9fb" kindref="member">COLD</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Age-Based<sp/>Policy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1access__model_1_1_age_based_policy" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1access__model_1_1_age_based_policy" kindref="compound">AgeBasedPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1access__model_1_1_age_based_policy_1a5807edbdb1c367284169666e61bbfb0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a5807edbdb1c367284169666e61bbfb0a" kindref="member">l1_zero_access_days</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1access__model_1_1_age_based_policy_1ae0bb23a701c9252a493829e4571e98e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ae0bb23a701c9252a493829e4571e98e7" kindref="member">l2_zero_access_days</ref><sp/>=<sp/>7;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1access__model_1_1_age_based_policy_1af88c778d67cf36deb306e39212f6bdbb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1af88c778d67cf36deb306e39212f6bdbb" kindref="member">l3_to_storage_days</ref><sp/>=<sp/>14;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1access__model_1_1_age_based_policy_1af94c5124bed8e7e226e313e94a9e3630" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1af94c5124bed8e7e226e313e94a9e3630" kindref="member">hot_zero_access_days</ref><sp/>=<sp/>14;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1access__model_1_1_age_based_policy_1ae50362ca5cfef286e73db8a2ede85c75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ae50362ca5cfef286e73db8a2ede85c75" kindref="member">hot_to_warm_days</ref><sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1access__model_1_1_age_based_policy_1a2c8d39ebed95bcc36f85fe98b2ebbd24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a2c8d39ebed95bcc36f85fe98b2ebbd24" kindref="member">warm_zero_access_days</ref><sp/>=<sp/>45;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1access__model_1_1_age_based_policy_1ab2ced86afba356d93e2d6f7e63c6a378" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ab2ced86afba356d93e2d6f7e63c6a378" kindref="member">warm_to_cold_days</ref><sp/>=<sp/>90;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1access__model_1_1_age_based_policy_1a484cb6d9a75d0abd9b2bc58eadbd410e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a484cb6d9a75d0abd9b2bc58eadbd410e" kindref="member">l1_promotion_threshold</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1access__model_1_1_age_based_policy_1a55cfcce4fa8e5dd14f80cb56ca0e854d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a55cfcce4fa8e5dd14f80cb56ca0e854d" kindref="member">l2_promotion_threshold</ref><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1access__model_1_1_age_based_policy_1a07a43ecca73742587a0be1976cfaba91" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a07a43ecca73742587a0be1976cfaba91" kindref="member">l3_promotion_threshold</ref><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1access__model_1_1_age_based_policy_1ada4da854baffa54a979667e515eb3944" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ada4da854baffa54a979667e515eb3944" kindref="member">storage_promotion_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1access__model_1_1_age_based_policy_1a1d71845c2dec6cf90eb5ce78d6caabbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a1d71845c2dec6cf90eb5ce78d6caabbc" kindref="member">storage_promotion_window</ref>{86400};<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>hours</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1access__model_1_1_age_based_policy_1ae294cede4b374c4d64151ed655c37b66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ae294cede4b374c4d64151ed655c37b66" kindref="member">cache_warmup_grace_period_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Inline<sp/>Age-Check<sp/>Helpers<sp/>(fast<sp/>path,<sp/>called<sp/>from<sp/>hot<sp/>loops)<sp/>──────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1access__model_1_1_age_based_policy_1afd52e1f31256b1bdbf9ea8041582b691" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1afd52e1f31256b1bdbf9ea8041582b691" kindref="member">shouldDemoteL1ToL2</ref>(uint32_t<sp/>seconds_since_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a5807edbdb1c367284169666e61bbfb0a" kindref="member">l1_zero_access_days</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>seconds_since_access<sp/>&gt;<sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a5807edbdb1c367284169666e61bbfb0a" kindref="member">l1_zero_access_days</ref><sp/>*<sp/>86400u);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1access__model_1_1_age_based_policy_1a27c23f825660c9d83b2dc91ec2f3dc62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a27c23f825660c9d83b2dc91ec2f3dc62" kindref="member">shouldDemoteL2ToL3</ref>(uint32_t<sp/>seconds_since_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ae0bb23a701c9252a493829e4571e98e7" kindref="member">l2_zero_access_days</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>seconds_since_access<sp/>&gt;<sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ae0bb23a701c9252a493829e4571e98e7" kindref="member">l2_zero_access_days</ref><sp/>*<sp/>86400u);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1access__model_1_1_age_based_policy_1a3d4150312a52e0c2525acbee6f7a49a2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a3d4150312a52e0c2525acbee6f7a49a2" kindref="member">shouldDemoteHotToWarm</ref>(uint32_t<sp/>seconds_since_access,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>seconds_since_write)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1af94c5124bed8e7e226e313e94a9e3630" kindref="member">hot_zero_access_days</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seconds_since_access<sp/>&gt;<sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1af94c5124bed8e7e226e313e94a9e3630" kindref="member">hot_zero_access_days</ref><sp/>*<sp/>86400u))<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ae50362ca5cfef286e73db8a2ede85c75" kindref="member">hot_to_warm_days</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>seconds_since_write<sp/>&gt;<sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ae50362ca5cfef286e73db8a2ede85c75" kindref="member">hot_to_warm_days</ref><sp/>*<sp/>86400u))<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1access__model_1_1_age_based_policy_1a54460ac142962b8e0c894b35e1381ed3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a54460ac142962b8e0c894b35e1381ed3" kindref="member">shouldDemoteWarmToCold</ref>(uint32_t<sp/>seconds_since_access,</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>seconds_since_write)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a2c8d39ebed95bcc36f85fe98b2ebbd24" kindref="member">warm_zero_access_days</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seconds_since_access<sp/>&gt;<sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a2c8d39ebed95bcc36f85fe98b2ebbd24" kindref="member">warm_zero_access_days</ref><sp/>*<sp/>86400u))<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ab2ced86afba356d93e2d6f7e63c6a378" kindref="member">warm_to_cold_days</ref><sp/>&gt;<sp/>0<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seconds_since_write<sp/>&gt;<sp/>(<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ab2ced86afba356d93e2d6f7e63c6a378" kindref="member">warm_to_cold_days</ref><sp/>*<sp/>86400u))<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1access__model_1_1_age_based_policy_1aff36cfd90927dbd9a8b4e824ad1e925c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1aff36cfd90927dbd9a8b4e824ad1e925c" kindref="member">shouldPromoteStorageToCache</ref>(uint64_t<sp/>access_count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>access_count<sp/>&gt;=<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ada4da854baffa54a979667e515eb3944" kindref="member">storage_promotion_threshold</ref>;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ad3841875d2484db300dc43f57c9433d1" kindref="member">shouldPromoteL1ToL2</ref>(uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::seconds&amp;<sp/>time_since_last_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a8e301776de61285f878169ab840a225b" kindref="member">shouldPromoteL2ToL3</ref>(uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::seconds&amp;<sp/>time_since_last_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a49f1a65057aa9fdad63af2a3407d7882" kindref="member">shouldPromoteL3ToStorage</ref>(uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::seconds&amp;<sp/>time_since_last_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a75a9e8e2e5a1aa4716eca1004f8b95bd" kindref="member">shouldPromoteStorageWarmToCold</ref>(</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::seconds&amp;<sp/>time_since_last_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a8f0c45e21e807778cf4b427c286aae75" kindref="member">shouldDemoteStorageCold</ref>(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::seconds&amp;<sp/>time_since_last_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a869afe43e72e8f512e062bb3f006ab63" kindref="member">shouldPromoteStorageColdToWarm</ref>(uint64_t<sp/>access_count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1afcb372c4bf3acecc8226333ce603ced9" kindref="member">shouldPromoteStorageWarmToL3Cache</ref>(uint64_t<sp/>access_count)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0" kindref="member">DataHotnessLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a39a6776cdec7a9ebf32c0f219384fdc5" kindref="member">classifyHotness</ref>(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::seconds&amp;<sp/>time_since_last_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ac060e87c854028a8d0a9b8e8a9ab736d" kindref="member">recommendTierForData</ref>(</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>access_count,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::chrono::seconds&amp;<sp/>time_since_last_access)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a56843fd30d4983b794c5fcaa77c03b42" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1adcf71167a0c884d229f4c5b2c6423ec1" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a6a71e8ae1089b0e8105be9636894be17" kindref="member">describe</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>access_model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/access_model/age_based_policy.h"/>
+  </compounddef>
+</doxygen>

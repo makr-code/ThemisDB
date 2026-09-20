@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1updates_1_1test_1_1_0d020001206004250007237137104176153065216147041111" kind="namespace" language="C++">
+    <compoundname>themis::updates::test::@020001206004250007237137104176153065216147041111</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/updates/test_updates_phase2_phase3_hardening_focused.cpp" line="17" column="1"/>
+  </compounddef>
+</doxygen>

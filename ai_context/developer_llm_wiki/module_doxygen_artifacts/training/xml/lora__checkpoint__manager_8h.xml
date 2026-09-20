@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__checkpoint__manager_8h" kind="file" language="C++">
+    <compoundname>lora_checkpoint_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">ctime</includes>
+    <includes refid="training__error__codes_8h" local="yes">training/training_error_codes.h</includes>
+    <includes refid="training__exceptions_8h" local="yes">training/training_exceptions.h</includes>
+    <includedby refid="training__pipeline_8h" local="yes">include/training/training_pipeline.h</includedby>
+    <includedby refid="incremental__lora__trainer_8cpp" local="yes">src/training/incremental_lora_trainer.cpp</includedby>
+    <includedby refid="lora__checkpoint__manager_8cpp" local="yes">src/training/lora_checkpoint_manager.cpp</includedby>
+    <includedby refid="test__checkpoint__recovery_8cpp" local="yes">tests/training/test_checkpoint_recovery.cpp</includedby>
+    <includedby refid="test__checkpoint__resume__gpu__stress_8cpp" local="yes">tests/training/test_checkpoint_resume_gpu_stress.cpp</includedby>
+    <includedby refid="test__training__diagnostics__consistency_8cpp" local="yes">tests/training/test_training_diagnostics_consistency.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/training/lora_checkpoint_manager.h</label>
+        <link refid="lora__checkpoint__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>training/training_error_codes.h</label>
+        <link refid="training__error__codes_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>training/training_exceptions.h</label>
+        <link refid="training__exceptions_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="9">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>ctime</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/training/lora_checkpoint_manager.h</label>
+        <link refid="lora__checkpoint__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/training/training_pipeline.h</label>
+        <link refid="training__pipeline_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/training/incremental_lora_trainer.cpp</label>
+        <link refid="incremental__lora__trainer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/training/lora_checkpoint_manager.cpp</label>
+        <link refid="lora__checkpoint__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/training/training_pipeline.cpp</label>
+        <link refid="training__pipeline_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/training/test_checkpoint_recovery.cpp</label>
+        <link refid="test__checkpoint__recovery_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/training/test_checkpoint_resume_gpu_stress.cpp</label>
+        <link refid="test__checkpoint__resume__gpu__stress_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/training/test_training_convergence.cpp</label>
+        <link refid="test__training__convergence_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/training/test_training_diagnostics_consistency.cpp</label>
+        <link refid="test__training__diagnostics__consistency_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/training/test_training_pipeline_e2e.cpp</label>
+        <link refid="test__training__pipeline__e2e_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/training/test_training_pipeline_injection_qw40.cpp</label>
+        <link refid="test__training__pipeline__injection__qw40_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" prot="public">themis::training::CheckpointManifestEntry</innerclass>
+    <innerclass refid="structthemis_1_1training_1_1_checkpoint_manager_config" prot="public">themis::training::CheckpointManagerConfig</innerclass>
+    <innerclass refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" prot="public">themis::training::LoRACheckpointManager</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1training">themis::training</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ctime&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__error__codes_8h" kindref="compound">training/training_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="training__exceptions_8h" kindref="compound">training/training_exceptions.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">training</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a417ba2c54b58c628b11942378d0bc981" kindref="member">CheckpointManifestEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a15dfbd0132e9779f7abd23433fdb152f" kindref="member">checkpoint_path</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a94fbcd2ad6bf098a5114dd01b3882d58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a94fbcd2ad6bf098a5114dd01b3882d58" kindref="member">sha256</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ac87b09f4469d7dd7ca6aefd7a57b7ba3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ac87b09f4469d7dd7ca6aefd7a57b7ba3" kindref="member">base_model_hash</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1adbe9da3cc0c544a791ba63459137cd32" kindref="member">adapter_version</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a60ff5caafbf7ca1e12d46f7e3ff3b01c" kindref="member">epoch</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1ad45c47f3fd88823499ba3ae389dfbc0f" kindref="member">step</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaf1eb32ef037b258470bddfb89fb3ba" kindref="member">loss</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1abaa841009ae39edc760771d8d63a2e6f" kindref="member">accuracy</ref><sp/><sp/><sp/><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a7fcd6a67b7300c28adb23a3f68c24c01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::time_t<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a7fcd6a67b7300c28adb23a3f68c24c01" kindref="member">saved_at</ref><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a417ba2c54b58c628b11942378d0bc981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry_1a417ba2c54b58c628b11942378d0bc981" kindref="member">CheckpointManifestEntry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1training_1_1_checkpoint_manager_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a1291c739d36ef263a0815f9c25c7e07e" kindref="member">CheckpointManagerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a42425c53068a8737abc12d6fc33029a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a42425c53068a8737abc12d6fc33029a1" kindref="member">checkpoint_dir</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a46d5449367a2d5cadbd36220b076cc92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a46d5449367a2d5cadbd36220b076cc92" kindref="member">max_checkpoints</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a884ab1f324372747e79811f8cbe97856" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a884ab1f324372747e79811f8cbe97856" kindref="member">validate_on_load</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a298dfc1c7a82a8244c36ea2178f78dd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a298dfc1c7a82a8244c36ea2178f78dd0" kindref="member">auto_rollback</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a628b8cc6fdaf5e3723da5a38fa92c26b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a628b8cc6fdaf5e3723da5a38fa92c26b" kindref="member">manifest_filename</ref><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;checkpoint_manifest.json&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>timeout<sp/>and<sp/>recovery<sp/>hardening</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1ab0f4dd57b039a1e538aea0e920c4032f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1ab0f4dd57b039a1e538aea0e920c4032f" kindref="member">io_timeout_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>300000;<sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a465f39a8284ca3e12d0979bcc2da0513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a465f39a8284ca3e12d0979bcc2da0513" kindref="member">cleanup_partial</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1ae9805f792e1954cb3b587de954e2ee68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1ae9805f792e1954cb3b587de954e2ee68" kindref="member">min_checkpoint_size</ref><sp/>=<sp/>1024;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a1291c739d36ef263a0815f9c25c7e07e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config_1a1291c739d36ef263a0815f9c25c7e07e" kindref="member">CheckpointManagerConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manager_config" kindref="compound">CheckpointManagerConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ac1d1f5ecd14b4c74f7355a0b43b2ad25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ac1d1f5ecd14b4c74f7355a0b43b2ad25" kindref="member">~LoRACheckpointManager</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1aa4f9f26c5e78a2d1437162a3bcb21df0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1aa4f9f26c5e78a2d1437162a3bcb21df0" kindref="member">LoRACheckpointManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149" refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ab3b25ed45b50d9d3d96d8fa7bd56359a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref>&amp;<sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ab3b25ed45b50d9d3d96d8fa7bd56359a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a05db4e161940b2ab73dfafc1b2a8de1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a05db4e161940b2ab73dfafc1b2a8de1d" kindref="member">LoRACheckpointManager</ref>(<ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="151" refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ae8c1045ee31553fe2eccd17514d13eb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a73b5b89eb6b3dcd0bde35c543df01367" kindref="member">LoRACheckpointManager</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a8cb774f9f6ff0451ab1ecb331449fc70" kindref="member">save</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>source_path,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref><sp/>meta);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref>&gt;<sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1abeb2c3826678e90026504757bcf7e654" kindref="member">resume</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref>&gt;<sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a379d3269b4bab5991b5d0e71baf17d77" kindref="member">resumeWithDiagnostics</ref>(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">*<sp/>diagnostics<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">)<sp/>const;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref>&gt;<sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a80d59155b06107545a65f516b5b3e651" kindref="member">listCheckpoints</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a2ac6c24848757d109bcb5cf8d0f1d8f6" kindref="member">validate</ref>(const<sp/><ref refid="structthemis_1_1training_1_1_checkpoint_manifest_entry" kindref="compound">CheckpointManifestEntry</ref>&amp;<sp/>entry)<sp/>const;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1ad031b41214ffee68b1dfca607b805b1c" kindref="member">clearAll</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a911186b46ce5ced1b63bfb38317374a1" kindref="member">manifestPath</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a6435be78a715875cb67174fdde8c65a4" kindref="member">saveCalibrationJson</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>json_content);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a48cfb03eccb60a9f963767b7e08a4a54" kindref="member">loadCalibrationJson</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a52e5edc7a2e57a75fbde4cd1b0fddbe6" kindref="member">cleanupPartialCheckpoints</ref>();</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1a05dee0eb04ffb56d81c81d73e981be73" kindref="member">auditCheckpoints</ref>(std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">*<sp/>diagnostics<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1training_1_1_lo_r_a_checkpoint_manager_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/training/lora_checkpoint_manager.h"/>
+  </compounddef>
+</doxygen>

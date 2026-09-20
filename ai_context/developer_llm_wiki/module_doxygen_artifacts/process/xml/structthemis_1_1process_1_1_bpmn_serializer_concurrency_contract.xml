@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::BpmnSerializerConcurrencyContract</compoundname>
+    <includes refid="process__concurrency__contract_8h" local="no">process_concurrency_contract.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1ab383e26249e38d32dd31e264feab2f9d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9da" kindref="member">ConcurrencyPattern</ref></type>
+        <definition>ConcurrencyPattern themis::process::BpmnSerializerConcurrencyContract::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themis::process::BpmnSerializerConcurrencyContract::pattern</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a6a446f9d06bd108b513dab505e31a9daac1cb56371c6ef5f518719691632ac912" kindref="member">ConcurrencyPattern::STATELESS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="139" column="41" bodyfile="include/process/process_concurrency_contract.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1a16511f16bc1262ff46bcf084f72295f1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403e" kindref="member">AtomicityScope</ref></type>
+        <definition>AtomicityScope themis::process::BpmnSerializerConcurrencyContract::atomicity</definition>
+        <argsstring></argsstring>
+        <name>atomicity</name>
+        <qualifiedname>themis::process::BpmnSerializerConcurrencyContract::atomicity</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1ae80706ebe0a10dbc12ba72eb6eb1403ea47c7e7cb36a953a8c47e02000036bb44" kindref="member">AtomicityScope::READ_ONLY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="140" column="37" bodyfile="include/process/process_concurrency_contract.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1a732feeab720f6f94ef6b52376440eb84" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037" kindref="member">ConflictResolution</ref></type>
+        <definition>ConflictResolution themis::process::BpmnSerializerConcurrencyContract::conflict_resolution</definition>
+        <argsstring></argsstring>
+        <name>conflict_resolution</name>
+        <qualifiedname>themis::process::BpmnSerializerConcurrencyContract::conflict_resolution</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1process_1a6b3c35ef0746d2097494942a53d39037ab18ff9ed18b27a951714b14b79b2b687" kindref="member">ConflictResolution::NO_CONFLICTS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="141" column="41" bodyfile="include/process/process_concurrency_contract.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1af31e8704b6c23aa36f8bffc3412d0974" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static std::string_view themis::process::BpmnSerializerConcurrencyContract::describe</definition>
+        <argsstring>()</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::BpmnSerializerConcurrencyContract::describe</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of this contract. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_concurrency_contract.h" line="146" column="29" bodyfile="include/process/process_concurrency_contract.h" bodystart="146" bodyend="148"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safety guarantee for <ref refid="classthemis_1_1process_1_1_bpmn_serializer" kindref="compound">BpmnSerializer</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Pattern:</bold> STATELESS (no shared mutable state) <linebreak/>
+ <bold>Atomicity:</bold> N/A <linebreak/>
+ <bold>Conflict Resolution:</bold> NO_CONFLICTS</para>
+<para>Multiple threads may call serialize()/deserialize() concurrently without coordination. Serializer maintains no per-instance state.</para>
+<para><simplesect kind="invariant"><para>Thread-safe for any number of concurrent callers. </para>
+</simplesect>
+<simplesect kind="invariant"><para>No locking required. </para>
+</simplesect>
+<simplesect kind="invariant"><para>Each invocation is independent. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_concurrency_contract.h" line="138" column="1" bodyfile="include/process/process_concurrency_contract.h" bodystart="138" bodyend="149"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1a16511f16bc1262ff46bcf084f72295f1" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializerConcurrencyContract</scope><name>atomicity</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1a732feeab720f6f94ef6b52376440eb84" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializerConcurrencyContract</scope><name>conflict_resolution</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1af31e8704b6c23aa36f8bffc3412d0974" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializerConcurrencyContract</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_bpmn_serializer_concurrency_contract_1ab383e26249e38d32dd31e264feab2f9d" prot="public" virt="non-virtual"><scope>themis::process::BpmnSerializerConcurrencyContract</scope><name>pattern</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

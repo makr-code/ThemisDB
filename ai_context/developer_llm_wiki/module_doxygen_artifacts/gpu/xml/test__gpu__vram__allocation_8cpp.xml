@@ -1,0 +1,778 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__vram__allocation_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_vram_allocation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">llm/adaptive_vram_allocator.h</includes>
+    <includes local="yes">llm/multi_gpu_memory_coordinator.h</includes>
+    <includes local="yes">llm/paged_kv_cache_manager.h</includes>
+    <includes local="yes">llm/mixed_precision_inference.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/gpu/test_gpu_vram_allocation.cpp</label>
+        <link refid="test__gpu__vram__allocation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>llm/adaptive_vram_allocator.h</label>
+      </node>
+      <node id="6">
+        <label>llm/mixed_precision_inference.h</label>
+      </node>
+      <node id="4">
+        <label>llm/multi_gpu_memory_coordinator.h</label>
+      </node>
+      <node id="5">
+        <label>llm/paged_kv_cache_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_g_p_u_v_r_a_m_allocation_test" prot="public">GPUVRAMAllocationTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, CalculateOptimalAllocation_RTX4090_Llama7B)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>CalculateOptimalAllocation_RTX4090_Llama7B</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="63" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="63" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a6b7f2fa0ee2832e6e9c9783950d37ee4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, CalculateOptimalAllocation_Llama70B_TooLarge)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>CalculateOptimalAllocation_Llama70B_TooLarge</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="95" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="95" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1ac2340281e8a45bbc4152259bb27939de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, CalculateKVCacheSizePerToken)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>CalculateKVCacheSizePerToken</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="124" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="124" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1af25cf3cd14ff19f4684361d5a886f519" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, CalculateModelSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>CalculateModelSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="137" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="137" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1abf9fd07caadd22c334d1f5d7e55bec49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, PagedKVCache_BlockAllocation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>PagedKVCache_BlockAllocation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="157" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="157" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a51c44b2563fc5ea0eeccab0474d3809a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, PagedKVCache_PrefixCaching)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>PagedKVCache_PrefixCaching</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="182" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="182" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a0c1654e3f2dae90695e29e9bd55078fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, PagedKVCache_MemoryStats)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>PagedKVCache_MemoryStats</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="207" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="207" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a7a702121ea10b0ed0f34c4612081783f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, MultiGPU_TensorParallelism)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>MultiGPU_TensorParallelism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="235" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="235" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a31279ad7c1ae76b4fa95f54b2c6eafa6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, MultiGPU_PipelineParallelism)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>MultiGPU_PipelineParallelism</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="256" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="256" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a0a75a56f36c6c213ead5567ebb7c91e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, MultiGPU_LoadBalancing)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>MultiGPU_LoadBalancing</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="277" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="277" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a7db48b63ae569f460942087889ef45eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, MixedPrecision_SelectOptimalPrecision)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>MixedPrecision_SelectOptimalPrecision</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="300" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="300" bodyend="314"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a20c2ffa51c26ca42f40a6b9fb9f1dba1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, MixedPrecision_PrecisionInfo)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>MixedPrecision_PrecisionInfo</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="316" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="316" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a2c181808de4e3f66eaebc9d76965b0d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, MixedPrecision_CalculateModelSize)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>MixedPrecision_CalculateModelSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="328" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="328" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a9f85540d23a03ee5c40ebe94e0d31ca8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, MixedPrecision_StringConversion)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>MixedPrecision_StringConversion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="340" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="340" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a496192cff45b8638d27661ecd9371c24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(GPUVRAMAllocationTest, Integration_CompleteWorkflow)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref></type>
+        </param>
+        <param>
+          <type>Integration_CompleteWorkflow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="353" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="353" bodyend="383"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a400881ce0d4af081700260192b1adbd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PagedKVCacheManagerTest, ZeroBlockSizeThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PagedKVCacheManagerTest</type>
+        </param>
+        <param>
+          <type>ZeroBlockSizeThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="389" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="389" bodyend="394"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__vram__allocation_8cpp_1a29c60ebdea2a2bf30e8485ee88347e6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PagedKVCacheManagerTest, ZeroNumTokensAllocatesNoBlocks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PagedKVCacheManagerTest</type>
+        </param>
+        <param>
+          <type>ZeroNumTokensAllocatesNoBlocks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_vram_allocation.cpp" line="396" column="1" bodyfile="tests/gpu/test_gpu_vram_allocation.cpp" bodystart="396" bodyend="403"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/adaptive_vram_allocator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/multi_gpu_memory_coordinator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/paged_kv_cache_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/mixed_precision_inference.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="class_g_p_u_v_r_a_m_allocation_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_v_r_a_m_allocation_test_1aeff9d7dc307d97d4802d302c06f7b376" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Setup<sp/>test<sp/>fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_g_p_u_v_r_a_m_allocation_test_1ab2769d7a2d0f91efd40d5f3d96f7cff9" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Create<sp/>Llama-2-7B<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::ModelConfig<sp/><ref refid="class_g_p_u_v_r_a_m_allocation_test_1af00aa5bced1b8c2dd77b53e419e65c8b" kindref="member">createLlama7BConfig</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::ModelConfig<sp/>model;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.model_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Llama-2-7B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.num_parameters<sp/>=<sp/>7&apos;000&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.num_layers<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.hidden_dim<sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.num_heads<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.num_kv_heads<sp/>=<sp/>8;<sp/><sp/></highlight><highlight class="comment">//<sp/>GQA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.head_dim<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>model.precision_bytes<sp/>=<sp/>2;<sp/><sp/></highlight><highlight class="comment">//<sp/>FP16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>model;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Create<sp/>RTX<sp/>4090<sp/>hardware</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::HardwareInfo<sp/><ref refid="class_g_p_u_v_r_a_m_allocation_test_1a2e35993d496fe58ad0f17d7b6550ae33" kindref="member">createRTX4090Hardware</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::HardwareInfo<sp/>hw;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.total_vram_bytes<sp/>=<sp/>24ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.available_vram_bytes<sp/>=<sp/>22ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>22<sp/>GB<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.compute_capability_major<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.compute_capability_minor<sp/>=<sp/>9;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.has_tensor_cores<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.memory_bandwidth_gbps<sp/>=<sp/>1008;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hw;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Create<sp/>A100<sp/>hardware</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::HardwareInfo<sp/><ref refid="class_g_p_u_v_r_a_m_allocation_test_1ac260e05e12729166917360773700a285" kindref="member">createA100Hardware</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::HardwareInfo<sp/>hw;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.total_vram_bytes<sp/>=<sp/>80ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>80<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.available_vram_bytes<sp/>=<sp/>76ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>76<sp/>GB<sp/>available</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.compute_capability_major<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.compute_capability_minor<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.has_tensor_cores<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hw.memory_bandwidth_gbps<sp/>=<sp/>2039;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hw;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AdaptiveVRAMAllocator<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>CalculateOptimalAllocation_RTX4090_Llama7B)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator<sp/>allocator;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model<sp/>=<sp/>createLlama7BConfig();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hw<sp/>=<sp/>createRTX4090Hardware();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::InferenceConfig<sp/>config;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>this<sp/>scenario<sp/>in<sp/>the<sp/>&quot;fits&quot;<sp/>region<sp/>for<sp/>22<sp/>GB<sp/>available<sp/>VRAM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>under<sp/>the<sp/>current<sp/>allocator<sp/>model<sp/>(weights<sp/>+<sp/>KV<sp/>+<sp/>activations<sp/>+<sp/>overhead).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>config.batch_size<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_seq_length<sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>config.enable_prefix_caching<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>allocator.calculateOptimalAllocation(model,<sp/>hw,<sp/>config);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>should<sp/>fit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan.fits_in_vram);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>weights<sp/>should<sp/>be<sp/>~14<sp/>GB<sp/>(7B<sp/>×<sp/>2<sp/>bytes)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(plan.model_weights,<sp/>13ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(plan.model_weights,<sp/>15ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>should<sp/>be<sp/>within<sp/>VRAM</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(plan.total,<sp/>hw.available_vram_bytes);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>reasonable<sp/>KV<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(plan.kv_cache_static,<sp/>0);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fragmentation<sp/>should<sp/>be<sp/>low<sp/>with<sp/>prefix<sp/>caching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(plan.expected_fragmentation,<sp/>0.05f);<sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;5%</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>CalculateOptimalAllocation_Llama70B_TooLarge)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator<sp/>allocator;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::ModelConfig<sp/>model;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>model.model_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Llama-2-70B&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>model.num_parameters<sp/>=<sp/>70&apos;000&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>model.num_layers<sp/>=<sp/>80;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>model.hidden_dim<sp/>=<sp/>8192;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>model.num_heads<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>model.num_kv_heads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>model.head_dim<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>model.precision_bytes<sp/>=<sp/>2;<sp/><sp/></highlight><highlight class="comment">//<sp/>FP16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hw<sp/>=<sp/>createRTX4090Hardware();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::InferenceConfig<sp/>config;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>config.batch_size<sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_seq_length<sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>allocator.calculateOptimalAllocation(model,<sp/>hw,<sp/>config);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>should<sp/>NOT<sp/>fit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plan.fits_in_vram);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>recommendation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plan.recommendation.empty());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(plan.recommendation.find(</highlight><highlight class="stringliteral">&quot;Consider&quot;</highlight><highlight class="normal">),<sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>CalculateKVCacheSizePerToken)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model<sp/>=<sp/>createLlama7BConfig();</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kv_size<sp/>=<sp/>AdaptiveVRAMAllocator::calculateKVCacheSizePerToken(model);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Formula:<sp/>2<sp/>×<sp/>32<sp/>layers<sp/>×<sp/>8<sp/>heads<sp/>×<sp/>128<sp/>dim<sp/>×<sp/>2<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>expected<sp/>=<sp/>2<sp/>*<sp/>32<sp/>*<sp/>8<sp/>*<sp/>128<sp/>*<sp/>2;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(kv_size,<sp/>expected);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>~128<sp/>KB<sp/>per<sp/>token</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(kv_size,<sp/>128<sp/>*<sp/>1024,<sp/>1024);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>CalculateModelSize)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_params<sp/>=<sp/>7&apos;000&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FP16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_fp16<sp/>=<sp/>AdaptiveVRAMAllocator::calculateModelSize(num_params,<sp/>2.0f);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(size_fp16),<sp/>14&apos;000&apos;000&apos;000.0,<sp/>1e8);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INT8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_int8<sp/>=<sp/>AdaptiveVRAMAllocator::calculateModelSize(num_params,<sp/>1.0f);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(size_int8),<sp/>7&apos;000&apos;000&apos;000.0,<sp/>1e8);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Q4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_q4<sp/>=<sp/>AdaptiveVRAMAllocator::calculateModelSize(num_params,<sp/>0.5f);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(size_q4),<sp/>3&apos;500&apos;000&apos;000.0,<sp/>1e8);</highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PagedKVCacheManager<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>PagedKVCache_BlockAllocation)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager::Config<sp/>config;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_blocks<sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>config.block_size<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_layers<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>config.head_dim<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_kv_heads<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager<sp/>cache_mgr(config);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>10<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blocks<sp/>=<sp/>cache_mgr.allocateBlocks(10);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(blocks.size(),<sp/>10);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>blocks<sp/>should<sp/>be<sp/>valid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>block_id<sp/>:<sp/>blocks)<sp/>{</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(block_id,<sp/>0);</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_LT(block_id,<sp/>1024);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Free<sp/>blocks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_mgr.freeBlocks(blocks);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>PagedKVCache_PrefixCaching)<sp/>{</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager::Config<sp/>config;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_blocks<sp/>=<sp/>1024;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>config.enable_prefix_caching<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager<sp/>cache_mgr(config);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>parent<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>parent_seq<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parent_table<sp/>=<sp/>cache_mgr.addSequence(parent_seq,<sp/>512);<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parent_table.sequence_id,<sp/>parent_seq);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(parent_table.num_tokens,<sp/>512);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>child<sp/>sequence<sp/>with<sp/>shared<sp/>prefix</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>child_seq<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success<sp/>=<sp/>cache_mgr.enablePrefixCaching(child_seq,<sp/>parent_seq,<sp/>256);<sp/><sp/></highlight><highlight class="comment">//<sp/>Share<sp/>256<sp/>tokens</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(success);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>memory<sp/>savings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>savings<sp/>=<sp/>cache_mgr.calculatePrefixSavings();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(savings,<sp/>0.0);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>PagedKVCache_MemoryStats)<sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager::Config<sp/>config;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_blocks<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>config.block_size<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager<sp/>cache_mgr(config);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cache_mgr.getMemoryStats();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Initially<sp/>all<sp/>blocks<sp/>should<sp/>be<sp/>free</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_blocks,<sp/>100);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.free_blocks,<sp/>100);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.used_blocks,<sp/>0);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_sequences,<sp/>0);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allocate<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_mgr.addSequence(1,<sp/>64);<sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>tokens<sp/>=<sp/>4<sp/>blocks<sp/>(16<sp/>tokens/block)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>stats<sp/>=<sp/>cache_mgr.getMemoryStats();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_sequences,<sp/>1);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.used_blocks,<sp/>0);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(stats.free_blocks,<sp/>100);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiGPUMemoryCoordinator<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>MultiGPU_TensorParallelism)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>MultiGPUMemoryCoordinator<sp/>coordinator;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.initialize({0,<sp/>1,<sp/>2,<sp/>3});</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>model_size<sp/>=<sp/>140ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>140<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>coordinator.distributeModelWeights({0,<sp/>1,<sp/>2,<sp/>3},<sp/>model_size);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.strategy,<sp/>MultiGPUMemoryCoordinator::DistributionStrategy::TENSOR_PARALLEL);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.tensor_parallel_size,<sp/>4);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.shard_sizes.size(),<sp/>4);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Each<sp/>GPU<sp/>should<sp/>get<sp/>~35<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>shard_size<sp/>:<sp/>plan.shard_sizes)<sp/>{</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(shard_size,<sp/>model_size<sp/>/<sp/>4,<sp/>1e9);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>enable<sp/>P2P</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plan.enable_p2p);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(plan.p2p_pairs.size(),<sp/>0);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>MultiGPU_PipelineParallelism)<sp/>{</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>MultiGPUMemoryCoordinator<sp/>coordinator;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.initialize({0,<sp/>1,<sp/>2,<sp/>3});</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_layers<sp/>=<sp/>80;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>layer_size<sp/>=<sp/>1750ULL<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>1.75<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>coordinator.distributeLayers({0,<sp/>1,<sp/>2,<sp/>3},<sp/>num_layers,<sp/>layer_size);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.strategy,<sp/>MultiGPUMemoryCoordinator::DistributionStrategy::PIPELINE_PARALLEL);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.pipeline_parallel_size,<sp/>4);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.layer_assignments.size(),<sp/>4);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>layer<sp/>distribution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_layers<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>gpu_layers<sp/>:<sp/>plan.layer_assignments)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_layers<sp/>+=<sp/>gpu_layers.size();</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total_layers,<sp/>num_layers);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>MultiGPU_LoadBalancing)<sp/>{</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>MultiGPUMemoryCoordinator<sp/>coordinator;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator.initialize({0,<sp/>1,<sp/>2,<sp/>3});</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>coordinator.balanceInferenceLoad({0,<sp/>1,<sp/>2,<sp/>3},<sp/>batch_size);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.strategy,<sp/>MultiGPUMemoryCoordinator::DistributionStrategy::DATA_PARALLEL);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.batch_assignments.size(),<sp/>4);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Total<sp/>batch<sp/>should<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>total_batch<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gpu_batch<sp/>:<sp/>plan.batch_assignments)<sp/>{</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_batch<sp/>+=<sp/>gpu_batch;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(gpu_batch,<sp/>0);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(total_batch,<sp/>batch_size);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MixedPrecisionInference<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>MixedPrecision_SelectOptimalPrecision)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>MixedPrecisionInference<sp/>mpi;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>available_vram<sp/>=<sp/>24ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>24<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>model_size_fp32<sp/>=<sp/>28ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>28<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>select<sp/>FP16<sp/>(14<sp/>GB)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>precision<sp/>=<sp/>mpi.selectOptimalPrecision(available_vram,<sp/>model_size_fp32,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(precision,<sp/>PrecisionMode::FP16);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>With<sp/>smaller<sp/>VRAM,<sp/>should<sp/>select<sp/>INT8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>available_vram<sp/>=<sp/>10ULL<sp/>*<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>10<sp/>GB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>precision<sp/>=<sp/>mpi.selectOptimalPrecision(available_vram,<sp/>model_size_fp32,<sp/>0.02f);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(precision,<sp/>PrecisionMode::INT8);</highlight></codeline>
+<codeline lineno="314"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>MixedPrecision_PrecisionInfo)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fp16_info<sp/>=<sp/>MixedPrecisionInference::getPrecisionInfo(PrecisionMode::FP16);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(fp16_info.bytes_per_param,<sp/>2);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(fp16_info.accuracy_retention,<sp/>0.999f,<sp/>0.001f);</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(fp16_info.memory_reduction,<sp/>0.5f,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>int8_info<sp/>=<sp/>MixedPrecisionInference::getPrecisionInfo(PrecisionMode::INT8);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(int8_info.bytes_per_param,<sp/>1);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(int8_info.accuracy_retention,<sp/>0.98f,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(int8_info.memory_reduction,<sp/>0.75f,<sp/>0.01f);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>MixedPrecision_CalculateModelSize)<sp/>{</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_params<sp/>=<sp/>7&apos;000&apos;000&apos;000;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>FP16</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_fp16<sp/>=<sp/>MixedPrecisionInference::calculateModelSize(num_params,<sp/>PrecisionMode::FP16);</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(size_fp16),<sp/>14&apos;000&apos;000&apos;000.0,<sp/>1e8);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>INT8</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size_int8<sp/>=<sp/>MixedPrecisionInference::calculateModelSize(num_params,<sp/>PrecisionMode::INT8);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(size_int8),<sp/>7&apos;000&apos;000&apos;000.0,<sp/>1e8);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>MixedPrecision_StringConversion)<sp/>{</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MixedPrecisionInference::fromString(</highlight><highlight class="stringliteral">&quot;FP16&quot;</highlight><highlight class="normal">),<sp/>PrecisionMode::FP16);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MixedPrecisionInference::fromString(</highlight><highlight class="stringliteral">&quot;INT8&quot;</highlight><highlight class="normal">),<sp/>PrecisionMode::INT8);</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MixedPrecisionInference::fromString(</highlight><highlight class="stringliteral">&quot;Q4&quot;</highlight><highlight class="normal">),<sp/>PrecisionMode::Q4);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MixedPrecisionInference::toString(PrecisionMode::FP16),<sp/></highlight><highlight class="stringliteral">&quot;FP16&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(MixedPrecisionInference::toString(PrecisionMode::INT8),<sp/></highlight><highlight class="stringliteral">&quot;INT8&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Integration<sp/>Tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1ad7baafcc48c027e49d91cf160c38e3e4" kindref="member">TEST_F</ref>(<ref refid="class_g_p_u_v_r_a_m_allocation_test" kindref="compound">GPUVRAMAllocationTest</ref>,<sp/>Integration_CompleteWorkflow)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1.<sp/>Calculate<sp/>allocation<sp/>plan</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator<sp/>allocator;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>model<sp/>=<sp/>createLlama7BConfig();</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>hw<sp/>=<sp/>createRTX4090Hardware();</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>AdaptiveVRAMAllocator::InferenceConfig<sp/>config;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>config.batch_size<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_seq_length<sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/>config.enable_prefix_caching<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>plan<sp/>=<sp/>allocator.calculateOptimalAllocation(model,<sp/>hw,<sp/>config);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plan.fits_in_vram);</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>2.<sp/>Setup<sp/>paged<sp/>KV<sp/>cache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager::Config<sp/>cache_config;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_config.num_blocks<sp/>=<sp/>4096;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_config.block_size<sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_config.enable_prefix_caching<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager<sp/>cache_mgr(cache_config);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3.<sp/>Add<sp/>sequences</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_mgr.addSequence(1,<sp/>2048);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>cache_mgr.addSequence(2,<sp/>2048);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>4.<sp/>Check<sp/>stats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cache_mgr.getMemoryStats();</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats.used_blocks,<sp/>0);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.num_sequences,<sp/>2);</highlight></codeline>
+<codeline lineno="383"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PagedKVCacheManager<sp/>Input<sp/>Validation<sp/>Tests<sp/>(batch<sp/>39)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1a400881ce0d4af081700260192b1adbd1" kindref="member">TEST</ref>(PagedKVCacheManagerTest,<sp/>ZeroBlockSizeThrows)<sp/>{</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager::Config<sp/>config;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_blocks<sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>config.block_size<sp/><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>invalid</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(PagedKVCacheManager{config},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="394"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><ref refid="test__gpu__vram__allocation_8cpp_1a400881ce0d4af081700260192b1adbd1" kindref="member">TEST</ref>(PagedKVCacheManagerTest,<sp/>ZeroNumTokensAllocatesNoBlocks)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager::Config<sp/>config;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>config.num_blocks<sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>config.block_size<sp/><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>PagedKVCacheManager<sp/>mgr(config);</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>table<sp/>=<sp/>mgr.addSequence(1,<sp/>0);</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(table.block_ids.size(),<sp/>0u);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_vram_allocation.cpp"/>
+  </compounddef>
+</doxygen>

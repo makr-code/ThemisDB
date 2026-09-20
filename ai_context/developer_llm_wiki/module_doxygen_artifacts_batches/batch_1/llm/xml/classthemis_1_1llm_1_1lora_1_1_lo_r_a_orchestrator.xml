@@ -1,0 +1,1987 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAOrchestrator</compoundname>
+    <includes refid="lora__orchestrator_8h" local="no">lora_orchestrator.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info" prot="public">themis::llm::lora::LoRAOrchestrator::JobInfo</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config" prot="public">themis::llm::lora::LoRAOrchestrator::Config</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl" prot="public">themis::llm::lora::LoRAOrchestrator::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JobStatus</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobStatus</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566a2d13df6f8b5e4c5af9f87e0dc39df69d" prot="public">
+          <name>Pending</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566a5bda814c4aedb126839228f1a3d92f09" prot="public">
+          <name>Running</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566a07ca5050e697392c9ed47e6453f1453f" prot="public">
+          <name>Completed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566ad7c8c85bf79bbe1b7188497c32c3b0ca" prot="public">
+          <name>Failed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566aa149e85a44aeec9140e92733d9ed694e" prot="public">
+          <name>Cancelled</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="35" column="5" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1abff9ffb9759bb0a26831fbdf60190f04" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>JobType</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobType</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1abff9ffb9759bb0a26831fbdf60190f04acf270e40d273f9e7fd7c3061729060c3" prot="public">
+          <name>Training</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1abff9ffb9759bb0a26831fbdf60190f04a16bfbf9c462762cf1cba4134ec53c504" prot="public">
+          <name>Loading</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1abff9ffb9759bb0a26831fbdf60190f04a62168dff2fc801c4ff6ee24619bc314c" prot="public">
+          <name>Unloading</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1abff9ffb9759bb0a26831fbdf60190f04a198a30920479d1d8e2509b9b59f3d700" prot="public">
+          <name>Versioning</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1abff9ffb9759bb0a26831fbdf60190f04aea355214fd4bc7c57f471bd92918879b" prot="public">
+          <name>Deployment</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="43" column="5" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="43" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>EventType</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::EventType</qualifiedname>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6ac81df6023190fb3d97d4972ba5a49a36" prot="public">
+          <name>AdapterLoaded</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a5fb8bf67a7227d68e11ea0f3d728c5a4" prot="public">
+          <name>AdapterUnloaded</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a0572bf4c6910bfb9cc323ccc5b262b74" prot="public">
+          <name>TrainingStarted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a3821f358577fc576d127817cbd6344a5" prot="public">
+          <name>TrainingCompleted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a8242930438599e92822aa9bb7944e5c1" prot="public">
+          <name>TrainingFailed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a1c54906bb74c7f7004f5859ace87230d" prot="public">
+          <name>VersionCreated</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a333471c25ca6c894a2a1c298c2ca4d65" prot="public">
+          <name>AdapterDeleted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6aaf507d82a9dfab924484871d126334a6" prot="public">
+          <name>JobQueued</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a31912a28423e52af5823cc32d296c95e" prot="public">
+          <name>JobStarted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a2c29c1e1a7038aea2431c26fae80ad7c" prot="public">
+          <name>JobCompleted</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6a798cc8a0bb4140da88f7dadbe6a7c707" prot="public">
+          <name>JobFailed</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="69" column="5" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="69" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a329453cda3ca3d7402fea73b141ba358" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6" kindref="member">EventType</ref>, const std::string &amp;, const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;)&gt;</type>
+        <definition>using themis::llm::lora::LoRAOrchestrator::EventCallback = std::function&lt;void(EventType, const std::string&amp;, const json&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EventCallback</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::EventCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="83" column="5" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1af93b3c5a29103b197ff065e50819dec2" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::llm::lora::LoRAOrchestrator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="407" column="21" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a1467ff7a8381a479cd518c6b501da725" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAOrchestrator::LoRAOrchestrator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>LoRAOrchestrator</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::LoRAOrchestrator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Lo RAOrchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="111" column="14" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="103" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa35648be9401048993b534292c4758b5" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAOrchestrator::LoRAOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>LoRAOrchestrator</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::LoRAOrchestrator</qualifiedname>
+        <briefdescription>
+<para>Lo RAOrchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="116" column="14" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="122" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1afafd593880145b7b2d70173db65ccfed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAOrchestrator::~LoRAOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>~LoRAOrchestrator</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::~LoRAOrchestrator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="117" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a76951ab3ebdfebb96f03cf5e8fe32da9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::LoRAOrchestrator::LoRAOrchestrator</definition>
+        <argsstring>(const LoRAOrchestrator &amp;)=delete</argsstring>
+        <name>LoRAOrchestrator</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::LoRAOrchestrator</qualifiedname>
+        <param>
+          <type>const LoRAOrchestrator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="120" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ac1a3f4eeaebed7d9eba536497e9977c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a1467ff7a8381a479cd518c6b501da725" kindref="member">LoRAOrchestrator</ref> &amp;</type>
+        <definition>LoRAOrchestrator &amp; themis::llm::lora::LoRAOrchestrator::operator=</definition>
+        <argsstring>(const LoRAOrchestrator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a1467ff7a8381a479cd518c6b501da725" kindref="member">LoRAOrchestrator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="121" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aaf99213d62522cad5418c997b91ecf89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::createAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const TrainingData &amp;training_data, const std::optional&lt; LoRAHyperparameters &gt; &amp;hyperparameters=std::nullopt, bool async=false)</argsstring>
+        <name>createAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::createAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref> &amp;</type>
+          <declname>training_data</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref> &gt; &amp;</type>
+          <declname>hyperparameters</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>async</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Create Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">training_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">async</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), makeAdapterInfo(), value_or(), size(), push_back(), makeJobId(), Clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="127" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="167" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ace3e0d606955ebfe06b5b10196bae1f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::createAdapterBatch</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::vector&lt; TrainingData &gt; &amp;datasets, const std::optional&lt; LoRAHyperparameters &gt; &amp;hyperparameters=std::nullopt, bool async=false)</argsstring>
+        <name>createAdapterBatch</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::createAdapterBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref> &gt; &amp;</type>
+          <declname>datasets</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref> &gt; &amp;</type>
+          <declname>hyperparameters</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>async</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Create Adapter Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">datasets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hyperparameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">async</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), end(), begin(), <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aaf99213d62522cad5418c997b91ecf89" kindref="member">createAdapter()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="134" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="203" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a7d9cda5fea97675487231d6b66bb7a22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::importAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;source_path, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>importAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::importAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_path</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Import Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">source_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the source. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), empty(), makeAdapterInfo(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="148" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="223" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ad1009a1946a4e577597eb913a4aed8d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_info" kindref="compound">AdapterInfo</ref> &gt;</type>
+        <definition>std::optional&lt; AdapterInfo &gt; themis::llm::lora::LoRAOrchestrator::getAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ READ Operations ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="160" column="19" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="239" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa1f0c53ab910933a64eaab79ecbd9b9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_info" kindref="compound">AdapterInfo</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterInfo &gt; themis::llm::lora::LoRAOrchestrator::listAdapters</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;filter=std::nullopt) const</argsstring>
+        <name>listAdapters</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::listAdapters</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>filter</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="162" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="248" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a52c15515da30d9d6787ab05790916531" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::exists</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>exists</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::exists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="169" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="262" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aafa0639b6b61e7fad0a2c685308c13af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::isLoaded</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>isLoaded</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::isLoaded</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Is Loaded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="176" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="267" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a8b2b6f3b56e43a23f23c626dba8d544a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::llm::lora::LoRAOrchestrator::getVersions</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getVersions</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getVersions</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Versions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="183" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="273" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a50f4927af02988f60e764106f59139cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::getCurrentVersion</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getCurrentVersion</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getCurrentVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Current Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="190" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="282" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a15ac0aaf6a491ebb6befa4b4f9a1b92f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_info" kindref="compound">AdapterInfo</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterInfo &gt; themis::llm::lora::LoRAOrchestrator::searchAdapters</definition>
+        <argsstring>(const json &amp;criteria) const</argsstring>
+        <name>searchAdapters</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::searchAdapters</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>criteria</declname>
+        </param>
+        <briefdescription>
+<para>Search Adapters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">criteria</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="197" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="291" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aae3e86160bb0cfda884ea0916b5ab589" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::updateAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, const TrainingData &amp;training_data, bool incremental=true, bool async=false)</argsstring>
+        <name>updateAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::updateAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_training_data" kindref="compound">TrainingData</ref> &amp;</type>
+          <declname>training_data</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>incremental</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>async</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Update Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">training_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">async</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), count(), makeAdapterInfo(), push_back(), size(), Clock::now(), makeJobId(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="203" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="304" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a961e241c4cec1559061413e2f4690b9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::updateMetadata</definition>
+        <argsstring>(const std::string &amp;adapter_id, const AdapterMetadata &amp;metadata)</argsstring>
+        <name>updateMetadata</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::updateMetadata</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+        </param>
+        <briefdescription>
+<para>Update Metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="216" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="339" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a716175a6439329e50bef58a4c2c4eb54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::createVersion</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;description=&quot;&quot;)</argsstring>
+        <name>createVersion</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::createVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Create Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(), size(), empty(), std::to_string(), count(), makeAdapterInfo(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="218" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="358" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a0a5bd152f6ad95b3618fc2a0343e8621" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::switchVersion</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;version)</argsstring>
+        <name>switchVersion</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::switchVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Switch Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::find(), begin(), Clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="226" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="383" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a1aeb05819527b1798efb5149dbce7b06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::rollback</definition>
+        <argsstring>(const std::string &amp;adapter_id)</argsstring>
+        <name>rollback</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::rollback</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Rollback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), size(), pop_back(), back(), Clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="233" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="408" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a32f68dd451c6b5e4e2ab7cec6e5ef1e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::deleteAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, bool delete_all_versions=false)</argsstring>
+        <name>deleteAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::deleteAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>delete_all_versions</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Delete Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="239" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="430" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a6742e8ce493539afd34d741cf1c7f004" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::deleteVersion</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;version)</argsstring>
+        <name>deleteVersion</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::deleteVersion</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete Version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), std::remove(), begin(), erase(), empty(), back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="247" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="444" bodyend="460"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a0ff4dd99b1f6a5decf7d5abd74c2d56b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::unloadAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, bool force=false)</argsstring>
+        <name>unloadAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::unloadAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>force</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Unload Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="249" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="469" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aadebcc611fb8a3bd5cd403156eaab8ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::loadAdapter</definition>
+        <argsstring>(const std::string &amp;adapter_id, bool async=false)</argsstring>
+        <name>loadAdapter</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::loadAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>async</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Load Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">async</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), count(), makeAdapterInfo(), push_back(), Clock::now(), makeJobId(), submit(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="255" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="486" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ab40d0e99678f6406b69bff99fedea1f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info" kindref="compound">JobInfo</ref> &gt;</type>
+        <definition>std::optional&lt; LoRAOrchestrator::JobInfo &gt; themis::llm::lora::LoRAOrchestrator::getJob</definition>
+        <argsstring>(const std::string &amp;job_id) const</argsstring>
+        <name>getJob</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="262" column="19" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="522" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a54b87326bcc2e3162f80c18e95b9ebc3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info" kindref="compound">JobInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAOrchestrator::JobInfo &gt; themis::llm::lora::LoRAOrchestrator::listJobs</definition>
+        <argsstring>(const std::optional&lt; JobStatus &gt; &amp;status=std::nullopt) const</argsstring>
+        <name>listJobs</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::listJobs</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566" kindref="member">JobStatus</ref> &gt; &amp;</type>
+          <declname>status</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="264" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="531" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a7b313ab1b15dc238943976614cc834f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::cancelJob</definition>
+        <argsstring>(const std::string &amp;job_id)</argsstring>
+        <name>cancelJob</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::cancelJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <briefdescription>
+<para>Cancel Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), find(), end(), Clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="271" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="549" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a3e253adf88e2b8ae70c13a4cf73681e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info" kindref="compound">JobInfo</ref></type>
+        <definition>LoRAOrchestrator::JobInfo themis::llm::lora::LoRAOrchestrator::waitForJob</definition>
+        <argsstring>(const std::string &amp;job_id, int timeout_seconds=0)</argsstring>
+        <name>waitForJob</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::waitForJob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>timeout_seconds</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Wait For Job. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the job. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="273" column="13" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="567" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a030d43538ec5905bb26bd29b26f7447e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAOrchestrator::registerEventCallback</definition>
+        <argsstring>(EventCallback callback)</argsstring>
+        <name>registerEventCallback</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::registerEventCallback</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a329453cda3ca3d7402fea73b141ba358" kindref="member">EventCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Register Event Callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="279" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="586" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a99021e9159c6d6d1448c5ba71ffc22cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAOrchestrator::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getStats</qualifiedname>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Health &amp; Statistics ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="286" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="591" bodyend="606"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a8fb8511c659792a375ee944a2cc9c95e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAOrchestrator::getHealth</definition>
+        <argsstring>() const</argsstring>
+        <name>getHealth</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getHealth</qualifiedname>
+        <briefdescription>
+<para>Get Health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="292" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="608" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a279c438701e1b87ffbce59dd5a787e50" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAOrchestrator::getMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryUsage</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Get Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="298" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="615" bodyend="625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ad12afaf35f019bb961a2b3305d631a74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::healthCheck</definition>
+        <argsstring>() const</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::healthCheck</qualifiedname>
+        <briefdescription>
+<para>Health Check. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="304" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="627" bodyend="630"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ad7f7d45b66b191952d86a711956544c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAOrchestrator::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="309" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="636" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a21c0c05d2207f7e4868fb32748ab748d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_multi_lo_r_a_manager" kindref="compound">MultiLoRAManager</ref> *</type>
+        <definition>MultiLoRAManager * themis::llm::lora::LoRAOrchestrator::getMultiLoRAManager</definition>
+        <argsstring>()</argsstring>
+        <name>getMultiLoRAManager</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getMultiLoRAManager</qualifiedname>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Advanced Integration (with existing managers) ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Multi Lo RAManager.</para>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Implements getMultiLoRAManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="316" column="22" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="648" bodyend="650"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a4fad389b2d361a5780a0bc2e9b02b741" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAOrchestrator::enableAdvancedFeatures</definition>
+        <argsstring>(bool enable)</argsstring>
+        <name>enableAdvancedFeatures</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::enableAdvancedFeatures</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+        </param>
+        <briefdescription>
+<para>Enable Advanced Features. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">enable</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="322" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="652" bodyend="654"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1af90629faa673671b106e3042e67e33dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_storage_service" kindref="compound">LoRAStorageService</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; LoRAStorageService &gt; themis::llm::lora::LoRAOrchestrator::getStorageService</definition>
+        <argsstring>() const</argsstring>
+        <name>getStorageService</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getStorageService</qualifiedname>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Component Access (for cross-shard sync) ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="329" column="21" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="656" bodyend="658"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a0b66423959ac418e29decf9ba922146b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_adapter_consistency_checker" kindref="compound">AdapterConsistencyChecker</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; AdapterConsistencyChecker &gt; themis::llm::lora::LoRAOrchestrator::getConsistencyChecker</definition>
+        <argsstring>() const</argsstring>
+        <name>getConsistencyChecker</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getConsistencyChecker</qualifiedname>
+        <briefdescription>
+<para>Get Consistency Checker. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="335" column="21" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="660" bodyend="662"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ac912e3a3b5885ebb632e22e9071fdde1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::attachProvenance</definition>
+        <argsstring>(const std::string &amp;adapter_id, const LoRAProvenanceRecord &amp;record)</argsstring>
+        <name>attachProvenance</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::attachProvenance</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">LoRAProvenanceRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>═══════════════════════════════════════════════════════════ Provenance, Snapshots, and Audit Log ═══════════════════════════════════════════════════════════ </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ Provenance, Snapshots, and Audit Log ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), count(), spdlog::warn(), storeProvenance(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="344" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="672" bodyend="683"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a4d0862aa22d699c1c49f6999af45748e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_provenance_record" kindref="compound">LoRAProvenanceRecord</ref> &gt;</type>
+        <definition>std::optional&lt; LoRAProvenanceRecord &gt; themis::llm::lora::LoRAOrchestrator::getProvenanceRecord</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getProvenanceRecord</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getProvenanceRecord</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Provenance Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="352" column="19" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="685" bodyend="688"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1af325c30a859662b0256946714791423d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kindref="compound">AdapterSnapshot</ref></type>
+        <definition>AdapterSnapshot themis::llm::lora::LoRAOrchestrator::createAdapterSnapshot</definition>
+        <argsstring>(const std::string &amp;adapter_id, const std::string &amp;version, const std::string &amp;weights_hash)</argsstring>
+        <name>createAdapterSnapshot</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::createAdapterSnapshot</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>weights_hash</declname>
+        </param>
+        <briefdescription>
+<para>Create Adapter Snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weights_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: getProvenance(), createSnapshot(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="362" column="21" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="698" bodyend="709"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a8ca275e8edcc029fff7f3498ef467942" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_adapter_snapshot" kindref="compound">AdapterSnapshot</ref> &gt;</type>
+        <definition>std::vector&lt; AdapterSnapshot &gt; themis::llm::lora::LoRAOrchestrator::listAdapterSnapshots</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>listAdapterSnapshots</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::listAdapterSnapshots</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>List Adapter Snapshots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="371" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="711" bodyend="714"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a02657a986723160dc4c28b0694ec29c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">InferenceAuditEntry</ref></type>
+        <definition>InferenceAuditEntry themis::llm::lora::LoRAOrchestrator::recordInferenceAudit</definition>
+        <argsstring>(const std::string &amp;adapter_id, InferenceAuditEntry entry)</argsstring>
+        <name>recordInferenceAudit</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::recordInferenceAudit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">InferenceAuditEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Record Inference Audit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: appendAuditEntry(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="380" column="25" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="723" bodyend="727"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a5ed35cc8a98e795ed1178efc814c82ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1lora_1_1_inference_audit_entry" kindref="compound">InferenceAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; InferenceAuditEntry &gt; themis::llm::lora::LoRAOrchestrator::getInferenceAuditLog</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>getInferenceAuditLog</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::getInferenceAuditLog</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Inference Audit Log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="388" column="17" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="729" bodyend="732"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a32b90b0926845e51f10b7273c94e6371" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRAOrchestrator::verifyAuditChain</definition>
+        <argsstring>(const std::string &amp;adapter_id) const</argsstring>
+        <name>verifyAuditChain</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::verifyAuditChain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Verify Audit Chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="396" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="734" bodyend="736"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1add4e54c1f30f7c2eb73ac9e0e3cd7adc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::LoRAOrchestrator::setDecisionRecordProcessor</definition>
+        <argsstring>(std::shared_ptr&lt; themis::llm::DecisionRecordYamlProcessor &gt; processor)</argsstring>
+        <name>setDecisionRecordProcessor</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::setDecisionRecordProcessor</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_decision_record_yaml_processor" kindref="compound">themis::llm::DecisionRecordYamlProcessor</ref> &gt;</type>
+          <declname>processor</declname>
+        </param>
+        <briefdescription>
+<para>Set Decision Record Processor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">processor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="402" column="10" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="742" bodyend="747"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_orchestrator.h" line="33" column="1" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="33" bodyend="408"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ac912e3a3b5885ebb632e22e9071fdde1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>attachProvenance</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a7b313ab1b15dc238943976614cc834f9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>cancelJob</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ad7f7d45b66b191952d86a711956544c6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aaf99213d62522cad5418c997b91ecf89" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>createAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ace3e0d606955ebfe06b5b10196bae1f4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>createAdapterBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1af325c30a859662b0256946714791423d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>createAdapterSnapshot</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a716175a6439329e50bef58a4c2c4eb54" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>createVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a32f68dd451c6b5e4e2ab7cec6e5ef1e4" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>deleteAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a6742e8ce493539afd34d741cf1c7f004" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>deleteVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a4fad389b2d361a5780a0bc2e9b02b741" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>enableAdvancedFeatures</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a329453cda3ca3d7402fea73b141ba358" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>EventCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a97ed323676baade3fa56d02f375a5ff6" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>EventType</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a52c15515da30d9d6787ab05790916531" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>exists</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ad1009a1946a4e577597eb913a4aed8d1" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a0b66423959ac418e29decf9ba922146b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getConsistencyChecker</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a50f4927af02988f60e764106f59139cb" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a8fb8511c659792a375ee944a2cc9c95e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getHealth</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a5ed35cc8a98e795ed1178efc814c82ca" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getInferenceAuditLog</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ab40d0e99678f6406b69bff99fedea1f8" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getJob</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a279c438701e1b87ffbce59dd5a787e50" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getMemoryUsage</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a21c0c05d2207f7e4868fb32748ab748d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getMultiLoRAManager</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a4d0862aa22d699c1c49f6999af45748e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getProvenanceRecord</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a99021e9159c6d6d1448c5ba71ffc22cb" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1af90629faa673671b106e3042e67e33dd" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getStorageService</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a8b2b6f3b56e43a23f23c626dba8d544a" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>getVersions</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ad12afaf35f019bb961a2b3305d631a74" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1af93b3c5a29103b197ff065e50819dec2" prot="private" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a7d9cda5fea97675487231d6b66bb7a22" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>importAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aafa0639b6b61e7fad0a2c685308c13af" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>isLoaded</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>JobStatus</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1abff9ffb9759bb0a26831fbdf60190f04" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>JobType</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa1f0c53ab910933a64eaab79ecbd9b9e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>listAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a8ca275e8edcc029fff7f3498ef467942" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>listAdapterSnapshots</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a54b87326bcc2e3162f80c18e95b9ebc3" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>listJobs</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aadebcc611fb8a3bd5cd403156eaab8ec" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>loadAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a1467ff7a8381a479cd518c6b501da725" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>LoRAOrchestrator</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa35648be9401048993b534292c4758b5" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>LoRAOrchestrator</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a76951ab3ebdfebb96f03cf5e8fe32da9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>LoRAOrchestrator</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1ac1a3f4eeaebed7d9eba536497e9977c0" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a02657a986723160dc4c28b0694ec29c7" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>recordInferenceAudit</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a030d43538ec5905bb26bd29b26f7447e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>registerEventCallback</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a1aeb05819527b1798efb5149dbce7b06" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>rollback</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a15ac0aaf6a491ebb6befa4b4f9a1b92f" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>searchAdapters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1add4e54c1f30f7c2eb73ac9e0e3cd7adc" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>setDecisionRecordProcessor</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a0a5bd152f6ad95b3618fc2a0343e8621" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>switchVersion</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a0ff4dd99b1f6a5decf7d5abd74c2d56b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>unloadAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aae3e86160bb0cfda884ea0916b5ab589" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>updateAdapter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a961e241c4cec1559061413e2f4690b9d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>updateMetadata</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a32b90b0926845e51f10b7273c94e6371" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>verifyAuditChain</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1a3e253adf88e2b8ae70c13a4cf73681e9" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>waitForJob</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1afafd593880145b7b2d70173db65ccfed" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator</scope><name>~LoRAOrchestrator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

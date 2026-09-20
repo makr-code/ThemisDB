@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__voice__session__chaos__isolation_8cpp" kind="file" language="C++">
+    <compoundname>test_voice_session_chaos_isolation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="voice__stream__validator_8h" local="yes">voice/voice_stream_validator.h</includes>
+    <includes refid="voice__liveness__checker_8h" local="yes">voice/voice_liveness_checker.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>voice/voice_liveness_checker.h</label>
+        <link refid="voice__liveness__checker_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>voice/voice_stream_validator.h</label>
+        <link refid="voice__stream__validator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/voice/test_voice_session_chaos_isolation.cpp</label>
+        <link refid="test__voice__session__chaos__isolation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" prot="public">themis::voice::test::VoiceSessionChaosTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice">themis::voice</innernamespace>
+    <innernamespace refid="namespacethemis_1_1voice_1_1test">themis::voice::test</innernamespace>
+    <briefdescription>
+<para>Chaos, fault-injection, and multi-session isolation tests for Voice. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="date"><para>2026-08-16</para>
+</simplesect>
+Wave A-8 Voice hardening: validates session lifecycle safety, stream validation, liveness detection, and multi-session teardown under adverse conditions.</para>
+<para><simplesect kind="see"><para>src/voice/ROADMAP.md § Wave A Closure Evidence Block </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__stream__validator_8h" kindref="compound">voice/voice_stream_validator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="voice__liveness__checker_8h" kindref="compound">voice/voice_liveness_checker.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice" kindref="compound">voice</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Fixtures</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a230f104821c15dffa85fb18b37a11b07" kindref="member">kTestSampleRate</ref><sp/>=<sp/>16000;<sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>kHz</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1aecc3d6ae77fa0cd1a86fec2bd598dbcd" kindref="member">kTestChannels</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a29923ece16549ad9bf59406f52ae12c1" kindref="member">kTestBitDepth</ref><sp/>=<sp/>16;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a980e08040a2804cb4c4dddd3dcef7c4e" kindref="member">kChunkSize</ref><sp/>=<sp/>2048;<sp/><sp/></highlight><highlight class="comment">//<sp/>~128ms<sp/>at<sp/>16kHz</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1af2a55b11f9f732593da2b328cd275e26" kindref="member">create_valid_audio_chunk</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>chunk(size);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>size;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunk[i]<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint8_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">((i<sp/>*<sp/>17)<sp/>%<sp/>256);<sp/><sp/></highlight><highlight class="comment">//<sp/>Pseudo-random.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>chunk;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a3aaa691d2142d68606be47a316d954b6" kindref="member">create_malformed_chunk</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;(size,<sp/>0xFF);<sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>0xFF<sp/>(likely<sp/>malformed).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test_1a06cc323026e42175da0387317996df9c" kindref="member">create_silence_chunk</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;(size,<sp/>0);<sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>zeros<sp/>(silence).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Stream<sp/>Validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>NormalStreamFlow)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1voice_1_1_voice_stream_validator" kindref="compound">VoiceStreamValidator</ref><sp/>validator(</highlight><highlight class="stringliteral">&quot;session_001&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Submit<sp/>5<sp/>chunks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>validated<sp/>=<sp/>validator.validate_chunk(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>chunk.data(),<sp/>chunk.size(),<sp/>i,<sp/>i<sp/>*<sp/>128,<sp/>i<sp/>==<sp/>4);<sp/><sp/></highlight><highlight class="comment">//<sp/>i==4<sp/>is<sp/>final</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(validated.sequence_num,<sp/>i);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(validated.sample_rate,<sp/>kTestSampleRate);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(validated.num_channels,<sp/>kTestChannels);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>==<sp/>4)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(validated.is_final_chunk);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(validator.is_complete());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(validator.chunks_validated(),<sp/>5);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(VoiceSessionChaosTest,<sp/>RejectOversizedChunk)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;session_002&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>oversized<sp/>chunk.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>oversized<sp/>=<sp/><ref refid="classthemis_1_1voice_1_1_stream_validation_policy_1a4d2dd22c902f186b15540ae41c736619" kindref="member">StreamValidationPolicy::MAX_CHUNK_SIZE_BYTES</ref><sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>create_valid_audio_chunk(std::min(oversized,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">(1000)));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator.validate_chunk(chunk.data(),<sp/>oversized,<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>StreamValidationError);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validator<sp/>should<sp/>still<sp/>accept<sp/>normal<sp/>chunks<sp/>after<sp/>rejection.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>normal_chunk<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>validated<sp/>=<sp/>validator.validate_chunk(normal_chunk.data(),<sp/>normal_chunk.size(),<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(validated.sequence_num,<sp/>0);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>RejectZeroSizedChunk)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;session_003&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator.validate_chunk(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>0,<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>StreamValidationError);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>EnforceSequenceOrdering)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;session_004&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk1<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>validated1<sp/>=<sp/>validator.validate_chunk(chunk1.data(),<sp/>chunk1.size(),<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(validated1.sequence_num,<sp/>0);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>submit<sp/>out-of-order<sp/>chunk.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk2<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator.validate_chunk(chunk2.data(),<sp/>chunk2.size(),<sp/>5,<sp/>128,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);<sp/><sp/></highlight><highlight class="comment">//<sp/>Skipped<sp/>to<sp/>5.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>StreamValidationError);</highlight></codeline>
+<codeline lineno="145"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>RejectMalformedAudio)<sp/>{</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>validator(</highlight><highlight class="stringliteral">&quot;session_005&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>malformed<sp/>=<sp/>create_malformed_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>is_chunk_malformed<sp/>may<sp/>not<sp/>trigger<sp/>on<sp/>all<sp/>0xFF<sp/>patterns.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>this<sp/>test,<sp/>just<sp/>verify<sp/>it<sp/>doesn&apos;t<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>caught<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>validator.validate_chunk(malformed.data(),<sp/>malformed.size(),<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>StreamValidationError&amp;)<sp/>{</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>caught<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>behavior<sp/>depends<sp/>on<sp/>implementation;<sp/>just<sp/>verify<sp/>no<sp/>crash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Liveness<sp/>Detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>AcceptLiveSpeech)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceLivenessChecker<sp/>checker(</highlight><highlight class="stringliteral">&quot;session_live_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>checker.check_audio_chunk(chunk.data(),<sp/>chunk.size(),<sp/>kTestSampleRate);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result<sp/>depends<sp/>on<sp/>audio<sp/>content;<sp/>just<sp/>verify<sp/>no<sp/>exception.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.liveness_confidence,<sp/>0);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.liveness_confidence,<sp/>100);</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.spoof_confidence,<sp/>0);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(result.spoof_confidence,<sp/>100);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>RejectSilenceAsNotLive)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceLivenessChecker<sp/>checker(</highlight><highlight class="stringliteral">&quot;session_silence_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>silence<sp/>=<sp/>create_silence_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>checker.check_audio_chunk(silence.data(),<sp/>silence.size(),<sp/>kTestSampleRate);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.is_live)<sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Silence<sp/>should<sp/>not<sp/>be<sp/>classified<sp/>as<sp/>live<sp/>speech&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>DetectReplayAttack)<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceLivenessChecker<sp/>checker(</highlight><highlight class="stringliteral">&quot;session_replay_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>submission.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>checker.check_audio_chunk(chunk.data(),<sp/>chunk.size(),<sp/>kTestSampleRate);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(checker.chunks_checked(),<sp/>1);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>submission<sp/>of<sp/>same<sp/>chunk.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>checker.check_audio_chunk(chunk.data(),<sp/>chunk.size(),<sp/>kTestSampleRate);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(checker.chunks_checked(),<sp/>2);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Replay<sp/>should<sp/>be<sp/>detected<sp/>(depends<sp/>on<sp/>hash<sp/>collision,<sp/>but<sp/>deterministic<sp/>for<sp/>same<sp/>data).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Note:<sp/>This<sp/>assumes<sp/>compute_audio_hash<sp/>is<sp/>deterministic.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>RejectMalformedSpoof)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceLivenessChecker<sp/>checker(</highlight><highlight class="stringliteral">&quot;session_spoof_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>malformed<sp/>=<sp/>create_malformed_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>checker.check_audio_chunk(malformed.data(),<sp/>malformed.size(),<sp/>kTestSampleRate);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Malformed<sp/>chunks<sp/>should<sp/>have<sp/>higher<sp/>spoof<sp/>confidence.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.spoof_confidence,<sp/>20)<sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Malformed<sp/>audio<sp/>should<sp/>have<sp/>elevated<sp/>spoof<sp/>confidence&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>UniformAudioTriggersStrongSpoofPenalty)<sp/>{</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceLivenessChecker<sp/>checker(</highlight><highlight class="stringliteral">&quot;session_uniform_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>uniform<sp/>=<sp/>std::vector&lt;uint8_t&gt;(kChunkSize,<sp/>7);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>checker.check_audio_chunk(uniform.data(),<sp/>uniform.size(),<sp/>kTestSampleRate);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(result.spoof_confidence,<sp/>50)</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Uniform<sp/>audio<sp/>should<sp/>trigger<sp/>the<sp/>restored<sp/>spoof<sp/>uniformity<sp/>penalty&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>RejectNullAudio)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceLivenessChecker<sp/>checker(</highlight><highlight class="stringliteral">&quot;session_null_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checker.check_audio_chunk(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>100,<sp/>kTestSampleRate);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Multi-Session<sp/>Isolation<sp/>&amp;<sp/>Teardown</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>MultiSessionIsolation)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>v1(</highlight><highlight class="stringliteral">&quot;session_multi_1&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>v2(</highlight><highlight class="stringliteral">&quot;session_multi_2&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk1<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk2<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Submit<sp/>to<sp/>first<sp/>session.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result1<sp/>=<sp/>v1.validate_chunk(chunk1.data(),<sp/>chunk1.size(),<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v1.chunks_validated(),<sp/>1);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v2.chunks_validated(),<sp/>0);</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Submit<sp/>to<sp/>second<sp/>session.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result2<sp/>=<sp/>v2.validate_chunk(chunk2.data(),<sp/>chunk2.size(),<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v1.chunks_validated(),<sp/>1);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v2.chunks_validated(),<sp/>1);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>session<sp/>should<sp/>still<sp/>expect<sp/>sequence<sp/>1<sp/>next,<sp/>not<sp/>0.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attempting<sp/>to<sp/>resubmit<sp/>0<sp/>should<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v1.validate_chunk(chunk1.data(),<sp/>chunk1.size(),<sp/>0,<sp/>128,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>StreamValidationError);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>ConcurrentStreamValidation)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>success_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>error_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>worker<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>session_id)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>v(</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;session_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(session_id),</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.validate_chunk(chunk.data(),<sp/>chunk.size(),<sp/>i,<sp/>i<sp/>*<sp/>128,<sp/>i<sp/>==<sp/>2);</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success_count++;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>error_count++;</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spawn<sp/>4<sp/>concurrent<sp/>threads.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>4;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back(worker,<sp/>i);</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Wait<sp/>for<sp/>completion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(success_count.load(),<sp/>4)<sp/></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>4<sp/>threads<sp/>should<sp/>complete<sp/>successfully&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(error_count.load(),<sp/>0)<sp/></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>errors<sp/>should<sp/>occur&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>SafeTeardownWithPendingChunks)<sp/>{</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>v(</highlight><highlight class="stringliteral">&quot;session_teardown&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Submit<sp/>some<sp/>chunks<sp/>but<sp/>don&apos;t<sp/>finalize.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.validate_chunk(chunk.data(),<sp/>chunk.size(),<sp/>i,<sp/>i<sp/>*<sp/>128,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Scope<sp/>exits;<sp/>destructor<sp/>should<sp/>clean<sp/>up<sp/>safely.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>we<sp/>get<sp/>here<sp/>without<sp/>crash,<sp/>teardown<sp/>was<sp/>safe.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>RejectChunksAfterCompletion)<sp/>{</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>v(</highlight><highlight class="stringliteral">&quot;session_complete&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mark<sp/>stream<sp/>as<sp/>complete.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/>v.validate_chunk(chunk.data(),<sp/>chunk.size(),<sp/>0,<sp/>0,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(v.is_complete());</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Try<sp/>to<sp/>submit<sp/>another<sp/>chunk<sp/>after<sp/>completion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk2<sp/>=<sp/>create_valid_audio_chunk(kChunkSize);</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW({</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>v.validate_chunk(chunk2.data(),<sp/>chunk2.size(),<sp/>1,<sp/>128,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/>},<sp/>StreamValidationError);</highlight></codeline>
+<codeline lineno="410"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>Suite:<sp/>Stress<sp/>/<sp/>Edge<sp/>Cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><ref refid="namespacethemis_1_1voice_1_1test_1a8771df3666820f737c0db993bf7fabae" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1voice_1_1test_1_1_voice_session_chaos_test" kindref="compound">VoiceSessionChaosTest</ref>,<sp/>RapidChunkSubmission)<sp/>{</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/>VoiceStreamValidator<sp/>v(</highlight><highlight class="stringliteral">&quot;session_rapid&quot;</highlight><highlight class="normal">,<sp/>kTestSampleRate,<sp/>kTestChannels,<sp/>kTestBitDepth);</highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>chunk<sp/>=<sp/>create_valid_audio_chunk(256);<sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>chunks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>v.validate_chunk(chunk.data(),<sp/>chunk.size(),<sp/>i,<sp/>i<sp/>*<sp/>16,<sp/>i<sp/>==<sp/>99);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.sequence_num,<sp/>i);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(v.chunks_validated(),<sp/>100);</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(v.is_complete());</highlight></codeline>
+<codeline lineno="435"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="438"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>voice</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/voice/test_voice_session_chaos_isolation.cpp"/>
+  </compounddef>
+</doxygen>

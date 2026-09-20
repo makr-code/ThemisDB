@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__scraper__v12__features__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_scraper_v12_features_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="scraper__plugin_8h" local="yes">scraper/scraper_plugin.h</includes>
+    <incdepgraph>
+      <node id="17">
+        <label>scraper/gov_source_catalog.h</label>
+        <link refid="gov__source__catalog_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>scraper/scraper_api_client.h</label>
+        <link refid="scraper__api__client_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>scraper/scraper_burst_controller.h</label>
+        <link refid="scraper__burst__controller_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>scraper/scraper_config.h</label>
+        <link refid="scraper__config_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>scraper/scraper_js_renderer.h</label>
+        <link refid="scraper__js__renderer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>scraper/scraper_llm_evaluator.h</label>
+        <link refid="scraper__llm__evaluator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>scraper/scraper_metadata_writer.h</label>
+        <link refid="scraper__metadata__writer_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>scraper/scraper_plugin.h</label>
+        <link refid="scraper__plugin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>scraper/scraper_search_engine.h</label>
+        <link refid="scraper__search__engine_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/scraper/test_scraper_v12_features_focused.cpp</label>
+        <link refid="test__scraper__v12__features__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>algorithm</label>
+      </node>
+      <node id="19">
+        <label>atomic</label>
+      </node>
+      <node id="20">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="21">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__scraper__v12__features__focused_8cpp_1a8e28aebb8fcb738f59c2a880d33b5384" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ScraperV12Contract, PluginStartsUninitialized)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ScraperV12Contract</type>
+        </param>
+        <param>
+          <type>PluginStartsUninitialized</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_v12_features_focused.cpp" line="12" column="1" bodyfile="tests/scraper/test_scraper_v12_features_focused.cpp" bodystart="12" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="test__scraper__v12__features__focused_8cpp_1a7cdcd6ca5b54962d662c709938386e23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ScraperV12Contract, ResetKeepsPluginInSafeState)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ScraperV12Contract</type>
+        </param>
+        <param>
+          <type>ResetKeepsPluginInSafeState</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/scraper/test_scraper_v12_features_focused.cpp" line="17" column="1" bodyfile="tests/scraper/test_scraper_v12_features_focused.cpp" bodystart="17" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused contract tests for scraper plugin public API. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scraper__plugin_8h" kindref="compound">scraper/scraper_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">themis::scraper</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="test__scraper__v12__features__focused_8cpp_1a8e28aebb8fcb738f59c2a880d33b5384" kindref="member">TEST</ref>(ScraperV12Contract,<sp/>PluginStartsUninitialized)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_scraper_plugin" kindref="compound">ScraperPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin.<ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a619dc80c06072e76b6b4e856aeddd97e" kindref="member">isInitialized</ref>());</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><ref refid="test__scraper__v12__features__focused_8cpp_1a8e28aebb8fcb738f59c2a880d33b5384" kindref="member">TEST</ref>(ScraperV12Contract,<sp/>ResetKeepsPluginInSafeState)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_scraper_plugin" kindref="compound">ScraperPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>plugin.<ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a03d6b97c23451390ca8caad2855df5ab" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(plugin.<ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a619dc80c06072e76b6b4e856aeddd97e" kindref="member">isInitialized</ref>());</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(plugin.<ref refid="classthemis_1_1scraper_1_1_scraper_plugin_1a401c698410547f5b3e401650aec35b68" kindref="member">getResults</ref>().empty());</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/scraper/test_scraper_v12_features_focused.cpp"/>
+  </compounddef>
+</doxygen>

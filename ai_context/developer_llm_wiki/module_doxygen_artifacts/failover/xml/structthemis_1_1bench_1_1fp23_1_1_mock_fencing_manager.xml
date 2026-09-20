@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1fp23_1_1_mock_fencing_manager" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::fp23::MockFencingManager</compoundname>
+    <briefdescription>
+<para>Opaque fencing manager handle (null = not configured). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" line="166" column="1" bodyfile="benchmarks/failover/bench_failover_phase2_phase3_gates.cpp" bodystart="166" bodyend="166"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

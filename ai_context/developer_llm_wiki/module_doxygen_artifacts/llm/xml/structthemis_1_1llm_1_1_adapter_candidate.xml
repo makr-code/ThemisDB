@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adapter_candidate" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdapterCandidate</compoundname>
+    <includes refid="ai__orchestrator_8h" local="no">ai_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_candidate_1a3d93b2e679518eece8fb42b28664539a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCandidate::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::AdapterCandidate::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="382" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="382" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_candidate_1aac388eabc56aa4407819dd60f28d7553" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::AdapterCandidate::similarity</definition>
+        <argsstring></argsstring>
+        <name>similarity</name>
+        <qualifiedname>themis::llm::AdapterCandidate::similarity</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="383" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="383" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_candidate_1a9cdc3e7ad901bc1bbebad510b42ee798" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCandidate::source_layer</definition>
+        <argsstring></argsstring>
+        <name>source_layer</name>
+        <qualifiedname>themis::llm::AdapterCandidate::source_layer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="384" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="384" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adapter_candidate_1ad57c8f4add267254f7444e0a9af9808d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::AdapterCandidate::tenant</definition>
+        <argsstring></argsstring>
+        <name>tenant</name>
+        <qualifiedname>themis::llm::AdapterCandidate::tenant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/ai_orchestrator.h" line="385" column="17" bodyfile="include/llm/ai_orchestrator.h" bodystart="385" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/ai_orchestrator.h" line="381" column="1" bodyfile="include/llm/ai_orchestrator.h" bodystart="381" bodyend="386"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adapter_candidate_1a3d93b2e679518eece8fb42b28664539a" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCandidate</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_candidate_1aac388eabc56aa4407819dd60f28d7553" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCandidate</scope><name>similarity</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_candidate_1a9cdc3e7ad901bc1bbebad510b42ee798" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCandidate</scope><name>source_layer</name></member>
+      <member refid="structthemis_1_1llm_1_1_adapter_candidate_1ad57c8f4add267254f7444e0a9af9808d" prot="public" virt="non-virtual"><scope>themis::llm::AdapterCandidate</scope><name>tenant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

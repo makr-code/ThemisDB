@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ReplicaConsistencyManager::Config</compoundname>
+    <includes refid="replica__consistency_8h" local="no">replica_consistency.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config_1aa20d34cb04dd26787da48eb753ba90ae" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a28ff33851bedf198311696f6b839139c" kindref="member">ConflictResolutionStrategy</ref></type>
+        <definition>ConflictResolutionStrategy themisdb::sharding::ReplicaConsistencyManager::Config::default_strategy</definition>
+        <argsstring></argsstring>
+        <name>default_strategy</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Config::default_strategy</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1a28ff33851bedf198311696f6b839139ca3247ad84b54dd5dd5cdf48354b0f4058" kindref="member">ConflictResolutionStrategy::LAST_WRITE_WINS</ref>}</initializer>
+        <briefdescription>
+<para>Default conflict resolution strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="126" column="36" bodyfile="include/sharding/replica_consistency.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config_1a578e4d46b5564fb51aa61a8f7493ca3b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ReplicaConsistencyManager::Config::auto_resolve_conflicts</definition>
+        <argsstring></argsstring>
+        <name>auto_resolve_conflicts</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Config::auto_resolve_conflicts</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Enable automatic conflict resolution when possible. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="128" column="14" bodyfile="include/sharding/replica_consistency.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config_1aba536d73c2699d97e4948689476b6a01" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ReplicaConsistencyManager::Config::track_causality</definition>
+        <argsstring></argsstring>
+        <name>track_causality</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Config::track_causality</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Track and merge vector-clock causality metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="130" column="14" bodyfile="include/sharding/replica_consistency.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config_1a48d6e0cb2e6c6a0de6ae6ecf911c7472" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ReplicaConsistencyManager::Config::max_version_history</definition>
+        <argsstring></argsstring>
+        <name>max_version_history</name>
+        <qualifiedname>themisdb::sharding::ReplicaConsistencyManager::Config::max_version_history</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Maximum retained version-history entries per key. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/replica_consistency.h" line="132" column="18" bodyfile="include/sharding/replica_consistency.h" bodystart="132" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime consistency/conflict policy configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/replica_consistency.h" line="124" column="5" bodyfile="include/sharding/replica_consistency.h" bodystart="124" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config_1a578e4d46b5564fb51aa61a8f7493ca3b" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Config</scope><name>auto_resolve_conflicts</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config_1aa20d34cb04dd26787da48eb753ba90ae" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Config</scope><name>default_strategy</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config_1a48d6e0cb2e6c6a0de6ae6ecf911c7472" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Config</scope><name>max_version_history</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_consistency_manager_1_1_config_1aba536d73c2699d97e4948689476b6a01" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaConsistencyManager::Config</scope><name>track_causality</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

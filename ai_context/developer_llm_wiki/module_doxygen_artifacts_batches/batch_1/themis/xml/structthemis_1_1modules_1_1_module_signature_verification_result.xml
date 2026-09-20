@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_module_signature_verification_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::ModuleSignatureVerificationResult</compoundname>
+    <includes refid="module__signature__verifier_8h" local="no">module_signature_verifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_signature_verification_result_1a3e9b4e7e961eb5756f8f64b64055e3fa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::modules::ModuleSignatureVerificationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::modules::ModuleSignatureVerificationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_signature_verifier.h" line="31" column="17" bodyfile="include/themis/module_signature_verifier.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_signature_verification_result_1a366a5f2c0a17eca7d731f6837307bb34" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleSignatureVerificationResult::signerInfo</definition>
+        <argsstring></argsstring>
+        <name>signerInfo</name>
+        <qualifiedname>themis::modules::ModuleSignatureVerificationResult::signerInfo</qualifiedname>
+        <briefdescription>
+<para>Certificate CN (Windows) or GPG uid (Linux). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_signature_verifier.h" line="32" column="17" bodyfile="include/themis/module_signature_verifier.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_signature_verification_result_1abe5b33a1052a38abbe181bfc692227af" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleSignatureVerificationResult::platform</definition>
+        <argsstring></argsstring>
+        <name>platform</name>
+        <qualifiedname>themis::modules::ModuleSignatureVerificationResult::platform</qualifiedname>
+        <briefdescription>
+<para>&quot;windows_authenticode&quot; | &quot;linux_gpg&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_signature_verifier.h" line="33" column="17" bodyfile="include/themis/module_signature_verifier.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_module_signature_verification_result_1aa1ba5e08a480d566db10967c771ed16d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::modules::ModuleSignatureVerificationResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::modules::ModuleSignatureVerificationResult::errorMessage</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/module_signature_verifier.h" line="34" column="17" bodyfile="include/themis/module_signature_verifier.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a single module signature verification attempt. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/module_signature_verifier.h" line="30" column="1" bodyfile="include/themis/module_signature_verifier.h" bodystart="30" bodyend="35"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_module_signature_verification_result_1aa1ba5e08a480d566db10967c771ed16d" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSignatureVerificationResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_signature_verification_result_1abe5b33a1052a38abbe181bfc692227af" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSignatureVerificationResult</scope><name>platform</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_signature_verification_result_1a366a5f2c0a17eca7d731f6837307bb34" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSignatureVerificationResult</scope><name>signerInfo</name></member>
+      <member refid="structthemis_1_1modules_1_1_module_signature_verification_result_1a3e9b4e7e961eb5756f8f64b64055e3fa" prot="public" virt="non-virtual"><scope>themis::modules::ModuleSignatureVerificationResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_geo_multi_polygon" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>GeoMultiPolygon</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" prot="public" virt="non-virtual">themis::geo::IGeoJSONGeometry</basecompoundref>
+    <includes refid="geo__json__geometry_8h" local="no">geo_json_geometry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_geo_multi_polygon_1a44a0ba52a0c703a50f4cf250097fdd73" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_geo_polygon" kindref="compound">GeoPolygon</ref> &gt;</type>
+        <definition>std::vector&lt;GeoPolygon&gt; themis::geo::GeoMultiPolygon::polygons_</definition>
+        <argsstring></argsstring>
+        <name>polygons_</name>
+        <qualifiedname>GeoMultiPolygon::polygons_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="237" column="17" bodyfile="include/geo/geo_json_geometry.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_geo_multi_polygon_1aeb0249eef547a8c329c64ca0ec497a7c" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+        <definition>CrsId themis::geo::GeoMultiPolygon::crs_</definition>
+        <argsstring></argsstring>
+        <name>crs_</name>
+        <qualifiedname>GeoMultiPolygon::crs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="238" column="29" bodyfile="include/geo/geo_json_geometry.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_geo_multi_polygon_1a923569a3b154b5c0890a00d786c82f4a" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoMultiPolygon::GeoMultiPolygon</definition>
+        <argsstring>(std::vector&lt; GeoPolygon &gt; polygons, CrsId crs)</argsstring>
+        <name>GeoMultiPolygon</name>
+        <qualifiedname>GeoMultiPolygon::GeoMultiPolygon</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_geo_polygon" kindref="compound">GeoPolygon</ref> &gt;</type>
+          <declname>polygons</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+          <declname>crs</declname>
+        </param>
+        <briefdescription>
+<para>Geo Multi Polygon. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">polygons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">crs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="219" column="14" bodyfile="include/geo/geo_json_geometry.h" bodystart="219" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_multi_polygon_1aaa0fac1e53e77572906d2b9cf295675f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="class_geo_polygon" kindref="compound">GeoPolygon</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; GeoPolygon &gt; &amp; themis::geo::GeoMultiPolygon::polygons</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>polygons</name>
+        <qualifiedname>GeoMultiPolygon::polygons</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="222" column="24" bodyfile="include/geo/geo_json_geometry.h" bodystart="222" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_multi_polygon_1ac417cf3fbf9fa46aa334db0bf5e84a02" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoMultiPolygon::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>GeoMultiPolygon::type</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac58fe30f8b9e0bdc47ea9ccc532d990f">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="226" column="18" bodyfile="include/geo/geo_json_geometry.h" bodystart="226" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_multi_polygon_1a253ff98fbc4a9174d5ff558d18ea26c6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>BBox</type>
+        <definition>BBox themis::geo::GeoMultiPolygon::bbox</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>bbox</name>
+        <qualifiedname>GeoMultiPolygon::bbox</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a9327bfb81cf7aeabe769de40ab7d1db0">bbox</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="228" column="11" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="269" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_multi_polygon_1a9659a369fb70eb10b318160f6129beaf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+        <definition>CrsId themis::geo::GeoMultiPolygon::crs</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>crs</name>
+        <qualifiedname>GeoMultiPolygon::crs</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1af846d57b98bcd75d7afd1c49a6ca575b">crs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="230" column="12" bodyfile="include/geo/geo_json_geometry.h" bodystart="230" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_multi_polygon_1a5e98c9d7e36695465ce84bee6cc0e475" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoMultiPolygon::toGeoJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toGeoJSON</name>
+        <qualifiedname>GeoMultiPolygon::toGeoJSON</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a3fef104ac282e441cc3095ba60323111">toGeoJSON</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="232" column="18" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="280" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="class_geo_multi_polygon_1a083fb19edecb68b0145f4103518cb44f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>ValidationResult</type>
+        <definition>ValidationResult themis::geo::GeoMultiPolygon::validate</definition>
+        <argsstring>() const override</argsstring>
+        <name>validate</name>
+        <qualifiedname>GeoMultiPolygon::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac5126002fdb01f895145e5c43bc9e94b">validate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="234" column="23" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="302" bodyend="313"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GeoMultiPolygon</label>
+        <link refid="class_geo_multi_polygon"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::IGeoJSONGeometry</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GeoMultiPolygon</label>
+        <link refid="class_geo_multi_polygon"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::IGeoJSONGeometry</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/geo/geo_json_geometry.h" line="211" column="1" bodyfile="include/geo/geo_json_geometry.h" bodystart="211" bodyend="239"/>
+    <listofallmembers>
+      <member refid="class_geo_multi_polygon_1a253ff98fbc4a9174d5ff558d18ea26c6" prot="public" virt="virtual"><scope>GeoMultiPolygon</scope><name>bbox</name></member>
+      <member refid="class_geo_multi_polygon_1a9659a369fb70eb10b318160f6129beaf" prot="public" virt="virtual"><scope>GeoMultiPolygon</scope><name>crs</name></member>
+      <member refid="class_geo_multi_polygon_1aeb0249eef547a8c329c64ca0ec497a7c" prot="private" virt="non-virtual"><scope>GeoMultiPolygon</scope><name>crs_</name></member>
+      <member refid="class_geo_multi_polygon_1a923569a3b154b5c0890a00d786c82f4a" prot="public" virt="non-virtual"><scope>GeoMultiPolygon</scope><name>GeoMultiPolygon</name></member>
+      <member refid="class_geo_multi_polygon_1aaa0fac1e53e77572906d2b9cf295675f" prot="public" virt="non-virtual"><scope>GeoMultiPolygon</scope><name>polygons</name></member>
+      <member refid="class_geo_multi_polygon_1a44a0ba52a0c703a50f4cf250097fdd73" prot="private" virt="non-virtual"><scope>GeoMultiPolygon</scope><name>polygons_</name></member>
+      <member refid="class_geo_multi_polygon_1a5e98c9d7e36695465ce84bee6cc0e475" prot="public" virt="virtual"><scope>GeoMultiPolygon</scope><name>toGeoJSON</name></member>
+      <member refid="class_geo_multi_polygon_1ac417cf3fbf9fa46aa334db0bf5e84a02" prot="public" virt="virtual"><scope>GeoMultiPolygon</scope><name>type</name></member>
+      <member refid="class_geo_multi_polygon_1a083fb19edecb68b0145f4103518cb44f" prot="public" virt="virtual"><scope>GeoMultiPolygon</scope><name>validate</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ab35bb619771c27d844644c59ca2b64bc" prot="public" virt="virtual"><scope>GeoMultiPolygon</scope><name>~IGeoJSONGeometry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

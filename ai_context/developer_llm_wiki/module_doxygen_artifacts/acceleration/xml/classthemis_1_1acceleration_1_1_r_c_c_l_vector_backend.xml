@@ -1,0 +1,1341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::RCCLVectorBackend</compoundname>
+    <includes refid="rccl__vector__backend_8h" local="no">rccl_vector_backend.h</includes>
+    <innerclass refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config" prot="public">themis::acceleration::RCCLVectorBackend::Config</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_statistics" prot="public">themis::acceleration::RCCLVectorBackend::Statistics</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_impl" prot="public">themis::acceleration::RCCLVectorBackend::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a517abab7cb66bdc9720348542f2b6e72" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CollectiveOp</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::CollectiveOp</qualifiedname>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a517abab7cb66bdc9720348542f2b6e72ae8427e5dbab5f0f3d943975dfe7c4c33" prot="public">
+          <name>ALL_REDUCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a517abab7cb66bdc9720348542f2b6e72a81d741a35dc8a42c885b7cc031afd17f" prot="public">
+          <name>BROADCAST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a517abab7cb66bdc9720348542f2b6e72a1f0aebf23361f786b70886124314d19d" prot="public">
+          <name>REDUCE_SCATTER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a517abab7cb66bdc9720348542f2b6e72af37640255ad2192096f608c1a91565ed" prot="public">
+          <name>ALL_GATHER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a517abab7cb66bdc9720348542f2b6e72ac26e83d7610e4a0a9307a7bea9aec3d9" prot="public">
+          <name>REDUCE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="47" column="5" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="47" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091ddd" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReductionOp</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::ReductionOp</qualifiedname>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091ddda6970bdc2201030b9c03fbdcf3973858a" prot="public">
+          <name>SUM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091dddace31e2a082d17e038fcc6e3006166653" prot="public">
+          <name>MIN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091ddda26a4b44a837bf97b972628509912b4a5" prot="public">
+          <name>MAX</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091dddac8074bb318fb85693233e64acc64c1ed" prot="public">
+          <name>PROD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="55" column="5" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="55" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a12f3eb75b4c0ed006822cb4b3f74cf5f" prot="public" static="no">
+        <type>std::function&lt; bool(const float *sendBuf, float *recvBuf, size_t count, <ref refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091ddd" kindref="member">ReductionOp</ref> op, <ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref> stream)&gt;</type>
+        <definition>using themis::acceleration::RCCLVectorBackend::AllReduceFn = std::function&lt;bool(const float* sendBuf,
+                                          float* recvBuf, size_t count,
+                                          ReductionOp op, hipStream_t stream)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AllReduceFn</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::AllReduceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="62" column="5" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ae05957f3022bb7f2e79811489a382792" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::acceleration::RCCLVectorBackend::pImpl</definition>
+        <argsstring></argsstring>
+        <name>pImpl</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::pImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="216" column="21" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ad7b9585339da429746f1d9ee9579b72a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::RCCLVectorBackend::RCCLVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>RCCLVectorBackend</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::RCCLVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="66" column="5" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="825" bodyend="825"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a574daf5689c0f9a409932eaabe226b5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::RCCLVectorBackend::~RCCLVectorBackend</definition>
+        <argsstring>()</argsstring>
+        <name>~RCCLVectorBackend</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::~RCCLVectorBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="67" column="5" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="828" bodyend="828"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1aa0536a55ba2d65e1479e2617812407d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::initialize</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements initialize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="75" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="835" bodyend="835"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a8798bad2cf15c330063716e38b76697c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::RCCLVectorBackend::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="79" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="840" bodyend="840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a97d8c6cf0615f6a107de93cf2774b8ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::isInitialized</definition>
+        <argsstring>() const</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::isInitialized</qualifiedname>
+        <briefdescription>
+<para>Is Initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="84" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="841" bodyend="841"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a336723c551267ce4b403dff2df3cf3f1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::acceleration::RCCLVectorBackend::getRank</definition>
+        <argsstring>() const</argsstring>
+        <name>getRank</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::getRank</qualifiedname>
+        <briefdescription>
+<para>Get Rank. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="91" column="9" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="842" bodyend="842"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a880f2ae89b21d80d0e40507315302b14" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::acceleration::RCCLVectorBackend::getWorldSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getWorldSize</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::getWorldSize</qualifiedname>
+        <briefdescription>
+<para>Get World Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="96" column="9" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="843" bodyend="843"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a95f00c48ada2a2f3a0c901ab6cb4f600" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt; int &gt; themis::acceleration::RCCLVectorBackend::getDeviceIds</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeviceIds</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::getDeviceIds</qualifiedname>
+        <briefdescription>
+<para>Get Device Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="101" column="17" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="844" bodyend="844"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a3286c8c4e7c1a88264405ef14ae5d773" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::isP2PEnabled</definition>
+        <argsstring>() const</argsstring>
+        <name>isP2PEnabled</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::isP2PEnabled</qualifiedname>
+        <briefdescription>
+<para>Is P2 PEnabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="106" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="845" bodyend="845"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ae397437822d74722852db5ae8d9bbdda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::allReduce</definition>
+        <argsstring>(const float *sendBuf, float *recvBuf, size_t count, ReductionOp op, hipStream_t stream=nullptr)</argsstring>
+        <name>allReduce</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::allReduce</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>sendBuf</declname>
+          <defname>send</defname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>recvBuf</declname>
+          <defname>recv</defname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091ddd" kindref="member">ReductionOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>All Reduce. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">send</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">recv</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getRcclAllReduceFn(), fn(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="109" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="856" bodyend="870"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1af7280fb4cf5ee5077ed6f7e5d3bd2f0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::broadcast</definition>
+        <argsstring>(float *buffer, size_t count, int root, hipStream_t stream=nullptr)</argsstring>
+        <name>broadcast</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::broadcast</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Broadcast. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements broadcast without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="112" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="880" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a09fdf2d827fa37dd59ce476e33cff960" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::allGather</definition>
+        <argsstring>(const float *sendBuf, float *recvBuf, size_t sendCount, hipStream_t stream=nullptr)</argsstring>
+        <name>allGather</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::allGather</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>sendBuf</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>recvBuf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>sendCount</declname>
+        </param>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>All Gather. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements allGather without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="115" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="890" bodyend="890"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a71914807614c165d8a7004760bb43f1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::reduce</definition>
+        <argsstring>(const float *sendBuf, float *recvBuf, size_t count, ReductionOp op, int root, hipStream_t stream=nullptr)</argsstring>
+        <name>reduce</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::reduce</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>sendBuf</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>recvBuf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091ddd" kindref="member">ReductionOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Reduce. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ReductionOp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements reduce without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="118" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="902" bodyend="902"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ac6bb31f646dd1587484e194e1b893f52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::reduceScatter</definition>
+        <argsstring>(const float *sendBuf, float *recvBuf, size_t recvCount, ReductionOp op, hipStream_t stream=nullptr)</argsstring>
+        <name>reduceScatter</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::reduceScatter</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>sendBuf</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>recvBuf</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>recvCount</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091ddd" kindref="member">ReductionOp</ref></type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Reduce Scatter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ReductionOp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements reduceScatter without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="121" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="913" bodyend="913"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a4367a113e022ea1805c77c02a2bc636b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::p2pSend</definition>
+        <argsstring>(const float *buffer, size_t count, int peerRank, hipStream_t stream=nullptr)</argsstring>
+        <name>p2pSend</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::p2pSend</qualifiedname>
+        <param>
+          <type>const float *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>peerRank</declname>
+        </param>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>P2p Send. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements p2pSend without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="125" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="923" bodyend="923"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a666c16dd9148336ba115a5d7ca437d45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::p2pRecv</definition>
+        <argsstring>(float *buffer, size_t count, int peerRank, hipStream_t stream=nullptr)</argsstring>
+        <name>p2pRecv</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::p2pRecv</qualifiedname>
+        <param>
+          <type>float *</type>
+          <declname>buffer</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>peerRank</declname>
+        </param>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>P2p Recv. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements p2pRecv without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="128" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="933" bodyend="933"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a54689fef703b032f022720f5c2e1fed3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::enableP2PAccess</definition>
+        <argsstring>(int deviceId1, int deviceId2)</argsstring>
+        <name>enableP2PAccess</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::enableP2PAccess</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>deviceId1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>deviceId2</declname>
+        </param>
+        <briefdescription>
+<para>Enable P2 PAccess. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">deviceId1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deviceId2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements enableP2PAccess without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="137" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="941" bodyend="941"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a88a94e641170bb56c2848dbe28af2c22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::canAccessPeer</definition>
+        <argsstring>(int deviceId1, int deviceId2)</argsstring>
+        <name>canAccessPeer</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::canAccessPeer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>deviceId1</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>deviceId2</declname>
+        </param>
+        <briefdescription>
+<para>Can Access Peer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">deviceId1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">deviceId2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements canAccessPeer without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="145" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="949" bodyend="949"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a4e54303c04b93aca2bf95ba78724b052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::synchronize</definition>
+        <argsstring>(hipStream_t stream=nullptr)</argsstring>
+        <name>synchronize</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::synchronize</qualifiedname>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Synchronize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements synchronize without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="148" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="956" bodyend="956"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ab9a82c6544c3566cd202df15006dd2ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::waitAll</definition>
+        <argsstring>()</argsstring>
+        <name>waitAll</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::waitAll</qualifiedname>
+        <briefdescription>
+<para>Wait All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements waitAll without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="154" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="962" bodyend="962"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a21026b3b754c273b4cd3c6ea1fa0f950" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::mergeTopK</definition>
+        <argsstring>(const uint32_t *localIndices, const float *localDistances, size_t localK, uint32_t *globalIndices, float *globalDistances, size_t k, int root, hipStream_t stream=nullptr)</argsstring>
+        <name>mergeTopK</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::mergeTopK</qualifiedname>
+        <param>
+          <type>const uint32_t *</type>
+          <declname>localIndices</declname>
+        </param>
+        <param>
+          <type>const float *</type>
+          <declname>localDistances</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>localK</declname>
+        </param>
+        <param>
+          <type>uint32_t *</type>
+          <declname>globalIndices</declname>
+        </param>
+        <param>
+          <type>float *</type>
+          <declname>globalDistances</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type><ref refid="rccl__vector__backend_8h_1aa1186c5f140a84d7b794bd6ca95e8277" kindref="member">hipStream_t</ref></type>
+          <declname>stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Merge Top K. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements mergeTopK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="157" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="976" bodyend="976"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a8287a75b213ce87e88dab9e30ea66e58" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>RCCLVectorBackend::Statistics themis::acceleration::RCCLVectorBackend::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="177" column="16" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="977" bodyend="977"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a7f41c7774b357278977b2ab8c9317f31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::RCCLVectorBackend::resetStatistics</definition>
+        <argsstring>()</argsstring>
+        <name>resetStatistics</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::resetStatistics</qualifiedname>
+        <briefdescription>
+<para>Reset <ref refid="structthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1_1_statistics" kindref="compound">Statistics</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements resetStatistics without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="181" column="10" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="982" bodyend="982"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a0f76d2276c40fa253d917c9c0647c212" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::isRCCLAvailable</definition>
+        <argsstring>()</argsstring>
+        <name>isRCCLAvailable</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::isRCCLAvailable</qualifiedname>
+        <briefdescription>
+<para>Is RCCLAvailable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isRCCLAvailable without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="188" column="17" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="988" bodyend="988"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a47fd22b9db8ba1fb958542a24a77024c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::acceleration::RCCLVectorBackend::getRCCLVersion</definition>
+        <argsstring>()</argsstring>
+        <name>getRCCLVersion</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::getRCCLVersion</qualifiedname>
+        <briefdescription>
+<para>Get RCCLVersion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getRCCLVersion without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="193" column="16" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="994" bodyend="994"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1acddf2f76698b1f6db0c5cb3bc2358d15" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::RCCLVectorBackend::getRCCLVersionString</definition>
+        <argsstring>()</argsstring>
+        <name>getRCCLVersionString</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::getRCCLVersionString</qualifiedname>
+        <briefdescription>
+<para>Get RCCLVersion String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getRCCLVersionString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="198" column="24" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="1000" bodyend="1000"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ab519e12c5ba6229b74d9e24a99e721f5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::RCCLVectorBackend::checkXGMISupport</definition>
+        <argsstring>(const std::vector&lt; int &gt; &amp;deviceIds)</argsstring>
+        <name>checkXGMISupport</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::checkXGMISupport</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>deviceIds</declname>
+        </param>
+        <briefdescription>
+<para>Check XGMISupport. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">deviceIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements checkXGMISupport without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="204" column="17" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="1007" bodyend="1007"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a883eb8098e60f43046d5a959b68f2c0e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::RCCLVectorBackend::setAllReduceFn</definition>
+        <argsstring>(AllReduceFn fn)</argsstring>
+        <name>setAllReduceFn</name>
+        <qualifiedname>themis::acceleration::RCCLVectorBackend::setAllReduceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a12f3eb75b4c0ed006822cb4b3f74cf5f" kindref="member">AllReduceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set All Reduce Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), rcclAllReduceFnMutex(), rcclAllReduceFnStorage(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/rccl_vector_backend.h" line="211" column="17" bodyfile="src/acceleration/rccl_vector_backend.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/rccl_vector_backend.h" line="36" column="1" bodyfile="include/acceleration/rccl_vector_backend.h" bodystart="36" bodyend="217"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a09fdf2d827fa37dd59ce476e33cff960" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>allGather</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ae397437822d74722852db5ae8d9bbdda" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>allReduce</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a12f3eb75b4c0ed006822cb4b3f74cf5f" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>AllReduceFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1af7280fb4cf5ee5077ed6f7e5d3bd2f0e" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>broadcast</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a88a94e641170bb56c2848dbe28af2c22" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>canAccessPeer</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ab519e12c5ba6229b74d9e24a99e721f5" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>checkXGMISupport</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a517abab7cb66bdc9720348542f2b6e72" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>CollectiveOp</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a54689fef703b032f022720f5c2e1fed3" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>enableP2PAccess</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a95f00c48ada2a2f3a0c901ab6cb4f600" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>getDeviceIds</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a336723c551267ce4b403dff2df3cf3f1" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>getRank</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a47fd22b9db8ba1fb958542a24a77024c" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>getRCCLVersion</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1acddf2f76698b1f6db0c5cb3bc2358d15" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>getRCCLVersionString</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a8287a75b213ce87e88dab9e30ea66e58" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a880f2ae89b21d80d0e40507315302b14" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>getWorldSize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1aa0536a55ba2d65e1479e2617812407d3" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a97d8c6cf0615f6a107de93cf2774b8ac" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a3286c8c4e7c1a88264405ef14ae5d773" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>isP2PEnabled</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a0f76d2276c40fa253d917c9c0647c212" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>isRCCLAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a21026b3b754c273b4cd3c6ea1fa0f950" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>mergeTopK</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a666c16dd9148336ba115a5d7ca437d45" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>p2pRecv</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a4367a113e022ea1805c77c02a2bc636b" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>p2pSend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ae05957f3022bb7f2e79811489a382792" prot="private" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>pImpl</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ad7b9585339da429746f1d9ee9579b72a" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>RCCLVectorBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a71914807614c165d8a7004760bb43f1a" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>reduce</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ac6bb31f646dd1587484e194e1b893f52" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>reduceScatter</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a240707a9bcd8e77382fa3e7ca6091ddd" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>ReductionOp</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a7f41c7774b357278977b2ab8c9317f31" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>resetStatistics</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a883eb8098e60f43046d5a959b68f2c0e" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>setAllReduceFn</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a8798bad2cf15c330063716e38b76697c" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a4e54303c04b93aca2bf95ba78724b052" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>synchronize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1ab9a82c6544c3566cd202df15006dd2ec" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>waitAll</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_r_c_c_l_vector_backend_1a574daf5689c0f9a409932eaabe226b5a" prot="public" virt="non-virtual"><scope>themis::acceleration::RCCLVectorBackend</scope><name>~RCCLVectorBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

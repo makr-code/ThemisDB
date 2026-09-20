@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm__wiki_1_1_knob_bounds" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::KnobBounds</compoundname>
+    <includes refid="process__policy__manager_8h" local="no">process_policy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_knob_bounds_1a2f828e8e50063324b8c57eaec304f61c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm_wiki::KnobBounds::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>themis::llm_wiki::KnobBounds::min</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="76" column="12" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm__wiki_1_1_knob_bounds_1ae241a33ea921775dff3e7aa7e1f59a22" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm_wiki::KnobBounds::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>themis::llm_wiki::KnobBounds::max</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/process_policy_manager.h" line="77" column="12" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bounded scalar knob for ML-driven tuning. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/process_policy_manager.h" line="75" column="1" bodyfile="include/llm_wiki/process_policy_manager.h" bodystart="75" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm__wiki_1_1_knob_bounds_1ae241a33ea921775dff3e7aa7e1f59a22" prot="public" virt="non-virtual"><scope>themis::llm_wiki::KnobBounds</scope><name>max</name></member>
+      <member refid="structthemis_1_1llm__wiki_1_1_knob_bounds_1a2f828e8e50063324b8c57eaec304f61c" prot="public" virt="non-virtual"><scope>themis::llm_wiki::KnobBounds</scope><name>min</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

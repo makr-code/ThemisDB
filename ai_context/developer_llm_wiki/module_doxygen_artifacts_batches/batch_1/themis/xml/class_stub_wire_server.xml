@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_wire_server" kind="class" language="C++" prot="public">
+    <compoundname>StubWireServer</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_wire_server_1a52482f81fe9e3451cefb17fd75619770" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StubWireServer::ops_</definition>
+        <argsstring></argsstring>
+        <name>ops_</name>
+        <qualifiedname>StubWireServer::ops_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="65" column="17" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_wire_server_1a86d043c0b2ca1dc62bdcaf37e94c0dea" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubWireServer::handleRequest</definition>
+        <argsstring>(uint64_t request_id, const std::string &amp;) noexcept</argsstring>
+        <name>handleRequest</name>
+        <qualifiedname>StubWireServer::handleRequest</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>request_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="58" column="10" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="58" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_wire_server_1ac099b251f6953849b95dc222838b04b2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StubWireServer::totalOps</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>totalOps</name>
+        <qualifiedname>StubWireServer::totalOps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="63" column="14" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/themis/test_themis_highcardinality_stress.cpp" line="56" column="1" bodyfile="tests/themis/test_themis_highcardinality_stress.cpp" bodystart="56" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_stub_wire_server_1a86d043c0b2ca1dc62bdcaf37e94c0dea" prot="public" virt="non-virtual"><scope>StubWireServer</scope><name>handleRequest</name></member>
+      <member refid="class_stub_wire_server_1a52482f81fe9e3451cefb17fd75619770" prot="private" virt="non-virtual"><scope>StubWireServer</scope><name>ops_</name></member>
+      <member refid="class_stub_wire_server_1ac099b251f6953849b95dc222838b04b2" prot="public" virt="non-virtual"><scope>StubWireServer</scope><name>totalOps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

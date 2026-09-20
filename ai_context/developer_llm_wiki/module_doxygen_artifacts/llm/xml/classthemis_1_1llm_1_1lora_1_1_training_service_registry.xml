@@ -1,0 +1,376 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_training_service_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::TrainingServiceRegistry</compoundname>
+    <includes refid="training__service__registry_8h" local="no">training_service_registry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ab0ba807a55058dbfe9d5a8dac493d4be" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::lora::TrainingServiceRegistry::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="83" column="24" bodyfile="include/llm/lora_framework/training_service_registry.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a9a925f4cf9dc26182b64e8a606f67c99" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::sharding::ShardRouter &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::ShardRouter&gt; themis::llm::lora::TrainingServiceRegistry::shard_router_</definition>
+        <argsstring></argsstring>
+        <name>shard_router_</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::shard_router_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="84" column="21" bodyfile="include/llm/lora_framework/training_service_registry.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a73088e1039e4b6081ce2aec85609e74f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::sharding::ShardTopology &gt;</type>
+        <definition>std::shared_ptr&lt;themis::sharding::ShardTopology&gt; themis::llm::lora::TrainingServiceRegistry::shard_topology_</definition>
+        <argsstring></argsstring>
+        <name>shard_topology_</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::shard_topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="85" column="21" bodyfile="include/llm/lora_framework/training_service_registry.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac8e349e90687270ba46a9a57cbfdeb0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac3a4f5b6e96987c9e0be60cdfe583b6d" kindref="member">TrainingServiceRegistry</ref> &amp;</type>
+        <definition>TrainingServiceRegistry &amp; themis::llm::lora::TrainingServiceRegistry::getInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getInstance</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::getInstance</qualifiedname>
+        <briefdescription>
+<para>Get Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements getInstance without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="36" column="36" bodyfile="src/llm/lora_framework/training_service_registry.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a795c66989ead88e3384b596c4d2109f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::TrainingServiceRegistry::registerShardRouter</definition>
+        <argsstring>(std::shared_ptr&lt; themis::sharding::ShardRouter &gt; router)</argsstring>
+        <name>registerShardRouter</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::registerShardRouter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::sharding::ShardRouter &gt;</type>
+          <declname>router</declname>
+        </param>
+        <briefdescription>
+<para>Register Shard Router. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">router</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">router</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="42" column="10" bodyfile="src/llm/lora_framework/training_service_registry.cpp" bodystart="36" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a9ce0ec43e2ba8ec970c02e90789a3f68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::TrainingServiceRegistry::registerShardTopology</definition>
+        <argsstring>(std::shared_ptr&lt; themis::sharding::ShardTopology &gt; topology)</argsstring>
+        <name>registerShardTopology</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::registerShardTopology</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::sharding::ShardTopology &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <briefdescription>
+<para>Register Shard Topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="48" column="10" bodyfile="src/llm/lora_framework/training_service_registry.cpp" bodystart="53" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac7646be8ba289807502b832d6652ae07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; themis::sharding::ShardRouter &gt;</type>
+        <definition>std::shared_ptr&lt; themis::sharding::ShardRouter &gt; themis::llm::lora::TrainingServiceRegistry::getShardRouter</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardRouter</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::getShardRouter</qualifiedname>
+        <briefdescription>
+<para>Get Shard Router. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="54" column="21" bodyfile="src/llm/lora_framework/training_service_registry.cpp" bodystart="66" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a7cd2a53c4f16a66e20d74c7d5ec435d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; themis::sharding::ShardTopology &gt;</type>
+        <definition>std::shared_ptr&lt; themis::sharding::ShardTopology &gt; themis::llm::lora::TrainingServiceRegistry::getShardTopology</definition>
+        <argsstring>() const</argsstring>
+        <name>getShardTopology</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::getShardTopology</qualifiedname>
+        <briefdescription>
+<para>Get Shard Topology. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="60" column="21" bodyfile="src/llm/lora_framework/training_service_registry.cpp" bodystart="77" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a71f914f126ab2cdb595510f664c9db3a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::TrainingServiceRegistry::hasShardInfrastructure</definition>
+        <argsstring>() const</argsstring>
+        <name>hasShardInfrastructure</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::hasShardInfrastructure</qualifiedname>
+        <briefdescription>
+<para>Has Shard Infrastructure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="66" column="10" bodyfile="src/llm/lora_framework/training_service_registry.cpp" bodystart="87" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a2be1b91c3b61c95f6749c86b65458885" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::TrainingServiceRegistry::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), spdlog::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="71" column="10" bodyfile="src/llm/lora_framework/training_service_registry.cpp" bodystart="101" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac3a4f5b6e96987c9e0be60cdfe583b6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::TrainingServiceRegistry::TrainingServiceRegistry</definition>
+        <argsstring>(const TrainingServiceRegistry &amp;)=delete</argsstring>
+        <name>TrainingServiceRegistry</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::TrainingServiceRegistry</qualifiedname>
+        <param>
+          <type>const TrainingServiceRegistry &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="74" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a17cffdf074b8adda5fe0875fe8a2b79c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac3a4f5b6e96987c9e0be60cdfe583b6d" kindref="member">TrainingServiceRegistry</ref> &amp;</type>
+        <definition>TrainingServiceRegistry &amp; themis::llm::lora::TrainingServiceRegistry::operator=</definition>
+        <argsstring>(const TrainingServiceRegistry &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac3a4f5b6e96987c9e0be60cdfe583b6d" kindref="member">TrainingServiceRegistry</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="75" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a2766172c89c285c61adab39607d316fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::TrainingServiceRegistry::TrainingServiceRegistry</definition>
+        <argsstring>(TrainingServiceRegistry &amp;&amp;)=delete</argsstring>
+        <name>TrainingServiceRegistry</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::TrainingServiceRegistry</qualifiedname>
+        <param>
+          <type>TrainingServiceRegistry &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="76" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1aebaece311c390081dbf3da2ae7ea3cbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac3a4f5b6e96987c9e0be60cdfe583b6d" kindref="member">TrainingServiceRegistry</ref> &amp;</type>
+        <definition>TrainingServiceRegistry &amp; themis::llm::lora::TrainingServiceRegistry::operator=</definition>
+        <argsstring>(TrainingServiceRegistry &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac3a4f5b6e96987c9e0be60cdfe583b6d" kindref="member">TrainingServiceRegistry</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="77" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac22755878ecea2e22f1829396705688d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::TrainingServiceRegistry::TrainingServiceRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>TrainingServiceRegistry</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::TrainingServiceRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1aa1a403c56ffd6238c50ade7d12d75196" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::TrainingServiceRegistry::~TrainingServiceRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TrainingServiceRegistry</name>
+        <qualifiedname>themis::llm::lora::TrainingServiceRegistry::~TrainingServiceRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/training_service_registry.h" line="81" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/training_service_registry.h" line="30" column="1" bodyfile="include/llm/lora_framework/training_service_registry.h" bodystart="30" bodyend="86"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a2be1b91c3b61c95f6749c86b65458885" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac8e349e90687270ba46a9a57cbfdeb0c" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac7646be8ba289807502b832d6652ae07" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>getShardRouter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a7cd2a53c4f16a66e20d74c7d5ec435d8" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>getShardTopology</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a71f914f126ab2cdb595510f664c9db3a" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>hasShardInfrastructure</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ab0ba807a55058dbfe9d5a8dac493d4be" prot="private" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a17cffdf074b8adda5fe0875fe8a2b79c" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1aebaece311c390081dbf3da2ae7ea3cbf" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a795c66989ead88e3384b596c4d2109f4" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>registerShardRouter</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a9ce0ec43e2ba8ec970c02e90789a3f68" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>registerShardTopology</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a9a925f4cf9dc26182b64e8a606f67c99" prot="private" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>shard_router_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a73088e1039e4b6081ce2aec85609e74f" prot="private" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>shard_topology_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac3a4f5b6e96987c9e0be60cdfe583b6d" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>TrainingServiceRegistry</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1a2766172c89c285c61adab39607d316fa" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>TrainingServiceRegistry</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1ac22755878ecea2e22f1829396705688d" prot="private" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>TrainingServiceRegistry</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_training_service_registry_1aa1a403c56ffd6238c50ade7d12d75196" prot="private" virt="non-virtual"><scope>themis::llm::lora::TrainingServiceRegistry</scope><name>~TrainingServiceRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

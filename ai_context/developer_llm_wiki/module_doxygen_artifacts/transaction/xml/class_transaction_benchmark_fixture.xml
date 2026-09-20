@@ -1,0 +1,186 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transaction_benchmark_fixture" kind="class" language="C++" prot="public">
+    <compoundname>TransactionBenchmarkFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transaction_benchmark_fixture_1af5e737cdf8683f619df23f60bf912eb6" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TransactionBenchmarkFixture::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>TransactionBenchmarkFixture::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="117" column="17" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_benchmark_fixture_1a3f796cded8ecfe907713d41d313cb031" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; TransactionBenchmarkFixture::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>TransactionBenchmarkFixture::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="118" column="21" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_benchmark_fixture_1ad179da71d3d3a8494f74989d7cde8bef" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; TransactionBenchmarkFixture::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>TransactionBenchmarkFixture::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="119" column="21" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_benchmark_fixture_1a680eaa9bc098b2f84fb377335176a324" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; TransactionBenchmarkFixture::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>TransactionBenchmarkFixture::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="120" column="21" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_benchmark_fixture_1a19bee8a7f920b014143f8e1355a24578" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; TransactionBenchmarkFixture::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>TransactionBenchmarkFixture::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="121" column="21" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_benchmark_fixture_1aa7782547d3c7fb34d0d377f40a831415" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; TransactionBenchmarkFixture::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>TransactionBenchmarkFixture::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="122" column="21" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_transaction_benchmark_fixture_1a277a39d9ba578a4e1b2e1ebc91dc7c23" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionBenchmarkFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;state) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransactionBenchmarkFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="42" column="10" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="42" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_benchmark_fixture_1a9c4c0f7e8edb5f3457c0bda9be4b0e0a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionBenchmarkFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransactionBenchmarkFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="82" column="10" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="82" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_benchmark_fixture_1a7d32ef264b94c4d77dd88f04764e4ab2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionBenchmarkFixture::populateTestData</definition>
+        <argsstring>(size_t count)</argsstring>
+        <name>populateTestData</name>
+        <qualifiedname>TransactionBenchmarkFixture::populateTestData</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="96" column="10" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="96" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransactionBenchmarkFixture</label>
+        <link refid="class_transaction_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransactionBenchmarkFixture</label>
+        <link refid="class_transaction_benchmark_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/transaction/bench_transaction_throughput.cpp" line="40" column="1" bodyfile="benchmarks/transaction/bench_transaction_throughput.cpp" bodystart="40" bodyend="123"/>
+    <listofallmembers>
+      <member refid="class_transaction_benchmark_fixture_1a3f796cded8ecfe907713d41d313cb031" prot="protected" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>db_</name></member>
+      <member refid="class_transaction_benchmark_fixture_1a680eaa9bc098b2f84fb377335176a324" prot="protected" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>graph_index_</name></member>
+      <member refid="class_transaction_benchmark_fixture_1a7d32ef264b94c4d77dd88f04764e4ab2" prot="public" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>populateTestData</name></member>
+      <member refid="class_transaction_benchmark_fixture_1ad179da71d3d3a8494f74989d7cde8bef" prot="protected" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>secondary_index_</name></member>
+      <member refid="class_transaction_benchmark_fixture_1a277a39d9ba578a4e1b2e1ebc91dc7c23" prot="public" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>SetUp</name></member>
+      <member refid="class_transaction_benchmark_fixture_1a9c4c0f7e8edb5f3457c0bda9be4b0e0a" prot="public" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>TearDown</name></member>
+      <member refid="class_transaction_benchmark_fixture_1af5e737cdf8683f619df23f60bf912eb6" prot="protected" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>test_db_path_</name></member>
+      <member refid="class_transaction_benchmark_fixture_1aa7782547d3c7fb34d0d377f40a831415" prot="protected" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>tx_manager_</name></member>
+      <member refid="class_transaction_benchmark_fixture_1a19bee8a7f920b014143f8e1355a24578" prot="protected" virt="non-virtual"><scope>TransactionBenchmarkFixture</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

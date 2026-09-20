@@ -1,0 +1,187 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_config_update" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ConfigUpdate</compoundname>
+    <includes refid="gossip__config__manager_8h" local="no">gossip_config_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_config_update_1afb1b0bac2ed19157d1c84eb2d8164c4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ConfigUpdate::update_id</definition>
+        <argsstring></argsstring>
+        <name>update_id</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::update_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="101" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_config_update_1a2aedf8e6432ff6e4139f40efadd180a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ConfigUpdate::config_key</definition>
+        <argsstring></argsstring>
+        <name>config_key</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::config_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="102" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_config_update_1afb8f92085056d25d504c92bd26b81d4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ConfigUpdate::config_value</definition>
+        <argsstring></argsstring>
+        <name>config_value</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::config_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="103" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_config_update_1a09dc04b19995d15fbc4f008cde771a8f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ConfigUpdate::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::timestamp_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="104" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_config_update_1afc35e3202ab7f9dd192dc5d9ca53bd51" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1sharding_1_1_vector_clock" kindref="compound">VectorClock</ref></type>
+        <definition>VectorClock themis::sharding::ConfigUpdate::vector_clock</definition>
+        <argsstring></argsstring>
+        <name>vector_clock</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::vector_clock</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="105" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_config_update_1a6edc36dcb69123d6b3cc9ef0eed74cec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ConfigUpdate::originator_shard_id</definition>
+        <argsstring></argsstring>
+        <name>originator_shard_id</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::originator_shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="106" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_config_update_1acad22220f1de6e32468bb9ed77797795" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ConfigUpdate::ttl</definition>
+        <argsstring></argsstring>
+        <name>ttl</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::ttl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="107" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_config_update_1aba9c9d0aa6c9b5c9e2dd49d7b6fb1fa6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>proto::ConfigUpdate</type>
+        <definition>proto::ConfigUpdate themis::sharding::ConfigUpdate::toProto</definition>
+        <argsstring>() const</argsstring>
+        <name>toProto</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::toProto</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="110" column="25" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="140" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_config_update_1a5c8bac95a3f898719f2a0575773c3cc2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_config_update" kindref="compound">ConfigUpdate</ref></type>
+        <definition>ConfigUpdate themis::sharding::ConfigUpdate::fromProto</definition>
+        <argsstring>(const proto::ConfigUpdate &amp;proto)</argsstring>
+        <name>fromProto</name>
+        <qualifiedname>themis::sharding::ConfigUpdate::fromProto</qualifiedname>
+        <param>
+          <type>const proto::ConfigUpdate &amp;</type>
+          <declname>proto</declname>
+        </param>
+        <briefdescription>
+<para>From Proto. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">proto</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1sharding_1_1_config_update_1afb1b0bac2ed19157d1c84eb2d8164c4c" kindref="member">update_id()</ref>, <ref refid="structthemis_1_1sharding_1_1_config_update_1a2aedf8e6432ff6e4139f40efadd180a0" kindref="member">config_key()</ref>, <ref refid="structthemis_1_1sharding_1_1_config_update_1afb8f92085056d25d504c92bd26b81d4b" kindref="member">config_value()</ref>, <ref refid="structthemis_1_1sharding_1_1_config_update_1a09dc04b19995d15fbc4f008cde771a8f" kindref="member">timestamp_ns()</ref>, <ref refid="structthemis_1_1sharding_1_1_config_update_1afc35e3202ab7f9dd192dc5d9ca53bd51" kindref="member">vector_clock()</ref>, <ref refid="structthemis_1_1sharding_1_1_config_update_1a6edc36dcb69123d6b3cc9ef0eed74cec" kindref="member">originator_shard_id()</ref>, <ref refid="structthemis_1_1sharding_1_1_config_update_1acad22220f1de6e32468bb9ed77797795" kindref="member">ttl()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="113" column="25" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="158" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration Update with vector clock. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents a configuration change that needs to be propagated through the gossip network. </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::ConfigUpdate</label>
+        <link refid="structthemis_1_1sharding_1_1_config_update"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>vector_clock</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::VectorClock</label>
+        <link refid="classthemis_1_1sharding_1_1_vector_clock"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/gossip_config_manager.h" line="100" column="1" bodyfile="include/sharding/gossip_config_manager.h" bodystart="100" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1a2aedf8e6432ff6e4139f40efadd180a0" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>config_key</name></member>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1afb8f92085056d25d504c92bd26b81d4b" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>config_value</name></member>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1a5c8bac95a3f898719f2a0575773c3cc2" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>fromProto</name></member>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1a6edc36dcb69123d6b3cc9ef0eed74cec" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>originator_shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1a09dc04b19995d15fbc4f008cde771a8f" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>timestamp_ns</name></member>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1aba9c9d0aa6c9b5c9e2dd49d7b6fb1fa6" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>toProto</name></member>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1acad22220f1de6e32468bb9ed77797795" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>ttl</name></member>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1afb1b0bac2ed19157d1c84eb2d8164c4c" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>update_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_config_update_1afc35e3202ab7f9dd192dc5d9ca53bd51" prot="public" virt="non-virtual"><scope>themis::sharding::ConfigUpdate</scope><name>vector_clock</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

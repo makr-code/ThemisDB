@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SAGAOrchestrator::Metrics</compoundname>
+    <includes refid="saga__orchestrator_8h" local="no">saga_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1acc76c0862090b49638eb52206d5106db" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SAGAOrchestrator::Metrics::sagas_started</definition>
+        <argsstring></argsstring>
+        <name>sagas_started</name>
+        <qualifiedname>themis::SAGAOrchestrator::Metrics::sagas_started</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="178" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1aff90914fa4923b4472263dac64177756" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SAGAOrchestrator::Metrics::sagas_completed</definition>
+        <argsstring></argsstring>
+        <name>sagas_completed</name>
+        <qualifiedname>themis::SAGAOrchestrator::Metrics::sagas_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="179" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a20f684c7195f28f4d53c8a6b16a0c10b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SAGAOrchestrator::Metrics::sagas_compensated</definition>
+        <argsstring></argsstring>
+        <name>sagas_compensated</name>
+        <qualifiedname>themis::SAGAOrchestrator::Metrics::sagas_compensated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="180" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a44acf9e767cb8302e33d2fd6ae57cd05" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SAGAOrchestrator::Metrics::sagas_failed</definition>
+        <argsstring></argsstring>
+        <name>sagas_failed</name>
+        <qualifiedname>themis::SAGAOrchestrator::Metrics::sagas_failed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="181" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a4beb0c7a35ba1d27daf15bc941b20ff1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SAGAOrchestrator::Metrics::total_step_executions</definition>
+        <argsstring></argsstring>
+        <name>total_step_executions</name>
+        <qualifiedname>themis::SAGAOrchestrator::Metrics::total_step_executions</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="182" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a25ff11456a0713dbe7fde85cb73ac8ba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SAGAOrchestrator::Metrics::total_step_retries</definition>
+        <argsstring></argsstring>
+        <name>total_step_retries</name>
+        <qualifiedname>themis::SAGAOrchestrator::Metrics::total_step_retries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="183" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a3571db8912ada48d39f81337cac49d70" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SAGAOrchestrator::Metrics::total_compensations</definition>
+        <argsstring></argsstring>
+        <name>total_compensations</name>
+        <qualifiedname>themis::SAGAOrchestrator::Metrics::total_compensations</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="184" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="184" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a114fb8edd6cbb5a028ecd571ffe8134f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::SAGAOrchestrator::Metrics::total_steps_skipped</definition>
+        <argsstring></argsstring>
+        <name>total_steps_skipped</name>
+        <qualifiedname>themis::SAGAOrchestrator::Metrics::total_steps_skipped</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/saga_orchestrator.h" line="185" column="18" bodyfile="include/transaction/saga_orchestrator.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/saga_orchestrator.h" line="177" column="5" bodyfile="include/transaction/saga_orchestrator.h" bodystart="177" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a20f684c7195f28f4d53c8a6b16a0c10b" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator::Metrics</scope><name>sagas_compensated</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1aff90914fa4923b4472263dac64177756" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator::Metrics</scope><name>sagas_completed</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a44acf9e767cb8302e33d2fd6ae57cd05" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator::Metrics</scope><name>sagas_failed</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1acc76c0862090b49638eb52206d5106db" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator::Metrics</scope><name>sagas_started</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a3571db8912ada48d39f81337cac49d70" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator::Metrics</scope><name>total_compensations</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a4beb0c7a35ba1d27daf15bc941b20ff1" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator::Metrics</scope><name>total_step_executions</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a25ff11456a0713dbe7fde85cb73ac8ba" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator::Metrics</scope><name>total_step_retries</name></member>
+      <member refid="structthemis_1_1_s_a_g_a_orchestrator_1_1_metrics_1a114fb8edd6cbb5a028ecd571ffe8134f" prot="public" virt="non-virtual"><scope>themis::SAGAOrchestrator::Metrics</scope><name>total_steps_skipped</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

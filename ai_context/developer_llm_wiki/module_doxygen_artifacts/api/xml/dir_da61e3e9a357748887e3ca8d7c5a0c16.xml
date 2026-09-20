@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_da61e3e9a357748887e3ca8d7c5a0c16" kind="dir">
+    <compoundname>src/api</compoundname>
+    <innerfile refid="api__transport__policy_8cpp">api_transport_policy.cpp</innerfile>
+    <innerfile refid="federation__admin__handler_8cpp">federation_admin_handler.cpp</innerfile>
+    <innerfile refid="geo__index__hooks_8cpp">geo_index_hooks.cpp</innerfile>
+    <innerfile refid="graphql_8cpp">graphql.cpp</innerfile>
+    <innerfile refid="graphql__aql__resolver_8cpp">graphql_aql_resolver.cpp</innerfile>
+    <innerfile refid="graphql__ws__handler_8cpp">graphql_ws_handler.cpp</innerfile>
+    <innerfile refid="grpc__server_8cpp">grpc_server.cpp</innerfile>
+    <innerfile refid="otlp__exporter_8cpp">otlp_exporter.cpp</innerfile>
+    <innerfile refid="themisdb__grpc__service_8cpp">themisdb_grpc_service.cpp</innerfile>
+    <innerfile refid="tracing__middleware_8cpp">tracing_middleware.cpp</innerfile>
+    <innerfile refid="ws__handler_8cpp">ws_handler.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/api/"/>
+  </compounddef>
+</doxygen>

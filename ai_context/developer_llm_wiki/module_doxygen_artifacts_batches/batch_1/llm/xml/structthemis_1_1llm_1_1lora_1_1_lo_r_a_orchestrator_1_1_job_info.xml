@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRAOrchestrator::JobInfo</compoundname>
+    <includes refid="lora__orchestrator_8h" local="no">lora_orchestrator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1ad7d6af1c2dc0ec5a6653b0cff8d69c4c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::JobInfo::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="52" column="21" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a512c721e3caf0365231ee6665e3ed76b" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1abff9ffb9759bb0a26831fbdf60190f04" kindref="member">JobType</ref></type>
+        <definition>JobType themis::llm::lora::LoRAOrchestrator::JobInfo::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="53" column="17" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1aa46d14ccc7ce9318dfdbbcd2e666a568" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1aa57d598ff93b89aaa31f44f94d0d9566" kindref="member">JobStatus</ref></type>
+        <definition>JobStatus themis::llm::lora::LoRAOrchestrator::JobInfo::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="54" column="19" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1aff8e12e0e8cb326ecfa10f1e1459788c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::JobInfo::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::adapter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="55" column="21" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a597ac2dbd2a89b271b88332600f71ff8" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRAOrchestrator::JobInfo::progress</definition>
+        <argsstring></argsstring>
+        <name>progress</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::progress</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="56" column="15" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a6ed5a5ef16dae559272954eef6999000" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::lora::LoRAOrchestrator::JobInfo::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="57" column="47" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1ab829586c0c1325b4345c832c29af382e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::llm::lora::LoRAOrchestrator::JobInfo::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::updated_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="58" column="47" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a94abe2833f5cc8903f7dec52acaa0c82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::LoRAOrchestrator::JobInfo::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="59" column="21" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a226f86d2cfe5e84512b7e473fb1a9b8d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAOrchestrator::JobInfo::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="60" column="14" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1ae7f9a71f7c2c81b763644f0891ef4b2c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::LoRAOrchestrator::JobInfo::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::LoRAOrchestrator::JobInfo::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_orchestrator.h" line="66" column="14" bodyfile="src/llm/lora_framework/lora_orchestrator.cpp" bodystart="144" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_orchestrator.h" line="51" column="5" bodyfile="include/llm/lora_framework/lora_orchestrator.h" bodystart="51" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1aff8e12e0e8cb326ecfa10f1e1459788c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a94abe2833f5cc8903f7dec52acaa0c82" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1ad7d6af1c2dc0ec5a6653b0cff8d69c4c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a226f86d2cfe5e84512b7e473fb1a9b8d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a597ac2dbd2a89b271b88332600f71ff8" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>progress</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a6ed5a5ef16dae559272954eef6999000" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1aa46d14ccc7ce9318dfdbbcd2e666a568" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>status</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1ae7f9a71f7c2c81b763644f0891ef4b2c" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1a512c721e3caf0365231ee6665e3ed76b" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>type</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_orchestrator_1_1_job_info_1ab829586c0c1325b4345c832c29af382e" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRAOrchestrator::JobInfo</scope><name>updated_at</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

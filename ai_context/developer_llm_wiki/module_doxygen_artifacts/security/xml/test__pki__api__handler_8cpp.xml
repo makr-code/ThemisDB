@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__pki__api__handler_8cpp" kind="file" language="C++">
+    <compoundname>test_pki_api_handler.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">server/pki_api_handler.h</includes>
+    <includes refid="signing_8h" local="yes">security/signing.h</includes>
+    <includes local="no">openssl/sha.h</includes>
+    <incdepgraph>
+      <node id="4">
+        <label>security/signing.h</label>
+        <link refid="signing_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/security/test_pki_api_handler.cpp</label>
+        <link refid="test__pki__api__handler_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>openssl/sha.h</label>
+      </node>
+      <node id="8">
+        <label>security/key_provider.h</label>
+      </node>
+      <node id="3">
+        <label>server/pki_api_handler.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_mock_signing_service" prot="public">MockSigningService</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__pki__api__handler_8cpp_1ab056bd91211265e7fb9b693d4f7e8ba0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string b64_encode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>b64_encode</name>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_api_handler.cpp" line="27" column="20" bodyfile="tests/security/test_pki_api_handler.cpp" bodystart="27" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__api__handler_8cpp_1ad65b8ce75436e600dfd4009da06df83e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PkiApiHandlerTest, SignAndVerify)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PkiApiHandlerTest</type>
+        </param>
+        <param>
+          <type>SignAndVerify</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_api_handler.cpp" line="48" column="1" bodyfile="tests/security/test_pki_api_handler.cpp" bodystart="48" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__api__handler_8cpp_1af36d8ec004610ebff9df6a5ffe5cdd4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PkiApiHandlerTest, SignRejectsInvalidKeyId)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PkiApiHandlerTest</type>
+        </param>
+        <param>
+          <type>SignRejectsInvalidKeyId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_api_handler.cpp" line="76" column="1" bodyfile="tests/security/test_pki_api_handler.cpp" bodystart="76" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__pki__api__handler_8cpp_1a088aacf8a089002164887f875ef4e78b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PkiApiHandlerTest, VerifyRejectsInvalidBase64Payload)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PkiApiHandlerTest</type>
+        </param>
+        <param>
+          <type>VerifyRejectsInvalidBase64Payload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_pki_api_handler.cpp" line="88" column="1" bodyfile="tests/security/test_pki_api_handler.cpp" bodystart="88" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/pki_api_handler.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="signing_8h" kindref="compound">security/signing.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;openssl/sha.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Simple<sp/>mock<sp/>SigningService<sp/>for<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="class_mock_signing_service" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_mock_signing_service" kindref="compound">MockSigningService</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_signing_service" kindref="compound">SigningService</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref><sp/><ref refid="class_mock_signing_service_1a04e14d1bbc4d6e65f7c8daaf0254ef07" kindref="member">sign</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*key_id*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>hash[SHA256_DIGEST_LENGTH];</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHA256(data.data(),<sp/>data.size(),<sp/>hash);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_signing_result_1ab36953f808547e94ff9f35c6e8ee2a6a" kindref="member">signature</ref>.assign(hash,<sp/>hash<sp/>+<sp/>SHA256_DIGEST_LENGTH);</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1_signing_result_1adde2dcad6a779f20694e512e47858c1b" kindref="member">algorithm</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;MOCK+SHA256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_mock_signing_service_1acba3494a8a64a869f3116a7c48c2eb12" kindref="member">verify</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>signature,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="comment">/*key_id*/</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>hash[SHA256_DIGEST_LENGTH];</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SHA256(data.data(),<sp/>data.size(),<sp/>hash);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>signature<sp/>==<sp/>std::vector&lt;uint8_t&gt;(hash,<sp/>hash<sp/>+<sp/>SHA256_DIGEST_LENGTH);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>b64_encode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>chars<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>out<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>val=0,<sp/>valb=-6;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(uint8_t<sp/>c<sp/>:<sp/>data)<sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val<sp/>=<sp/>(val&lt;&lt;8)<sp/>+<sp/>c;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>valb<sp/>+=<sp/>8;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(valb&gt;=0)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(chars[(val&gt;&gt;valb)&amp;0x3F]);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>valb<sp/>-=<sp/>6;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(valb&gt;-6)<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(chars[((val&lt;&lt;8)&gt;&gt;(valb+8))&amp;0x3F]);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(out.size()%4)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>out.push_back(</highlight><highlight class="charliteral">&apos;=&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>out;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><ref refid="test__pki__api__handler_8cpp_1ad65b8ce75436e600dfd4009da06df83e" kindref="member">TEST</ref>(PkiApiHandlerTest,<sp/>SignAndVerify)<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>svc<sp/>=<sp/>std::make_shared&lt;MockSigningService&gt;();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::server::PkiApiHandler<sp/>handler(svc);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;h&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;l&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;l&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;o&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>data_b64<sp/>=<sp/>b64_encode(data);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>req<sp/>=<sp/>{<sp/>{</highlight><highlight class="stringliteral">&quot;data_b64&quot;</highlight><highlight class="normal">,<sp/>data_b64}<sp/>};</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>handler.sign(</highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">,<sp/>req);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.contains(</highlight><highlight class="stringliteral">&quot;signature_b64&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.contains(</highlight><highlight class="stringliteral">&quot;algorithm&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[</highlight><highlight class="stringliteral">&quot;algorithm&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;MOCK+SHA256&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>sig_b64<sp/>=<sp/>res[</highlight><highlight class="stringliteral">&quot;signature_b64&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>verify_req<sp/>=<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;data_b64&quot;</highlight><highlight class="normal">,<sp/>data_b64},<sp/>{</highlight><highlight class="stringliteral">&quot;signature_b64&quot;</highlight><highlight class="normal">,<sp/>sig_b64}};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vres<sp/>=<sp/>handler.verify(</highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">,<sp/>verify_req);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(vres.contains(</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(vres[</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Negative<sp/>case:<sp/>altered<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data2<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;b&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;a&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;d&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>data2_b64<sp/>=<sp/>b64_encode(data2);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>vres2<sp/>=<sp/>handler.verify(</highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;data_b64&quot;</highlight><highlight class="normal">,<sp/>data2_b64},<sp/>{</highlight><highlight class="stringliteral">&quot;signature_b64&quot;</highlight><highlight class="normal">,<sp/>sig_b64}});</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(vres2.contains(</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(vres2[</highlight><highlight class="stringliteral">&quot;valid&quot;</highlight><highlight class="normal">].get&lt;bool&gt;());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__pki__api__handler_8cpp_1ad65b8ce75436e600dfd4009da06df83e" kindref="member">TEST</ref>(PkiApiHandlerTest,<sp/>SignRejectsInvalidKeyId)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>svc<sp/>=<sp/>std::make_shared&lt;MockSigningService&gt;();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::server::PkiApiHandler<sp/>handler(svc);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>data<sp/>=<sp/>{</highlight><highlight class="charliteral">&apos;h&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;e&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;l&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;l&apos;</highlight><highlight class="normal">,</highlight><highlight class="charliteral">&apos;o&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>data_b64<sp/>=<sp/>b64_encode(data);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>handler.sign(</highlight><highlight class="stringliteral">&quot;../bad-key&quot;</highlight><highlight class="normal">,<sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;data_b64&quot;</highlight><highlight class="normal">,<sp/>data_b64}});</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>400);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__pki__api__handler_8cpp_1ad65b8ce75436e600dfd4009da06df83e" kindref="member">TEST</ref>(PkiApiHandlerTest,<sp/>VerifyRejectsInvalidBase64Payload)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>svc<sp/>=<sp/>std::make_shared&lt;MockSigningService&gt;();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::server::PkiApiHandler<sp/>handler(svc);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>handler.verify(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;test-key&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json{{</highlight><highlight class="stringliteral">&quot;data_b64&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;%%%not-base64%%%&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;signature_b64&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Zm9v&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.contains(</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res[</highlight><highlight class="stringliteral">&quot;status_code&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>400);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/security/test_pki_api_handler.cpp"/>
+  </compounddef>
+</doxygen>

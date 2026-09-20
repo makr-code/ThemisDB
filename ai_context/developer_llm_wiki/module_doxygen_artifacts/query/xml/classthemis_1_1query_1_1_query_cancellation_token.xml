@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_cancellation_token" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryCancellationToken</compoundname>
+    <includes refid="query__canceller_8h" local="no">query_canceller.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cancellation_token_1a5b8d94e6cd7e4cc23840ab935c3dbeca" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::query::QueryCancellationToken::cancelled_</definition>
+        <argsstring></argsstring>
+        <name>cancelled_</name>
+        <qualifiedname>themis::query::QueryCancellationToken::cancelled_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="48" column="23" bodyfile="include/query/query_canceller.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cancellation_token_1a29e48ada73367a6e339b6829def7412d" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::query::QueryCancellationToken::cv_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cv_mutex_</name>
+        <qualifiedname>themis::query::QueryCancellationToken::cv_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="49" column="29" bodyfile="include/query/query_canceller.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_query_cancellation_token_1ae907bfdef26023e3f874beffb19b2291" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::query::QueryCancellationToken::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::query::QueryCancellationToken::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="50" column="29" bodyfile="include/query/query_canceller.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cancellation_token_1a3ba94928ad4290d1648a7d06cde61ba8" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::QueryCancellationToken::QueryCancellationToken</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>QueryCancellationToken</name>
+        <qualifiedname>themis::query::QueryCancellationToken::QueryCancellationToken</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="30" column="5" bodyfile="include/query/query_canceller.h" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cancellation_token_1adfca3b23900305c51861d855d02c07e9" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryCancellationToken::cancel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>cancel</name>
+        <qualifiedname>themis::query::QueryCancellationToken::cancel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="32" column="10" bodyfile="include/query/query_canceller.h" bodystart="32" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCancellationToken::isCancelled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isCancelled</name>
+        <qualifiedname>themis::query::QueryCancellationToken::isCancelled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="39" column="11" bodyfile="include/query/query_canceller.h" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_cancellation_token_1a338b59dbdef84d5cc75fffe39b940206" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryCancellationToken::waitUntilCancelledFor</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::seconds{30}) noexcept</argsstring>
+        <name>waitUntilCancelledFor</name>
+        <qualifiedname>themis::query::QueryCancellationToken::waitUntilCancelledFor</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds{30}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cv_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/query_canceller.h" line="43" column="11" bodyfile="src/query/query_canceller.cpp" bodystart="45" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_canceller.h" line="28" column="1" bodyfile="include/query/query_canceller.h" bodystart="28" bodyend="51"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_cancellation_token_1adfca3b23900305c51861d855d02c07e9" prot="public" virt="non-virtual"><scope>themis::query::QueryCancellationToken</scope><name>cancel</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cancellation_token_1a5b8d94e6cd7e4cc23840ab935c3dbeca" prot="private" virt="non-virtual"><scope>themis::query::QueryCancellationToken</scope><name>cancelled_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cancellation_token_1ae907bfdef26023e3f874beffb19b2291" prot="private" virt="non-virtual"><scope>themis::query::QueryCancellationToken</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cancellation_token_1a29e48ada73367a6e339b6829def7412d" prot="private" virt="non-virtual"><scope>themis::query::QueryCancellationToken</scope><name>cv_mutex_</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cancellation_token_1aacd04a4a1e6be68775678af2c470f248" prot="public" virt="non-virtual"><scope>themis::query::QueryCancellationToken</scope><name>isCancelled</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cancellation_token_1a3ba94928ad4290d1648a7d06cde61ba8" prot="public" virt="non-virtual"><scope>themis::query::QueryCancellationToken</scope><name>QueryCancellationToken</name></member>
+      <member refid="classthemis_1_1query_1_1_query_cancellation_token_1a338b59dbdef84d5cc75fffe39b940206" prot="public" virt="non-virtual"><scope>themis::query::QueryCancellationToken</scope><name>waitUntilCancelledFor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

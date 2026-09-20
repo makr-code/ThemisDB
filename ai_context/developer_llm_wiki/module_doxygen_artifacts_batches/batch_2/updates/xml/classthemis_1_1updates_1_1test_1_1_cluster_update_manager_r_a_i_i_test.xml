@@ -1,0 +1,87 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::updates::test::ClusterUpdateManagerRAIITest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test_1affeb41e4d107a8f2d5f0bc9c5e54084d" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config" kindref="compound">ClusterUpdateManager::Config</ref></type>
+        <definition>ClusterUpdateManager::Config themis::updates::test::ClusterUpdateManagerRAIITest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::updates::test::ClusterUpdateManagerRAIITest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="189" column="34" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test_1aa5db9a4753b33090994ee60e9121985e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::updates::test::ClusterUpdateManagerRAIITest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::updates::test::ClusterUpdateManagerRAIITest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_batch5_finalization.cpp" line="191" column="10" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="191" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Verify <ref refid="structthemis_1_1updates_1_1_update_batch" kindref="compound">UpdateBatch</ref> uses unique_ptr for exception safety @finding 7503-cluster_update_manager.cpp:423. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>UP-FIN-10..12: Cluster manager batch update RAII patterns </para>
+</xrefdescription></xrefsect></para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::updates::test::ClusterUpdateManagerRAIITest</label>
+        <link refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::updates::ClusterUpdateManager::Config</label>
+        <link refid="structthemis_1_1updates_1_1_cluster_update_manager_1_1_config"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>default_options</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::updates::ClusterUpdateOptions</label>
+        <link refid="structthemis_1_1updates_1_1_cluster_update_options"/>
+      </node>
+      <node id="1">
+        <label>themis::updates::test::ClusterUpdateManagerRAIITest</label>
+        <link refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/updates/test_updates_batch5_finalization.cpp" line="187" column="1" bodyfile="tests/updates/test_updates_batch5_finalization.cpp" bodystart="187" bodyend="199"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test_1affeb41e4d107a8f2d5f0bc9c5e54084d" prot="protected" virt="non-virtual"><scope>themis::updates::test::ClusterUpdateManagerRAIITest</scope><name>config_</name></member>
+      <member refid="classthemis_1_1updates_1_1test_1_1_cluster_update_manager_r_a_i_i_test_1aa5db9a4753b33090994ee60e9121985e" prot="protected" virt="non-virtual"><scope>themis::updates::test::ClusterUpdateManagerRAIITest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

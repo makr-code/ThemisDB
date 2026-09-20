@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_signature_validation_test" kind="class" language="C++" prot="public">
+    <compoundname>PluginSignatureValidationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_plugin_signature_validation_test_1a2085304159dd697173997b0d64fbdf72" prot="protected" static="no" mutable="no">
+        <type>SecurityAuditLog</type>
+        <definition>SecurityAuditLog PluginSignatureValidationTest::audit_log</definition>
+        <argsstring></argsstring>
+        <name>audit_log</name>
+        <qualifiedname>PluginSignatureValidationTest::audit_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="105" column="22" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_plugin_signature_validation_test_1a24077446bf81517858cb72d4eb49540b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSignatureValidationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PluginSignatureValidationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="107" column="10" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_signature_validation_test_1a6093f34f8efa3d861ffee5b52b3f0f24" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSignatureValidationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PluginSignatureValidationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="111" column="10" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="111" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PluginSignatureValidationTest</label>
+        <link refid="class_plugin_signature_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PluginSignatureValidationTest</label>
+        <link refid="class_plugin_signature_validation_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>audit_log</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>anonymous:audit_log</label>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" line="103" column="1" bodyfile="tests/acceleration/test_acceleration_plugin_security_hardening.cpp" bodystart="103" bodyend="114"/>
+    <listofallmembers>
+      <member refid="class_plugin_signature_validation_test_1a2085304159dd697173997b0d64fbdf72" prot="protected" virt="non-virtual"><scope>PluginSignatureValidationTest</scope><name>audit_log</name></member>
+      <member refid="class_plugin_signature_validation_test_1a24077446bf81517858cb72d4eb49540b" prot="protected" virt="non-virtual"><scope>PluginSignatureValidationTest</scope><name>SetUp</name></member>
+      <member refid="class_plugin_signature_validation_test_1a6093f34f8efa3d861ffee5b52b3f0f24" prot="protected" virt="non-virtual"><scope>PluginSignatureValidationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1ingestion_1_1_ingestion_judge_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ingestion::IngestionJudgeConfig</compoundname>
+    <includes refid="ingestion__quality__judge_8h" local="no">ingestion_quality_judge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a5ec5cb2864ca7291b332d88d79b07f46" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::completeness_threshold</definition>
+        <argsstring></argsstring>
+        <name>completeness_threshold</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::completeness_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Minimum completeness score before re-ingestion is triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="52" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a2af17249e2f7e7688f4b7f9784ac34ca" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::groundedness_threshold</definition>
+        <argsstring></argsstring>
+        <name>groundedness_threshold</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::groundedness_threshold</qualifiedname>
+        <initializer>= 0.80</initializer>
+        <briefdescription>
+<para>Minimum groundedness score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="54" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a121db59584f14a741b82329511e52a00" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::entity_coverage_threshold</definition>
+        <argsstring></argsstring>
+        <name>entity_coverage_threshold</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::entity_coverage_threshold</qualifiedname>
+        <initializer>= 0.70</initializer>
+        <briefdescription>
+<para>Minimum entity-coverage score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="56" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a4f8fc8fcee07673c2acd51b9d6a39ee6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::relation_coherence_threshold</definition>
+        <argsstring></argsstring>
+        <name>relation_coherence_threshold</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::relation_coherence_threshold</qualifiedname>
+        <initializer>= 0.70</initializer>
+        <briefdescription>
+<para>Minimum relation-coherence score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="58" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1afb59cd0ae652bdf614ddad280ce71909" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::overall_threshold</definition>
+        <argsstring></argsstring>
+        <name>overall_threshold</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::overall_threshold</qualifiedname>
+        <initializer>= 0.75</initializer>
+        <briefdescription>
+<para>Minimum overall (weighted) score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="60" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1aae91470de6101114f275bd1eb9281a81" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::completeness_weight</definition>
+        <argsstring></argsstring>
+        <name>completeness_weight</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::completeness_weight</qualifiedname>
+        <initializer>= 0.30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="63" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1aa9158b76be312cd76e2b367017e8a777" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::groundedness_weight</definition>
+        <argsstring></argsstring>
+        <name>groundedness_weight</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::groundedness_weight</qualifiedname>
+        <initializer>= 0.35</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="64" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1af642366cc6954e8760b96be41d0c8b31" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::entity_coverage_weight</definition>
+        <argsstring></argsstring>
+        <name>entity_coverage_weight</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::entity_coverage_weight</qualifiedname>
+        <initializer>= 0.20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="65" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a3beb99ff03224c480a175f77c123551a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::relation_coherence_weight</definition>
+        <argsstring></argsstring>
+        <name>relation_coherence_weight</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::relation_coherence_weight</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="66" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a18d9d3df009e2d2594daf6c32de958da" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::IngestionJudgeConfig::max_tokens</definition>
+        <argsstring></argsstring>
+        <name>max_tokens</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::max_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Token budget per dimension prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="69" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1abccb7ffe2a5beed6e4733121ceb00fc1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ingestion::IngestionJudgeConfig::temperature</definition>
+        <argsstring></argsstring>
+        <name>temperature</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::temperature</qualifiedname>
+        <initializer>= 0.05</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Low temperature for deterministic scoring </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="70" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a04438c4c3b8a7a8ff533ce8e3f56274c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionJudgeConfig::lora_adapter</definition>
+        <argsstring></argsstring>
+        <name>lora_adapter</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::lora_adapter</qualifiedname>
+        <briefdescription>
+<para>Optional LoRA adapter (empty = none; e.g. &quot;legal-judge-lora-v1&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="72" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1ac6e6a3acc3e58face05bb56996a40455" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::IngestionJudgeConfig::max_reingestion_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_reingestion_attempts</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::max_reingestion_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum re-ingestion passes per document (0 = evaluate only, no re-ingestion). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="76" column="9" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1aa418461122d4768c1faf81d6016b96dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::IngestionJudgeConfig::reingestion_profile</definition>
+        <argsstring></argsstring>
+        <name>reingestion_profile</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::reingestion_profile</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Workflow profile used for targeted re-ingestion passes. Empty = use same profile as the original ingestion. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="79" column="17" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a6f7e7788abf9e996a248040526ab50bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionJudgeConfig::evaluate_completeness</definition>
+        <argsstring></argsstring>
+        <name>evaluate_completeness</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::evaluate_completeness</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="82" column="10" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a184bb6295564cdb50cc9c3491eaad8ee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionJudgeConfig::evaluate_groundedness</definition>
+        <argsstring></argsstring>
+        <name>evaluate_groundedness</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::evaluate_groundedness</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="83" column="10" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a1e2f7d02d84e1b13780d9f4f5fd165b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionJudgeConfig::evaluate_entity_coverage</definition>
+        <argsstring></argsstring>
+        <name>evaluate_entity_coverage</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::evaluate_entity_coverage</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="84" column="10" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a0dcab9e84e8847b9f23b04325038d0e2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ingestion::IngestionJudgeConfig::evaluate_relation_coherence</definition>
+        <argsstring></argsstring>
+        <name>evaluate_relation_coherence</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::evaluate_relation_coherence</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="85" column="10" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1af2bdf52b6e3f510a1ee17cf6e8585a6a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionJudgeConfig::min_text_bytes_for_eval</definition>
+        <argsstring></argsstring>
+        <name>min_text_bytes_for_eval</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::min_text_bytes_for_eval</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Skip evaluation when raw_text is shorter than this (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="89" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1ingestion_1_1_ingestion_judge_config_1aa5de32c2eb89e384f84c9ac63bb95e00" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::IngestionJudgeConfig::min_entities_for_eval</definition>
+        <argsstring></argsstring>
+        <name>min_entities_for_eval</name>
+        <qualifiedname>themis::ingestion::IngestionJudgeConfig::min_entities_for_eval</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Skip evaluation when fewer than this many entities were extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ingestion/ingestion_quality_judge.h" line="91" column="12" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1ingestion_1_1_ingestion_quality_judge" kindref="compound">IngestionQualityJudge</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ingestion/ingestion_quality_judge.h" line="49" column="1" bodyfile="include/ingestion/ingestion_quality_judge.h" bodystart="49" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a5ec5cb2864ca7291b332d88d79b07f46" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>completeness_threshold</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1aae91470de6101114f275bd1eb9281a81" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>completeness_weight</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a121db59584f14a741b82329511e52a00" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>entity_coverage_threshold</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1af642366cc6954e8760b96be41d0c8b31" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>entity_coverage_weight</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a6f7e7788abf9e996a248040526ab50bf" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>evaluate_completeness</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a1e2f7d02d84e1b13780d9f4f5fd165b0" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>evaluate_entity_coverage</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a184bb6295564cdb50cc9c3491eaad8ee" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>evaluate_groundedness</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a0dcab9e84e8847b9f23b04325038d0e2" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>evaluate_relation_coherence</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a2af17249e2f7e7688f4b7f9784ac34ca" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>groundedness_threshold</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1aa9158b76be312cd76e2b367017e8a777" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>groundedness_weight</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a04438c4c3b8a7a8ff533ce8e3f56274c" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>lora_adapter</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1ac6e6a3acc3e58face05bb56996a40455" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>max_reingestion_attempts</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a18d9d3df009e2d2594daf6c32de958da" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>max_tokens</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1aa5de32c2eb89e384f84c9ac63bb95e00" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>min_entities_for_eval</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1af2bdf52b6e3f510a1ee17cf6e8585a6a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>min_text_bytes_for_eval</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1afb59cd0ae652bdf614ddad280ce71909" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>overall_threshold</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1aa418461122d4768c1faf81d6016b96dd" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>reingestion_profile</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a4f8fc8fcee07673c2acd51b9d6a39ee6" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>relation_coherence_threshold</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1a3beb99ff03224c480a175f77c123551a" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>relation_coherence_weight</name></member>
+      <member refid="structthemis_1_1ingestion_1_1_ingestion_judge_config_1abccb7ffe2a5beed6e4733121ceb00fc1" prot="public" virt="non-virtual"><scope>themis::ingestion::IngestionJudgeConfig</scope><name>temperature</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

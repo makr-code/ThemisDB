@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::SQLToAQLTranspiler</compoundname>
+    <includes refid="sql__parser_8h" local="no">sql_parser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a662125487773c19e8b3f9d77935fb8d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::SQLToAQLTranspiler::SQLToAQLTranspiler</definition>
+        <argsstring>()=default</argsstring>
+        <name>SQLToAQLTranspiler</name>
+        <qualifiedname>themis::query::SQLToAQLTranspiler::SQLToAQLTranspiler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="212" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a93b400c4835ac617bc0ea01f45797fda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::query::SQLToAQLTranspiler::transpile</definition>
+        <argsstring>(const SQLASTNode &amp;ast)</argsstring>
+        <name>transpile</name>
+        <qualifiedname>themis::query::SQLToAQLTranspiler::transpile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_s_q_l_a_s_t_node" kindref="compound">SQLASTNode</ref> &amp;</type>
+          <declname>ast</declname>
+        </param>
+        <briefdescription>
+<para>Transpile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ast</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Ok(), transpileSelect(), transpileInsert(), transpileUpdate(), transpileDelete(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="219" column="12" bodyfile="src/query/sql_parser.cpp" bodystart="1133" bodyend="1160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1aad3953e450b19d2c81324d5c204fb5cd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLToAQLTranspiler::transpileSelect</definition>
+        <argsstring>(const SQLSelectStatement &amp;stmt)</argsstring>
+        <name>transpileSelect</name>
+        <qualifiedname>themis::query::SQLToAQLTranspiler::transpileSelect</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_s_q_l_select_statement" kindref="compound">SQLSelectStatement</ref> &amp;</type>
+          <declname>stmt</declname>
+        </param>
+        <briefdescription>
+<para>Transpile Select. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(), toAQL(), empty(), size(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="227" column="24" bodyfile="src/query/sql_parser.cpp" bodystart="1185" bodyend="1235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1abb2dfb30410b767e03572712c745dbd0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLToAQLTranspiler::transpileInsert</definition>
+        <argsstring>(const SQLInsertStatement &amp;stmt)</argsstring>
+        <name>transpileInsert</name>
+        <qualifiedname>themis::query::SQLToAQLTranspiler::transpileInsert</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_s_q_l_insert_statement" kindref="compound">SQLInsertStatement</ref> &amp;</type>
+          <declname>stmt</declname>
+        </param>
+        <briefdescription>
+<para>Transpile Insert. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), valueToAQL(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="233" column="24" bodyfile="src/query/sql_parser.cpp" bodystart="1243" bodyend="1254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a61df1bccdf918e4eb59d1011319bba11" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLToAQLTranspiler::transpileUpdate</definition>
+        <argsstring>(const SQLUpdateStatement &amp;stmt)</argsstring>
+        <name>transpileUpdate</name>
+        <qualifiedname>themis::query::SQLToAQLTranspiler::transpileUpdate</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_s_q_l_update_statement" kindref="compound">SQLUpdateStatement</ref> &amp;</type>
+          <declname>stmt</declname>
+        </param>
+        <briefdescription>
+<para>Transpile Update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(), toAQL(), size(), valueToAQL(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="239" column="24" bodyfile="src/query/sql_parser.cpp" bodystart="1262" bodyend="1282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a4b3bf6a4a327275da038f20acfcb73c5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLToAQLTranspiler::transpileDelete</definition>
+        <argsstring>(const SQLDeleteStatement &amp;stmt)</argsstring>
+        <name>transpileDelete</name>
+        <qualifiedname>themis::query::SQLToAQLTranspiler::transpileDelete</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_s_q_l_delete_statement" kindref="compound">SQLDeleteStatement</ref> &amp;</type>
+          <declname>stmt</declname>
+        </param>
+        <briefdescription>
+<para>Transpile Delete. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stmt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: has_value(), toAQL(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="245" column="24" bodyfile="src/query/sql_parser.cpp" bodystart="1290" bodyend="1303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1af127326a7c7017c5ddd97b946723d5d9" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::query::SQLToAQLTranspiler::valueToAQL</definition>
+        <argsstring>(const SQLValue &amp;val)</argsstring>
+        <name>valueToAQL</name>
+        <qualifiedname>themis::query::SQLToAQLTranspiler::valueToAQL</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1a52cb07cd3837eaf7d7ea4bf23b103b7f" kindref="member">SQLValue</ref> &amp;</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Value To AQL. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: sqlValueToAQL(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/sql_parser.h" line="251" column="24" bodyfile="src/query/sql_parser.cpp" bodystart="1175" bodyend="1177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/sql_parser.h" line="210" column="1" bodyfile="include/query/sql_parser.h" bodystart="210" bodyend="252"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a662125487773c19e8b3f9d77935fb8d6" prot="public" virt="non-virtual"><scope>themis::query::SQLToAQLTranspiler</scope><name>SQLToAQLTranspiler</name></member>
+      <member refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a93b400c4835ac617bc0ea01f45797fda" prot="public" virt="non-virtual"><scope>themis::query::SQLToAQLTranspiler</scope><name>transpile</name></member>
+      <member refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a4b3bf6a4a327275da038f20acfcb73c5" prot="private" virt="non-virtual"><scope>themis::query::SQLToAQLTranspiler</scope><name>transpileDelete</name></member>
+      <member refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1abb2dfb30410b767e03572712c745dbd0" prot="private" virt="non-virtual"><scope>themis::query::SQLToAQLTranspiler</scope><name>transpileInsert</name></member>
+      <member refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1aad3953e450b19d2c81324d5c204fb5cd" prot="private" virt="non-virtual"><scope>themis::query::SQLToAQLTranspiler</scope><name>transpileSelect</name></member>
+      <member refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1a61df1bccdf918e4eb59d1011319bba11" prot="private" virt="non-virtual"><scope>themis::query::SQLToAQLTranspiler</scope><name>transpileUpdate</name></member>
+      <member refid="classthemis_1_1query_1_1_s_q_l_to_a_q_l_transpiler_1af127326a7c7017c5ddd97b946723d5d9" prot="private" virt="non-virtual"><scope>themis::query::SQLToAQLTranspiler</scope><name>valueToAQL</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

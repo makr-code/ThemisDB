@@ -1,0 +1,401 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="index__compression_8h" kind="file" language="C++">
+    <compoundname>index_compression.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="secondary__index_8h" local="yes">include/index/secondary_index.h</includedby>
+    <includedby refid="index__compression_8cpp" local="yes">src/index/index_compression.cpp</includedby>
+    <includedby refid="secondary__index_8cpp" local="yes">src/index/secondary_index.cpp</includedby>
+    <includedby refid="test__index__compression_8cpp" local="yes">tests/index/test_index_compression.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/index_compression.h</label>
+        <link refid="index__compression_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>string_view</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="3">
+        <label>benchmarks/index/bench_index_rebuild.cpp</label>
+        <link refid="bench__index__rebuild_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/index/index_compression.h</label>
+        <link refid="index__compression_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/index/index_manager.h</label>
+        <link refid="index__manager_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/index/secondary_index.h</label>
+        <link refid="secondary__index_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>src/index/index_compression.cpp</label>
+        <link refid="index__compression_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/index/index_manager.cpp</label>
+        <link refid="index__manager_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/index/secondary_index.cpp</label>
+        <link refid="secondary__index_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/index/vector_index.cpp</label>
+        <link refid="vector__index_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/index/test_index_compression.cpp</label>
+        <link refid="test__index__compression_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/index/test_index_manager_di.cpp</label>
+        <link refid="test__index__manager__di_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/index/test_index_stats.cpp</label>
+        <link refid="test__index__stats_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1index_1_1_bloom_filter" prot="public">themis::index::BloomFilter</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_dictionary_codec" prot="public">themis::index::DictionaryCodec</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config" prot="public">themis::index::DictionaryCodec::Config</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_prefix_block" prot="public">themis::index::PrefixBlock</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_prefix_compressor" prot="public">themis::index::PrefixCompressor</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_delta_block" prot="public">themis::index::DeltaBlock</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_delta_encoder" prot="public">themis::index::DeltaEncoder</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_run_length_block" prot="public">themis::index::RunLengthBlock</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_run_length_block_1_1_run" prot="public">themis::index::RunLengthBlock::Run</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_run_length_encoder" prot="public">themis::index::RunLengthEncoder</innerclass>
+    <innerclass refid="classthemis_1_1index_1_1_index_compression_codec" prot="public">themis::index::IndexCompressionCodec</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config" prot="public">themis::index::IndexCompressionCodec::Config</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats" prot="public">themis::index::IndexCompressionCodec::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3" kindref="member">CompressionAlgorithm</ref><sp/>{</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3ab50339a10e1de285ac99d4c3990b8693" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a09856b0ad584f6b2e4c9b04347758df2ab50339a10e1de285ac99d4c3990b8693" kindref="member">NONE</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3aca0c64c0de8f56bc573828ea6d764594" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3aca0c64c0de8f56bc573828ea6d764594" kindref="member">LZ4</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3a8406cc2302e19183037b61249546b234" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3a8406cc2302e19183037b61249546b234" kindref="member">ZSTD</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3a2069e5c0aea54224dcd6b9b6c78c4902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3a2069e5c0aea54224dcd6b9b6c78c4902" kindref="member">SNAPPY</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="30"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BloomFilter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="classthemis_1_1index_1_1_bloom_filter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_bloom_filter_1a5ae4522059e6eff5e0b839bb98986fb6" kindref="member">BloomFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_bloom_filter_1a5ae4522059e6eff5e0b839bb98986fb6" kindref="member">BloomFilter</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>expected_elements,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/>false_positive_rate<sp/>=<sp/>0.01);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_bloom_filter_1a75377888f05900d1f8251f570968b29e" kindref="member">insert</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_bloom_filter_1a4bbce877a99a1a78e20138734067f57b" kindref="member">mightContain</ref>(std::string_view<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_bloom_filter_1acd3b3012331a150399661d51c8f62805" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="classthemis_1_1index_1_1_bloom_filter_1a2a740136aa1e52027651b70cb857ea10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_bloom_filter_1a2a740136aa1e52027651b70cb857ea10" kindref="member">bitCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>bits_.size();<sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1index_1_1_bloom_filter_1ac14a089034f7342957feefa219f329bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_bloom_filter_1ac14a089034f7342957feefa219f329bf" kindref="member">hashCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>k_;<sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m_{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k_{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><sp/><sp/>bits_;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;uint64_t,<sp/>uint64_t&gt;<sp/>hash2_(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DictionaryCodec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1index_1_1_dictionary_codec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_dictionary_codec_1a6b51035777ee7a2bb51ac4555cc6b3b7" kindref="member">DictionaryCodec</ref><sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1index_1_1_dictionary_codec_1a896fa2adf1bb8e3d388cca19066df214" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1a896fa2adf1bb8e3d388cca19066df214" kindref="member">kMissCode</ref><sp/>=<sp/>UINT32_MAX;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config_1a6e05c6025ed4f55af6891f8f22b68f5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config_1a6e05c6025ed4f55af6891f8f22b68f5c" kindref="member">max_dict_size</ref><sp/><sp/><sp/><sp/>=<sp/>65536;<sp/></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config_1a6786280120b81e1c9a01058319fdb574" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config_1a6786280120b81e1c9a01058319fdb574" kindref="member">min_frequency</ref><sp/><sp/><sp/><sp/>=<sp/>2;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1a6b51035777ee7a2bb51ac4555cc6b3b7" kindref="member">DictionaryCodec</ref>();</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1a6b51035777ee7a2bb51ac4555cc6b3b7" kindref="member">DictionaryCodec</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1a04c44d1507c550d56366c67e1840d480" kindref="member">train</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>corpus);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1ad5c85cacff8a8ef0369f3d3f9e7c8343" kindref="member">encode</ref>(std::string_view<sp/>value)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1a18ba5f020cc9ae35688a6b98bcd0cbb8" kindref="member">decode</ref>(uint32_t<sp/>code)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1index_1_1_dictionary_codec_1ac5236e049101f0958f9258934eafb831" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1ac5236e049101f0958f9258934eafb831" kindref="member">empty</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id_to_string_.empty();<sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1index_1_1_dictionary_codec_1ac4bd2627e50b150538e394cd0918efb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1ac4bd2627e50b150538e394cd0918efb4" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id_to_string_.size();<sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1index_1_1_dictionary_codec_1a8cade774c6e51d550e512bcc1b4acbaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec_1a8cade774c6e51d550e512bcc1b4acbaf" kindref="member">entries</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>id_to_string_;<sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>uint32_t&gt;<sp/>string_to_id_;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>id_to_string_;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PrefixCompressor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1index_1_1_prefix_block" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_prefix_block" kindref="compound">PrefixBlock</ref><sp/>{</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1index_1_1_prefix_block_1a8b2d038baafd9e3bbe2160083975d457" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_prefix_block_1a8b2d038baafd9e3bbe2160083975d457" kindref="member">prefix</ref>;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1index_1_1_prefix_block_1a8c42697bb3a906dc9c76b74581546d8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1index_1_1_prefix_block_1a8c42697bb3a906dc9c76b74581546d8c" kindref="member">suffixes</ref>;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1index_1_1_prefix_block_1ae9940748c203f4f4eaaac3064e9f133c" kindref="member">decompress</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_prefix_block_1a7fead9be7bf31f7aa6128af9cfa54ee7" kindref="member">savedBytes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1index_1_1_prefix_compressor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_prefix_compressor" kindref="compound">PrefixCompressor</ref><sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;PrefixBlock&gt;<sp/><ref refid="classthemis_1_1index_1_1_prefix_compressor_1acce72e359f2d1cd8474af98f65c049e7" kindref="member">compress</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>sorted_keys,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>min_prefix_len<sp/>=<sp/>4);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1index_1_1_prefix_compressor_1a0e44cd2c602f51ed90510b43f960cc41" kindref="member">decompress</ref>(</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PrefixBlock&gt;&amp;<sp/>blocks);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DeltaEncoder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="structthemis_1_1index_1_1_delta_block" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref><sp/>{</highlight></codeline>
+<codeline lineno="171" refid="structthemis_1_1index_1_1_delta_block_1a69ca28a990b1704c0a1fb58f44defdee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_delta_block_1a69ca28a990b1704c0a1fb58f44defdee" kindref="member">base</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172" refid="structthemis_1_1index_1_1_delta_block_1a258a5d53926f1afc941145b422a21172" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_delta_block_1a258a5d53926f1afc941145b422a21172" kindref="member">deltas</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1index_1_1_delta_block_1ae0c5455962e1dadcde594bdf53bbdaa6" kindref="member">decompress</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179" refid="classthemis_1_1index_1_1_delta_encoder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_delta_encoder" kindref="compound">DeltaEncoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref><sp/><ref refid="classthemis_1_1index_1_1_delta_encoder_1a1ed84c903ff0b0dd3ca918032467b47a" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;&amp;<sp/>sorted_values);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;<sp/><ref refid="classthemis_1_1index_1_1_delta_encoder_1a8dfc49d5a85d6336fc8ce03d0a1ee217" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref>&amp;<sp/>block);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="comment">//<sp/>RunLengthEncoder</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1index_1_1_run_length_block" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_run_length_block" kindref="compound">RunLengthBlock</ref><sp/>{</highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1index_1_1_run_length_block_1_1_run" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_run_length_block_1_1_run" kindref="compound">Run</ref><sp/>{</highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1index_1_1_run_length_block_1_1_run_1a4f842ebdc93f2c4baf2c49c9ebbe0004" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1index_1_1_run_length_block_1_1_run_1a4f842ebdc93f2c4baf2c49c9ebbe0004" kindref="member">value</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1index_1_1_run_length_block_1_1_run_1af0b0831698b75724ea5dbea9cdd1c0a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_run_length_block_1_1_run_1af0b0831698b75724ea5dbea9cdd1c0a4" kindref="member">count</ref>{1};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1index_1_1_run_length_block_1ab22efabdf88267295a2e283fb8d95227" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Run&gt;<sp/><ref refid="structthemis_1_1index_1_1_run_length_block_1ab22efabdf88267295a2e283fb8d95227" kindref="member">runs</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1index_1_1_run_length_block_1a33393aa46e239e68155b562f6164efd6" kindref="member">decompress</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="classthemis_1_1index_1_1_run_length_encoder" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_run_length_encoder" kindref="compound">RunLengthEncoder</ref><sp/>{</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_run_length_block" kindref="compound">RunLengthBlock</ref><sp/><ref refid="classthemis_1_1index_1_1_run_length_encoder_1ac9d884a497eae427bdf5c2d1fd975c68" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1index_1_1_run_length_encoder_1aa84d2ffa2fe9d360445e0369ceab14ba" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_run_length_block" kindref="compound">RunLengthBlock</ref>&amp;<sp/>block);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_run_length_encoder_1a3459b9adf595531decc3e6d56cbe8cc6" kindref="member">compressionRatio</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="comment">//<sp/>IndexCompressionCodec</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243" refid="classthemis_1_1index_1_1_index_compression_codec" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_index_compression_codec_1af5e80c4f952b291b808226e2cf6226f3" kindref="member">IndexCompressionCodec</ref><sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="245" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="246" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a58cde0f5e4cbeb5745f31db38cb07b73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a58cde0f5e4cbeb5745f31db38cb07b73" kindref="member">enable_prefix_compression</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1ad0c34ef83f10a373366bddcbc3ad0945" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1ad0c34ef83f10a373366bddcbc3ad0945" kindref="member">enable_delta_encoding</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="248" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a4643521b90a3031284ef98a4f0031158" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a4643521b90a3031284ef98a4f0031158" kindref="member">enable_rle</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="249" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a273d295458319b85dcde20430de66524" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a273d295458319b85dcde20430de66524" kindref="member">enable_dict_encoding</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="250" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a0ef791c94e06ce5cba369e3258a098e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a0ef791c94e06ce5cba369e3258a098e5" kindref="member">enable_bloom_filter</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a44cda43f8fe5b9484b9e4a1eb2b8cc8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3" kindref="member">CompressionAlgorithm</ref><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a44cda43f8fe5b9484b9e4a1eb2b8cc8c" kindref="member">algorithm</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3ab50339a10e1de285ac99d4c3990b8693" kindref="member">CompressionAlgorithm::NONE</ref>;</highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1aa19171796c2632994f9a0a5e358eb604" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1aa19171796c2632994f9a0a5e358eb604" kindref="member">compression_level</ref><sp/>=<sp/>3;<sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a37a20e1907555a603e0222dfbccc56f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a37a20e1907555a603e0222dfbccc56f3" kindref="member">bloom_expected_elements</ref><sp/><sp/><sp/><sp/>=<sp/>100&apos;000;</highlight></codeline>
+<codeline lineno="256" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1ab45fd274a86ee15a9cf48597b0b48c5d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1ab45fd274a86ee15a9cf48597b0b48c5d" kindref="member">bloom_false_positive_rate</ref><sp/><sp/>=<sp/>0.01;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a7050b234c243ada1ef5f734a81d4ce37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_dictionary_codec_1_1_config" kindref="compound">DictionaryCodec::Config</ref><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config_1a7050b234c243ada1ef5f734a81d4ce37" kindref="member">dict_config</ref>;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="263" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a2cb6a3973778ce4e536d41a2f0edef22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a2cb6a3973778ce4e536d41a2f0edef22" kindref="member">keys_compressed</ref>{0};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a42fafdbf4feef6f1a4f7c91589173c5e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a42fafdbf4feef6f1a4f7c91589173c5e" kindref="member">keys_decompressed</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1aa53d6bc8c703184a4e697b6440671f2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1aa53d6bc8c703184a4e697b6440671f2a" kindref="member">bloom_inserts</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="266" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a113a2433af05aa1cdb10efaf8ed137b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a113a2433af05aa1cdb10efaf8ed137b2" kindref="member">bloom_lookups</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="267" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1ab28256763c805af2e2635a83ee6ddfb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1ab28256763c805af2e2635a83ee6ddfb7" kindref="member">bloom_hits</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a000474d32c571ead82cf6bdc1fba8ae0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a000474d32c571ead82cf6bdc1fba8ae0" kindref="member">bloom_rejections</ref>{0};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a8ba47b0366538d0eaa789890cecc38c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a8ba47b0366538d0eaa789890cecc38c9" kindref="member">dict_encodes</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="270" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a1b369bcdd8584acdc8a7c2b64403ae3c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a1b369bcdd8584acdc8a7c2b64403ae3c" kindref="member">dict_hits</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="271" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a53f01b1adcafab5a0553b0c06fee8bbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1a53f01b1adcafab5a0553b0c06fee8bbc" kindref="member">rle_runs_saved</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272" refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1aa09d811e781d14d0143d890f0f9bd5dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats_1aa09d811e781d14d0143d890f0f9bd5dd" kindref="member">prefix_bytes_saved</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1af5e80c4f952b291b808226e2cf6226f3" kindref="member">IndexCompressionCodec</ref>();</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1af5e80c4f952b291b808226e2cf6226f3" kindref="member">IndexCompressionCodec</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Config&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--<sp/>Configuration<sp/>-------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="classthemis_1_1index_1_1_index_compression_codec_1aff5c5926cbd9b9e56444d4cc9854517c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1aff5c5926cbd9b9e56444d4cc9854517c" kindref="member">config</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg_;<sp/>}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--<sp/>Dictionary<sp/>----------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1a6e5b04191f64cd4a94db7ee4ea23247e" kindref="member">trainDictionary</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>sample_values);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287" refid="classthemis_1_1index_1_1_index_compression_codec_1ae116e4cf0767bf2a153311721b543690" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1ae116e4cf0767bf2a153311721b543690" kindref="member">dictionaryReady</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!dict_codec_.empty();<sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1a421025b7c239f7a8620651a3f9f25df3" kindref="member">encodeValue</ref>(std::string_view<sp/>value)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1afb166016dc8897bbf1b968c0d9742f05" kindref="member">decodeValue</ref>(uint32_t<sp/>code)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--<sp/>Bloom<sp/>filter<sp/>--------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1a0988af5e48a61768c46165a9af06d34b" kindref="member">bloomInsert</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1aaa763e203749288342fe617a82aba1ef" kindref="member">bloomMightContain</ref>(std::string_view<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1abc221c6d2d5548defd7199fddebb310c" kindref="member">resetBloom</ref>();</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--<sp/>Key<sp/>compression<sp/>-----------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;PrefixBlock&gt;<sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1a6427b2b415839ca0c55d68ed5d2021b1" kindref="member">compressKeys</ref>(</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>sorted_keys);</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1ae6542e896318a8ddd5139f89b30fc1de" kindref="member">decompressKeys</ref>(</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;PrefixBlock&gt;&amp;<sp/>blocks);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--<sp/>Value<sp/>RLE<sp/>-----------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_run_length_block" kindref="compound">RunLengthBlock</ref><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1a6fa7eae5d94fff87f72d2810a17f4550" kindref="member">compressValues</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>values);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1abd07e172b8b9ddf80a07bf59330414f5" kindref="member">decompressValues</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_run_length_block" kindref="compound">RunLengthBlock</ref>&amp;<sp/>block);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--<sp/>Delta<sp/>encoding<sp/>------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1aaa19626823899ca673e3c3a08a7efeb6" kindref="member">encodePKs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int64_t&gt;&amp;<sp/>sorted_pks);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1a7c0ce445e8229346988e06f1b9b4f381" kindref="member">decodePKs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref>&amp;<sp/>block);</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>--<sp/>Statistics<sp/>----------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335" refid="classthemis_1_1index_1_1_index_compression_codec_1a58205842cee42b2a6bf5f392b78e555c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats" kindref="compound">Stats</ref>&amp;<sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1a58205842cee42b2a6bf5f392b78e555c" kindref="member">stats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>stats_;<sp/>}</highlight></codeline>
+<codeline lineno="336" refid="classthemis_1_1index_1_1_index_compression_codec_1aa969a9bef79557417a3951c85e147641" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_index_compression_codec_1aa969a9bef79557417a3951c85e147641" kindref="member">resetStats</ref>()<sp/><sp/>{<sp/>stats_<sp/>=<sp/>{};<sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg_;</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_bloom_filter" kindref="compound">BloomFilter</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>bloom_;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_dictionary_codec" kindref="compound">DictionaryCodec</ref><sp/><sp/><sp/>dict_codec_;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Stats<sp/><sp/><sp/><sp/><sp/>stats_;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/index_compression.h"/>
+  </compounddef>
+</doxygen>

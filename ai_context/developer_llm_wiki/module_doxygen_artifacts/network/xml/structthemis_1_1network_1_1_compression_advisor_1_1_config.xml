@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_compression_advisor_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::CompressionAdvisor::Config</compoundname>
+    <includes refid="wire__protocol__performance_8h" local="no">wire_protocol_performance.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_compression_advisor_1_1_config_1ab8ba9d8a59f3bb7960250cc66ffc881c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::CompressionAdvisor::Config::min_compressible_bytes</definition>
+        <argsstring></argsstring>
+        <name>min_compressible_bytes</name>
+        <qualifiedname>themis::network::CompressionAdvisor::Config::min_compressible_bytes</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Below this: always SKIP. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="320" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a5ad183935d44e11ec17990a344879ec6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::CompressionAdvisor::Config::lz4_fast_threshold</definition>
+        <argsstring></argsstring>
+        <name>lz4_fast_threshold</name>
+        <qualifiedname>themis::network::CompressionAdvisor::Config::lz4_fast_threshold</qualifiedname>
+        <initializer>= 64 * 1024</initializer>
+        <briefdescription>
+<para>Above this: LZ4_HC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="321" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a09b16355830a3ab7bb38a88d43f5e2a7" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::CompressionAdvisor::Config::lz4_fast_acceleration</definition>
+        <argsstring></argsstring>
+        <name>lz4_fast_acceleration</name>
+        <qualifiedname>themis::network::CompressionAdvisor::Config::lz4_fast_acceleration</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>LZ4_compress_fast accel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="322" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_compression_advisor_1_1_config_1ad7ba7c11363e544be61898da06185531" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::CompressionAdvisor::Config::lz4_fast_x_acceleration</definition>
+        <argsstring></argsstring>
+        <name>lz4_fast_x_acceleration</name>
+        <qualifiedname>themis::network::CompressionAdvisor::Config::lz4_fast_x_acceleration</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>used when latency is critical </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="323" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a585a80f4b2e0fc2b1fe3b3b7d9f60706" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::network::CompressionAdvisor::Config::lz4_hc_level</definition>
+        <argsstring></argsstring>
+        <name>lz4_hc_level</name>
+        <qualifiedname>themis::network::CompressionAdvisor::Config::lz4_hc_level</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>LZ4HC_CLEVEL_DEFAULT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="324" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_compression_advisor_1_1_config_1aa67ea35b569b329e7e01097be6c1701a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::CompressionAdvisor::Config::prefer_speed</definition>
+        <argsstring></argsstring>
+        <name>prefer_speed</name>
+        <qualifiedname>themis::network::CompressionAdvisor::Config::prefer_speed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Prefer LZ4_FAST_X over LZ4_HC. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="325" column="16" bodyfile="include/network/wire_protocol_performance.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a4a4763c9ef637be99ab17f58af0dbc5e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>static Config themis::network::CompressionAdvisor::Config::defaults</definition>
+        <argsstring>()</argsstring>
+        <name>defaults</name>
+        <qualifiedname>themis::network::CompressionAdvisor::Config::defaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_performance.h" line="326" column="23" bodyfile="include/network/wire_protocol_performance.h" bodystart="326" bodyend="326"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/wire_protocol_performance.h" line="319" column="5" bodyfile="include/network/wire_protocol_performance.h" bodystart="319" bodyend="327"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a4a4763c9ef637be99ab17f58af0dbc5e" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor::Config</scope><name>defaults</name></member>
+      <member refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a09b16355830a3ab7bb38a88d43f5e2a7" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor::Config</scope><name>lz4_fast_acceleration</name></member>
+      <member refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a5ad183935d44e11ec17990a344879ec6" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor::Config</scope><name>lz4_fast_threshold</name></member>
+      <member refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1ad7ba7c11363e544be61898da06185531" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor::Config</scope><name>lz4_fast_x_acceleration</name></member>
+      <member refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1a585a80f4b2e0fc2b1fe3b3b7d9f60706" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor::Config</scope><name>lz4_hc_level</name></member>
+      <member refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1ab8ba9d8a59f3bb7960250cc66ffc881c" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor::Config</scope><name>min_compressible_bytes</name></member>
+      <member refid="structthemis_1_1network_1_1_compression_advisor_1_1_config_1aa67ea35b569b329e7e01097be6c1701a" prot="public" virt="non-virtual"><scope>themis::network::CompressionAdvisor::Config</scope><name>prefer_speed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

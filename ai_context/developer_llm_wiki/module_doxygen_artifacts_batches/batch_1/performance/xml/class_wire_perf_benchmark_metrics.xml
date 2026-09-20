@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_wire_perf_benchmark_metrics" kind="class" language="C++" prot="public">
+    <compoundname>WirePerfBenchmarkMetrics</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_wire_perf_benchmark_metrics_1a9e82e7b537c210769938d84c1a420944" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int WirePerfBenchmarkMetrics::kIters</definition>
+        <argsstring></argsstring>
+        <name>kIters</name>
+        <qualifiedname>WirePerfBenchmarkMetrics::kIters</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_wire_perf_benchmark.cpp" line="52" column="26" bodyfile="tests/performance/test_wire_perf_benchmark.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WirePerfBenchmarkMetrics</label>
+        <link refid="class_wire_perf_benchmark_metrics"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WirePerfBenchmarkMetrics</label>
+        <link refid="class_wire_perf_benchmark_metrics"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/test_wire_perf_benchmark.cpp" line="50" column="1" bodyfile="tests/performance/test_wire_perf_benchmark.cpp" bodystart="50" bodyend="53"/>
+    <listofallmembers>
+      <member refid="class_wire_perf_benchmark_metrics_1a9e82e7b537c210769938d84c1a420944" prot="protected" virt="non-virtual"><scope>WirePerfBenchmarkMetrics</scope><name>kIters</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

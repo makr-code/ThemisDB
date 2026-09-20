@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::Schema</compoundname>
+    <includes refid="adaptive__query__compiler_8h" local="no">adaptive_query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_schema_1acb5da95768348dca84c30e93bf0f8902" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1performance_1_1_table_schema" kindref="compound">TableSchema</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, TableSchema&gt; themis::performance::Schema::tables</definition>
+        <argsstring></argsstring>
+        <name>tables</name>
+        <qualifiedname>themis::performance::Schema::tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="130" column="24" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1performance_1_1_schema_1a996ac41a8b22bbff9ad5204cedde4960" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1performance_1_1_table_schema" kindref="compound">TableSchema</ref> *</type>
+        <definition>const TableSchema * themis::performance::Schema::getTable</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>getTable</name>
+        <qualifiedname>themis::performance::Schema::getTable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/adaptive_query_compiler.h" line="132" column="23" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="132" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Multi-table schema snapshot passed to the compiler. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/adaptive_query_compiler.h" line="129" column="1" bodyfile="include/performance/adaptive_query_compiler.h" bodystart="129" bodyend="136"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_schema_1a996ac41a8b22bbff9ad5204cedde4960" prot="public" virt="non-virtual"><scope>themis::performance::Schema</scope><name>getTable</name></member>
+      <member refid="structthemis_1_1performance_1_1_schema_1acb5da95768348dca84c30e93bf0f8902" prot="public" virt="non-virtual"><scope>themis::performance::Schema</scope><name>tables</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

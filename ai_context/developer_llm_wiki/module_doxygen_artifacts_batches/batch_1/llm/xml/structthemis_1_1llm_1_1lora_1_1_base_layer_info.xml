@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_base_layer_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::BaseLayerInfo</compoundname>
+    <includes refid="base__model__adapter_8h" local="no">base_model_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1a18d145983b3d947ddf0b49ac4430d540" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::BaseLayerInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::llm::lora::BaseLayerInfo::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="33" column="17" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1aae008bd66ea045816d5683166357dd3b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::BaseLayerInfo::shape</definition>
+        <argsstring></argsstring>
+        <name>shape</name>
+        <qualifiedname>themis::llm::lora::BaseLayerInfo::shape</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="34" column="17" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1aaddb8d0628e0eeaba5c8298292beb2c6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::BaseLayerInfo::in_features</definition>
+        <argsstring></argsstring>
+        <name>in_features</name>
+        <qualifiedname>themis::llm::lora::BaseLayerInfo::in_features</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="35" column="12" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1a7baea2b2d5a7272ea52872d6c95e77be" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::BaseLayerInfo::out_features</definition>
+        <argsstring></argsstring>
+        <name>out_features</name>
+        <qualifiedname>themis::llm::lora::BaseLayerInfo::out_features</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="36" column="12" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1a14fe935ed1bf9dbf4063a8d76fb86da2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::BaseLayerInfo::layer_type</definition>
+        <argsstring></argsstring>
+        <name>layer_type</name>
+        <qualifiedname>themis::llm::lora::BaseLayerInfo::layer_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="37" column="17" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1a7ff81c0428b03fec66aafc1a2c3a47c4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::BaseLayerInfo::layer_idx</definition>
+        <argsstring></argsstring>
+        <name>layer_idx</name>
+        <qualifiedname>themis::llm::lora::BaseLayerInfo::layer_idx</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="38" column="9" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1aabfc0afac1780c7defe4e32223e05f35" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::BaseLayerInfo::~BaseLayerInfo</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseLayerInfo</name>
+        <qualifiedname>themis::llm::lora::BaseLayerInfo::~BaseLayerInfo</qualifiedname>
+        <briefdescription>
+<para>Base Layer Info. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/base_model_adapter.h" line="32" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/base_model_adapter.h" line="27" column="1" bodyfile="include/llm/lora_framework/base_model_adapter.h" bodystart="27" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1aaddb8d0628e0eeaba5c8298292beb2c6" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseLayerInfo</scope><name>in_features</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1a7ff81c0428b03fec66aafc1a2c3a47c4" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseLayerInfo</scope><name>layer_idx</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1a14fe935ed1bf9dbf4063a8d76fb86da2" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseLayerInfo</scope><name>layer_type</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1a18d145983b3d947ddf0b49ac4430d540" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseLayerInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1a7baea2b2d5a7272ea52872d6c95e77be" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseLayerInfo</scope><name>out_features</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1aae008bd66ea045816d5683166357dd3b" prot="public" virt="non-virtual"><scope>themis::llm::lora::BaseLayerInfo</scope><name>shape</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_base_layer_info_1aabfc0afac1780c7defe4e32223e05f35" prot="public" virt="virtual"><scope>themis::llm::lora::BaseLayerInfo</scope><name>~BaseLayerInfo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

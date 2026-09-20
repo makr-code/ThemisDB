@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1streaming" kind="namespace" language="C++">
+    <compoundname>themis::rag::streaming</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" prot="public">themis::rag::streaming::StreamedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" prot="public">themis::rag::streaming::ContextWindowState</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_streaming_result" prot="public">themis::rag::streaming::StreamingResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1streaming_1_1_streaming_retriever_config" prot="public">themis::rag::streaming::StreamingRetrieverConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1streaming_1_1_context_window_filler" prot="public">themis::rag::streaming::ContextWindowFiller</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1streaming_1_1_streaming_retriever" prot="public">themis::rag::streaming::StreamingRetriever</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1streaming_1a52e9951aebaf27cf24478acd2d9002c2" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &amp;, const <ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref> &amp;)&gt;</type>
+        <definition>using themis::rag::streaming::DocumentAcceptedCallback = 
+std::function&lt;void(const StreamedDocument&amp;, const ContextWindowState&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DocumentAcceptedCallback</name>
+        <qualifiedname>themis::rag::streaming::DocumentAcceptedCallback</qualifiedname>
+        <briefdescription>
+<para>Called each time a document is accepted into the context window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The newly accepted document. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current context window state after acceptance. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="70" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1streaming_1ac27063e57798dd34b0f31abbe866c085" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1streaming_1_1_streamed_document" kindref="compound">StreamedDocument</ref> &amp;, const <ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref> &amp;)&gt;</type>
+        <definition>using themis::rag::streaming::DocumentSkippedCallback = 
+std::function&lt;void(const StreamedDocument&amp;, const ContextWindowState&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>DocumentSkippedCallback</name>
+        <qualifiedname>themis::rag::streaming::DocumentSkippedCallback</qualifiedname>
+        <briefdescription>
+<para>Called each time a document is skipped (token budget would exceed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="76" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1streaming_1ad37cc7fac053b34cff9cf72ac1de3aec" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1rag_1_1streaming_1_1_context_window_state" kindref="compound">ContextWindowState</ref> &amp;)&gt;</type>
+        <definition>using themis::rag::streaming::WindowFullCallback = std::function&lt;void(const ContextWindowState&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>WindowFullCallback</name>
+        <qualifiedname>themis::rag::streaming::WindowFullCallback</qualifiedname>
+        <briefdescription>
+<para>Called when the context window is full. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/streaming_retriever.h" line="82" column="1" bodyfile="include/rag/streaming_retriever.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/streaming_retriever.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

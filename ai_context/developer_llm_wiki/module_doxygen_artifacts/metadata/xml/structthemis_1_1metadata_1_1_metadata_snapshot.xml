@@ -1,0 +1,177 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1metadata_1_1_metadata_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::metadata::MetadataSnapshot</compoundname>
+    <includes refid="metadata__snapshot_8h" local="no">metadata_snapshot.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_snapshot_1ab41ad6f8c7c0244b7b5f3b4fac5c1417" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataSnapshot::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>themis::metadata::MetadataSnapshot::snapshot_id</qualifiedname>
+        <briefdescription>
+<para>Unique identifier for this snapshot (e.g. &quot;v1.2.0&quot; or a UUID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="69" column="17" bodyfile="include/metadata/metadata_snapshot.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_snapshot_1a6395a595746ec65feab2334e3c98e7cb" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::metadata::MetadataSnapshot::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::metadata::MetadataSnapshot::created_at</qualifiedname>
+        <briefdescription>
+<para>Wall-clock time at which this snapshot was taken. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="72" column="43" bodyfile="include/metadata/metadata_snapshot.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_snapshot_1accef0de6693a85f5591eea539317c85d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &gt;</type>
+        <definition>std::vector&lt;SchemaManager::TableSchema&gt; themis::metadata::MetadataSnapshot::tables</definition>
+        <argsstring></argsstring>
+        <name>tables</name>
+        <qualifiedname>themis::metadata::MetadataSnapshot::tables</qualifiedname>
+        <briefdescription>
+<para>Complete list of table schemas captured in this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="75" column="17" bodyfile="include/metadata/metadata_snapshot.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_snapshot_1af33d88035cd4bf5e2091435d259e3c38" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataSnapshot::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::metadata::MetadataSnapshot::author</qualifiedname>
+        <briefdescription>
+<para>Identity of the person or process that created this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="78" column="17" bodyfile="include/metadata/metadata_snapshot.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1metadata_1_1_metadata_snapshot_1a2abebf952ebefe795b42f012fd38cd49" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataSnapshot::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::metadata::MetadataSnapshot::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of what changed or why this snapshot exists. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="81" column="17" bodyfile="include/metadata/metadata_snapshot.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_metadata_snapshot_1af5ab767781478dc69feb1d1bfb523fc2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> *</type>
+        <definition>const SchemaManager::TableSchema * themis::metadata::MetadataSnapshot::findTable</definition>
+        <argsstring>(std::string_view name) const</argsstring>
+        <name>findTable</name>
+        <qualifiedname>themis::metadata::MetadataSnapshot::findTable</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Find a table schema by name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table name to look up (case-sensitive). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the matching TableSchema, or nullptr if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="91" column="38" bodyfile="include/metadata/metadata_snapshot.h" bodystart="91" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_metadata_snapshot_1aad379f935ebb7726a86e9e63f9d4fa25" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::metadata::MetadataSnapshot::tableCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>tableCount</name>
+        <qualifiedname>themis::metadata::MetadataSnapshot::tableCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of tables captured in this snapshot. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="101" column="12" bodyfile="include/metadata/metadata_snapshot.h" bodystart="101" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1metadata_1_1_metadata_snapshot_1a57cb688716d9a81edfa15e4d44d1eef0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1metadata_1a8efd44656ac5d0cf26226df8e9a7fbc2" kindref="member">json</ref></type>
+        <definition>json themis::metadata::MetadataSnapshot::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::metadata::MetadataSnapshot::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise the snapshot to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Schema: <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;snapshot_id&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;&lt;id&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;created_at&quot;</highlight><highlight class="normal">:<sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;ISO-8601&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;author&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;&lt;string&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;&lt;string&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;table_count&quot;</highlight><highlight class="normal">:<sp/>&lt;n&gt;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;tables&quot;</highlight><highlight class="normal">:<sp/><sp/><sp/><sp/><sp/><sp/>[<sp/>&lt;TableSchema<sp/>JSON&gt;,<sp/>...<sp/>]</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/metadata_snapshot.h" line="118" column="10" bodyfile="include/metadata/metadata_snapshot.h" bodystart="118" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable point-in-time capture of all table schemas. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>snapshot_id must be non-empty when passed to a store&apos;s save() method. Callers are responsible for generating meaningful IDs (e.g. UUID v4, semantic version, ISO-8601 timestamp string). </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/metadata/metadata_snapshot.h" line="67" column="1" bodyfile="include/metadata/metadata_snapshot.h" bodystart="67" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1metadata_1_1_metadata_snapshot_1af33d88035cd4bf5e2091435d259e3c38" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshot</scope><name>author</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_snapshot_1a6395a595746ec65feab2334e3c98e7cb" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshot</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_snapshot_1a2abebf952ebefe795b42f012fd38cd49" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshot</scope><name>description</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_snapshot_1af5ab767781478dc69feb1d1bfb523fc2" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshot</scope><name>findTable</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_snapshot_1ab41ad6f8c7c0244b7b5f3b4fac5c1417" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshot</scope><name>snapshot_id</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_snapshot_1aad379f935ebb7726a86e9e63f9d4fa25" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshot</scope><name>tableCount</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_snapshot_1accef0de6693a85f5591eea539317c85d" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshot</scope><name>tables</name></member>
+      <member refid="structthemis_1_1metadata_1_1_metadata_snapshot_1a57cb688716d9a81edfa15e4d44d1eef0" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataSnapshot</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

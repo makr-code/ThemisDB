@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_search_form" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::SearchForm</compoundname>
+    <includes refid="scraper__search__engine_8h" local="no">scraper_search_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_form_1a0633cc4eea4d927a5b9bdfbfb370aaf5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchForm::action_url</definition>
+        <argsstring></argsstring>
+        <name>action_url</name>
+        <qualifiedname>themis::scraper::SearchForm::action_url</qualifiedname>
+        <briefdescription>
+<para>Resolved absolute action URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="31" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_form_1adbf41da0cd202418d1a06812c0e599b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchForm::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::scraper::SearchForm::method</qualifiedname>
+        <briefdescription>
+<para>&quot;GET&quot; or &quot;POST&quot; (normalised to upper-case) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="32" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_form_1ab2895f63e6858dfab30eba39d65d514e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchForm::input_name</definition>
+        <argsstring></argsstring>
+        <name>input_name</name>
+        <qualifiedname>themis::scraper::SearchForm::input_name</qualifiedname>
+        <briefdescription>
+<para>name= attribute of the primary search input </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="33" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_form_1a565ecddd2fc22d79674ceea1da060f34" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::SearchForm::hidden_fields</definition>
+        <argsstring></argsstring>
+        <name>hidden_fields</name>
+        <qualifiedname>themis::scraper::SearchForm::hidden_fields</qualifiedname>
+        <briefdescription>
+<para>Hidden &lt;input&gt; fields. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="34" column="14" bodyfile="include/scraper/scraper_search_engine.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_search_form_1a6d93fcefa875c4fc5637943e7d8cf81d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::SearchForm::enctype</definition>
+        <argsstring></argsstring>
+        <name>enctype</name>
+        <qualifiedname>themis::scraper::SearchForm::enctype</qualifiedname>
+        <briefdescription>
+<para>Form enctype (default: application/x-www-form-urlencoded). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_search_engine.h" line="35" column="17" bodyfile="include/scraper/scraper_search_engine.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Represents an HTML search form discovered on a page. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_search_engine.h" line="30" column="1" bodyfile="include/scraper/scraper_search_engine.h" bodystart="30" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_search_form_1a0633cc4eea4d927a5b9bdfbfb370aaf5" prot="public" virt="non-virtual"><scope>themis::scraper::SearchForm</scope><name>action_url</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_form_1a6d93fcefa875c4fc5637943e7d8cf81d" prot="public" virt="non-virtual"><scope>themis::scraper::SearchForm</scope><name>enctype</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_form_1a565ecddd2fc22d79674ceea1da060f34" prot="public" virt="non-virtual"><scope>themis::scraper::SearchForm</scope><name>hidden_fields</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_form_1ab2895f63e6858dfab30eba39d65d514e" prot="public" virt="non-virtual"><scope>themis::scraper::SearchForm</scope><name>input_name</name></member>
+      <member refid="structthemis_1_1scraper_1_1_search_form_1adbf41da0cd202418d1a06812c0e599b4" prot="public" virt="non-virtual"><scope>themis::scraper::SearchForm</scope><name>method</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

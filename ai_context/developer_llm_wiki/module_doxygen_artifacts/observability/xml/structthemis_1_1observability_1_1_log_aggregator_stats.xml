@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_log_aggregator_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::LogAggregatorStats</compoundname>
+    <includes refid="log__aggregator_8h" local="no">log_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_stats_1a9f438d21773557906d74e2f9b53441be" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::LogAggregatorStats::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themis::observability::LogAggregatorStats::total_entries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total entries accepted (not dropped). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="103" column="13" bodyfile="include/observability/log_aggregator.h" bodystart="103" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_stats_1aecc7da42c16718485dae58709c1fa692" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::LogAggregatorStats::dropped_entries</definition>
+        <argsstring></argsstring>
+        <name>dropped_entries</name>
+        <qualifiedname>themis::observability::LogAggregatorStats::dropped_entries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Entries dropped due to level filter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="104" column="13" bodyfile="include/observability/log_aggregator.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_stats_1a97d45c12b0cd622eb04315bc5b5ece99" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::LogAggregatorStats::entries_by_level[6]</definition>
+        <argsstring>[6]</argsstring>
+        <name>entries_by_level</name>
+        <qualifiedname>themis::observability::LogAggregatorStats::entries_by_level</qualifiedname>
+        <initializer>{0, 0, 0, 0, 0, 0}</initializer>
+        <briefdescription>
+<para>Per-level accepted count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="105" column="13" bodyfile="include/observability/log_aggregator.h" bodystart="105" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_log_aggregator_stats_1a8490a1eafd0d88f16f2ef2246b423d6e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::LogAggregatorStats::async_queue_overflows</definition>
+        <argsstring></argsstring>
+        <name>async_queue_overflows</name>
+        <qualifiedname>themis::observability::LogAggregatorStats::async_queue_overflows</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Async tasks dropped due to full queue. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/log_aggregator.h" line="106" column="13" bodyfile="include/observability/log_aggregator.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Counters exported by <ref refid="classthemis_1_1observability_1_1_log_aggregator" kindref="compound">LogAggregator</ref> for observability. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/log_aggregator.h" line="102" column="1" bodyfile="include/observability/log_aggregator.h" bodystart="102" bodyend="107"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a8490a1eafd0d88f16f2ef2246b423d6e" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorStats</scope><name>async_queue_overflows</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_stats_1aecc7da42c16718485dae58709c1fa692" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorStats</scope><name>dropped_entries</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a97d45c12b0cd622eb04315bc5b5ece99" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorStats</scope><name>entries_by_level</name></member>
+      <member refid="structthemis_1_1observability_1_1_log_aggregator_stats_1a9f438d21773557906d74e2f9b53441be" prot="public" virt="non-virtual"><scope>themis::observability::LogAggregatorStats</scope><name>total_entries</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

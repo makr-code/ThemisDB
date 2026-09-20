@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_267d59849fe9c03c95fc35582ccf2ca4" kind="dir">
+    <compoundname>src/themis</compoundname>
+    <innerfile refid="build__info_8cpp">build_info.cpp</innerfile>
+    <innerfile refid="edition__manager_8cpp">edition_manager.cpp</innerfile>
+    <innerfile refid="license__info_8cpp">license_info.cpp</innerfile>
+    <innerfile refid="module__dependency__resolver_8cpp">module_dependency_resolver.cpp</innerfile>
+    <innerfile refid="module__hash__verifier_8cpp">module_hash_verifier.cpp</innerfile>
+    <innerfile refid="module__loader_8cpp">module_loader.cpp</innerfile>
+    <innerfile refid="module__loader__linux_8cpp">module_loader_linux.cpp</innerfile>
+    <innerfile refid="module__loader__win32_8cpp">module_loader_win32.cpp</innerfile>
+    <innerfile refid="module__security_8cpp">module_security.cpp</innerfile>
+    <innerfile refid="module__signature__verifier_8cpp">module_signature_verifier.cpp</innerfile>
+    <innerfile refid="wire__protocol__server_8cpp">wire_protocol_server.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/themis/"/>
+  </compounddef>
+</doxygen>

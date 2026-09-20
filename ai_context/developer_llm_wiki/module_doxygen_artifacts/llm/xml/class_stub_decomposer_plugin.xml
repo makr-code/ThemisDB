@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_decomposer_plugin" kind="class" language="C++" prot="public">
+    <compoundname>StubDecomposerPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_i_l_l_m_plugin" prot="public" virt="non-virtual">themis::llm::ILLMPlugin</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_stub_decomposer_plugin_1ac3aa9360ff23c8f765346e98c64ef10d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StubDecomposerPlugin::response_text</definition>
+        <argsstring></argsstring>
+        <name>response_text</name>
+        <qualifiedname>StubDecomposerPlugin::response_text</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>Response text the stub will return for any <ref refid="class_stub_decomposer_plugin_1a1ff8cfb91b41cc385bcd0817bea78a29" kindref="member">generate()</ref> call. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="48" column="17" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_decomposer_plugin_1ab4cdefd8f694637f07b18a36ec90cbea" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int StubDecomposerPlugin::call_count</definition>
+        <argsstring></argsstring>
+        <name>call_count</name>
+        <qualifiedname>StubDecomposerPlugin::call_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="49" column="17" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a9efcdbd46ac8462839a73e9697b464cb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubDecomposerPlugin::StubDecomposerPlugin</definition>
+        <argsstring>(const std::string &amp;resp=&quot;&quot;)</argsstring>
+        <name>StubDecomposerPlugin</name>
+        <qualifiedname>StubDecomposerPlugin::StubDecomposerPlugin</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resp</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="51" column="14" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a8aeefb8de1efed74b6967b397378756d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubDecomposerPlugin::loadModel</definition>
+        <argsstring>(const std::string &amp;, const json &amp;) override</argsstring>
+        <name>loadModel</name>
+        <qualifiedname>StubDecomposerPlugin::loadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab2f6318ca437d31318a0beca0c5d4742">loadModel</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="54" column="10" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a0128dd66883bc4b3c022b640a0effa30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void StubDecomposerPlugin::unloadModel</definition>
+        <argsstring>() override</argsstring>
+        <name>unloadModel</name>
+        <qualifiedname>StubDecomposerPlugin::unloadModel</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a20a8a402b6aca0e9a79b87e5a6c2fd20">unloadModel</reimplements>
+        <briefdescription>
+<para>Unload Model. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="55" column="10" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1aef26ca08fbb7c7e3be91cff7c5ec8184" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1llm_1_1_model_info" kindref="compound">ModelInfo</ref> &gt;</type>
+        <definition>std::optional&lt; ModelInfo &gt; StubDecomposerPlugin::getModelInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelInfo</name>
+        <qualifiedname>StubDecomposerPlugin::getModelInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a3bfc697aeb24baf7fc2fdf4d697d389c">getModelInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="56" column="19" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="56" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a915f660a5d42eeb4e4b8bcbe89061ae6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubDecomposerPlugin::isModelLoaded</definition>
+        <argsstring>() const override</argsstring>
+        <name>isModelLoaded</name>
+        <qualifiedname>StubDecomposerPlugin::isModelLoaded</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a016365da7a906c3a2c6c81a440591698">isModelLoaded</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="62" column="10" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1aa83c22bcf0ddd22ebc70339ef4cf8638" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; StubDecomposerPlugin::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>StubDecomposerPlugin::embed</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a14195e7bc658ae90b32b7374169ee239">embed</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="63" column="17" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1aad6ed5197281fb5fa7061e93df83a119" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_l_l_m_capabilities" kindref="compound">LLMCapabilities</ref></type>
+        <definition>LLMCapabilities StubDecomposerPlugin::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>StubDecomposerPlugin::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a66a14a28b9ddc624c8886eaaaf6abbfa">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="64" column="24" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a1ff8cfb91b41cc385bcd0817bea78a29" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse StubDecomposerPlugin::generate</definition>
+        <argsstring>(const InferenceRequest &amp;) override</argsstring>
+        <name>generate</name>
+        <qualifiedname>StubDecomposerPlugin::generate</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a0554007ed2a748e84472f01a30369a1d">generate</reimplements>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="66" column="23" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1ad76c0db4279256fff8a9e18efd4ed8fa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubDecomposerPlugin::unloadLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>unloadLoRA</name>
+        <qualifiedname>StubDecomposerPlugin::unloadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ab72da450bc0dc2904fe7eff875d71667">unloadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="75" column="10" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a6ed8e14d21663436a5fe51c7249cae16" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubDecomposerPlugin::loadLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;, float) override</argsstring>
+        <name>loadLoRA</name>
+        <qualifiedname>StubDecomposerPlugin::loadLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a2c33ddf52b0dc03bc395d8346c805e6b">loadLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="76" column="10" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1aa2bc3db353dcc6655b71733e7b0b3e9d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_lo_r_a_info" kindref="compound">LoRAInfo</ref> &gt;</type>
+        <definition>std::vector&lt; LoRAInfo &gt; StubDecomposerPlugin::listLoRAs</definition>
+        <argsstring>() const override</argsstring>
+        <name>listLoRAs</name>
+        <qualifiedname>StubDecomposerPlugin::listLoRAs</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa4a9a794e561f78c5ed77d2d59343d12">listLoRAs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="77" column="17" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a00e9f6fec8fc23fdc6ebad079b8ab2f5" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json StubDecomposerPlugin::getMemoryStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getMemoryStats</name>
+        <qualifiedname>StubDecomposerPlugin::getMemoryStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1afbc46d4815c236a390d9f17789bb9a99">getMemoryStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="78" column="10" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1aba81b36d5b0adbda3ad1dbce1cac8c12" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1llm_1ae2de03122f9e92fe82e3d304b817d7df" kindref="member">json</ref></type>
+        <definition>json StubDecomposerPlugin::getPerformanceStats</definition>
+        <argsstring>() const override</argsstring>
+        <name>getPerformanceStats</name>
+        <qualifiedname>StubDecomposerPlugin::getPerformanceStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a8817d5900eff52785e71a314d39f0b47">getPerformanceStats</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="79" column="10" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a8ea07476c5478bc158e4e25ebde1125d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; StubDecomposerPlugin::exportLoRA</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>exportLoRA</name>
+        <qualifiedname>StubDecomposerPlugin::exportLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5bceecb2024467d70f4e67c951111d9a">exportLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="80" column="17" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a308ee9fe0b63f17d1bc0baebe84321a9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool StubDecomposerPlugin::importLoRA</definition>
+        <argsstring>(const std::string &amp;, const std::vector&lt; uint8_t &gt; &amp;) override</argsstring>
+        <name>importLoRA</name>
+        <qualifiedname>StubDecomposerPlugin::importLoRA</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aca1ef263bd70ffc0d1c04c92a1cd00fc">importLoRA</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="81" column="10" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_decomposer_plugin_1a5fafdb563c7db7f8eb68969dca6eabef" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref></type>
+        <definition>InferenceResponse StubDecomposerPlugin::generateRAG</definition>
+        <argsstring>(const RAGContext &amp;, const InferenceRequest &amp;req) override</argsstring>
+        <name>generateRAG</name>
+        <qualifiedname>StubDecomposerPlugin::generateRAG</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a6166ce75f4c3572cab7b4b1c487dfc94">generateRAG</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_r_a_g_context" kindref="compound">RAGContext</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="82" column="23" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="82" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deterministic stub that returns a hard-coded JSON decomposition array. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StubDecomposerPlugin</label>
+        <link refid="class_stub_decomposer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StubDecomposerPlugin</label>
+        <link refid="class_stub_decomposer_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::ILLMPlugin</label>
+        <link refid="classthemis_1_1llm_1_1_i_l_l_m_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_workflow_orchestration_focused.cpp" line="45" column="1" bodyfile="tests/llm/test_llm_workflow_orchestration_focused.cpp" bodystart="45" bodyend="85"/>
+    <listofallmembers>
+      <member refid="class_stub_decomposer_plugin_1ab4cdefd8f694637f07b18a36ec90cbea" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>call_count</name></member>
+      <member refid="class_stub_decomposer_plugin_1aa83c22bcf0ddd22ebc70339ef4cf8638" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>embed</name></member>
+      <member refid="class_stub_decomposer_plugin_1a8ea07476c5478bc158e4e25ebde1125d" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>exportLoRA</name></member>
+      <member refid="class_stub_decomposer_plugin_1a1ff8cfb91b41cc385bcd0817bea78a29" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>generate</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1aa5297bc971b879d93360f913a76e9469" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>generateDraftTokens</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a113e6f344509f115a632b0ee1614b6c2" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>GenerateDraftTokensFn</name></member>
+      <member refid="class_stub_decomposer_plugin_1a5fafdb563c7db7f8eb68969dca6eabef" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>generateRAG</name></member>
+      <member refid="class_stub_decomposer_plugin_1aad6ed5197281fb5fa7061e93df83a119" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>getCapabilities</name></member>
+      <member refid="class_stub_decomposer_plugin_1a00e9f6fec8fc23fdc6ebad079b8ab2f5" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>getMemoryStats</name></member>
+      <member refid="class_stub_decomposer_plugin_1aef26ca08fbb7c7e3be91cff7c5ec8184" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>getModelInfo</name></member>
+      <member refid="class_stub_decomposer_plugin_1aba81b36d5b0adbda3ad1dbce1cac8c12" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>getPerformanceStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a5570aa4f4dec749da0d2d0b9a5d7e549" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1ae20ccb33c21564f563810ed78f50c6cf" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a617f63576be5c553550530c3a72c5f53" prot="protected" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>ILLMPlugin</name></member>
+      <member refid="class_stub_decomposer_plugin_1a308ee9fe0b63f17d1bc0baebe84321a9" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>importLoRA</name></member>
+      <member refid="class_stub_decomposer_plugin_1a915f660a5d42eeb4e4b8bcbe89061ae6" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>isModelLoaded</name></member>
+      <member refid="class_stub_decomposer_plugin_1aa2bc3db353dcc6655b71733e7b0b3e9d" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>listLoRAs</name></member>
+      <member refid="class_stub_decomposer_plugin_1a6ed8e14d21663436a5fe51c7249cae16" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>loadLoRA</name></member>
+      <member refid="class_stub_decomposer_plugin_1a8aeefb8de1efed74b6967b397378756d" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>loadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a06828a4415efeab05bd0d69c7d54828c" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a379dc1e0152b9197835c0a05f95d234c" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>operator=</name></member>
+      <member refid="class_stub_decomposer_plugin_1ac3aa9360ff23c8f765346e98c64ef10d" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>response_text</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1abbcb81e46949a1afe9c567de3f8f6d61" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>setDefaultGenerateDraftTokensFn</name></member>
+      <member refid="class_stub_decomposer_plugin_1a9efcdbd46ac8462839a73e9697b464cb" prot="public" virt="non-virtual"><scope>StubDecomposerPlugin</scope><name>StubDecomposerPlugin</name></member>
+      <member refid="class_stub_decomposer_plugin_1ad76c0db4279256fff8a9e18efd4ed8fa" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>unloadLoRA</name></member>
+      <member refid="class_stub_decomposer_plugin_1a0128dd66883bc4b3c022b640a0effa30" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>unloadModel</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_l_l_m_plugin_1a9c52c9bc3ec16061fceacc8963da3176" prot="public" virt="virtual"><scope>StubDecomposerPlugin</scope><name>~ILLMPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

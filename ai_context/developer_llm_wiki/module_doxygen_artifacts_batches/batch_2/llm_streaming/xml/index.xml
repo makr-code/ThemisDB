@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="class_stub_backpressure_bench" kind="class"><name>StubBackpressureBench</name>
+    <member refid="class_stub_backpressure_bench_1a27ca91fe8c2ad906170da4eb95187a16" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_backpressure_bench_1a4029d5e2b54c9df613cd22eb4b5650ea" kind="variable"><name>buf_</name></member>
+    <member refid="class_stub_backpressure_bench_1af30b11dcd2ef9d3e3249f1e77419fdc9" kind="variable"><name>cap_</name></member>
+    <member refid="class_stub_backpressure_bench_1a64f363328dedaa25a54b9cc6fa2c8f56" kind="function"><name>StubBackpressureBench</name></member>
+    <member refid="class_stub_backpressure_bench_1ac929c022b01ee787f67e9d108cd75533" kind="function"><name>push</name></member>
+    <member refid="class_stub_backpressure_bench_1aac596ab4a759ceb0f3174868f20b288b" kind="function"><name>pop</name></member>
+  </compound>
+  <compound refid="class_stub_backpressure_stress" kind="class"><name>StubBackpressureStress</name>
+    <member refid="class_stub_backpressure_stress_1a61b5fe9ee17f69b50596daa9567a8ba8" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_backpressure_stress_1a4fa12e4f01e28647aea6692948247d24" kind="variable"><name>buf_</name></member>
+    <member refid="class_stub_backpressure_stress_1a1196055812d2e7d7a08bab3914ccbe04" kind="variable"><name>capacity_</name></member>
+    <member refid="class_stub_backpressure_stress_1a51434aec320e05f521b6f18cf69a3bc7" kind="variable"><name>overflow_</name></member>
+    <member refid="class_stub_backpressure_stress_1affcc7dd64baebc2d407686e0aaa6726a" kind="function"><name>StubBackpressureStress</name></member>
+    <member refid="class_stub_backpressure_stress_1a36a44f380c85001ed1e10837016d5a9e" kind="function"><name>push</name></member>
+    <member refid="class_stub_backpressure_stress_1a73915781fd7851f3a141f437e5c396d3" kind="function"><name>pop</name></member>
+    <member refid="class_stub_backpressure_stress_1ae473b8ed9c84ea42d96176e0381a5166" kind="function"><name>overflow</name></member>
+  </compound>
+  <compound refid="class_stub_chunk_assembler_bench" kind="class"><name>StubChunkAssemblerBench</name>
+    <member refid="class_stub_chunk_assembler_bench_1a839b63b8b322d0de77d64ecb26ad8d59" kind="variable"><name>count_</name></member>
+    <member refid="class_stub_chunk_assembler_bench_1a87349b18a42f875be1318ff308f465a0" kind="function"><name>receive</name></member>
+    <member refid="class_stub_chunk_assembler_bench_1a286ae96509d8fbcdece010cb3f5acb3d" kind="function"><name>count</name></member>
+  </compound>
+  <compound refid="class_stub_chunk_assembler_stress" kind="class"><name>StubChunkAssemblerStress</name>
+    <member refid="class_stub_chunk_assembler_stress_1a160d25b8fdcb2239d07a8949a84c1e4f" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_chunk_assembler_stress_1a9604962bc47c9961dd1fcf60c40660cd" kind="variable"><name>next_seq_</name></member>
+    <member refid="class_stub_chunk_assembler_stress_1a4a7ac0cf25fe9084a5e2d7cc7fd71d3f" kind="variable"><name>received_</name></member>
+    <member refid="class_stub_chunk_assembler_stress_1a84f5d3a6d515b25d4071b17626b6369e" kind="variable"><name>order_errors_</name></member>
+    <member refid="class_stub_chunk_assembler_stress_1a24377c83cd744800db47b4b0d3d502c9" kind="function"><name>receiveChunk</name></member>
+    <member refid="class_stub_chunk_assembler_stress_1a2d4381ee3081d6e5ac2c980480c30145" kind="function"><name>received</name></member>
+    <member refid="class_stub_chunk_assembler_stress_1af1e696d5496e5da99d79b75babf2d8f5" kind="function"><name>orderErrors</name></member>
+  </compound>
+  <compound refid="class_stub_stream_session" kind="class"><name>StubStreamSession</name>
+    <member refid="class_stub_stream_session_1a74cd91b7a9cc93ce877bd4a4a588183b" kind="variable"><name>id_</name></member>
+    <member refid="class_stub_stream_session_1ae2dab40101e38987ee8c36a258a38dc3" kind="variable"><name>token_count_</name></member>
+    <member refid="class_stub_stream_session_1a6afd69eaaf2e75027bc61825109aad61" kind="variable"><name>closed_</name></member>
+    <member refid="class_stub_stream_session_1a01016e9bd07461f3e6f263ee35550f7b" kind="function"><name>StubStreamSession</name></member>
+    <member refid="class_stub_stream_session_1ace644c29ccaa4968b1dfa18b85d0c929" kind="function"><name>sendToken</name></member>
+    <member refid="class_stub_stream_session_1a6a898da1b90c05f08929773910091173" kind="function"><name>close</name></member>
+    <member refid="class_stub_stream_session_1af6461917e01a7ac0aee92c3c02811bbd" kind="function"><name>isClosed</name></member>
+    <member refid="class_stub_stream_session_1a7291396be08361c75873b8e9c6e23c2f" kind="function"><name>tokenCount</name></member>
+    <member refid="class_stub_stream_session_1aff6b0374c2ce5a97138bd3952354ff3e" kind="function"><name>id</name></member>
+  </compound>
+  <compound refid="class_stub_stream_session_bench" kind="class"><name>StubStreamSessionBench</name>
+    <member refid="class_stub_stream_session_bench_1a88b3059cef312004fdbd3707984ac171" kind="variable"><name>id_</name></member>
+    <member refid="class_stub_stream_session_bench_1a6382b7b4e0e5a77ba0bdb1103ec7bb17" kind="function"><name>open</name></member>
+    <member refid="class_stub_stream_session_bench_1a269e061037efc2ae0161e82e1161d0bf" kind="function"><name>close</name></member>
+  </compound>
+  <compound refid="class_stub_token_stream_bench" kind="class"><name>StubTokenStreamBench</name>
+    <member refid="class_stub_token_stream_bench_1a7949b1ac3a4e275920a99e3583719067" kind="variable"><name>count_</name></member>
+    <member refid="class_stub_token_stream_bench_1af2b01171372c4688b036e5e242214818" kind="function"><name>sendToken</name></member>
+    <member refid="class_stub_token_stream_bench_1a04f32f23432174e5ebd92eb6f85f80eb" kind="function"><name>count</name></member>
+  </compound>
+  <compound refid="bench__llm__streaming__dedicated__gates_8cpp" kind="file"><name>bench_llm_streaming_dedicated_gates.cpp</name>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1ad0074e079194d39c148ff3a09775e262" kind="function"><name>LS_BM_01_Token_Send_Throughput</name></member>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1ac294cb60b53602cbd4d092cd6f968dde" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1a698c817eeda0952aed8ded88b530346f" kind="function"><name>LS_BM_02_Backpressure_Push_Latency</name></member>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1a97b21f84fd193943442fb3c50bf28a4c" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1aed068237599ac4fd27c7376907f56678" kind="function"><name>LS_BM_03_ChunkAssembler_Receive_Throughput</name></member>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1a58fe66fd2e40f397b809db7f6cf6af2f" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1acc034a950fe89a615b092e7c1a2cb041" kind="function"><name>LS_BM_04_StreamSession_Create_Latency</name></member>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1a3671e08cd9e3ba97e4af3647a933a1f7" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__llm__streaming__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="test__llm__streaming__highcardinality__stress_8cpp" kind="file"><name>test_llm_streaming_highcardinality_stress.cpp</name>
+    <member refid="test__llm__streaming__highcardinality__stress_8cpp_1a3e30ec4a87ee803810856365cc4b0e28" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__streaming__highcardinality__stress_8cpp_1a11889f2c3d722e48bd36c38d788cac75" kind="function"><name>TEST</name></member>
+    <member refid="test__llm__streaming__highcardinality__stress_8cpp_1a15dd0c0a65522703d16f9de81d1d8ea6" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test" kind="page"><name>test</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_2a1cd4d9d398b2db0a350c22bd6cc5ac" kind="dir"><name>benchmarks/llm_streaming</name>
+  </compound>
+  <compound refid="dir_f10eaf2e7f95cc43c113bf05d5464baa" kind="dir"><name>tests/llm_streaming</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+</doxygenindex>

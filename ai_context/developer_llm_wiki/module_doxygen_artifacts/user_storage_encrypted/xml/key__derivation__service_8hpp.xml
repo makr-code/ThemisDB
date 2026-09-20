@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="key__derivation__service_8hpp" kind="file" language="C++">
+    <compoundname>key_derivation_service.hpp</compoundname>
+    <includes refid="encryption__backend__interface_8hpp" local="yes">encryption_backend_interface.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="bench__user__storage__encrypted__lifecycle__gates_8cpp" local="yes">benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp</includedby>
+    <includedby refid="bench__user__storage__mount__latency_8cpp" local="yes">benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp</includedby>
+    <includedby refid="gocryptfs__backend_8hpp" local="yes">include/user_storage_encrypted/gocryptfs_backend.hpp</includedby>
+    <includedby refid="key__derivation__service_8cpp" local="yes">src/user_storage_encrypted/key_derivation_service.cpp</includedby>
+    <includedby refid="test__user__storage__encrypted__e2e__vault__integration__focused_8cpp" local="yes">tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp</includedby>
+    <includedby refid="test__user__storage__encrypted__phase1__hardening_8cpp" local="yes">tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>encryption_backend_interface.hpp</label>
+        <link refid="encryption__backend__interface_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/user_storage_encrypted/key_derivation_service.hpp</label>
+        <link refid="key__derivation__service_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>security_level.hpp</label>
+        <link refid="security__level_8hpp"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/user_storage_encrypted/bench_user_storage_encrypted_lifecycle_gates.cpp</label>
+        <link refid="bench__user__storage__encrypted__lifecycle__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp</label>
+        <link refid="bench__user__storage__mount__latency_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/user_storage_encrypted/gocryptfs_backend.hpp</label>
+        <link refid="gocryptfs__backend_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/user_storage_encrypted/key_derivation_service.hpp</label>
+        <link refid="key__derivation__service_8hpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/user_storage_encrypted/gocryptfs_backend.cpp</label>
+        <link refid="gocryptfs__backend_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/user_storage_encrypted/key_derivation_service.cpp</label>
+        <link refid="key__derivation__service_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/user_storage_encrypted/multi_level_storage.cpp</label>
+        <link refid="multi__level__storage_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/user_storage_encrypted/test_backend_command_injection_focused.cpp</label>
+        <link refid="test__backend__command__injection__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/user_storage_encrypted/test_user_storage_encrypted_e2e_vault_integration_focused.cpp</label>
+        <link refid="test__user__storage__encrypted__e2e__vault__integration__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/user_storage_encrypted/test_user_storage_encrypted_phase1_hardening.cpp</label>
+        <link refid="test__user__storage__encrypted__phase1__hardening_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/user_storage_encrypted/test_user_storage_encrypted_stress_focused.cpp</label>
+        <link refid="test__user__storage__encrypted__stress__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service" prot="public">themis::plugins::user_storage::IKeyDerivationService</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" prot="public">themis::plugins::user_storage::KeyDerivationService</innerclass>
+    <innerclass refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" prot="public">themis::plugins::user_storage::Argon2idParams</innerclass>
+    <innerclass refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" prot="public">themis::plugins::user_storage::Argon2idKeyDerivationService</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1user__storage">themis::plugins::user_storage</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="encryption__backend__interface_8hpp" kindref="compound">encryption_backend_interface.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1user__storage" kindref="compound">user_storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service" kindref="compound">IKeyDerivationService</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1ad8faeafb85140dcee5c0f70e12540b4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1ad8faeafb85140dcee5c0f70e12540b4a" kindref="member">~IKeyDerivationService</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a03c2df5d557322b844aac5b3b7d55767" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a03c2df5d557322b844aac5b3b7d55767" kindref="member">deriveKey</ref>(</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>master_key,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>salt</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a93819bc58b0097456c966372931fc353" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a93819bc58b0097456c966372931fc353" kindref="member">generateSalt</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a33b9d6a0ce6df85c3fd4695be70d0d06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a33b9d6a0ce6df85c3fd4695be70d0d06" kindref="member">loadOrCreateSalt</ref>(</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>salt_file_path</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" kindref="compound">KeyDerivationService</ref><sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1ad3f3dcc9c359238db5ef58233e8e5977" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1ad3f3dcc9c359238db5ef58233e8e5977" kindref="member">~KeyDerivationService</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1abf508cab4525d6e1524afb441aa505a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1abf508cab4525d6e1524afb441aa505a9" kindref="member">derive</ref>(</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>master_key,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>container_id,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>salt</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1a8d83a4462949fca86c59d8fbf4c9ade6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1a8d83a4462949fca86c59d8fbf4c9ade6" kindref="member">generateSalt</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>length)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kindref="compound">Argon2idParams</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1aac45a2f9628a59a92aebf943d7632704" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1aac45a2f9628a59a92aebf943d7632704" kindref="member">memory_kb</ref><sp/><sp/><sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a2a6b4b9b7798d27d04b6a89feaf0e04a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a2a6b4b9b7798d27d04b6a89feaf0e04a" kindref="member">iterations</ref><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a76f3e4dea220c957fad257ce1b5f8c11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a76f3e4dea220c957fad257ce1b5f8c11" kindref="member">parallelism</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a4cfb0a20ab7a41c146ac18286f180aac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a4cfb0a20ab7a41c146ac18286f180aac" kindref="member">output_len</ref><sp/><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ac8c1a352be5319647609e214d1950d15" kindref="member">Argon2idKeyDerivationService</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service" kindref="compound">IKeyDerivationService</ref>,<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" kindref="compound">KeyDerivationService</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KDF<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a5b6f0595431eb5fe774ee17e49e88cb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a5b6f0595431eb5fe774ee17e49e88cb9" kindref="member">kMemoryCost</ref><sp/><sp/>=<sp/>65536;<sp/></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ab2a26ab70ed84fc7f17ef35064d6c804" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ab2a26ab70ed84fc7f17ef35064d6c804" kindref="member">kTimeCost</ref><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a055ba60ba4d76f024cdf90116bcbbcff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a055ba60ba4d76f024cdf90116bcbbcff" kindref="member">kParallelism</ref><sp/>=<sp/>4;</highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ae79f1d884e15f57d27ebe5da824af811" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ae79f1d884e15f57d27ebe5da824af811" kindref="member">kKeyLength</ref><sp/><sp/><sp/>=<sp/>32;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ac8c1a352be5319647609e214d1950d15" kindref="member">Argon2idKeyDerivationService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kindref="compound">Argon2idParams</ref>&amp;<sp/>params<sp/>=<sp/><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kindref="compound">Argon2idParams</ref>{});</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abb8f3facbb9b8e0c110f0544b253cd49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abb8f3facbb9b8e0c110f0544b253cd49" kindref="member">~Argon2idKeyDerivationService</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Injectable<sp/>KDF<sp/>bridge<sp/>(STUB<sp/>#31<sp/>—<sp/>Argon2id<sp/>SHA-256<sp/>fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1afa529790d0764cd47059ba8e80ac42b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1afa529790d0764cd47059ba8e80ac42b4" kindref="member">DeriveKeyFn</ref><sp/>=<sp/>std::function&lt;Result&lt;std::vector&lt;uint8_t&gt;&gt;(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>master_key,</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>salt)&gt;;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a003e4fd62e173c7109ecfc360b04a363" kindref="member">setDeriveKeyFn</ref>(<ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1afa529790d0764cd47059ba8e80ac42b4" kindref="member">DeriveKeyFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IKeyDerivationService<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abacb854a43377d2afcb9c862a966b113" kindref="member">deriveKey</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>master_key,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>salt</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a165e881f885e9ce9b42338632cc865d8" kindref="member">generateSalt</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kindref="compound">Result&lt;std::vector&lt;uint8_t&gt;</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a50de0cabb54d91a924104b0672d83e68" kindref="member">loadOrCreateSalt</ref>(</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>salt_file_path</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KeyDerivationService<sp/>interface<sp/>(domain-separated<sp/>derive)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1aa4cb19e39968e18ba040e8de951e2f84" kindref="member">derive</ref>(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>master_key,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>container_id,</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>salt</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a165e881f885e9ce9b42338632cc865d8" kindref="member">generateSalt</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>length)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kindref="compound">Argon2idParams</ref><sp/>params_;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="namespacethemis_1_1plugins_1_1user__storage_1a7b3bce06473584831e139c5b32a2e778" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1user__storage_1a7b3bce06473584831e139c5b32a2e778" kindref="member">Argon2idContainerKeyService</ref><sp/>=<sp/><ref refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" kindref="compound">Argon2idKeyDerivationService</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>user_storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/user_storage_encrypted/key_derivation_service.hpp"/>
+  </compounddef>
+</doxygen>

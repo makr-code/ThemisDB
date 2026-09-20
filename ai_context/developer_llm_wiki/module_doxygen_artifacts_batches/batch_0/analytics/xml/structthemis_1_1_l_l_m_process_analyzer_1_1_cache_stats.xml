@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMProcessAnalyzer::CacheStats</compoundname>
+    <includes refid="llm__process__analyzer_8h" local="no">llm_process_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats_1a53a2de18e8d39b18486f7837d8c8bdfa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LLMProcessAnalyzer::CacheStats::hits</definition>
+        <argsstring></argsstring>
+        <name>hits</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::CacheStats::hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="204" column="16" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats_1a3c7f1cc44a96087583c16e52ba55ea9d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LLMProcessAnalyzer::CacheStats::misses</definition>
+        <argsstring></argsstring>
+        <name>misses</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::CacheStats::misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="205" column="16" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats_1a1b541ee40e72b06be2ac95d2770a7613" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::LLMProcessAnalyzer::CacheStats::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::CacheStats::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="206" column="16" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats_1a15c5a68f36bb7c114237373376216370" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::LLMProcessAnalyzer::CacheStats::hit_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>hit_rate</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::CacheStats::hit_rate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/llm_process_analyzer.h" line="207" column="16" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="207" bodyend="209"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/llm_process_analyzer.h" line="203" column="5" bodyfile="include/analytics/llm_process_analyzer.h" bodystart="203" bodyend="210"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats_1a1b541ee40e72b06be2ac95d2770a7613" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::CacheStats</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats_1a15c5a68f36bb7c114237373376216370" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::CacheStats</scope><name>hit_rate</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats_1a53a2de18e8d39b18486f7837d8c8bdfa" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::CacheStats</scope><name>hits</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats_1a3c7f1cc44a96087583c16e52ba55ea9d" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::CacheStats</scope><name>misses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

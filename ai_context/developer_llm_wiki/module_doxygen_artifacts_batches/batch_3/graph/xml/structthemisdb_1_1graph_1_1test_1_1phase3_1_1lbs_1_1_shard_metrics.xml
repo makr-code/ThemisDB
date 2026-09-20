@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::graph::test::phase3::lbs::ShardMetrics</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1ab574766c8589e16a0a7dbd222569d291" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::graph::test::phase3::lbs::ShardMetrics::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ShardMetrics::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1983" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1983" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1a5d3542bc3ca7e0bcec59e373e1260f46" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::lbs::ShardMetrics::cpu_pct</definition>
+        <argsstring></argsstring>
+        <name>cpu_pct</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ShardMetrics::cpu_pct</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>0.0–100.0 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1984" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1984" bodyend="1984"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1a1929b31d2bc5cd6b35807bd509858500" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::graph::test::phase3::lbs::ShardMetrics::pending_queries</definition>
+        <argsstring></argsstring>
+        <name>pending_queries</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ShardMetrics::pending_queries</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1985" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1985" bodyend="1985"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1ae4bd73e22dd3b70e1b40b30f090b1210" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::lbs::ShardMetrics::response_time_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>response_time_p99_ms</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ShardMetrics::response_time_p99_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1986" column="17" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1986" bodyend="1986"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1afaf80afccafdd01f056099dd322201f1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::graph::test::phase3::lbs::ShardMetrics::loadScore</definition>
+        <argsstring>() const</argsstring>
+        <name>loadScore</name>
+        <qualifiedname>themisdb::graph::test::phase3::lbs::ShardMetrics::loadScore</qualifiedname>
+        <briefdescription>
+<para>Composite load score (lower = less loaded). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1989" column="12" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1989" bodyend="1993"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simulated shard with load metrics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1982" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1982" bodyend="1994"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1a5d3542bc3ca7e0bcec59e373e1260f46" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ShardMetrics</scope><name>cpu_pct</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1afaf80afccafdd01f056099dd322201f1" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ShardMetrics</scope><name>loadScore</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1a1929b31d2bc5cd6b35807bd509858500" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ShardMetrics</scope><name>pending_queries</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1ae4bd73e22dd3b70e1b40b30f090b1210" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ShardMetrics</scope><name>response_time_p99_ms</name></member>
+      <member refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1lbs_1_1_shard_metrics_1ab574766c8589e16a0a7dbd222569d291" prot="public" virt="non-virtual"><scope>themisdb::graph::test::phase3::lbs::ShardMetrics</scope><name>shard_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

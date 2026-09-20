@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1storage_1_1_0d355005163004321244277221341104206106220013301116" kind="namespace" language="C++">
+    <compoundname>themis::storage::@355005163004321244277221341104206106220013301116</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/tensor_compaction_filter.cpp" line="39" column="1"/>
+  </compounddef>
+</doxygen>

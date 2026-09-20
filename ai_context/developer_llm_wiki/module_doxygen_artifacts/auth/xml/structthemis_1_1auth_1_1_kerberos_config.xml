@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_kerberos_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::KerberosConfig</compoundname>
+    <includes refid="gssapi__authenticator_8h" local="no">gssapi_authenticator.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping" prot="public">themis::auth::KerberosConfig::PrincipalMapping</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1a28e359cd067c49e952ec16c2865ce74b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::auth::KerberosConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="57" column="10" bodyfile="include/auth/gssapi_authenticator.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1a5c3a8f31e3caa1620b2a6485ec3d3ada" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::KerberosConfig::service_principal</definition>
+        <argsstring></argsstring>
+        <name>service_principal</name>
+        <qualifiedname>themis::auth::KerberosConfig::service_principal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="58" column="17" bodyfile="include/auth/gssapi_authenticator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1a5b7b774d73b5c314ce80083e2f35db0f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::KerberosConfig::keytab_file</definition>
+        <argsstring></argsstring>
+        <name>keytab_file</name>
+        <qualifiedname>themis::auth::KerberosConfig::keytab_file</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="59" column="17" bodyfile="include/auth/gssapi_authenticator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1ac2eac0d214b5b70cf939442ee6e0aff3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::KerberosConfig::krb5_config</definition>
+        <argsstring></argsstring>
+        <name>krb5_config</name>
+        <qualifiedname>themis::auth::KerberosConfig::krb5_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="60" column="17" bodyfile="include/auth/gssapi_authenticator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1a02f6c1d4775e290ca279a5e07e914b9c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::KerberosConfig::fallback_to_basic</definition>
+        <argsstring></argsstring>
+        <name>fallback_to_basic</name>
+        <qualifiedname>themis::auth::KerberosConfig::fallback_to_basic</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="61" column="10" bodyfile="include/auth/gssapi_authenticator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1a10a2b8c3457ef376e00c9cd76b048beb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::KerberosConfig::context_timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>context_timeout_seconds</name>
+        <qualifiedname>themis::auth::KerberosConfig::context_timeout_seconds</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1auth_1ab8c2a9ffe5fe3e97c295c8323e6ec8cf" kindref="member">DEFAULT_GSSAPI_CONTEXT_TIMEOUT</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="62" column="9" bodyfile="include/auth/gssapi_authenticator.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_kerberos_config_1a310ec2a26f18b7a9dad8c720f51f2020" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1auth_1_1_kerberos_config_1_1_principal_mapping" kindref="compound">PrincipalMapping</ref> &gt;</type>
+        <definition>std::vector&lt;PrincipalMapping&gt; themis::auth::KerberosConfig::principal_mappings</definition>
+        <argsstring></argsstring>
+        <name>principal_mappings</name>
+        <qualifiedname>themis::auth::KerberosConfig::principal_mappings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/gssapi_authenticator.h" line="69" column="17" bodyfile="include/auth/gssapi_authenticator.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/gssapi_authenticator.h" line="56" column="1" bodyfile="include/auth/gssapi_authenticator.h" bodystart="56" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1a10a2b8c3457ef376e00c9cd76b048beb" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig</scope><name>context_timeout_seconds</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1a28e359cd067c49e952ec16c2865ce74b" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1a02f6c1d4775e290ca279a5e07e914b9c" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig</scope><name>fallback_to_basic</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1a5b7b774d73b5c314ce80083e2f35db0f" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig</scope><name>keytab_file</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1ac2eac0d214b5b70cf939442ee6e0aff3" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig</scope><name>krb5_config</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1a310ec2a26f18b7a9dad8c720f51f2020" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig</scope><name>principal_mappings</name></member>
+      <member refid="structthemis_1_1auth_1_1_kerberos_config_1a5c3a8f31e3caa1620b2a6485ec3d3ada" prot="public" virt="non-virtual"><scope>themis::auth::KerberosConfig</scope><name>service_principal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_store_erasure_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::StoreErasureResult</compoundname>
+    <includes refid="gdpr__subject__rights_8h" local="no">gdpr_subject_rights.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_store_erasure_result_1a5f1bcf3b88b1ed3b5f0eb7c0f5412a96" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::StoreErasureResult::store_id</definition>
+        <argsstring></argsstring>
+        <name>store_id</name>
+        <qualifiedname>themis::governance::StoreErasureResult::store_id</qualifiedname>
+        <briefdescription>
+<para>Identifier of the store (e.g. &quot;vector_index&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="35" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_store_erasure_result_1ae764554333020dbe25d4ce7c6700d0c6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::StoreErasureResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::governance::StoreErasureResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether erasure succeeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="36" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_store_erasure_result_1a2dc727b38686ab2a47f959cad6205b3c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::StoreErasureResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::governance::StoreErasureResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Non-empty on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="37" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_store_erasure_result_1a1e302896b0b714a68c930346877dbd6e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::governance::StoreErasureResult::records_erased</definition>
+        <argsstring></argsstring>
+        <name>records_erased</name>
+        <qualifiedname>themis::governance::StoreErasureResult::records_erased</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of records deleted / pseudonymised. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/gdpr_subject_rights.h" line="38" column="17" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/gdpr_subject_rights.h" line="34" column="1" bodyfile="include/governance/gdpr_subject_rights.h" bodystart="34" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_store_erasure_result_1a2dc727b38686ab2a47f959cad6205b3c" prot="public" virt="non-virtual"><scope>themis::governance::StoreErasureResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1governance_1_1_store_erasure_result_1a1e302896b0b714a68c930346877dbd6e" prot="public" virt="non-virtual"><scope>themis::governance::StoreErasureResult</scope><name>records_erased</name></member>
+      <member refid="structthemis_1_1governance_1_1_store_erasure_result_1a5f1bcf3b88b1ed3b5f0eb7c0f5412a96" prot="public" virt="non-virtual"><scope>themis::governance::StoreErasureResult</scope><name>store_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_store_erasure_result_1ae764554333020dbe25d4ce7c6700d0c6" prot="public" virt="non-virtual"><scope>themis::governance::StoreErasureResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

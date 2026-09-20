@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_view_agg_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ViewAggSpec</compoundname>
+    <includes refid="incremental__view_8h" local="no">incremental_view.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_agg_spec_1a9401849a73ffb5283c1d8dd9e6f49f59" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ViewAggSpec::output_name</definition>
+        <argsstring></argsstring>
+        <name>output_name</name>
+        <qualifiedname>themisdb::analytics::ViewAggSpec::output_name</qualifiedname>
+        <briefdescription>
+<para>Name in query result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="108" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_agg_spec_1a1fb09a4d2c84ac2af65e253fa4323441" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a4d97b0bc511bf701dcbc3edae6b8f825" kindref="member">ViewAggFunc</ref></type>
+        <definition>ViewAggFunc themisdb::analytics::ViewAggSpec::func</definition>
+        <argsstring></argsstring>
+        <name>func</name>
+        <qualifiedname>themisdb::analytics::ViewAggSpec::func</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="109" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_view_agg_spec_1a4230a76d7ffe30d99b94e955238d46f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ViewAggSpec::source_field</definition>
+        <argsstring></argsstring>
+        <name>source_field</name>
+        <qualifiedname>themisdb::analytics::ViewAggSpec::source_field</qualifiedname>
+        <briefdescription>
+<para>Source field in base rows (empty → COUNT(*)). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/incremental_view.h" line="110" column="17" bodyfile="include/analytics/incremental_view.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/incremental_view.h" line="107" column="1" bodyfile="include/analytics/incremental_view.h" bodystart="107" bodyend="111"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a1fb09a4d2c84ac2af65e253fa4323441" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewAggSpec</scope><name>func</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a9401849a73ffb5283c1d8dd9e6f49f59" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewAggSpec</scope><name>output_name</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_view_agg_spec_1a4230a76d7ffe30d99b94e955238d46f1" prot="public" virt="non-virtual"><scope>themisdb::analytics::ViewAggSpec</scope><name>source_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

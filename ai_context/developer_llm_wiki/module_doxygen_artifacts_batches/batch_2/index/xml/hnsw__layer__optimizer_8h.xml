@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hnsw__layer__optimizer_8h" kind="file" language="C++">
+    <compoundname>hnsw_layer_optimizer.h</compoundname>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="hnsw__layer__optimizer_8cpp" local="yes">src/index/hnsw_layer_optimizer.cpp</includedby>
+    <includedby refid="vector__index_8cpp" local="yes">src/index/vector_index.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/hnsw_layer_optimizer.h</label>
+        <link refid="hnsw__layer__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>deque</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="2">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/index/hnsw_layer_optimizer.h</label>
+        <link refid="hnsw__layer__optimizer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/index/hnsw_layer_optimizer.cpp</label>
+        <link refid="hnsw__layer__optimizer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/index/vector_index.cpp</label>
+        <link refid="vector__index_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1_hnsw_optimization_config" prot="public">themis::HnswOptimizationConfig</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning" prot="public">themis::HnswOptimizationConfig::LayerPruning</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection" prot="public">themis::HnswOptimizationConfig::AdaptiveLayerSelection</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert" prot="public">themis::HnswOptimizationConfig::BatchInsert</innerclass>
+    <innerclass refid="classthemis_1_1_hnsw_layer_optimizer" prot="public">themis::HnswLayerOptimizer</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats" prot="public">themis::HnswLayerOptimizer::LayerStats</innerclass>
+    <innerclass refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats" prot="public">themis::HnswLayerOptimizer::QueryStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>HNSW<sp/>Layer<sp/>Optimizer<sp/>for<sp/>Vector<sp/>Index<sp/>Optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implements<sp/>predictive<sp/>layer<sp/>pruning<sp/>and<sp/>adaptive<sp/>layer<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>to<sp/>reduce<sp/>layer<sp/>traversal<sp/>from<sp/>O(log²N)<sp/>to<sp/>~O(log<sp/>N)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1_hnsw_optimization_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hnsw_optimization_config" kindref="compound">HnswOptimizationConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1_hnsw_optimization_config_1a0afafb390487a57ebe3ef639c55de4f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1a0afafb390487a57ebe3ef639c55de4f1" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Layer<sp/>pruning<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning" kindref="compound">LayerPruning</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1a55ec5cc52db93d9f52d0e14eae325094" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1a55ec5cc52db93d9f52d0e14eae325094" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1a9f9f1f13f839b4fc4cb7ea9c33e24f9b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1a9f9f1f13f839b4fc4cb7ea9c33e24f9b" kindref="member">threshold_multiplier</ref><sp/>=<sp/>5.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>candidate_count<sp/>&gt;<sp/>k<sp/>*<sp/>multiplier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1abe2f71d86ce34f4f269fe5425097facb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_layer_pruning_1abe2f71d86ce34f4f269fe5425097facb" kindref="member">min_samples</ref><sp/>=<sp/>5;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>samples<sp/>for<sp/>ef<sp/>optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1_hnsw_optimization_config_1a5d4a90042de520c2125997a9d08c8fd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1a5d4a90042de520c2125997a9d08c8fd6" kindref="member">layer_pruning</ref>;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Adaptive<sp/>layer<sp/>selection<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection" kindref="compound">AdaptiveLayerSelection</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1acb6f67618492439f55c80f23cda16b80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1acb6f67618492439f55c80f23cda16b80" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1a9992917a4c58c23776a27bdc33da116b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1a9992917a4c58c23776a27bdc33da116b" kindref="member">stats_window_size</ref><sp/>=<sp/>1000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Moving<sp/>window<sp/>for<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1a93e1a6e0f4cb9fae9168d0184aaf2221" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_adaptive_layer_selection_1a93e1a6e0f4cb9fae9168d0184aaf2221" kindref="member">min_samples</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Minimum<sp/>samples<sp/>for<sp/>statistical<sp/>confidence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1_hnsw_optimization_config_1ac36cbc5bca90072f64ead98f732b7c74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1ac36cbc5bca90072f64ead98f732b7c74" kindref="member">adaptive_layer_selection</ref>;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Batch<sp/>insert<sp/>optimization<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert" kindref="compound">BatchInsert</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert_1a8a2401bd1aca54433cdf035f02a98155" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert_1a8a2401bd1aca54433cdf035f02a98155" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert_1a46e19fbd57d3a091d5817b64fd07d376" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1_1_batch_insert_1a46e19fbd57d3a091d5817b64fd07d376" kindref="member">batch_size</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1_hnsw_optimization_config_1a3ef8eead02e87020b6463697d0edb992" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>}<sp/><ref refid="structthemis_1_1_hnsw_optimization_config_1a3ef8eead02e87020b6463697d0edb992" kindref="member">batch_insert</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1_hnsw_layer_optimizer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref><sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats" kindref="compound">LayerStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a74afb01f3e963dbaf7fbc3853b108ec8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a74afb01f3e963dbaf7fbc3853b108ec8" kindref="member">layer</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a2aa4e387f95adefbec841a2cab430c74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a2aa4e387f95adefbec841a2cab430c74" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a4fdc4db1146934db6c4914656382264d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a4fdc4db1146934db6c4914656382264d" kindref="member">candidates_found</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1ab6229da3643ffe8f17cbcb89e3a8333f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1ab6229da3643ffe8f17cbcb89e3a8333f" kindref="member">total_search_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1acb8dd771f50ecf4f77cafd068c8f95fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1acb8dd771f50ecf4f77cafd068c8f95fd" kindref="member">avg_search_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a320051f017cae7506f56adda3bf5c9a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a320051f017cae7506f56adda3bf5c9a5" kindref="member">efficiency_score</ref><sp/>=<sp/>0.0;<sp/><sp/></highlight><highlight class="comment">//<sp/>candidates_found<sp/>/<sp/>avg_search_time_ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1adcf6fefedd12885ea371abcc833e69f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1adcf6fefedd12885ea371abcc833e69f7" kindref="member">update</ref>(int64_t<sp/>candidates,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>search_time_ms)<sp/>{</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a2aa4e387f95adefbec841a2cab430c74" kindref="member">access_count</ref>++;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a4fdc4db1146934db6c4914656382264d" kindref="member">candidates_found</ref><sp/>+=<sp/>candidates;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1ab6229da3643ffe8f17cbcb89e3a8333f" kindref="member">total_search_time_ms</ref><sp/>+=<sp/>search_time_ms;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1acb8dd771f50ecf4f77cafd068c8f95fd" kindref="member">avg_search_time_ms</ref><sp/>=<sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1ab6229da3643ffe8f17cbcb89e3a8333f" kindref="member">total_search_time_ms</ref><sp/>/<sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a2aa4e387f95adefbec841a2cab430c74" kindref="member">access_count</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a320051f017cae7506f56adda3bf5c9a5" kindref="member">efficiency_score</ref><sp/>=<sp/>(<ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1acb8dd771f50ecf4f77cafd068c8f95fd" kindref="member">avg_search_time_ms</ref><sp/>&gt;<sp/>0)<sp/>?<sp/></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1a4fdc4db1146934db6c4914656382264d" kindref="member">candidates_found</ref>)<sp/>/<sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_layer_stats_1acb8dd771f50ecf4f77cafd068c8f95fd" kindref="member">avg_search_time_ms</ref>)<sp/>:<sp/>0.0;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats" kindref="compound">QueryStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a33578e7aae4c4be832b62ad69c8b0de7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a33578e7aae4c4be832b62ad69c8b0de7" kindref="member">entry_layer</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1ae7d72c86fc275b898ad92dc9e5e73603" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1ae7d72c86fc275b898ad92dc9e5e73603" kindref="member">ef_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a8693da1db3e7952bba1d1deb9dc8d0c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a8693da1db3e7952bba1d1deb9dc8d0c3" kindref="member">layers_traversed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a31556ee6872881e120736a7c0a9c840c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a31556ee6872881e120736a7c0a9c840c" kindref="member">k</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a93260ddd07c324c85e056da4d4d08b21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a93260ddd07c324c85e056da4d4d08b21" kindref="member">total_time_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a18f7a8693e9b11f8e7d52c956d94687c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/><ref refid="structthemis_1_1_hnsw_layer_optimizer_1_1_query_stats_1a18f7a8693e9b11f8e7d52c956d94687c" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config" kindref="compound">HnswOptimizationConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="100" refid="classthemis_1_1_hnsw_layer_optimizer_1acceabe51c90d88e57a4b94901cdaf7b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1acceabe51c90d88e57a4b94901cdaf7b5" kindref="member">~HnswLayerOptimizer</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy<sp/>and<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1_hnsw_layer_optimizer_1a29ea2d07325f620022cb2e80c8276e21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a29ea2d07325f620022cb2e80c8276e21" kindref="member">HnswLayerOptimizer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1_hnsw_layer_optimizer_1a0d05350ea4d16769c6ffc260e564e540" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref>&amp;<sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a0d05350ea4d16769c6ffc260e564e540" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1_hnsw_layer_optimizer_1a328f2cfad3c812fd73f809bfc352e914" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a328f2cfad3c812fd73f809bfc352e914" kindref="member">HnswLayerOptimizer</ref>(<ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1_hnsw_layer_optimizer_1a6b464d6fff15699b17a9287d8e53517c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_hnsw_layer_optimizer_1a538f3a3908574ef7842803c7ada313ca" kindref="member">HnswLayerOptimizer</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109" refid="classthemis_1_1_hnsw_layer_optimizer_1ad4b6ad4395d565e20f49a723cfa6cc24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1ad4b6ad4395d565e20f49a723cfa6cc24" kindref="member">isEnabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.enabled;<sp/>}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1ada6e5e78377e1f1bdc7cb7633ce96756" kindref="member">recordLayerAccess</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layer,<sp/>int64_t<sp/>candidates_found,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>search_time_ms);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a0fdda38cdbfb1151d3defb246d5a1fcb" kindref="member">recordQueryStats</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>entry_layer,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ef_used,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>layers_traversed,<sp/></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>total_time_ms);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1aec3aee885fc5e4b49fe52f70f160c6a6" kindref="member">getOptimalEntryLayer</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a4f1be819e2c7c3f3ceb087221b4dbb02" kindref="member">getOptimalEf</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a808c273acef7a4c18c6548ba3ec69513" kindref="member">shouldPruneLayer</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>current_layer,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>candidate_count,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>LayerStats&gt;<sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a635dc222f1e13a211f19bf59e7461c6e" kindref="member">getLayerStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;QueryStats&gt;<sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a9927472037984228bdfb67df57ea0e03" kindref="member">getRecentQueryStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1ac60ecaa9f0782c6ceb147f15f61afad9" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1_hnsw_layer_optimizer_1a077c12d0e02bd6d0c388b1c99e606903" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hnsw_optimization_config" kindref="compound">HnswOptimizationConfig</ref>&amp;<sp/><ref refid="classthemis_1_1_hnsw_layer_optimizer_1a077c12d0e02bd6d0c388b1c99e606903" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hnsw_optimization_config" kindref="compound">HnswOptimizationConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Layer<sp/>statistics<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;int,<sp/>LayerStats&gt;<sp/>layer_stats_;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Recent<sp/>query<sp/>statistics<sp/>for<sp/>adaptive<sp/>optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::deque&lt;QueryStats&gt;<sp/>recent_queries_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper:<sp/>Calculate<sp/>efficiency<sp/>score<sp/>for<sp/>adaptive<sp/>selection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>calculateAdaptiveScore_(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>entry_layer,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>ef)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/hnsw_layer_optimizer.h"/>
+  </compounddef>
+</doxygen>

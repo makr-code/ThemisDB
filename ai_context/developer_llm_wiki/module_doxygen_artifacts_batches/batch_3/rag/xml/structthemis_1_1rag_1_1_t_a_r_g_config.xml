@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_t_a_r_g_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::TARGConfig</compoundname>
+    <includes refid="targ__retrieval_8h" local="no">targ_retrieval.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_config_1abf8d8fa7a6fbf7f038b634688ac47d75" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TARGConfig::gap_threshold</definition>
+        <argsstring></argsstring>
+        <name>gap_threshold</name>
+        <qualifiedname>themis::rag::TARGConfig::gap_threshold</qualifiedname>
+        <initializer>= 5.0f</initializer>
+        <briefdescription>
+<para>Logit-gap threshold for triggering retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When (logit[top-1] − logit[top-2]) &lt; gap_threshold, retrieval is triggered. Larger values trigger retrieval more often; smaller values trust the language model more.</para>
+<para>Default 5.0 is tuned for 7B–13B models on MMLU (paper §TARG Table 2). For smaller models (1B–3B), try 3.0; for larger (30B+), try 8.0. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="41" column="11" bodyfile="include/rag/targ_retrieval.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_config_1a3e3d536d0f7cef15b10de388d28f95fe" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGConfig::min_consecutive_uncertain</definition>
+        <argsstring></argsstring>
+        <name>min_consecutive_uncertain</name>
+        <qualifiedname>themis::rag::TARGConfig::min_consecutive_uncertain</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+<para>Minimum number of consecutive low-confidence tokens before retrieval is triggered. Prevents over-retrieval on single uncertain tokens in otherwise confident sequences. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default: 1 (trigger immediately on first low-confidence token). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="50" column="17" bodyfile="include/rag/targ_retrieval.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_config_1aca99519d9f56d2503537096b5c473762" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGConfig::retrieval_cooldown_tokens</definition>
+        <argsstring></argsstring>
+        <name>retrieval_cooldown_tokens</name>
+        <qualifiedname>themis::rag::TARGConfig::retrieval_cooldown_tokens</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+<para>Cool-down period (number of tokens) after a successful retrieval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prevents redundant re-retrieval while injected context is still fresh. Set to 0 to disable.</para>
+<para>Default: 20 tokens. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="60" column="17" bodyfile="include/rag/targ_retrieval.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_config_1a5de4cae31ca83256f974dc87f63fa6ec" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::TARGConfig::top_k</definition>
+        <argsstring></argsstring>
+        <name>top_k</name>
+        <qualifiedname>themis::rag::TARGConfig::top_k</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Top-K results to request from the TT-core index when triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="65" column="17" bodyfile="include/rag/targ_retrieval.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_config_1afecf9144fcf9de6ee76957b5717614b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::TARGConfig::use_entropy_gate</definition>
+        <argsstring></argsstring>
+        <name>use_entropy_gate</name>
+        <qualifiedname>themis::rag::TARGConfig::use_entropy_gate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>If true, also trigger retrieval when the entropy of the top-K probability mass exceeds <computeroutput><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config_1aee6194ce3b01772064d09ca837adb265" kindref="member">entropy_threshold</ref></computeroutput>. This catches spread-uncertainty scenarios not captured by the gap metric. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="72" column="10" bodyfile="include/rag/targ_retrieval.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_t_a_r_g_config_1aee6194ce3b01772064d09ca837adb265" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::TARGConfig::entropy_threshold</definition>
+        <argsstring></argsstring>
+        <name>entropy_threshold</name>
+        <qualifiedname>themis::rag::TARGConfig::entropy_threshold</qualifiedname>
+        <initializer>= 4.0f</initializer>
+        <briefdescription>
+<para>Entropy threshold in nats. Only used when use_entropy_gate = true. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For a uniform distribution over V tokens: entropy = ln(V) ≈ 10.8 for V=50k. Typical &quot;uncertain&quot; threshold: 3.0–5.0 nats. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/targ_retrieval.h" line="80" column="11" bodyfile="include/rag/targ_retrieval.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for TARG logit-gap gating. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/targ_retrieval.h" line="30" column="1" bodyfile="include/rag/targ_retrieval.h" bodystart="30" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_config_1aee6194ce3b01772064d09ca837adb265" prot="public" virt="non-virtual"><scope>themis::rag::TARGConfig</scope><name>entropy_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_config_1abf8d8fa7a6fbf7f038b634688ac47d75" prot="public" virt="non-virtual"><scope>themis::rag::TARGConfig</scope><name>gap_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_config_1a3e3d536d0f7cef15b10de388d28f95fe" prot="public" virt="non-virtual"><scope>themis::rag::TARGConfig</scope><name>min_consecutive_uncertain</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_config_1aca99519d9f56d2503537096b5c473762" prot="public" virt="non-virtual"><scope>themis::rag::TARGConfig</scope><name>retrieval_cooldown_tokens</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_config_1a5de4cae31ca83256f974dc87f63fa6ec" prot="public" virt="non-virtual"><scope>themis::rag::TARGConfig</scope><name>top_k</name></member>
+      <member refid="structthemis_1_1rag_1_1_t_a_r_g_config_1afecf9144fcf9de6ee76957b5717614b0" prot="public" virt="non-virtual"><scope>themis::rag::TARGConfig</scope><name>use_entropy_gate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

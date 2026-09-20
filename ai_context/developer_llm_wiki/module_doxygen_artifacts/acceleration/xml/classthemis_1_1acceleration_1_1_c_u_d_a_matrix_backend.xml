@@ -1,0 +1,296 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::CUDAMatrixBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_matrix_backend" prot="public" virt="non-virtual">themis::acceleration::IMatrixBackend</basecompoundref>
+    <includes refid="cuda__backend_8h" local="no">cuda_backend.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a3602c488a53555fc5d0eaaa62c2597a0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAMatrixBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="553" column="10" bodyfile="include/acceleration/cuda_backend.h" bodystart="553" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1aa9ed6322c00a936e8d5d881423578c83" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::acceleration::CUDAMatrixBackend::deviceContext_</definition>
+        <argsstring></argsstring>
+        <name>deviceContext_</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::deviceContext_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="558" column="10" bodyfile="include/acceleration/cuda_backend.h" bodystart="558" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1aea2ee7fb8ab57ba4b1389b33485e50e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CUDAMatrixBackend::CUDAMatrixBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>CUDAMatrixBackend</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::CUDAMatrixBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="535" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a2a61e0e87af5fde44765abc774cc8405" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CUDAMatrixBackend::~CUDAMatrixBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~CUDAMatrixBackend</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::~CUDAMatrixBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="536" column="5" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2498" bodyend="2500"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a2b64fc56732aa152bd417d9fd727f231" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::CUDAMatrixBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="538" column="16" bodyfile="include/acceleration/cuda_backend.h" bodystart="538" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a6b805ba27343c9bc145b9e9b9da57b63" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::CUDAMatrixBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="539" column="17" bodyfile="include/acceleration/cuda_backend.h" bodystart="539" bodyend="539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a5a44b6e689fe3f6921be2dbc769c58b7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAMatrixBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="540" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2502" bodyend="2510"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a5acdf81d28bc7f768720448806d2d7a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::CUDAMatrixBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="542" column="25" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2512" bodyend="2539"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1af724ea836253709dca98a13dd8d86a45" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAMatrixBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a5a44b6e689fe3f6921be2dbc769c58b7" kindref="member">isAvailable()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="543" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2546" bodyend="2556"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1ac958371d5692f366eadc983d0c4a283e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::CUDAMatrixBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="544" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2562" bodyend="2566"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a00f8d25e2b8920d0b9ae08dec643ef8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>int</type>
+        <definition>int themis::acceleration::CUDAMatrixBackend::matmul</definition>
+        <argsstring>(const MatrixKernelParams &amp;params, void *opaque_stream=nullptr) override</argsstring>
+        <name>matmul</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::matmul</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_matrix_backend_1ac6de88c47aa872e43820aa67cd71938f">matmul</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_params" kindref="compound">MatrixKernelParams</ref> &amp;</type>
+          <declname>params</declname>
+        </param>
+        <param>
+          <type>void *</type>
+          <declname>opaque_stream</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Matmul. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">params</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">opaque_stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: get(), <ref refid="namespacethemis_1_1acceleration_1_1tensor__core_1ac315d3cf10b883c3fa86eb1253064e52" kindref="member">tensor_core::dispatchMatmul()</ref>, else(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="547" column="9" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2575" bodyend="2587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a6f17a6b7a1d47fecf7becee86af6d864" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" kindref="compound">MatrixKernelDispatch</ref></type>
+        <definition>MatrixKernelDispatch themis::acceleration::CUDAMatrixBackend::populateMatrixDispatch</definition>
+        <argsstring>() const override</argsstring>
+        <name>populateMatrixDispatch</name>
+        <qualifiedname>themis::acceleration::CUDAMatrixBackend::populateMatrixDispatch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_matrix_backend_1ae37036f1d8b54e8abde396456f512be8">populateMatrixDispatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="550" column="26" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2589" bodyend="2597"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::CUDAMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_matrix_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::CUDAMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IMatrixBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_matrix_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/cuda_backend.h" line="533" column="1" bodyfile="include/acceleration/cuda_backend.h" bodystart="533" bodyend="560"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1aea2ee7fb8ab57ba4b1389b33485e50e4" prot="public" virt="non-virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>CUDAMatrixBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1aa9ed6322c00a936e8d5d881423578c83" prot="private" virt="non-virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>deviceContext_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a5acdf81d28bc7f768720448806d2d7a7" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1af724ea836253709dca98a13dd8d86a45" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a3602c488a53555fc5d0eaaa62c2597a0" prot="private" virt="non-virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a5a44b6e689fe3f6921be2dbc769c58b7" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a00f8d25e2b8920d0b9ae08dec643ef8b" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>matmul</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a2b64fc56732aa152bd417d9fd727f231" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a6f17a6b7a1d47fecf7becee86af6d864" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>populateMatrixDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1ac958371d5692f366eadc983d0c4a283e" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a6b805ba27343c9bc145b9e9b9da57b63" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_matrix_backend_1a2a61e0e87af5fde44765abc774cc8405" prot="public" virt="non-virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>~CUDAMatrixBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_matrix_backend_1ad2ab99ee6fd682485df93c38216c05af" prot="public" virt="virtual"><scope>themis::acceleration::CUDAMatrixBackend</scope><name>~IMatrixBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

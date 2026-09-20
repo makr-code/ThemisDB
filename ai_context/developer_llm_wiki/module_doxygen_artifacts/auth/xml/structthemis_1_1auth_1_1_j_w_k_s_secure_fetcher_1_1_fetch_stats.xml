@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWKSSecureFetcher::FetchStats</compoundname>
+    <includes refid="jwks__security_8h" local="no">jwks_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1a9e4b4e2b9b7f9ff74d714da0d6bfa2a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecureFetcher::FetchStats::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::FetchStats::url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="140" column="21" bodyfile="include/auth/jwks_security.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1ab5ac3ef7324a11be4528424306430cce" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::JWKSSecureFetcher::FetchStats::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::FetchStats::status_code</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="141" column="13" bodyfile="include/auth/jwks_security.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1a3272bc5e8f6c4d74f92a3f9cf18fda3e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::auth::JWKSSecureFetcher::FetchStats::duration_ms</definition>
+        <argsstring></argsstring>
+        <name>duration_ms</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::FetchStats::duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="142" column="17" bodyfile="include/auth/jwks_security.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1aad8757644b3e7621eb1bb2f7186a12f1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecureFetcher::FetchStats::tls_version</definition>
+        <argsstring></argsstring>
+        <name>tls_version</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::FetchStats::tls_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="143" column="21" bodyfile="include/auth/jwks_security.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1acca3d965267e269570d55325df6ccb24" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecureFetcher::FetchStats::cipher_suite</definition>
+        <argsstring></argsstring>
+        <name>cipher_suite</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::FetchStats::cipher_suite</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="144" column="21" bodyfile="include/auth/jwks_security.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1af018a634dadcc87491ac55cc4d5a4661" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSSecureFetcher::FetchStats::pinning_verified</definition>
+        <argsstring></argsstring>
+        <name>pinning_verified</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::FetchStats::pinning_verified</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="145" column="14" bodyfile="include/auth/jwks_security.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1adc76e39cd99ac4cb3bcab76211baca76" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSSecureFetcher::FetchStats::mtls_used</definition>
+        <argsstring></argsstring>
+        <name>mtls_used</name>
+        <qualifiedname>themis::auth::JWKSSecureFetcher::FetchStats::mtls_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="146" column="14" bodyfile="include/auth/jwks_security.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/jwks_security.h" line="139" column="5" bodyfile="include/auth/jwks_security.h" bodystart="139" bodyend="147"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1acca3d965267e269570d55325df6ccb24" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::FetchStats</scope><name>cipher_suite</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1a3272bc5e8f6c4d74f92a3f9cf18fda3e" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::FetchStats</scope><name>duration_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1adc76e39cd99ac4cb3bcab76211baca76" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::FetchStats</scope><name>mtls_used</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1af018a634dadcc87491ac55cc4d5a4661" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::FetchStats</scope><name>pinning_verified</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1ab5ac3ef7324a11be4528424306430cce" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::FetchStats</scope><name>status_code</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1aad8757644b3e7621eb1bb2f7186a12f1" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::FetchStats</scope><name>tls_version</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_secure_fetcher_1_1_fetch_stats_1a9e4b4e2b9b7f9ff74d714da0d6bfa2a2" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecureFetcher::FetchStats</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

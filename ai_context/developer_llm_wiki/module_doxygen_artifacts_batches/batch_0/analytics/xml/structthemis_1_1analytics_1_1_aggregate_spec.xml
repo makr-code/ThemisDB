@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_aggregate_spec" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::AggregateSpec</compoundname>
+    <includes refid="aggregation_8h" local="no">aggregation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregate_spec_1a112948fd2364a609e7378216847b4f3e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::AggregateSpec::source_column</definition>
+        <argsstring></argsstring>
+        <name>source_column</name>
+        <qualifiedname>themis::analytics::AggregateSpec::source_column</qualifiedname>
+        <briefdescription>
+<para>Input column name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="68" column="23" bodyfile="include/analytics/aggregation.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregate_spec_1abadbe7a8fdaf77ec9c946b542ce55cdd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::AggregateSpec::output_column</definition>
+        <argsstring></argsstring>
+        <name>output_column</name>
+        <qualifiedname>themis::analytics::AggregateSpec::output_column</qualifiedname>
+        <briefdescription>
+<para>Output column name in result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="69" column="23" bodyfile="include/analytics/aggregation.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_aggregate_spec_1a2a133b203014afe9253c2e33a9bbf9cc" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1analytics_1a311433277d85954624e3680c5d0c9e93" kindref="member">AggregateFunction</ref></type>
+        <definition>AggregateFunction themis::analytics::AggregateSpec::function</definition>
+        <argsstring></argsstring>
+        <name>function</name>
+        <qualifiedname>themis::analytics::AggregateSpec::function</qualifiedname>
+        <briefdescription>
+<para>Aggregation function to apply. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/aggregation.h" line="70" column="23" bodyfile="include/analytics/aggregation.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/aggregation.h" line="67" column="1" bodyfile="include/analytics/aggregation.h" bodystart="67" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_aggregate_spec_1a2a133b203014afe9253c2e33a9bbf9cc" prot="public" virt="non-virtual"><scope>themis::analytics::AggregateSpec</scope><name>function</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregate_spec_1abadbe7a8fdaf77ec9c946b542ce55cdd" prot="public" virt="non-virtual"><scope>themis::analytics::AggregateSpec</scope><name>output_column</name></member>
+      <member refid="structthemis_1_1analytics_1_1_aggregate_spec_1a112948fd2364a609e7378216847b4f3e" prot="public" virt="non-virtual"><scope>themis::analytics::AggregateSpec</scope><name>source_column</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacegates" kind="namespace" language="C++">
+    <compoundname>gates</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacegates_1aa1b38d9498ae40a70031994bf3de2a5a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::kAdapterConstructUs</definition>
+        <argsstring></argsstring>
+        <name>kAdapterConstructUs</name>
+        <qualifiedname>gates::kAdapterConstructUs</qualifiedname>
+        <initializer>=  50.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="46" column="18" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a108ab29f375d939d6fab37ce09b0048f" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::kApplyUpdateUs</definition>
+        <argsstring></argsstring>
+        <name>kApplyUpdateUs</name>
+        <qualifiedname>gates::kApplyUpdateUs</qualifiedname>
+        <initializer>=  10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="47" column="18" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1af9ef32a1205e71a2a7183bd8ffcbd102" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::kBatchUpdateUs</definition>
+        <argsstring></argsstring>
+        <name>kBatchUpdateUs</name>
+        <qualifiedname>gates::kBatchUpdateUs</qualifiedname>
+        <initializer>=  30.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="48" column="18" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1adb92fe00701f7acf9312008f10f33684" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::kLinearMergeMs</definition>
+        <argsstring></argsstring>
+        <name>kLinearMergeMs</name>
+        <qualifiedname>gates::kLinearMergeMs</qualifiedname>
+        <initializer>=   5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="49" column="18" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a8cd93acc22c78059f793caa692dca801" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::kTIESMergeMs</definition>
+        <argsstring></argsstring>
+        <name>kTIESMergeMs</name>
+        <qualifiedname>gates::kTIESMergeMs</qualifiedname>
+        <initializer>=   5.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="50" column="18" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a969578b206a17fd20dc96a068d19c36d" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::kExportWeightsUs</definition>
+        <argsstring></argsstring>
+        <name>kExportWeightsUs</name>
+        <qualifiedname>gates::kExportWeightsUs</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="51" column="18" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1a1857da7ee335752f76cc9f453041b51b" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::kImportWeightsUs</definition>
+        <argsstring></argsstring>
+        <name>kImportWeightsUs</name>
+        <qualifiedname>gates::kImportWeightsUs</qualifiedname>
+        <initializer>= 200.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="52" column="18" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacegates_1ae69cb9082e122c67edb5f9012021f00e" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double gates::kThousandStepsMs</definition>
+        <argsstring></argsstring>
+        <name>kThousandStepsMs</name>
+        <qualifiedname>gates::kThousandStepsMs</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="53" column="18" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacegates_1a0e081ba4ca30da624ff226de4d3bb903" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void gates::reportViolation</definition>
+        <argsstring>(const char *gate_name, double measured, double target, const char *unit)</argsstring>
+        <name>reportViolation</name>
+        <qualifiedname>gates::reportViolation</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>gate_name</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>measured</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>unit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="55" column="13" bodyfile="benchmarks/training/bench_training_lifecycle_gates.cpp" bodystart="55" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/training/bench_training_lifecycle_gates.cpp" line="44" column="1"/>
+  </compounddef>
+</doxygen>

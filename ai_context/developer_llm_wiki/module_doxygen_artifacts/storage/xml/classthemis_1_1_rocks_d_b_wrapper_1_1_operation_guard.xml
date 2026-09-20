@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard" kind="class" language="C++" prot="private">
+    <compoundname>themis::RocksDBWrapper::OperationGuard</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1ad8e0903129dd74b1d4ee17030dac0e97" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref> *</type>
+        <definition>const RocksDBWrapper* themis::RocksDBWrapper::OperationGuard::wrapper_</definition>
+        <argsstring></argsstring>
+        <name>wrapper_</name>
+        <qualifiedname>themis::RocksDBWrapper::OperationGuard::wrapper_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="831" column="30" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="831" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1aa7587bf36f8b99e8cf45553b93c46239" prot="private" static="no" mutable="no">
+        <type><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref> *</type>
+        <definition>rocksdb::TransactionDB* themis::RocksDBWrapper::OperationGuard::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::RocksDBWrapper::OperationGuard::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="832" column="32" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="832" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1a443b23fc45674644430673345220eebd" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::OperationGuard::OperationGuard</definition>
+        <argsstring>(const RocksDBWrapper *wrapper)</argsstring>
+        <name>OperationGuard</name>
+        <qualifiedname>themis::RocksDBWrapper::OperationGuard::OperationGuard</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_rocks_d_b_wrapper_1ad11099cefeb3072ef9807479e1d59f42" kindref="member">RocksDBWrapper</ref> *</type>
+          <declname>wrapper</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="800" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="800" bodyend="813"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1a507280552c5e1bf1c2a5457d0a73f8a2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::OperationGuard::~OperationGuard</definition>
+        <argsstring>()</argsstring>
+        <name>~OperationGuard</name>
+        <qualifiedname>themis::RocksDBWrapper::OperationGuard::~OperationGuard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="815" column="9" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="815" bodyend="819"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1aadd43bed0891c25d7e6d84bdbf01a666" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::OperationGuard::OperationGuard</definition>
+        <argsstring>(const OperationGuard &amp;)=delete</argsstring>
+        <name>OperationGuard</name>
+        <qualifiedname>themis::RocksDBWrapper::OperationGuard::OperationGuard</qualifiedname>
+        <param>
+          <type>const OperationGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="821" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1a67fe5350ef47c2239a74b3c670aa8bb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>OperationGuard &amp;</type>
+        <definition>OperationGuard &amp; themis::RocksDBWrapper::OperationGuard::operator=</definition>
+        <argsstring>(const OperationGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::RocksDBWrapper::OperationGuard::operator=</qualifiedname>
+        <param>
+          <type>const OperationGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="822" column="24"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1a3ed0f3158fcdaead53cd475202504265" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classrocksdb_1_1_transaction_d_b" kindref="compound">rocksdb::TransactionDB</ref> *</type>
+        <definition>rocksdb::TransactionDB * themis::RocksDBWrapper::OperationGuard::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::RocksDBWrapper::OperationGuard::get</qualifiedname>
+        <briefdescription>
+<para>Get the guarded database pointer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Raw pointer to the guarded transaction database, or nullptr when no database is currently guarded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="827" column="32" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="827" bodyend="827"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1ab41bec6ac97f25eeffec558d4f8c1ae8" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::RocksDBWrapper::OperationGuard::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::RocksDBWrapper::OperationGuard::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/rocksdb_wrapper.h" line="828" column="18" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="828" bodyend="828"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII helper that tracks active operations and blocks <ref refid="classthemis_1_1_rocks_d_b_wrapper_1a9d9c904fe8e45a5e2ff07a1dedaa3617" kindref="member">close()</ref> while in use. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/rocksdb_wrapper.h" line="798" column="5" bodyfile="include/storage/rocksdb_wrapper.h" bodystart="798" bodyend="833"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1aa7587bf36f8b99e8cf45553b93c46239" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::OperationGuard</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1a3ed0f3158fcdaead53cd475202504265" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::OperationGuard</scope><name>get</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1a443b23fc45674644430673345220eebd" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::OperationGuard</scope><name>OperationGuard</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1aadd43bed0891c25d7e6d84bdbf01a666" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::OperationGuard</scope><name>OperationGuard</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1ab41bec6ac97f25eeffec558d4f8c1ae8" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::OperationGuard</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1a67fe5350ef47c2239a74b3c670aa8bb4" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::OperationGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1ad8e0903129dd74b1d4ee17030dac0e97" prot="private" virt="non-virtual"><scope>themis::RocksDBWrapper::OperationGuard</scope><name>wrapper_</name></member>
+      <member refid="classthemis_1_1_rocks_d_b_wrapper_1_1_operation_guard_1a507280552c5e1bf1c2a5457d0a73f8a2" prot="public" virt="non-virtual"><scope>themis::RocksDBWrapper::OperationGuard</scope><name>~OperationGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

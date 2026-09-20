@@ -1,0 +1,237 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ReflectionHallucinationGuard</compoundname>
+    <includes refid="reflection__tuner_8h" local="no">reflection_tuner.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1ab3762cfa16aab744b862fc84a2908bca" prot="public" static="yes" mutable="no">
+        <type>const std::vector&lt; std::string &gt;</type>
+        <definition>const std::vector&lt; std::string &gt; themis::prompt_engineering::ReflectionHallucinationGuard::kHallucinationMarkers</definition>
+        <argsstring></argsstring>
+        <name>kHallucinationMarkers</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::kHallucinationMarkers</qualifiedname>
+        <initializer>                                                                      = {
+    &quot;i cannot verify&quot;,
+    &quot;i&apos;m not sure about&quot;,
+    &quot;this may be incorrect&quot;,
+    &quot;however, i should note&quot;,
+    &quot;i may be wrong&quot;,
+    &quot;actually, let me reconsider&quot;,
+    &quot;wait, i made an error&quot;,
+    &quot;i need to correct myself&quot;,
+    &quot;my previous response was incorrect&quot;,
+    &quot;i hallucinated&quot;,
+    &quot;this is not accurate&quot;,
+    &quot;i fabricated&quot;,
+    &quot;i confabulated&quot;,
+    &quot;i cannot confirm&quot;,
+    &quot;this might not be accurate&quot;
+}</initializer>
+        <briefdescription>
+<para>Hallucination marker phrases used by <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1add4726be92c8f018038641a3212c0000" kindref="member">detectHallucinationSignals()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="400" column="30" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="400" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a4c722aeb054bf1cc932bff98e37921d0" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionHallucinationGuard::divergence_threshold_</definition>
+        <argsstring></argsstring>
+        <name>divergence_threshold_</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::divergence_threshold_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="403" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a5ead36e9081584a44c10d1485714ed1b" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ReflectionHallucinationGuard::window_</definition>
+        <argsstring></argsstring>
+        <name>window_</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::window_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="404" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1aae3938c607b130c2188cd4f78a606279" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::ReflectionHallucinationGuard::ReflectionHallucinationGuard</definition>
+        <argsstring>(double divergence_threshold=0.15, size_t window=2)</argsstring>
+        <name>ReflectionHallucinationGuard</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::ReflectionHallucinationGuard</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>divergence_threshold</declname>
+          <defval>0.15</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>window</declname>
+          <defval>2</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>divergence_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Quality drop that triggers a halt (default: 0.15). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Trailing steps used for rolling average (default: 2). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="367" column="14" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="360" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1aa3aad2b659621e24a8bc9dd7fa89609d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionHallucinationGuard::shouldHalt</definition>
+        <argsstring>(const std::vector&lt; ReflectionStep &gt; &amp;steps) const</argsstring>
+        <name>shouldHalt</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::shouldHalt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_reflection_step" kindref="compound">ReflectionStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the reflection cycle should be halted based on the current step history. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks both the last step&apos;s <computeroutput>hallucination_suspected</computeroutput> flag and the quality trajectory via <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a61cbf131e1adfe6a7ff756cad2bf9463" kindref="member">isDiverging()</ref></computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="377" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="411" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1add4726be92c8f018038641a3212c0000" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionHallucinationGuard::detectHallucinationSignals</definition>
+        <argsstring>(const std::string &amp;response, const std::string &amp;critique) const</argsstring>
+        <name>detectHallucinationSignals</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::detectHallucinationSignals</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>critique</declname>
+        </param>
+        <briefdescription>
+<para>Scan <computeroutput>response</computeroutput> and <computeroutput>critique</computeroutput> for hallucination-indicating patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if at least one pattern is found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="384" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="365" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a61cbf131e1adfe6a7ff756cad2bf9463" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionHallucinationGuard::isDiverging</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;trajectory) const</argsstring>
+        <name>isDiverging</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::isDiverging</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>trajectory</declname>
+        </param>
+        <briefdescription>
+<para>Return true when the rolling quality average of the last <computeroutput>window_</computeroutput> steps has dropped by more than <computeroutput>divergence_threshold_</computeroutput> relative to the step at <computeroutput>trajectory[n - window_ - 1]</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns false when <computeroutput>trajectory.size() &lt; window_ + 1</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="394" column="10" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="392" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a01da88afc9c15d0a69ac70a41360fff3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionHallucinationGuard::getDivergenceThreshold</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getDivergenceThreshold</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::getDivergenceThreshold</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="396" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="396" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1ab45acb972cd26ac2dd83f79b407ab9ec" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ReflectionHallucinationGuard::getWindow</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getWindow</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionHallucinationGuard::getWindow</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="397" column="12" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="397" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Detects quality divergence and hallucination signals in the reflection trace, halting the cycle before errors are amplified. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Two detection mechanisms:</para>
+<para><orderedlist>
+<listitem><para><bold>Marker detection</bold> – Scans response and critique text for phrases that indicate the model is self-correcting fabricated content (e.g. &quot;I was
+   wrong&quot;, &quot;my previous response was incorrect&quot;).</para>
+</listitem><listitem><para><bold>Divergence detection</bold> – Monitors the quality trajectory; halts if the rolling average of the last <computeroutput>window_</computeroutput> steps drops more than <computeroutput>divergence_threshold_</computeroutput> below the preceding step&apos;s score.</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="see"><para>Golem.de (2026-03): &quot;Reflection Tuning bei KI: Selbstkritik bis hin
+     zur Halluzination&quot; — empirical motivation <ref refid="bench__rewrite__engine_8cpp_1abe0af0d1fcf2406ab923ca4fb438b343" kindref="member">for</ref> this guard. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/prompt_engineering/reflection_tuner.h" line="361" column="1" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="361" bodyend="405"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1add4726be92c8f018038641a3212c0000" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>detectHallucinationSignals</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a4c722aeb054bf1cc932bff98e37921d0" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>divergence_threshold_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a01da88afc9c15d0a69ac70a41360fff3" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>getDivergenceThreshold</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1ab45acb972cd26ac2dd83f79b407ab9ec" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>getWindow</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a61cbf131e1adfe6a7ff756cad2bf9463" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>isDiverging</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1ab3762cfa16aab744b862fc84a2908bca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>kHallucinationMarkers</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1aae3938c607b130c2188cd4f78a606279" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>ReflectionHallucinationGuard</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1aa3aad2b659621e24a8bc9dd7fa89609d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>shouldHalt</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_reflection_hallucination_guard_1a5ead36e9081584a44c10d1485714ed1b" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionHallucinationGuard</scope><name>window_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

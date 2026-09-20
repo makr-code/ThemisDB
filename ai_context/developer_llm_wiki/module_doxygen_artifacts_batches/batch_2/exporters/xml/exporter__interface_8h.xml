@@ -1,0 +1,526 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="exporter__interface_8h" kind="file" language="C++">
+    <compoundname>exporter_interface.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes refid="export__encryption_8h" local="yes">exporters/export_encryption.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includedby refid="bench__exporters_8cpp" local="yes">benchmarks/exporters/bench_exporters.cpp</includedby>
+    <includedby refid="arrow__ipc__exporter_8h" local="yes">include/exporters/arrow_ipc_exporter.h</includedby>
+    <includedby refid="export__format__registry_8h" local="yes">include/exporters/export_format_registry.h</includedby>
+    <includedby refid="huggingface__exporter_8h" local="yes">include/exporters/huggingface_exporter.h</includedby>
+    <includedby refid="incremental__exporter_8h" local="yes">include/exporters/incremental_exporter.h</includedby>
+    <includedby refid="join__exporter_8h" local="yes">include/exporters/join_exporter.h</includedby>
+    <includedby refid="jsonl__llm__exporter_8h" local="yes">include/exporters/jsonl_llm_exporter.h</includedby>
+    <includedby refid="parquet__exporter_8h" local="yes">include/exporters/parquet_exporter.h</includedby>
+    <includedby refid="streaming__exporter_8h" local="yes">include/exporters/streaming_exporter.h</includedby>
+    <includedby refid="arrow__ipc__exporter_8cpp" local="yes">src/exporters/arrow_ipc_exporter.cpp</includedby>
+    <includedby refid="huggingface__exporter_8cpp" local="yes">src/exporters/huggingface_exporter.cpp</includedby>
+    <includedby refid="incremental__exporter_8cpp" local="yes">src/exporters/incremental_exporter.cpp</includedby>
+    <includedby refid="parquet__exporter_8cpp" local="yes">src/exporters/parquet_exporter.cpp</includedby>
+    <includedby refid="streaming__exporter_8cpp" local="yes">src/exporters/streaming_exporter.cpp</includedby>
+    <includedby refid="test__aql__predicate__filter_8cpp" local="yes">tests/exporters/test_aql_predicate_filter.cpp</includedby>
+    <includedby refid="test__export__encryption_8cpp" local="yes">tests/exporters/test_export_encryption.cpp</includedby>
+    <includedby refid="test__format__template_8cpp" local="yes">tests/exporters/test_format_template.cpp</includedby>
+    <includedby refid="test__join__exporter_8cpp" local="yes">tests/exporters/test_join_exporter.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>exporters/export_encryption.h</label>
+        <link refid="export__encryption_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/exporters/exporter_interface.h</label>
+        <link refid="exporter__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cstddef</label>
+      </node>
+      <node id="13">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>functional</label>
+      </node>
+      <node id="14">
+        <label>istream</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="16">
+        <label>ostream</label>
+      </node>
+      <node id="10">
+        <label>security/encryption.h</label>
+      </node>
+      <node id="11">
+        <label>security/key_provider.h</label>
+      </node>
+      <node id="17">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/exporters/bench_exporters.cpp</label>
+        <link refid="bench__exporters_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/exporters/arrow_ipc_exporter.h</label>
+        <link refid="arrow__ipc__exporter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/exporters/export_format_registry.h</label>
+        <link refid="export__format__registry_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/exporters/exporter_interface.h</label>
+        <link refid="exporter__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/exporters/huggingface_exporter.h</label>
+        <link refid="huggingface__exporter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/exporters/incremental_exporter.h</label>
+        <link refid="incremental__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/exporters/join_exporter.h</label>
+        <link refid="join__exporter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>include/exporters/jsonl_llm_exporter.h</label>
+        <link refid="jsonl__llm__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/exporters/parquet_exporter.h</label>
+        <link refid="parquet__exporter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>include/exporters/streaming_exporter.h</label>
+        <link refid="streaming__exporter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/exporters/arrow_ipc_exporter.cpp</label>
+        <link refid="arrow__ipc__exporter_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/exporters/export_format_registry.cpp</label>
+        <link refid="export__format__registry_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/exporters/huggingface_exporter.cpp</label>
+        <link refid="huggingface__exporter_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/exporters/incremental_exporter.cpp</label>
+        <link refid="incremental__exporter_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/exporters/join_exporter.cpp</label>
+        <link refid="join__exporter_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/exporters/jsonl_llm_exporter.cpp</label>
+        <link refid="jsonl__llm__exporter_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/exporters/parquet_exporter.cpp</label>
+        <link refid="parquet__exporter_8cpp"/>
+      </node>
+      <node id="29">
+        <label>src/exporters/streaming_exporter.cpp</label>
+        <link refid="streaming__exporter_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/exporters/test_aql_predicate_filter.cpp</label>
+        <link refid="test__aql__predicate__filter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/exporters/test_arrow_ipc_exporter.cpp</label>
+        <link refid="test__arrow__ipc__exporter_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/exporters/test_data_augmentation.cpp</label>
+        <link refid="test__data__augmentation_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/exporters/test_export_encryption.cpp</label>
+        <link refid="test__export__encryption_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/exporters/test_export_format_registry.cpp</label>
+        <link refid="test__export__format__registry_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/exporters/test_format_template.cpp</label>
+        <link refid="test__format__template_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/exporters/test_huggingface_exporter.cpp</label>
+        <link refid="test__huggingface__exporter_8cpp"/>
+      </node>
+      <node id="15">
+        <label>tests/exporters/test_incremental_exporter.cpp</label>
+        <link refid="test__incremental__exporter_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/exporters/test_join_exporter.cpp</label>
+        <link refid="test__join__exporter_8cpp"/>
+      </node>
+      <node id="24">
+        <label>tests/exporters/test_jsonl_llm_exporter.cpp</label>
+        <link refid="test__jsonl__llm__exporter_8cpp"/>
+      </node>
+      <node id="27">
+        <label>tests/exporters/test_parquet_exporter.cpp</label>
+        <link refid="test__parquet__exporter_8cpp"/>
+      </node>
+      <node id="30">
+        <label>tests/exporters/test_streaming_exporter.cpp</label>
+        <link refid="test__streaming__exporter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1exporters_1_1_export_stats" prot="public">themis::exporters::ExportStats</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_export_tenant_context" prot="public">themis::exporters::ExportTenantContext</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_export_options" prot="public">themis::exporters::ExportOptions</innerclass>
+    <innerclass refid="classthemis_1_1exporters_1_1_i_exporter" prot="public">themis::exporters::IExporter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance">themis::governance</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <innernamespace refid="namespacethemis_1_1exporters">themis::exporters</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="export__encryption_8h" kindref="compound">exporters/export_encryption.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward-declare<sp/>PolicyEngine<sp/>so<sp/>exporter_interface.h<sp/>stays<sp/>lean.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>full<sp/>type<sp/>is<sp/>only<sp/>included<sp/>in<sp/>export_policy_guard.h<sp/>/<sp/>exporters<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>actually<sp/>call<sp/>enforceExportPolicy().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1governance" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">themis::governance</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">PolicyEngine;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::governance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1utils" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuditLogger;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1exporters" kindref="compound">themis::exporters</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">ExporterMetrics;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1exporters_1_1_export_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1exporters_1_1_export_stats_1a3234ba6723e19ba9e0b33c1aec171f87" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1a3234ba6723e19ba9e0b33c1aec171f87" kindref="member">total_entities</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1exporters_1_1_export_stats_1ada9714c90433d91b9b7ea994210cafbc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1ada9714c90433d91b9b7ea994210cafbc" kindref="member">exported_entities</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1exporters_1_1_export_stats_1a3a62f50cd363eb349942fc6e294b4ed7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1a3a62f50cd363eb349942fc6e294b4ed7" kindref="member">failed_entities</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1exporters_1_1_export_stats_1a0cb60bca92d790718e8db768ad2785f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1a0cb60bca92d790718e8db768ad2785f9" kindref="member">skipped_entities</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Entities<sp/>skipped<sp/>by<sp/>incremental/delta<sp/>filter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1exporters_1_1_export_stats_1ac14808e351b31ddd535555c168b9e1ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1ac14808e351b31ddd535555c168b9e1ec" kindref="member">bytes_written</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1exporters_1_1_export_stats_1a8184b8f74ac4fa05ec544f438c9806c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1a8184b8f74ac4fa05ec544f438c9806c9" kindref="member">duration</ref>{0};</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1exporters_1_1_export_stats_1aa28c988bc3963658923219283c8686e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1aa28c988bc3963658923219283c8686e9" kindref="member">errors</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1exporters_1_1_export_stats_1aab933facc893604cad1fa685b8e2b004" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1aab933facc893604cad1fa685b8e2b004" kindref="member">estimated_eta_seconds</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional:<sp/>Detailed<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1exporters_1_1_export_stats_1aaf2532f678f76addd9187fae2810af33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ExporterMetrics&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1aaf2532f678f76addd9187fae2810af33" kindref="member">metrics</ref>;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_export_stats_1a9aa943c425f18b1996f97d61ddb9d2e9" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1exporters_1_1_export_tenant_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_export_tenant_context" kindref="compound">ExportTenantContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1exporters_1_1_export_tenant_context_1a9c8db294896edd2b0834feddaaf9413e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_export_tenant_context_1a9c8db294896edd2b0834feddaaf9413e" kindref="member">tenant_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1exporters_1_1_export_tenant_context_1a373db63eb06e276c23ec49a6d45a6710" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_export_tenant_context_1a373db63eb06e276c23ec49a6d45a6710" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User<sp/>performing<sp/>export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1exporters_1_1_export_tenant_context_1aae0a773f52925334e100bfd32017d00b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_export_tenant_context_1aae0a773f52925334e100bfd32017d00b" kindref="member">scopes</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authorization<sp/>scopes<sp/>(export:read,<sp/>export:write,<sp/>etc.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1exporters_1_1_export_tenant_context_1ac5fcf2b275cdb5c78e5b359193ae5756" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_tenant_context_1ac5fcf2b275cdb5c78e5b359193ae5756" kindref="member">enforce_isolation</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enforce<sp/>tenant<sp/>data<sp/>isolation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1exporters_1_1_export_tenant_context_1af45839b7e977d1706fa1439a8df231b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_tenant_context_1af45839b7e977d1706fa1439a8df231b7" kindref="member">hasScope</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>scope)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::find(<ref refid="structthemis_1_1exporters_1_1_export_tenant_context_1aae0a773f52925334e100bfd32017d00b" kindref="member">scopes</ref>.begin(),<sp/><ref refid="structthemis_1_1exporters_1_1_export_tenant_context_1aae0a773f52925334e100bfd32017d00b" kindref="member">scopes</ref>.end(),<sp/>scope)<sp/>!=<sp/><ref refid="structthemis_1_1exporters_1_1_export_tenant_context_1aae0a773f52925334e100bfd32017d00b" kindref="member">scopes</ref>.end();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1exporters_1_1_export_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Output<sp/>file<sp/>path</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1exporters_1_1_export_options_1a3b548c6897bd41866177be6c310f64b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a3b548c6897bd41866177be6c310f64b2" kindref="member">output_path</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>P1:<sp/>Tenant<sp/>context<sp/>(optional<sp/>for<sp/>backward<sp/>compatibility)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1exporters_1_1_export_options_1aaad70cb3f981f66eee91fcba77310dad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ExportTenantContext&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1aaad70cb3f981f66eee91fcba77310dad" kindref="member">tenant_context</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1exporters_1_1_export_options_1a7ffbc4c82154a288a7b7140f6d4943ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a7ffbc4c82154a288a7b7140f6d4943ae" kindref="member">include_fields</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>If<sp/>empty,<sp/>export<sp/>all<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1exporters_1_1_export_options_1a3a2d6c7ef4d445d36fd62923f098b393" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a3a2d6c7ef4d445d36fd62923f098b393" kindref="member">exclude_fields</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1exporters_1_1_export_options_1afb44cdb3f5b531ea303494d3248f85c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1afb44cdb3f5b531ea303494d3248f85c9" kindref="member">filter_expression</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>AQL<sp/>FILTER<sp/>predicate<sp/>using<sp/>&apos;doc&apos;<sp/>variable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>—<sp/>provide<sp/>only<sp/>the<sp/>predicate,<sp/>not<sp/>the<sp/>FILTER<sp/>keyword</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(e.g.,<sp/>&quot;doc.category<sp/>==<sp/>\&quot;active\&quot;&quot;<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>&quot;doc.age<sp/>&gt;<sp/>18<sp/>AND<sp/>doc.score<sp/>&gt;=<sp/>0.5&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Format<sp/>options</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1exporters_1_1_export_options_1a5c4e9c9e83de8c1b857b59498cb224b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a5c4e9c9e83de8c1b857b59498cb224b6" kindref="member">pretty_print</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1exporters_1_1_export_options_1a419ac826dd528cfffa8dac75320b8b83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a419ac826dd528cfffa8dac75320b8b83" kindref="member">compress</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>compression</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1exporters_1_1_export_options_1ac0a09a6d34bfb1e38f98a021d0eebf15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1ac0a09a6d34bfb1e38f98a021d0eebf15" kindref="member">compression_type</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;gzip&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>gzip,<sp/>zstd,<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1exporters_1_1_export_options_1a1e21b4674d76626a02488ed7e43ddcaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a1e21b4674d76626a02488ed7e43ddcaf" kindref="member">compression_level</ref><sp/>=<sp/>6;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1-9<sp/>for<sp/>gzip,<sp/>1-22<sp/>for<sp/>zstd</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1exporters_1_1_export_options_1a9b825b77b2afd156c114279b6f2d0b51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a9b825b77b2afd156c114279b6f2d0b51" kindref="member">max_file_size_bytes</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>unlimited</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1exporters_1_1_export_options_1ad653a4c77bd2f7740254e9bf1a8111e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1ad653a4c77bd2f7740254e9bf1a8111e8" kindref="member">max_throughput_bps</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>unlimited<sp/>(bytes<sp/>per<sp/>second)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1exporters_1_1_export_options_1a0603d3d59a620178ebea78c61424f620" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a0603d3d59a620178ebea78c61424f620" kindref="member">buffer_size_bytes</ref><sp/>=<sp/>8192;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>size<sp/>for<sp/>streaming</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Progress<sp/>reporting</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1exporters_1_1_export_options_1aba040c19a9ac2a3767b896859c928609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1aba040c19a9ac2a3767b896859c928609" kindref="member">progress_callback</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1exporters_1_1_export_options_1a36eeab550ce5af9bd2ec21c6bbe5e319" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a36eeab550ce5af9bd2ec21c6bbe5e319" kindref="member">progress_interval</ref><sp/>=<sp/>1000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Report<sp/>every<sp/>N<sp/>entities</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>handling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1exporters_1_1_export_options_1ae0c851dc8aa6ac1d71468bdb7bc69fec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1ae0c851dc8aa6ac1d71468bdb7bc69fec" kindref="member">continue_on_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1exporters_1_1_export_options_1adfa9fb2573738eb1b437cee107ac40ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1adfa9fb2573738eb1b437cee107ac40ff" kindref="member">max_errors</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Encryption<sp/>(optional,<sp/>disabled<sp/>by<sp/>default)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1exporters_1_1_export_options_1aa9be0c0c09c8c5e1b1b498bbacafea35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1exporters_1_1_export_encryption_config" kindref="compound">ExportEncryptionConfig</ref><sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1aa9be0c0c09c8c5e1b1b498bbacafea35" kindref="member">encryption</ref>;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Export<sp/>encryption:<sp/>when<sp/>set<sp/>and<sp/>non-empty,<sp/>the<sp/>output<sp/>file<sp/>is<sp/>encrypted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>with<sp/>AES-256-GCM<sp/>using<sp/>a<sp/>per-job<sp/>DEK<sp/>derived<sp/>via<sp/>HKDF-SHA256<sp/>from<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>KEK<sp/>referenced<sp/>by<sp/>ExportEncryptionConfig::kek_id.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>raw<sp/>key<sp/>material<sp/>is<sp/>never<sp/>written<sp/>to<sp/>disk<sp/>or<sp/>emitted<sp/>in<sp/>any<sp/>log.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1exporters_1_1_export_options_1a3676069761d739ac6235c00c46af7303" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ExportEncryptionConfig&gt;<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a3676069761d739ac6235c00c46af7303" kindref="member">encryption_config</ref>;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Authorization<sp/>(EXP-001)<sp/>──────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>policy_engine<sp/>is<sp/>non-null,<sp/>every<sp/>exporter<sp/>MUST<sp/>call</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>enforceExportPolicy(*this)<sp/>before<sp/>opening<sp/>any<sp/>cursor<sp/>or<sp/>output<sp/>file.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>PolicyEngine::checkExportPermission()<sp/>denial<sp/>throws<sp/>ExporterException</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>with<sp/>code<sp/>ERR_EXPORT_POLICY_DENIED.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1exporters_1_1_export_options_1a8046221f7d2a1d10bbb5be72539886b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a8046221f7d2a1d10bbb5be72539886b1" kindref="member">collection_name</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="structthemis_1_1exporters_1_1_export_options_1a62fe0a8ffc9f9507c7c6b1a273298464" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a62fe0a8ffc9f9507c7c6b1a273298464" kindref="member">requesting_user</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1exporters_1_1_export_options_1ad95288e176a2b9cc6f914aa0b9a2d45c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::governance::PolicyEngine*<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1ad95288e176a2b9cc6f914aa0b9a2d45c" kindref="member">policy_engine</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1exporters_1_1_export_options_1a11d473a2af1de5f73e59a594d47b0df1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::utils::AuditLogger*<sp/><ref refid="structthemis_1_1exporters_1_1_export_options_1a11d473a2af1de5f73e59a594d47b0df1" kindref="member">audit_logger</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1exporters_1a4317f0c21d3baab4b276c88957dc072e" kindref="member">enforceExportPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref>&amp;<sp/>options);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1exporters_1_1_i_exporter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1exporters_1_1_i_exporter" kindref="compound">IExporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1exporters_1_1_i_exporter_1ad03adade7179148b1494ef958b64f267" kindref="member">~IExporter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_stats" kindref="compound">ExportStats</ref><sp/><ref refid="classthemis_1_1exporters_1_1_i_exporter_1a8bb28742250134dd32801cba9ba2acff" kindref="member">exportEntities</ref>(</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BaseEntity&gt;&amp;<sp/>entities,</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1exporters_1_1_export_options" kindref="compound">ExportOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1exporters_1_1_i_exporter_1a747594ff4d4052ad41e9046bc63c6287" kindref="member">getSupportedFormats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1exporters_1_1_i_exporter_1a1a950d7bc59a0667a314b5a1c44e41e9" kindref="member">getName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152" refid="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1exporters_1_1_i_exporter_1a9729d229cd3934db0e6d3c948b526908" kindref="member">getVersion</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::exporters</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/exporters/exporter_interface.h"/>
+  </compounddef>
+</doxygen>

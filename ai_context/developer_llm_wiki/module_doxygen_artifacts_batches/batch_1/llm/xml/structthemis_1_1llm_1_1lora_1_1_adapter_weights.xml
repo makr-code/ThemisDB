@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_adapter_weights" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::AdapterWeights</compoundname>
+    <includes refid="lora__storage__service_8h" local="no">lora_storage_service.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ac29c397929b4f4335ce0aa6384f1ec76" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::llm::lora::AdapterWeights::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::llm::lora::AdapterWeights::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="36" column="17" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a6c7bc926ffcfc0160fe10ee95090bdb1" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters" kindref="compound">LoRAHyperparameters</ref></type>
+        <definition>LoRAHyperparameters themis::llm::lora::AdapterWeights::hyperparameters</definition>
+        <argsstring></argsstring>
+        <name>hyperparameters</name>
+        <qualifiedname>themis::llm::lora::AdapterWeights::hyperparameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="37" column="25" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a7597c57603a7fe63dfb1af75d74aa235" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::AdapterWeights::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::llm::lora::AdapterWeights::size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="38" column="12" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a8b4eff964642f865c3cec67463526a18" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::AdapterWeights::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::llm::lora::AdapterWeights::format</qualifiedname>
+        <initializer>= &quot;safetensors&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="39" column="17" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ad2e4d71a1d55870f49cd0fd8a6df144c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::AdapterWeights::~AdapterWeights</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdapterWeights</name>
+        <qualifiedname>themis::llm::lora::AdapterWeights::~AdapterWeights</qualifiedname>
+        <briefdescription>
+<para>Adapter Weights. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="35" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a18aaff7cf6d0e3cc6f949fd58f74485e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::AdapterWeights::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::AdapterWeights::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_storage_service.h" line="41" column="10" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="41" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::lora::AdapterWeights</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>hyperparameters</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::llm::lora::LoRAHyperparameters</label>
+        <link refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_hyperparameters"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/lora_framework/lora_storage_service.h" line="30" column="1" bodyfile="include/llm/lora_framework/lora_storage_service.h" bodystart="30" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ac29c397929b4f4335ce0aa6384f1ec76" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterWeights</scope><name>data</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a8b4eff964642f865c3cec67463526a18" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterWeights</scope><name>format</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a6c7bc926ffcfc0160fe10ee95090bdb1" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterWeights</scope><name>hyperparameters</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a7597c57603a7fe63dfb1af75d74aa235" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterWeights</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1a18aaff7cf6d0e3cc6f949fd58f74485e" prot="public" virt="non-virtual"><scope>themis::llm::lora::AdapterWeights</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_adapter_weights_1ad2e4d71a1d55870f49cd0fd8a6df144c" prot="public" virt="virtual"><scope>themis::llm::lora::AdapterWeights</scope><name>~AdapterWeights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

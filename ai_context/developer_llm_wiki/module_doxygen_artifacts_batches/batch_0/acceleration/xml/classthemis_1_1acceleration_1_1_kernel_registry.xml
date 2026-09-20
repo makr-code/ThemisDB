@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_kernel_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::KernelRegistry</compoundname>
+    <includes refid="compute__backend_8h" local="no">compute_backend.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_kernel_registry_1aa015a9042a6e099480a916536959d93e" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref>, <ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref> &gt;</type>
+        <definition>std::unordered_map&lt;BackendType, ANNKernelDispatch&gt; themis::acceleration::KernelRegistry::annDispatch_</definition>
+        <argsstring></argsstring>
+        <name>annDispatch_</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::annDispatch_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="627" column="24" bodyfile="include/acceleration/compute_backend.h" bodystart="627" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_kernel_registry_1a6a10a15373557aafd41e04aa16043aa7" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref>, <ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref> &gt;</type>
+        <definition>std::unordered_map&lt;BackendType, GeoKernelDispatch&gt; themis::acceleration::KernelRegistry::geoDispatch_</definition>
+        <argsstring></argsstring>
+        <name>geoDispatch_</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::geoDispatch_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="628" column="24" bodyfile="include/acceleration/compute_backend.h" bodystart="628" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_kernel_registry_1ac489906f59c170897cf748d7f96bd8bf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref>, <ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" kindref="compound">MatrixKernelDispatch</ref> &gt;</type>
+        <definition>std::unordered_map&lt;BackendType, MatrixKernelDispatch&gt; themis::acceleration::KernelRegistry::matrixDispatch_</definition>
+        <argsstring></argsstring>
+        <name>matrixDispatch_</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::matrixDispatch_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="629" column="24" bodyfile="include/acceleration/compute_backend.h" bodystart="629" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a7a313bfb853d63d66ea4d231f2d27d60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::KernelRegistry::KernelRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>KernelRegistry</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::KernelRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="556" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a656f94aba5e596060aedb2203e60308d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::KernelRegistry::~KernelRegistry</definition>
+        <argsstring>()=default</argsstring>
+        <name>~KernelRegistry</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::~KernelRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="557" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a0986aa5315bafa5f5559ccf327453aca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::KernelRegistry::registerANNDispatch</definition>
+        <argsstring>(BackendType type, const ANNKernelDispatch &amp;dispatch)</argsstring>
+        <name>registerANNDispatch</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::registerANNDispatch</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref> &amp;</type>
+          <declname>dispatch</declname>
+        </param>
+        <briefdescription>
+<para>Register ANNDispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dispatch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerANNDispatch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="565" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="565" bodyend="567"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1ae38ff1a04ec336c702e79809f59810e7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::KernelRegistry::registerGeoDispatch</definition>
+        <argsstring>(BackendType type, const GeoKernelDispatch &amp;dispatch)</argsstring>
+        <name>registerGeoDispatch</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::registerGeoDispatch</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref> &amp;</type>
+          <declname>dispatch</declname>
+        </param>
+        <briefdescription>
+<para>Register Geo Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dispatch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerGeoDispatch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="575" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="575" bodyend="577"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1aad65623f0054b1b82099d7317e529a3c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::KernelRegistry::registerMatrixDispatch</definition>
+        <argsstring>(BackendType type, const MatrixKernelDispatch &amp;dispatch)</argsstring>
+        <name>registerMatrixDispatch</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::registerMatrixDispatch</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" kindref="compound">MatrixKernelDispatch</ref> &amp;</type>
+          <declname>dispatch</declname>
+        </param>
+        <briefdescription>
+<para>Register Matrix Dispatch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">dispatch</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements registerMatrixDispatch without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="585" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="585" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a5128f1d376764aa14ec9b9e7f6163cba" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref></type>
+        <definition>ANNKernelDispatch themis::acceleration::KernelRegistry::getANNDispatch</definition>
+        <argsstring>(BackendType type) const noexcept</argsstring>
+        <name>getANNDispatch</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::getANNDispatch</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="589" column="24" bodyfile="include/acceleration/compute_backend.h" bodystart="589" bodyend="592"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1ad57c87ef1f2274c290db7968d6d8d9c5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::KernelRegistry::getGeoDispatch</definition>
+        <argsstring>(BackendType type) const noexcept</argsstring>
+        <name>getGeoDispatch</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::getGeoDispatch</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="594" column="24" bodyfile="include/acceleration/compute_backend.h" bodystart="594" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a9f81edfae21e9ec9d42598d39ad2fa03" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_matrix_kernel_dispatch" kindref="compound">MatrixKernelDispatch</ref></type>
+        <definition>MatrixKernelDispatch themis::acceleration::KernelRegistry::getMatrixDispatch</definition>
+        <argsstring>(BackendType type) const noexcept</argsstring>
+        <name>getMatrixDispatch</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::getMatrixDispatch</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="599" column="27" bodyfile="include/acceleration/compute_backend.h" bodystart="599" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a238adf01f13aca81701c77c1cea44f6e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kindref="compound">ANNKernelDispatch</ref></type>
+        <definition>ANNKernelDispatch themis::acceleration::KernelRegistry::lookupANNWithFallback</definition>
+        <argsstring>(BackendType primary) const noexcept</argsstring>
+        <name>lookupANNWithFallback</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::lookupANNWithFallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>primary</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="604" column="24" bodyfile="src/acceleration/kernel_registry.cpp" bodystart="91" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a8841d5b9f2ca01d9e3d3a5971f54b681" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::KernelRegistry::lookupGeoWithFallback</definition>
+        <argsstring>(BackendType primary) const noexcept</argsstring>
+        <name>lookupGeoWithFallback</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::lookupGeoWithFallback</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>primary</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="606" column="24" bodyfile="src/acceleration/kernel_registry.cpp" bodystart="117" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1aedf8cb8b0b1cd98b0e6fc3e48366a473" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref> &gt;</type>
+        <definition>std::vector&lt; BackendType &gt; themis::acceleration::KernelRegistry::registeredBackends</definition>
+        <argsstring>() const</argsstring>
+        <name>registeredBackends</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::registeredBackends</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="608" column="18" bodyfile="src/acceleration/kernel_registry.cpp" bodystart="137" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a88decbe84361db55a40c2c74178488a0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_validation_report" kindref="compound">ValidationReport</ref></type>
+        <definition>ValidationReport themis::acceleration::KernelRegistry::validate</definition>
+        <argsstring>() const</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::validate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="610" column="23" bodyfile="src/acceleration/kernel_registry.cpp" bodystart="166" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a2539c5c175e73e3f34a40f124c38f2eb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::KernelRegistry::hasANNDispatch</definition>
+        <argsstring>(BackendType type) const noexcept</argsstring>
+        <name>hasANNDispatch</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::hasANNDispatch</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="612" column="11" bodyfile="include/acceleration/compute_backend.h" bodystart="612" bodyend="614"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_kernel_registry_1a8225f7f9d47c8f63beafab8c83599bec" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::KernelRegistry::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::acceleration::KernelRegistry::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/compute_backend.h" line="620" column="10" bodyfile="include/acceleration/compute_backend.h" bodystart="620" bodyend="624"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/compute_backend.h" line="554" column="1" bodyfile="include/acceleration/compute_backend.h" bodystart="554" bodyend="630"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1aa015a9042a6e099480a916536959d93e" prot="private" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>annDispatch_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a8225f7f9d47c8f63beafab8c83599bec" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>clear</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a6a10a15373557aafd41e04aa16043aa7" prot="private" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>geoDispatch_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a5128f1d376764aa14ec9b9e7f6163cba" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>getANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1ad57c87ef1f2274c290db7968d6d8d9c5" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>getGeoDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a9f81edfae21e9ec9d42598d39ad2fa03" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>getMatrixDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a2539c5c175e73e3f34a40f124c38f2eb" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>hasANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a7a313bfb853d63d66ea4d231f2d27d60" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>KernelRegistry</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a238adf01f13aca81701c77c1cea44f6e" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>lookupANNWithFallback</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a8841d5b9f2ca01d9e3d3a5971f54b681" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>lookupGeoWithFallback</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1ac489906f59c170897cf748d7f96bd8bf" prot="private" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>matrixDispatch_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a0986aa5315bafa5f5559ccf327453aca" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>registerANNDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1aedf8cb8b0b1cd98b0e6fc3e48366a473" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>registeredBackends</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1ae38ff1a04ec336c702e79809f59810e7" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>registerGeoDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1aad65623f0054b1b82099d7317e529a3c" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>registerMatrixDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a88decbe84361db55a40c2c74178488a0" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>validate</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_kernel_registry_1a656f94aba5e596060aedb2203e60308d" prot="public" virt="non-virtual"><scope>themis::acceleration::KernelRegistry</scope><name>~KernelRegistry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

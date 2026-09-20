@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="fim__importer_8h" kind="file" language="C++">
+    <compoundname>fim_importer.h</compoundname>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes refid="bpmn__serializer_8h" local="yes">process/bpmn_serializer.h</includes>
+    <includes refid="process__model__manager_8h" local="yes">process/process_model_manager.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="fim__importer_8cpp" local="yes">src/process/fim_importer.cpp</includedby>
+    <includedby refid="test__fim__importer_8cpp" local="yes">tests/process/test_fim_importer.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>process/bpmn_serializer.h</label>
+        <link refid="bpmn__serializer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/process/fim_importer.h</label>
+        <link refid="fim__importer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>process/process_common.h</label>
+        <link refid="process__common_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>process/process_model_manager.h</label>
+        <link refid="process__model__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="15">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="16">
+        <label>optional</label>
+      </node>
+      <node id="17">
+        <label>shared_mutex</label>
+      </node>
+      <node id="13">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/fim_importer.h</label>
+        <link refid="fim__importer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/fim_importer.cpp</label>
+        <link refid="fim__importer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/process/test_fim_importer.cpp</label>
+        <link refid="test__fim__importer_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_fim_model_result" prot="public">themis::process::FimModelResult</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_fim_importer" prot="public">themis::process::FimImporter</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>ThemisDB<sp/>-<sp/>Process<sp/>Modeling<sp/>Module</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>File:<sp/><sp/><sp/><sp/>fim_importer.h</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>Module:<sp/><sp/>include/process/</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*<sp/>Purpose:<sp/>Import<sp/>process<sp/>models<sp/>from<sp/>the<sp/>German<sp/>FIM<sp/>(Föderales</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Informationsmanagement)<sp/>Prozessbibliothek<sp/>(FITKO<sp/>2024).</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>FIM<sp/>defines<sp/>a<sp/>reference<sp/>catalogue<sp/>of<sp/>administrative<sp/>process<sp/>models<sp/>in<sp/>BPMN</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>2.0<sp/>XML.<sp/><sp/>This<sp/>importer<sp/>fetches<sp/>or<sp/>parses<sp/>catalogue<sp/>documents<sp/>and<sp/>converts</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>them<sp/>to<sp/>ProcessModelRecord<sp/>objects<sp/>ready<sp/>for<sp/>storage<sp/>by<sp/>ProcessModelManager.</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="bpmn__serializer_8h" kindref="compound">process/bpmn_serializer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__model__manager_8h" kindref="compound">process/process_model_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1process_1_1_fim_model_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_fim_model_result" kindref="compound">FimModelResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1process_1_1_fim_model_result_1a41137e3267de51713aa1c71cfa62e064" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_fim_model_result_1a41137e3267de51713aa1c71cfa62e064" kindref="member">ok</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1process_1_1_fim_model_result_1a65024e2f209e927d39dcf3bb534f773f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_fim_model_result_1a65024e2f209e927d39dcf3bb534f773f" kindref="member">message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1process_1_1_fim_model_result_1aa3e620f660853f519cea53a55a85e16a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref><sp/><ref refid="structthemis_1_1process_1_1_fim_model_result_1aa3e620f660853f519cea53a55a85e16a" kindref="member">record</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1process_1_1_fim_importer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_fim_importer_1a55327dbd45548b3f01586a48cfd1992a" kindref="member">FimImporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref><sp/>=<sp/>std::function&lt;std::string(std::string_view<sp/>url)&gt;;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1process_1_1_fim_importer_1a55327dbd45548b3f01586a48cfd1992a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_fim_importer_1a55327dbd45548b3f01586a48cfd1992a" kindref="member">FimImporter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1process_1_1_fim_importer_1a383cdc88650ddcf6e3d93a51b4e226ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_fim_importer_1a383cdc88650ddcf6e3d93a51b4e226ba" kindref="member">setHttpFetchFn</ref>(<ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref><sp/>fn)<sp/>{<sp/>http_fetch_fn_<sp/>=<sp/>std::move(fn);<sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref><sp/><ref refid="classthemis_1_1process_1_1_fim_importer_1aa50e5ebcd285f9bb7175f4129eb1b530" kindref="member">makeCurlHttpFetchFn</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FimModelResult&gt;<sp/><ref refid="classthemis_1_1process_1_1_fim_importer_1aabaf4a0de3bc8561778b9d03c44095cd" kindref="member">importFimCatalogue</ref>(</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>catalogue_xml,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref><sp/><sp/><sp/><sp/>domain<sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref>);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_fim_model_result" kindref="compound">FimModelResult</ref><sp/><ref refid="classthemis_1_1process_1_1_fim_importer_1a92099f44099a5339c8b0a650dace0a36" kindref="member">importSingleModel</ref>(</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>bpmn_xml,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref><sp/><sp/><sp/><sp/>domain<sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref>);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;FimModelResult&gt;<sp/><ref refid="classthemis_1_1process_1_1_fim_importer_1afe85763df89d6355e91635459ea8bf0e" kindref="member">importFromFitkoApi</ref>(</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>api_base_url,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref><sp/><sp/><sp/><sp/>domain<sp/>=<sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ProcessDomain::ADMINISTRATION</ref>);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_fim_importer_1a05127d0621cce2724a9d942ab8152c95" kindref="member">HttpFetchFn</ref><sp/>http_fetch_fn_;<sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>helper<sp/>—<sp/>wraps<sp/>a<sp/>BpmnSerializer::ImportResult<sp/>into<sp/>a<sp/>ProcessModelRecord.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref><sp/>buildRecord_(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_bpmn_serializer_1_1_import_result" kindref="compound">BpmnSerializer::ImportResult</ref>&amp;<sp/>ir,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref><sp/>domain);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/fim_importer.h"/>
+  </compounddef>
+</doxygen>

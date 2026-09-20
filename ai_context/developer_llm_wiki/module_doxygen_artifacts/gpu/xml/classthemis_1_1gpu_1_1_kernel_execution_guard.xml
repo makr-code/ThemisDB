@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_kernel_execution_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::KernelExecutionGuard</compoundname>
+    <includes refid="gpu__safe__operations_8h" local="no">gpu_safe_operations.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_execution_guard_1a052d7eae3c037caf9c5c39ed7c8597a5" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::KernelExecutionGuard::timeout_ms_</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms_</name>
+        <qualifiedname>themis::gpu::KernelExecutionGuard::timeout_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="301" column="14" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="301" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_execution_guard_1ada754b18265fb6676c8b8bbeccd8b493" prot="private" static="no" mutable="no">
+        <type>std::chrono::high_resolution_clock::time_point</type>
+        <definition>std::chrono::high_resolution_clock::time_point themis::gpu::KernelExecutionGuard::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::gpu::KernelExecutionGuard::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="302" column="52" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="302" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_kernel_execution_guard_1a8120e0cf648ee044c64ae45879a47a46" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelExecutionGuard::cpu_fallback_triggered_</definition>
+        <argsstring></argsstring>
+        <name>cpu_fallback_triggered_</name>
+        <qualifiedname>themis::gpu::KernelExecutionGuard::cpu_fallback_triggered_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="303" column="10" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_execution_guard_1a1992073e62636fdf79b480c8dc1e9679" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::KernelExecutionGuard::KernelExecutionGuard</definition>
+        <argsstring>(uint64_t timeout_ms=5000)</argsstring>
+        <name>KernelExecutionGuard</name>
+        <qualifiedname>themis::gpu::KernelExecutionGuard::KernelExecutionGuard</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>timeout_ms</declname>
+          <defval>5000</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="273" column="14" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="273" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_execution_guard_1a39fd0a8011acc087669915b10e026e05" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelExecutionGuard::has_timed_out</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>has_timed_out</name>
+        <qualifiedname>themis::gpu::KernelExecutionGuard::has_timed_out</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="278" column="11" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="278" bodyend="285"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_execution_guard_1af74a85b3109f7f5352e8ec0c045a5d5c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::KernelExecutionGuard::trigger_cpu_fallback</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>trigger_cpu_fallback</name>
+        <qualifiedname>themis::gpu::KernelExecutionGuard::trigger_cpu_fallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="287" column="10" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="287" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_execution_guard_1a9a592db3c99bc658fcbae64f137e88f0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::KernelExecutionGuard::is_cpu_fallback_triggered</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>is_cpu_fallback_triggered</name>
+        <qualifiedname>themis::gpu::KernelExecutionGuard::is_cpu_fallback_triggered</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="291" column="11" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="291" bodyend="293"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_kernel_execution_guard_1af95a2846fd1c90e7a45e26173d620610" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::KernelExecutionGuard::elapsed_ms</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::gpu::KernelExecutionGuard::elapsed_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/gpu/gpu_safe_operations.h" line="295" column="15" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="295" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/gpu/gpu_safe_operations.h" line="271" column="1" bodyfile="include/gpu/gpu_safe_operations.h" bodystart="271" bodyend="304"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a8120e0cf648ee044c64ae45879a47a46" prot="private" virt="non-virtual"><scope>themis::gpu::KernelExecutionGuard</scope><name>cpu_fallback_triggered_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1af95a2846fd1c90e7a45e26173d620610" prot="public" virt="non-virtual"><scope>themis::gpu::KernelExecutionGuard</scope><name>elapsed_ms</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a39fd0a8011acc087669915b10e026e05" prot="public" virt="non-virtual"><scope>themis::gpu::KernelExecutionGuard</scope><name>has_timed_out</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a9a592db3c99bc658fcbae64f137e88f0" prot="public" virt="non-virtual"><scope>themis::gpu::KernelExecutionGuard</scope><name>is_cpu_fallback_triggered</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a1992073e62636fdf79b480c8dc1e9679" prot="public" virt="non-virtual"><scope>themis::gpu::KernelExecutionGuard</scope><name>KernelExecutionGuard</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1ada754b18265fb6676c8b8bbeccd8b493" prot="private" virt="non-virtual"><scope>themis::gpu::KernelExecutionGuard</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1a052d7eae3c037caf9c5c39ed7c8597a5" prot="private" virt="non-virtual"><scope>themis::gpu::KernelExecutionGuard</scope><name>timeout_ms_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_kernel_execution_guard_1af74a85b3109f7f5352e8ec0c045a5d5c" prot="public" virt="non-virtual"><scope>themis::gpu::KernelExecutionGuard</scope><name>trigger_cpu_fallback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

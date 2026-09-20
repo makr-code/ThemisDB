@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1iso27001" kind="namespace" language="C++">
+    <compoundname>themis::governance::iso27001</compoundname>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1organization__controls">themis::governance::iso27001::organization_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1people__controls">themis::governance::iso27001::people_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1physical__controls">themis::governance::iso27001::physical_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1technological__controls">themis::governance::iso27001::technological_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1technical__controls">themis::governance::iso27001::technical_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1cryptography__controls">themis::governance::iso27001::cryptography_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1physical__environmental__controls">themis::governance::iso27001::physical_environmental_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1operations__controls">themis::governance::iso27001::operations_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1communications__controls">themis::governance::iso27001::communications_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1system__acquisition__controls">themis::governance::iso27001::system_acquisition_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1supplier__controls">themis::governance::iso27001::supplier_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1incident__management__controls">themis::governance::iso27001::incident_management_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1business__continuity__controls">themis::governance::iso27001::business_continuity_controls</innernamespace>
+    <innernamespace refid="namespacethemis_1_1governance_1_1iso27001_1_1compliance__controls">themis::governance::iso27001::compliance_controls</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="114" column="1"/>
+  </compounddef>
+</doxygen>

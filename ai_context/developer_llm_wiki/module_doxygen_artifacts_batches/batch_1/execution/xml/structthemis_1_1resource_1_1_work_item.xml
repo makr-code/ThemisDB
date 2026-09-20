@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1resource_1_1_work_item" kind="struct" language="C++" prot="public">
+    <compoundname>themis::resource::WorkItem</compoundname>
+    <includes refid="thread__pool__manager_8h" local="no">thread_pool_manager.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1resource_1_1_work_item_1a5920aa4aa0ba9621b450647fd743c7f0" prot="public" static="no">
+        <type>std::function&lt; void()&gt;</type>
+        <definition>using themis::resource::WorkItem::Fn = std::function&lt;void()&gt;</definition>
+        <argsstring></argsstring>
+        <name>Fn</name>
+        <qualifiedname>themis::resource::WorkItem::Fn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="43" column="5" bodyfile="include/execution/thread_pool_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_work_item_1ac9b0d0077bd7236f0471e0cdea4a6e67" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1resource_1_1_work_item_1a5920aa4aa0ba9621b450647fd743c7f0" kindref="member">Fn</ref></type>
+        <definition>Fn themis::resource::WorkItem::fn</definition>
+        <argsstring></argsstring>
+        <name>fn</name>
+        <qualifiedname>themis::resource::WorkItem::fn</qualifiedname>
+        <briefdescription>
+<para>The callable to execute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="45" column="17" bodyfile="include/execution/thread_pool_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1resource_1_1_work_item_1adc841e5c54075b981c15461ab061f16c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::resource::WorkItem::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::resource::WorkItem::name</qualifiedname>
+        <briefdescription>
+<para>Optional diagnostic name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="46" column="17" bodyfile="include/execution/thread_pool_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1resource_1_1_work_item_1a7f0c82e77390675af065e1a786c887b2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::resource::WorkItem::WorkItem</definition>
+        <argsstring>(Fn f, std::string n={})</argsstring>
+        <name>WorkItem</name>
+        <qualifiedname>themis::resource::WorkItem::WorkItem</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1resource_1_1_work_item_1a5920aa4aa0ba9621b450647fd743c7f0" kindref="member">Fn</ref></type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>n</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/execution/thread_pool_manager.h" line="48" column="14" bodyfile="include/execution/thread_pool_manager.h" bodystart="48" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/execution/thread_pool_manager.h" line="42" column="1" bodyfile="include/execution/thread_pool_manager.h" bodystart="42" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1resource_1_1_work_item_1a5920aa4aa0ba9621b450647fd743c7f0" prot="public" virt="non-virtual"><scope>themis::resource::WorkItem</scope><name>Fn</name></member>
+      <member refid="structthemis_1_1resource_1_1_work_item_1ac9b0d0077bd7236f0471e0cdea4a6e67" prot="public" virt="non-virtual"><scope>themis::resource::WorkItem</scope><name>fn</name></member>
+      <member refid="structthemis_1_1resource_1_1_work_item_1adc841e5c54075b981c15461ab061f16c" prot="public" virt="non-virtual"><scope>themis::resource::WorkItem</scope><name>name</name></member>
+      <member refid="structthemis_1_1resource_1_1_work_item_1a7f0c82e77390675af065e1a786c887b2" prot="public" virt="non-virtual"><scope>themis::resource::WorkItem</scope><name>WorkItem</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

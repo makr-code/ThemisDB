@@ -1,0 +1,661 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::lora::MultiGPULoRALayer</compoundname>
+    <includes refid="multi__gpu__lora__layer_8h" local="no">multi_gpu_lora_layer.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats" prot="public">themis::llm::lora::MultiGPULoRALayer::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a8109b4d3ab7293369679092a63182fba" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+        <definition>const MultiGPUContext&amp; themis::llm::lora::MultiGPULoRALayer::ctx_</definition>
+        <argsstring></argsstring>
+        <name>ctx_</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::ctx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="120" column="27" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a529a9940d780cafd2ff99ea653d698ce" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kindref="compound">GPULoRALayer</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;GPULoRALayer&gt; &gt; themis::llm::lora::MultiGPULoRALayer::layers_</definition>
+        <argsstring></argsstring>
+        <name>layers_</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::layers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="121" column="17" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a734ad4e6e06d978b058f400f563f8eee" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31" kindref="member">CommBackend</ref></type>
+        <definition>CommBackend themis::llm::lora::MultiGPULoRALayer::backend_type_</definition>
+        <argsstring></argsstring>
+        <name>backend_type_</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::backend_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="123" column="17" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a168029e939ed75a4b80918114e2c7330" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_n_c_c_l_backend" kindref="compound">NCCLBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;NCCLBackend&gt; themis::llm::lora::MultiGPULoRALayer::nccl_backend_</definition>
+        <argsstring></argsstring>
+        <name>nccl_backend_</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::nccl_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="124" column="21" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1accf82c118fbbbde8f986c50f476ea854" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend" kindref="compound">RCCLBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;RCCLBackend&gt; themis::llm::lora::MultiGPULoRALayer::rccl_backend_</definition>
+        <argsstring></argsstring>
+        <name>rccl_backend_</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::rccl_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="125" column="21" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a852f46a19be359f318521c352cd10dd0" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_custom_all_reduce" kindref="compound">CustomAllReduce</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CustomAllReduce&gt; themis::llm::lora::MultiGPULoRALayer::custom_backend_</definition>
+        <argsstring></argsstring>
+        <name>custom_backend_</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::custom_backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="126" column="21" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a2bff4dafaf5fd6423b934b2778313e2b" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::MultiGPULoRALayer::gradients_synced_</definition>
+        <argsstring></argsstring>
+        <name>gradients_synced_</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::gradients_synced_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="128" column="10" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a500d06625e5f0fdfdc5255314c8865fa" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::llm::lora::MultiGPULoRALayer::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="129" column="11" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1afede25b16cd434d2e95f92ed364e4c0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::MultiGPULoRALayer::MultiGPULoRALayer</definition>
+        <argsstring>(size_t in_dim, size_t out_dim, size_t rank, float scaling, const MultiGPUContext &amp;ctx, CommBackend backend=CommBackend::AUTO, bool use_fused_kernels=true)</argsstring>
+        <name>MultiGPULoRALayer</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::MultiGPULoRALayer</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>in_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>out_dim</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rank</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>scaling</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31" kindref="member">CommBackend</ref></type>
+          <declname>backend</declname>
+          <defval><ref refid="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">CommBackend::AUTO</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>use_fused_kernels</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="35" column="5" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="21" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a8fce3132d93d46127b5cd18cd401cc8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::MultiGPULoRALayer::~MultiGPULoRALayer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MultiGPULoRALayer</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::~MultiGPULoRALayer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ab96ba456643ba377d29ae86dd538dcdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::MultiGPULoRALayer::MultiGPULoRALayer</definition>
+        <argsstring>(const MultiGPULoRALayer &amp;)=delete</argsstring>
+        <name>MultiGPULoRALayer</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::MultiGPULoRALayer</qualifiedname>
+        <param>
+          <type>const MultiGPULoRALayer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ae9961f6e5f074a5d04a4495908cef99c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1afede25b16cd434d2e95f92ed364e4c0a" kindref="member">MultiGPULoRALayer</ref> &amp;</type>
+        <definition>MultiGPULoRALayer &amp; themis::llm::lora::MultiGPULoRALayer::operator=</definition>
+        <argsstring>(const MultiGPULoRALayer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1afede25b16cd434d2e95f92ed364e4c0a" kindref="member">MultiGPULoRALayer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="45" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a950621ac27c8cfbff17643dd4fe7c585" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::lora::MultiGPULoRALayer::MultiGPULoRALayer</definition>
+        <argsstring>(MultiGPULoRALayer &amp;&amp;) noexcept=default</argsstring>
+        <name>MultiGPULoRALayer</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::MultiGPULoRALayer</qualifiedname>
+        <param>
+          <type>MultiGPULoRALayer &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1aab6064aeb2b68742845e9f0529b3af76" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1afede25b16cd434d2e95f92ed364e4c0a" kindref="member">MultiGPULoRALayer</ref> &amp;</type>
+        <definition>MultiGPULoRALayer &amp; themis::llm::lora::MultiGPULoRALayer::operator=</definition>
+        <argsstring>(MultiGPULoRALayer &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1afede25b16cd434d2e95f92ed364e4c0a" kindref="member">MultiGPULoRALayer</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="47" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a201aefaafa2cc90c2896e6fb4985bcdd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GPUTensor &gt; themis::llm::lora::MultiGPULoRALayer::forward</definition>
+        <argsstring>(const std::vector&lt; GPUTensor &gt; &amp;inputs)</argsstring>
+        <name>forward</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::forward</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt; &amp;</type>
+          <declname>inputs</declname>
+        </param>
+        <briefdescription>
+<para>Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">inputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a963d43332849e8965576b7eacadaf0bb" kindref="member">num_gpus()</ref>, std::chrono::high_resolution_clock::now(), reserve(), get_device(), device(), std::to_string(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="54" column="17" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="129" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ac909e8098d2bf8947f9f807fc26e6d53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt;</type>
+        <definition>std::vector&lt; GPUTensor &gt; themis::llm::lora::MultiGPULoRALayer::backward</definition>
+        <argsstring>(const std::vector&lt; GPUTensor &gt; &amp;grad_outputs)</argsstring>
+        <name>backward</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::backward</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_tensor" kindref="compound">GPUTensor</ref> &gt; &amp;</type>
+          <declname>grad_outputs</declname>
+        </param>
+        <briefdescription>
+<para>Backward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_outputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">grad_outputs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: size(), <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a963d43332849e8965576b7eacadaf0bb" kindref="member">num_gpus()</ref>, std::chrono::high_resolution_clock::now(), reserve(), push_back(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="61" column="17" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="171" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a05c47b7c98c91ef95eb6306d1ac7c598" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::MultiGPULoRALayer::synchronize_gradients</definition>
+        <argsstring>()</argsstring>
+        <name>synchronize_gradients</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::synchronize_gradients</qualifiedname>
+        <briefdescription>
+<para>Synchronize gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::chrono::high_resolution_clock::now(), allreduce_gradients(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="67" column="10" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="204" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a0b5d2dca3cb98a128a1d63c292b40cd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::MultiGPULoRALayer::zero_grad</definition>
+        <argsstring>()</argsstring>
+        <name>zero_grad</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::zero_grad</qualifiedname>
+        <briefdescription>
+<para>Zero grad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements zero_grad without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="72" column="10" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="313" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a213d54b5631f0b985f5b478cc44b6950" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kindref="compound">GPULoRALayer</ref> &amp;</type>
+        <definition>GPULoRALayer &amp; themis::llm::lora::MultiGPULoRALayer::get_layer</definition>
+        <argsstring>(int rank)</argsstring>
+        <name>get_layer</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::get_layer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>rank</declname>
+        </param>
+        <briefdescription>
+<para>Get layer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rank</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a963d43332849e8965576b7eacadaf0bb" kindref="member">num_gpus()</ref>, std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="79" column="18" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="327" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ab22259324a9b88c2e2fc67744a442e9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kindref="compound">GPULoRALayer</ref> * &gt;</type>
+        <definition>std::vector&lt; GPULoRALayer * &gt; themis::llm::lora::MultiGPULoRALayer::get_layers</definition>
+        <argsstring>()</argsstring>
+        <name>get_layers</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::get_layers</qualifiedname>
+        <briefdescription>
+<para>Get layers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(), get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="85" column="17" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="339" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1aedb2ff1f992e1f42c31544c3ebb68929" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_context" kindref="compound">MultiGPUContext</ref> &amp;</type>
+        <definition>const MultiGPUContext &amp; themis::llm::lora::MultiGPULoRALayer::context</definition>
+        <argsstring>() const</argsstring>
+        <name>context</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="87" column="27" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a963d43332849e8965576b7eacadaf0bb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::lora::MultiGPULoRALayer::num_gpus</definition>
+        <argsstring>() const</argsstring>
+        <name>num_gpus</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::num_gpus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="89" column="9" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1adcf6837d1a91169f7abac92bab13c9fb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31" kindref="member">CommBackend</ref></type>
+        <definition>CommBackend themis::llm::lora::MultiGPULoRALayer::backend_type</definition>
+        <argsstring>() const</argsstring>
+        <name>backend_type</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::backend_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="91" column="17" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="91" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a6ecee694fdf404ffb483d9e8ed19905e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::MultiGPULoRALayer::are_gradients_synced</definition>
+        <argsstring>() const</argsstring>
+        <name>are_gradients_synced</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::are_gradients_synced</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="93" column="10" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="93" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ac3a0408c551d4e4df20b26218ea56dee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::MultiGPULoRALayer::broadcast_parameters</definition>
+        <argsstring>()</argsstring>
+        <name>broadcast_parameters</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::broadcast_parameters</qualifiedname>
+        <briefdescription>
+<para>Broadcast parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a963d43332849e8965576b7eacadaf0bb" kindref="member">num_gpus()</ref>, spdlog::info(), parameters(), size(), spdlog::error(), cpu_data(), upload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="99" column="10" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="279" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a642fdd6712f88630b8848fa651b2eec0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::llm::lora::MultiGPULoRALayer::get_stats</definition>
+        <argsstring>() const</argsstring>
+        <name>get_stats</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::get_stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="112" column="11" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a42ee4af01917302845c2ab6f48c204b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::MultiGPULoRALayer::reset_stats</definition>
+        <argsstring>()</argsstring>
+        <name>reset_stats</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::reset_stats</qualifiedname>
+        <briefdescription>
+<para>Reset stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements reset_stats without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="117" column="10" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="117" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a68cdb10d119be304134eebf6bad0983a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::MultiGPULoRALayer::initialize_backend</definition>
+        <argsstring>(CommBackend backend)</argsstring>
+        <name>initialize_backend</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::initialize_backend</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1llm_1_1lora_1a3aca1c489b10af17a3d8168627d3ff31" kindref="member">CommBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+<para>Initialize backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_n_c_c_l_backend_1abbf21fddfb3230d5b6271ad7578220ec" kindref="member">NCCLBackend::is_available()</ref>, gpu_type(), <ref refid="classthemis_1_1llm_1_1lora_1_1_r_c_c_l_backend_1af56237480255ab992a7812bfb3ba9d7f" kindref="member">RCCLBackend::is_available()</ref>, spdlog::info(), <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a963d43332849e8965576b7eacadaf0bb" kindref="member">num_gpus()</ref>, initialize(), spdlog::warn(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="135" column="10" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="56" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a7b7ffae36008093a5b600390fc03dcb1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::MultiGPULoRALayer::allreduce_gradients</definition>
+        <argsstring>()</argsstring>
+        <name>allreduce_gradients</name>
+        <qualifiedname>themis::llm::lora::MultiGPULoRALayer::allreduce_gradients</qualifiedname>
+        <briefdescription>
+<para>Allreduce gradients. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a963d43332849e8965576b7eacadaf0bb" kindref="member">num_gpus()</ref>, push_back(), gradients(), size(), is_initialized(), allreduce(), spdlog::error(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="140" column="10" bodyfile="src/llm/lora_framework/multi_gpu_lora_layer.cpp" bodystart="230" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/multi_gpu_lora_layer.h" line="33" column="1" bodyfile="include/llm/lora_framework/multi_gpu_lora_layer.h" bodystart="33" bodyend="141"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a7b7ffae36008093a5b600390fc03dcb1" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>allreduce_gradients</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a6ecee694fdf404ffb483d9e8ed19905e" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>are_gradients_synced</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1adcf6837d1a91169f7abac92bab13c9fb" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>backend_type</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a734ad4e6e06d978b058f400f563f8eee" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>backend_type_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ac909e8098d2bf8947f9f807fc26e6d53" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>backward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ac3a0408c551d4e4df20b26218ea56dee" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>broadcast_parameters</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1aedb2ff1f992e1f42c31544c3ebb68929" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>context</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a8109b4d3ab7293369679092a63182fba" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>ctx_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a852f46a19be359f318521c352cd10dd0" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>custom_backend_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a201aefaafa2cc90c2896e6fb4985bcdd" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>forward</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a213d54b5631f0b985f5b478cc44b6950" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>get_layer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ab22259324a9b88c2e2fc67744a442e9f" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>get_layers</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a642fdd6712f88630b8848fa651b2eec0" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>get_stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a2bff4dafaf5fd6423b934b2778313e2b" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>gradients_synced_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a68cdb10d119be304134eebf6bad0983a" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>initialize_backend</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a529a9940d780cafd2ff99ea653d698ce" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>layers_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1afede25b16cd434d2e95f92ed364e4c0a" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>MultiGPULoRALayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ab96ba456643ba377d29ae86dd538dcdc" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>MultiGPULoRALayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a950621ac27c8cfbff17643dd4fe7c585" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>MultiGPULoRALayer</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a168029e939ed75a4b80918114e2c7330" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>nccl_backend_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a963d43332849e8965576b7eacadaf0bb" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>num_gpus</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1ae9961f6e5f074a5d04a4495908cef99c" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1aab6064aeb2b68742845e9f0529b3af76" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1accf82c118fbbbde8f986c50f476ea854" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>rccl_backend_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a42ee4af01917302845c2ab6f48c204b7" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>reset_stats</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a500d06625e5f0fdfdc5255314c8865fa" prot="private" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a05c47b7c98c91ef95eb6306d1ac7c598" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>synchronize_gradients</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a0b5d2dca3cb98a128a1d63c292b40cd5" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>zero_grad</name></member>
+      <member refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer_1a8fce3132d93d46127b5cd18cd401cc8f" prot="public" virt="non-virtual"><scope>themis::llm::lora::MultiGPULoRALayer</scope><name>~MultiGPULoRALayer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

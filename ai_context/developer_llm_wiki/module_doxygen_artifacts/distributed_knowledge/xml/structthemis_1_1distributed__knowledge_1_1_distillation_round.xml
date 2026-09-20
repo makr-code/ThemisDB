@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_distillation_round" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::DistillationRound</compoundname>
+    <includes refid="federated__distillation__coordinator_8h" local="no">federated_distillation_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_round_1aa5954a8cb6c03a6e5b254ccdf10a0a49" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::DistillationRound::round</definition>
+        <argsstring></argsstring>
+        <name>round</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationRound::round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Monotonic round counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="60" column="30" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ae14295675a75b2adde7c43f71ab20f81" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_knowledge::DistillationRound::teacher_id</definition>
+        <argsstring></argsstring>
+        <name>teacher_id</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationRound::teacher_id</qualifiedname>
+        <briefdescription>
+<para>Teacher model identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="61" column="30" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_round_1a01eb65161260988210fcd4b67c42bb83" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1distributed__knowledge_1_1_soft_label" kindref="compound">SoftLabel</ref> &gt;</type>
+        <definition>std::vector&lt;SoftLabel&gt; themis::distributed_knowledge::DistillationRound::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationRound::labels</qualifiedname>
+        <briefdescription>
+<para>DP-protected soft labels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="62" column="19" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ab10b875dd405ee932349c66f79fbb59a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::distributed_knowledge::DistillationRound::epsilon_spent</definition>
+        <argsstring></argsstring>
+        <name>epsilon_spent</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationRound::epsilon_spent</qualifiedname>
+        <briefdescription>
+<para>DP budget spent this round. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="63" column="30" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_round_1a9c722749f1bab1312c84810aedd5ae4b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::distributed_knowledge::DistillationRound::label_count</definition>
+        <argsstring></argsstring>
+        <name>label_count</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationRound::label_count</qualifiedname>
+        <briefdescription>
+<para>Number of soft labels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="64" column="30" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_distillation_round_1aca1e46e42a14f666d75ce78e2a91ffd4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::DistillationRound::dp_applied</definition>
+        <argsstring></argsstring>
+        <name>dp_applied</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationRound::dp_applied</qualifiedname>
+        <briefdescription>
+<para>Whether DP noise was applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="65" column="30" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ab4dc7c5ad161e2255d2bc1d38a8a98d7" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::distributed_knowledge::DistillationRound::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::distributed_knowledge::DistillationRound::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="67" column="21" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="67" bodyend="78"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/federated_distillation_coordinator.h" line="59" column="1" bodyfile="include/distributed_knowledge/federated_distillation_coordinator.h" bodystart="59" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1aca1e46e42a14f666d75ce78e2a91ffd4" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationRound</scope><name>dp_applied</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ab10b875dd405ee932349c66f79fbb59a" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationRound</scope><name>epsilon_spent</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1a9c722749f1bab1312c84810aedd5ae4b" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationRound</scope><name>label_count</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1a01eb65161260988210fcd4b67c42bb83" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationRound</scope><name>labels</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1aa5954a8cb6c03a6e5b254ccdf10a0a49" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationRound</scope><name>round</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ae14295675a75b2adde7c43f71ab20f81" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationRound</scope><name>teacher_id</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_distillation_round_1ab4dc7c5ad161e2255d2bc1d38a8a98d7" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::DistillationRound</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

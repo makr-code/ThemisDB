@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_event_trigger_1_1_parsed_clause" kind="struct" language="C++" prot="private">
+    <compoundname>themis::EventTrigger::ParsedClause</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_parsed_clause_1aee2e3774c9605e55391dff57f2d02b80" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EventTrigger::ParsedClause::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::EventTrigger::ParsedClause::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="171" column="21" bodyfile="include/scheduler/event_trigger.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_parsed_clause_1a924aac5cff9275efcc41bdf03a6793ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EventTrigger::ParsedClause::op</definition>
+        <argsstring></argsstring>
+        <name>op</name>
+        <qualifiedname>themis::EventTrigger::ParsedClause::op</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="172" column="21" bodyfile="include/scheduler/event_trigger.h" bodystart="172" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_trigger_1_1_parsed_clause_1a30531cda2847719cfc64ed3c0df89ed4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EventTrigger::ParsedClause::rhs</definition>
+        <argsstring></argsstring>
+        <name>rhs</name>
+        <qualifiedname>themis::EventTrigger::ParsedClause::rhs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/event_trigger.h" line="173" column="21" bodyfile="include/scheduler/event_trigger.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scheduler/event_trigger.h" line="170" column="5" bodyfile="include/scheduler/event_trigger.h" bodystart="170" bodyend="174"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_event_trigger_1_1_parsed_clause_1aee2e3774c9605e55391dff57f2d02b80" prot="public" virt="non-virtual"><scope>themis::EventTrigger::ParsedClause</scope><name>field</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_parsed_clause_1a924aac5cff9275efcc41bdf03a6793ff" prot="public" virt="non-virtual"><scope>themis::EventTrigger::ParsedClause</scope><name>op</name></member>
+      <member refid="structthemis_1_1_event_trigger_1_1_parsed_clause_1a30531cda2847719cfc64ed3c0df89ed4" prot="public" virt="non-virtual"><scope>themis::EventTrigger::ParsedClause</scope><name>rhs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

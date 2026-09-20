@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1updates_1_1_update_transaction_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::updates::UpdateTransactionEntry</compoundname>
+    <includes refid="update__state__machine_8h" local="no">update_state_machine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_transaction_entry_1adacb9f63c03abfbb43a1abd44574e482" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" kindref="member">UpdateState</ref></type>
+        <definition>UpdateState themis::updates::UpdateTransactionEntry::from_state</definition>
+        <argsstring></argsstring>
+        <name>from_state</name>
+        <qualifiedname>themis::updates::UpdateTransactionEntry::from_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="54" column="17" bodyfile="include/updates/update_state_machine.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_transaction_entry_1a4ed59da7906eb88c5815a4ff38b347f3" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" kindref="member">UpdateState</ref></type>
+        <definition>UpdateState themis::updates::UpdateTransactionEntry::to_state</definition>
+        <argsstring></argsstring>
+        <name>to_state</name>
+        <qualifiedname>themis::updates::UpdateTransactionEntry::to_state</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="55" column="17" bodyfile="include/updates/update_state_machine.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_transaction_entry_1a08452c3a4b96c98fdcf54b693c66a5c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateTransactionEntry::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::updates::UpdateTransactionEntry::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="56" column="17" bodyfile="include/updates/update_state_machine.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_transaction_entry_1aad08ce6a4e76348a1bbc0b20173a6e72" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::updates::UpdateTransactionEntry::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::updates::UpdateTransactionEntry::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="57" column="17" bodyfile="include/updates/update_state_machine.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1updates_1_1_update_transaction_entry_1ac0b8cf0e1c460407cb0be995a38f6af8" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::updates::UpdateTransactionEntry::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::updates::UpdateTransactionEntry::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="58" column="43" bodyfile="include/updates/update_state_machine.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_update_transaction_entry_1adbebe7ed412d4c68895a778352e66844" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref></type>
+        <definition>json themis::updates::UpdateTransactionEntry::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::updates::UpdateTransactionEntry::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise this transaction-log entry to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object containing states, version, message, and timestamp. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="64" column="10" bodyfile="src/updates/update_state_machine.cpp" bodystart="80" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1updates_1_1_update_transaction_entry_1a2f437aefc36f5e5bb2a3d90870d1bf2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1updates_1_1_update_transaction_entry" kindref="compound">UpdateTransactionEntry</ref> &gt;</type>
+        <definition>std::optional&lt; UpdateTransactionEntry &gt; themis::updates::UpdateTransactionEntry::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::updates::UpdateTransactionEntry::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Parse a transaction-log entry from JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>From Json.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object created by <ref refid="structthemis_1_1updates_1_1_update_transaction_entry_1adbebe7ed412d4c68895a778352e66844" kindref="member">toJson()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed entry, or std::nullopt when required fields are missing or invalid.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: stateFromString(), value(), empty(), ss(), std::get_time(), fail(), _mkgmtime(), timegm(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="70" column="26" bodyfile="src/updates/update_state_machine.cpp" bodystart="106" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Entry in the update transaction log. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/update_state_machine.h" line="53" column="1" bodyfile="include/updates/update_state_machine.h" bodystart="53" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1updates_1_1_update_transaction_entry_1adacb9f63c03abfbb43a1abd44574e482" prot="public" virt="non-virtual"><scope>themis::updates::UpdateTransactionEntry</scope><name>from_state</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_transaction_entry_1a2f437aefc36f5e5bb2a3d90870d1bf2c" prot="public" virt="non-virtual"><scope>themis::updates::UpdateTransactionEntry</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_transaction_entry_1aad08ce6a4e76348a1bbc0b20173a6e72" prot="public" virt="non-virtual"><scope>themis::updates::UpdateTransactionEntry</scope><name>message</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_transaction_entry_1ac0b8cf0e1c460407cb0be995a38f6af8" prot="public" virt="non-virtual"><scope>themis::updates::UpdateTransactionEntry</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_transaction_entry_1a4ed59da7906eb88c5815a4ff38b347f3" prot="public" virt="non-virtual"><scope>themis::updates::UpdateTransactionEntry</scope><name>to_state</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_transaction_entry_1adbebe7ed412d4c68895a778352e66844" prot="public" virt="non-virtual"><scope>themis::updates::UpdateTransactionEntry</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1updates_1_1_update_transaction_entry_1a08452c3a4b96c98fdcf54b693c66a5c3" prot="public" virt="non-virtual"><scope>themis::updates::UpdateTransactionEntry</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

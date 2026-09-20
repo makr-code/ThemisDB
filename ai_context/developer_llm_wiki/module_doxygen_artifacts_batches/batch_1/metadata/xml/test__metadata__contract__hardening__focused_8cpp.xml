@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__metadata__contract__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_metadata_contract_hardening_focused.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="metadata__api__contract_8h" local="yes">metadata/metadata_api_contract.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>metadata/metadata_api_contract.h</label>
+        <link refid="metadata__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/metadata/test_metadata_contract_hardening_focused.cpp</label>
+        <link refid="test__metadata__contract__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataContractTest, MET01_ErrorCodesUnique)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataContractTest</type>
+        </param>
+        <param>
+          <type>MET01_ErrorCodesUnique</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp" line="16" column="1" bodyfile="tests/metadata/test_metadata_contract_hardening_focused.cpp" bodystart="16" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__contract__hardening__focused_8cpp_1acaaedd107519c3ce3b9f38cefd2cba76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataContractTest, MET02_ErrorCodesInRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataContractTest</type>
+        </param>
+        <param>
+          <type>MET02_ErrorCodesInRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp" line="27" column="1" bodyfile="tests/metadata/test_metadata_contract_hardening_focused.cpp" bodystart="27" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__contract__hardening__focused_8cpp_1acb8717f355a0f2a1bbe10123776fac03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataContractTest, MET03_CollectionNotFoundLowest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataContractTest</type>
+        </param>
+        <param>
+          <type>MET03_CollectionNotFoundLowest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp" line="38" column="1" bodyfile="tests/metadata/test_metadata_contract_hardening_focused.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__contract__hardening__focused_8cpp_1acd0d2c139eb3808fd8943fb9c272e68e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataContractTest, MET04_ExportFailedHighest)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataContractTest</type>
+        </param>
+        <param>
+          <type>MET04_ExportFailedHighest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp" line="42" column="1" bodyfile="tests/metadata/test_metadata_contract_hardening_focused.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__contract__hardening__focused_8cpp_1abb2cf99d82dac2b2c345ed03cb1b9827" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataContractTest, MET05_CollectionDistinctFromField)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataContractTest</type>
+        </param>
+        <param>
+          <type>MET05_CollectionDistinctFromField</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp" line="46" column="1" bodyfile="tests/metadata/test_metadata_contract_hardening_focused.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__contract__hardening__focused_8cpp_1a097d38abebc555bd7077e443b37d3b10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataContractTest, MET06_SchemaMismatchDistinctFromExport)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataContractTest</type>
+        </param>
+        <param>
+          <type>MET06_SchemaMismatchDistinctFromExport</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp" line="51" column="1" bodyfile="tests/metadata/test_metadata_contract_hardening_focused.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__contract__hardening__focused_8cpp_1a77909f281ebc47d15ff3edac3c363d27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataContractTest, MET07_ErrorSwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataContractTest</type>
+        </param>
+        <param>
+          <type>MET07_ErrorSwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp" line="56" column="1" bodyfile="tests/metadata/test_metadata_contract_hardening_focused.cpp" bodystart="56" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="test__metadata__contract__hardening__focused_8cpp_1ac7db16c28d7bd7ecf9459725e2adc654" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MetadataContractTest, MET08_AllCodesGe7900)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MetadataContractTest</type>
+        </param>
+        <param>
+          <type>MET08_AllCodesGe7900</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp" line="68" column="1" bodyfile="tests/metadata/test_metadata_contract_hardening_focused.cpp" bodystart="68" bodyend="77"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 1–6 contract-hardening tests for the metadata module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="note"><para>Test IDs: MET-01..MET-08 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="metadata__api__contract_8h" kindref="compound">metadata/metadata_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1metadata" kindref="compound">themis::metadata</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" kindref="member">TEST</ref>(MetadataContractTest,<sp/>MET01_ErrorCodesUnique)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int32_t&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" kindref="member">MetaError::kCollectionNotFound</ref>),</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a687dbdb1ee81fc5e3b7b89a6a186ec92" kindref="member">MetaError::kFieldNotFound</ref>),</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" kindref="member">MetaError::kSchemaMismatch</ref>),</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" kindref="member">MetaError::kExportFailed</ref>),</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::sort(codes.begin(),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(std::unique(codes.begin(),<sp/>codes.end()),<sp/>codes.end());</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" kindref="member">TEST</ref>(MetadataContractTest,<sp/>MET02_ErrorCodesInRange)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>check<sp/>=<sp/>[](<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64" kindref="member">MetaError</ref><sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>v<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(e);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7900);<sp/>EXPECT_LE(v,<sp/>7999);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" kindref="member">MetaError::kCollectionNotFound</ref>);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a687dbdb1ee81fc5e3b7b89a6a186ec92" kindref="member">MetaError::kFieldNotFound</ref>);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" kindref="member">MetaError::kSchemaMismatch</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>check(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" kindref="member">MetaError::kExportFailed</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" kindref="member">TEST</ref>(MetadataContractTest,<sp/>MET03_CollectionNotFoundLowest)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" kindref="member">MetaError::kCollectionNotFound</ref>),<sp/>7900);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" kindref="member">TEST</ref>(MetadataContractTest,<sp/>MET04_ExportFailedHighest)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" kindref="member">MetaError::kExportFailed</ref>),<sp/>7903);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" kindref="member">TEST</ref>(MetadataContractTest,<sp/>MET05_CollectionDistinctFromField)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" kindref="member">MetaError::kCollectionNotFound</ref>),</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a687dbdb1ee81fc5e3b7b89a6a186ec92" kindref="member">MetaError::kFieldNotFound</ref>));</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" kindref="member">TEST</ref>(MetadataContractTest,<sp/>MET06_SchemaMismatchDistinctFromExport)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" kindref="member">MetaError::kSchemaMismatch</ref>),</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" kindref="member">MetaError::kExportFailed</ref>));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" kindref="member">TEST</ref>(MetadataContractTest,<sp/>MET07_ErrorSwitchDispatch)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64" kindref="member">MetaError</ref><sp/>err<sp/>=<sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" kindref="member">MetaError::kSchemaMismatch</ref>;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(err)<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" kindref="member">MetaError::kCollectionNotFound</ref>:<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a687dbdb1ee81fc5e3b7b89a6a186ec92" kindref="member">MetaError::kFieldNotFound</ref>:<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" kindref="member">MetaError::kSchemaMismatch</ref>:<sp/><sp/><sp/><sp/><sp/>handled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" kindref="member">MetaError::kExportFailed</ref>:<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(handled);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__metadata__contract__hardening__focused_8cpp_1a1c2b62b6f27102016b0ee2151a35a1c8" kindref="member">TEST</ref>(MetadataContractTest,<sp/>MET08_AllCodesGe7900)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>v<sp/>:<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64adaeefd49e3ec67a221b3d25459a924a3" kindref="member">MetaError::kCollectionNotFound</ref>),</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a687dbdb1ee81fc5e3b7b89a6a186ec92" kindref="member">MetaError::kFieldNotFound</ref>),</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64ab79d97a35d835a7c1b9614360f808ff6" kindref="member">MetaError::kSchemaMismatch</ref>),</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">int32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespacethemis_1_1metadata_1afde008584960d594d7896db8ffdd3b64a797ffa4b2d6944dedd466a142de3368b" kindref="member">MetaError::kExportFailed</ref>),</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>})<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(v,<sp/>7900);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/metadata/test_metadata_contract_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

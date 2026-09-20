@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::test::S3ImporterExceptionSafetyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test_1aa9c340eabbd6f09692f32f6820cdd919" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1importers_1_1_s3_importer" kindref="compound">S3Importer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;S3Importer&gt; themis::importers::test::S3ImporterExceptionSafetyTest::importer_</definition>
+        <argsstring></argsstring>
+        <name>importer_</name>
+        <qualifiedname>themis::importers::test::S3ImporterExceptionSafetyTest::importer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="281" column="21" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="281" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test_1a32a4b1108e0d60f8bfc908de9d0666f7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::test::S3ImporterExceptionSafetyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::importers::test::S3ImporterExceptionSafetyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="277" column="10" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="277" bodyend="279"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::S3ImporterExceptionSafetyTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::importers::test::S3ImporterExceptionSafetyTest</label>
+        <link refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" line="275" column="1" bodyfile="tests/importers/test_importers_phase2b_exception_safety_focused.cpp" bodystart="275" bodyend="282"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test_1aa9c340eabbd6f09692f32f6820cdd919" prot="protected" virt="non-virtual"><scope>themis::importers::test::S3ImporterExceptionSafetyTest</scope><name>importer_</name></member>
+      <member refid="classthemis_1_1importers_1_1test_1_1_s3_importer_exception_safety_test_1a32a4b1108e0d60f8bfc908de9d0666f7" prot="protected" virt="non-virtual"><scope>themis::importers::test::S3ImporterExceptionSafetyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

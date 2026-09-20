@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a15ba03b6722fa3aeecc27fb36451efa" kind="dir">
+    <compoundname>benchmarks/plugins</compoundname>
+    <innerfile refid="bench__plugin__hot__plug_8cpp">bench_plugin_hot_plug.cpp</innerfile>
+    <innerfile refid="bench__plugin__system_8cpp">bench_plugin_system.cpp</innerfile>
+    <innerfile refid="bench__plugins__release__gates_8cpp">bench_plugins_release_gates.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/plugins/"/>
+  </compounddef>
+</doxygen>

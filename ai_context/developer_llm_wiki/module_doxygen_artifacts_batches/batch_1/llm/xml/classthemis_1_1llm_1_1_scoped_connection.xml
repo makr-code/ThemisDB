@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_scoped_connection" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::ScopedConnection</compoundname>
+    <includes refid="raii__wrappers_8h" local="no">raii_wrappers.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename DBHandle</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1llm_1_1_scoped_connection_1a3ab46dc0136e284a64b661d5a27ed564" prot="public" static="no">
+        <type>std::function&lt; void(DBHandle)&gt;</type>
+        <definition>using themis::llm::ScopedConnection&lt; DBHandle &gt;::CloseFunction = std::function&lt;void(DBHandle)&gt;</definition>
+        <argsstring></argsstring>
+        <name>CloseFunction</name>
+        <qualifiedname>themis::llm::ScopedConnection::CloseFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="348" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_connection_1acc9c16ce5876f2e9c5135c2bef9c6980" prot="private" static="no" mutable="no">
+        <type>DBHandle</type>
+        <definition>DBHandle themis::llm::ScopedConnection&lt; DBHandle &gt;::conn_</definition>
+        <argsstring></argsstring>
+        <name>conn_</name>
+        <qualifiedname>themis::llm::ScopedConnection::conn_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="407" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="407" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_scoped_connection_1a4e3a70408b3ae7774ec507519f3c9c52" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a3ab46dc0136e284a64b661d5a27ed564" kindref="member">CloseFunction</ref></type>
+        <definition>CloseFunction themis::llm::ScopedConnection&lt; DBHandle &gt;::close_fn_</definition>
+        <argsstring></argsstring>
+        <name>close_fn_</name>
+        <qualifiedname>themis::llm::ScopedConnection::close_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="408" column="19" bodyfile="include/llm/raii_wrappers.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedConnection&lt; DBHandle &gt;::ScopedConnection</definition>
+        <argsstring>(DBHandle conn=nullptr, CloseFunction close_fn=nullptr) noexcept</argsstring>
+        <name>ScopedConnection</name>
+        <qualifiedname>themis::llm::ScopedConnection::ScopedConnection</qualifiedname>
+        <param>
+          <type>DBHandle</type>
+          <declname>conn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a3ab46dc0136e284a64b661d5a27ed564" kindref="member">CloseFunction</ref></type>
+          <declname>close_fn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Construct with connection handle and close function. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="351" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="351" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1af970e61cae48bb68771cadcd3d554a3d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedConnection&lt; DBHandle &gt;::~ScopedConnection</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ScopedConnection</name>
+        <qualifiedname>themis::llm::ScopedConnection::~ScopedConnection</qualifiedname>
+        <briefdescription>
+<para>Destructor: closes connection if not null. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="355" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="355" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1a6fca6c4606f84c9780f318f624da6c1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedConnection&lt; DBHandle &gt;::ScopedConnection</definition>
+        <argsstring>(const ScopedConnection &amp;)=delete</argsstring>
+        <name>ScopedConnection</name>
+        <qualifiedname>themis::llm::ScopedConnection::ScopedConnection</qualifiedname>
+        <param>
+          <type>const ScopedConnection &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="367" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1a0e5c381039abb457ec1cf8c34422d380" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref> &amp;</type>
+        <definition>ScopedConnection &amp; themis::llm::ScopedConnection&lt; DBHandle &gt;::operator=</definition>
+        <argsstring>(const ScopedConnection &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedConnection::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="368" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1a121ff9e09667c640ca1b368c210f7c9b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedConnection&lt; DBHandle &gt;::ScopedConnection</definition>
+        <argsstring>(ScopedConnection &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedConnection</name>
+        <qualifiedname>themis::llm::ScopedConnection::ScopedConnection</qualifiedname>
+        <param>
+          <type>ScopedConnection &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="371" column="5" bodyfile="include/llm/raii_wrappers.h" bodystart="371" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1a54d09e65e1650c4f29a6ee2e0248be36" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref> &amp;</type>
+        <definition>ScopedConnection &amp; themis::llm::ScopedConnection&lt; DBHandle &gt;::operator=</definition>
+        <argsstring>(ScopedConnection &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm::ScopedConnection::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" kindref="member">ScopedConnection</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move assignment. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="375" column="22" bodyfile="include/llm/raii_wrappers.h" bodystart="375" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1afe858ee2e665082959168fec46309b5b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>DBHandle</type>
+        <definition>DBHandle themis::llm::ScopedConnection&lt; DBHandle &gt;::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::llm::ScopedConnection::get</qualifiedname>
+        <briefdescription>
+<para>Get the underlying connection handle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="382" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="382" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1a61d817e543ee4de5ce46f17ec1a1cabb" prot="public" static="no" const="yes" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::ScopedConnection&lt; DBHandle &gt;::operator bool</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::llm::ScopedConnection::operator bool</qualifiedname>
+        <briefdescription>
+<para>Explicit conversion to bool. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="385" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="385" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1abd2b665dfe2226aae0bd3166714cbc1e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>DBHandle</type>
+        <definition>DBHandle themis::llm::ScopedConnection&lt; DBHandle &gt;::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::llm::ScopedConnection::release</qualifiedname>
+        <briefdescription>
+<para>Release ownership without closing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="388" column="14" bodyfile="include/llm/raii_wrappers.h" bodystart="388" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_scoped_connection_1aada0bc454dc9d0f09cf3dbc1bddacd4b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::ScopedConnection&lt; DBHandle &gt;::reset</definition>
+        <argsstring>(DBHandle conn=nullptr) noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::llm::ScopedConnection::reset</qualifiedname>
+        <param>
+          <type>DBHandle</type>
+          <declname>conn</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Close and reset to nullptr. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/raii_wrappers.h" line="395" column="10" bodyfile="include/llm/raii_wrappers.h" bodystart="395" bodyend="404"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII wrapper for database connections. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages the lifecycle of a database connection handle. Automatically closes the connection on destruction.</para>
+<para>Exception-safe: destructor is noexcept.</para>
+<para>Generic implementation - can be specialized for specific database types. </para>
+    </detaileddescription>
+    <location file="include/llm/raii_wrappers.h" line="346" column="1" bodyfile="include/llm/raii_wrappers.h" bodystart="346" bodyend="409"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1a4e3a70408b3ae7774ec507519f3c9c52" prot="private" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>close_fn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1a3ab46dc0136e284a64b661d5a27ed564" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>CloseFunction</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1acc9c16ce5876f2e9c5135c2bef9c6980" prot="private" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>conn_</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1afe858ee2e665082959168fec46309b5b" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>get</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1a61d817e543ee4de5ce46f17ec1a1cabb" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>operator bool</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1a0e5c381039abb457ec1cf8c34422d380" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1a54d09e65e1650c4f29a6ee2e0248be36" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1abd2b665dfe2226aae0bd3166714cbc1e" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>release</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1aada0bc454dc9d0f09cf3dbc1bddacd4b" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>reset</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1a22136089c65143615b8590518ab5cdb7" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>ScopedConnection</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1a6fca6c4606f84c9780f318f624da6c1d" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>ScopedConnection</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1a121ff9e09667c640ca1b368c210f7c9b" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>ScopedConnection</name></member>
+      <member refid="classthemis_1_1llm_1_1_scoped_connection_1af970e61cae48bb68771cadcd3d554a3d" prot="public" virt="non-virtual"><scope>themis::llm::ScopedConnection</scope><name>~ScopedConnection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,420 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ai__hardware__dispatcher_8h" kind="file" language="C++">
+    <compoundname>ai_hardware_dispatcher.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="compute__backend_8h" local="yes">acceleration/compute_backend.h</includes>
+    <includes refid="kernel__invocation_8h" local="yes">acceleration/kernel_invocation.h</includes>
+    <includedby refid="ai__hardware__dispatcher_8cpp" local="yes">src/acceleration/ai_hardware_dispatcher.cpp</includedby>
+    <includedby refid="test__acceleration_8cpp" local="yes">tests/acceleration/test_acceleration.cpp</includedby>
+    <includedby refid="test__acceleration__failure__handling_8cpp" local="yes">tests/acceleration/test_acceleration_failure_handling.cpp</includedby>
+    <includedby refid="test__acceleration__performance__gates_8cpp" local="yes">tests/acceleration/test_acceleration_performance_gates.cpp</includedby>
+    <includedby refid="test__ai__hardware__dispatcher_8cpp" local="yes">tests/acceleration/test_ai_hardware_dispatcher.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/acceleration/ai_hardware_dispatcher.h</label>
+        <link refid="ai__hardware__dispatcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>acceleration/compute_backend.h</label>
+        <link refid="compute__backend_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>acceleration/compute_future.h</label>
+        <link refid="compute__future_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>acceleration/error_codes.h</label>
+        <link refid="error__codes_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>acceleration/error_context.h</label>
+        <link refid="error__context_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>acceleration/kernel_invocation.h</label>
+        <link refid="kernel__invocation_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>algorithm</label>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="20">
+        <label>future</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>shared_mutex</label>
+      </node>
+      <node id="21">
+        <label>stdexcept</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/acceleration/ai_hardware_dispatcher.h</label>
+        <link refid="ai__hardware__dispatcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/acceleration/ai_hardware_dispatcher.cpp</label>
+        <link refid="ai__hardware__dispatcher_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/acceleration/test_acceleration.cpp</label>
+        <link refid="test__acceleration_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/acceleration/test_acceleration_failure_handling.cpp</label>
+        <link refid="test__acceleration__failure__handling_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/acceleration/test_acceleration_performance_gates.cpp</label>
+        <link refid="test__acceleration__performance__gates_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/acceleration/test_ai_hardware_dispatcher.cpp</label>
+        <link refid="test__ai__hardware__dispatcher_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1acceleration_1_1_ai_inference_request" prot="public">themis::acceleration::AiInferenceRequest</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_ai_inference_result" prot="public">themis::acceleration::AiInferenceResult</innerclass>
+    <innerclass refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" prot="public">themis::acceleration::AiHardwareCapability</innerclass>
+    <innerclass refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher" prot="public">themis::acceleration::AiHardwareDispatcher</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1acceleration">themis::acceleration</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="ai__hardware__dispatcher_8h_1a4327ed27687199706489759c682c6a72" prot="public" static="no">
+        <name>THEMIS_HAS_ONNX_RUNTIME</name>
+        <initializer>1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/ai_hardware_dispatcher.h" line="59" column="11" bodyfile="include/acceleration/ai_hardware_dispatcher.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="compute__backend_8h" kindref="compound">acceleration/compute_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kernel__invocation_8h" kindref="compound">acceleration/kernel_invocation.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>Compile-time<sp/>guards<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Each<sp/>guard<sp/>can<sp/>be<sp/>overridden<sp/>from<sp/>the<sp/>CMake<sp/>command<sp/>line:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-DTHEMIS_DISABLE_NPU_APPLE=ON<sp/><sp/><sp/>disable<sp/>Apple<sp/>Neural<sp/>Engine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-DTHEMIS_DISABLE_NPU_INTEL=ON<sp/><sp/><sp/>disable<sp/>Intel<sp/>NPU<sp/>/<sp/>OpenVINO</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-DTHEMIS_DISABLE_NPU_QUALCOMM=ON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-DTHEMIS_DISABLE_NPU_ARM=ON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-DTHEMIS_DISABLE_NNAPI=ON<sp/><sp/><sp/><sp/><sp/><sp/><sp/>disable<sp/>Android<sp/>NNAPI</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-DTHEMIS_DISABLE_ONNX_RUNTIME=ON</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__APPLE__)<sp/>&amp;&amp;<sp/>!defined(THEMIS_DISABLE_NPU_APPLE)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>define<sp/>THEMIS_HAS_NPU_APPLE<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__linux__)<sp/>&amp;&amp;<sp/>defined(THEMIS_ENABLE_NPU_INTEL)<sp/>&amp;&amp;<sp/>!defined(THEMIS_DISABLE_NPU_INTEL)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>define<sp/>THEMIS_HAS_NPU_INTEL<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>(defined(__linux__)<sp/>||<sp/>defined(_WIN32))<sp/>&amp;&amp;<sp/>defined(THEMIS_ENABLE_NPU_QUALCOMM)<sp/>&amp;&amp;<sp/>\</highlight></codeline>
+<codeline lineno="46"><highlight class="preprocessor"><sp/><sp/><sp/><sp/>!defined(THEMIS_DISABLE_NPU_QUALCOMM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>define<sp/>THEMIS_HAS_NPU_QUALCOMM<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__linux__)<sp/>&amp;&amp;<sp/>defined(THEMIS_ENABLE_NPU_ARM)<sp/>&amp;&amp;<sp/>!defined(THEMIS_DISABLE_NPU_ARM)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>define<sp/>THEMIS_HAS_NPU_ARM<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>defined(__ANDROID__)<sp/>&amp;&amp;<sp/>!defined(THEMIS_DISABLE_NNAPI)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>define<sp/>THEMIS_HAS_NNAPI<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!defined(THEMIS_DISABLE_ONNX_RUNTIME)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="ai__hardware__dispatcher_8h_1a4327ed27687199706489759c682c6a72" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#<sp/><sp/>define<sp/>THEMIS_HAS_ONNX_RUNTIME<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1acceleration" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1acceleration" kindref="compound">acceleration</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1acceleration_1_1_ai_inference_request" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a37d82cf4bd9b939c825bf7e20b1408d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a37d82cf4bd9b939c825bf7e20b1408d2" kindref="member">input_data</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a6bd3df52c68482b3ebd9aaa24e83c73b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a6bd3df52c68482b3ebd9aaa24e83c73b" kindref="member">input_elements</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1aba1e04ccae42c4a7a53de29d5e1e8110" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1aba1e04ccae42c4a7a53de29d5e1e8110" kindref="member">input_shape</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a84afc0fbaf712f3ceb5317b3aec240ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a84afc0fbaf712f3ceb5317b3aec240ea" kindref="member">model_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a6ce894d3606ddad21b44384f5169702c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a6ce894d3606ddad21b44384f5169702c" kindref="member">task_tag</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a04e6deed34b3804fc7c308ab5865bf03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a04e6deed34b3804fc7c308ab5865bf03" kindref="member">preferred_precision</ref><sp/>=<sp/>PrecisionMode::FP32;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a791fa4c9577e6e8665966ff7e15333ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a791fa4c9577e6e8665966ff7e15333ad" kindref="member">chosen_backend</ref><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a6e37547b68dd6cfd0405badf7cb7cafa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a6e37547b68dd6cfd0405badf7cb7cafa" kindref="member">chosen_ep</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a36dbb7711c66bd3023ccb2045d6c2cd6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a36dbb7711c66bd3023ccb2045d6c2cd6" kindref="member">similarity_corpus</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1aebc853d3d123520c0f39ea62835481b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1aebc853d3d123520c0f39ea62835481b9" kindref="member">similarity_num_queries</ref><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a5270f1af727c51b54bc19f463950fdec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a5270f1af727c51b54bc19f463950fdec" kindref="member">similarity_num_vectors</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a4aec2c89f96ea6f128052f719117d99e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a4aec2c89f96ea6f128052f719117d99e" kindref="member">similarity_dim</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a1987912b1b72fd95f1905197c5688c52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a1987912b1b72fd95f1905197c5688c52" kindref="member">similarity_top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a4a78e5ddc5a9a2b225f18e64f351b06e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request_1a4a78e5ddc5a9a2b225f18e64f351b06e" kindref="member">similarity_metric</ref><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100a7e6aa2d53f6ee2b1a34b017fa403cb76" kindref="member">DistanceMetric::L2</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1acceleration_1_1_ai_inference_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a2aed9d4c2a4b1046f1531d223cdc095d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a2aed9d4c2a4b1046f1531d223cdc095d" kindref="member">output</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a7c97400cafd0d30e418fd9082676ec19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a7c97400cafd0d30e418fd9082676ec19" kindref="member">output_shape</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a5539fbadb88b886214711e7ad19a1ee8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a5539fbadb88b886214711e7ad19a1ee8" kindref="member">success</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1acbb345f43463f328a288b8ddc2d0f72b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1acbb345f43463f328a288b8ddc2d0f72b" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a89260a7febed63c4d0224a5439721c69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a89260a7febed63c4d0224a5439721c69" kindref="member">backend_used</ref><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a4a6f1f15bf2436434c8d7544ad2d2e6c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a4a6f1f15bf2436434c8d7544ad2d2e6c" kindref="member">ep_used</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a62c3f0024bb67e510ab12042e8581b06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a62c3f0024bb67e510ab12042e8581b06" kindref="member">latency_ms</ref><sp/><sp/><sp/>=<sp/>0.0;<sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a4a589b8273c4016e6a14ad1057ecfad1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint32_t&gt;<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a4a589b8273c4016e6a14ad1057ecfad1" kindref="member">topk_indices</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a75d1d3b64b4eefbd8b1f45c3bb6225c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result_1a75d1d3b64b4eefbd8b1f45c3bb6225c2" kindref="member">topk_distances</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>{</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a8cadee3d2c3fe57db6d74010544027fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a8cadee3d2c3fe57db6d74010544027fe" kindref="member">type</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5a2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1ad58d58280c343b0e8a07d9f25aa3175b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1ad58d58280c343b0e8a07d9f25aa3175b" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1acd4b5c7b83c3622e7df5c771ece5af4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1acd4b5c7b83c3622e7df5c771ece5af4d" kindref="member">available</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1ae58ec583ba7beb677fc5fb743bd2f130" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1ae58ec583ba7beb677fc5fb743bd2f130" kindref="member">tops</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a3f8d3d69a36350e0f30d68c2847e7011" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1aef777e7dd3ac6c6539d74768aba452b4" kindref="member">PrecisionMode</ref><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a3f8d3d69a36350e0f30d68c2847e7011" kindref="member">supported_precisions</ref><sp/>=<sp/>PrecisionMode::FP32;<sp/><sp/></highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a1d65c5acf306ef693d6ca2caba159f9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a1d65c5acf306ef693d6ca2caba159f9a" kindref="member">onnx_ep</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a1028f1afd8989a9252af31b9eebb7191" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability_1a1028f1afd8989a9252af31b9eebb7191" kindref="member">error</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>AiHardwareDispatcher</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AiHardwareDispatcher<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="114" refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5e912d1f6b91e6539e37de89435a6e1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5e912d1f6b91e6539e37de89435a6e1b" kindref="member">AppleANEDispatchFn</ref><sp/>=<sp/>std::function&lt;<ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref>(<ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a3847d89f8fbcd3914c20b50fc97408f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a3847d89f8fbcd3914c20b50fc97408f9" kindref="member">kCacheTTL</ref><sp/>=<sp/>std::chrono::seconds(120);</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>AiHardwareDispatcher&amp;<sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a6862dbb4f4f1e907a28c42d448a56faf" kindref="member">instance</ref>();</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1ab70f7999fa023b469899056722652467" kindref="member">initialize</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;AiHardwareCapability&gt;<sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a97b8608607494f0f493d60696af873c1" kindref="member">probeCapabilities</ref>();</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1afd312f0e0d57189873d6f4074cdf6b19" kindref="member">bestBackend</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a0dd2845ce665b968d0ef1f75d1715587" kindref="member">bestOnnxEP</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1afa028e463442fa98274aafaf7a6b8b2b" kindref="member">hasAccelerator</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1adc8664506e282c9cda1ac3f044bbfa1d" kindref="member">hasNPU</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a3f3506018f961ba7553851fda65c8f78" kindref="member">run</ref>(<ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a7d5528cd8fa7706bbf2955d56eeedb81" kindref="member">runOn</ref>(<ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref><sp/>backend,<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a9b2b16cd53a062c9e0d54779f536f837" kindref="member">logCapabilities</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5fa0c918873b5fc2b9a3eeac5d6a87af" kindref="member">setAppleANEDispatchFn</ref>(<ref refid="classthemis_1_1acceleration_1_1_ai_hardware_dispatcher_1a5e912d1f6b91e6539e37de89435a6e1b" kindref="member">AppleANEDispatchFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>AiHardwareDispatcher()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>~AiHardwareDispatcher()<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>AiHardwareDispatcher(const<sp/>AiHardwareDispatcher&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>AiHardwareDispatcher&amp;<sp/>operator=(const<sp/>AiHardwareDispatcher&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>probeAppleANE()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>probeIntelNPU()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>probeQualcommQNN()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>probeArmEthos()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>probeNNAPI()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>probeOnnxRuntime()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>probeGpuFallback()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref><sp/>probeCpuFallback()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>dispatchAppleANE(<ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>dispatchIntelNPU([[maybe_unused]]<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>dispatchQualcommQNN([[maybe_unused]]<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>dispatchArmEthos([[maybe_unused]]<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>dispatchNNAPI([[maybe_unused]]<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>dispatchOnnxRuntime([[maybe_unused]]<sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>dispatchGpuFallback(<ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1acceleration_1_1_ai_inference_result" kindref="compound">AiInferenceResult</ref><sp/>dispatchCpuFallback(<ref refid="structthemis_1_1acceleration_1_1_ai_inference_request" kindref="compound">AiInferenceRequest</ref>&amp;<sp/>req);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>State<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>mutable<sp/>std::shared_mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1acceleration_1_1_ai_hardware_capability" kindref="compound">AiHardwareCapability</ref>&gt;<sp/><sp/><sp/><sp/>capabilities_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_probe_time_{};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>initialized_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>acceleration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/acceleration/ai_hardware_dispatcher.h"/>
+  </compounddef>
+</doxygen>

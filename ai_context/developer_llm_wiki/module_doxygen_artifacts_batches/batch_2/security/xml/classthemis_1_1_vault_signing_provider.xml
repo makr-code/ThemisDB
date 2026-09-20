@@ -1,0 +1,429 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_vault_signing_provider" kind="class" language="C++" prot="public">
+    <compoundname>themis::VaultSigningProvider</compoundname>
+    <basecompoundref refid="classthemis_1_1_signing_provider" prot="public" virt="non-virtual">themis::SigningProvider</basecompoundref>
+    <includes refid="vault__signing__provider_8h" local="no">vault_signing_provider.h</includes>
+    <innerclass refid="structthemis_1_1_vault_signing_provider_1_1_config" prot="public">themis::VaultSigningProvider::Config</innerclass>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1af0daae2cf3fd1b79c4e5c9db62fe0068" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VaultSigningProvider::VaultSigningProvider</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>VaultSigningProvider</name>
+        <qualifiedname>themis::VaultSigningProvider::VaultSigningProvider</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_vault_signing_provider_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+<para>Vault Signing Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="39" column="14" bodyfile="src/security/vault_signing_provider.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1a4ad3ae7230a30890f928cc4360138a12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::VaultSigningProvider::~VaultSigningProvider</definition>
+        <argsstring>() override</argsstring>
+        <name>~VaultSigningProvider</name>
+        <qualifiedname>themis::VaultSigningProvider::~VaultSigningProvider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1a0a316e42bf661a612b1439134ad76f6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1_signing_result" kindref="compound">SigningResult</ref></type>
+        <definition>SigningResult themis::VaultSigningProvider::sign</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;data) override</argsstring>
+        <name>sign</name>
+        <qualifiedname>themis::VaultSigningProvider::sign</qualifiedname>
+        <reimplements refid="classthemis_1_1_signing_provider_1ad5d80f31cbeb12c58a736023c8ee7bce">sign</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sign. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::getenv(), std::string(), empty(), vault_addr(), back(), pop_back(), vaultBase64Encode(), curl_easy_init(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="42" column="19" bodyfile="src/security/vault_signing_provider.cpp" bodystart="113" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1aef93b60df9945cbc139993e247e07497" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::VaultSigningProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::VaultSigningProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1add63db6d99568ab764123f07893cc7d1">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="70" column="17" bodyfile="include/security/vault_signing_provider.h" bodystart="70" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1acea326bc9186f8aacb820a67e342d8ce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::VaultSigningProvider::getKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>getKey</name>
+        <qualifiedname>themis::VaultSigningProvider::getKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ac16b28cd3ba6e684a92e7f4383e5ea58">getKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Get Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="77" column="17" bodyfile="include/security/vault_signing_provider.h" bodystart="77" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1a8d7708cae622c42bd40f1c4b3bbc8f1a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VaultSigningProvider::rotateKey</definition>
+        <argsstring>(const std::string &amp;key_id) override</argsstring>
+        <name>rotateKey</name>
+        <qualifiedname>themis::VaultSigningProvider::rotateKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a21794661f33eafc159d0948ee3e204ae">rotateKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <briefdescription>
+<para>Rotate Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="84" column="14" bodyfile="include/security/vault_signing_provider.h" bodystart="84" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1ac0b1a2b6385944770e540c3a656ef414" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &gt;</type>
+        <definition>std::vector&lt; KeyMetadata &gt; themis::VaultSigningProvider::listKeys</definition>
+        <argsstring>() override</argsstring>
+        <name>listKeys</name>
+        <qualifiedname>themis::VaultSigningProvider::listKeys</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab4d31df1258d4f7583fee68f77813810">listKeys</reimplements>
+        <briefdescription>
+<para>List Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="91" column="17" bodyfile="include/security/vault_signing_provider.h" bodystart="91" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1a5be9ff42556f48e32c740b8276988d3c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref></type>
+        <definition>KeyMetadata themis::VaultSigningProvider::getKeyMetadata</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>getKeyMetadata</name>
+        <qualifiedname>themis::VaultSigningProvider::getKeyMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a74f1a932e3aa36781382fb35f2e7c2e3">getKeyMetadata</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="98" column="17" bodyfile="include/security/vault_signing_provider.h" bodystart="98" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1a492452b9f262c2ff2f6ee1c77d5deae4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::VaultSigningProvider::deleteKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version) override</argsstring>
+        <name>deleteKey</name>
+        <qualifiedname>themis::VaultSigningProvider::deleteKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1ab1381dbbc3f8af4308678d2324b51b99">deleteKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Delete Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="105" column="10" bodyfile="include/security/vault_signing_provider.h" bodystart="105" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1ad8602771667694c9243e05c9c389643a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::VaultSigningProvider::hasKey</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version=0) override</argsstring>
+        <name>hasKey</name>
+        <qualifiedname>themis::VaultSigningProvider::hasKey</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1a24990fabb3111c177d5ea5be78446824">hasKey</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="112" column="10" bodyfile="include/security/vault_signing_provider.h" bodystart="112" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_vault_signing_provider_1a7b3d469a3eaff7d798b67e2f7e728bab" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VaultSigningProvider::createKeyFromBytes</definition>
+        <argsstring>(const std::string &amp;key_id, const std::vector&lt; uint8_t &gt; &amp;key_bytes, const KeyMetadata &amp;metadata=KeyMetadata()) override</argsstring>
+        <name>createKeyFromBytes</name>
+        <qualifiedname>themis::VaultSigningProvider::createKeyFromBytes</qualifiedname>
+        <reimplements refid="classthemis_1_1_key_provider_1adb7353f54d3975fcf60572403a25c243">createKeyFromBytes</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>key_bytes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref> &amp;</type>
+          <declname>metadata</declname>
+          <defval><ref refid="structthemis_1_1_key_metadata" kindref="compound">KeyMetadata</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/vault_signing_provider.h" line="119" column="14" bodyfile="include/security/vault_signing_provider.h" bodystart="119" bodyend="127"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Provider component vault signing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="4">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="3">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningProvider</label>
+        <link refid="classthemis_1_1_signing_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::VaultSigningProvider</label>
+        <link refid="classthemis_1_1_vault_signing_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>IKeyProvider</label>
+      </node>
+      <node id="3">
+        <label>themis::KeyProvider</label>
+        <link refid="classthemis_1_1_key_provider"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SigningProvider</label>
+        <link refid="classthemis_1_1_signing_provider"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::VaultSigningProvider</label>
+        <link refid="classthemis_1_1_vault_signing_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/vault_signing_provider.h" line="22" column="1" bodyfile="include/security/vault_signing_provider.h" bodystart="22" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_vault_signing_provider_1a7b3d469a3eaff7d798b67e2f7e728bab" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>createKeyFromBytes</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1a492452b9f262c2ff2f6ee1c77d5deae4" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>deleteKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a9017c934ab52d6cc42fa7225d3add21e" prot="public" virt="non-virtual"><scope>themis::VaultSigningProvider</scope><name>get_key</name></member>
+      <member refid="classthemis_1_1_key_provider_1aa9815c2d74023ab0fbd4a911b55b42f4" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>getCurrentVersion</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1aef93b60df9945cbc139993e247e07497" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1acea326bc9186f8aacb820a67e342d8ce" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>getKey</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1a5be9ff42556f48e32c740b8276988d3c" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>getKeyMetadata</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1ad8602771667694c9243e05c9c389643a" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>hasKey</name></member>
+      <member refid="classthemis_1_1_key_provider_1a87c6e45572251fa2dd71ea8e4d4011fd" prot="public" virt="non-virtual"><scope>themis::VaultSigningProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a0489069eb96edc05fbef315bb529904f" prot="public" virt="non-virtual" ambiguityscope="themis::SigningProvider::"><scope>themis::VaultSigningProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1ad05f0c6aca228e305cbae15f1095ea9d" prot="public" virt="non-virtual" ambiguityscope="themis::SigningProvider::"><scope>themis::VaultSigningProvider</scope><name>KeyProvider</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1ac0b1a2b6385944770e540c3a656ef414" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>listKeys</name></member>
+      <member refid="classthemis_1_1_key_provider_1a2b066e3e2b46a13e8a196f4f497a9fc7" prot="public" virt="non-virtual"><scope>themis::VaultSigningProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1a11404d5e39ec25310eb458e032f8aaf2" prot="public" virt="non-virtual" ambiguityscope="themis::SigningProvider::"><scope>themis::VaultSigningProvider</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_key_provider_1adfb0562381565d524992c9128baa0464" prot="public" virt="non-virtual"><scope>themis::VaultSigningProvider</scope><name>rotate_key</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1a8d7708cae622c42bd40f1c4b3bbc8f1a" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>rotateKey</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1a0a316e42bf661a612b1439134ad76f6f" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>sign</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1af0daae2cf3fd1b79c4e5c9db62fe0068" prot="public" virt="non-virtual"><scope>themis::VaultSigningProvider</scope><name>VaultSigningProvider</name></member>
+      <member refid="classthemis_1_1_key_provider_1a4a1126cba8c95254bcdefe5fe77d1fa5" prot="public" virt="non-virtual"><scope>themis::VaultSigningProvider</scope><name>~KeyProvider</name></member>
+      <member refid="classthemis_1_1_signing_provider_1a04d029586b2b8c6c53e16dbbad35fc70" prot="public" virt="virtual"><scope>themis::VaultSigningProvider</scope><name>~SigningProvider</name></member>
+      <member refid="classthemis_1_1_vault_signing_provider_1a4ad3ae7230a30890f928cc4360138a12" prot="public" virt="non-virtual"><scope>themis::VaultSigningProvider</scope><name>~VaultSigningProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

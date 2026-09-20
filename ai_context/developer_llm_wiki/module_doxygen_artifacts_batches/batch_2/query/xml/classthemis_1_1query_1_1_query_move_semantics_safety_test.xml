@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_query_move_semantics_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::QueryMoveSemanticsSafetyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_move_semantics_safety_test_1a78d30150b1b72a82331369c1c83f0040" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryMoveSemanticsSafetyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::query::QueryMoveSemanticsSafetyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_move_semantics_query.cpp" line="40" column="10" bodyfile="tests/query/test_move_semantics_query.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_query_move_semantics_safety_test_1a7e9f14f3640254d3f89ac7a28050998b" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::QueryMoveSemanticsSafetyTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::query::QueryMoveSemanticsSafetyTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_move_semantics_query.cpp" line="44" column="10" bodyfile="tests/query/test_move_semantics_query.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryMoveSemanticsSafetyTest</label>
+        <link refid="classthemis_1_1query_1_1_query_move_semantics_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryMoveSemanticsSafetyTest</label>
+        <link refid="classthemis_1_1query_1_1_query_move_semantics_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_move_semantics_query.cpp" line="38" column="1" bodyfile="tests/query/test_move_semantics_query.cpp" bodystart="38" bodyend="47"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_query_move_semantics_safety_test_1a78d30150b1b72a82331369c1c83f0040" prot="protected" virt="non-virtual"><scope>themis::query::QueryMoveSemanticsSafetyTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1query_1_1_query_move_semantics_safety_test_1a7e9f14f3640254d3f89ac7a28050998b" prot="protected" virt="non-virtual"><scope>themis::query::QueryMoveSemanticsSafetyTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

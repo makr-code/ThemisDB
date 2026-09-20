@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_auto_recovery_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::AutoRecoveryConfig</compoundname>
+    <includes refid="auto__recovery__manager_8h" local="no">auto_recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1aa97be97d0666ce9be3f5e6adcec1ce6b" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themisdb::sharding::AutoRecoveryConfig::health_check_interval</definition>
+        <argsstring></argsstring>
+        <name>health_check_interval</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::health_check_interval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="44" column="26" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a0dd284a602eaf113ae75a413cfbd0279" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themisdb::sharding::AutoRecoveryConfig::repair_check_interval</definition>
+        <argsstring></argsstring>
+        <name>repair_check_interval</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::repair_check_interval</qualifiedname>
+        <initializer>{300}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="45" column="26" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1afcbae943f153c331d8f6e889bedac21a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::AutoRecoveryConfig::enable_auto_repair</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_repair</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::enable_auto_repair</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="48" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1ab0617d111db1289df251c213b89c3705" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::AutoRecoveryConfig::enable_proactive_rebalancing</definition>
+        <argsstring></argsstring>
+        <name>enable_proactive_rebalancing</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::enable_proactive_rebalancing</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="49" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a8e0114e5c7979652305b107c817ab1a1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::AutoRecoveryConfig::max_concurrent_repairs</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_repairs</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::max_concurrent_repairs</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="50" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a601e882c6e50667fa9ce9651a7ecb811" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::AutoRecoveryConfig::repair_batch_size</definition>
+        <argsstring></argsstring>
+        <name>repair_batch_size</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::repair_batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="51" column="14" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a15c4591f4cb01b81c8fd64c9c8372bb4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::sharding::AutoRecoveryConfig::degraded_threshold</definition>
+        <argsstring></argsstring>
+        <name>degraded_threshold</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::degraded_threshold</qualifiedname>
+        <initializer>= 0.1f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="54" column="11" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a7b8850b098a3384dd07dd445148fb6eb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::sharding::AutoRecoveryConfig::critical_threshold</definition>
+        <argsstring></argsstring>
+        <name>critical_threshold</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::critical_threshold</qualifiedname>
+        <initializer>= 0.05f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="55" column="11" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a27a84a863cb011833bfcf850085926d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::AutoRecoveryConfig::enable_alerts</definition>
+        <argsstring></argsstring>
+        <name>enable_alerts</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::enable_alerts</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="58" column="10" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a10ef6cd4108d188c9fa09b47b2f41088" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;)&gt; themisdb::sharding::AutoRecoveryConfig::alert_callback</definition>
+        <argsstring></argsstring>
+        <name>alert_callback</name>
+        <qualifiedname>themisdb::sharding::AutoRecoveryConfig::alert_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/auto_recovery_manager.h" line="59" column="19" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/auto_recovery_manager.h" line="42" column="1" bodyfile="include/sharding/auto_recovery_manager.h" bodystart="42" bodyend="60"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a10ef6cd4108d188c9fa09b47b2f41088" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>alert_callback</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a7b8850b098a3384dd07dd445148fb6eb" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>critical_threshold</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a15c4591f4cb01b81c8fd64c9c8372bb4" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>degraded_threshold</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a27a84a863cb011833bfcf850085926d7" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>enable_alerts</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1afcbae943f153c331d8f6e889bedac21a" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>enable_auto_repair</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1ab0617d111db1289df251c213b89c3705" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>enable_proactive_rebalancing</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1aa97be97d0666ce9be3f5e6adcec1ce6b" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>health_check_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a8e0114e5c7979652305b107c817ab1a1" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>max_concurrent_repairs</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a601e882c6e50667fa9ce9651a7ecb811" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>repair_batch_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_auto_recovery_config_1a0dd284a602eaf113ae75a413cfbd0279" prot="public" virt="non-virtual"><scope>themisdb::sharding::AutoRecoveryConfig</scope><name>repair_check_interval</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

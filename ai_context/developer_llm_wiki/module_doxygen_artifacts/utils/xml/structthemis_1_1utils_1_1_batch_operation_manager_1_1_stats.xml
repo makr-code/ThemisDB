@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::BatchOperationManager::Stats</compoundname>
+    <includes refid="batch__operation__manager_8h" local="no">batch_operation_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1ad7b94ed587dc294a6d6d43cbcd531649" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Stats::items_processed</definition>
+        <argsstring></argsstring>
+        <name>items_processed</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Stats::items_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="110" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a7824096b33b7bf9e35c067e297dbab7c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Stats::batches_processed</definition>
+        <argsstring></argsstring>
+        <name>batches_processed</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Stats::batches_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="111" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1adddcdbe3996e6f80dc6798013a2a324e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Stats::items_queued</definition>
+        <argsstring></argsstring>
+        <name>items_queued</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Stats::items_queued</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="112" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a9b44b61784d7db818df22854459ce366" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Stats::queue_full_count</definition>
+        <argsstring></argsstring>
+        <name>queue_full_count</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Stats::queue_full_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="113" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a3955c0b5510534db4d087bcf83c3bd85" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::BatchOperationManager&lt; T &gt;::Stats::avg_batch_size</definition>
+        <argsstring></argsstring>
+        <name>avg_batch_size</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Stats::avg_batch_size</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="114" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a2093f00f13bfd5acf4f57fdbf137f07e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::BatchOperationManager&lt; T &gt;::Stats::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Stats::avg_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="115" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a78d3bbfb22e493210b30b2e64a6b07c3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::BatchOperationManager&lt; T &gt;::Stats::avg_throughput_items_per_sec</definition>
+        <argsstring></argsstring>
+        <name>avg_throughput_items_per_sec</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Stats::avg_throughput_items_per_sec</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="116" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a27b062458054adaccaa75c46035f183d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BatchOperationManager&lt; T &gt;::Stats::current_batch_size</definition>
+        <argsstring></argsstring>
+        <name>current_batch_size</name>
+        <qualifiedname>themis::utils::BatchOperationManager::Stats::current_batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/batch_operation_manager.h" line="117" column="16" bodyfile="include/utils/batch_operation_manager.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Get current batch statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/batch_operation_manager.h" line="109" column="5" bodyfile="include/utils/batch_operation_manager.h" bodystart="109" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a3955c0b5510534db4d087bcf83c3bd85" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Stats</scope><name>avg_batch_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a2093f00f13bfd5acf4f57fdbf137f07e" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Stats</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a78d3bbfb22e493210b30b2e64a6b07c3" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Stats</scope><name>avg_throughput_items_per_sec</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a7824096b33b7bf9e35c067e297dbab7c" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Stats</scope><name>batches_processed</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a27b062458054adaccaa75c46035f183d" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Stats</scope><name>current_batch_size</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1ad7b94ed587dc294a6d6d43cbcd531649" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Stats</scope><name>items_processed</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1adddcdbe3996e6f80dc6798013a2a324e" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Stats</scope><name>items_queued</name></member>
+      <member refid="structthemis_1_1utils_1_1_batch_operation_manager_1_1_stats_1a9b44b61784d7db818df22854459ce366" prot="public" virt="non-virtual"><scope>themis::utils::BatchOperationManager::Stats</scope><name>queue_full_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

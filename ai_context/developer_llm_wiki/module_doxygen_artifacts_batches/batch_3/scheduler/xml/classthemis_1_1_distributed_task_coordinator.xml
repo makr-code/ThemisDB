@@ -1,0 +1,1162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_distributed_task_coordinator" kind="class" language="C++" prot="public">
+    <compoundname>themis::DistributedTaskCoordinator</compoundname>
+    <includes refid="distributed__task__coordinator_8h" local="no">distributed_task_coordinator.h</includes>
+    <innerclass refid="structthemis_1_1_distributed_task_coordinator_1_1_config" prot="public">themis::DistributedTaskCoordinator::Config</innerclass>
+    <innerclass refid="structthemis_1_1_distributed_task_coordinator_1_1_stats" prot="public">themis::DistributedTaskCoordinator::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a1de8158d11f0e6366400bfd71ea6ab62" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> *</type>
+        <definition>TaskScheduler* themis::DistributedTaskCoordinator::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="332" column="40" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1ac8d8b1154ea2efca1155419ca9381bf4" prot="private" static="no" mutable="no">
+        <type>sharding::DistributedCoordinator *</type>
+        <definition>sharding::DistributedCoordinator* themis::DistributedTaskCoordinator::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="333" column="40" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1ab04b06164f979460e1ad59f6aa89383f" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_distributed_task_coordinator_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::DistributedTaskCoordinator::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="334" column="41" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1ac06a77994752ad8fb92413be1e214c77" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::DistributedTaskCoordinator::running_</definition>
+        <argsstring></argsstring>
+        <name>running_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="336" column="19" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="336" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a999823e9875db83e74d219a0c4153a54" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::DistributedTaskCoordinator::scheduler_active_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_active_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::scheduler_active_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="337" column="19" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="337" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a8ee66c5e9697bbc443e48baaa354a151" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::DistributedTaskCoordinator::registry_mutex_</definition>
+        <argsstring></argsstring>
+        <name>registry_mutex_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::registry_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="340" column="53" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a7bf93aeb445615f399b8585a0ff02029" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt;</type>
+        <definition>std::map&lt;std::string, ScheduledTask&gt; themis::DistributedTaskCoordinator::task_registry_</definition>
+        <argsstring></argsstring>
+        <name>task_registry_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::task_registry_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="341" column="25" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a964f99077513bd59dd5f4b9b63398503" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::DistributedTaskCoordinator::leadership_mutex_</definition>
+        <argsstring></argsstring>
+        <name>leadership_mutex_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::leadership_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="344" column="25" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a8ced0a379b9e15ebd08fff09dd8c8a27" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedTaskCoordinator::current_leader_</definition>
+        <argsstring></argsstring>
+        <name>current_leader_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::current_leader_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="345" column="25" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a9a362c1a41d6f2bf0c12d2fa55bcd519" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::DistributedTaskCoordinator::leadership_acquired_</definition>
+        <argsstring></argsstring>
+        <name>leadership_acquired_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::leadership_acquired_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="346" column="17" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="346" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a91a8af03a8292e2ca7cf7748c4538f49" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::DistributedTaskCoordinator::leadership_lost_</definition>
+        <argsstring></argsstring>
+        <name>leadership_lost_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::leadership_lost_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="347" column="17" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="347" bodyend="347"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a08db054289b66fd9b93886864ac43026" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::DistributedTaskCoordinator::heartbeat_active_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_active_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::heartbeat_active_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="350" column="35" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="350" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1aa9a34a1c271acb79ae9da2c921337834" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::DistributedTaskCoordinator::heartbeat_mutex_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_mutex_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::heartbeat_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="351" column="41" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1ac7757e2a579495feae35a03f7d788af3" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::DistributedTaskCoordinator::heartbeat_cv_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_cv_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::heartbeat_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="352" column="41" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1a9abc37bb4bdaa6f30b2397da265eb3f5" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; std::thread &gt;</type>
+        <definition>std::unique_ptr&lt;std::thread&gt; themis::DistributedTaskCoordinator::heartbeat_thread_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_thread_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::heartbeat_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="353" column="28" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="353" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1acdbcd73a18d9340007bf119763dac18b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; std::chrono::milliseconds &gt;</type>
+        <definition>std::atomic&lt;std::chrono::milliseconds&gt; themis::DistributedTaskCoordinator::last_heartbeat_ms_</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_ms_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::last_heartbeat_ms_</qualifiedname>
+        <initializer>{std::chrono::milliseconds(0)}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="354" column="17" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="354" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_distributed_task_coordinator_1af7b17edc037da95c38880ec5bf525c1b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::DistributedTaskCoordinator::coordination_failures_</definition>
+        <argsstring></argsstring>
+        <name>coordination_failures_</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::coordination_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="355" column="33" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="355" bodyend="355"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a6bafaba3d2843a35807b87a9758e8eaa" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedTaskCoordinator::DistributedTaskCoordinator</definition>
+        <argsstring>(TaskScheduler *scheduler, sharding::DistributedCoordinator *coordinator)</argsstring>
+        <name>DistributedTaskCoordinator</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::DistributedTaskCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> *</type>
+          <declname>scheduler</declname>
+        </param>
+        <param>
+          <type>sharding::DistributedCoordinator *</type>
+          <declname>coordinator</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_distributed_task_coordinator" kindref="compound">DistributedTaskCoordinator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scheduler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local single-node task scheduler. Must not be null. The scheduler must NOT already be running when the coordinator is started. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gossip-based distributed coordinator used for leader election. Must not be null.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if either scheduler or coordinator is null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="83" column="14" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="23" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1aedd7a5e44ddabff6a06fdefcc1ca8f9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedTaskCoordinator::DistributedTaskCoordinator</definition>
+        <argsstring>(TaskScheduler *scheduler, sharding::DistributedCoordinator *coordinator, const Config &amp;config)</argsstring>
+        <name>DistributedTaskCoordinator</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::DistributedTaskCoordinator</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> *</type>
+          <declname>scheduler</declname>
+        </param>
+        <param>
+          <type>sharding::DistributedCoordinator *</type>
+          <declname>coordinator</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_distributed_task_coordinator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct a <ref refid="classthemis_1_1_distributed_task_coordinator" kindref="compound">DistributedTaskCoordinator</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scheduler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Local single-node task scheduler. Must not be null. The scheduler must NOT already be running when the coordinator is started. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coordinator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gossip-based distributed coordinator used for leader election. Must not be null. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional runtime configuration.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if either scheduler or coordinator is null. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="99" column="5" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="54" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a512fdbebe8c98e5f7fa7b3bb52ea5d0d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedTaskCoordinator::~DistributedTaskCoordinator</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~DistributedTaskCoordinator</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::~DistributedTaskCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="104" column="5" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="89" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1ae7c8a01e851b0d5bb6f5797e8e997d1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::DistributedTaskCoordinator::DistributedTaskCoordinator</definition>
+        <argsstring>(const DistributedTaskCoordinator &amp;)=delete</argsstring>
+        <name>DistributedTaskCoordinator</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::DistributedTaskCoordinator</qualifiedname>
+        <param>
+          <type>const DistributedTaskCoordinator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="107" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a3b61c78d4c625209fac82850dbc80b6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_distributed_task_coordinator_1a6bafaba3d2843a35807b87a9758e8eaa" kindref="member">DistributedTaskCoordinator</ref> &amp;</type>
+        <definition>DistributedTaskCoordinator &amp; themis::DistributedTaskCoordinator::operator=</definition>
+        <argsstring>(const DistributedTaskCoordinator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_distributed_task_coordinator_1a6bafaba3d2843a35807b87a9758e8eaa" kindref="member">DistributedTaskCoordinator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="108" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a9f26bdea34da40d1d42db5908d8b8d49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::start</definition>
+        <argsstring>()</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::start</qualifiedname>
+        <briefdescription>
+<para>Start the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Lifecycle ────────────────────────────────────────────────────────────────</para>
+<para>Registers a leadership callback with the DistributedCoordinator. If this node is already the leader at start time, the <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> is activated immediately.</para>
+<para>The underlying DistributedCoordinator must already be running (or will be started externally). This method does NOT call DistributedCoordinator::start() on your behalf.</para>
+<para>Calls: exchange(), THEMIS_WARN(), setLeaderElectedCallback(), <ref refid="classthemis_1_1_distributed_task_coordinator_1a60d4767ca5cc12cf7acdda82b8ee9ba7" kindref="member">onLeaderElected()</ref>, <ref refid="classthemis_1_1_distributed_task_coordinator_1ad88ac5267a9977d196f08d5998d1aeac" kindref="member">isLeader()</ref>, THEMIS_INFO(), <ref refid="classthemis_1_1_distributed_task_coordinator_1ae249522004964e58986761ca5c725c28" kindref="member">activateScheduler()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="123" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="102" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a8c358f7c5a744e53eb40c76d288ccb59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::stop</definition>
+        <argsstring>()</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::stop</qualifiedname>
+        <briefdescription>
+<para>Stop the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Stop.</para>
+<para>Deactivates the local scheduler (if running) and removes the leadership callback from the DistributedCoordinator. Safe to call multiple times.</para>
+<para>Calls: exchange(), lock(), notify_all(), joinable(), join(), <ref refid="classthemis_1_1_distributed_task_coordinator_1a7df1c006cee4785c4d3044c9d1a11767" kindref="member">deactivateScheduler()</ref>, setLeaderElectedCallback(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="131" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="128" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a0874524f0d4b801a991a2ec154d83fda" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedTaskCoordinator::isRunning</definition>
+        <argsstring>() const</argsstring>
+        <name>isRunning</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::isRunning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the coordinator has been started and not yet stopped. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="134" column="10" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1ad88ac5267a9977d196f08d5998d1aeac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedTaskCoordinator::isLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>isLeader</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::isLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if this node is currently the cluster leader and is actively scheduling tasks. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="142" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="157" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a73b867465c1a29956f6a55fb71588384" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::DistributedTaskCoordinator::getCurrentLeader</definition>
+        <argsstring>() const</argsstring>
+        <name>getCurrentLeader</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::getCurrentLeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the node-id of the current cluster leader, or std::nullopt when no leader has been elected yet. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="148" column="19" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1ac2d325f6872a5b25eac26d2378290bde" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedTaskCoordinator::getLocalNodeId</definition>
+        <argsstring>() const</argsstring>
+        <name>getLocalNodeId</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::getLocalNodeId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>the local node-id as reported by the DistributedCoordinator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="153" column="17" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="165" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1ae249522004964e58986761ca5c725c28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::activateScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>activateScheduler</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::activateScheduler</qualifiedname>
+        <briefdescription>
+<para>Manually activate the local scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Manual scheduler control ──────────────────────────────────────────────────</para>
+<para>Registers all locally stored tasks with the <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> and starts it. Normally called automatically when this node becomes leader; exposed here for testing and custom integration scenarios.</para>
+<para>Idempotent – calling it when the scheduler is already active is a no-op.</para>
+<para>Calls: exchange(), THEMIS_INFO(), lock(), size(), <ref refid="classthemis_1_1_distributed_task_coordinator_1ae4a28f85af83bcfa9136043a2ae32b20" kindref="member">registerTask()</ref>, THEMIS_WARN(), what(), <ref refid="classthemis_1_1_distributed_task_coordinator_1a9f26bdea34da40d1d42db5908d8b8d49" kindref="member">start()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="166" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="174" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a7df1c006cee4785c4d3044c9d1a11767" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::deactivateScheduler</definition>
+        <argsstring>()</argsstring>
+        <name>deactivateScheduler</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::deactivateScheduler</qualifiedname>
+        <briefdescription>
+<para>Manually deactivate the local scheduler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Deactivate Scheduler.</para>
+<para>Stops the <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> (waits for in-flight tasks to complete) and unregisters all tasks from it. The tasks remain in the local registry and will be re-registered the next time <ref refid="classthemis_1_1_distributed_task_coordinator_1ae249522004964e58986761ca5c725c28" kindref="member">activateScheduler()</ref> is called.</para>
+<para>Idempotent – calling it when the scheduler is already inactive is a no-op.</para>
+<para>Calls: exchange(), THEMIS_INFO(), <ref refid="classthemis_1_1_distributed_task_coordinator_1a8c358f7c5a744e53eb40c76d288ccb59" kindref="member">stop()</ref>, lock(), <ref refid="classthemis_1_1_distributed_task_coordinator_1a19cb36cf203d0e630c5fa8090ef3c3cd" kindref="member">unregisterTask()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="177" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="206" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a7d3001debda3b0428591a36fee6c6e07" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedTaskCoordinator::isSchedulerActive</definition>
+        <argsstring>() const</argsstring>
+        <name>isSchedulerActive</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::isSchedulerActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the local <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> is currently running. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="180" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="231" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1ae4a28f85af83bcfa9136043a2ae32b20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedTaskCoordinator::registerTask</definition>
+        <argsstring>(const ScheduledTask &amp;task)</argsstring>
+        <name>registerTask</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::registerTask</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Register a task with the coordinator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Task management ───────────────────────────────────────────────────────────</para>
+<para>The task is stored in the local registry. If this node is the current leader, the task is also registered with the active <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Task definition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Assigned task ID.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), generateId(), lock(), load(), THEMIS_WARN(), what(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="193" column="17" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="242" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a19cb36cf203d0e630c5fa8090ef3c3cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::unregisterTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>unregisterTask</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::unregisterTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a task by ID. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Task.</para>
+<para>Removes the task from the local registry and, if this node is the leader, from the active <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> as well.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), load(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="201" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="277" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1acb9913c5348ed23dd722337b93bc84ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::enableTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>enableTask</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::enableTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Enable a previously disabled task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Enable Task.</para>
+<para>Updates the local registry. If this node is the leader, also enables the task in the active <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), load(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="209" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="298" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1ade40a77f45c8ad9494dc3d0bd873859b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::disableTask</definition>
+        <argsstring>(const std::string &amp;task_id)</argsstring>
+        <name>disableTask</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::disableTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Disable a task so it is not executed until re-enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Disable Task.</para>
+<para>Updates the local registry. If this node is the leader, also disables the task in the active <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), load(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="217" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="322" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a8651452c6e669ad16bb50b28c535d243" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt;</type>
+        <definition>std::vector&lt; ScheduledTask &gt; themis::DistributedTaskCoordinator::listTasks</definition>
+        <argsstring>() const</argsstring>
+        <name>listTasks</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::listTasks</qualifiedname>
+        <briefdescription>
+<para>Return all tasks in the local registry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="222" column="17" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="341" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a0436d5fa9f9029d826d6531e3fce4a85" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; ScheduledTask &gt; themis::DistributedTaskCoordinator::getTask</definition>
+        <argsstring>(const std::string &amp;task_id) const</argsstring>
+        <name>getTask</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::getTask</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <briefdescription>
+<para>Return a specific task from the local registry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to the task, or nullptr if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="228" column="21" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="357" bodyend="371"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a445dd9971d3df030998396cb843ed519" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> *</type>
+        <definition>TaskScheduler * themis::DistributedTaskCoordinator::getScheduler</definition>
+        <argsstring>() const</argsstring>
+        <name>getScheduler</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::getScheduler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>non-owning pointer to the underlying <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="233" column="19" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="233" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1ace05d660ebdb41cf43cafad247f49b51" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>sharding::DistributedCoordinator *</type>
+        <definition>sharding::DistributedCoordinator * themis::DistributedTaskCoordinator::getCoordinator</definition>
+        <argsstring>() const</argsstring>
+        <name>getCoordinator</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::getCoordinator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>non-owning pointer to the underlying DistributedCoordinator. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="236" column="38" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="236" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a3bdde5dee83887a8785ff5b368c19988" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_distributed_task_coordinator_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>DistributedTaskCoordinator::Stats themis::DistributedTaskCoordinator::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Level 1: Acquire registry lock for task count <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">registry_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="248" column="11" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="375" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a60d4767ca5cc12cf7acdda82b8ee9ba7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::onLeaderElected</definition>
+        <argsstring>(const std::string &amp;leader_id)</argsstring>
+        <name>onLeaderElected</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::onLeaderElected</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>leader_id</declname>
+        </param>
+        <briefdescription>
+<para>Notify the coordinator that a new leader has been elected. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Private helpers ───────────────────────────────────────────────────────────</para>
+<para>This method is called automatically via the DistributedCoordinator leadership callback. It is also exposed publicly to allow:<itemizedlist>
+<listitem><para>Testing without a real gossip network (call directly with a synthetic leader ID)</para>
+</listitem><listitem><para>Custom integration in deployments that use alternative leader-election mechanisms</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node-ID of the newly elected leader.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">leader_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the leader.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), getLocalShardId(), lock(), THEMIS_INFO(), fetch_add(), <ref refid="classthemis_1_1_distributed_task_coordinator_1ae249522004964e58986761ca5c725c28" kindref="member">activateScheduler()</ref>, <ref refid="classthemis_1_1_distributed_task_coordinator_1a7df1c006cee4785c4d3044c9d1a11767" kindref="member">deactivateScheduler()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="264" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="397" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a9457595d93222224d8bfddc6148a8cc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedTaskCoordinator::acquireLeadershipWithTimeout</definition>
+        <argsstring>(std::chrono::milliseconds timeout_ms)</argsstring>
+        <name>acquireLeadershipWithTimeout</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::acquireLeadershipWithTimeout</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Attempt to acquire leadership with an explicit timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Coordination Health and Resilience ──────────────────────────────────────</para>
+<para>This method performs a synchronous leadership acquisition attempt against the underlying DistributedCoordinator, with a bounded timeout to detect coordination layer unavailability. If the coordinator is unreachable or fails to respond within the timeout, this method fails explicitly rather than blocking indefinitely.</para>
+<para>Used to detect and fail fast on coordination layer failures in production scenarios where the gossip network may be partitioned or degraded.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum milliseconds to wait for leadership acquisition. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if this node successfully acquired leadership, false otherwise. Note: false does NOT mean &quot;not leader yet&quot; but specifically that the acquisition attempt timed out or the coordinator is unavailable.</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>on internal coordinator errors.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="287" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="463" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a891420ee26f464d9f63afbe32b51e459" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::DistributedTaskCoordinator::maintainHeartbeat</definition>
+        <argsstring>(std::chrono::milliseconds heartbeat_interval_ms)</argsstring>
+        <name>maintainHeartbeat</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::maintainHeartbeat</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>heartbeat_interval_ms</declname>
+        </param>
+        <briefdescription>
+<para>Start a background heartbeat thread to detect coordinator failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Maintain Heartbeat.</para>
+<para>This method spawns a background thread that periodically checks the health of the underlying DistributedCoordinator. If the coordinator becomes unresponsive (heartbeat timeout), the method automatically deactivates the local scheduler to prevent split-brain execution.</para>
+<para>The heartbeat interval is derived from the coordinator&apos;s health check period. If this coordinator&apos;s running state becomes false, the heartbeat thread exits gracefully.</para>
+<para>This implements the fail-closed contract: if coordination is lost, the scheduler stops accepting new task executions.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>heartbeat_interval_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interval between heartbeat checks.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if heartbeat monitoring was successfully activated, false if it was already running or if activation failed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">heartbeat_interval_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="309" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="513" bodyend="536"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a261854adb3676266a9ae1b643c7018ac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref></type>
+        <definition>SchedulerError themis::DistributedTaskCoordinator::handleSplitBrainDetection</definition>
+        <argsstring>()</argsstring>
+        <name>handleSplitBrainDetection</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::handleSplitBrainDetection</qualifiedname>
+        <briefdescription>
+<para>Detect and handle split-brain / consensus failure scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Handle Split Brain Detection.</para>
+<para>Examines the current coordinator state to detect conditions where the distributed consensus mechanism has diverged (e.g., multiple leaders, replicas out of sync). When such a condition is detected:<itemizedlist>
+<listitem><para>Logs the divergence with node IDs and timestamps</para>
+</listitem><listitem><para>Deactivates the local scheduler if this node is a leader</para>
+</listitem><listitem><para>Returns an error code indicating the consensus failure</para>
+</listitem></itemizedlist>
+</para>
+<para>This is a fail-closed operation: in case of doubt, the scheduler stops.</para>
+<para><simplesect kind="return"><para>SchedulerError::kSuccess if consensus is healthy, SchedulerError::kCoordinationError if split-brain detected, other <ref refid="namespacethemis_1_1scheduler_1a66e18919882587b58d6ed11daf2968e1" kindref="member">SchedulerError</ref> codes for other failures.</para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="scheduler__api__contract_8h" kindref="compound">scheduler_api_contract.h</ref> for error taxonomy.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">leadership_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="329" column="20" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="590" bodyend="658"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1ae12292af3282c8c60843959cc5a15df0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedTaskCoordinator::generateId</definition>
+        <argsstring>(const ScheduledTask &amp;task)</argsstring>
+        <name>generateId</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::generateId</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_scheduled_task" kindref="compound">ScheduledTask</ref> &amp;</type>
+          <declname>task</declname>
+        </param>
+        <briefdescription>
+<para>Generate Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), empty(), std::isalnum(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="358" column="24" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="441" bodyend="455"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_distributed_task_coordinator_1a87cb3cd552cae8b7a59fb89ea029d287" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::DistributedTaskCoordinator::heartbeatMonitorThread</definition>
+        <argsstring>(std::chrono::milliseconds interval_ms)</argsstring>
+        <name>heartbeatMonitorThread</name>
+        <qualifiedname>themis::DistributedTaskCoordinator::heartbeatMonitorThread</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>interval_ms</declname>
+        </param>
+        <briefdescription>
+<para>Heartbeat Monitor Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">interval_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">heartbeat_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/scheduler/distributed_task_coordinator.h" line="361" column="10" bodyfile="src/scheduler/distributed_task_coordinator.cpp" bodystart="542" bodyend="584"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Coordinates <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> execution across a distributed cluster. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_distributed_task_coordinator" kindref="compound">DistributedTaskCoordinator</ref> is a thin orchestration layer that sits between the application and <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref>. It listens for leader-election events from DistributedCoordinator and activates / deactivates the local scheduler accordingly, ensuring that only one node in the cluster executes scheduled tasks at any given time.</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>All public methods are thread-safe through the lock ordering hierarchy.</para>
+<para><heading level="3">Lock ordering (deadlock prevention)</heading>
+</para>
+<para>MUST acquire locks in this strict order (never reverse): Level 0: heartbeat_mutex_ (health monitoring - acquired first) Level 1: registry_mutex_ (task registry) Level 2: leadership_mutex_ (leadership state - acquired last)</para>
+<para>Any method acquiring multiple locks MUST follow this hierarchy. Acquiring in reverse order can cause deadlock.</para>
+<para><heading level="3">Ownership model</heading>
+</para>
+<para>The coordinator holds <bold>non-owning raw pointers</bold> to both the <ref refid="classthemis_1_1_task_scheduler" kindref="compound">TaskScheduler</ref> and the DistributedCoordinator. The caller is responsible for keeping both objects alive for at least as long as this coordinator. </para>
+    </detaileddescription>
+    <location file="include/scheduler/distributed_task_coordinator.h" line="55" column="1" bodyfile="include/scheduler/distributed_task_coordinator.h" bodystart="55" bodyend="362"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a9457595d93222224d8bfddc6148a8cc9" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>acquireLeadershipWithTimeout</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ae249522004964e58986761ca5c725c28" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>activateScheduler</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ab04b06164f979460e1ad59f6aa89383f" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1af7b17edc037da95c38880ec5bf525c1b" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>coordination_failures_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ac8d8b1154ea2efca1155419ca9381bf4" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>coordinator_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a8ced0a379b9e15ebd08fff09dd8c8a27" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>current_leader_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a7df1c006cee4785c4d3044c9d1a11767" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>deactivateScheduler</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ade40a77f45c8ad9494dc3d0bd873859b" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>disableTask</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a6bafaba3d2843a35807b87a9758e8eaa" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>DistributedTaskCoordinator</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1aedd7a5e44ddabff6a06fdefcc1ca8f9c" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>DistributedTaskCoordinator</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ae7c8a01e851b0d5bb6f5797e8e997d1e" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>DistributedTaskCoordinator</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1acb9913c5348ed23dd722337b93bc84ae" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>enableTask</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ae12292af3282c8c60843959cc5a15df0" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>generateId</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ace05d660ebdb41cf43cafad247f49b51" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>getCoordinator</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a73b867465c1a29956f6a55fb71588384" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>getCurrentLeader</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ac2d325f6872a5b25eac26d2378290bde" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>getLocalNodeId</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a445dd9971d3df030998396cb843ed519" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>getScheduler</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a3bdde5dee83887a8785ff5b368c19988" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a0436d5fa9f9029d826d6531e3fce4a85" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>getTask</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a261854adb3676266a9ae1b643c7018ac" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>handleSplitBrainDetection</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a08db054289b66fd9b93886864ac43026" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>heartbeat_active_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ac7757e2a579495feae35a03f7d788af3" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>heartbeat_cv_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1aa9a34a1c271acb79ae9da2c921337834" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>heartbeat_mutex_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a9abc37bb4bdaa6f30b2397da265eb3f5" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>heartbeat_thread_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a87cb3cd552cae8b7a59fb89ea029d287" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>heartbeatMonitorThread</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ad88ac5267a9977d196f08d5998d1aeac" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>isLeader</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a0874524f0d4b801a991a2ec154d83fda" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>isRunning</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a7d3001debda3b0428591a36fee6c6e07" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>isSchedulerActive</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1acdbcd73a18d9340007bf119763dac18b" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>last_heartbeat_ms_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a9a362c1a41d6f2bf0c12d2fa55bcd519" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>leadership_acquired_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a91a8af03a8292e2ca7cf7748c4538f49" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>leadership_lost_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a964f99077513bd59dd5f4b9b63398503" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>leadership_mutex_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a8651452c6e669ad16bb50b28c535d243" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>listTasks</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a891420ee26f464d9f63afbe32b51e459" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>maintainHeartbeat</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a60d4767ca5cc12cf7acdda82b8ee9ba7" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>onLeaderElected</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a3b61c78d4c625209fac82850dbc80b6d" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ae4a28f85af83bcfa9136043a2ae32b20" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>registerTask</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a8ee66c5e9697bbc443e48baaa354a151" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>registry_mutex_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1ac06a77994752ad8fb92413be1e214c77" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>running_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a1de8158d11f0e6366400bfd71ea6ab62" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>scheduler_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a999823e9875db83e74d219a0c4153a54" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>scheduler_active_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a9f26bdea34da40d1d42db5908d8b8d49" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>start</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a8c358f7c5a744e53eb40c76d288ccb59" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>stop</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a7bf93aeb445615f399b8585a0ff02029" prot="private" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>task_registry_</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a19cb36cf203d0e630c5fa8090ef3c3cd" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>unregisterTask</name></member>
+      <member refid="classthemis_1_1_distributed_task_coordinator_1a512fdbebe8c98e5f7fa7b3bb52ea5d0d" prot="public" virt="non-virtual"><scope>themis::DistributedTaskCoordinator</scope><name>~DistributedTaskCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

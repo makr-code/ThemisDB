@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_adaptive_retrieval_factory" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::AdaptiveRetrievalFactory</compoundname>
+    <includes refid="adaptive__retrieval_8h" local="no">adaptive_retrieval.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a2dfc03c17d2db745657dcfe0ab7091ad" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval" kindref="compound">AdaptiveRetrieval</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; AdaptiveRetrieval &gt; themis::rag::AdaptiveRetrievalFactory::createLightweight</definition>
+        <argsstring>()</argsstring>
+        <name>createLightweight</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalFactory::createLightweight</qualifiedname>
+        <briefdescription>
+<para>Minimal footprint: top_k in [3, 8]; tight thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Lightweight.</para>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="251" column="28" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="371" bodyend="380"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a777ccd3893bc0f21450f6c3503b45d8f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval" kindref="compound">AdaptiveRetrieval</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; AdaptiveRetrieval &gt; themis::rag::AdaptiveRetrievalFactory::createBalanced</definition>
+        <argsstring>()</argsstring>
+        <name>createBalanced</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalFactory::createBalanced</qualifiedname>
+        <briefdescription>
+<para>Balanced default: top_k in [5, 15]; moderate thresholds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create Balanced.</para>
+<para>base_top_k=5, max_top_k=15, base_similarity_threshold=0.75, min_similarity_threshold=0.40, complexity_scaling=1.5.</para>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="259" column="28" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="386" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a61844ddf9c8affa241b3b18765a8a116" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval" kindref="compound">AdaptiveRetrieval</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; AdaptiveRetrieval &gt; themis::rag::AdaptiveRetrievalFactory::createHighRecall</definition>
+        <argsstring>()</argsstring>
+        <name>createHighRecall</name>
+        <qualifiedname>themis::rag::AdaptiveRetrievalFactory::createHighRecall</qualifiedname>
+        <briefdescription>
+<para>Wide sweep: top_k in [8, 30]; loose thresholds for recall. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Create High Recall.</para>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adaptive_retrieval.h" line="264" column="28" bodyfile="src/rag/adaptive_retrieval.cpp" bodystart="401" bodyend="410"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Factory helpers for common <ref refid="classthemis_1_1rag_1_1_adaptive_retrieval" kindref="compound">AdaptiveRetrieval</ref> configurations. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/adaptive_retrieval.h" line="247" column="1" bodyfile="include/rag/adaptive_retrieval.h" bodystart="247" bodyend="265"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a777ccd3893bc0f21450f6c3503b45d8f" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalFactory</scope><name>createBalanced</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a61844ddf9c8affa241b3b18765a8a116" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalFactory</scope><name>createHighRecall</name></member>
+      <member refid="structthemis_1_1rag_1_1_adaptive_retrieval_factory_1a2dfc03c17d2db745657dcfe0ab7091ad" prot="public" virt="non-virtual"><scope>themis::rag::AdaptiveRetrievalFactory</scope><name>createLightweight</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

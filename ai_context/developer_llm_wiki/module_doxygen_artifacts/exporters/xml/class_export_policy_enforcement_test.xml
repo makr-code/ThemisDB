@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_export_policy_enforcement_test" kind="class" language="C++" prot="public">
+    <compoundname>ExportPolicyEnforcementTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_export_policy_enforcement_test_1ad9f1a6b61b6b998130cd2f0c7d272087" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ExportPolicyEnforcementTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>ExportPolicyEnforcementTest::test_dir_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="1017" column="17" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="1017" bodyend="1017"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_export_policy_enforcement_test_1a1d2287045db0a20ee477664438577a98" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ExportPolicyEnforcementTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ExportPolicyEnforcementTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="991" column="10" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="991" bodyend="998"/>
+      </memberdef>
+      <memberdef kind="function" id="class_export_policy_enforcement_test_1aaa0889b1626dc186e2440f5d46bb2719" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ExportPolicyEnforcementTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ExportPolicyEnforcementTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="1000" column="10" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="1000" bodyend="1003"/>
+      </memberdef>
+      <memberdef kind="function" id="class_export_policy_enforcement_test_1a2ded43c9bc779ba3aba381ddc505ae14" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; ExportPolicyEnforcementTest::makeEntities</definition>
+        <argsstring>(int n=3)</argsstring>
+        <name>makeEntities</name>
+        <qualifiedname>ExportPolicyEnforcementTest::makeEntities</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>n</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="1005" column="17" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="1005" bodyend="1015"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ExportPolicyEnforcementTest</label>
+        <link refid="class_export_policy_enforcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ExportPolicyEnforcementTest</label>
+        <link refid="class_export_policy_enforcement_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_export_encryption.cpp" line="989" column="1" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="989" bodyend="1018"/>
+    <listofallmembers>
+      <member refid="class_export_policy_enforcement_test_1a2ded43c9bc779ba3aba381ddc505ae14" prot="protected" virt="non-virtual"><scope>ExportPolicyEnforcementTest</scope><name>makeEntities</name></member>
+      <member refid="class_export_policy_enforcement_test_1a1d2287045db0a20ee477664438577a98" prot="protected" virt="non-virtual"><scope>ExportPolicyEnforcementTest</scope><name>SetUp</name></member>
+      <member refid="class_export_policy_enforcement_test_1aaa0889b1626dc186e2440f5d46bb2719" prot="protected" virt="non-virtual"><scope>ExportPolicyEnforcementTest</scope><name>TearDown</name></member>
+      <member refid="class_export_policy_enforcement_test_1ad9f1a6b61b6b998130cd2f0c7d272087" prot="protected" virt="non-virtual"><scope>ExportPolicyEnforcementTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

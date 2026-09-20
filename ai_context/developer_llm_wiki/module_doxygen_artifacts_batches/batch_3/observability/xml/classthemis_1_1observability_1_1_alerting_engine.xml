@@ -1,0 +1,593 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_alerting_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::AlertingEngine</compoundname>
+    <basecompoundref refid="classthemis_1_1observability_1_1_alertmanager" prot="public" virt="non-virtual">themis::observability::Alertmanager</basecompoundref>
+    <includes refid="alerting__engine_8h" local="no">alerting_engine.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alerting_engine_1a53cbc6956219cf8240ec65512c54f128" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1observability_1_1_alert_rule_manager" kindref="compound">AlertRuleManager</ref></type>
+        <definition>AlertRuleManager themis::observability::AlertingEngine::rule_manager_</definition>
+        <argsstring></argsstring>
+        <name>rule_manager_</name>
+        <qualifiedname>themis::observability::AlertingEngine::rule_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="332" column="22" bodyfile="include/observability/alerting_engine.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alerting_engine_1aa8f3de90a27dd99f6ee446de40397a1a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_alertmanager_1ac8dbfa627bc29bfc7c6c3cc74af6bd48" kindref="member">Alertmanager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Alertmanager&gt; themis::observability::AlertingEngine::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>themis::observability::AlertingEngine::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="333" column="21" bodyfile="include/observability/alerting_engine.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alerting_engine_1a98ab016148b9799abb39a440d21d7a9a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::AlertingEngine::channels_mutex_</definition>
+        <argsstring></argsstring>
+        <name>channels_mutex_</name>
+        <qualifiedname>themis::observability::AlertingEngine::channels_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="335" column="24" bodyfile="include/observability/alerting_engine.h" bodystart="335" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_alerting_engine_1a0e0a4853f4c438c49bec1028ba69e1a7" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_i_notification_channel" kindref="compound">INotificationChannel</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;INotificationChannel&gt; &gt; themis::observability::AlertingEngine::channels_</definition>
+        <argsstring></argsstring>
+        <name>channels_</name>
+        <qualifiedname>themis::observability::AlertingEngine::channels_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="336" column="17" bodyfile="include/observability/alerting_engine.h" bodystart="336" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a6cae8a3a91a008164e16271067813807" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertingEngine::AlertingEngine</definition>
+        <argsstring>(std::shared_ptr&lt; Alertmanager &gt; backend=nullptr)</argsstring>
+        <name>AlertingEngine</name>
+        <qualifiedname>themis::observability::AlertingEngine::AlertingEngine</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_alertmanager_1ac8dbfa627bc29bfc7c6c3cc74af6bd48" kindref="member">Alertmanager</ref> &gt;</type>
+          <declname>backend</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct an <ref refid="classthemis_1_1observability_1_1_alerting_engine" kindref="compound">AlertingEngine</ref>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> backend for Prometheus state tracking. If nullptr, alert state is tracked in-process only. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="236" column="14" bodyfile="src/observability/alerting_engine.cpp" bodystart="311" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a391bf625945cef410e38df4787678bf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertingEngine::~AlertingEngine</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~AlertingEngine</name>
+        <qualifiedname>themis::observability::AlertingEngine::~AlertingEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="237" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a1b8c2e027de4efc08f25842aa49b8b79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::AlertingEngine::AlertingEngine</definition>
+        <argsstring>(const AlertingEngine &amp;)=delete</argsstring>
+        <name>AlertingEngine</name>
+        <qualifiedname>themis::observability::AlertingEngine::AlertingEngine</qualifiedname>
+        <param>
+          <type>const AlertingEngine &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="240" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1abc3729b0d3ee5f117fac81fee0a867a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_alerting_engine_1a6cae8a3a91a008164e16271067813807" kindref="member">AlertingEngine</ref> &amp;</type>
+        <definition>AlertingEngine &amp; themis::observability::AlertingEngine::operator=</definition>
+        <argsstring>(const AlertingEngine &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::AlertingEngine::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_alerting_engine_1a6cae8a3a91a008164e16271067813807" kindref="member">AlertingEngine</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="241" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a3d18264b3f47513b53452ce0736dba0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AlertingEngine::addChannel</definition>
+        <argsstring>(std::shared_ptr&lt; INotificationChannel &gt; channel)</argsstring>
+        <name>addChannel</name>
+        <qualifiedname>themis::observability::AlertingEngine::addChannel</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_i_notification_channel" kindref="compound">INotificationChannel</ref> &gt;</type>
+          <declname>channel</declname>
+        </param>
+        <briefdescription>
+<para>Add Channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register a notification channel. Channels are called in registration order.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">channel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="250" column="10" bodyfile="src/observability/alerting_engine.cpp" bodystart="320" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a5f0dfaf599ed306c5ceed0deb203c805" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AlertingEngine::clearChannels</definition>
+        <argsstring>()</argsstring>
+        <name>clearChannels</name>
+        <qualifiedname>themis::observability::AlertingEngine::clearChannels</qualifiedname>
+        <briefdescription>
+<para>Clear Channels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove all registered notification channels.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="255" column="10" bodyfile="src/observability/alerting_engine.cpp" bodystart="332" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a3d565a910f29a6350dd0619e432c8f6b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_i_notification_channel" kindref="compound">INotificationChannel</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::shared_ptr&lt; INotificationChannel &gt; &gt; themis::observability::AlertingEngine::channels</definition>
+        <argsstring>() const</argsstring>
+        <name>channels</name>
+        <qualifiedname>themis::observability::AlertingEngine::channels</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return a snapshot of the currently-registered channels. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">channels_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="260" column="17" bodyfile="src/observability/alerting_engine.cpp" bodystart="337" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a897f95a9fd35a56cfd2b94be9c6cf513" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::AlertingEngine::channelCount</definition>
+        <argsstring>() const</argsstring>
+        <name>channelCount</name>
+        <qualifiedname>themis::observability::AlertingEngine::channelCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Return the number of registered channels. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">channels_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="265" column="12" bodyfile="src/observability/alerting_engine.cpp" bodystart="347" bodyend="355"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a4d55a065ff06a19983452aa19ac6d52c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_alert_rule_manager" kindref="compound">AlertRuleManager</ref> &amp;</type>
+        <definition>AlertRuleManager &amp; themis::observability::AlertingEngine::ruleManager</definition>
+        <argsstring>()</argsstring>
+        <name>ruleManager</name>
+        <qualifiedname>themis::observability::AlertingEngine::ruleManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Access the underlying rule manager for CRUD operations. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="274" column="22" bodyfile="include/observability/alerting_engine.h" bodystart="274" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a1324445647abf46e64b3d8158c97483f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classthemis_1_1observability_1_1_alert_rule_manager" kindref="compound">AlertRuleManager</ref> &amp;</type>
+        <definition>const AlertRuleManager &amp; themis::observability::AlertingEngine::ruleManager</definition>
+        <argsstring>() const</argsstring>
+        <name>ruleManager</name>
+        <qualifiedname>themis::observability::AlertingEngine::ruleManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="275" column="28" bodyfile="include/observability/alerting_engine.h" bodystart="275" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1ae99a9624378efe5ead28a38bd95cb231" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::AlertingEngine::loadDefaultRules</definition>
+        <argsstring>()</argsstring>
+        <name>loadDefaultRules</name>
+        <qualifiedname>themis::observability::AlertingEngine::loadDefaultRules</qualifiedname>
+        <briefdescription>
+<para>Load Default Rules. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Load predefined alert rules that cover the major error and performance event categories:<itemizedlist>
+<listitem><para>High CPU utilization (&gt; 80%)</para>
+</listitem><listitem><para>High memory utilization (&gt; 90%)</para>
+</listitem><listitem><para>P99 query latency spike (&gt; 1000 ms)</para>
+</listitem><listitem><para>Elevated error rate (&gt; 5%)</para>
+</listitem><listitem><para>Low disk free space (&lt; 10%)</para>
+</listitem><listitem><para>Deep query queue (&gt; 100 pending queries)</para>
+</listitem><listitem><para>High cache miss rate (&gt; 50%)</para>
+</listitem><listitem><para>Storage write amplification (&gt; 20×)</para>
+</listitem></itemizedlist>
+</para>
+<para>Existing rules with the same IDs are skipped (idempotent).</para>
+<para>Calls: getRule(), has_value(), addRule(), THEMIS_WARN(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="291" column="10" bodyfile="src/observability/alerting_engine.cpp" bodystart="362" bodyend="471"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1ab1c5d297d4489636a7d63e2dd50fb4d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::observability::AlertingEngine::evaluateAndNotify</definition>
+        <argsstring>(const std::map&lt; std::string, double &gt; &amp;metrics)</argsstring>
+        <name>evaluateAndNotify</name>
+        <qualifiedname>themis::observability::AlertingEngine::evaluateAndNotify</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, double &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Evaluate all registered rules against the provided metric snapshot and dispatch notifications for any newly-firing rules via all channels.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of metric_name → current value. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of rules whose condition was satisfied during this evaluation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="304" column="9" bodyfile="src/observability/alerting_engine.cpp" bodystart="475" bodyend="477"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a387dd600c91452db51df42a2e4803e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::AlertingEngine::sendAlert</definition>
+        <argsstring>(const Alert &amp;alert) override</argsstring>
+        <name>sendAlert</name>
+        <qualifiedname>themis::observability::AlertingEngine::sendAlert</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_alertmanager_1a5847532ebfbc7419583dea7822898c18">sendAlert</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &amp;</type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+<para>Send <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Dispatch the alert to all registered notification channels and (optionally) forward to the backend <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1observability_1_1_alertmanager_1a3b647f1095611057deaee9307c8e8cdf" kindref="member">upsertActiveAlert()</ref>, dispatchToChannels(), has_value(), THEMIS_WARN(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="314" column="12" bodyfile="src/observability/alerting_engine.cpp" bodystart="526" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a3ebcf2e868a7bc0ef4d8c6e20924f866" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::AlertingEngine::resolveAlert</definition>
+        <argsstring>(const std::string &amp;alert_id) override</argsstring>
+        <name>resolveAlert</name>
+        <qualifiedname>themis::observability::AlertingEngine::resolveAlert</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_alertmanager_1add7bb4b67bd83d8a8ecfd132d39471c2">resolveAlert</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Resolve the alert (forward to backend; update in-process state).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the alert. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1observability_1_1_alertmanager_1a92cc7b4b91256eefa266f6ccc6096afa" kindref="member">findActiveAlertById()</ref>, has_value(), std::chrono::system_clock::now(), dispatchToChannels(), <ref refid="classthemis_1_1observability_1_1_alertmanager_1a49e015e0d20ac44088d97087e17721d2" kindref="member">removeActiveAlertById()</ref>, THEMIS_WARN(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="319" column="12" bodyfile="src/observability/alerting_engine.cpp" bodystart="555" bodyend="584"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a010e86fdcc86bac39022258a3f1f708f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::AlertingEngine::silenceAlert</definition>
+        <argsstring>(const std::string &amp;alert_id, int duration_minutes) override</argsstring>
+        <name>silenceAlert</name>
+        <qualifiedname>themis::observability::AlertingEngine::silenceAlert</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_alertmanager_1a1d00c842b4db92de70c8036405cb734c">silenceAlert</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>alert_id</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>duration_minutes</declname>
+        </param>
+        <briefdescription>
+<para>Silence <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Silence an alert (forwarded to backend when available).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the alert. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration_minutes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1observability_1_1_alertmanager_1a92cc7b4b91256eefa266f6ccc6096afa" kindref="member">findActiveAlertById()</ref>, has_value(), <ref refid="classthemis_1_1observability_1_1_alertmanager_1a3b647f1095611057deaee9307c8e8cdf" kindref="member">upsertActiveAlert()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="324" column="12" bodyfile="src/observability/alerting_engine.cpp" bodystart="593" bodyend="604"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1a2b8c91c4d2385a56c79503442843aaa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::AlertingEngine::testConnection</definition>
+        <argsstring>() override</argsstring>
+        <name>testConnection</name>
+        <qualifiedname>themis::observability::AlertingEngine::testConnection</qualifiedname>
+        <reimplements refid="classthemis_1_1observability_1_1_alertmanager_1a79f80fa0c95a809e26bea46c7520cc3c">testConnection</reimplements>
+        <briefdescription>
+<para>Test Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Test connectivity of the backend <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> (if any).</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements testConnection without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="329" column="12" bodyfile="src/observability/alerting_engine.cpp" bodystart="611" bodyend="617"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_alerting_engine_1acdf7d893894926b50a84583b0292621d" prot="private" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>Result&lt; void &gt; themis::observability::AlertingEngine::dispatchToChannels</definition>
+        <argsstring>(const Alert &amp;alert)</argsstring>
+        <name>dispatchToChannels</name>
+        <qualifiedname>themis::observability::AlertingEngine::dispatchToChannels</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_alert" kindref="compound">Alert</ref> &amp;</type>
+          <declname>alert</declname>
+        </param>
+        <briefdescription>
+<para>Dispatch To Channels. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">alert</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), send(), has_value(), push_back(), channelType(), error(), message(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/alerting_engine.h" line="339" column="13" bodyfile="src/observability/alerting_engine.cpp" bodystart="486" bodyend="518"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Central alerting engine that combines:<itemizedlist>
+<listitem><para>An <ref refid="classthemis_1_1observability_1_1_alert_rule_manager" kindref="compound">AlertRuleManager</ref> for rule CRUD and evaluation</para>
+</listitem><listitem><para>A set of pluggable <ref refid="classthemis_1_1observability_1_1_i_notification_channel" kindref="compound">INotificationChannel</ref> backends</para>
+</listitem><listitem><para>An optional <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> backend for Prometheus <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> state tracking</para>
+</listitem></itemizedlist>
+</para>
+<para>The engine itself extends <ref refid="classthemis_1_1observability_1_1_alertmanager" kindref="compound">Alertmanager</ref> so that <ref refid="classthemis_1_1observability_1_1_alert_rule_manager_1a8c8d5ed3e87c2098821fa7120cc33bf7" kindref="member">AlertRuleManager::evaluateRules()</ref> can be called with <computeroutput>*this</computeroutput> as the alertmanager argument. When a rule fires, <ref refid="classthemis_1_1observability_1_1_alerting_engine_1a387dd600c91452db51df42a2e4803e09" kindref="member">sendAlert()</ref> is invoked on the engine which in turn dispatches the alert to all registered notification channels and (optionally) to the wrapped backend.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_alerting_engine_1a6cae8a3a91a008164e16271067813807" kindref="member">AlertingEngine</ref><sp/>engine;</highlight></codeline>
+<codeline><highlight class="normal">engine.addChannel(std::make_shared&lt;LogNotificationChannel&gt;());</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">SlackChannelConfig<sp/>slack;</highlight></codeline>
+<codeline><highlight class="normal">slack.webhook_url<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://hooks.slack.com/services/...&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">engine.addChannel(std::make_shared&lt;SlackNotificationChannel&gt;(slack));</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">engine.loadDefaultRules();<sp/><sp/></highlight><highlight class="comment">//<sp/>predefined<sp/>rules<sp/>for<sp/>CPU,<sp/>memory,<sp/>latency,<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Periodically:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">std::map&lt;std::string,<sp/>double&gt;<sp/>metrics<sp/>=<sp/>collectCurrentMetrics();</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fired<sp/>=<sp/>engine.evaluateAndNotify(metrics);</highlight></codeline>
+</programlisting></para>
+<para>Thread-safety: addChannel/clearChannels and evaluateAndNotify are thread-safe via an internal mutex on the channels vector. <ref refid="classthemis_1_1observability_1_1_alert_rule_manager" kindref="compound">AlertRuleManager</ref> is independently thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::observability::AlertingEngine</label>
+        <link refid="classthemis_1_1observability_1_1_alerting_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::Alertmanager</label>
+        <link refid="classthemis_1_1observability_1_1_alertmanager"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::observability::AlertingEngine</label>
+        <link refid="classthemis_1_1observability_1_1_alerting_engine"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::observability::Alertmanager</label>
+        <link refid="classthemis_1_1observability_1_1_alertmanager"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::observability::AlertmanagerConfig</label>
+        <link refid="structthemis_1_1observability_1_1_alertmanager_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/observability/alerting_engine.h" line="229" column="1" bodyfile="include/observability/alerting_engine.h" bodystart="229" bodyend="340"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a7cd8d987198a8a0684e6c676c02fd85f" prot="protected" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>active_alerts_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1aa8ed31ceeaa8b0c565eca83d17532009" prot="protected" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>active_alerts_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a3d18264b3f47513b53452ce0736dba0d" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>addChannel</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a6cae8a3a91a008164e16271067813807" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>AlertingEngine</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a1b8c2e027de4efc08f25842aa49b8b79" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>AlertingEngine</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1ac8dbfa627bc29bfc7c6c3cc74af6bd48" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>Alertmanager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a8dd1b3509f17168b98f2f15ce1fc6482" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>Alertmanager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1aa8f3de90a27dd99f6ee446de40397a1a" prot="private" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>backend_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a897f95a9fd35a56cfd2b94be9c6cf513" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>channelCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a3d565a910f29a6350dd0619e432c8f6b" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>channels</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a0e0a4853f4c438c49bec1028ba69e1a7" prot="private" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>channels_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a98ab016148b9799abb39a440d21d7a9a" prot="private" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>channels_mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a5f0dfaf599ed306c5ceed0deb203c805" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>clearChannels</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a9fd107e09172b45a5e3e49f7c9dcc971" prot="protected" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>config_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1acdf7d893894926b50a84583b0292621d" prot="private" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>dispatchToChannels</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1ab1c5d297d4489636a7d63e2dd50fb4d7" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>evaluateAndNotify</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a92cc7b4b91256eefa266f6ccc6096afa" prot="protected" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>findActiveAlertById</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a33ad1f0a824ae2bafdfb9485118ee242" prot="public" virt="virtual"><scope>themis::observability::AlertingEngine</scope><name>getActiveAlerts</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a0d65dec54b4f2979581ca9174abe2be2" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a30d622ac5c40c75f5de5bed172dd4ab3" prot="public" virt="virtual"><scope>themis::observability::AlertingEngine</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a5889048fa2b10033478bcdc36cb6a1f1" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1ae99a9624378efe5ead28a38bd95cb231" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>loadDefaultRules</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1abc3729b0d3ee5f117fac81fee0a867a7" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a49e015e0d20ac44088d97087e17721d2" prot="protected" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>removeActiveAlertById</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a3ebcf2e868a7bc0ef4d8c6e20924f866" prot="public" virt="virtual"><scope>themis::observability::AlertingEngine</scope><name>resolveAlert</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a53cbc6956219cf8240ec65512c54f128" prot="private" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>rule_manager_</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a4d55a065ff06a19983452aa19ac6d52c" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>ruleManager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a1324445647abf46e64b3d8158c97483f" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>ruleManager</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a387dd600c91452db51df42a2e4803e09" prot="public" virt="virtual"><scope>themis::observability::AlertingEngine</scope><name>sendAlert</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a5094f96337bfac21cd40626181a01baa" prot="protected" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>severityToString</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a010e86fdcc86bac39022258a3f1f708f" prot="public" virt="virtual"><scope>themis::observability::AlertingEngine</scope><name>silenceAlert</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1abb0ced097b0289fad0a00d214e5a9486" prot="protected" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>statusToString</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a2b8c91c4d2385a56c79503442843aaa9" prot="public" virt="virtual"><scope>themis::observability::AlertingEngine</scope><name>testConnection</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1a3b647f1095611057deaee9307c8e8cdf" prot="protected" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>upsertActiveAlert</name></member>
+      <member refid="classthemis_1_1observability_1_1_alerting_engine_1a391bf625945cef410e38df4787678bf6" prot="public" virt="non-virtual"><scope>themis::observability::AlertingEngine</scope><name>~AlertingEngine</name></member>
+      <member refid="classthemis_1_1observability_1_1_alertmanager_1ac6f5f38e78ae205de696d8dd3a0f6504" prot="public" virt="virtual"><scope>themis::observability::AlertingEngine</scope><name>~Alertmanager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

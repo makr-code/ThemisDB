@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::HardwareAccelerator::Config</compoundname>
+    <includes refid="hardware__accelerator_8h" local="no">hardware_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_config_1a7a0ddfaa9568972e771d6f9378e9052d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::HardwareAccelerator::Config::gpu_row_threshold</definition>
+        <argsstring></argsstring>
+        <name>gpu_row_threshold</name>
+        <qualifiedname>themis::performance::HardwareAccelerator::Config::gpu_row_threshold</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of rows to trigger the GPU path. Below this threshold, VECTOR_ENGINE or CPU is preferred. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="232" column="16" bodyfile="include/performance/hardware_accelerator.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_config_1a6a11700a96bddb8b251a5f0fa02f81d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::HardwareAccelerator::Config::simd_row_threshold</definition>
+        <argsstring></argsstring>
+        <name>simd_row_threshold</name>
+        <qualifiedname>themis::performance::HardwareAccelerator::Config::simd_row_threshold</qualifiedname>
+        <initializer>= 1&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Minimum number of rows to trigger the SIMD/VECTOR_ENGINE path. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="235" column="16" bodyfile="include/performance/hardware_accelerator.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_hardware_accelerator_1_1_config_1a34d067e53aef036ce091bd55ba9c79c0" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config" kindref="compound">AcceleratorConfig</ref></type>
+        <definition>AcceleratorConfig themis::performance::HardwareAccelerator::Config::default_device_config</definition>
+        <argsstring></argsstring>
+        <name>default_device_config</name>
+        <qualifiedname>themis::performance::HardwareAccelerator::Config::default_device_config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Default <ref refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config" kindref="compound">AcceleratorConfig</ref> used when the caller does not provide one. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/hardware_accelerator.h" line="238" column="27" bodyfile="include/performance/hardware_accelerator.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Global accelerator configuration set at construction time. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::performance::HardwareAccelerator::AcceleratorConfig</label>
+        <link refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_accelerator_config"/>
+      </node>
+      <node id="1">
+        <label>themis::performance::HardwareAccelerator::Config</label>
+        <link refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>default_device_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/hardware_accelerator.h" line="229" column="5" bodyfile="include/performance/hardware_accelerator.h" bodystart="229" bodyend="239"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_config_1a34d067e53aef036ce091bd55ba9c79c0" prot="public" virt="non-virtual"><scope>themis::performance::HardwareAccelerator::Config</scope><name>default_device_config</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_config_1a7a0ddfaa9568972e771d6f9378e9052d" prot="public" virt="non-virtual"><scope>themis::performance::HardwareAccelerator::Config</scope><name>gpu_row_threshold</name></member>
+      <member refid="structthemis_1_1performance_1_1_hardware_accelerator_1_1_config_1a6a11700a96bddb8b251a5f0fa02f81d6" prot="public" virt="non-virtual"><scope>themis::performance::HardwareAccelerator::Config</scope><name>simd_row_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

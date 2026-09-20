@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUTrainingLoop::StepRecord</compoundname>
+    <includes refid="training__loop_8h" local="no">training_loop.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record_1a50c94eb151df3e3af72d6797a43bad54" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUTrainingLoop::StepRecord::step</definition>
+        <argsstring></argsstring>
+        <name>step</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::StepRecord::step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="67" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record_1ac8321965ee1365c62747797497d35d59" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::gpu::GPUTrainingLoop::StepRecord::loss</definition>
+        <argsstring></argsstring>
+        <name>loss</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::StepRecord::loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="68" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record_1a132e61f6a312290e6e182756d66b582b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUTrainingLoop::StepRecord::gpu_run</definition>
+        <argsstring></argsstring>
+        <name>gpu_run</name>
+        <qualifiedname>themis::gpu::GPUTrainingLoop::StepRecord::gpu_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when <ref refid="classthemis_1_1gpu_1_1_g_p_u_training_loop_1acc89f331cd89dbda5431f9c84c96a1e5" kindref="member">LossFn</ref> indicates GPU was used </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/training_loop.h" line="69" column="16" bodyfile="include/themis/gpu/training_loop.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/training_loop.h" line="66" column="5" bodyfile="include/themis/gpu/training_loop.h" bodystart="66" bodyend="70"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record_1a132e61f6a312290e6e182756d66b582b" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::StepRecord</scope><name>gpu_run</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record_1ac8321965ee1365c62747797497d35d59" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::StepRecord</scope><name>loss</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_training_loop_1_1_step_record_1a50c94eb151df3e3af72d6797a43bad54" prot="public" virt="non-virtual"><scope>themis::gpu::GPUTrainingLoop::StepRecord</scope><name>step</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

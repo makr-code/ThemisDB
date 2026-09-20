@@ -1,0 +1,651 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1cache_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::cache::test</compoundname>
+    <innerclass refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" prot="public">themis::cache::test::CacheEvictionHardeningTest</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1cache_1_1test_1ab19eb1480674ddac64997e1db2b12c84" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::cache::test::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::cache::test::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="44" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a595f38384c7995bc9104f1a99926a79a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_bounded_l_r_u_cache_1_1_config" kindref="compound">BoundedLRUCache::Config</ref></type>
+        <definition>static BoundedLRUCache::Config themis::cache::test::makeConfig</definition>
+        <argsstring>(size_t max_entries=10, uint32_t ttl_seconds=3600)</argsstring>
+        <name>makeConfig</name>
+        <qualifiedname>themis::cache::test::makeConfig</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+          <defval>10</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ttl_seconds</declname>
+          <defval>3600</defval>
+        </param>
+        <briefdescription>
+<para>Build a default-configured cache with <computeroutput>max_entries</computeroutput> capacity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="51" column="32" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="51" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1af2ee6ee9c73e4c0a73c14f89df533aa5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cache::test::putStr</definition>
+        <argsstring>(BoundedLRUCache &amp;c, const std::string &amp;key, const std::string &amp;val=&quot;v&quot;, uint32_t ttl=0)</argsstring>
+        <name>putStr</name>
+        <qualifiedname>themis::cache::test::putStr</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1_bounded_l_r_u_cache" kindref="compound">BoundedLRUCache</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>val</declname>
+          <defval>&quot;v&quot;</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>ttl</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Convenience: put a simple JSON string value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="62" column="13" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a322fe5a1a0593b14880ca8af526ebd9e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cache_1_1_cache_key_descriptor" kindref="compound">CacheKeyDescriptor</ref></type>
+        <definition>static CacheKeyDescriptor themis::cache::test::makeDesc</definition>
+        <argsstring>(const std::string &amp;key, size_t access_count, int64_t last_access_ns, int64_t creation_time_ns=0)</argsstring>
+        <name>makeDesc</name>
+        <qualifiedname>themis::cache::test::makeDesc</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>last_access_ns</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>creation_time_ns</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Build a <ref refid="structthemis_1_1cache_1_1_cache_key_descriptor" kindref="compound">CacheKeyDescriptor</ref> for policy testing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="68" column="27" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="68" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, HotTierBehavior_FrequentlyAccessedItemSurvivesEviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>HotTierBehavior_FrequentlyAccessedItemSurvivesEviction</type>
+        </param>
+        <briefdescription>
+<para>An item accessed many times stays at MRU position and is not evicted when cold entries are available to remove. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>HotTierBehavior_FrequentlyAccessedItemSurvivesEviction </para>
+</xrefdescription></xrefsect></para>
+<para>Simulates &quot;hot tier&quot; semantics: high-access items remain in cache while low-access items are evicted first. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="105" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="105" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a521861a3ed040b037c32c4f3a22dedd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, WarmTierBehavior_ModeratelyAccessedItemOutlivesUnaccessed)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>WarmTierBehavior_ModeratelyAccessedItemOutlivesUnaccessed</type>
+        </param>
+        <briefdescription>
+<para>An item accessed a moderate number of times is evicted after completely unaccessed items when capacity is exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>WarmTierBehavior_ModeratelyAccessedItemOutlivesUnaccessed </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="132" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="132" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a0dd0417ac17a017fc96ca0883a451eae" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, ColdTierBehavior_UnaccesdItemEvictedFirst)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ColdTierBehavior_UnaccesdItemEvictedFirst</type>
+        </param>
+        <briefdescription>
+<para>An item that was inserted but never accessed afterwards is the first to be evicted (LRU tail). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>ColdTierBehavior_UnaccesdItemEvictedFirst </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="155" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="155" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1af4312b97f733fc97a8174aa683b85f2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, TierPromotion_AccessedItemMovesToFront)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TierPromotion_AccessedItemMovesToFront</type>
+        </param>
+        <briefdescription>
+<para>Repeated access on a cold entry effectively promotes it to the MRU position, demonstrating the cache&apos;s implicit tier promotion behaviour. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>TierPromotion_AccessedItemMovesToFront </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="179" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="179" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a07e2e340784c650208363bd57a85f6ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, WeightedScoring_LFUPolicy_EvictsLeastFrequent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>WeightedScoring_LFUPolicy_EvictsLeastFrequent</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1cache_1_1_l_f_u_eviction_policy_1a791dd310d62d8786f2e640fcaec5ad5d" kindref="member">LFUEvictionPolicy::choose_victim</ref> selects the entry with the lowest access count among the candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>WeightedScoring_LFUPolicy_EvictsLeastFrequent </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="206" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="206" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a3fad567c60f7de9fc93b696ca426b397" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, WeightedScoring_LRUPolicy_EvictsLeastRecent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>WeightedScoring_LRUPolicy_EvictsLeastRecent</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1cache_1_1_l_r_u_eviction_policy_1a2c6490c280d27881b8cfe2752dda55e5" kindref="member">LRUEvictionPolicy::choose_victim</ref> selects the entry with the smallest last_access_ns (oldest access time). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>WeightedScoring_LRUPolicy_EvictsLeastRecent </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="234" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="234" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1af21482b2521da15efe27366f48374c94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, WeightedScoring_FIFOPolicy_EvictsOldestCreated)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>WeightedScoring_FIFOPolicy_EvictsOldestCreated</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1cache_1_1_f_i_f_o_eviction_policy_1aa16e174a0dae9119cb262b7af7863098" kindref="member">FIFOEvictionPolicy::choose_victim</ref> selects the entry with the smallest creation_time_ns (oldest insertion order). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>WeightedScoring_FIFOPolicy_EvictsOldestCreated </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="253" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="253" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a6d461bce725d1eead6741e198eb490fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, WeightedScoring_PolicyFactory_CreatesAllTypes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>WeightedScoring_PolicyFactory_CreatesAllTypes</type>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1cache_1_1_eviction_policy_factory" kindref="compound">EvictionPolicyFactory</ref> creates LRU, LFU, FIFO, and ARC without throws. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>WeightedScoring_PolicyFactory_CreatesAllTypes </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="271" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="271" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a8442813d6d72816dd9a5a16e1c2d9590" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, WeightedScoring_EmptyCandidateList_NoEviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>WeightedScoring_EmptyCandidateList_NoEviction</type>
+        </param>
+        <briefdescription>
+<para>choose_victim on an empty candidate list must return should_evict=false. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>WeightedScoring_EmptyCandidateList_NoEviction </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="286" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="286" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1acb8bc570661139faa3d4bdbce1c93468" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, EvictionUnderCapacity_CorrectItemRemoved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EvictionUnderCapacity_CorrectItemRemoved</type>
+        </param>
+        <briefdescription>
+<para>Inserting beyond capacity evicts exactly the LRU item. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>EvictionUnderCapacity_CorrectItemRemoved </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="300" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="300" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a3ce1757f540953c58de79f31eadd734a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, EvictionUnderCapacity_ExactlyAtCapacity_NoUnnecessaryEviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EvictionUnderCapacity_ExactlyAtCapacity_NoUnnecessaryEviction</type>
+        </param>
+        <briefdescription>
+<para>Inserting exactly max_entries items does not evict any. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>EvictionUnderCapacity_ExactlyAtCapacity_NoUnnecessaryEviction </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="321" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="321" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a6a7afe3492947e8987d8f94173772485" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, ConcurrentAccess_PutGetEvict_ThreadSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentAccess_PutGetEvict_ThreadSafe</type>
+        </param>
+        <briefdescription>
+<para>Multiple threads running put/get concurrently must not crash or corrupt the cache state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>ConcurrentAccess_PutGetEvict_ThreadSafe </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="346" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="346" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a199a9698c7f9e94d802501c9ee789573" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, ConcurrentAccess_StatsConsistentUnderLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentAccess_StatsConsistentUnderLoad</type>
+        </param>
+        <briefdescription>
+<para>Hit and miss counts are non-negative and coherent after concurrent operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>ConcurrentAccess_StatsConsistentUnderLoad </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="386" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="386" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a3b62c6806efff127bd69b393cf2c2f1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, MemoryBounds_SizeNeverExceedsMax)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>MemoryBounds_SizeNeverExceedsMax</type>
+        </param>
+        <briefdescription>
+<para>Inserting 5× the configured capacity must never produce size &gt; max_entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>MemoryBounds_SizeNeverExceedsMax </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="422" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="422" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a5026dd187be8c9b14782704553e46927" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, TTLExpiry_ExpiredEntryReturnsNullopt)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TTLExpiry_ExpiredEntryReturnsNullopt</type>
+        </param>
+        <briefdescription>
+<para>An entry whose TTL has elapsed returns nullopt on get(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>TTLExpiry_ExpiredEntryReturnsNullopt </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="440" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="440" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1aea72ce03783e444888732610a4a94763" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, TTLExpiry_ValidEntryBeforeExpiry)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TTLExpiry_ValidEntryBeforeExpiry</type>
+        </param>
+        <briefdescription>
+<para>An entry that has not yet expired is returned on get(). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>TTLExpiry_ValidEntryBeforeExpiry </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="457" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="457" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a446282a447106fe5a1d21e22e2534f2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, TTLExpiry_PerEntryTTLOverridesDefault)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TTLExpiry_PerEntryTTLOverridesDefault</type>
+        </param>
+        <briefdescription>
+<para>A per-entry TTL shorter than the config default causes earlier expiry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>TTLExpiry_PerEntryTTLOverridesDefault </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="470" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="470" bodyend="482"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a173d866186a8d7a8a3170e9bf1a4198d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, EvictionLatency_BulkEvictionCompletesWithinBound)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EvictionLatency_BulkEvictionCompletesWithinBound</type>
+        </param>
+        <briefdescription>
+<para>Inserting 1 000 entries (forcing 1 000 evictions in a cap-1 cache) completes within 500 ms — a conservative latency guard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>EvictionLatency_BulkEvictionCompletesWithinBound </para>
+</xrefdescription></xrefsect></para>
+<para>This test is a basic timing gate; it will not fail on healthy hardware but catches pathological O(N²) regressions. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="496" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="496" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a9f80f3bfb5ed4a5072874835b0e9b21e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, EdgeCase_SingleItemCache_PutGetRemoveWork)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_SingleItemCache_PutGetRemoveWork</type>
+        </param>
+        <briefdescription>
+<para>A cache with max_entries=1 correctly stores, retrieves, and removes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_SingleItemCache_PutGetRemoveWork </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="520" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="520" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1afac87d4f73d19ec5b5a4c315c4d90d6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, EdgeCase_EmptyCacheEvictionAttempt_ReturnsFalse)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_EmptyCacheEvictionAttempt_ReturnsFalse</type>
+        </param>
+        <briefdescription>
+<para>evictLRUIfNeeded() on an empty cache returns false without crashing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_EmptyCacheEvictionAttempt_ReturnsFalse </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="539" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="539" bodyend="542"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1aedb4585f971c1007eb851b35579eafd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, EdgeCase_OversizedTTL_PutIsRejected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_OversizedTTL_PutIsRejected</type>
+        </param>
+        <briefdescription>
+<para>Passing a TTL that exceeds max_ttl_seconds causes the entry to be silently rejected (security guard against AI/LLM injection). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_OversizedTTL_PutIsRejected </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="549" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="549" bodyend="560"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1ac3eb9b71c6044a9a4f51a5e9e159b4f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, EdgeCase_UpdateExistingKey_DoesNotGrowCache)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_UpdateExistingKey_DoesNotGrowCache</type>
+        </param>
+        <briefdescription>
+<para>Updating an existing key via put() replaces the value in-place and does not increase the cache size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_UpdateExistingKey_DoesNotGrowCache </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="567" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="567" bodyend="579"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1cache_1_1test_1a81485199332d67282843fc05112788f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cache::test::TEST_F</definition>
+        <argsstring>(CacheEvictionHardeningTest, EdgeCase_ContainsVsGet_ConsistentForValid)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::cache::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_ContainsVsGet_ConsistentForValid</type>
+        </param>
+        <briefdescription>
+<para>contains() and get() must agree on whether a valid, unexpired entry exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_ContainsVsGet_ConsistentForValid </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="585" column="1" bodyfile="tests/cache/test_cache_eviction_multilevel_hardening.cpp" bodystart="585" bodyend="594"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/cache/test_cache_eviction_multilevel_hardening.cpp" line="42" column="1"/>
+  </compounddef>
+</doxygen>

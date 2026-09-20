@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_fault_injector" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::test::FaultInjector</compoundname>
+    <derivedcompoundref refid="classthemis_1_1test_1_1_corruption_injector" prot="public" virt="non-virtual">themis::test::CorruptionInjector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1test_1_1_crash_injector" prot="public" virt="non-virtual">themis::test::CrashInjector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1test_1_1_network_injector" prot="public" virt="non-virtual">themis::test::NetworkInjector</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1test_1_1_timeout_injector" prot="public" virt="non-virtual">themis::test::TimeoutInjector</derivedcompoundref>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <innerclass refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config" prot="public">themis::test::FaultInjector::InjectionConfig</innerclass>
+    <innerclass refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result" prot="public">themis::test::FaultInjector::InjectionResult</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FaultType</name>
+        <qualifiedname>themis::test::FaultInjector::FaultType</qualifiedname>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8acef2f26f7da88da7db20faa12bd436c4" prot="public">
+          <name>CRASH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8af0fc848d79f32c305a5d9c0155192ba3" prot="public">
+          <name>NETWORK_PARTITION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8aaad04023783164c258310fcaf83d9047" prot="public">
+          <name>NETWORK_DELAY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8adc5b0d72e033cb0e9dbf842393585cfc" prot="public">
+          <name>NETWORK_PACKET_LOSS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8a070a0fb40f6c308ab544b227660aadff" prot="public">
+          <name>TIMEOUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8ab0660e678637dd6e26c0f99dccb171e7" prot="public">
+          <name>CORRUPTION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8adc296a39ee2e8b388c1cead6b31cfd2d" prot="public">
+          <name>MEMORY_LIMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8a266c3e565a5b03d2174d5f11c1c9126f" prot="public">
+          <name>DISK_FULL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="46" column="5" bodyfile="tests/utils/fault_injector.h" bodystart="46" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>InjectionState</name>
+        <qualifiedname>themis::test::FaultInjector::InjectionState</qualifiedname>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654a6b273343c454f9c53dcfc9c4ccf171d2" prot="public">
+          <name>INACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654abdfbb6f2aa06fd5d4c2cc0072f960254" prot="public">
+          <name>RECOVERING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654aed55f098510da7e959de591e609da3ee" prot="public">
+          <name>RECOVERED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="58" column="5" bodyfile="tests/utils/fault_injector.h" bodystart="58" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injector_1a9a446c53c3ab993aa5696fe607979722" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config" kindref="compound">InjectionConfig</ref></type>
+        <definition>InjectionConfig themis::test::FaultInjector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::test::FaultInjector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="178" column="21" bodyfile="tests/utils/fault_injector.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injector_1ad8570c5db19923ef35da27d9489c9466" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654" kindref="member">InjectionState</ref></type>
+        <definition>InjectionState themis::test::FaultInjector::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::test::FaultInjector::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="179" column="20" bodyfile="tests/utils/fault_injector.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injector_1a59a7763b9994cd53191efce6fe44cbc3" prot="protected" static="no" mutable="yes">
+        <type>std::mt19937_64</type>
+        <definition>std::mt19937_64 themis::test::FaultInjector::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>themis::test::FaultInjector::rng_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="180" column="29" bodyfile="tests/utils/fault_injector.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injector_1aaf197172f1423e3edf2c0cd7f61d20ae" prot="protected" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::test::FaultInjector::start_time_</definition>
+        <argsstring></argsstring>
+        <name>start_time_</name>
+        <qualifiedname>themis::test::FaultInjector::start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="181" column="43" bodyfile="tests/utils/fault_injector.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_fault_injector_1a9ed53750255a5ce753eee6ca28324ee3" prot="protected" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::test::FaultInjector::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::test::FaultInjector::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="182" column="24" bodyfile="tests/utils/fault_injector.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a122b9cc3754e985a81a9f49dad535d37" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::FaultInjector::FaultInjector</definition>
+        <argsstring>(const InjectionConfig &amp;config)</argsstring>
+        <name>FaultInjector</name>
+        <qualifiedname>themis::test::FaultInjector::FaultInjector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config" kindref="compound">InjectionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="86" column="14" bodyfile="tests/utils/fault_injector.h" bodystart="86" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1ae25fc55694c3b302b7bd3ee316a7dcd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::test::FaultInjector::~FaultInjector</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FaultInjector</name>
+        <qualifiedname>themis::test::FaultInjector::~FaultInjector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="90" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1aabb1682b8b2164e252591398a2a7cf6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result" kindref="compound">InjectionResult</ref></type>
+        <definition>virtual InjectionResult themis::test::FaultInjector::inject</definition>
+        <argsstring>()=0</argsstring>
+        <name>inject</name>
+        <qualifiedname>themis::test::FaultInjector::inject</qualifiedname>
+        <reimplementedby refid="classthemis_1_1test_1_1_corruption_injector_1a9aa44182fd3835eab451bb83a4bce840">inject</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_crash_injector_1ab370c8d8578081e75ab5c5ff02498ef9">inject</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_network_injector_1a90ed9b8f965ce9116273cd3b116852fb">inject</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_timeout_injector_1a65f208ec7d9db33f388127562ee4c604">inject</reimplementedby>
+        <briefdescription>
+<para>Inject the fault. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Injection result with status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="100" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a8f8f8629794e1a8eec31b1c62cdc51e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result" kindref="compound">InjectionResult</ref></type>
+        <definition>virtual InjectionResult themis::test::FaultInjector::recover</definition>
+        <argsstring>()=0</argsstring>
+        <name>recover</name>
+        <qualifiedname>themis::test::FaultInjector::recover</qualifiedname>
+        <reimplementedby refid="classthemis_1_1test_1_1_corruption_injector_1a8554312fe71bd00d8fbea8218f15c155">recover</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_crash_injector_1a77fa67995383bd99784a64a3b885b6fe">recover</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_network_injector_1a49e821b0791a99df85d12998c7ca3e2a">recover</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_timeout_injector_1af4e4405acc0330cdfab82715bbbde7b6">recover</reimplementedby>
+        <briefdescription>
+<para>Recover from the fault. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Recovery status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="106" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a5bb90c32bb9f4a58303a1967ae3336d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::test::FaultInjector::update</definition>
+        <argsstring>()=0</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::test::FaultInjector::update</qualifiedname>
+        <reimplementedby refid="classthemis_1_1test_1_1_corruption_injector_1a77783dbf675baf71db054d14eb9938d2">update</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_crash_injector_1aa847a0415fe8f37864492f42b702a2f5">update</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_network_injector_1ac4955cc39c9eac9a1edcf31e020a9e27">update</reimplementedby>
+        <reimplementedby refid="classthemis_1_1test_1_1_timeout_injector_1a0d235a8fb42855eed0b32b8700350ff0">update</reimplementedby>
+        <briefdescription>
+<para>Update fault state (handle auto-recovery, timeouts, etc.) Called periodically to maintain fault state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="112" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a255bfe07d11b14dbf90216bc1b52991d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654" kindref="member">InjectionState</ref></type>
+        <definition>InjectionState themis::test::FaultInjector::getState</definition>
+        <argsstring>() const</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::test::FaultInjector::getState</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="118" column="20" bodyfile="tests/utils/fault_injector.h" bodystart="118" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1acb8b7b2555f5d4db24816b550e5b4b3f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::FaultInjector::isActive</definition>
+        <argsstring>() const</argsstring>
+        <name>isActive</name>
+        <qualifiedname>themis::test::FaultInjector::isActive</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="123" column="10" bodyfile="tests/utils/fault_injector.h" bodystart="123" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a44934aa649579d9163dab344511fb9f7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config" kindref="compound">InjectionConfig</ref> &amp;</type>
+        <definition>const InjectionConfig &amp; themis::test::FaultInjector::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::test::FaultInjector::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="128" column="27" bodyfile="tests/utils/fault_injector.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a500192651c21c0d5ff7fa35b05dd19a9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::test::FaultInjector::getStateName</definition>
+        <argsstring>() const</argsstring>
+        <name>getStateName</name>
+        <qualifiedname>themis::test::FaultInjector::getStateName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="130" column="17" bodyfile="tests/utils/fault_injector.h" bodystart="130" bodyend="144"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a8de82ffdc81df8fdbb3004782f0fec72" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::test::FaultInjector::faultTypeToString</definition>
+        <argsstring>(FaultType type)</argsstring>
+        <name>faultTypeToString</name>
+        <qualifiedname>themis::test::FaultInjector::faultTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8" kindref="member">FaultType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Convert <ref refid="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8" kindref="member">FaultType</ref> to string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="153" column="24" bodyfile="tests/utils/fault_injector.h" bodystart="153" bodyend="175"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a29954f7c63b16d52b9d804ff9857de9a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::FaultInjector::setState</definition>
+        <argsstring>(InjectionState new_state)</argsstring>
+        <name>setState</name>
+        <qualifiedname>themis::test::FaultInjector::setState</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654" kindref="member">InjectionState</ref></type>
+          <declname>new_state</declname>
+        </param>
+        <briefdescription>
+<para>Set injection state (thread-safe). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="187" column="10" bodyfile="tests/utils/fault_injector.h" bodystart="187" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1ab5a75f300b51073549a86bd9dc7fdbd2" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::test::FaultInjector::randomDouble</definition>
+        <argsstring>() const</argsstring>
+        <name>randomDouble</name>
+        <qualifiedname>themis::test::FaultInjector::randomDouble</qualifiedname>
+        <briefdescription>
+<para>Generate random value [0, 1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="195" column="12" bodyfile="tests/utils/fault_injector.h" bodystart="195" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1ae079f50483db9220cfcc61d6194ed65d" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::test::FaultInjector::randomInt</definition>
+        <argsstring>(int64_t min, int64_t max) const</argsstring>
+        <name>randomInt</name>
+        <qualifiedname>themis::test::FaultInjector::randomInt</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+<para>Generate random integer [min, max]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="203" column="13" bodyfile="tests/utils/fault_injector.h" bodystart="203" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1afa3cb2bef046dce991c05fecc480b1c0" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::FaultInjector::isDurationElapsed</definition>
+        <argsstring>() const</argsstring>
+        <name>isDurationElapsed</name>
+        <qualifiedname>themis::test::FaultInjector::isDurationElapsed</qualifiedname>
+        <briefdescription>
+<para>Check if duration has elapsed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="211" column="10" bodyfile="tests/utils/fault_injector.h" bodystart="211" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_fault_injector_1a5bff8d8691fd4ed2c80080f673e4fc90" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::test::FaultInjector::timeUntilRecovery</definition>
+        <argsstring>() const</argsstring>
+        <name>timeUntilRecovery</name>
+        <qualifiedname>themis::test::FaultInjector::timeUntilRecovery</qualifiedname>
+        <briefdescription>
+<para>Get time until recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="223" column="31" bodyfile="tests/utils/fault_injector.h" bodystart="223" bodyend="233"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract base class for fault injection. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::test::CorruptionInjector</label>
+        <link refid="classthemis_1_1test_1_1_corruption_injector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::test::CrashInjector</label>
+        <link refid="classthemis_1_1test_1_1_crash_injector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::test::FaultInjector</label>
+        <link refid="classthemis_1_1test_1_1_fault_injector"/>
+      </node>
+      <node id="4">
+        <label>themis::test::NetworkInjector</label>
+        <link refid="classthemis_1_1test_1_1_network_injector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::test::TimeoutInjector</label>
+        <link refid="classthemis_1_1test_1_1_timeout_injector"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::test::FaultInjector</label>
+        <link refid="classthemis_1_1test_1_1_fault_injector"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/fault_injector.h" line="44" column="1" bodyfile="tests/utils/fault_injector.h" bodystart="44" bodyend="234"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a9a446c53c3ab993aa5696fe607979722" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a122b9cc3754e985a81a9f49dad535d37" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>FaultInjector</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>FaultType</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a8de82ffdc81df8fdbb3004782f0fec72" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>faultTypeToString</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a44934aa649579d9163dab344511fb9f7" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a255bfe07d11b14dbf90216bc1b52991d" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>getState</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a500192651c21c0d5ff7fa35b05dd19a9" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>getStateName</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1aabb1682b8b2164e252591398a2a7cf6d" prot="public" virt="pure-virtual"><scope>themis::test::FaultInjector</scope><name>inject</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>InjectionState</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1acb8b7b2555f5d4db24816b550e5b4b3f" prot="public" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>isActive</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1afa3cb2bef046dce991c05fecc480b1c0" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>isDurationElapsed</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a9ed53750255a5ce753eee6ca28324ee3" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1ab5a75f300b51073549a86bd9dc7fdbd2" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>randomDouble</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1ae079f50483db9220cfcc61d6194ed65d" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>randomInt</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a8f8f8629794e1a8eec31b1c62cdc51e0" prot="public" virt="pure-virtual"><scope>themis::test::FaultInjector</scope><name>recover</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a59a7763b9994cd53191efce6fe44cbc3" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a29954f7c63b16d52b9d804ff9857de9a" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>setState</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1aaf197172f1423e3edf2c0cd7f61d20ae" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1ad8570c5db19923ef35da27d9489c9466" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>state_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a5bff8d8691fd4ed2c80080f673e4fc90" prot="protected" virt="non-virtual"><scope>themis::test::FaultInjector</scope><name>timeUntilRecovery</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a5bb90c32bb9f4a58303a1967ae3336d1" prot="public" virt="pure-virtual"><scope>themis::test::FaultInjector</scope><name>update</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1ae25fc55694c3b302b7bd3ee316a7dcd0" prot="public" virt="virtual"><scope>themis::test::FaultInjector</scope><name>~FaultInjector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

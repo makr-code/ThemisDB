@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1functions_1_1mime__types" kind="namespace" language="C++">
+    <compoundname>themis::query::functions::mime_types</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1mime__types_1a7fbb2e7148b2d25d6c3a0134722f3670" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, std::string &gt; &amp; themis::query::functions::mime_types::getExtensionToMime</definition>
+        <argsstring>()</argsstring>
+        <name>getExtensionToMime</name>
+        <qualifiedname>themis::query::functions::mime_types::getExtensionToMime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/file_functions.h" line="591" column="33" bodyfile="include/query/functions/file_functions.h" bodystart="591" bodyend="662"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/file_functions.h" line="589" column="1"/>
+  </compounddef>
+</doxygen>

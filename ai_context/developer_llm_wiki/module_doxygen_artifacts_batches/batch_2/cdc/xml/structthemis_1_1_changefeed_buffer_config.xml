@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_changefeed_buffer_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ChangefeedBufferConfig</compoundname>
+    <includes refid="changefeed__buffer_8h" local="no">changefeed_buffer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1ae0902dfe61d5620f510ac8df525f0ece" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ChangefeedBufferConfig::max_events_per_buffer</definition>
+        <argsstring></argsstring>
+        <name>max_events_per_buffer</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::max_events_per_buffer</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="49" column="12" bodyfile="include/cdc/changefeed_buffer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1aecd2d8d3aff76f467ec4437a8c43b207" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ChangefeedBufferConfig::max_total_events</definition>
+        <argsstring></argsstring>
+        <name>max_total_events</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::max_total_events</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="50" column="12" bodyfile="include/cdc/changefeed_buffer.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1a8baae523b8e207ffb8b005bcdf6b47a0" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ChangefeedBufferConfig::flush_interval</definition>
+        <argsstring></argsstring>
+        <name>flush_interval</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::flush_interval</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="53" column="31" bodyfile="include/cdc/changefeed_buffer.h" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1ae99f1a578a3c711c0ca3ba86f531c3ad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ChangefeedBufferConfig::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::max_memory_bytes</qualifiedname>
+        <initializer>= 50 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="56" column="12" bodyfile="include/cdc/changefeed_buffer.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1af91d2957bf31603cf2420ee83daa73f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ChangefeedBufferConfig::async_flush</definition>
+        <argsstring></argsstring>
+        <name>async_flush</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::async_flush</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="59" column="10" bodyfile="include/cdc/changefeed_buffer.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1a35158324631b4402f89962d08b865e1a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ChangefeedBufferConfig::flush_batch_size</definition>
+        <argsstring></argsstring>
+        <name>flush_batch_size</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::flush_batch_size</qualifiedname>
+        <initializer>= 250</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="60" column="12" bodyfile="include/cdc/changefeed_buffer.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1ad9c6ddd750a0f0e64eee97ed79adaa34" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ChangefeedBufferConfig::compress_payloads</definition>
+        <argsstring></argsstring>
+        <name>compress_payloads</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::compress_payloads</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="63" column="10" bodyfile="include/cdc/changefeed_buffer.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1a7c3dfa3f15101d9ee752b1606af16abf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ChangefeedBufferConfig::compression_threshold_bytes</definition>
+        <argsstring></argsstring>
+        <name>compression_threshold_bytes</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::compression_threshold_bytes</qualifiedname>
+        <initializer>= 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="64" column="12" bodyfile="include/cdc/changefeed_buffer.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1aedadbeea1e5486d48ff343581b5cdeb4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ChangefeedBufferConfig::max_retry_attempts</definition>
+        <argsstring></argsstring>
+        <name>max_retry_attempts</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::max_retry_attempts</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="67" column="9" bodyfile="include/cdc/changefeed_buffer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1a0b346f0d41c51bf320d787958f988505" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ChangefeedBufferConfig::retry_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_backoff_ms</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::retry_backoff_ms</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="68" column="31" bodyfile="include/cdc/changefeed_buffer.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1a58ea768ccc8536abdc35d32a831b2156" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ChangefeedBufferConfig::exponential_backoff</definition>
+        <argsstring></argsstring>
+        <name>exponential_backoff</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::exponential_backoff</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="69" column="10" bodyfile="include/cdc/changefeed_buffer.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1ae13d9b229ef8d8cc7b86d6a5cb6d3d7a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ChangefeedBufferConfig::enable_rate_limiting</definition>
+        <argsstring></argsstring>
+        <name>enable_rate_limiting</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::enable_rate_limiting</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="72" column="10" bodyfile="include/cdc/changefeed_buffer.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1aa97965b754e8afe1ddc7e91b472ad06f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ChangefeedBufferConfig::max_events_per_second</definition>
+        <argsstring></argsstring>
+        <name>max_events_per_second</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::max_events_per_second</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="73" column="12" bodyfile="include/cdc/changefeed_buffer.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_changefeed_buffer_config_1af2e427d683bc259f2f463e757f3537bf" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::ChangefeedBufferConfig::rate_limit_window</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_window</name>
+        <qualifiedname>themis::ChangefeedBufferConfig::rate_limit_window</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed_buffer.h" line="74" column="31" bodyfile="include/cdc/changefeed_buffer.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed_buffer.h" line="47" column="1" bodyfile="include/cdc/changefeed_buffer.h" bodystart="47" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1af91d2957bf31603cf2420ee83daa73f4" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>async_flush</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1ad9c6ddd750a0f0e64eee97ed79adaa34" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>compress_payloads</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1a7c3dfa3f15101d9ee752b1606af16abf" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>compression_threshold_bytes</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1ae13d9b229ef8d8cc7b86d6a5cb6d3d7a" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>enable_rate_limiting</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1a58ea768ccc8536abdc35d32a831b2156" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>exponential_backoff</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1a35158324631b4402f89962d08b865e1a" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>flush_batch_size</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1a8baae523b8e207ffb8b005bcdf6b47a0" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>flush_interval</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1ae0902dfe61d5620f510ac8df525f0ece" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>max_events_per_buffer</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1aa97965b754e8afe1ddc7e91b472ad06f" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>max_events_per_second</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1ae99f1a578a3c711c0ca3ba86f531c3ad" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1aedadbeea1e5486d48ff343581b5cdeb4" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>max_retry_attempts</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1aecd2d8d3aff76f467ec4437a8c43b207" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>max_total_events</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1af2e427d683bc259f2f463e757f3537bf" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>rate_limit_window</name></member>
+      <member refid="structthemis_1_1_changefeed_buffer_config_1a0b346f0d41c51bf320d787958f988505" prot="public" virt="non-virtual"><scope>themis::ChangefeedBufferConfig</scope><name>retry_backoff_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

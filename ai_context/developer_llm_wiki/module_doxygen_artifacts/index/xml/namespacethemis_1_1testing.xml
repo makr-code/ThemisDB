@@ -1,0 +1,478 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1testing" kind="namespace" language="C++">
+    <compoundname>themis::testing</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a20f6e375082fd504a3c9835bf11b147d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2PartitionManager, HandleValidityAfterRemoval)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2PartitionManager</type>
+        </param>
+        <param>
+          <type>HandleValidityAfterRemoval</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-01: Handle validity after partition removal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>Handles become invalid after partition removal</para>
+</listitem><listitem><para>isValid() returns false for removed partitions</para>
+</listitem><listitem><para>Epoch tracking detects invalidation </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="32" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="32" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1afad41181cbd13f981492121c8c6b0207" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2PartitionManager, StableIdBasedRebuild)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2PartitionManager</type>
+        </param>
+        <param>
+          <type>StableIdBasedRebuild</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-02: Stable ID-based rebuild after removal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>ID-based lookup falls back when handle is invalid</para>
+</listitem><listitem><para>New partitions can be created after removal</para>
+</listitem><listitem><para>Partition IDs are stable across operations </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="60" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="60" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a2fef0b51232389d31fd897b990f9a5b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2PartitionManager, RebuildInvalidatesAllHandles)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2PartitionManager</type>
+        </param>
+        <param>
+          <type>RebuildInvalidatesAllHandles</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-03: Rebuild invalidates all handles (exception safety). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>RebuildPartitions increments epochs for all partitions</para>
+</listitem><listitem><para>All existing handles become invalid after rebuild</para>
+</listitem><listitem><para>Rebuild is exception-safe</para>
+</listitem><listitem><para>Fallback access works after rebuild </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="102" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="102" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1abaafdd30cc9c15f1897e9c09aa7edccf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2PartitionManager, CompactInvalidatesIterators)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2PartitionManager</type>
+        </param>
+        <param>
+          <type>CompactInvalidatesIterators</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-04: Compact invalidates iterators with bounds checking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>CompactPartitions increments epochs</para>
+</listitem><listitem><para>Handles become invalid after compaction</para>
+</listitem><listitem><para>Bounds checking prevents out-of-range access</para>
+</listitem><listitem><para>Partition count remains stable </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="143" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="143" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a9d078867c311e12a2687379124eeb77b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2PartitionManager, PartitionGuardSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2PartitionManager</type>
+        </param>
+        <param>
+          <type>PartitionGuardSafety</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-03 continued: RAII guard for partition safety. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1_partition_guard" kindref="compound">PartitionGuard</ref> detects invalid partitions</para>
+</listitem><listitem><para>IsValid() check prevents use-after-free</para>
+</listitem><listitem><para>Guard is exception-safe </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="188" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="188" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a37700548c238ece39f65558620ed48bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2VectorIndexManager, HandleBasedAccess)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2VectorIndexManager</type>
+        </param>
+        <param>
+          <type>HandleBasedAccess</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-05: Handle-based access instead of raw iterators. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>CreateIndex returns valid handles</para>
+</listitem><listitem><para>Handles can be checked for validity</para>
+</listitem><listitem><para>Handle generation tracks invalidation </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="221" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="221" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a9e5b04e5e9365fe8802f0bdff1d85dc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2VectorIndexManager, IndexRemovalInvalidatesHandles)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2VectorIndexManager</type>
+        </param>
+        <param>
+          <type>IndexRemovalInvalidatesHandles</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-06: Index removal invalidates handles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>RemoveVectorIndex increments generation</para>
+</listitem><listitem><para>Handles become invalid after removal</para>
+</listitem><listitem><para>Generation-based validation detects invalidation </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="246" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="246" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a36bdf66fa85e223f8328141ed17e1dc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2VectorIndexManager, UpdateRebuildSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2VectorIndexManager</type>
+        </param>
+        <param>
+          <type>UpdateRebuildSafety</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-07: Update rebuilds with snapshot safety. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>UpdateVectorIndex invalidates existing handles</para>
+</listitem><listitem><para>Snapshot pattern prevents iterator corruption</para>
+</listitem><listitem><para>New handles can be obtained after update</para>
+</listitem><listitem><para>Exception safety during update </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="282" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="282" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1aa28862b4b255695b47d48de625440358" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2VectorIndexManager, HandleValidationDetectsInvalidation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2VectorIndexManager</type>
+        </param>
+        <param>
+          <type>HandleValidationDetectsInvalidation</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-08: Handle validation detects invalidation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>GetIndexByHandle validates generation</para>
+</listitem><listitem><para>Invalid handles return nullptr</para>
+</listitem><listitem><para>Validation prevents use-after-free</para>
+</listitem><listitem><para>Concurrent invalidation is detected </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="321" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="321" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1adeb7a923d349beb1f034be5ca0addf15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2VectorIndexManager, VectorIndexGuardSafety)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2VectorIndexManager</type>
+        </param>
+        <param>
+          <type>VectorIndexGuardSafety</type>
+        </param>
+        <briefdescription>
+<para>Test Gap A-2-07 continued: <ref refid="classthemis_1_1_vector_index_guard" kindref="compound">VectorIndexGuard</ref> for safe access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para><ref refid="classthemis_1_1_vector_index_guard" kindref="compound">VectorIndexGuard</ref> prevents use-after-free</para>
+</listitem><listitem><para>IsValid() check prevents dereference of invalid data</para>
+</listitem><listitem><para>Guard is exception-safe </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="349" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="349" bodyend="368"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a5f21cf888b8c009a2562ab24eb18aeed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2PartitionManager, ConcurrentHandles)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2PartitionManager</type>
+        </param>
+        <param>
+          <type>ConcurrentHandles</type>
+        </param>
+        <briefdescription>
+<para>Edge case: Concurrent add/remove operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>Multiple handles can coexist safely</para>
+</listitem><listitem><para>Removal of one doesn&apos;t affect others</para>
+</listitem><listitem><para>ID-based fallback works in multi-handle scenario </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="378" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="378" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a438c36e4cf42535bc85abf6df89174c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2PartitionManager, EmptyContainerOperations)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2PartitionManager</type>
+        </param>
+        <param>
+          <type>EmptyContainerOperations</type>
+        </param>
+        <briefdescription>
+<para>Edge case: Empty container operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>CompactPartitions works on empty container</para>
+</listitem><listitem><para>RebuildPartitions works on empty container</para>
+</listitem><listitem><para>No exceptions on empty operations </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="416" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="416" bodyend="423"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1ab804fe79af098311fd60347e96ab926c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2Integration, AllGapsWorking)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2Integration</type>
+        </param>
+        <param>
+          <type>AllGapsWorking</type>
+        </param>
+        <briefdescription>
+<para>Integration test: All 8 gaps working together. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that:<itemizedlist>
+<listitem><para>Partition and Vector Index managers work together</para>
+</listitem><listitem><para>Iterator safety patterns compose correctly</para>
+</listitem><listitem><para>Handle validity is maintained across operations </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="433" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="433" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a5321a96f752ee274bc8b934494650fb0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2RAII, GraphAutoBufferDestructorIsNoexcept)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2RAII</type>
+        </param>
+        <param>
+          <type>GraphAutoBufferDestructorIsNoexcept</type>
+        </param>
+        <briefdescription>
+<para>TC-RAII-01: <ref refid="classthemis_1_1_graph_auto_buffer" kindref="compound">GraphAutoBuffer</ref> destructor must be noexcept. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gap: exception_in_destructor — ~GraphAutoBuffer() must not propagate exceptions even when stop() and flush() are invoked during destruction. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="481" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="481" bodyend="490"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1aaae9727a8883d5267b66debadaaed6bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2RAII, AdvancedVectorIndexDestructorIsNoexcept)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2RAII</type>
+        </param>
+        <param>
+          <type>AdvancedVectorIndexDestructorIsNoexcept</type>
+        </param>
+        <briefdescription>
+<para>TC-RAII-02: <ref refid="classthemis_1_1_advanced_vector_index" kindref="compound">AdvancedVectorIndex</ref> destructor must be noexcept. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gap: delete_no_nullptr — destructor must mark noexcept and guard raw delete of <ref refid="classfaiss_1_1_index" kindref="compound">faiss::Index</ref>* with nullptr check and try/catch. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="498" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="498" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1ac6ddfd8be1641277d67da8c2cac8d905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2RAII, NoDoubleDeleteOnRepeatedVectorIndexRemoval)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2RAII</type>
+        </param>
+        <param>
+          <type>NoDoubleDeleteOnRepeatedVectorIndexRemoval</type>
+        </param>
+        <briefdescription>
+<para>TC-RAII-03: No double-delete on repeated VectorIndex removal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gap: delete_without_nullptr — RemoveVectorIndex must return false (not crash/double-free) when called a second time on the same ID. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="519" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="519" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a99e8f99efba4ca0a156ea9c482cb785a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2RAII, NoDoubleDeleteOnRepeatedPartitionRemoval)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2RAII</type>
+        </param>
+        <param>
+          <type>NoDoubleDeleteOnRepeatedPartitionRemoval</type>
+        </param>
+        <briefdescription>
+<para>TC-RAII-04: No double-delete on repeated <ref refid="classthemis_1_1_partition_manager" kindref="compound">PartitionManager</ref> removal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Gap: delete_without_nullptr — RemovePartition must return false (not crash) on a second call for the same partition_id. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="541" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="541" bodyend="552"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1testing_1a7dad8230d695e60e9f783466aa9a75f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::TEST</definition>
+        <argsstring>(IndexPhase2A2RAII, AdvancedVectorIndexMultipleCreateDestroy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::testing::TEST</qualifiedname>
+        <param>
+          <type>IndexPhase2A2RAII</type>
+        </param>
+        <param>
+          <type>AdvancedVectorIndexMultipleCreateDestroy</type>
+        </param>
+        <briefdescription>
+<para>TC-RAII-05: <ref refid="classthemis_1_1_advanced_vector_index" kindref="compound">AdvancedVectorIndex</ref> multiple create/destroy cycles (no leak). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies that <ref refid="classthemis_1_1_advanced_vector_index" kindref="compound">AdvancedVectorIndex</ref> can be created and destroyed multiple times without memory corruption or use-after-free. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="560" column="1" bodyfile="tests/index/test_index_phase2_a2_iterator_safety.cpp" bodystart="560" bodyend="568"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/test_index_phase2_a2_iterator_safety.cpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

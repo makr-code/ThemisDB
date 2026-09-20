@@ -1,0 +1,700 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cache__tenant__isolation__hardening_8cpp" kind="file" language="C++">
+    <compoundname>test_cache_tenant_isolation_hardening.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">string</includes>
+    <includes refid="cache__contract_8h" local="yes">cache/cache_contract.h</includes>
+    <includes refid="adaptive__query__cache_8h" local="yes">cache/adaptive_query_cache.h</includes>
+    <incdepgraph>
+      <node id="10">
+        <label>cache/adaptive_query_cache.h</label>
+        <link refid="adaptive__query__cache_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cache/cache_contract.h</label>
+        <link refid="cache__contract_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>cache/cache_interfaces.h</label>
+        <link refid="cache__interfaces_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>cache/cache_metrics.h</label>
+        <link refid="cache__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>cache/cache_replication.h</label>
+        <link refid="cache__replication_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>cache/cache_replication_coordinator.h</label>
+        <link refid="cache__replication__coordinator_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>cache/eviction_policy.h</label>
+        <link refid="eviction__policy_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>cache/predictive_prefetcher.h</label>
+        <link refid="predictive__prefetcher_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/cache/test_cache_tenant_isolation_hardening.cpp</label>
+        <link refid="test__cache__tenant__isolation__hardening_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>access_model/access_coordinator.h</label>
+      </node>
+      <node id="35">
+        <label>access_model/access_tier_interface.h</label>
+      </node>
+      <node id="31">
+        <label>algorithm</label>
+      </node>
+      <node id="28">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="32">
+        <label>condition_variable</label>
+      </node>
+      <node id="26">
+        <label>core/concerns/eviction_strategies.h</label>
+      </node>
+      <node id="9">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="29">
+        <label>ctime</label>
+      </node>
+      <node id="5">
+        <label>filesystem</label>
+      </node>
+      <node id="22">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>memory</label>
+      </node>
+      <node id="14">
+        <label>mutex</label>
+      </node>
+      <node id="19">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="33">
+        <label>queue</label>
+      </node>
+      <node id="15">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>string_view</label>
+      </node>
+      <node id="16">
+        <label>thread</label>
+      </node>
+      <node id="17">
+        <label>unordered_map</label>
+      </node>
+      <node id="18">
+        <label>unordered_set</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1a9bc2a8624a79411235a8cd31c384abe3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_adaptive_query_cache_1_1_config" kindref="compound">AdaptiveQueryCache::Config</ref></type>
+        <definition>static AdaptiveQueryCache::Config makeIsolationConfig</definition>
+        <argsstring>(bool tenant_iso)</argsstring>
+        <name>makeIsolationConfig</name>
+        <param>
+          <type>bool</type>
+          <declname>tenant_iso</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="21" column="35" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="21" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1a6efe797d94745795c6ee567bf2bdb506" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="test__cache__admin__api__handler_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">nlohmann::json</ref></type>
+        <definition>static nlohmann::json makeResult</definition>
+        <argsstring>(const std::string &amp;payload)</argsstring>
+        <name>makeResult</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>payload</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="41" column="23" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheTenantIsolationHardening, CTI01_GlobalNamespaceSharedWhenIsolationOff)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheTenantIsolationHardening</type>
+        </param>
+        <param>
+          <type>CTI01_GlobalNamespaceSharedWhenIsolationOff</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="49" column="1" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="49" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1a354f9811f3fbcc1760fec4974e1a6116" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheTenantIsolationHardening, CTI02_TenantsHaveSeparateNamespacesWhenEnabled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheTenantIsolationHardening</type>
+        </param>
+        <param>
+          <type>CTI02_TenantsHaveSeparateNamespacesWhenEnabled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="69" column="1" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="69" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1ab5e7de0e1c0768adad86ab41287066f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheTenantIsolationHardening, CTI03_CrossTenantLeakageNotPossible)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheTenantIsolationHardening</type>
+        </param>
+        <param>
+          <type>CTI03_CrossTenantLeakageNotPossible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="94" column="1" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="94" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1ae7f895468edbe7b80c4592824063617e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheTenantIsolationHardening, CTI04_EmptyTenantIsGlobalNamespace)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheTenantIsolationHardening</type>
+        </param>
+        <param>
+          <type>CTI04_EmptyTenantIsGlobalNamespace</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="121" column="1" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="121" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1a255c9b5544bafe634f2b96974fd6d31f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheTenantIsolationHardening, CTI05_TenantInvalidationEvictsOnlyTargetTenant)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheTenantIsolationHardening</type>
+        </param>
+        <param>
+          <type>CTI05_TenantInvalidationEvictsOnlyTargetTenant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="136" column="1" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="136" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1a9cb177afbf178f59e85e3dd209d4627f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheTenantIsolationHardening, CTI06_DistinctFingerprintsPerTenant)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheTenantIsolationHardening</type>
+        </param>
+        <param>
+          <type>CTI06_DistinctFingerprintsPerTenant</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="164" column="1" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="164" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1a6e554ab44cc510d5f7c14c26ae094946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheTenantIsolationHardening, CTI07_LargeValidResultAcceptedByContract)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheTenantIsolationHardening</type>
+        </param>
+        <param>
+          <type>CTI07_LargeValidResultAcceptedByContract</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="190" column="1" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="190" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cache__tenant__isolation__hardening_8cpp_1a559a11e33c914d8e0feb38f9b23996f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CacheTenantIsolationHardening, CTI08_RepeatedCyclesAreStable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CacheTenantIsolationHardening</type>
+        </param>
+        <param>
+          <type>CTI08_RepeatedCyclesAreStable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp" line="214" column="1" bodyfile="tests/cache/test_cache_tenant_isolation_hardening.cpp" bodystart="214" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cache__contract_8h" kindref="compound">cache/cache_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adaptive__query__cache_8h" kindref="compound">cache/adaptive_query_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cache" kindref="compound">themis::cache</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="struct_adaptive_query_cache_1_1_config" kindref="compound">AdaptiveQueryCache::Config</ref><sp/>makeIsolationConfig(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>tenant_iso)<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::atomic_uint64_t<sp/>kPathCounter{0};</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_adaptive_query_cache_1_1_config" kindref="compound">AdaptiveQueryCache::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1a8f55fc7982b4cec7ddd28fe3171ae134" kindref="member">l1_max_entries</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1aefd3a0fefcf0712d6a7c50ebf0ded455" kindref="member">l1_max_entry_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1ac4bb5b76ff0394e7e99dfe4ef213cab4" kindref="member">l2_max_entries</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1a0aba01e561b48d8d77d672854c47cb15" kindref="member">l2_max_entry_size</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>path_id<sp/>=<sp/>++kPathCounter;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>l3_path<sp/>=<sp/>std::filesystem::temp_directory_path()</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>/<sp/>(</highlight><highlight class="stringliteral">&quot;themis_cache_tenant_isolation_hardening_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(path_id));</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1a644f0581a4782372c912b85167d5991f" kindref="member">l3_db_path</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>l3_path.string();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1a509ce4e33e05b67405bbeba8883d1129" kindref="member">enable_circuit_breaker</ref><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1ac00328f1c15279e5a17d2ed799abfe25" kindref="member">enable_size_limits</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1a510e1f119328a67628ea4a92e1a88acf" kindref="member">max_total_entry_size</ref><sp/><sp/><sp/><sp/>=<sp/>67108864;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>MiB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1a511387c7b58942434cd1587e5da26469" kindref="member">enable_adaptive_ttl</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1a1c41806e593ee6f95eb92f8831c552e0" kindref="member">enable_rate_limiting</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="struct_adaptive_query_cache_1_1_config_1ad6714dda41b215b84ee99a750f1a7fa5" kindref="member">enable_tenant_isolation</ref><sp/>=<sp/>tenant_iso;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>makeResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>payload)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{{</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">,<sp/>payload},<sp/>{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CTI-01:<sp/>Tenant<sp/>isolation<sp/>OFF<sp/>—<sp/>global<sp/>namespace<sp/>is<sp/>shared<sp/>across<sp/>callers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><ref refid="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" kindref="member">TEST</ref>(CacheTenantIsolationHardening,<sp/>CTI01_GlobalNamespaceSharedWhenIsolationOff)<sp/>{</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>(makeIsolationConfig(</highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>1&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp,<sp/>{},<sp/>makeResult(</highlight><highlight class="stringliteral">&quot;global_value&quot;</highlight><highlight class="normal">)));</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Same<sp/>fingerprint,<sp/>different<sp/>tenant<sp/>IDs<sp/>—<sp/>still<sp/>retrieves<sp/>the<sp/>same<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>tenant<sp/>isolation<sp/>is<sp/>off.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e1<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e2<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp,<sp/></highlight><highlight class="stringliteral">&quot;tenant_a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(e1.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Global<sp/>get<sp/>must<sp/>find<sp/>the<sp/>entry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(e2.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Tenant-prefixed<sp/>get<sp/>must<sp/>find<sp/>the<sp/>entry<sp/>when<sp/>isolation<sp/>is<sp/>off&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e1-&gt;result[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;global_value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e2-&gt;result[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;global_value&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CTI-02:<sp/>Tenant<sp/>isolation<sp/>ON<sp/>—<sp/>tenants<sp/>have<sp/>separate<sp/>namespaces</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" kindref="member">TEST</ref>(CacheTenantIsolationHardening,<sp/>CTI02_TenantsHaveSeparateNamespacesWhenEnabled)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>(makeIsolationConfig(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fingerprint<sp/>is<sp/>the<sp/>same<sp/>query<sp/>string;<sp/>tenant<sp/>keying<sp/>differentiates<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>when<sp/>isolation<sp/>is<sp/>enabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>tenant_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_a<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(query,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_b<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(query,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;tenant_beta&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp_a,<sp/>{},<sp/>makeResult(</highlight><highlight class="stringliteral">&quot;alpha_result&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp_b,<sp/>{},<sp/>makeResult(</highlight><highlight class="stringliteral">&quot;beta_result&quot;</highlight><highlight class="normal">),<sp/><sp/></highlight><highlight class="stringliteral">&quot;tenant_beta&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ea<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp_a,<sp/></highlight><highlight class="stringliteral">&quot;tenant_alpha&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eb<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp_b,<sp/></highlight><highlight class="stringliteral">&quot;tenant_beta&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ea.has_value());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(eb.has_value());</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(ea-&gt;result[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;alpha_result&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(eb-&gt;result[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;beta_result&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CTI-03:<sp/>Cross-tenant<sp/>data<sp/>leakage<sp/>—<sp/>tenant<sp/>A&apos;s<sp/>entry<sp/>must<sp/>not<sp/>be<sp/>accessible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>via<sp/>tenant<sp/>B&apos;s<sp/>get()<sp/>when<sp/>isolation<sp/>is<sp/>enabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><ref refid="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" kindref="member">TEST</ref>(CacheTenantIsolationHardening,<sp/>CTI03_CrossTenantLeakageNotPossible)<sp/>{</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>(makeIsolationConfig(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>secret_data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_owner<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(query,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;owner_tenant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>under<sp/>owner_tenant.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp_owner,<sp/>{},<sp/>makeResult(</highlight><highlight class="stringliteral">&quot;secret&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;owner_tenant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>different<sp/>tenant<sp/>using<sp/>the<sp/>same<sp/>fingerprint<sp/>generation<sp/>—<sp/>they<sp/>must</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>generate<sp/>a<sp/>different<sp/>fingerprint<sp/>due<sp/>to<sp/>tenant<sp/>isolation<sp/>keying.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_attacker<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(query,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;attacker_tenant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>fingerprints<sp/>must<sp/>differ<sp/>when<sp/>tenant<sp/>isolation<sp/>is<sp/>on.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(fp_owner,<sp/>fp_attacker)</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Tenant-namespaced<sp/>fingerprints<sp/>must<sp/>differ<sp/>(§1<sp/>tenant-ID<sp/>keying)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Attacker&apos;s<sp/>namespace<sp/>must<sp/>always<sp/>miss<sp/>when<sp/>tenant<sp/>isolation<sp/>is<sp/>enabled.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>leaked<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp_owner,<sp/></highlight><highlight class="stringliteral">&quot;attacker_tenant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(leaked.has_value())</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cross-tenant<sp/>get()<sp/>must<sp/>miss<sp/>when<sp/>tenant<sp/>isolation<sp/>is<sp/>enabled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CTI-04:<sp/>Empty<sp/>tenant<sp/>ID<sp/>maps<sp/>to<sp/>the<sp/>global<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><ref refid="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" kindref="member">TEST</ref>(CacheTenantIsolationHardening,<sp/>CTI04_EmptyTenantIsGlobalNamespace)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>(makeIsolationConfig(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_global<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>global&quot;</highlight><highlight class="normal">,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp_global,<sp/>{},<sp/>makeResult(</highlight><highlight class="stringliteral">&quot;global_entry&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>e<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp_global,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(e.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Global-namespace<sp/>entry<sp/>must<sp/>be<sp/>retrievable<sp/>with<sp/>empty<sp/>tenant&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(e-&gt;result[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;global_entry&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CTI-05:<sp/>Tenant<sp/>invalidation<sp/>evicts<sp/>only<sp/>the<sp/>targeted<sp/>tenant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><ref refid="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" kindref="member">TEST</ref>(CacheTenantIsolationHardening,<sp/>CTI05_TenantInvalidationEvictsOnlyTargetTenant)<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>(makeIsolationConfig(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_a<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>evict_test&quot;</highlight><highlight class="normal">,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;evict_tenant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_b<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>evict_test&quot;</highlight><highlight class="normal">,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;safe_tenant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp_a,<sp/>{},<sp/>makeResult(</highlight><highlight class="stringliteral">&quot;will_be_evicted&quot;</highlight><highlight class="normal">),<sp/></highlight><highlight class="stringliteral">&quot;evict_tenant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp_b,<sp/>{},<sp/>makeResult(</highlight><highlight class="stringliteral">&quot;must_survive&quot;</highlight><highlight class="normal">),<sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;safe_tenant&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Invalidate<sp/>all<sp/>entries<sp/>for<sp/>evict_tenant.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.invalidateTenant(</highlight><highlight class="stringliteral">&quot;evict_tenant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>evict_tenant<sp/>entry<sp/>must<sp/>be<sp/>gone.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>evicted<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp_a,<sp/></highlight><highlight class="stringliteral">&quot;evict_tenant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(evicted.has_value())</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Evicted<sp/>tenant<sp/>entry<sp/>must<sp/>be<sp/>gone<sp/>after<sp/>invalidateTenant()&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>safe_tenant<sp/>entry<sp/>must<sp/>survive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>survivor<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp_b,<sp/></highlight><highlight class="stringliteral">&quot;safe_tenant&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(survivor.has_value())</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;safe_tenant<sp/>entry<sp/>must<sp/>survive<sp/>eviction<sp/>of<sp/>a<sp/>different<sp/>tenant&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(survivor-&gt;result[</highlight><highlight class="stringliteral">&quot;payload&quot;</highlight><highlight class="normal">],<sp/></highlight><highlight class="stringliteral">&quot;must_survive&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CTI-06:<sp/>Distinct<sp/>fingerprints<sp/>for<sp/>different<sp/>tenants<sp/>(same<sp/>query)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" kindref="member">TEST</ref>(CacheTenantIsolationHardening,<sp/>CTI06_DistinctFingerprintsPerTenant)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>(makeIsolationConfig(</highlight><highlight class="keyword">true</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>fp_test<sp/>FROM<sp/>table&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_t1<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(query,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;tenant_one&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_t2<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(query,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;tenant_two&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp_global<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(query,<sp/>{},<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(fp_t1,<sp/>fp_t2)</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Different<sp/>tenants<sp/>must<sp/>produce<sp/>distinct<sp/>fingerprints<sp/>(§1)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(fp_t1,<sp/>fp_global)</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Tenant<sp/>fingerprint<sp/>must<sp/>differ<sp/>from<sp/>global<sp/>fingerprint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(fp_t2,<sp/>fp_global)</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Tenant<sp/>fingerprint<sp/>must<sp/>differ<sp/>from<sp/>global<sp/>fingerprint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fingerprints<sp/>must<sp/>be<sp/>non-empty<sp/>and<sp/>within<sp/>the<sp/>key<sp/>size<sp/>limit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(fp_t1.empty());</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(fp_t1.size(),<sp/><ref refid="namespacethemis_1_1cache_1ae1a1a37a29a66eaee712021c5110b65e" kindref="member">kMaxCacheKeyBytes</ref>)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Fingerprint<sp/>must<sp/>respect<sp/>kMaxCacheKeyBytes<sp/>contract<sp/>(§1)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CTI-07:<sp/>put()<sp/>with<sp/>large<sp/>but<sp/>valid<sp/>result<sp/>complies<sp/>with<sp/>§2<sp/>size<sp/>contract</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" kindref="member">TEST</ref>(CacheTenantIsolationHardening,<sp/>CTI07_LargeValidResultAcceptedByContract)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>(makeIsolationConfig(</highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Build<sp/>a<sp/>JSON<sp/>array<sp/>with<sp/>many<sp/>elements<sp/>—<sp/>large<sp/>but<sp/>within<sp/>L2<sp/>tier<sp/>limits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>below<sp/>kMaxCacheValueBytes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/>large_array<sp/>=<sp/>nlohmann::json::array();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>large_array.push_back({{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/>i},<sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>large_result&quot;</highlight><highlight class="normal">,<sp/>{});</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp,<sp/>{},<sp/>large_array);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>array<sp/>is<sp/>an<sp/>accepted<sp/>value<sp/>type<sp/>(§2:<sp/>objects<sp/>and<sp/>arrays<sp/>are<sp/>valid).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Large<sp/>JSON<sp/>array<sp/>within<sp/>size<sp/>limits<sp/>must<sp/>be<sp/>accepted&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry.has_value());</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;result.size(),<sp/>std::size_t{1000});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight><highlight class="comment">//<sp/>CTI-08:<sp/>Repeated<sp/>get/put<sp/>cycles<sp/>remain<sp/>stable<sp/>(no<sp/>internal<sp/>state<sp/>corruption)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><ref refid="test__cache__tenant__isolation__hardening_8cpp_1aa4b82aa2757723467821ee6d7cebb682" kindref="member">TEST</ref>(CacheTenantIsolationHardening,<sp/>CTI08_RepeatedCyclesAreStable)<sp/>{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_adaptive_query_cache" kindref="compound">AdaptiveQueryCache</ref><sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>(makeIsolationConfig(</highlight><highlight class="keyword">false</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kIterations<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kIterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>query<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>stable_test_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>fp<sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.generateFingerprint(query,<sp/>{});</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><sp/><sp/><sp/>result<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;iter&quot;</highlight><highlight class="normal">,<sp/>i},<sp/>{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ok&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ok<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.put(fp,<sp/>{},<sp/>result);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ok)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;put()<sp/>must<sp/>succeed<sp/>on<sp/>iteration<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>entry<sp/>=<sp/><ref refid="namespacethemis_1_1cache" kindref="compound">cache</ref>.get(fp,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(entry.has_value())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;get()<sp/>must<sp/>find<sp/>entry<sp/>on<sp/>iteration<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(entry-&gt;result[</highlight><highlight class="stringliteral">&quot;iter&quot;</highlight><highlight class="normal">],<sp/>i);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/cache/test_cache_tenant_isolation_hardening.cpp"/>
+  </compounddef>
+</doxygen>

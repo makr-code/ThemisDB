@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::GenericConnectionPool</compoundname>
+    <includes refid="performance__helpers_8h" local="no">performance_helpers.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename Connection</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a0b3c08ae69fd1f5374a6cb67dadc5dfb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::GenericConnectionPool&lt; Connection &gt;::INITIAL_POOL_SIZE</definition>
+        <argsstring></argsstring>
+        <name>INITIAL_POOL_SIZE</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::INITIAL_POOL_SIZE</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="44" column="29" bodyfile="include/server/performance_helpers.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a51dcd9ad0deed80211aa88b60d2623c4" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::GenericConnectionPool&lt; Connection &gt;::MAX_POOL_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_POOL_SIZE</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::MAX_POOL_SIZE</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="45" column="29" bodyfile="include/server/performance_helpers.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1ad3bdf19b8a519bef028d25d9a0402532" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::perf::GenericConnectionPool&lt; Connection &gt;::GROWTH_FACTOR</definition>
+        <argsstring></argsstring>
+        <name>GROWTH_FACTOR</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::GROWTH_FACTOR</qualifiedname>
+        <initializer>= 1.5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="46" column="29" bodyfile="include/server/performance_helpers.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aa67e6603a972eeca2b6b20e8859262b5" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; Connection &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;Connection&gt; &gt; themis::server::perf::GenericConnectionPool&lt; Connection &gt;::available_connections_</definition>
+        <argsstring></argsstring>
+        <name>available_connections_</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::available_connections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="146" column="17" bodyfile="include/server/performance_helpers.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aa06823bc9fb9041a8f364c767b5078f6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::perf::GenericConnectionPool&lt; Connection &gt;::pool_mutex_</definition>
+        <argsstring></argsstring>
+        <name>pool_mutex_</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::pool_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="147" column="24" bodyfile="include/server/performance_helpers.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a1f48f40ff80d47c669d6a3b7b7bee104" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::GenericConnectionPool&lt; Connection &gt;::max_pool_size_</definition>
+        <argsstring></argsstring>
+        <name>max_pool_size_</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::max_pool_size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="148" column="12" bodyfile="include/server/performance_helpers.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aa00114057e3c225be39782a3b9a6b5c9" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::perf::GenericConnectionPool&lt; Connection &gt;::total_connections_</definition>
+        <argsstring></argsstring>
+        <name>total_connections_</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::total_connections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="149" column="12" bodyfile="include/server/performance_helpers.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a8912771220119724939fa272c65bbbf2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::GenericConnectionPool&lt; Connection &gt;::GenericConnectionPool</definition>
+        <argsstring>(size_t initial_size=INITIAL_POOL_SIZE, size_t max_size=MAX_POOL_SIZE)</argsstring>
+        <name>GenericConnectionPool</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::GenericConnectionPool</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>initial_size</declname>
+          <defval><ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a0b3c08ae69fd1f5374a6cb67dadc5dfb" kindref="member">INITIAL_POOL_SIZE</ref></defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_size</declname>
+          <defval><ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a51dcd9ad0deed80211aa88b60d2623c4" kindref="member">MAX_POOL_SIZE</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="48" column="14" bodyfile="include/server/performance_helpers.h" bodystart="48" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a8d464b90f87be19fa094f933b011811c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::GenericConnectionPool&lt; Connection &gt;::~GenericConnectionPool</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GenericConnectionPool</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::~GenericConnectionPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a3ef96cbb238968a2f3b7517e44c27d6e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; std::unique_ptr&lt; Connection &gt; &gt;</type>
+        <definition>std::optional&lt; std::unique_ptr&lt; Connection &gt; &gt; themis::server::perf::GenericConnectionPool&lt; Connection &gt;::acquire</definition>
+        <argsstring>(std::chrono::milliseconds timeout=std::chrono::seconds(5))</argsstring>
+        <name>acquire</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::acquire</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>timeout</declname>
+          <defval>std::chrono::seconds(5)</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="71" column="19" bodyfile="include/server/performance_helpers.h" bodystart="71" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aea67e0d7459ce6f41d2682d93eaedcb7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::perf::GenericConnectionPool&lt; Connection &gt;::release</definition>
+        <argsstring>(std::unique_ptr&lt; Connection &gt; conn)</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::release</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; Connection &gt;</type>
+          <declname>conn</declname>
+        </param>
+        <briefdescription>
+<para>Release. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">conn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), size(), push_back(), std::move(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="109" column="10" bodyfile="include/server/performance_helpers.h" bodystart="109" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aa0c535acebc6dd2cee1738b217fb412f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::tuple&lt; size_t, size_t, size_t &gt;</type>
+        <definition>std::tuple&lt; size_t, size_t, size_t &gt; themis::server::perf::GenericConnectionPool&lt; Connection &gt;::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pool_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="125" column="16" bodyfile="include/server/performance_helpers.h" bodystart="125" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1af2c72b50cf19eb668f0693cb10f43ae3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::GenericConnectionPool&lt; Connection &gt;::GenericConnectionPool</definition>
+        <argsstring>(const GenericConnectionPool &amp;)=delete</argsstring>
+        <name>GenericConnectionPool</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::GenericConnectionPool</qualifiedname>
+        <param>
+          <type>const GenericConnectionPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="140" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a93182e836ebb4d53ce2dde5d34a243a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a8912771220119724939fa272c65bbbf2" kindref="member">GenericConnectionPool</ref> &amp;</type>
+        <definition>GenericConnectionPool &amp; themis::server::perf::GenericConnectionPool&lt; Connection &gt;::operator=</definition>
+        <argsstring>(const GenericConnectionPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a8912771220119724939fa272c65bbbf2" kindref="member">GenericConnectionPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="141" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1ab742cf8f2ce43a688cc7e32d44cf0ed7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::perf::GenericConnectionPool&lt; Connection &gt;::GenericConnectionPool</definition>
+        <argsstring>(GenericConnectionPool &amp;&amp;)=delete</argsstring>
+        <name>GenericConnectionPool</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::GenericConnectionPool</qualifiedname>
+        <param>
+          <type>GenericConnectionPool &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="142" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a83c32f72ce269f0886894af15e221b00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a8912771220119724939fa272c65bbbf2" kindref="member">GenericConnectionPool</ref> &amp;</type>
+        <definition>GenericConnectionPool &amp; themis::server::perf::GenericConnectionPool&lt; Connection &gt;::operator=</definition>
+        <argsstring>(GenericConnectionPool &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::perf::GenericConnectionPool::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a8912771220119724939fa272c65bbbf2" kindref="member">GenericConnectionPool</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/performance_helpers.h" line="143" column="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/performance_helpers.h" line="42" column="1" bodyfile="include/server/performance_helpers.h" bodystart="42" bodyend="150"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a3ef96cbb238968a2f3b7517e44c27d6e" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>acquire</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aa67e6603a972eeca2b6b20e8859262b5" prot="private" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>available_connections_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a8912771220119724939fa272c65bbbf2" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>GenericConnectionPool</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1af2c72b50cf19eb668f0693cb10f43ae3" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>GenericConnectionPool</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1ab742cf8f2ce43a688cc7e32d44cf0ed7" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>GenericConnectionPool</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aa0c535acebc6dd2cee1738b217fb412f" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1ad3bdf19b8a519bef028d25d9a0402532" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>GROWTH_FACTOR</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a0b3c08ae69fd1f5374a6cb67dadc5dfb" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>INITIAL_POOL_SIZE</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a51dcd9ad0deed80211aa88b60d2623c4" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>MAX_POOL_SIZE</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a1f48f40ff80d47c669d6a3b7b7bee104" prot="private" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>max_pool_size_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a93182e836ebb4d53ce2dde5d34a243a8" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a83c32f72ce269f0886894af15e221b00" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aa06823bc9fb9041a8f364c767b5078f6" prot="private" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>pool_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aea67e0d7459ce6f41d2682d93eaedcb7" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>release</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1aa00114057e3c225be39782a3b9a6b5c9" prot="private" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>total_connections_</name></member>
+      <member refid="classthemis_1_1server_1_1perf_1_1_generic_connection_pool_1a8d464b90f87be19fa094f933b011811c" prot="public" virt="non-virtual"><scope>themis::server::perf::GenericConnectionPool</scope><name>~GenericConnectionPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

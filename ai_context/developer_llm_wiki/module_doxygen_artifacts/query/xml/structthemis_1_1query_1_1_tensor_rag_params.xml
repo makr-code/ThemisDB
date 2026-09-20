@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_tensor_rag_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::TensorRagParams</compoundname>
+    <includes refid="tensor__rag__cost__model_8h" local="no">tensor_rag_cost_model.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a0682723c4bad24eaec1a8c6ee09229a0" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::N</definition>
+        <argsstring></argsstring>
+        <name>N</name>
+        <qualifiedname>themis::query::TensorRagParams::N</qualifiedname>
+        <initializer>= 1&apos;000&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="49" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a44bf63795e007a478599f549deabad5d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::d</definition>
+        <argsstring></argsstring>
+        <name>d</name>
+        <qualifiedname>themis::query::TensorRagParams::d</qualifiedname>
+        <initializer>= 768</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="51" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a0609ee277eaf9ee70fc8fa98effbb70b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::k</definition>
+        <argsstring></argsstring>
+        <name>k</name>
+        <qualifiedname>themis::query::TensorRagParams::k</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="53" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a98b7dd1d6bd3146fd5ef969c58caa99e" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::hnsw_M</definition>
+        <argsstring></argsstring>
+        <name>hnsw_M</name>
+        <qualifiedname>themis::query::TensorRagParams::hnsw_M</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="57" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1ab1f762d47ee61caa3afec97602cb9930" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::hnsw_ef</definition>
+        <argsstring></argsstring>
+        <name>hnsw_ef</name>
+        <qualifiedname>themis::query::TensorRagParams::hnsw_ef</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="59" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1aa51e3aef70a8df299423bce04c0821de" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::faiss_nlist</definition>
+        <argsstring></argsstring>
+        <name>faiss_nlist</name>
+        <qualifiedname>themis::query::TensorRagParams::faiss_nlist</qualifiedname>
+        <initializer>= 4096</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="63" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a3cfcf4b219a572a20dfaadf6cda530df" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::faiss_nprobe</definition>
+        <argsstring></argsstring>
+        <name>faiss_nprobe</name>
+        <qualifiedname>themis::query::TensorRagParams::faiss_nprobe</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="65" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a0cc79006bbbedf6894e57fbae6ba5e18" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::faiss_m</definition>
+        <argsstring></argsstring>
+        <name>faiss_m</name>
+        <qualifiedname>themis::query::TensorRagParams::faiss_m</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="67" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1ac3849624fee899a0f4d9efc76ea187b6" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::tt_rank</definition>
+        <argsstring></argsstring>
+        <name>tt_rank</name>
+        <qualifiedname>themis::query::TensorRagParams::tt_rank</qualifiedname>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="71" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a42cd7a512a002668158e47b0ace85c08" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::tt_modes</definition>
+        <argsstring></argsstring>
+        <name>tt_modes</name>
+        <qualifiedname>themis::query::TensorRagParams::tt_modes</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="73" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1aee7ff481d687cd13b4a87e389f0197f4" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::tt_n</definition>
+        <argsstring></argsstring>
+        <name>tt_n</name>
+        <qualifiedname>themis::query::TensorRagParams::tt_n</qualifiedname>
+        <initializer>= 28</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="75" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1ac3c4981b561bc618329cf2f66a8e92ee" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::payload_bytes</definition>
+        <argsstring></argsstring>
+        <name>payload_bytes</name>
+        <qualifiedname>themis::query::TensorRagParams::payload_bytes</qualifiedname>
+        <initializer>= 2048</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="79" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a47dde929c223be94b1682247b77ed3eb" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::query::TensorRagParams::context_tokens</definition>
+        <argsstring></argsstring>
+        <name>context_tokens</name>
+        <qualifiedname>themis::query::TensorRagParams::context_tokens</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="81" column="17" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a107359eabfca40f673db1adfa07bd0bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::TensorRagParams::gpu_available</definition>
+        <argsstring></argsstring>
+        <name>gpu_available</name>
+        <qualifiedname>themis::query::TensorRagParams::gpu_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="83" column="10" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_tensor_rag_params_1a947c56b56ffa4ff71324982abb248d9c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::TensorRagParams::ggml_bridge_available</definition>
+        <argsstring></argsstring>
+        <name>ggml_bridge_available</name>
+        <qualifiedname>themis::query::TensorRagParams::ggml_bridge_available</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/tensor_rag_cost_model.h" line="85" column="10" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/tensor_rag_cost_model.h" line="46" column="1" bodyfile="include/query/tensor_rag_cost_model.h" bodystart="46" bodyend="86"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a47dde929c223be94b1682247b77ed3eb" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>context_tokens</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a44bf63795e007a478599f549deabad5d" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>d</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a0cc79006bbbedf6894e57fbae6ba5e18" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>faiss_m</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1aa51e3aef70a8df299423bce04c0821de" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>faiss_nlist</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a3cfcf4b219a572a20dfaadf6cda530df" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>faiss_nprobe</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a947c56b56ffa4ff71324982abb248d9c" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>ggml_bridge_available</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a107359eabfca40f673db1adfa07bd0bc" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>gpu_available</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1ab1f762d47ee61caa3afec97602cb9930" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>hnsw_ef</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a98b7dd1d6bd3146fd5ef969c58caa99e" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>hnsw_M</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a0609ee277eaf9ee70fc8fa98effbb70b" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>k</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a0682723c4bad24eaec1a8c6ee09229a0" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>N</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1ac3c4981b561bc618329cf2f66a8e92ee" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>payload_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1a42cd7a512a002668158e47b0ace85c08" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>tt_modes</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1aee7ff481d687cd13b4a87e389f0197f4" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>tt_n</name></member>
+      <member refid="structthemis_1_1query_1_1_tensor_rag_params_1ac3849624fee899a0f4d9efc76ea187b6" prot="public" virt="non-virtual"><scope>themis::query::TensorRagParams</scope><name>tt_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_data_selection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::DataSelectionResult</compoundname>
+    <includes refid="lora__data__selection_8h" local="no">lora_data_selection.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_result_1a5406849fd2260e11af58662bfee5eaf2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::DataSelectionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::DataSelectionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="186" column="10" bodyfile="include/training/lora_data_selection.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_result_1a894321f40ef563bc3f46e32dcd298456" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_data_sample" kindref="compound">DataSample</ref> &gt;</type>
+        <definition>std::vector&lt;DataSample&gt; themis::training::DataSelectionResult::selected_samples</definition>
+        <argsstring></argsstring>
+        <name>selected_samples</name>
+        <qualifiedname>themis::training::DataSelectionResult::selected_samples</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="187" column="17" bodyfile="include/training/lora_data_selection.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_result_1ad19d21810d0becd91b24f4e7c42eaebc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1training_1_1_selection_audit_entry" kindref="compound">SelectionAuditEntry</ref></type>
+        <definition>SelectionAuditEntry themis::training::DataSelectionResult::audit_entry</definition>
+        <argsstring></argsstring>
+        <name>audit_entry</name>
+        <qualifiedname>themis::training::DataSelectionResult::audit_entry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="188" column="29" bodyfile="include/training/lora_data_selection.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_result_1a34dcce94edc9af92806afa07d8553499" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::DataSelectionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::training::DataSelectionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="189" column="29" bodyfile="include/training/lora_data_selection.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_data_selection_result_1a27a311759cfd01986323906effc735cb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::DataSelectionResult::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>themis::training::DataSelectionResult::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="190" column="12" bodyfile="include/training/lora_data_selection.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_data_selection_result_1a97f07089a18985b63eff58b01a3f996f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::DataSelectionResult::DataSelectionResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>DataSelectionResult</name>
+        <qualifiedname>themis::training::DataSelectionResult::DataSelectionResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_data_selection.h" line="192" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result produced by <ref refid="classthemis_1_1training_1_1_data_selection_pipeline_1acb1f02bee9470b06cdf2ac20278def65" kindref="member">DataSelectionPipeline::run()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::training::DataSelectionResult</label>
+        <link refid="structthemis_1_1training_1_1_data_selection_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>audit_entry</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::training::SelectionAuditEntry</label>
+        <link refid="structthemis_1_1training_1_1_selection_audit_entry"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/training/lora_data_selection.h" line="185" column="1" bodyfile="include/training/lora_data_selection.h" bodystart="185" bodyend="193"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_data_selection_result_1ad19d21810d0becd91b24f4e7c42eaebc" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionResult</scope><name>audit_entry</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_result_1a97f07089a18985b63eff58b01a3f996f" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionResult</scope><name>DataSelectionResult</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_result_1a27a311759cfd01986323906effc735cb" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionResult</scope><name>elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_result_1a34dcce94edc9af92806afa07d8553499" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_result_1a894321f40ef563bc3f46e32dcd298456" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionResult</scope><name>selected_samples</name></member>
+      <member refid="structthemis_1_1training_1_1_data_selection_result_1a5406849fd2260e11af58662bfee5eaf2" prot="public" virt="non-virtual"><scope>themis::training::DataSelectionResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

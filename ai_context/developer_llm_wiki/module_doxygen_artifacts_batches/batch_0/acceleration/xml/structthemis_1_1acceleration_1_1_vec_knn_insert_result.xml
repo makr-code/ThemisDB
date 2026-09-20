@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_vec_knn_insert_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::VecKnnInsertResult</compoundname>
+    <includes refid="vec__knn_8h" local="no">vec_knn.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_insert_result_1a20980f2df937daaa518cd2b5dc41f3ae" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::VecKnnInsertResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertResult::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="153" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_insert_result_1ad82fab91e8a150ab973a660642375bbc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::VecKnnInsertResult::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertResult::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="154" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_insert_result_1a3998d99f168fb2c305bbff31ac56d3a8" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::acceleration::VecKnnInsertResult::inserted</definition>
+        <argsstring></argsstring>
+        <name>inserted</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertResult::inserted</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>successfully inserted entities </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="155" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_vec_knn_insert_result_1aff352e52093c809e024ea1bb4597f613" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::acceleration::VecKnnInsertResult::failed</definition>
+        <argsstring></argsstring>
+        <name>failed</name>
+        <qualifiedname>themis::acceleration::VecKnnInsertResult::failed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>entities that could not be inserted </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/vec_knn.h" line="156" column="17" bodyfile="include/acceleration/vec_knn.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/vec_knn.h" line="152" column="1" bodyfile="include/acceleration/vec_knn.h" bodystart="152" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_insert_result_1aff352e52093c809e024ea1bb4597f613" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertResult</scope><name>failed</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_insert_result_1a3998d99f168fb2c305bbff31ac56d3a8" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertResult</scope><name>inserted</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_insert_result_1ad82fab91e8a150ab973a660642375bbc" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertResult</scope><name>message</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_vec_knn_insert_result_1a20980f2df937daaa518cd2b5dc41f3ae" prot="public" virt="non-virtual"><scope>themis::acceleration::VecKnnInsertResult</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

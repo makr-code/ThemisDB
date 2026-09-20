@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1tensor_1_1_composite_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::tensor::CompositeDetector</compoundname>
+    <basecompoundref refid="classthemis_1_1tensor_1_1_i_redundancy_detector" prot="public" virt="non-virtual">themis::tensor::IRedundancyDetector</basecompoundref>
+    <includes refid="tensor__redundancy__detection_8h" local="no">tensor_redundancy_detection.h</includes>
+    <innerclass refid="structthemis_1_1tensor_1_1_composite_detector_1_1_detector_entry" prot="private">themis::tensor::CompositeDetector::DetectorEntry</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1tensor_1_1_composite_detector_1a9449b18d6ba40ae36d57f5c2ba31e28f" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; DetectorEntry &gt;</type>
+        <definition>std::vector&lt;DetectorEntry&gt; themis::tensor::CompositeDetector::detectors_</definition>
+        <argsstring></argsstring>
+        <name>detectors_</name>
+        <qualifiedname>themis::tensor::CompositeDetector::detectors_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="277" column="17" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_composite_detector_1a465eec971a90e7191f19ba47e83a9a52" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::tensor::CompositeDetector::addDetector</definition>
+        <argsstring>(std::unique_ptr&lt; IRedundancyDetector &gt; detector, float weight=1.0f)</argsstring>
+        <name>addDetector</name>
+        <qualifiedname>themis::tensor::CompositeDetector::addDetector</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1tensor_1_1_i_redundancy_detector" kindref="compound">IRedundancyDetector</ref> &gt;</type>
+          <declname>detector</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>weight</declname>
+          <defval>1.0f</defval>
+        </param>
+        <briefdescription>
+<para>Add a detection strategy to the composite detector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Detector.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>detector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Strategy implementation to add. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Weight for this strategy in composite voting (0.0-1.0).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">detector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">weight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="252" column="10" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="422" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_composite_detector_1afe96077544ee9773cc982a34c91c7fc5" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::tensor::CompositeDetector::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::tensor::CompositeDetector::name</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1a2c16ef5e4efb6d3810fd995df41b640e">name</reimplements>
+        <briefdescription>
+<para>Get the name of this detector strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Human-readable strategy name. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="256" column="17" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="429" bodyend="431"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_composite_detector_1a8d7b417a4603464bb459d0aac90c84d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1tensor_1_1_redundancy_metrics" kindref="compound">RedundancyMetrics</ref></type>
+        <definition>RedundancyMetrics themis::tensor::CompositeDetector::detect</definition>
+        <argsstring>(const std::vector&lt; const BaseTensorSummary * &gt; &amp;summaries, float threshold) const override</argsstring>
+        <name>detect</name>
+        <qualifiedname>themis::tensor::CompositeDetector::detect</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ab1e76b2bfc7f7d5e88b5d1be1739c913">detect</reimplements>
+        <param>
+          <type>const std::vector&lt; const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> * &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Detect redundant candidates in a summary list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector of tensor summaries to analyze. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Similarity threshold for redundancy (0.0-1.0). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Redundancy metrics and indices of redundant items. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="258" column="23" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="433" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_composite_detector_1ab1a5be9dcbdaffc57fda67b7ffae13d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt; std::size_t &gt; themis::tensor::CompositeDetector::deduplicate</definition>
+        <argsstring>(std::vector&lt; BaseTensorSummary &gt; &amp;summaries, float threshold) override</argsstring>
+        <name>deduplicate</name>
+        <qualifiedname>themis::tensor::CompositeDetector::deduplicate</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1a550458709de27722e6111d5881bb71a9">deduplicate</reimplements>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &gt; &amp;</type>
+          <declname>summaries</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Deduplicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">summaries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="262" column="17" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="475" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1tensor_1_1_composite_detector_1ab92aabc5839470089dacadc5bd085129" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::tensor::CompositeDetector::areRedundant</definition>
+        <argsstring>(const BaseTensorSummary &amp;a, const BaseTensorSummary &amp;b, float threshold) const noexcept override</argsstring>
+        <name>areRedundant</name>
+        <qualifiedname>themis::tensor::CompositeDetector::areRedundant</qualifiedname>
+        <reimplements refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ac1dd71862a79332654face92b59e6efb">areRedundant</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1tensor_1_1_base_tensor_summary" kindref="compound">BaseTensorSummary</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Check if two summaries are redundant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second summary. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Similarity threshold. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if a and b are considered redundant. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/tensor/tensor_redundancy_detection.h" line="266" column="10" bodyfile="src/tensor/tensor_redundancy_detection.cpp" bodystart="489" bodyend="502"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Composite redundancy detector using multiple strategies. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Combines results from multiple detection strategies with configurable voting or weighting to improve redundancy detection accuracy. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::tensor::CompositeDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_composite_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IRedundancyDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_i_redundancy_detector"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::tensor::CompositeDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_composite_detector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::tensor::IRedundancyDetector</label>
+        <link refid="classthemis_1_1tensor_1_1_i_redundancy_detector"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/tensor/tensor_redundancy_detection.h" line="244" column="1" bodyfile="include/tensor/tensor_redundancy_detection.h" bodystart="244" bodyend="278"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1tensor_1_1_composite_detector_1a465eec971a90e7191f19ba47e83a9a52" prot="public" virt="non-virtual"><scope>themis::tensor::CompositeDetector</scope><name>addDetector</name></member>
+      <member refid="classthemis_1_1tensor_1_1_composite_detector_1ab92aabc5839470089dacadc5bd085129" prot="public" virt="virtual"><scope>themis::tensor::CompositeDetector</scope><name>areRedundant</name></member>
+      <member refid="classthemis_1_1tensor_1_1_composite_detector_1ab1a5be9dcbdaffc57fda67b7ffae13d7" prot="public" virt="virtual"><scope>themis::tensor::CompositeDetector</scope><name>deduplicate</name></member>
+      <member refid="classthemis_1_1tensor_1_1_composite_detector_1a8d7b417a4603464bb459d0aac90c84d9" prot="public" virt="virtual"><scope>themis::tensor::CompositeDetector</scope><name>detect</name></member>
+      <member refid="classthemis_1_1tensor_1_1_composite_detector_1a9449b18d6ba40ae36d57f5c2ba31e28f" prot="private" virt="non-virtual"><scope>themis::tensor::CompositeDetector</scope><name>detectors_</name></member>
+      <member refid="classthemis_1_1tensor_1_1_composite_detector_1afe96077544ee9773cc982a34c91c7fc5" prot="public" virt="virtual"><scope>themis::tensor::CompositeDetector</scope><name>name</name></member>
+      <member refid="classthemis_1_1tensor_1_1_i_redundancy_detector_1ac32144a119b014f91b5b9078b540c63a" prot="public" virt="virtual"><scope>themis::tensor::CompositeDetector</scope><name>~IRedundancyDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

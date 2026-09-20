@@ -1,0 +1,1141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_t_t_s_processor" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::TTSProcessor</compoundname>
+    <basecompoundref refid="classthemis_1_1content_1_1_i_content_processor_plugin" prot="public" virt="non-virtual">themis::content::IContentProcessorPlugin</basecompoundref>
+    <includes refid="tts__processor_8h" local="no">tts_processor.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1content_1_1_t_t_s_processor_1ad5755cf74af76925e2dac7c7c5a53eac" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;( const std::vector&lt; uint8_t &gt; &amp;pcm, int sample_rate)&gt;</type>
+        <definition>using themis::content::TTSProcessor::AudioEncoderFn = std::function&lt;std::vector&lt;uint8_t&gt;(
+       const std::vector&lt;uint8_t&gt;&amp; pcm, int sample_rate)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AudioEncoderFn</name>
+        <qualifiedname>themis::content::TTSProcessor::AudioEncoderFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="93" column="5" bodyfile="include/content/tts_processor.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1content_1_1_t_t_s_processor_1a585559d8f6dd3f5bff02c412e3ecdd45" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; uint8_t &gt;(const std::string &amp;text, const <ref refid="structthemis_1_1content_1_1_t_t_s_options" kindref="compound">TTSOptions</ref> &amp;options)&gt;</type>
+        <definition>using themis::content::TTSProcessor::TTSSynthFn = std::function&lt;
+       std::vector&lt;uint8_t&gt;(const std::string&amp; text, const TTSOptions&amp; options)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TTSSynthFn</name>
+        <qualifiedname>themis::content::TTSProcessor::TTSSynthFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="108" column="5" bodyfile="include/content/tts_processor.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a8ae85247274ad0e64a7fd6f6e1241582" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSProcessor::model_path_</definition>
+        <argsstring></argsstring>
+        <name>model_path_</name>
+        <qualifiedname>themis::content::TTSProcessor::model_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="119" column="17" bodyfile="include/content/tts_processor.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1aac11132eeb8fda672290fccf4a19e06b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSProcessor::default_voice_</definition>
+        <argsstring></argsstring>
+        <name>default_voice_</name>
+        <qualifiedname>themis::content::TTSProcessor::default_voice_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="120" column="17" bodyfile="include/content/tts_processor.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a15fae3bd768c0d20d35e2d39bfa7e3c1" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSProcessor::default_language_</definition>
+        <argsstring></argsstring>
+        <name>default_language_</name>
+        <qualifiedname>themis::content::TTSProcessor::default_language_</qualifiedname>
+        <initializer>= &quot;en&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="121" column="17" bodyfile="include/content/tts_processor.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a06ba217dff5449ff11c35946cc6b7e61" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::TTSProcessor::default_speed_</definition>
+        <argsstring></argsstring>
+        <name>default_speed_</name>
+        <qualifiedname>themis::content::TTSProcessor::default_speed_</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="122" column="11" bodyfile="include/content/tts_processor.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a3ad31a8d90220ae6dd3d9d0481a302a0" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::content::TTSProcessor::default_pitch_</definition>
+        <argsstring></argsstring>
+        <name>default_pitch_</name>
+        <qualifiedname>themis::content::TTSProcessor::default_pitch_</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="123" column="11" bodyfile="include/content/tts_processor.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a8fad860dc66ae4c62c012d8f0f1abbb8" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::TTSProcessor::default_sample_rate_</definition>
+        <argsstring></argsstring>
+        <name>default_sample_rate_</name>
+        <qualifiedname>themis::content::TTSProcessor::default_sample_rate_</qualifiedname>
+        <initializer>= 22050</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="124" column="9" bodyfile="include/content/tts_processor.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a1dcea68fcfa6b1eb8d0a6e6f28ba2826" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::content::TTSProcessor::tts_ctx_</definition>
+        <argsstring></argsstring>
+        <name>tts_ctx_</name>
+        <qualifiedname>themis::content::TTSProcessor::tts_ctx_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="127" column="10" bodyfile="include/content/tts_processor.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a2578529c9734f844bedf0aa555283660" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, void * &gt;</type>
+        <definition>std::map&lt;std::string, void*&gt; themis::content::TTSProcessor::voice_models_</definition>
+        <argsstring></argsstring>
+        <name>voice_models_</name>
+        <qualifiedname>themis::content::TTSProcessor::voice_models_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="130" column="14" bodyfile="include/content/tts_processor.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a2c7fdf0b7c265aee36f09e7d57f245af" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::content::TTSProcessor::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::content::TTSProcessor::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="133" column="24" bodyfile="include/content/tts_processor.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a01f770b0d9ae5400fe1826731340de6e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::TTSProcessor::syntheses_completed_</definition>
+        <argsstring></argsstring>
+        <name>syntheses_completed_</name>
+        <qualifiedname>themis::content::TTSProcessor::syntheses_completed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="134" column="17" bodyfile="include/content/tts_processor.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a034a5a47ad908e571e31e190969a2ecc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::TTSProcessor::total_text_chars_</definition>
+        <argsstring></argsstring>
+        <name>total_text_chars_</name>
+        <qualifiedname>themis::content::TTSProcessor::total_text_chars_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="135" column="17" bodyfile="include/content/tts_processor.h" bodystart="135" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a04ee03e177b3f4214cb91deb4f73c5a9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::TTSProcessor::total_audio_duration_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_audio_duration_ms_</name>
+        <qualifiedname>themis::content::TTSProcessor::total_audio_duration_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="136" column="17" bodyfile="include/content/tts_processor.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a34967e84c834f6fbda70f0c1e42b634a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::TTSProcessor::total_processing_time_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_processing_time_ms_</name>
+        <qualifiedname>themis::content::TTSProcessor::total_processing_time_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="137" column="17" bodyfile="include/content/tts_processor.h" bodystart="137" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1ac7778349ac71dfb8823654a992af242c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::content::TTSProcessor::errors_</definition>
+        <argsstring></argsstring>
+        <name>errors_</name>
+        <qualifiedname>themis::content::TTSProcessor::errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="138" column="17" bodyfile="include/content/tts_processor.h" bodystart="138" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1ab0a16f9b65663237da02a6cd3448e177" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::TTSProcessor::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::content::TTSProcessor::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="140" column="10" bodyfile="include/content/tts_processor.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1afb3940c0b1f4bc099946bdfda0b3b77c" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_t_t_s_processor_1ad5755cf74af76925e2dac7c7c5a53eac" kindref="member">AudioEncoderFn</ref></type>
+        <definition>AudioEncoderFn themis::content::TTSProcessor::mp3_encoder_fn_</definition>
+        <argsstring></argsstring>
+        <name>mp3_encoder_fn_</name>
+        <qualifiedname>themis::content::TTSProcessor::mp3_encoder_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="143" column="20" bodyfile="include/content/tts_processor.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1a0c9cc4a20fae21f434801de00404fc4d" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_t_t_s_processor_1ad5755cf74af76925e2dac7c7c5a53eac" kindref="member">AudioEncoderFn</ref></type>
+        <definition>AudioEncoderFn themis::content::TTSProcessor::ogg_encoder_fn_</definition>
+        <argsstring></argsstring>
+        <name>ogg_encoder_fn_</name>
+        <qualifiedname>themis::content::TTSProcessor::ogg_encoder_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="144" column="20" bodyfile="include/content/tts_processor.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_t_t_s_processor_1adde3447f02b47c596aa848af79045f81" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1content_1_1_t_t_s_processor_1a585559d8f6dd3f5bff02c412e3ecdd45" kindref="member">TTSSynthFn</ref></type>
+        <definition>TTSSynthFn themis::content::TTSProcessor::synth_fn_</definition>
+        <argsstring></argsstring>
+        <name>synth_fn_</name>
+        <qualifiedname>themis::content::TTSProcessor::synth_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="147" column="16" bodyfile="include/content/tts_processor.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a9e5ef6f1edff2dd64f069610264d9610" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::TTSProcessor::TTSProcessor</definition>
+        <argsstring>()</argsstring>
+        <name>TTSProcessor</name>
+        <qualifiedname>themis::content::TTSProcessor::TTSProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1ac6cc68ec81b5c56d8c0f4cb7af0ca89a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::TTSProcessor::~TTSProcessor</definition>
+        <argsstring>() override</argsstring>
+        <name>~TTSProcessor</name>
+        <qualifiedname>themis::content::TTSProcessor::~TTSProcessor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="47" column="5" bodyfile="src/content/tts_processor.cpp" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a5e84ebbcb5fc6219a550730e8883105f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::content::TTSProcessor::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::content::TTSProcessor::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a8e52be85b5ae560c3011da03a6c6c8f4">getInfo</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="50" column="16" bodyfile="src/content/tts_processor.cpp" bodystart="62" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a3448d702a971f122b000343a44246597" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::TTSProcessor::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::content::TTSProcessor::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1aeca4397e7b73a85723905580d527609c">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1content_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: loadTTSModel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="51" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="90" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a21f26659330da3630fdd803711e515e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::content::TTSProcessor::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::content::TTSProcessor::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac85694c52ef13fe9cce6962d855e7ecc">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: unloadTTSModel(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="52" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="116" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a80c6c2fa461f3600ce7128baadd6fb48" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::TTSProcessor::canProcess</definition>
+        <argsstring>(const std::string &amp;mime_type) const override</argsstring>
+        <name>canProcess</name>
+        <qualifiedname>themis::content::TTSProcessor::canProcess</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac907820228242cebb5eefedc0bcc9099">canProcess</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="53" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="125" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a177d35abe5d88ca238dc9447952d327c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref></type>
+        <definition>ContentExtractionResult themis::content::TTSProcessor::extract</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;blob, const std::string &amp;mime_type, const ExtractionOptions &amp;options={}) override</argsstring>
+        <name>extract</name>
+        <qualifiedname>themis::content::TTSProcessor::extract</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ab75f0b659364d0827bb04d25620d026d">extract</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_extraction_options" kindref="compound">ExtractionOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Extract. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="55" column="29" bodyfile="src/content/tts_processor.cpp" bodystart="139" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1ab81ade3bb81bd16c5df16bccd5bcb339" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_chunk" kindref="compound">ContentChunk</ref> &gt;</type>
+        <definition>std::vector&lt; ContentChunk &gt; themis::content::TTSProcessor::chunk</definition>
+        <argsstring>(const ContentExtractionResult &amp;result, int max_tokens, int overlap) override</argsstring>
+        <name>chunk</name>
+        <qualifiedname>themis::content::TTSProcessor::chunk</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1ac22b3bce77a0fbafc94e5d1ae959cbde">chunk</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_extraction_result" kindref="compound">ContentExtractionResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>overlap</declname>
+        </param>
+        <briefdescription>
+<para>Chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">int</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements chunk without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="61" column="17" bodyfile="src/content/tts_processor.cpp" bodystart="157" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a195a744954fa2dc20fdb71134f035e78" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::content::TTSProcessor::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::content::TTSProcessor::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1bc044108d313feaa4caca2087743529">healthCheck</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="67" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="163" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1afd879bb14658be87599a94621dd39794" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::TTSProcessor::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::content::TTSProcessor::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a44d5c1d1d89d2c55eb8a59bbb4125d46">getStatistics</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="68" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="172" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a388944a6d91af86169c57d20caa0a574" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_t_t_s_result" kindref="compound">TTSResult</ref></type>
+        <definition>TTSResult themis::content::TTSProcessor::synthesize</definition>
+        <argsstring>(const std::string &amp;text, const TTSOptions &amp;options={})</argsstring>
+        <name>synthesize</name>
+        <qualifiedname>themis::content::TTSProcessor::synthesize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_t_t_s_options" kindref="compound">TTSOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Synthesize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: synthesizeInternal(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="70" column="15" bodyfile="src/content/tts_processor.cpp" bodystart="198" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1ae86b119af308face99bc540a676a3ec3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::TTSProcessor::streamSynthesize</definition>
+        <argsstring>(const std::string &amp;text, std::function&lt; void(const std::vector&lt; uint8_t &gt; &amp;)&gt; callback, const TTSOptions &amp;options={})</argsstring>
+        <name>streamSynthesize</name>
+        <qualifiedname>themis::content::TTSProcessor::streamSynthesize</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>std::function&lt; void(const std::vector&lt; uint8_t &gt; &amp;)&gt;</type>
+          <declname>callback</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_t_t_s_options" kindref="compound">TTSOptions</ref> &amp;</type>
+          <declname>options</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="75" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="206" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a4dfcf5eac157bee0f6d4f41ae38ae6c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::TTSProcessor::getAvailableVoices</definition>
+        <argsstring>() const</argsstring>
+        <name>getAvailableVoices</name>
+        <qualifiedname>themis::content::TTSProcessor::getAvailableVoices</qualifiedname>
+        <briefdescription>
+<para>Get Available Voices. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="85" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="237" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a10f67c0feedaceabfbccab78640d2e3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::content::TTSProcessor::getSupportedLanguages</definition>
+        <argsstring>() const</argsstring>
+        <name>getSupportedLanguages</name>
+        <qualifiedname>themis::content::TTSProcessor::getSupportedLanguages</qualifiedname>
+        <briefdescription>
+<para>Get Supported Languages. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="91" column="17" bodyfile="src/content/tts_processor.cpp" bodystart="276" bodyend="278"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a5e35bed220041358628f51b262efbdad" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::TTSProcessor::setMp3EncoderFn</definition>
+        <argsstring>(AudioEncoderFn fn)</argsstring>
+        <name>setMp3EncoderFn</name>
+        <qualifiedname>themis::content::TTSProcessor::setMp3EncoderFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_t_t_s_processor_1ad5755cf74af76925e2dac7c7c5a53eac" kindref="member">AudioEncoderFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Mp3 Encoder Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="100" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a4f139ef03a46d4ec94bc615b9a95a2a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::TTSProcessor::setOggEncoderFn</definition>
+        <argsstring>(AudioEncoderFn fn)</argsstring>
+        <name>setOggEncoderFn</name>
+        <qualifiedname>themis::content::TTSProcessor::setOggEncoderFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_t_t_s_processor_1ad5755cf74af76925e2dac7c7c5a53eac" kindref="member">AudioEncoderFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Ogg Encoder Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="106" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="49" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a3da51984003ca15786d3e3c3dd8f18e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::TTSProcessor::setSynthFn</definition>
+        <argsstring>(TTSSynthFn fn)</argsstring>
+        <name>setSynthFn</name>
+        <qualifiedname>themis::content::TTSProcessor::setSynthFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1content_1_1_t_t_s_processor_1a585559d8f6dd3f5bff02c412e3ecdd45" kindref="member">TTSSynthFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Synth Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="115" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a66f65f13dfb24644dc4e9a5e02d63557" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::content::TTSProcessor::loadTTSModel</definition>
+        <argsstring>()</argsstring>
+        <name>loadTTSModel</name>
+        <qualifiedname>themis::content::TTSProcessor::loadTTSModel</qualifiedname>
+        <briefdescription>
+<para>Load TTSModel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: piper::PiperVoice(), piper::loadVoice(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="154" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="287" bodyend="309"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1affca32a6c864e2aaed31e084cb121d5b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::TTSProcessor::unloadTTSModel</definition>
+        <argsstring>()</argsstring>
+        <name>unloadTTSModel</name>
+        <qualifiedname>themis::content::TTSProcessor::unloadTTSModel</qualifiedname>
+        <briefdescription>
+<para>Unload TTSModel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements unloadTTSModel without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="158" column="10" bodyfile="src/content/tts_processor.cpp" bodystart="315" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a8cd9718be35dd71bf01b9b7b5ee88bb2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_t_t_s_result" kindref="compound">TTSResult</ref></type>
+        <definition>TTSResult themis::content::TTSProcessor::synthesizeInternal</definition>
+        <argsstring>(const std::string &amp;text, const TTSOptions &amp;options)</argsstring>
+        <name>synthesizeInternal</name>
+        <qualifiedname>themis::content::TTSProcessor::synthesizeInternal</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_t_t_s_options" kindref="compound">TTSOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Synthesize Internal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), empty(), preprocessText(), generatePCM(), convertToFormat(), size(), length(), std::string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="166" column="15" bodyfile="src/content/tts_processor.cpp" bodystart="333" bodyend="385"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a358984351417cec47fa0dae6b9874dc1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::TTSProcessor::generatePCM</definition>
+        <argsstring>(const std::string &amp;text, const TTSOptions &amp;options)</argsstring>
+        <name>generatePCM</name>
+        <qualifiedname>themis::content::TTSProcessor::generatePCM</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_t_t_s_options" kindref="compound">TTSOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Generate PCM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: length(), pcm_data(), std::fill(), begin(), end(), piper::textToAudio(), size(), synth_fn_(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="177" column="17" bodyfile="src/content/tts_processor.cpp" bodystart="394" bodyend="465"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a1f62c30c79ef8c465a855ebbd06e348c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::content::TTSProcessor::convertToFormat</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;pcm_data, const std::string &amp;format, int sample_rate)</argsstring>
+        <name>convertToFormat</name>
+        <qualifiedname>themis::content::TTSProcessor::convertToFormat</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>pcm_data</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>format</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Convert To Format. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pcm_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">format</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), insert(), end(), push_back(), begin(), mp3_encoder_fn_(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="189" column="17" bodyfile="src/content/tts_processor.cpp" bodystart="475" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_t_t_s_processor_1a372fbee9ec6e06f66b9f64b6273936be" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::content::TTSProcessor::preprocessText</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>preprocessText</name>
+        <qualifiedname>themis::content::TTSProcessor::preprocessText</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Preprocess Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::regex_replace(), std::regex(), find_first_not_of(), find_last_not_of(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/tts_processor.h" line="200" column="17" bodyfile="src/content/tts_processor.cpp" bodystart="566" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::content::TTSProcessor</label>
+        <link refid="classthemis_1_1content_1_1_t_t_s_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::content::IContentProcessorPlugin</label>
+        <link refid="classthemis_1_1content_1_1_i_content_processor_plugin"/>
+      </node>
+      <node id="1">
+        <label>themis::content::TTSProcessor</label>
+        <link refid="classthemis_1_1content_1_1_t_t_s_processor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/content/tts_processor.h" line="44" column="1" bodyfile="include/content/tts_processor.h" bodystart="44" bodyend="201"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1ad5755cf74af76925e2dac7c7c5a53eac" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>AudioEncoderFn</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a80c6c2fa461f3600ce7128baadd6fb48" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>canProcess</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1ab81ade3bb81bd16c5df16bccd5bcb339" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>chunk</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a1f62c30c79ef8c465a855ebbd06e348c" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>convertToFormat</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a15fae3bd768c0d20d35e2d39bfa7e3c1" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>default_language_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a3ad31a8d90220ae6dd3d9d0481a302a0" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>default_pitch_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a8fad860dc66ae4c62c012d8f0f1abbb8" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>default_sample_rate_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a06ba217dff5449ff11c35946cc6b7e61" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>default_speed_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1aac11132eeb8fda672290fccf4a19e06b" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>default_voice_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1ac7778349ac71dfb8823654a992af242c" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>errors_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a177d35abe5d88ca238dc9447952d327c" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>extract</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1af5574d3a58ab4c08aab471346728895b" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a358984351417cec47fa0dae6b9874dc1" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>generatePCM</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a4dfcf5eac157bee0f6d4f41ae38ae6c2" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>getAvailableVoices</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a5e84ebbcb5fc6219a550730e8883105f" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1afd879bb14658be87599a94621dd39794" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a10f67c0feedaceabfbccab78640d2e3b" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>getSupportedLanguages</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a195a744954fa2dc20fdb71134f035e78" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a3448d702a971f122b000343a44246597" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1ab0a16f9b65663237da02a6cd3448e177" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a66f65f13dfb24644dc4e9a5e02d63557" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>loadTTSModel</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a8ae85247274ad0e64a7fd6f6e1241582" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>model_path_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1afb3940c0b1f4bc099946bdfda0b3b77c" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>mp3_encoder_fn_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a0c9cc4a20fae21f434801de00404fc4d" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>ogg_encoder_fn_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a372fbee9ec6e06f66b9f64b6273936be" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>preprocessText</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a5e35bed220041358628f51b262efbdad" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>setMp3EncoderFn</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a4f139ef03a46d4ec94bc615b9a95a2a5" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>setOggEncoderFn</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a3da51984003ca15786d3e3c3dd8f18e3" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>setSynthFn</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a21f26659330da3630fdd803711e515e0" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a2c7fdf0b7c265aee36f09e7d57f245af" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1ae86b119af308face99bc540a676a3ec3" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>streamSynthesize</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1adde3447f02b47c596aa848af79045f81" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>synth_fn_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a01f770b0d9ae5400fe1826731340de6e" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>syntheses_completed_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a388944a6d91af86169c57d20caa0a574" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>synthesize</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a8cd9718be35dd71bf01b9b7b5ee88bb2" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>synthesizeInternal</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a04ee03e177b3f4214cb91deb4f73c5a9" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>total_audio_duration_ms_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a34967e84c834f6fbda70f0c1e42b634a" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>total_processing_time_ms_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a034a5a47ad908e571e31e190969a2ecc" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>total_text_chars_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a1dcea68fcfa6b1eb8d0a6e6f28ba2826" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>tts_ctx_</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a9e5ef6f1edff2dd64f069610264d9610" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>TTSProcessor</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a585559d8f6dd3f5bff02c412e3ecdd45" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>TTSSynthFn</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1affca32a6c864e2aaed31e084cb121d5b" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>unloadTTSModel</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1a2578529c9734f844bedf0aa555283660" prot="private" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>voice_models_</name></member>
+      <member refid="classthemis_1_1content_1_1_i_content_processor_plugin_1a1dcdabe9bde9b32c70262ec3ec23cd2d" prot="public" virt="virtual"><scope>themis::content::TTSProcessor</scope><name>~IContentProcessorPlugin</name></member>
+      <member refid="classthemis_1_1content_1_1_t_t_s_processor_1ac6cc68ec81b5c56d8c0f4cb7af0ca89a" prot="public" virt="non-virtual"><scope>themis::content::TTSProcessor</scope><name>~TTSProcessor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

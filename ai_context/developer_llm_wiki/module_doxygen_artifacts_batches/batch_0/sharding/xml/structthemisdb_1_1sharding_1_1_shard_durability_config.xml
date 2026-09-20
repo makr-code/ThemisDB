@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_shard_durability_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ShardDurabilityConfig</compoundname>
+    <includes refid="shard__durability_8h" local="no">shard_durability.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1ad09b6b648c1ad66f49f6cf3cd0bbb81d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261a" kindref="member">DurabilityMode</ref></type>
+        <definition>DurabilityMode themisdb::sharding::ShardDurabilityConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::mode</qualifiedname>
+        <initializer>{<ref refid="namespacethemisdb_1_1sharding_1af035ee684edc6363c7f27b82375e261aabe553330beb7b3d994656e0a4e66cd96" kindref="member">DurabilityMode::ASYNC</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="71" column="20" bodyfile="include/sharding/shard_durability.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1a36119a688ae6f532f26f52f613a0a335" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurabilityConfig::enable_wal</definition>
+        <argsstring></argsstring>
+        <name>enable_wal</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::enable_wal</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="72" column="10" bodyfile="include/sharding/shard_durability.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1a90aa1e202a5e6384d6625bdf25c65a0a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurabilityConfig::sync_wal_on_commit</definition>
+        <argsstring></argsstring>
+        <name>sync_wal_on_commit</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::sync_wal_on_commit</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="73" column="10" bodyfile="include/sharding/shard_durability.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1a0d9f120d829c89589271a3b78e9069ac" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ShardDurabilityConfig::group_commit_batch_size</definition>
+        <argsstring></argsstring>
+        <name>group_commit_batch_size</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::group_commit_batch_size</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="74" column="12" bodyfile="include/sharding/shard_durability.h" bodystart="74" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1ac96ab901eb8006e9e5162adce0f16b73" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::ShardDurabilityConfig::group_commit_timeout</definition>
+        <argsstring></argsstring>
+        <name>group_commit_timeout</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::group_commit_timeout</qualifiedname>
+        <initializer>{10}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="75" column="31" bodyfile="include/sharding/shard_durability.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1a5ad857eb8bc727984e9e402f805641a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ShardDurabilityConfig::checkpoint_dir</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_dir</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::checkpoint_dir</qualifiedname>
+        <initializer>{&quot;./checkpoints&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="76" column="17" bodyfile="include/sharding/shard_durability.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1a2912fcda27da12bc1f19482813fabca8" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themisdb::sharding::ShardDurabilityConfig::checkpoint_interval</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_interval</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::checkpoint_interval</qualifiedname>
+        <initializer>{24}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="77" column="24" bodyfile="include/sharding/shard_durability.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1a25315c5b5da402891145548ced65c895" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::ShardDurabilityConfig::max_checkpoints</definition>
+        <argsstring></argsstring>
+        <name>max_checkpoints</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::max_checkpoints</qualifiedname>
+        <initializer>{7}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="78" column="12" bodyfile="include/sharding/shard_durability.h" bodystart="78" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_shard_durability_config_1afdf041af6f9aca485ab9087a3057ccb7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::ShardDurabilityConfig::enable_auto_recovery</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_recovery</name>
+        <qualifiedname>themisdb::sharding::ShardDurabilityConfig::enable_auto_recovery</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/shard_durability.h" line="79" column="10" bodyfile="include/sharding/shard_durability.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for shard durability. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/shard_durability.h" line="70" column="1" bodyfile="include/sharding/shard_durability.h" bodystart="70" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a5ad857eb8bc727984e9e402f805641a3" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>checkpoint_dir</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a2912fcda27da12bc1f19482813fabca8" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>checkpoint_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1afdf041af6f9aca485ab9087a3057ccb7" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>enable_auto_recovery</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a36119a688ae6f532f26f52f613a0a335" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>enable_wal</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a0d9f120d829c89589271a3b78e9069ac" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>group_commit_batch_size</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1ac96ab901eb8006e9e5162adce0f16b73" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>group_commit_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a25315c5b5da402891145548ced65c895" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>max_checkpoints</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1ad09b6b648c1ad66f49f6cf3cd0bbb81d" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>mode</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_shard_durability_config_1a90aa1e202a5e6384d6625bdf25c65a0a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ShardDurabilityConfig</scope><name>sync_wal_on_commit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

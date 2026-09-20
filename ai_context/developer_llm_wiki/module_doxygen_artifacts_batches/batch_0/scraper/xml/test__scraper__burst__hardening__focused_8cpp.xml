@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__scraper__burst__hardening__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_scraper_burst_hardening_focused.cpp</compoundname>
+    <includes local="yes">gtest/gtest.h</includes>
+    <includes refid="scraper__burst__controller_8h" local="yes">scraper/scraper_burst_controller.h</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>scraper/scraper_burst_controller.h</label>
+        <link refid="scraper__burst__controller_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/scraper/test_scraper_burst_hardening_focused.cpp</label>
+        <link refid="test__scraper__burst__hardening__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper">themis::scraper</innernamespace>
+    <innernamespace refid="namespacethemis_1_1scraper_1_1test">themis::scraper::test</innernamespace>
+    <briefdescription>
+<para>Sub-Agent 1 focused tests for BurstCrawlController. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Test IDs: SCR-17 through SCR-20 No file I/O, no network, deterministic only.</para>
+<para><simplesect kind="see"><para><ref refid="scraper__burst__controller_8h" kindref="compound">include/scraper/scraper_burst_controller.h</ref> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;gtest/gtest.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="scraper__burst__controller_8h" kindref="compound">scraper/scraper_burst_controller.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper" kindref="compound">scraper</ref><sp/>{</highlight></codeline>
+<codeline lineno="19" refid="namespacethemis_1_1scraper_1_1test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-17<sp/>—<sp/>max_tokens<sp/>consumable:<sp/>all<sp/>5<sp/>acquires<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperBurstHardening,<sp/>SCR17_MaxTokensConsumable)<sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller" kindref="compound">BurstCrawlController</ref><sp/>ctrl(5,<sp/>1.0);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire</ref>())</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>acquire<sp/>#&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(i<sp/>+<sp/>1)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>to<sp/>succeed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-18<sp/>—<sp/>exhaustion:<sp/>6th<sp/>call<sp/>returns<sp/>false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperBurstHardening,<sp/>SCR18_ExhaustionReturnsFalse)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller" kindref="compound">BurstCrawlController</ref><sp/>ctrl(5,<sp/>0.0);<sp/></highlight><highlight class="comment">//<sp/>rate=0<sp/>so<sp/>no<sp/>automatic<sp/>refill</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire</ref>());</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire</ref>())</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>6th<sp/>acquire<sp/>to<sp/>fail<sp/>on<sp/>an<sp/>empty<sp/>bucket&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-19<sp/>—<sp/>burstUtilization()<sp/>after<sp/>2<sp/>acquires<sp/>from<sp/>5-token<sp/>bucket</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperBurstHardening,<sp/>SCR19_UtilizationAfterTwoAcquires)<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller" kindref="compound">BurstCrawlController</ref><sp/>ctrl(5,<sp/>0.0);<sp/></highlight><highlight class="comment">//<sp/>rate=0<sp/>prevents<sp/>background<sp/>refill</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire</ref>());</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire</ref>());</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>3<sp/>tokens<sp/>remain<sp/>out<sp/>of<sp/>5<sp/><sp/>→<sp/><sp/>utilization<sp/>=<sp/>0.6</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>utilization<sp/>=<sp/>ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1abf99f988b305bf9547bf9f6346e8ea73" kindref="member">burstUtilization</ref>();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(utilization,<sp/>0.6,<sp/>1e-9)</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>3/5<sp/>=<sp/>0.6,<sp/>got<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>utilization;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SCR-20<sp/>—<sp/>full<sp/>depletion<sp/>gives<sp/>0.0;<sp/>reset()<sp/>restores<sp/>1.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="namespacethemis_1_1scraper_1_1test_1a14e538fa42064fa95e5e7b4945bea0d1" kindref="member">TEST</ref>(ScraperBurstHardening,<sp/>SCR20_DepletionAndReset)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller" kindref="compound">BurstCrawlController</ref><sp/>ctrl(5,<sp/>0.0);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1aa76f79eaadd04810a02181dcaadf7be9" kindref="member">tryAcquire</ref>());</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1abf99f988b305bf9547bf9f6346e8ea73" kindref="member">burstUtilization</ref>(),<sp/>0.0,<sp/>1e-9)</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>fully-depleted<sp/>bucket<sp/>to<sp/>report<sp/>0.0<sp/>utilization&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1ac47e175558835107e3f2e602543abf29" kindref="member">reset</ref>();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(ctrl.<ref refid="classthemis_1_1scraper_1_1_burst_crawl_controller_1abf99f988b305bf9547bf9f6346e8ea73" kindref="member">burstUtilization</ref>(),<sp/>1.0,<sp/>1e-9)</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Expected<sp/>reset()<sp/>to<sp/>restore<sp/>full<sp/>capacity<sp/>(utilization<sp/>1.0)&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>scraper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/scraper/test_scraper_burst_hardening_focused.cpp"/>
+  </compounddef>
+</doxygen>

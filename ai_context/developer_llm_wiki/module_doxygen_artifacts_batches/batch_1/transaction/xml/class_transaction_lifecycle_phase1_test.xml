@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_transaction_lifecycle_phase1_test" kind="class" language="C++" prot="public">
+    <compoundname>TransactionLifecyclePhase1Test</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_transaction_lifecycle_phase1_test_1a6fef606c5c9240cbc844134d76556ae4" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string TransactionLifecyclePhase1Test::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>TransactionLifecyclePhase1Test::test_db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="58" column="17" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_lifecycle_phase1_test_1a37bb372c072f150a8db35dffd5fb8738" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; TransactionLifecyclePhase1Test::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>TransactionLifecyclePhase1Test::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="59" column="21" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_lifecycle_phase1_test_1a1ec65aad7ff1be9b5cf2f3204604ce5c" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; TransactionLifecyclePhase1Test::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>TransactionLifecyclePhase1Test::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="60" column="21" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_lifecycle_phase1_test_1a5e851fc0272a66fb6c9e976683b5b00e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;GraphIndexManager&gt; TransactionLifecyclePhase1Test::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>TransactionLifecyclePhase1Test::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="61" column="21" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_lifecycle_phase1_test_1a8c27fc779543d209584c91c047c16215" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;VectorIndexManager&gt; TransactionLifecyclePhase1Test::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>TransactionLifecyclePhase1Test::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="62" column="21" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_transaction_lifecycle_phase1_test_1a168f885d10b2fbe173652af70b5abb68" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_transaction_manager" kindref="compound">TransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;TransactionManager&gt; TransactionLifecyclePhase1Test::tx_manager_</definition>
+        <argsstring></argsstring>
+        <name>tx_manager_</name>
+        <qualifiedname>TransactionLifecyclePhase1Test::tx_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="63" column="21" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_transaction_lifecycle_phase1_test_1a6eb73561dd1fc6eb82b0378acefb801a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionLifecyclePhase1Test::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>TransactionLifecyclePhase1Test::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="20" column="10" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="20" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_transaction_lifecycle_phase1_test_1ad694926e4935eb07aa0185e2e6b68fc5" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void TransactionLifecyclePhase1Test::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>TransactionLifecyclePhase1Test::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="43" column="10" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="43" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>TransactionLifecyclePhase1Test</label>
+        <link refid="class_transaction_lifecycle_phase1_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>TransactionLifecyclePhase1Test</label>
+        <link refid="class_transaction_lifecycle_phase1_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_lifecycle_phase1.cpp" line="18" column="1" bodyfile="tests/transaction/test_transaction_lifecycle_phase1.cpp" bodystart="18" bodyend="64"/>
+    <listofallmembers>
+      <member refid="class_transaction_lifecycle_phase1_test_1a37bb372c072f150a8db35dffd5fb8738" prot="protected" virt="non-virtual"><scope>TransactionLifecyclePhase1Test</scope><name>db_</name></member>
+      <member refid="class_transaction_lifecycle_phase1_test_1a5e851fc0272a66fb6c9e976683b5b00e" prot="protected" virt="non-virtual"><scope>TransactionLifecyclePhase1Test</scope><name>graph_index_</name></member>
+      <member refid="class_transaction_lifecycle_phase1_test_1a1ec65aad7ff1be9b5cf2f3204604ce5c" prot="protected" virt="non-virtual"><scope>TransactionLifecyclePhase1Test</scope><name>secondary_index_</name></member>
+      <member refid="class_transaction_lifecycle_phase1_test_1a6eb73561dd1fc6eb82b0378acefb801a" prot="protected" virt="non-virtual"><scope>TransactionLifecyclePhase1Test</scope><name>SetUp</name></member>
+      <member refid="class_transaction_lifecycle_phase1_test_1ad694926e4935eb07aa0185e2e6b68fc5" prot="protected" virt="non-virtual"><scope>TransactionLifecyclePhase1Test</scope><name>TearDown</name></member>
+      <member refid="class_transaction_lifecycle_phase1_test_1a6fef606c5c9240cbc844134d76556ae4" prot="protected" virt="non-virtual"><scope>TransactionLifecyclePhase1Test</scope><name>test_db_path_</name></member>
+      <member refid="class_transaction_lifecycle_phase1_test_1a168f885d10b2fbe173652af70b5abb68" prot="protected" virt="non-virtual"><scope>TransactionLifecyclePhase1Test</scope><name>tx_manager_</name></member>
+      <member refid="class_transaction_lifecycle_phase1_test_1a8c27fc779543d209584c91c047c16215" prot="protected" virt="non-virtual"><scope>TransactionLifecyclePhase1Test</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_shard_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ShardInfo</compoundname>
+    <includes refid="backup__manager_8h" local="no">backup_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_shard_info_1afbb6061d8f51bd0acb3fc0ccbb79a5e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ShardInfo::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::ShardInfo::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="49" column="17" bodyfile="include/storage/backup_manager.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_shard_info_1abfb2aed94ad4e3deed9b55fcd28ec1bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ShardInfo::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themis::ShardInfo::endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="50" column="17" bodyfile="include/storage/backup_manager.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_shard_info_1ae05bd0b7f1f20592560dbb451b443afe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::ShardInfo::is_parity_shard</definition>
+        <argsstring></argsstring>
+        <name>is_parity_shard</name>
+        <qualifiedname>themis::ShardInfo::is_parity_shard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="51" column="10" bodyfile="include/storage/backup_manager.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_shard_info_1a132b86a7b9ec29ab90f52db2a7633c47" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::ShardInfo::shard_index</definition>
+        <argsstring></argsstring>
+        <name>shard_index</name>
+        <qualifiedname>themis::ShardInfo::shard_index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/backup_manager.h" line="52" column="14" bodyfile="include/storage/backup_manager.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Describes a single shard participating in a coordinated backup. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/backup_manager.h" line="48" column="1" bodyfile="include/storage/backup_manager.h" bodystart="48" bodyend="53"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_shard_info_1abfb2aed94ad4e3deed9b55fcd28ec1bc" prot="public" virt="non-virtual"><scope>themis::ShardInfo</scope><name>endpoint</name></member>
+      <member refid="structthemis_1_1_shard_info_1ae05bd0b7f1f20592560dbb451b443afe" prot="public" virt="non-virtual"><scope>themis::ShardInfo</scope><name>is_parity_shard</name></member>
+      <member refid="structthemis_1_1_shard_info_1afbb6061d8f51bd0acb3fc0ccbb79a5e9" prot="public" virt="non-virtual"><scope>themis::ShardInfo</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1_shard_info_1a132b86a7b9ec29ab90f52db2a7633c47" prot="public" virt="non-virtual"><scope>themis::ShardInfo</scope><name>shard_index</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

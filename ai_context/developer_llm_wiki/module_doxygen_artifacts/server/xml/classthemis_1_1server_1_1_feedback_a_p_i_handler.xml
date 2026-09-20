@@ -1,0 +1,835 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_feedback_a_p_i_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::FeedbackAPIHandler</compoundname>
+    <includes refid="feedback__api__handler_8h" local="no">feedback_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a2e24fcab562c9609e650c52d782cc2f2" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; llm::lora::FeedbackStorageService &gt;</type>
+        <definition>std::shared_ptr&lt;llm::lora::FeedbackStorageService&gt; themis::server::FeedbackAPIHandler::storage_service_</definition>
+        <argsstring></argsstring>
+        <name>storage_service_</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::storage_service_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="138" column="21" bodyfile="include/server/feedback_api_handler.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a7742e042e493d9655ecfb67a818e8156" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::prompt_engineering::FeedbackCollector &gt;</type>
+        <definition>std::shared_ptr&lt;themis::prompt_engineering::FeedbackCollector&gt; themis::server::FeedbackAPIHandler::feedback_collector_</definition>
+        <argsstring></argsstring>
+        <name>feedback_collector_</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::feedback_collector_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="139" column="21" bodyfile="include/server/feedback_api_handler.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a068ec88718ab763456c451a1029ed213" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::rag::learning::ContinuousLearningOrchestrator &gt;</type>
+        <definition>std::shared_ptr&lt;themis::rag::learning::ContinuousLearningOrchestrator&gt; themis::server::FeedbackAPIHandler::learning_orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>learning_orchestrator_</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::learning_orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="140" column="21" bodyfile="include/server/feedback_api_handler.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a6041311ede6d7a84e0702aebc0dd2d46" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::FeedbackAPIHandler::FeedbackAPIHandler</definition>
+        <argsstring>(std::shared_ptr&lt; llm::lora::FeedbackStorageService &gt; storage_service)</argsstring>
+        <name>FeedbackAPIHandler</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::FeedbackAPIHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; llm::lora::FeedbackStorageService &gt;</type>
+          <declname>storage_service</declname>
+        </param>
+        <briefdescription>
+<para>Feedback APIHandler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">storage_service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="40" column="14" bodyfile="src/server/feedback_api_handler.cpp" bodystart="104" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a2ab015668ec2f5d8bb91ea14b6118627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::FeedbackAPIHandler::~FeedbackAPIHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~FeedbackAPIHandler</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::~FeedbackAPIHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1aedb95f21ed5a1fae13255f52e0f93622" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::handleCreateFeedback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleCreateFeedback</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::handleCreateFeedback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Create Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), json::parse(), body(), llm::lora::Feedback::fromJSON(), isValidFeedbackIdentifier(), has_value(), createFeedback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="51" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="121" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a15df07ada72ca75b96dd4e0b20152932" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::handleListFeedback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleListFeedback</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::handleListFeedback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle List Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), target(), find(), substr(), parseFilterFromQuery(), listFeedback(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="60" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="228" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a7b0b9effea41482853f0a65f33fc9a32" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::handleGetFeedback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleGetFeedback</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::handleGetFeedback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), isValidFeedbackIdentifier(), getFeedback(), makeJsonResponse(), toJSON(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="70" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="295" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1aae775bcafd72423c8d1797a2e12fde67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::handleUpdateFeedback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleUpdateFeedback</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::handleUpdateFeedback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Update Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), isValidFeedbackIdentifier(), json::parse(), body(), llm::lora::Feedback::fromJSON(), has_value(), updateFeedback(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="81" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="347" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1ace01844782991846b27e12001d0eae0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::handleDeleteFeedback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;id)</argsstring>
+        <name>handleDeleteFeedback</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::handleDeleteFeedback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Delete Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), isValidFeedbackIdentifier(), deleteFeedback(), makeJsonResponse(), spdlog::error(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="92" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="425" bodyend="472"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1acc190f2ebe1ce031fee38f5efed048cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::handleGetAdapterFeedback</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req, const std::string &amp;adapter_id)</argsstring>
+        <name>handleGetAdapterFeedback</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::handleGetAdapterFeedback</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Adapter Feedback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), isValidFeedbackIdentifier(), target(), find(), substr(), std::stoul(), getFeedbackForAdapter(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="103" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="481" bodyend="546"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a5f3d91af6050ca56cf6051ec72c18de0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::handleGetStatistics</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleGetStatistics</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::handleGetStatistics</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Get Statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), makeErrorResponse(), target(), find(), substr(), isValidFeedbackIdentifier(), getStatistics(), makeJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="113" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="554" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a010c0198b02acdb9e090e92a2a453d5b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::FeedbackAPIHandler::setLiveFeedbackCollector</definition>
+        <argsstring>(std::shared_ptr&lt; themis::prompt_engineering::FeedbackCollector &gt; feedback_collector)</argsstring>
+        <name>setLiveFeedbackCollector</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::setLiveFeedbackCollector</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::prompt_engineering::FeedbackCollector &gt;</type>
+          <declname>feedback_collector</declname>
+        </param>
+        <briefdescription>
+<para>Set Live Feedback Collector. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">feedback_collector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="122" column="10" bodyfile="include/server/feedback_api_handler.h" bodystart="122" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a8095aa3d4a547931a3afb761d65c9fce" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::FeedbackAPIHandler::setLearningOrchestrator</definition>
+        <argsstring>(std::shared_ptr&lt; themis::rag::learning::ContinuousLearningOrchestrator &gt; orchestrator)</argsstring>
+        <name>setLearningOrchestrator</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::setLearningOrchestrator</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::rag::learning::ContinuousLearningOrchestrator &gt;</type>
+          <declname>orchestrator</declname>
+        </param>
+        <briefdescription>
+<para>Set Learning Orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">orchestrator</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="132" column="10" bodyfile="include/server/feedback_api_handler.h" bodystart="132" bodyend="135"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a15c888955366e78829f657dea20ce142" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>═══════════════════════════════════════════════════════════ Private Helper Methods ═══════════════════════════════════════════════════════════</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="150" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="616" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a525a57314d693aa3a09b87061ab9c553" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::makeJsonResponse</definition>
+        <argsstring>(http::status status, const json &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeJsonResponse</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::makeJsonResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Json <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), dump(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="163" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="639" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a182f78125c844fa0524ed6f4dd308ffc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::FeedbackAPIHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;error, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeJsonResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="176" column="20" bodyfile="src/server/feedback_api_handler.cpp" bodystart="661" bodyend="670"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a0652aaa3b3c99da4d74615024d9d5f1f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>llm::lora::FeedbackFilter</type>
+        <definition>llm::lora::FeedbackFilter themis::server::FeedbackAPIHandler::parseFilterFromQuery</definition>
+        <argsstring>(const std::string &amp;query) const</argsstring>
+        <name>parseFilterFromQuery</name>
+        <qualifiedname>themis::server::FeedbackAPIHandler::parseFilterFromQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Parse Filter From Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/feedback_api_handler.h" line="187" column="31" bodyfile="src/server/feedback_api_handler.cpp" bodystart="672" bodyend="744"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/feedback_api_handler.h" line="33" column="1" bodyfile="include/server/feedback_api_handler.h" bodystart="33" bodyend="188"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a7742e042e493d9655ecfb67a818e8156" prot="private" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>feedback_collector_</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a6041311ede6d7a84e0702aebc0dd2d46" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>FeedbackAPIHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1aedb95f21ed5a1fae13255f52e0f93622" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>handleCreateFeedback</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1ace01844782991846b27e12001d0eae0e" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>handleDeleteFeedback</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1acc190f2ebe1ce031fee38f5efed048cf" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>handleGetAdapterFeedback</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a7b0b9effea41482853f0a65f33fc9a32" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>handleGetFeedback</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a5f3d91af6050ca56cf6051ec72c18de0" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>handleGetStatistics</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a15df07ada72ca75b96dd4e0b20152932" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>handleListFeedback</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1aae775bcafd72423c8d1797a2e12fde67" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>handleUpdateFeedback</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a068ec88718ab763456c451a1029ed213" prot="private" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>learning_orchestrator_</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a182f78125c844fa0524ed6f4dd308ffc" prot="private" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a525a57314d693aa3a09b87061ab9c553" prot="private" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>makeJsonResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a15c888955366e78829f657dea20ce142" prot="private" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a0652aaa3b3c99da4d74615024d9d5f1f" prot="private" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>parseFilterFromQuery</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a8095aa3d4a547931a3afb761d65c9fce" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>setLearningOrchestrator</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a010c0198b02acdb9e090e92a2a453d5b" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>setLiveFeedbackCollector</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a2e24fcab562c9609e650c52d782cc2f2" prot="private" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>storage_service_</name></member>
+      <member refid="classthemis_1_1server_1_1_feedback_a_p_i_handler_1a2ab015668ec2f5d8bb91ea14b6118627" prot="public" virt="non-virtual"><scope>themis::server::FeedbackAPIHandler</scope><name>~FeedbackAPIHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

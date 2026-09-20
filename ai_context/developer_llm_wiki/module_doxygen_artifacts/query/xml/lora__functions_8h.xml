@@ -1,0 +1,303 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="lora__functions_8h" kind="file" language="C++">
+    <compoundname>lora_functions.h</compoundname>
+    <includes refid="function__registry_8h" local="yes">query/functions/function_registry.h</includes>
+    <includes local="yes">llm/lora_framework/lora_orchestrator.h</includes>
+    <includes local="yes">themis/llm/lora_orchestrator_interface.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">memory</includes>
+    <includedby refid="lora__functions_8cpp" local="yes">src/query/functions/lora_functions.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>query/functions/function_registry.h</label>
+        <link refid="function__registry_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/query/functions/lora_functions.h</label>
+        <link refid="lora__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>llm/lora_framework/lora_orchestrator.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="9">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>themis/llm/lora_orchestrator_interface.h</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/functions/lora_functions.h</label>
+        <link refid="lora__functions_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/query/functions/lora_functions.cpp</label>
+        <link refid="lora__functions_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_train_function" prot="public">themis::query::functions::LoraTrainFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_query_function" prot="public">themis::query::functions::LoraQueryFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function" prot="public">themis::query::functions::LoraSimilarFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_path_function" prot="public">themis::query::functions::LoraPathFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_stats_function" prot="public">themis::query::functions::LoraStatsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_recommend_function" prot="public">themis::query::functions::LoraRecommendFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_lineage_function" prot="public">themis::query::functions::LoraLineageFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_provenance_function" prot="public">themis::query::functions::LoraProvenanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_audit_log_function" prot="public">themis::query::functions::LoraAuditLogFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_snapshots_function" prot="public">themis::query::functions::LoraSnapshotsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_verify_chain_function" prot="public">themis::query::functions::LoraVerifyChainFunction</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1functions">themis::query::functions</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="function__registry_8h" kindref="compound">query/functions/function_registry.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;llm/lora_framework/lora_orchestrator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/llm/lora_orchestrator_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">query</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions" kindref="compound">functions</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::llm::lora;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_TRAIN<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="classthemis_1_1query_1_1functions_1_1_lora_train_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_train_function" kindref="compound">LoraTrainFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="34" refid="classthemis_1_1query_1_1functions_1_1_lora_train_function_1a66d364f16be8347f51cd2f713b8a9c6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_train_function_1a66d364f16be8347f51cd2f713b8a9c6f" kindref="member">~LoraTrainFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_train_function_1a34b4bfd8ba8e45bd6aaa655b48000d64" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_train_function_1a7b521c96baa58055d7b26218d3e17c64" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_QUERY<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1query_1_1functions_1_1_lora_query_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_query_function" kindref="compound">LoraQueryFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48" refid="classthemis_1_1query_1_1functions_1_1_lora_query_function_1a8cf65de5de7a8ace3989ff01e27de2e7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_query_function_1a8cf65de5de7a8ace3989ff01e27de2e7" kindref="member">~LoraQueryFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_query_function_1a51e63c31a54ac45105fd0dd97f5b1f66" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_query_function_1a2829d0ee89e1e3c446c7a648eda735f0" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_SIMILAR<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function" kindref="compound">LoraSimilarFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1a22021c8c732456ad0036bdab8862091b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1a22021c8c732456ad0036bdab8862091b" kindref="member">~LoraSimilarFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1a43d4dc20bad3d05f0f5e0419af0dd33b" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function_1ad4ea4280a0b3c45c13be8a1fe7b99c5e" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_PATH<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1query_1_1functions_1_1_lora_path_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_path_function" kindref="compound">LoraPathFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1query_1_1functions_1_1_lora_path_function_1ae02ee2637589efc0608d2047c0c20b5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_path_function_1ae02ee2637589efc0608d2047c0c20b5f" kindref="member">~LoraPathFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_path_function_1a54e8cc104d74b9c5a212ca9db6470103" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_path_function_1affad8b83353a6efdd2d3912d56e95441" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_STATS<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1query_1_1functions_1_1_lora_stats_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_stats_function" kindref="compound">LoraStatsFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1query_1_1functions_1_1_lora_stats_function_1af758de40627e9797ae831adbf899f2a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_stats_function_1af758de40627e9797ae831adbf899f2a9" kindref="member">~LoraStatsFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_stats_function_1a90f078bcd3e4a89ed70e9e368e157073" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_stats_function_1aeb35e4a75de5d8816bda57ccc8aa6281" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_RECOMMEND<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1query_1_1functions_1_1_lora_recommend_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_recommend_function" kindref="compound">LoraRecommendFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1query_1_1functions_1_1_lora_recommend_function_1a45896bb3b2a4eb428591e25a2c755883" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_recommend_function_1a45896bb3b2a4eb428591e25a2c755883" kindref="member">~LoraRecommendFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_recommend_function_1a5b5f39417b4cf123f3a4016a255e7e75" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_recommend_function_1a6f620b2b43165488afe2cbfe82302623" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_LINEAGE<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1query_1_1functions_1_1_lora_lineage_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_lineage_function" kindref="compound">LoraLineageFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1query_1_1functions_1_1_lora_lineage_function_1a8ca35b0b4ff7f2a047f95f11493dd0a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_lineage_function_1a8ca35b0b4ff7f2a047f95f11493dd0a3" kindref="member">~LoraLineageFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_lineage_function_1a9b1f7f2de2a493bb78d998a66fe81ec1" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_lineage_function_1a10075f72e459eccda099a3cede041ad8" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_PROVENANCE<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="classthemis_1_1query_1_1functions_1_1_lora_provenance_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_provenance_function" kindref="compound">LoraProvenanceFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132" refid="classthemis_1_1query_1_1functions_1_1_lora_provenance_function_1ac5e279356325c5aff39657e681652283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_provenance_function_1ac5e279356325c5aff39657e681652283" kindref="member">~LoraProvenanceFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_provenance_function_1aaef71dc60790fdeba13d74500d03c07d" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_provenance_function_1a57707953548e52b19423d1c54912e41b" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_AUDIT_LOG<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1query_1_1functions_1_1_lora_audit_log_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_audit_log_function" kindref="compound">LoraAuditLogFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1query_1_1functions_1_1_lora_audit_log_function_1ad6d6e2ea450424fe9c7cf24436eea315" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_audit_log_function_1ad6d6e2ea450424fe9c7cf24436eea315" kindref="member">~LoraAuditLogFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_audit_log_function_1a5354ba7aff3e466f39faab186ab3c36c" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_audit_log_function_1ac6e831c6b25b0a6836e40cee8ddff788" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_SNAPSHOTS<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1query_1_1functions_1_1_lora_snapshots_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_snapshots_function" kindref="compound">LoraSnapshotsFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1query_1_1functions_1_1_lora_snapshots_function_1a02a29ef98dbf9123e3c762679dc5ed00" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_snapshots_function_1a02a29ef98dbf9123e3c762679dc5ed00" kindref="member">~LoraSnapshotsFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_snapshots_function_1a4388a1664f3aa224721be7ff8cc1a1f8" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_snapshots_function_1ae1b46b9ee9560212ea1b6f8069632ce9" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>LORA_VERIFY_CHAIN<sp/>Function</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1query_1_1functions_1_1_lora_verify_chain_function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1functions_1_1_lora_verify_chain_function" kindref="compound">LoraVerifyChainFunction</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_i_function" kindref="compound">IFunction</ref><sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1query_1_1functions_1_1_lora_verify_chain_function_1a879951262539148fe560998e5b05bd20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_verify_chain_function_1a879951262539148fe560998e5b05bd20" kindref="member">~LoraVerifyChainFunction</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_verify_chain_function_1a3d6ca09682a42cfafa576c14ae908dc8" kindref="member">signature</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1query_1_1functions_1_1_lora_verify_chain_function_1a765785957b281d4a3bb983821d53e763" kindref="member">execute</ref>(</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;nlohmann::json&gt;&amp;<sp/>args,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref>&amp;<sp/>context</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Registration<sp/>Functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a96a18a454540459f68498e5545929cf4" kindref="member">registerLoRAFunctions</ref>(<ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref>&amp;<sp/>registry);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal">std::shared_ptr&lt;themis::llm::lora::ILoRAOrchestrator&gt;<sp/><ref refid="namespacethemis_1_1query_1_1functions_1ae935ee56c19be9c1fcd9b2af065b065c" kindref="member">getLoRAOrchestrator</ref>();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/functions/lora_functions.h"/>
+  </compounddef>
+</doxygen>

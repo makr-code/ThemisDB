@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_compatibility_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CompatibilityResult</compoundname>
+    <includes refid="model__compatibility_8h" local="no">model_compatibility.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a73a10f6c3be7f4128c37d479a9c954a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::CompatibilityResult::is_compatible</definition>
+        <argsstring></argsstring>
+        <name>is_compatible</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::is_compatible</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="123" column="10" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a7a171f1502bfd9fcaf0027a9bb22f4b4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::CompatibilityResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::errors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="124" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a688812d1470554fb66988e26eb6080a9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::CompatibilityResult::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="125" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a1728ea92b98a28b2b8c28146ed817e6e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::CompatibilityResult::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="126" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1aaeb721a499607029e6402c3381704db2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::CompatibilityResult::recommended_quantization</definition>
+        <argsstring></argsstring>
+        <name>recommended_quantization</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::recommended_quantization</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="129" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1ac26e5cb3588e89986cddc69a302506f5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::lora::CompatibilityResult::recommended_target_modules</definition>
+        <argsstring></argsstring>
+        <name>recommended_target_modules</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::recommended_target_modules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="130" column="17" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a26c3a55a8cb803e37267ec436355cd60" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CompatibilityResult::recommended_rank</definition>
+        <argsstring></argsstring>
+        <name>recommended_rank</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::recommended_rank</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="131" column="12" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a237064384287172eeb7569a80ffe3c09" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::CompatibilityResult::recommended_batch_size</definition>
+        <argsstring></argsstring>
+        <name>recommended_batch_size</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::recommended_batch_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="132" column="12" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1afb129cb431e86a145374e2ffc62e8815" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::CompatibilityResult::add_error</definition>
+        <argsstring>(const std::string &amp;error)</argsstring>
+        <name>add_error</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::add_error</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+<para>Add error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="139" column="10" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="139" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a1e8866909e70627abe023cbedeb10ef1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::lora::CompatibilityResult::add_warning</definition>
+        <argsstring>(const std::string &amp;warning)</argsstring>
+        <name>add_warning</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::add_warning</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>warning</declname>
+        </param>
+        <briefdescription>
+<para>Add warning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">warning</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="149" column="10" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="149" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1accfb9cdb85500a151d111d2189da3e66" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::CompatibilityResult::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::CompatibilityResult::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/model_compatibility.h" line="153" column="10" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="153" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/model_compatibility.h" line="122" column="1" bodyfile="include/llm/lora_framework/model_compatibility.h" bodystart="122" bodyend="165"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1afb129cb431e86a145374e2ffc62e8815" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>add_error</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a1e8866909e70627abe023cbedeb10ef1" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>add_warning</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a7a171f1502bfd9fcaf0027a9bb22f4b4" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a73a10f6c3be7f4128c37d479a9c954a2" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>is_compatible</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a1728ea92b98a28b2b8c28146ed817e6e" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>reason</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a237064384287172eeb7569a80ffe3c09" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>recommended_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1aaeb721a499607029e6402c3381704db2" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>recommended_quantization</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a26c3a55a8cb803e37267ec436355cd60" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>recommended_rank</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1ac26e5cb3588e89986cddc69a302506f5" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>recommended_target_modules</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1accfb9cdb85500a151d111d2189da3e66" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_compatibility_result_1a688812d1470554fb66988e26eb6080a9" prot="public" virt="non-virtual"><scope>themis::llm::lora::CompatibilityResult</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

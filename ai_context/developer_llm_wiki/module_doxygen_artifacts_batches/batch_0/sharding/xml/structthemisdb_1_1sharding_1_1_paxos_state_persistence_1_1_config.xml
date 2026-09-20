@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PaxosStatePersistence::Config</compoundname>
+    <includes refid="paxos__state__persistence_8h" local="no">paxos_state_persistence.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1a6123a92762d84eef9249dfa11ddd1518" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::PaxosStatePersistence::Config::state_dir</definition>
+        <argsstring></argsstring>
+        <name>state_dir</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::Config::state_dir</qualifiedname>
+        <initializer>= &quot;paxos_state&quot;</initializer>
+        <briefdescription>
+<para>Directory for durable files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="94" column="21" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1a3b994a061f578f9a37c780fab9bcc51e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::PaxosStatePersistence::Config::compact_interval</definition>
+        <argsstring></argsstring>
+        <name>compact_interval</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::Config::compact_interval</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+<para>Compact after this many committed slots. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="95" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1ae402b7afc502e11e998031e707f6b274" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PaxosStatePersistence::Config::sync_on_write</definition>
+        <argsstring></argsstring>
+        <name>sync_on_write</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::Config::sync_on_write</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>fsync after every write (crash safety) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="96" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1a35f02675dfa16b0795cf4e1a6604fac8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::PaxosStatePersistence::Config::max_wal_entries</definition>
+        <argsstring></argsstring>
+        <name>max_wal_entries</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::Config::max_wal_entries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Trigger snapshot after N WAL entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="97" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1ae0fb161753ec39a43417eec94bc4447a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::sharding::PaxosStatePersistence::Config::init_timeout</definition>
+        <argsstring></argsstring>
+        <name>init_timeout</name>
+        <qualifiedname>themisdb::sharding::PaxosStatePersistence::Config::init_timeout</qualifiedname>
+        <initializer>{5000}</initializer>
+        <briefdescription>
+<para>FIXED: Timeout for state lock acquisition during initialization. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="98" column="34" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="98" bodyend="98"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the persistence layer. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/paxos_state_persistence.h" line="93" column="5" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="93" bodyend="99"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1a3b994a061f578f9a37c780fab9bcc51e" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence::Config</scope><name>compact_interval</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1ae0fb161753ec39a43417eec94bc4447a" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence::Config</scope><name>init_timeout</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1a35f02675dfa16b0795cf4e1a6604fac8" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence::Config</scope><name>max_wal_entries</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1a6123a92762d84eef9249dfa11ddd1518" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence::Config</scope><name>state_dir</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_paxos_state_persistence_1_1_config_1ae402b7afc502e11e998031e707f6b274" prot="public" virt="non-virtual"><scope>themisdb::sharding::PaxosStatePersistence::Config</scope><name>sync_on_write</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

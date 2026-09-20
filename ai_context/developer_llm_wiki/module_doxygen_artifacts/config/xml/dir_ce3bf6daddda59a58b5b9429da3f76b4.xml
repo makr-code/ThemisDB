@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ce3bf6daddda59a58b5b9429da3f76b4" kind="dir">
+    <compoundname>tests/config</compoundname>
+    <innerfile refid="test__config__coverage_8cpp">test_config_coverage.cpp</innerfile>
+    <innerfile refid="test__config__encrypted__store_8cpp">test_config_encrypted_store.cpp</innerfile>
+    <innerfile refid="test__config__file__watcher_8cpp">test_config_file_watcher.cpp</innerfile>
+    <innerfile refid="test__config__hardening__resolver__validator_8cpp">test_config_hardening_resolver_validator.cpp</innerfile>
+    <innerfile refid="test__config__hardening__watcher__store_8cpp">test_config_hardening_watcher_store.cpp</innerfile>
+    <innerfile refid="test__config__metrics__scrape_8cpp">test_config_metrics_scrape.cpp</innerfile>
+    <innerfile refid="test__config__migration__scanner_8cpp">test_config_migration_scanner.cpp</innerfile>
+    <innerfile refid="test__config__path__resolver_8cpp">test_config_path_resolver.cpp</innerfile>
+    <innerfile refid="test__config__schema__validator_8cpp">test_config_schema_validator.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/config/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_modality_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::ModalityDetector</compoundname>
+    <includes refid="modality__parser_8h" local="no">modality_parser.h</includes>
+    <innerclass refid="classthemis_1_1training_1_1_modality_detector_1_1_impl" prot="public">themis::training::ModalityDetector::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1training_1_1_modality_detector_1a4e2a374c0344ad575b1916ed4473c7bc" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1training_1_1_modality_detector_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::training::ModalityDetector::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::training::ModalityDetector::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="313" column="21" bodyfile="include/training/modality_parser.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ModalityDetector::ModalityDetector</definition>
+        <argsstring>(const ModalityParserConfig &amp;config)</argsstring>
+        <name>ModalityDetector</name>
+        <qualifiedname>themis::training::ModalityDetector::ModalityDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_modality_parser_config" kindref="compound">ModalityParserConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct the detector with the given configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Parser configuration (language, thresholds, OCR flag). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="253" column="14" bodyfile="src/training/modality_parser.cpp" bodystart="727" bodyend="728"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1a76944ddf2a85966bedf4ea4cca932709" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ModalityDetector::~ModalityDetector</definition>
+        <argsstring>()</argsstring>
+        <name>~ModalityDetector</name>
+        <qualifiedname>themis::training::ModalityDetector::~ModalityDetector</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="255" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1a07069194461c3b0627c99a9bfe68a584" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ModalityDetector::ModalityDetector</definition>
+        <argsstring>(const ModalityDetector &amp;)=delete</argsstring>
+        <name>ModalityDetector</name>
+        <qualifiedname>themis::training::ModalityDetector::ModalityDetector</qualifiedname>
+        <param>
+          <type>const ModalityDetector &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="258" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1af4ccb8d48e15f6f4931bb1a7bc36238e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref> &amp;</type>
+        <definition>ModalityDetector &amp; themis::training::ModalityDetector::operator=</definition>
+        <argsstring>(const ModalityDetector &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::training::ModalityDetector::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="259" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1acee9566647cf246d69f665884b090ccf" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::ModalityDetector::ModalityDetector</definition>
+        <argsstring>(ModalityDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>ModalityDetector</name>
+        <qualifiedname>themis::training::ModalityDetector::ModalityDetector</qualifiedname>
+        <param>
+          <type>ModalityDetector &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="260" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1afacfce7a37989dbb4978fc05c510fb92" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref> &amp;</type>
+        <definition>ModalityDetector &amp; themis::training::ModalityDetector::operator=</definition>
+        <argsstring>(ModalityDetector &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::training::ModalityDetector::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" kindref="member">ModalityDetector</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="261" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1ac6cfeca6ff672fe293e93d85ce8e376f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430" kindref="member">ContentModality</ref></type>
+        <definition>ContentModality themis::training::ModalityDetector::detectModality</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;mime_hint=&quot;&quot;) const</argsstring>
+        <name>detectModality</name>
+        <qualifiedname>themis::training::ModalityDetector::detectModality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_hint</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Heuristically detect the dominant modality of <computeroutput>content</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks, in order:<orderedlist>
+<listitem><para><computeroutput>mime_hint</computeroutput> (&quot;image/...&quot; → OCR_IMAGE if enabled)</para>
+</listitem><listitem><para>Table density (pipe characters, aligned columns)</para>
+</listitem><listitem><para>Citation density (§, court-decision patterns)</para>
+</listitem><listitem><para>Falls back to TEXT_CLAUSE</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document content (text or binary). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional MIME-type string to guide detection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Dominant <ref refid="namespacethemis_1_1training_1a42b3986090b456e4c741a98b9ca1c430" kindref="member">ContentModality</ref> of the content. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="276" column="21" bodyfile="src/training/modality_parser.cpp" bodystart="732" bodyend="736"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1a878997059a6130e75a40a13811d791f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parse_result" kindref="compound">ModalityParseResult</ref></type>
+        <definition>ModalityParseResult themis::training::ModalityDetector::parseDocument</definition>
+        <argsstring>(const std::string &amp;content, const std::string &amp;document_id, const std::string &amp;mime_hint=&quot;&quot;) const</argsstring>
+        <name>parseDocument</name>
+        <qualifiedname>themis::training::ModalityDetector::parseDocument</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_hint</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Extract modality-typed training samples from a single document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs all applicable extractors (text, table, citation, OCR) and aggregates results into a single <computeroutput><ref refid="structthemis_1_1training_1_1_modality_parse_result" kindref="compound">ModalityParseResult</ref></computeroutput>. Per-modality extraction statistics are embedded in the result.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw document text (or image path when mime_hint is &quot;image/tiff&quot; etc. for OCR-only documents. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source document identifier for provenance tracing. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mime_hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional MIME-type hint; pass &quot;image/tiff&quot; etc. for OCR-only documents. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parse result with extracted samples and statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="293" column="25" bodyfile="src/training/modality_parser.cpp" bodystart="738" bodyend="743"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_modality_detector_1ac99222c6bbfc5396fb9548ef0fd99d09" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_modality_parse_stats" kindref="compound">ModalityParseStats</ref></type>
+        <definition>ModalityParseStats themis::training::ModalityDetector::parseBatch</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, std::vector&lt; TrainingSample &gt; &amp;out_samples) const</argsstring>
+        <name>parseBatch</name>
+        <qualifiedname>themis::training::ModalityDetector::parseBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_training_sample" kindref="compound">TrainingSample</ref> &gt; &amp;</type>
+          <declname>out_samples</declname>
+        </param>
+        <briefdescription>
+<para>Extract training samples from a batch of documents. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls <computeroutput><ref refid="classthemis_1_1training_1_1_modality_detector_1a878997059a6130e75a40a13811d791f3" kindref="member">parseDocument()</ref></computeroutput> for each entry in <computeroutput>documents</computeroutput> and appends all produced samples to <computeroutput>out_samples</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pairs of (content, document_id). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Output vector; samples are appended (not replaced). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Aggregated statistics across the entire batch. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/modality_parser.h" line="307" column="24" bodyfile="src/training/modality_parser.cpp" bodystart="745" bodyend="750"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Auto-detecting multi-modality document parser. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Inspects document content using layout and pattern heuristics to determine which modalities are present, then dispatches to the appropriate extractor. The detector can also be driven in full-parse mode, which runs all applicable extractors and aggregates their output.</para>
+<para>Thread-safety: <computeroutput><ref refid="classthemis_1_1training_1_1_modality_detector" kindref="compound">ModalityDetector</ref></computeroutput> is immutable after construction; <computeroutput><ref refid="classthemis_1_1training_1_1_modality_detector_1a878997059a6130e75a40a13811d791f3" kindref="member">parseDocument()</ref></computeroutput> and <computeroutput><ref refid="classthemis_1_1training_1_1_modality_detector_1ac99222c6bbfc5396fb9548ef0fd99d09" kindref="member">parseBatch()</ref></computeroutput> may be called concurrently. </para>
+    </detaileddescription>
+    <location file="include/training/modality_parser.h" line="247" column="1" bodyfile="include/training/modality_parser.h" bodystart="247" bodyend="314"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1ac6cfeca6ff672fe293e93d85ce8e376f" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>detectModality</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1a4e2a374c0344ad575b1916ed4473c7bc" prot="private" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1a18268584cf4f671aa7f4e3dedac2c3ae" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>ModalityDetector</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1a07069194461c3b0627c99a9bfe68a584" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>ModalityDetector</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1acee9566647cf246d69f665884b090ccf" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>ModalityDetector</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1af4ccb8d48e15f6f4931bb1a7bc36238e" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1afacfce7a37989dbb4978fc05c510fb92" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1ac99222c6bbfc5396fb9548ef0fd99d09" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>parseBatch</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1a878997059a6130e75a40a13811d791f3" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>parseDocument</name></member>
+      <member refid="classthemis_1_1training_1_1_modality_detector_1a76944ddf2a85966bedf4ea4cca932709" prot="public" virt="non-virtual"><scope>themis::training::ModalityDetector</scope><name>~ModalityDetector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

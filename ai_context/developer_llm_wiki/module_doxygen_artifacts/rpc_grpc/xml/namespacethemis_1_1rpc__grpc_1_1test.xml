@@ -1,0 +1,350 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rpc__grpc_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::rpc_grpc::test</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1rpc__grpc_1_1test_1a33190d32e43af259a6edd7654480a6ad" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc_grpc::test::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>themis::rpc_grpc::test::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="29" column="27" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1afa61125a8dc25e8bbb6e58c306fa86cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC01_ErrorCodeUniqueness)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC01_ErrorCodeUniqueness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="35" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="35" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a0b7490d7f0bec481b064c9fdf90b799e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC02_ErrorCodeRange)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC02_ErrorCodeRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="58" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="58" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a7fd70e96186fcb15965f99875c19b8cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC03_SwitchDispatch)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC03_SwitchDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="78" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="78" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a2272ef691f4bdc8554f19516d14aa849" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC04_ServerStateDistinct)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC04_ServerStateDistinct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="103" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="103" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a9ff9dbd7dc876357840253506b117789" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC05_ServiceDescriptorDefaults)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC05_ServiceDescriptorDefaults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="117" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="117" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1ac0db1850f63b910355a80f3f26a50a82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC06_ServiceDescriptorCopy)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC06_ServiceDescriptorCopy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="129" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="129" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a66d1a128e75d92ee6e0af1a3ae3db4c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC07_ServiceDescriptorMove)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC07_ServiceDescriptorMove</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="145" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="145" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a0ebba93647c5146d150818b720044c66" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC08_FailClosedPredicate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC08_FailClosedPredicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="159" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="159" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1aab984ddfbe63cbadaa0e9d68d374b7e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC09_ErrorCodeSerialization)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC09_ErrorCodeSerialization</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="181" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="181" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a941e13f5b1d79783cda6908762fe2338" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC10_StateTransitionInvariants)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC10_StateTransitionInvariants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="204" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="204" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1acc4685ac97d2e48f11d000c2ce46d069" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC11_ServiceDescriptorValidation)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC11_ServiceDescriptorValidation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="249" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="249" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1afb47227c1e44880ecd0979fc36a91b50" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC12_ErrorTaxonomyCompleteness)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC12_ErrorTaxonomyCompleteness</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="276" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="276" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a8e60de1899f5f225e62ec8af1df0ebf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC13_KeepaliveTimingConstants)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC13_KeepaliveTimingConstants</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="301" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="301" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1a4b2491b1be4f4de77b91c734381b3e16" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC14_MessageSizeBounds)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC14_MessageSizeBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="311" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="311" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1ad2b5dbd3bbf3c18c7d5f54d89030b8ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC15_ServiceNameLengthConstraint)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC15_ServiceNameLengthConstraint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="321" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="321" bodyend="332"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1rpc__grpc_1_1test_1adbdf604459392d48fbe551d7ee0a5c7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rpc_grpc::test::TEST</definition>
+        <argsstring>(RpcGrpcContractHardening, RPC16_MethodNameLengthConstraint)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::rpc_grpc::test::TEST</qualifiedname>
+        <param>
+          <type>RpcGrpcContractHardening</type>
+        </param>
+        <param>
+          <type>RPC16_MethodNameLengthConstraint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="338" column="1" bodyfile="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" bodystart="338" bodyend="348"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/rpc_grpc/test_rpc_grpc_contract_hardening_focused.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

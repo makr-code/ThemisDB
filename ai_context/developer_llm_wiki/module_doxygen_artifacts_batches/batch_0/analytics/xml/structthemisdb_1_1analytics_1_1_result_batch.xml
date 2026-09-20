@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_result_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ResultBatch</compoundname>
+    <includes refid="result__aggregator_8h" local="no">result_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_batch_1ad0537eaf0f3947549887376adf4b48dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ResultBatch::batch_id</definition>
+        <argsstring></argsstring>
+        <name>batch_id</name>
+        <qualifiedname>themisdb::analytics::ResultBatch::batch_id</qualifiedname>
+        <briefdescription>
+<para>Unique batch identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="40" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_batch_1aa4f847d0df0016030f368c968b1575e3" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_result_record" kindref="compound">ResultRecord</ref> &gt;</type>
+        <definition>std::vector&lt;ResultRecord&gt; themisdb::analytics::ResultBatch::records</definition>
+        <argsstring></argsstring>
+        <name>records</name>
+        <qualifiedname>themisdb::analytics::ResultBatch::records</qualifiedname>
+        <briefdescription>
+<para>Result records in batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="41" column="17" bodyfile="include/analytics/result_aggregator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_batch_1a1da353e56eaca33f5f79816935845d27" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themisdb::analytics::ResultBatch::batch_num</definition>
+        <argsstring></argsstring>
+        <name>batch_num</name>
+        <qualifiedname>themisdb::analytics::ResultBatch::batch_num</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="42" column="13" bodyfile="include/analytics/result_aggregator.h" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_result_batch_1a4d5f2e8bf71a634a9c8fa24f913727fe" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ResultBatch::auto_flush</definition>
+        <argsstring></argsstring>
+        <name>auto_flush</name>
+        <qualifiedname>themisdb::analytics::ResultBatch::auto_flush</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Auto-flush after write. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/result_aggregator.h" line="43" column="10" bodyfile="include/analytics/result_aggregator.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/result_aggregator.h" line="39" column="1" bodyfile="include/analytics/result_aggregator.h" bodystart="39" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_result_batch_1a4d5f2e8bf71a634a9c8fa24f913727fe" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultBatch</scope><name>auto_flush</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_batch_1ad0537eaf0f3947549887376adf4b48dd" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultBatch</scope><name>batch_id</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_batch_1a1da353e56eaca33f5f79816935845d27" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultBatch</scope><name>batch_num</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_result_batch_1aa4f847d0df0016030f368c968b1575e3" prot="public" virt="non-virtual"><scope>themisdb::analytics::ResultBatch</scope><name>records</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

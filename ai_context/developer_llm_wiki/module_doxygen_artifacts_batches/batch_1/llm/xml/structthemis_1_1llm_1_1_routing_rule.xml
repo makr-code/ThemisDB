@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_routing_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::RoutingRule</compoundname>
+    <includes refid="model__router_8h" local="no">model_router.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1llm_1_1_routing_rule_1a44d48388a87e374b0a0c8eb7c4e85b37" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MatchMode</name>
+        <qualifiedname>themis::llm::RoutingRule::MatchMode</qualifiedname>
+        <enumvalue id="structthemis_1_1llm_1_1_routing_rule_1a44d48388a87e374b0a0c8eb7c4e85b37a8e1bde3c3d303163521522cf1d62f21f" prot="public">
+          <name>ANY</name>
+          <briefdescription>
+<para>Rule matches when at least one pattern or tag matches. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1llm_1_1_routing_rule_1a44d48388a87e374b0a0c8eb7c4e85b37a5fb1f955b45e38e31789286a1790398d" prot="public">
+          <name>ALL</name>
+          <briefdescription>
+<para>Rule matches only when every pattern and every tag matches. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="39" column="5" bodyfile="include/llm/model_router.h" bodystart="39" bodyend="42"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_rule_1ad11c845feb6c3ee35bface1656724c4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RoutingRule::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::llm::RoutingRule::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="29" column="17" bodyfile="include/llm/model_router.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_rule_1a1ee2da6940467efc7252dc0879a68aa1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::RoutingRule::priority</definition>
+        <argsstring></argsstring>
+        <name>priority</name>
+        <qualifiedname>themis::llm::RoutingRule::priority</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="31" column="9" bodyfile="include/llm/model_router.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_rule_1a84ac2d74f6998af5eaea759f8f700481" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RoutingRule::target_model_id</definition>
+        <argsstring></argsstring>
+        <name>target_model_id</name>
+        <qualifiedname>themis::llm::RoutingRule::target_model_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="33" column="17" bodyfile="include/llm/model_router.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_rule_1ada866aae9e1576288f8576ef81d6713c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::RoutingRule::prompt_patterns</definition>
+        <argsstring></argsstring>
+        <name>prompt_patterns</name>
+        <qualifiedname>themis::llm::RoutingRule::prompt_patterns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="35" column="17" bodyfile="include/llm/model_router.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_rule_1af65dd6174070d989dff30eeb9b1d8841" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::RoutingRule::metadata_tags</definition>
+        <argsstring></argsstring>
+        <name>metadata_tags</name>
+        <qualifiedname>themis::llm::RoutingRule::metadata_tags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="37" column="17" bodyfile="include/llm/model_router.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_rule_1a7e8c5886a89901c30abd6b93e9cbc96b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_routing_rule_1a44d48388a87e374b0a0c8eb7c4e85b37" kindref="member">MatchMode</ref></type>
+        <definition>MatchMode themis::llm::RoutingRule::match_mode</definition>
+        <argsstring></argsstring>
+        <name>match_mode</name>
+        <qualifiedname>themis::llm::RoutingRule::match_mode</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1llm_1_1_routing_rule_1a44d48388a87e374b0a0c8eb7c4e85b37a8e1bde3c3d303163521522cf1d62f21f" kindref="member">MatchMode::ANY</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="43" column="15" bodyfile="include/llm/model_router.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_routing_rule_1ae12f3d90a2f8ccb4f5c36cef7cc5d853" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::RoutingRule::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::llm::RoutingRule::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="45" column="17" bodyfile="include/llm/model_router.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_routing_rule_1a20ab295d7efadb92299cc3c7af36fcf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::RoutingRule::~RoutingRule</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RoutingRule</name>
+        <qualifiedname>themis::llm::RoutingRule::~RoutingRule</qualifiedname>
+        <briefdescription>
+<para>Routing Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/model_router.h" line="28" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/model_router.h" line="23" column="1" bodyfile="include/llm/model_router.h" bodystart="23" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1ae12f3d90a2f8ccb4f5c36cef7cc5d853" prot="public" virt="non-virtual"><scope>themis::llm::RoutingRule</scope><name>description</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1ad11c845feb6c3ee35bface1656724c4e" prot="public" virt="non-virtual"><scope>themis::llm::RoutingRule</scope><name>id</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1a7e8c5886a89901c30abd6b93e9cbc96b" prot="public" virt="non-virtual"><scope>themis::llm::RoutingRule</scope><name>match_mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1a44d48388a87e374b0a0c8eb7c4e85b37" prot="public" virt="non-virtual"><scope>themis::llm::RoutingRule</scope><name>MatchMode</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1af65dd6174070d989dff30eeb9b1d8841" prot="public" virt="non-virtual"><scope>themis::llm::RoutingRule</scope><name>metadata_tags</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1a1ee2da6940467efc7252dc0879a68aa1" prot="public" virt="non-virtual"><scope>themis::llm::RoutingRule</scope><name>priority</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1ada866aae9e1576288f8576ef81d6713c" prot="public" virt="non-virtual"><scope>themis::llm::RoutingRule</scope><name>prompt_patterns</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1a84ac2d74f6998af5eaea759f8f700481" prot="public" virt="non-virtual"><scope>themis::llm::RoutingRule</scope><name>target_model_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_routing_rule_1a20ab295d7efadb92299cc3c7af36fcf6" prot="public" virt="virtual"><scope>themis::llm::RoutingRule</scope><name>~RoutingRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

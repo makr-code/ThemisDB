@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_graph_analytics_1_1_graph_topology" kind="struct" language="C++" prot="private">
+    <compoundname>themis::GraphAnalytics::GraphTopology</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_graph_analytics_1_1_graph_topology_1a06b1ad3ed9d6e15cd701b110c3e0627a" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::GraphAnalytics::GraphTopology::outgoing</definition>
+        <argsstring></argsstring>
+        <name>outgoing</name>
+        <qualifiedname>themis::GraphAnalytics::GraphTopology::outgoing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="104" column="28" bodyfile="include/index/graph_analytics.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_graph_analytics_1_1_graph_topology_1a0111320e6faec83a6384bf757d1d9bf9" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::GraphAnalytics::GraphTopology::incoming</definition>
+        <argsstring></argsstring>
+        <name>incoming</name>
+        <qualifiedname>themis::GraphAnalytics::GraphTopology::incoming</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/graph_analytics.h" line="105" column="28" bodyfile="include/index/graph_analytics.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/graph_analytics.h" line="103" column="5" bodyfile="include/index/graph_analytics.h" bodystart="103" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_graph_analytics_1_1_graph_topology_1a0111320e6faec83a6384bf757d1d9bf9" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::GraphTopology</scope><name>incoming</name></member>
+      <member refid="structthemis_1_1_graph_analytics_1_1_graph_topology_1a06b1ad3ed9d6e15cd701b110c3e0627a" prot="public" virt="non-virtual"><scope>themis::GraphAnalytics::GraphTopology</scope><name>outgoing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

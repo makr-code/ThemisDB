@@ -1,0 +1,550 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_tensor_router" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::TensorRouter</compoundname>
+    <includes refid="tensor__router_8h" local="no">tensor_router.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile" prot="public">themis::storage::TensorRouter::DataProfile</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result" prot="public">themis::storage::TensorRouter::TemplateValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats" prot="public">themis::storage::TensorRouter::RouterStats</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl" prot="public">themis::storage::TensorRouter::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>Route</name>
+        <qualifiedname>themis::storage::TensorRouter::Route</qualifiedname>
+        <enumvalue id="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090a1cdbe92bde755f6bdfd19c8e52f7f51a" prot="public">
+          <name>TENSOR_TRAIN</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Fully compress to TT (index on TT-cores). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090a3bf07fe8ac3883060b1558113ba248d4" prot="public">
+          <name>HYBRID</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>TT shadow for ANN + native storage. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090aeddfb2a2864a735ae508076a555c5075" prot="public">
+          <name>HNSW</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Standard vector index (no TT layer). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Routing result for index-creation time (no tensor data available). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used by <computeroutput>TensorIndexManager::routeFor()</computeroutput> which decides the index type for a (tenant, collection, field) triple before any vectors are stored. Values map to <computeroutput><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" kindref="member">TensorRouteDecision</ref></computeroutput> as follows: TENSOR_TRAIN ↔ LIFT — full TT compression HYBRID ↔ HYBRID — TT shadow + native storage HNSW ↔ KEEP — standard vector index only </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="182" column="5" bodyfile="include/storage/tensor_router.h" bodystart="182" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;, const tensor::TensorNetworkGraph &amp;, const <ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref> &amp;)&gt;</type>
+        <definition>using themis::storage::TensorRouter::TemplateTopologyApplyFn = 
+std::function&lt;bool(const std::string&amp;,
+                   const tensor::TensorNetworkGraph&amp;,
+                   const TensorRouteHint&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>TemplateTopologyApplyFn</name>
+        <qualifiedname>themis::storage::TensorRouter::TemplateTopologyApplyFn</qualifiedname>
+        <briefdescription>
+<para>Callback used to apply a matched TemplateCatalog topology to the stored index structure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The callback is invoked only after <computeroutput><ref refid="classthemis_1_1storage_1_1_tensor_router_1a82ede97a2624c1114678f89435e09750" kindref="member">validateTemplate()</ref></computeroutput> confirms that the matched graph is structurally compatible with the data&apos;s mode sizes. It is responsible for embedding the template topology into the index cores (e.g. by adjusting bond dimensions or reordering mode contractions to follow the template graph&apos;s node connectivity).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>domain_tag</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Domain tag that produced the template hit. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Validated template graph (guaranteed non-empty and mode-compatible at call time). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original route hint (read-only; contains domain_tag, category, distribution, etc.). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> — topology embedding succeeded; router promotes to LIFT. <computeroutput>false</computeroutput> — embedding failed or was not applicable; router falls back to the pilot-based heuristic path.</para>
+</simplesect>
+<simplesect kind="note"><para>The callback must be exception-safe. Any thrown exception is caught by the router, logged as a warning, and treated as <computeroutput>false</computeroutput> (heuristic fallback). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="350" column="5" bodyfile="include/storage/tensor_router.h" bodystart="350" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_tensor_router_1a3dd876a9b603ecf633bcfdd6ee96655b" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::storage::TensorRouter::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::storage::TensorRouter::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="387" column="21" bodyfile="include/storage/tensor_router.h" bodystart="387" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a03bb4da154b423ee9ec9605a8414caa5" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090" kindref="member">Route</ref></type>
+        <definition>TensorRouter::Route themis::storage::TensorRouter::decide</definition>
+        <argsstring>(const DataProfile &amp;p) noexcept</argsstring>
+        <name>decide</name>
+        <qualifiedname>themis::storage::TensorRouter::decide</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile" kindref="compound">DataProfile</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Heuristic routing from a <computeroutput><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_data_profile" kindref="compound">DataProfile</ref></computeroutput> (no pilot, no engine). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Applies dimension and κ thresholds without running a TT-SVD pilot. Used by <computeroutput>TensorIndexManager</computeroutput> at index-creation time when no concrete data sample is available yet.</para>
+<para>Thresholds (from research/HNSW_FAISS_TT_BOUNDARY_ANALYSIS.md §3.2): κ ≥ 1.7 AND dim ≥ 256 → TENSOR_TRAIN κ ≥ 1.3 → HYBRID otherwise → HNSW </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="215" column="18" bodyfile="src/storage/tensor_router.cpp" bodystart="42" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a82ede97a2624c1114678f89435e09750" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></type>
+        <definition>TensorRouter::TemplateValidationResult themis::storage::TensorRouter::validateTemplate</definition>
+        <argsstring>(const tensor::TensorNetworkGraph &amp;graph, const std::vector&lt; std::size_t &gt; &amp;mode_sizes) noexcept</argsstring>
+        <name>validateTemplate</name>
+        <qualifiedname>themis::storage::TensorRouter::validateTemplate</qualifiedname>
+        <param>
+          <type>const tensor::TensorNetworkGraph &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <briefdescription>
+<para>Validate a template graph against a concrete set of mode sizes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Checks structural compatibility of <computeroutput>graph</computeroutput> with the data shape described by <computeroutput>mode_sizes</computeroutput> before the template is applied to index construction. The router calls this internally before invoking <computeroutput><ref refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" kindref="member">TemplateTopologyApplyFn</ref></computeroutput>; callers may use it independently for pre-flight checks.</para>
+<para>Validation rules (in priority order):<orderedlist>
+<listitem><para><computeroutput>graph</computeroutput> must be non-empty (at least one node).</para>
+</listitem><listitem><para><computeroutput>mode_sizes</computeroutput> must be non-empty (topology cannot be checked without shape information).</para>
+</listitem><listitem><para>Every node&apos;s <computeroutput>mode_index</computeroutput> must be strictly less than <computeroutput>mode_sizes.size()</computeroutput> — a node referencing a non-existent mode indicates a topology mismatch between the template and the data.</para>
+</listitem></orderedlist>
+</para>
+<para>When validation fails the router skips <computeroutput><ref refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" kindref="member">TemplateTopologyApplyFn</ref></computeroutput> and falls back to the pilot-based heuristic path, logging a warning with the returned <computeroutput>reason</computeroutput> string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Template graph to validate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shape of the tensor data the template will be applied to (same vector that is passed to <computeroutput><ref refid="classthemis_1_1storage_1_1_tensor_router_1a340b1be6024c8b84aef2ded3bb8909c6" kindref="member">route()</ref></computeroutput>). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result_1a126992bfba65d3d5d0860606385d6c4f" kindref="member">TemplateValidationResult::valid</ref> == true</computeroutput> when compatible; <computeroutput>false</computeroutput> with a diagnostic <computeroutput>reason</computeroutput> on any constraint violation.</para>
+</simplesect>
+<simplesect kind="note"><para><computeroutput>noexcept</computeroutput> — never throws; all error information is returned in the <computeroutput><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_template_validation_result" kindref="compound">TemplateValidationResult</ref></computeroutput>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="266" column="9" bodyfile="src/storage/tensor_router.cpp" bodystart="61" bodyend="86"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a52858ee393046bd2216dd7f969c7bb08" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TensorRouter::TensorRouter</definition>
+        <argsstring>(std::shared_ptr&lt; TensorNetworkStorageEngine &gt; engine, TensorRoutingPolicy policy={})</argsstring>
+        <name>TensorRouter</name>
+        <qualifiedname>themis::storage::TensorRouter::TensorRouter</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_tensor_network_storage_engine" kindref="compound">TensorNetworkStorageEngine</ref> &gt;</type>
+          <declname>engine</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy" kindref="compound">TensorRoutingPolicy</ref></type>
+          <declname>policy</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="273" column="14" bodyfile="src/storage/tensor_router.cpp" bodystart="340" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1aa9a0bcae34ac5bb716f24d5df653a43f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::TensorRouter::~TensorRouter</definition>
+        <argsstring>()</argsstring>
+        <name>~TensorRouter</name>
+        <qualifiedname>themis::storage::TensorRouter::~TensorRouter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="277" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a340b1be6024c8b84aef2ded3bb8909c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cda" kindref="member">TensorRouteDecision</ref></type>
+        <definition>TensorRouteDecision themis::storage::TensorRouter::route</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;mode_sizes, const TensorRouteHint &amp;hint={}) const</argsstring>
+        <name>route</name>
+        <qualifiedname>themis::storage::TensorRouter::route</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref> &amp;</type>
+          <declname>hint</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Decide routing for a tensor before storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Probes compressibility via a pilot TT-SVD on a data sample, applies policy thresholds, and returns the routing decision.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Flat tensor data (float32). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>mode_sizes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shape. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional caller-supplied hints. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Routing decision.</para>
+</simplesect>
+STUB/SIMULATION NOTE: Purpose: Heuristic routing using TT-SVD pilot on sample. Activation: Always active. ML routing gated by policy.use_ml_routing. Production Delta: ML model uses a gradient-boosted decision tree trained on historical compression ratios, access patterns, and data categories. Removal Plan: Replace heuristic branch with ML inference Q2 2027. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="297" column="25" bodyfile="src/storage/tensor_router.cpp" bodystart="361" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a41816030c3dc8d32ebd931388974c2cd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::TensorRouter::explain</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;data, const std::vector&lt; std::size_t &gt; &amp;mode_sizes, const TensorRouteHint &amp;hint={}) const</argsstring>
+        <name>explain</name>
+        <qualifiedname>themis::storage::TensorRouter::explain</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::size_t &gt; &amp;</type>
+          <declname>mode_sizes</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1storage_1_1_tensor_route_hint" kindref="compound">TensorRouteHint</ref> &amp;</type>
+          <declname>hint</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Explain the routing decision in human-readable form. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a JSON object with the decision, reason, estimated compression ratio, pilot TT-rank, and applied policy thresholds. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="308" column="17" bodyfile="src/storage/tensor_router.cpp" bodystart="403" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a2e035a6291d317c2adb2267861f9a3e8" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_tensor_router_1_1_router_stats" kindref="compound">RouterStats</ref></type>
+        <definition>TensorRouter::RouterStats themis::storage::TensorRouter::stats</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::storage::TensorRouter::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="322" column="17" bodyfile="src/storage/tensor_router.cpp" bodystart="460" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a9a27f0974b473ccfd732ac06115a15f4" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1storage_1_1_tensor_routing_policy" kindref="compound">TensorRoutingPolicy</ref> &amp;</type>
+        <definition>const TensorRoutingPolicy &amp; themis::storage::TensorRouter::policy</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>policy</name>
+        <qualifiedname>themis::storage::TensorRouter::policy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="324" column="31" bodyfile="src/storage/tensor_router.cpp" bodystart="465" bodyend="467"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a58b8c81359ce0976529e6cad4edcbd38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorRouter::setPolicy</definition>
+        <argsstring>(TensorRoutingPolicy p)</argsstring>
+        <name>setPolicy</name>
+        <qualifiedname>themis::storage::TensorRouter::setPolicy</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_tensor_routing_policy" kindref="compound">TensorRoutingPolicy</ref></type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Set Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="325" column="10" bodyfile="src/storage/tensor_router.cpp" bodystart="474" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a6c260c34d32a7ba5e0345261934a51d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorRouter::setTemplateCatalog</definition>
+        <argsstring>(std::shared_ptr&lt; tensor::TemplateCatalog &gt; catalog)</argsstring>
+        <name>setTemplateCatalog</name>
+        <qualifiedname>themis::storage::TensorRouter::setTemplateCatalog</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; tensor::TemplateCatalog &gt;</type>
+          <declname>catalog</declname>
+        </param>
+        <briefdescription>
+<para>Wire a TemplateCatalog for domain-tag-based routing promotion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Template Catalog.</para>
+<para>When a non-null catalog is set, <computeroutput><ref refid="classthemis_1_1storage_1_1_tensor_router_1a340b1be6024c8b84aef2ded3bb8909c6" kindref="member">route()</ref></computeroutput> checks the catalog for a matching template whenever <computeroutput><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ae3095690d86d955c56baaf837f28f84d" kindref="member">TensorRouteHint::domain_tag</ref></computeroutput> is non-empty. On a catalog hit the router first validates the template topology via <computeroutput><ref refid="classthemis_1_1storage_1_1_tensor_router_1a82ede97a2624c1114678f89435e09750" kindref="member">validateTemplate()</ref></computeroutput>. Only a compatible template (validation succeeds) and a successfully applied callback (returns <computeroutput>true</computeroutput>) promote the decision to LIFT. If validation fails, the callback is skipped and the router falls back to the pilot-based heuristic with a warning log entry.</para>
+<para>Passing nullptr disables template-catalog lookups (default).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">catalog</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="368" column="10" bodyfile="src/storage/tensor_router.cpp" bodystart="482" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a33e0537af23697588c6607fac654ece7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::shared_ptr&lt; tensor::TemplateCatalog &gt;</type>
+        <definition>std::shared_ptr&lt; tensor::TemplateCatalog &gt; themis::storage::TensorRouter::templateCatalog</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>templateCatalog</name>
+        <qualifiedname>themis::storage::TensorRouter::templateCatalog</qualifiedname>
+        <briefdescription>
+<para>Return the currently wired TemplateCatalog (may be nullptr). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="373" column="21" bodyfile="src/storage/tensor_router.cpp" bodystart="521" bodyend="523"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a0647946473864fc96bda20ed27790f92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorRouter::setTemplateTopologyApplyFn</definition>
+        <argsstring>(TemplateTopologyApplyFn fn)</argsstring>
+        <name>setTemplateTopologyApplyFn</name>
+        <qualifiedname>themis::storage::TensorRouter::setTemplateTopologyApplyFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" kindref="member">TemplateTopologyApplyFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Install/remove/read the template-topology embedding callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Template Topology Apply Fn.</para>
+<para>Thread-safe. The callback is invoked on TemplateCatalog hits.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="380" column="10" bodyfile="src/storage/tensor_router.cpp" bodystart="493" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a6331012ac1f4fbee217641ee9d880a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::TensorRouter::clearTemplateTopologyApplyFn</definition>
+        <argsstring>()</argsstring>
+        <name>clearTemplateTopologyApplyFn</name>
+        <qualifiedname>themis::storage::TensorRouter::clearTemplateTopologyApplyFn</qualifiedname>
+        <briefdescription>
+<para>Clear Template Topology Apply Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lk(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="381" column="10" bodyfile="src/storage/tensor_router.cpp" bodystart="510" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1a2d97607a1ada6ec54154324d8825f3cd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::TensorRouter::hasTemplateTopologyApplyFn</definition>
+        <argsstring>() const</argsstring>
+        <name>hasTemplateTopologyApplyFn</name>
+        <qualifiedname>themis::storage::TensorRouter::hasTemplateTopologyApplyFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="382" column="11" bodyfile="src/storage/tensor_router.cpp" bodystart="515" bodyend="518"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_tensor_router_1af45bd0e5ee43fc99b7f39671d299a319" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" kindref="member">TemplateTopologyApplyFn</ref></type>
+        <definition>TensorRouter::TemplateTopologyApplyFn themis::storage::TensorRouter::getTemplateTopologyApplyFn</definition>
+        <argsstring>() const</argsstring>
+        <name>getTemplateTopologyApplyFn</name>
+        <qualifiedname>themis::storage::TensorRouter::getTemplateTopologyApplyFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/tensor_router.h" line="383" column="30" bodyfile="src/storage/tensor_router.cpp" bodystart="525" bodyend="528"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Decides routing of multi-model data to TT-storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><heading level="3">Usage Example</heading>
+</para>
+<para><programlisting filename=".cpp"><codeline><highlight class="normal"><ref refid="classthemis_1_1storage_1_1_tensor_router_1a52858ee393046bd2216dd7f969c7bb08" kindref="member">TensorRouter</ref><sp/>router(engine,<sp/><ref refid="classthemis_1_1storage_1_1_tensor_router_1a9a27f0974b473ccfd732ac06115a15f4" kindref="member">policy</ref>);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>Before<sp/>storing<sp/>an<sp/>LLM<sp/>embedding:</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">TensorRouteHint<sp/>hint;</highlight></codeline>
+<codeline><highlight class="normal">hint.category<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1ab7b29395dc13c24f1de18073fccfb99ca7f2699c7a1e80cc61c1873b896421176" kindref="member">TensorRouteHint::DataCategory::EMBEDDING</ref>;</highlight></codeline>
+<codeline><highlight class="normal">hint.distribution<sp/><sp/>=<sp/><ref refid="structthemis_1_1storage_1_1_tensor_route_hint_1a315992e6b82441d2ee85a7a39a1faf44a1e23852820b9154316c7c06e2b7ba051" kindref="member">TensorRouteHint::Distribution::NORMAL</ref>;</highlight></codeline>
+<codeline><highlight class="normal">hint.inference_use<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>decision<sp/>=<sp/>router.route(data,<sp/>mode_sizes,<sp/>hint);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(decision)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa125ff280b91715730da29dee7bc66da6" kindref="member">TensorRouteDecision::LIFT</ref>:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine-&gt;put(key,<sp/>data,<sp/>mode_sizes);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa3bf07fe8ac3883060b1558113ba248d4" kindref="member">TensorRouteDecision::HYBRID</ref>:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>native_store-&gt;put(key,<sp/>data);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>engine-&gt;put(tt_shadow_key,<sp/>data,<sp/>mode_sizes);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1ab7cb28745b37f08ef3a113f9a7e10cdaa60cba2874369bd3790e14ea5f8a7bc58" kindref="member">TensorRouteDecision::KEEP</ref>:</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>native_store-&gt;put(key,<sp/>data);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/storage/tensor_router.h" line="166" column="1" bodyfile="include/storage/tensor_router.h" bodystart="166" bodyend="388"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a6331012ac1f4fbee217641ee9d880a81" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>clearTemplateTopologyApplyFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a03bb4da154b423ee9ec9605a8414caa5" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>decide</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a41816030c3dc8d32ebd931388974c2cd" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>explain</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1af45bd0e5ee43fc99b7f39671d299a319" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>getTemplateTopologyApplyFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a2d97607a1ada6ec54154324d8825f3cd" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>hasTemplateTopologyApplyFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a3dd876a9b603ecf633bcfdd6ee96655b" prot="private" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a9a27f0974b473ccfd732ac06115a15f4" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>policy</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a865469cca0153a7ad18915f385b6e090" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>Route</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a340b1be6024c8b84aef2ded3bb8909c6" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>route</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a58b8c81359ce0976529e6cad4edcbd38" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>setPolicy</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a6c260c34d32a7ba5e0345261934a51d9" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>setTemplateCatalog</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a0647946473864fc96bda20ed27790f92" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>setTemplateTopologyApplyFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a2e035a6291d317c2adb2267861f9a3e8" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>stats</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a33e0537af23697588c6607fac654ece7" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>templateCatalog</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1ab054883c2a1efbbe5fe9ba9a84a3c330" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>TemplateTopologyApplyFn</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a52858ee393046bd2216dd7f969c7bb08" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>TensorRouter</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1a82ede97a2624c1114678f89435e09750" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>validateTemplate</name></member>
+      <member refid="classthemis_1_1storage_1_1_tensor_router_1aa9a0bcae34ac5bb716f24d5df653a43f" prot="public" virt="non-virtual"><scope>themis::storage::TensorRouter</scope><name>~TensorRouter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

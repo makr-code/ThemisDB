@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_federated_scope_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>FederatedScopeIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_federated_scope_integration_test_1a677ab0e5faabcf1ebed2221aa9927d5f" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1query_1_1_scope_enforcer" kindref="compound">ScopeEnforcer</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;ScopeEnforcer&gt; FederatedScopeIntegrationTest::enforcer</definition>
+        <argsstring></argsstring>
+        <name>enforcer</name>
+        <qualifiedname>FederatedScopeIntegrationTest::enforcer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_scope_safety.cpp" line="57" column="21" bodyfile="tests/query/test_query_federation_scope_safety.cpp" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_federated_scope_integration_test_1a01b3aeef8e6fd8ccceb35b3b8d851431" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void FederatedScopeIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>FederatedScopeIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_federation_scope_safety.cpp" line="59" column="10" bodyfile="tests/query/test_query_federation_scope_safety.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>FederatedScopeIntegrationTest</label>
+        <link refid="class_federated_scope_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>FederatedScopeIntegrationTest</label>
+        <link refid="class_federated_scope_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/query/test_query_federation_scope_safety.cpp" line="55" column="1" bodyfile="tests/query/test_query_federation_scope_safety.cpp" bodystart="55" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_federated_scope_integration_test_1a677ab0e5faabcf1ebed2221aa9927d5f" prot="protected" virt="non-virtual"><scope>FederatedScopeIntegrationTest</scope><name>enforcer</name></member>
+      <member refid="class_federated_scope_integration_test_1a01b3aeef8e6fd8ccceb35b3b8d851431" prot="protected" virt="non-virtual"><scope>FederatedScopeIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

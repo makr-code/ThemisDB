@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::NVFP4QuantizationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" prot="protected" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config" kindref="compound">PagedKVCache::Config</ref></type>
+        <definition>PagedKVCache::Config themis::llm::test::NVFP4QuantizationTest::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::llm::test::NVFP4QuantizationTest::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="120" column="26" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1af76e9e43da6a4cfe9655fc44375b2c37" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::test::NVFP4QuantizationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::llm::test::NVFP4QuantizationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="37" column="10" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="37" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1ac0b875eb8917a4ea69c21be11ce108cf" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::test::NVFP4QuantizationTest::generateRandomKVData</definition>
+        <argsstring>(size_t size, uint32_t seed=42)</argsstring>
+        <name>generateRandomKVData</name>
+        <qualifiedname>themis::llm::test::NVFP4QuantizationTest::generateRandomKVData</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seed</declname>
+          <defval>42</defval>
+        </param>
+        <briefdescription>
+<para>Generate random KV cache data with realistic distribution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="49" column="17" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="49" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a43db7a745b4a8afaf4caacd820b05838" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::llm::test::NVFP4QuantizationTest::generateRealisticKVData</definition>
+        <argsstring>(size_t size)</argsstring>
+        <name>generateRealisticKVData</name>
+        <qualifiedname>themis::llm::test::NVFP4QuantizationTest::generateRealisticKVData</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Generate typical KV cache patterns (sparsity, correlations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="61" column="17" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="61" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a669e3da643d385039f5caa06d6cef81e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::test::NVFP4QuantizationTest::calculateMAPE</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;original, const std::vector&lt; float &gt; &amp;reconstructed)</argsstring>
+        <name>calculateMAPE</name>
+        <qualifiedname>themis::llm::test::NVFP4QuantizationTest::calculateMAPE</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>reconstructed</declname>
+        </param>
+        <briefdescription>
+<para>Calculate MAPE (Mean Absolute Percentage Error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="82" column="11" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="82" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1ae3229a731065eb51ec181c1da26f00d7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::llm::test::NVFP4QuantizationTest::calculateMSE</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;original, const std::vector&lt; float &gt; &amp;reconstructed)</argsstring>
+        <name>calculateMSE</name>
+        <qualifiedname>themis::llm::test::NVFP4QuantizationTest::calculateMSE</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>original</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>reconstructed</declname>
+        </param>
+        <briefdescription>
+<para>Calculate MSE (Mean Squared Error). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="106" column="11" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="106" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test fixture for NVFP4 KV quantization tests. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::llm::test::NVFP4QuantizationTest</label>
+        <link refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::llm::PagedKVCache::Config</label>
+        <link refid="structthemis_1_1llm_1_1_paged_k_v_cache_1_1_config"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::test::NVFP4QuantizationTest</label>
+        <link refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_nvfp4_kv_quantization.cpp" line="35" column="1" bodyfile="tests/llm/test_nvfp4_kv_quantization.cpp" bodystart="35" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a669e3da643d385039f5caa06d6cef81e" prot="protected" virt="non-virtual"><scope>themis::llm::test::NVFP4QuantizationTest</scope><name>calculateMAPE</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1ae3229a731065eb51ec181c1da26f00d7" prot="protected" virt="non-virtual"><scope>themis::llm::test::NVFP4QuantizationTest</scope><name>calculateMSE</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a28b2cf46800079a1bcc4c639e6a0f18d" prot="protected" virt="non-virtual"><scope>themis::llm::test::NVFP4QuantizationTest</scope><name>config_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1ac0b875eb8917a4ea69c21be11ce108cf" prot="protected" virt="non-virtual"><scope>themis::llm::test::NVFP4QuantizationTest</scope><name>generateRandomKVData</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1a43db7a745b4a8afaf4caacd820b05838" prot="protected" virt="non-virtual"><scope>themis::llm::test::NVFP4QuantizationTest</scope><name>generateRealisticKVData</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_n_v_f_p4_quantization_test_1af76e9e43da6a4cfe9655fc44375b2c37" prot="protected" virt="non-virtual"><scope>themis::llm::test::NVFP4QuantizationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

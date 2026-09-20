@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_timeout_injector" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::TimeoutInjector</compoundname>
+    <basecompoundref refid="classthemis_1_1test_1_1_fault_injector" prot="public" virt="non-virtual">themis::test::FaultInjector</basecompoundref>
+    <includes refid="fault__injector_8h" local="no">fault_injector.h</includes>
+    <innerclass refid="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config" prot="public">themis::test::TimeoutInjector::TimeoutConfig</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_timeout_injector_1aa47f97b886d20ccc7d09667b0e7aa913" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config" kindref="compound">TimeoutConfig</ref></type>
+        <definition>TimeoutConfig themis::test::TimeoutInjector::timeout_cfg_</definition>
+        <argsstring></argsstring>
+        <name>timeout_cfg_</name>
+        <qualifiedname>themis::test::TimeoutInjector::timeout_cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="397" column="19" bodyfile="tests/utils/fault_injector.h" bodystart="397" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_timeout_injector_1aae474763b46fd0b49e8a9f5caf97aecb" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TimeoutInjector::TimeoutInjector</definition>
+        <argsstring>(const TimeoutConfig &amp;cfg)</argsstring>
+        <name>TimeoutInjector</name>
+        <qualifiedname>themis::test::TimeoutInjector::TimeoutInjector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1test_1_1_timeout_injector_1_1_timeout_config" kindref="compound">TimeoutConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="380" column="14" bodyfile="tests/utils/fault_injector.h" bodystart="380" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_timeout_injector_1a65f208ec7d9db33f388127562ee4c604" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result" kindref="compound">InjectionResult</ref></type>
+        <definition>FaultInjector::InjectionResult themis::test::TimeoutInjector::inject</definition>
+        <argsstring>() override</argsstring>
+        <name>inject</name>
+        <qualifiedname>themis::test::TimeoutInjector::inject</qualifiedname>
+        <reimplements refid="classthemis_1_1test_1_1_fault_injector_1aabb1682b8b2164e252591398a2a7cf6d">inject</reimplements>
+        <briefdescription>
+<para>Inject the fault. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Injection result with status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="384" column="21" bodyfile="tests/utils/fault_injector.cpp" bodystart="174" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_timeout_injector_1af4e4405acc0330cdfab82715bbbde7b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_result" kindref="compound">InjectionResult</ref></type>
+        <definition>FaultInjector::InjectionResult themis::test::TimeoutInjector::recover</definition>
+        <argsstring>() override</argsstring>
+        <name>recover</name>
+        <qualifiedname>themis::test::TimeoutInjector::recover</qualifiedname>
+        <reimplements refid="classthemis_1_1test_1_1_fault_injector_1a8f8f8629794e1a8eec31b1c62cdc51e0">recover</reimplements>
+        <briefdescription>
+<para>Recover from the fault. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Recovery status </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="385" column="21" bodyfile="tests/utils/fault_injector.cpp" bodystart="205" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_timeout_injector_1a0d235a8fb42855eed0b32b8700350ff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::test::TimeoutInjector::update</definition>
+        <argsstring>() override</argsstring>
+        <name>update</name>
+        <qualifiedname>themis::test::TimeoutInjector::update</qualifiedname>
+        <reimplements refid="classthemis_1_1test_1_1_fault_injector_1a5bb90c32bb9f4a58303a1967ae3336d1">update</reimplements>
+        <briefdescription>
+<para>Update fault state (handle auto-recovery, timeouts, etc.) Called periodically to maintain fault state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="386" column="10" bodyfile="tests/utils/fault_injector.cpp" bodystart="226" bodyend="239"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_timeout_injector_1a41c651396cc556aaeed8a7d72408713e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::test::TimeoutInjector::shouldTimeout</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldTimeout</name>
+        <qualifiedname>themis::test::TimeoutInjector::shouldTimeout</qualifiedname>
+        <briefdescription>
+<para>Check if should timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/utils/fault_injector.h" line="391" column="10" bodyfile="tests/utils/fault_injector.h" bodystart="391" bodyend="394"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Timeout injection - simulates timeout conditions. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::test::FaultInjector</label>
+        <link refid="classthemis_1_1test_1_1_fault_injector"/>
+      </node>
+      <node id="1">
+        <label>themis::test::TimeoutInjector</label>
+        <link refid="classthemis_1_1test_1_1_timeout_injector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::test::FaultInjector</label>
+        <link refid="classthemis_1_1test_1_1_fault_injector"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::test::FaultInjector::InjectionConfig</label>
+        <link refid="structthemis_1_1test_1_1_fault_injector_1_1_injection_config"/>
+      </node>
+      <node id="1">
+        <label>themis::test::TimeoutInjector</label>
+        <link refid="classthemis_1_1test_1_1_timeout_injector"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/utils/fault_injector.h" line="373" column="1" bodyfile="tests/utils/fault_injector.h" bodystart="373" bodyend="398"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a9a446c53c3ab993aa5696fe607979722" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a122b9cc3754e985a81a9f49dad535d37" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>FaultInjector</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a4cd2a88dd2c09cf37500032720f28ea8" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>FaultType</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a8de82ffdc81df8fdbb3004782f0fec72" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>faultTypeToString</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a44934aa649579d9163dab344511fb9f7" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a255bfe07d11b14dbf90216bc1b52991d" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>getState</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a500192651c21c0d5ff7fa35b05dd19a9" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>getStateName</name></member>
+      <member refid="classthemis_1_1test_1_1_timeout_injector_1a65f208ec7d9db33f388127562ee4c604" prot="public" virt="virtual"><scope>themis::test::TimeoutInjector</scope><name>inject</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a42d3c170d99dfe96e5e517ce07b93654" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>InjectionState</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1acb8b7b2555f5d4db24816b550e5b4b3f" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>isActive</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1afa3cb2bef046dce991c05fecc480b1c0" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>isDurationElapsed</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a9ed53750255a5ce753eee6ca28324ee3" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1ab5a75f300b51073549a86bd9dc7fdbd2" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>randomDouble</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1ae079f50483db9220cfcc61d6194ed65d" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>randomInt</name></member>
+      <member refid="classthemis_1_1test_1_1_timeout_injector_1af4e4405acc0330cdfab82715bbbde7b6" prot="public" virt="virtual"><scope>themis::test::TimeoutInjector</scope><name>recover</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a59a7763b9994cd53191efce6fe44cbc3" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>rng_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a29954f7c63b16d52b9d804ff9857de9a" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>setState</name></member>
+      <member refid="classthemis_1_1test_1_1_timeout_injector_1a41c651396cc556aaeed8a7d72408713e" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>shouldTimeout</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1aaf197172f1423e3edf2c0cd7f61d20ae" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>start_time_</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1ad8570c5db19923ef35da27d9489c9466" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>state_</name></member>
+      <member refid="classthemis_1_1test_1_1_timeout_injector_1aa47f97b886d20ccc7d09667b0e7aa913" prot="private" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>timeout_cfg_</name></member>
+      <member refid="classthemis_1_1test_1_1_timeout_injector_1aae474763b46fd0b49e8a9f5caf97aecb" prot="public" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>TimeoutInjector</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1a5bff8d8691fd4ed2c80080f673e4fc90" prot="protected" virt="non-virtual"><scope>themis::test::TimeoutInjector</scope><name>timeUntilRecovery</name></member>
+      <member refid="classthemis_1_1test_1_1_timeout_injector_1a0d235a8fb42855eed0b32b8700350ff0" prot="public" virt="virtual"><scope>themis::test::TimeoutInjector</scope><name>update</name></member>
+      <member refid="classthemis_1_1test_1_1_fault_injector_1ae25fc55694c3b302b7bd3ee316a7dcd0" prot="public" virt="virtual"><scope>themis::test::TimeoutInjector</scope><name>~FaultInjector</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cache_1_1_replication_message" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cache::ReplicationMessage</compoundname>
+    <includes refid="cache__replication__coordinator_8h" local="no">cache_replication_coordinator.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1cache_1_1_replication_message_1ae8d044f06aad38428d8f88a1875c20e8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Type</name>
+        <qualifiedname>themis::cache::ReplicationMessage::Type</qualifiedname>
+        <enumvalue id="structthemis_1_1cache_1_1_replication_message_1ae8d044f06aad38428d8f88a1875c20e8a3e22ff42137683559d0e475d21148446" prot="public">
+          <name>ENTRY_PUT</name>
+          <briefdescription>
+<para>Replicate a new cache entry to peers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1cache_1_1_replication_message_1ae8d044f06aad38428d8f88a1875c20e8ac7ba4bde5fe21a5ad38e8ddb71e2ae2a" prot="public">
+          <name>INVALIDATE</name>
+          <briefdescription>
+<para>Propagate an invalidation to peers. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="33" column="5" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="33" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_replication_message_1ac7586e32bf249939a77f06dad033da60" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1cache_1_1_replication_message_1ae8d044f06aad38428d8f88a1875c20e8" kindref="member">Type</ref></type>
+        <definition>Type themis::cache::ReplicationMessage::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::cache::ReplicationMessage::type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="38" column="17" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_replication_message_1ac76f4a6841050ba6cf47da84eb69e5e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::ReplicationMessage::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::cache::ReplicationMessage::key</qualifiedname>
+        <briefdescription>
+<para>Cache key (fingerprint for PUT; pattern for INVALIDATE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="39" column="17" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_replication_message_1a8084e2647a0fb37b01adffccfe4f6353" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cache::ReplicationMessage::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::cache::ReplicationMessage::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Tenant identifier; empty = global. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="40" column="17" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_replication_message_1a5eaeba3114c4dcd2f256397643e30eb1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::cache::ReplicationMessage::ttl_seconds</definition>
+        <argsstring></argsstring>
+        <name>ttl_seconds</name>
+        <qualifiedname>themis::cache::ReplicationMessage::ttl_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Remaining TTL (PUT only). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="41" column="17" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cache_1_1_replication_message_1a39d13edcbed699e4469bdbe0db88d951" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cache::ReplicationMessage::result</definition>
+        <argsstring></argsstring>
+        <name>result</name>
+        <qualifiedname>themis::cache::ReplicationMessage::result</qualifiedname>
+        <briefdescription>
+<para>Serialised result value (PUT only; empty for INVALIDATE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cache/cache_replication_coordinator.h" line="42" column="20" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cache/cache_replication_coordinator.h" line="32" column="1" bodyfile="include/cache/cache_replication_coordinator.h" bodystart="32" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cache_1_1_replication_message_1ac76f4a6841050ba6cf47da84eb69e5e7" prot="public" virt="non-virtual"><scope>themis::cache::ReplicationMessage</scope><name>key</name></member>
+      <member refid="structthemis_1_1cache_1_1_replication_message_1a39d13edcbed699e4469bdbe0db88d951" prot="public" virt="non-virtual"><scope>themis::cache::ReplicationMessage</scope><name>result</name></member>
+      <member refid="structthemis_1_1cache_1_1_replication_message_1a8084e2647a0fb37b01adffccfe4f6353" prot="public" virt="non-virtual"><scope>themis::cache::ReplicationMessage</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1cache_1_1_replication_message_1a5eaeba3114c4dcd2f256397643e30eb1" prot="public" virt="non-virtual"><scope>themis::cache::ReplicationMessage</scope><name>ttl_seconds</name></member>
+      <member refid="structthemis_1_1cache_1_1_replication_message_1ae8d044f06aad38428d8f88a1875c20e8" prot="public" virt="non-virtual"><scope>themis::cache::ReplicationMessage</scope><name>Type</name></member>
+      <member refid="structthemis_1_1cache_1_1_replication_message_1ac7586e32bf249939a77f06dad033da60" prot="public" virt="non-virtual"><scope>themis::cache::ReplicationMessage</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

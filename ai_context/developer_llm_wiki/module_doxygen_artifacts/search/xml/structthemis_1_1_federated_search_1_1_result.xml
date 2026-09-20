@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_federated_search_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::FederatedSearch::Result</compoundname>
+    <includes refid="federated__search_8h" local="no">federated_search.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_federated_search_1_1_result_1abe6bc593cf82ce072ca312ea5366901f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FederatedSearch::Result::document_id</definition>
+        <argsstring></argsstring>
+        <name>document_id</name>
+        <qualifiedname>themis::FederatedSearch::Result::document_id</qualifiedname>
+        <briefdescription>
+<para>Primary key within the tenant index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="98" column="21" bodyfile="include/search/federated_search.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_federated_search_1_1_result_1aaff5643888aaebfe2ab34b429933dbbe" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::FederatedSearch::Result::tenant_id</definition>
+        <argsstring></argsstring>
+        <name>tenant_id</name>
+        <qualifiedname>themis::FederatedSearch::Result::tenant_id</qualifiedname>
+        <briefdescription>
+<para>Originating tenant identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="99" column="21" bodyfile="include/search/federated_search.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_federated_search_1_1_result_1a1e74e47d61bc08838dd78bef1848b235" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FederatedSearch::Result::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::FederatedSearch::Result::score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Fused relevance score. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="100" column="16" bodyfile="include/search/federated_search.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_federated_search_1_1_result_1a39b28ab5ca0bbfaa8ceb79618e55d637" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FederatedSearch::Result::bm25_score</definition>
+        <argsstring></argsstring>
+        <name>bm25_score</name>
+        <qualifiedname>themis::FederatedSearch::Result::bm25_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Raw BM25 score from the tenant index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="101" column="16" bodyfile="include/search/federated_search.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_federated_search_1_1_result_1a628542c543b870076a315a34de59919c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::FederatedSearch::Result::vector_score</definition>
+        <argsstring></argsstring>
+        <name>vector_score</name>
+        <qualifiedname>themis::FederatedSearch::Result::vector_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Raw vector score from the tenant index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/search/federated_search.h" line="102" column="16" bodyfile="include/search/federated_search.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A single federated search result enriched with tenant metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/search/federated_search.h" line="97" column="5" bodyfile="include/search/federated_search.h" bodystart="97" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_federated_search_1_1_result_1a39b28ab5ca0bbfaa8ceb79618e55d637" prot="public" virt="non-virtual"><scope>themis::FederatedSearch::Result</scope><name>bm25_score</name></member>
+      <member refid="structthemis_1_1_federated_search_1_1_result_1abe6bc593cf82ce072ca312ea5366901f" prot="public" virt="non-virtual"><scope>themis::FederatedSearch::Result</scope><name>document_id</name></member>
+      <member refid="structthemis_1_1_federated_search_1_1_result_1a1e74e47d61bc08838dd78bef1848b235" prot="public" virt="non-virtual"><scope>themis::FederatedSearch::Result</scope><name>score</name></member>
+      <member refid="structthemis_1_1_federated_search_1_1_result_1aaff5643888aaebfe2ab34b429933dbbe" prot="public" virt="non-virtual"><scope>themis::FederatedSearch::Result</scope><name>tenant_id</name></member>
+      <member refid="structthemis_1_1_federated_search_1_1_result_1a628542c543b870076a315a34de59919c" prot="public" virt="non-virtual"><scope>themis::FederatedSearch::Result</scope><name>vector_score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

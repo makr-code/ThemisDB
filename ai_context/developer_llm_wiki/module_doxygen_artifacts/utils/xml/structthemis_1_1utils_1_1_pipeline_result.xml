@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_pipeline_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PipelineResult</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pipeline_result_1ab9fb2a861248460a1111e9f1f1ba3d8d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::PipelineResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::utils::PipelineResult::success</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true when all stages completed without error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="543" column="10" bodyfile="include/utils/utils_interfaces.h" bodystart="543" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pipeline_result_1ac0aa3c61fab79cede6943e4307329e0a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PipelineResult::stagesRun</definition>
+        <argsstring></argsstring>
+        <name>stagesRun</name>
+        <qualifiedname>themis::utils::PipelineResult::stagesRun</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of stages that were executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="544" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="544" bodyend="544"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_pipeline_result_1a33d12128c3bca2b9c0783150d162de00" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::PipelineResult::errorMessage</definition>
+        <argsstring></argsstring>
+        <name>errorMessage</name>
+        <qualifiedname>themis::utils::PipelineResult::errorMessage</qualifiedname>
+        <briefdescription>
+<para>Non-empty when success == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="545" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> of a completed <ref refid="classthemis_1_1utils_1_1_i_utils_pipeline_1a0b7f975d7f4ccd1236857638c9db89c5" kindref="member">IUtilsPipeline::run()</ref> operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="542" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="542" bodyend="546"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_pipeline_result_1a33d12128c3bca2b9c0783150d162de00" prot="public" virt="non-virtual"><scope>themis::utils::PipelineResult</scope><name>errorMessage</name></member>
+      <member refid="structthemis_1_1utils_1_1_pipeline_result_1ac0aa3c61fab79cede6943e4307329e0a" prot="public" virt="non-virtual"><scope>themis::utils::PipelineResult</scope><name>stagesRun</name></member>
+      <member refid="structthemis_1_1utils_1_1_pipeline_result_1ab9fb2a861248460a1111e9f1f1ba3d8d" prot="public" virt="non-virtual"><scope>themis::utils::PipelineResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

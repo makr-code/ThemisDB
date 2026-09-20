@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_reflection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::ReflectionResult</compoundname>
+    <includes refid="reflection__tuner_8h" local="no">reflection_tuner.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1aa2854332552816b34dab3ba97a43de1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::ReflectionResult::final_response</definition>
+        <argsstring></argsstring>
+        <name>final_response</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::final_response</qualifiedname>
+        <briefdescription>
+<para>Best response after all iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="174" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1a9a1fc81be70d096ec4d1aff15262e889" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1prompt__engineering_1_1_reflection_step" kindref="compound">ReflectionStep</ref> &gt;</type>
+        <definition>std::vector&lt;ReflectionStep&gt; themis::prompt_engineering::ReflectionResult::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::steps</qualifiedname>
+        <briefdescription>
+<para>Per-iteration trace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="175" column="17" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1a6742f28bde324e19369afb83081947d0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionResult::converged</definition>
+        <argsstring></argsstring>
+        <name>converged</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::converged</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when quality threshold met or plateau detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="176" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1afa5608d212c2be0328a62d646f4e0bb4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::ReflectionResult::halted_by_hallucination_guard</definition>
+        <argsstring></argsstring>
+        <name>halted_by_hallucination_guard</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::halted_by_hallucination_guard</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when guard fired. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="177" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1a6b94ea2473eb9eafdd4f55981fea6554" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::prompt_engineering::ReflectionResult::total_iterations</definition>
+        <argsstring></argsstring>
+        <name>total_iterations</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::total_iterations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of completed iterations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="178" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1a7ccc58528839ce6c1fa8141f8704e3a2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionResult::initial_quality</definition>
+        <argsstring></argsstring>
+        <name>initial_quality</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::initial_quality</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Score before any reflection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="179" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1a6c484425e1dccadeb8eaa5a2792b24dd" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionResult::final_quality</definition>
+        <argsstring></argsstring>
+        <name>final_quality</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::final_quality</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Score of the final response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="180" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1ad66b9047b833b276ad40d4a28872bba9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::ReflectionResult::quality_improvement</definition>
+        <argsstring></argsstring>
+        <name>quality_improvement</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::quality_improvement</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>final_quality - initial_quality </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="181" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1af9ef67d9e3f4dfd22058039384f94a7d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::prompt_engineering::ReflectionResult::quality_trajectory</definition>
+        <argsstring></argsstring>
+        <name>quality_trajectory</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::quality_trajectory</qualifiedname>
+        <briefdescription>
+<para>Score at step[0] = initial, step[i+1] = after iter i. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="182" column="21" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1a651014a988814c71820444befb855e01" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_self_aware_context" kindref="compound">SelfAwareContext</ref></type>
+        <definition>SelfAwareContext themis::prompt_engineering::ReflectionResult::self_aware_context</definition>
+        <argsstring></argsstring>
+        <name>self_aware_context</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::self_aware_context</qualifiedname>
+        <briefdescription>
+<para>Context extracted from last response. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="183" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1aa062de8f35ada5398215ded992c273df" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::ReflectionResult::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::metadata</qualifiedname>
+        <initializer>= nlohmann::json::object()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="184" column="29" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1prompt__engineering_1_1_reflection_result_1aea9e056ad4db6e846a458b101d7a7c22" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::prompt_engineering::ReflectionResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::prompt_engineering::ReflectionResult::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialise to JSON for storage and observability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/reflection_tuner.h" line="187" column="20" bodyfile="src/prompt_engineering/reflection_tuner.cpp" bodystart="137" bodyend="164"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete result of a <computeroutput><ref refid="classthemis_1_1prompt__engineering_1_1_reflection_tuner_1ae12863f7ed2dbc52cf8c3dd0c09eb93a" kindref="member">ReflectionTuner::tune()</ref></computeroutput> call. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::prompt_engineering::ReflectionResult</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_reflection_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>self_aware_context</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::prompt_engineering::SelfAwareContext</label>
+        <link refid="structthemis_1_1prompt__engineering_1_1_self_aware_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/reflection_tuner.h" line="173" column="1" bodyfile="include/prompt_engineering/reflection_tuner.h" bodystart="173" bodyend="188"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1a6742f28bde324e19369afb83081947d0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>converged</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1a6c484425e1dccadeb8eaa5a2792b24dd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>final_quality</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1aa2854332552816b34dab3ba97a43de1d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>final_response</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1afa5608d212c2be0328a62d646f4e0bb4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>halted_by_hallucination_guard</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1a7ccc58528839ce6c1fa8141f8704e3a2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>initial_quality</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1aa062de8f35ada5398215ded992c273df" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1ad66b9047b833b276ad40d4a28872bba9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>quality_improvement</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1af9ef67d9e3f4dfd22058039384f94a7d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>quality_trajectory</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1a651014a988814c71820444befb855e01" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>self_aware_context</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1a9a1fc81be70d096ec4d1aff15262e889" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>steps</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1aea9e056ad4db6e846a458b101d7a7c22" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_reflection_result_1a6b94ea2473eb9eafdd4f55981fea6554" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::ReflectionResult</scope><name>total_iterations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

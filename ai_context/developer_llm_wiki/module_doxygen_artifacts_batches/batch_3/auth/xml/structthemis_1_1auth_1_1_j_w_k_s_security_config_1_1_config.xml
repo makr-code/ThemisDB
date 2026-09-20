@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::JWKSSecurityConfig::Config</compoundname>
+    <includes refid="jwks__security_8h" local="no">jwks_security.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1adbc6db24da4c3e3d7cf7c404b6504707" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26" kindref="member">PinningMode</ref></type>
+        <definition>PinningMode themis::auth::JWKSSecurityConfig::Config::pinning_mode</definition>
+        <argsstring></argsstring>
+        <name>pinning_mode</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::pinning_mode</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a711a3a87025493c00fd06e0e2ff91c26ab50339a10e1de285ac99d4c3990b8693" kindref="member">PinningMode::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="41" column="21" bodyfile="include/auth/jwks_security.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a94710075a66bbccf059832411f41afcc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWKSSecurityConfig::Config::pinned_hashes</definition>
+        <argsstring></argsstring>
+        <name>pinned_hashes</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::pinned_hashes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="42" column="21" bodyfile="include/auth/jwks_security.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1aaac2afb699db053144c331bf13cd5bcb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecurityConfig::Config::pinned_cert_path</definition>
+        <argsstring></argsstring>
+        <name>pinned_cert_path</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::pinned_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="43" column="21" bodyfile="include/auth/jwks_security.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a02e6ca3cbe3a55b517573cd5c0869e7c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSSecurityConfig::Config::enable_mtls</definition>
+        <argsstring></argsstring>
+        <name>enable_mtls</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::enable_mtls</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="46" column="14" bodyfile="include/auth/jwks_security.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1af6d738c0c8ac6791da1c9bb4e4a5a217" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecurityConfig::Config::client_cert_path</definition>
+        <argsstring></argsstring>
+        <name>client_cert_path</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::client_cert_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="47" column="21" bodyfile="include/auth/jwks_security.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1aff154ae5006c0cf39bbb01f2cb6d2614" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecurityConfig::Config::client_key_path</definition>
+        <argsstring></argsstring>
+        <name>client_key_path</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::client_key_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="48" column="21" bodyfile="include/auth/jwks_security.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a3503f954283c4b9796eae2660c8dd013" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_secure_string" kindref="compound">SecureString</ref></type>
+        <definition>SecureString themis::auth::JWKSSecurityConfig::Config::client_key_password</definition>
+        <argsstring></argsstring>
+        <name>client_key_password</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::client_key_password</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="49" column="22" bodyfile="include/auth/jwks_security.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a7f564366d6f9cc5ffe602022ddaeed8f" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843d" kindref="member">TLSVersion</ref></type>
+        <definition>TLSVersion themis::auth::JWKSSecurityConfig::Config::min_tls_version</definition>
+        <argsstring></argsstring>
+        <name>min_tls_version</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::min_tls_version</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1auth_1_1_j_w_k_s_security_config_1a21744a123a81ee79215536d0acf0843da707dc1c0b85efa508ecc2cc365254625" kindref="member">TLSVersion::TLS_1_2</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="52" column="20" bodyfile="include/auth/jwks_security.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a4344f789957f0ca79f2723fc2c58e32b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSSecurityConfig::Config::verify_hostname</definition>
+        <argsstring></argsstring>
+        <name>verify_hostname</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::verify_hostname</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="53" column="14" bodyfile="include/auth/jwks_security.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a08687afaedc5ddca144dda93b21a7148" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::auth::JWKSSecurityConfig::Config::verify_certificate</definition>
+        <argsstring></argsstring>
+        <name>verify_certificate</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::verify_certificate</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="54" column="14" bodyfile="include/auth/jwks_security.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a98e5471d12091d5d74ba23100b575a6d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::JWKSSecurityConfig::Config::ca_bundle_path</definition>
+        <argsstring></argsstring>
+        <name>ca_bundle_path</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::ca_bundle_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="55" column="21" bodyfile="include/auth/jwks_security.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1af2bf98cccf99e00ca7453076f8c0d383" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::JWKSSecurityConfig::Config::allowed_ciphers</definition>
+        <argsstring></argsstring>
+        <name>allowed_ciphers</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::allowed_ciphers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="58" column="21" bodyfile="include/auth/jwks_security.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a665567e3a452729b4e67baff97b79733" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::JWKSSecurityConfig::Config::connect_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>connect_timeout_ms</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::connect_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="61" column="13" bodyfile="include/auth/jwks_security.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a6c7fbeebb047df8176155ad91125f4fa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::auth::JWKSSecurityConfig::Config::read_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>read_timeout_ms</name>
+        <qualifiedname>themis::auth::JWKSSecurityConfig::Config::read_timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/jwks_security.h" line="62" column="13" bodyfile="include/auth/jwks_security.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::auth::JWKSSecurityConfig::Config</label>
+        <link refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>client_key_password</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::auth::SecureString</label>
+        <link refid="classthemis_1_1auth_1_1_secure_string"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/auth/jwks_security.h" line="39" column="5" bodyfile="include/auth/jwks_security.h" bodystart="39" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1af2bf98cccf99e00ca7453076f8c0d383" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>allowed_ciphers</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a98e5471d12091d5d74ba23100b575a6d" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>ca_bundle_path</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1af6d738c0c8ac6791da1c9bb4e4a5a217" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>client_cert_path</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a3503f954283c4b9796eae2660c8dd013" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>client_key_password</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1aff154ae5006c0cf39bbb01f2cb6d2614" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>client_key_path</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a665567e3a452729b4e67baff97b79733" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>connect_timeout_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a02e6ca3cbe3a55b517573cd5c0869e7c" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>enable_mtls</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a7f564366d6f9cc5ffe602022ddaeed8f" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>min_tls_version</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1aaac2afb699db053144c331bf13cd5bcb" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>pinned_cert_path</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a94710075a66bbccf059832411f41afcc" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>pinned_hashes</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1adbc6db24da4c3e3d7cf7c404b6504707" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>pinning_mode</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a6c7fbeebb047df8176155ad91125f4fa" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>read_timeout_ms</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a08687afaedc5ddca144dda93b21a7148" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>verify_certificate</name></member>
+      <member refid="structthemis_1_1auth_1_1_j_w_k_s_security_config_1_1_config_1a4344f789957f0ca79f2723fc2c58e32b" prot="public" virt="non-virtual"><scope>themis::auth::JWKSSecurityConfig::Config</scope><name>verify_hostname</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

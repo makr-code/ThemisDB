@@ -1,0 +1,1310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_t_s_query_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::TSQueryOptimizer</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1_t_s_query_optimizer_1_1_predicate_filter" prot="public">themis::TSQueryOptimizer::PredicateFilter</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" prot="public">themis::TSQueryOptimizer::OptimizationHint</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" prot="public">themis::TSQueryOptimizer::QueryPlan</innerclass>
+    <innerclass refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" prot="public">themis::TSQueryOptimizer::IndexHint</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IndexType</name>
+        <qualifiedname>themis::TSQueryOptimizer::IndexType</qualifiedname>
+        <enumvalue id="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+<para>No secondary index. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2a71668d1269fe599f6aab44604f9aecbf" prot="public">
+          <name>TimeRange</name>
+          <briefdescription>
+<para>RocksDB column-family per time-chunk (<ref refid="classthemis_1_1_hypertable" kindref="compound">Hypertable</ref>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2ae57cdfbc09f4e0f7445c279d9f580bdd" prot="public">
+          <name>Bloom</name>
+          <briefdescription>
+<para>Bloom filter on entity/tag fields. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2acf4c2a4bf7c328c4e51f902350475343" prot="public">
+          <name>Inverted</name>
+          <briefdescription>
+<para>Full inverted index on tags. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Known index type hints for a metric. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When the caller knows that a particular index is available for a metric, it can register the hint so the optimizer can factor index access cost into the query plan. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="248" column="5" bodyfile="include/timeseries/query_optimizer.h" bodystart="248" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1aac2c349e51af6a3775da30bacd5ba8dc" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+        <definition>TSStore* themis::TSQueryOptimizer::store_</definition>
+        <argsstring></argsstring>
+        <name>store_</name>
+        <qualifiedname>themis::TSQueryOptimizer::store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="316" column="13" bodyfile="include/timeseries/query_optimizer.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1a44c84d32159e5f5ecb4660099e15d05f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TSQueryOptimizer::cache_mutex_</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex_</name>
+        <qualifiedname>themis::TSQueryOptimizer::cache_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="322" column="24" bodyfile="include/timeseries/query_optimizer.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1aabc172f797acaf9cb4d6153f0ac3e17a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, QueryPlan&gt; themis::TSQueryOptimizer::plan_cache_</definition>
+        <argsstring></argsstring>
+        <name>plan_cache_</name>
+        <qualifiedname>themis::TSQueryOptimizer::plan_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="323" column="24" bodyfile="include/timeseries/query_optimizer.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1a657224562f10b79909d7d143bc5d3bbf" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSQueryOptimizer::cache_hits_</definition>
+        <argsstring></argsstring>
+        <name>cache_hits_</name>
+        <qualifiedname>themis::TSQueryOptimizer::cache_hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="324" column="25" bodyfile="include/timeseries/query_optimizer.h" bodystart="324" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1a047080e3291d87cea0fef67f8cbded75" prot="private" static="no" mutable="yes">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::TSQueryOptimizer::cache_misses_</definition>
+        <argsstring></argsstring>
+        <name>cache_misses_</name>
+        <qualifiedname>themis::TSQueryOptimizer::cache_misses_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="325" column="25" bodyfile="include/timeseries/query_optimizer.h" bodystart="325" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1a60c8338a5a2cf9b2712392ec6fbf7987" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::TSQueryOptimizer::index_mutex_</definition>
+        <argsstring></argsstring>
+        <name>index_mutex_</name>
+        <qualifiedname>themis::TSQueryOptimizer::index_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="328" column="24" bodyfile="include/timeseries/query_optimizer.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1ac569a09246a10508fc8e8b381cfd4173" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" kindref="compound">IndexHint</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, IndexHint&gt; themis::TSQueryOptimizer::index_hints_</definition>
+        <argsstring></argsstring>
+        <name>index_hints_</name>
+        <qualifiedname>themis::TSQueryOptimizer::index_hints_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="329" column="24" bodyfile="include/timeseries/query_optimizer.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1a6c7b9b313d9a355bebee89ba000e33cc" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref> *</type>
+        <definition>const TierSelector* themis::TSQueryOptimizer::tier_selector_</definition>
+        <argsstring></argsstring>
+        <name>tier_selector_</name>
+        <qualifiedname>themis::TSQueryOptimizer::tier_selector_</qualifiedname>
+        <initializer>{nullptr}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="332" column="24" bodyfile="include/timeseries/query_optimizer.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_t_s_query_optimizer_1a0ba343351a6afedb966979ccb0e36b81" prot="private" static="yes" mutable="no">
+        <type>const std::vector&lt; std::chrono::milliseconds &gt;</type>
+        <definition>const std::vector&lt; std::chrono::milliseconds &gt; themis::TSQueryOptimizer::COMMON_WINDOWS</definition>
+        <argsstring></argsstring>
+        <name>COMMON_WINDOWS</name>
+        <qualifiedname>themis::TSQueryOptimizer::COMMON_WINDOWS</qualifiedname>
+        <initializer>                                                   = {
+    std::chrono::minutes(1),
+    std::chrono::minutes(5),
+    std::chrono::minutes(15),
+    std::chrono::hours(1),
+    std::chrono::hours(6),
+    std::chrono::hours(24)
+}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="319" column="30" bodyfile="include/timeseries/query_optimizer.h" bodystart="319" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a49ee3e3c3e7609a540d265a511f05555" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::TSQueryOptimizer::TSQueryOptimizer</definition>
+        <argsstring>(TSStore *store)</argsstring>
+        <name>TSQueryOptimizer</name>
+        <qualifiedname>themis::TSQueryOptimizer::TSQueryOptimizer</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref> *</type>
+          <declname>store</declname>
+        </param>
+        <briefdescription>
+<para>TSQuery Optimizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">store</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="136" column="14" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="66" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1ad42c8e5b778adbddb8b792a37dac91d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref></type>
+        <definition>TSQueryOptimizer::QueryPlan themis::TSQueryOptimizer::optimizeAggregateQuery</definition>
+        <argsstring>(const std::string &amp;metric, const std::optional&lt; std::string &gt; &amp;entity, int64_t from_timestamp_ms, int64_t to_timestamp_ms, const OptimizationHint &amp;hint)</argsstring>
+        <name>optimizeAggregateQuery</name>
+        <qualifiedname>themis::TSQueryOptimizer::optimizeAggregateQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_timestamp_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_timestamp_ms</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Optimize Aggregate Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize an aggregate query (min/max/avg/sum/count).</para>
+<para>Returns optimized query plan that may use pre-computed aggregates. If no suitable aggregate found, returns plan for raw data query. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), has_value(), buildCacheKey(), lock(), find(), end(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="151" column="15" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="84" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a76560d82d61116d166314f3a08be8932" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref></type>
+        <definition>TSQueryOptimizer::QueryPlan themis::TSQueryOptimizer::optimizeAggregateQuery</definition>
+        <argsstring>(const std::string &amp;metric, const std::optional&lt; std::string &gt; &amp;entity, int64_t from_timestamp_ms, int64_t to_timestamp_ms)</argsstring>
+        <name>optimizeAggregateQuery</name>
+        <qualifiedname>themis::TSQueryOptimizer::optimizeAggregateQuery</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_timestamp_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Overload without hint (uses defaults). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize Aggregate Query.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements optimizeAggregateQuery without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="167" column="15" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="224" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1aa9e48e3ca5fe0e8a41a1c5ec0980de0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; themis::TSQueryOptimizer::findBestAggregate</definition>
+        <argsstring>(const std::string &amp;metric, int64_t time_range_ms)</argsstring>
+        <name>findBestAggregate</name>
+        <qualifiedname>themis::TSQueryOptimizer::findBestAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>time_range_ms</declname>
+        </param>
+        <briefdescription>
+<para>Find Best Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Find best available aggregate for a given metric and time range.</para>
+<para>Searches for aggregates with window sizes: 1m, 5m, 15m, 1h, 6h, 1d Returns aggregate with largest window that fits the query time range. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_range_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_range_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: rbegin(), rend(), count(), <ref refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" kindref="member">ContinuousAggregateManager::derivedMetricName()</ref>, <ref refid="classthemis_1_1_t_s_query_optimizer_1a9c36f9e15c1c0b2c2b3234d721235c22" kindref="member">aggregateExists()</ref>, THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="184" column="19" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="240" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a9c36f9e15c1c0b2c2b3234d721235c22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TSQueryOptimizer::aggregateExists</definition>
+        <argsstring>(const std::string &amp;metric, std::chrono::milliseconds window)</argsstring>
+        <name>aggregateExists</name>
+        <qualifiedname>themis::TSQueryOptimizer::aggregateExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate Exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if an aggregate exists for a metric with specific window. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_continuous_aggregate_manager_1a5c08da389c51794339466931f880ba82" kindref="member">ContinuousAggregateManager::derivedMetricName()</ref>, query(), has_value(), value(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="196" column="10" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="274" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a30373d7992ce2d21a488ebb671d78f19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSQueryOptimizer::registerAvailableAggregate</definition>
+        <argsstring>(const std::string &amp;metric, std::chrono::milliseconds window)</argsstring>
+        <name>registerAvailableAggregate</name>
+        <qualifiedname>themis::TSQueryOptimizer::registerAvailableAggregate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Register Available Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Register available aggregates (for caching).</para>
+<para>Optimizer will check these before querying <ref refid="classthemis_1_1_t_s_store" kindref="compound">TSStore</ref>. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: THEMIS_DEBUG(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="209" column="10" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="296" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1aa00eeabd6f586ccfc8c31a805cf9ec19" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSQueryOptimizer::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::TSQueryOptimizer::clearCache</qualifiedname>
+        <briefdescription>
+<para>Clear Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>========== Query Plan Cache ==========</para>
+<para>Clear the internal query plan cache.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="220" column="10" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="310" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1adafe25b42c2709b22f36cf455be0941b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSQueryOptimizer::cacheSize</definition>
+        <argsstring>() const</argsstring>
+        <name>cacheSize</name>
+        <qualifiedname>themis::TSQueryOptimizer::cacheSize</qualifiedname>
+        <briefdescription>
+<para>Cache Size. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the number of plans currently in the cache. <simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="227" column="12" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="315" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a2848e1ddeb5e4910e5ba621a2118bd1d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TSQueryOptimizer::cacheHits</definition>
+        <argsstring>() const</argsstring>
+        <name>cacheHits</name>
+        <qualifiedname>themis::TSQueryOptimizer::cacheHits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns total cache hits since creation or last reset. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="232" column="14" bodyfile="include/timeseries/query_optimizer.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a52244054731b1d8f6c8b7b8eaee02ba6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::TSQueryOptimizer::cacheMisses</definition>
+        <argsstring>() const</argsstring>
+        <name>cacheMisses</name>
+        <qualifiedname>themis::TSQueryOptimizer::cacheMisses</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns total cache misses since creation or last reset. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="237" column="14" bodyfile="include/timeseries/query_optimizer.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a8f2fe0ae74d804b73f72dfbbc30d3863" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSQueryOptimizer::registerIndexHint</definition>
+        <argsstring>(IndexHint hint)</argsstring>
+        <name>registerIndexHint</name>
+        <qualifiedname>themis::TSQueryOptimizer::registerIndexHint</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" kindref="compound">IndexHint</ref></type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Register Index Hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>========== Index-Aware Query Planning ==========</para>
+<para>Register an index hint for a metric. When the optimizer builds a plan for this metric, it considers the registered index to estimate the effective scan cost. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="268" column="10" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="331" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1aef7b6e50da6494e95565b2d4b73e7dfc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_index_hint" kindref="compound">IndexHint</ref> &gt;</type>
+        <definition>std::optional&lt; TSQueryOptimizer::IndexHint &gt; themis::TSQueryOptimizer::getIndexHint</definition>
+        <argsstring>(const std::string &amp;metric) const</argsstring>
+        <name>getIndexHint</name>
+        <qualifiedname>themis::TSQueryOptimizer::getIndexHint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+<para>Get Index Hint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Retrieve the registered index hint for a metric (if any). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">index_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="276" column="19" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="336" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a7551d7975c2917f7cc924ff7a777c6be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSQueryOptimizer::setTierSelector</definition>
+        <argsstring>(const TierSelector *selector)</argsstring>
+        <name>setTierSelector</name>
+        <qualifiedname>themis::TSQueryOptimizer::setTierSelector</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref> *</type>
+          <declname>selector</declname>
+        </param>
+        <briefdescription>
+<para>Attach a <ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref> so the optimizer can route queries to downsampling tiers when a suitable resolution is available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Tier Selector.</para>
+<para>The selector is NOT owned by the optimizer. Pass nullptr to disable tier-based routing. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">selector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">selector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTierSelector without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="288" column="10" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="430" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a78cf9fff33ea4117749e04111ae24abf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref></type>
+        <definition>TSQueryOptimizer::QueryPlan themis::TSQueryOptimizer::optimizeWithTiers</definition>
+        <argsstring>(const std::string &amp;metric, const std::optional&lt; std::string &gt; &amp;entity, int64_t from_timestamp_ms, int64_t to_timestamp_ms, std::chrono::milliseconds requested_resolution_ms, const OptimizationHint &amp;hint)</argsstring>
+        <name>optimizeWithTiers</name>
+        <qualifiedname>themis::TSQueryOptimizer::optimizeWithTiers</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_timestamp_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_timestamp_ms</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>requested_resolution_ms</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Optimise a query taking downsampling tiers into account. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimize With Tiers.</para>
+<para>Like <ref refid="classthemis_1_1_t_s_query_optimizer_1ad42c8e5b778adbddb8b792a37dac91d6" kindref="member">optimizeAggregateQuery()</ref> but additionally consults the registered <ref refid="classthemis_1_1_tier_selector" kindref="compound">TierSelector</ref> to find the coarsest tier whose resolution is ≤ <computeroutput>requested_resolution_ms</computeroutput>. If a matching tier exists it is preferred over the standard continuous-aggregate lookup.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>requested_resolution_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The finest granularity the caller needs (0 = full resolution, skip tier routing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requested_resolution_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="307" column="15" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="444" bodyend="489"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a47bdff1f8bf836ccb6dd72c8bc7a937b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TSQueryOptimizer::buildCacheKey</definition>
+        <argsstring>(const std::string &amp;metric, const std::optional&lt; std::string &gt; &amp;entity, int64_t from_ms, int64_t to_ms, const OptimizationHint &amp;hint) const</argsstring>
+        <name>buildCacheKey</name>
+        <qualifiedname>themis::TSQueryOptimizer::buildCacheKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>entity</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>from_ms</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>to_ms</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Helpers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">from_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="343" column="17" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="351" bodyend="365"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a1377314fd8db96f75416433c7e478f2d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSQueryOptimizer::estimateRawPointCount</definition>
+        <argsstring>(int64_t time_range_ms) const</argsstring>
+        <name>estimateRawPointCount</name>
+        <qualifiedname>themis::TSQueryOptimizer::estimateRawPointCount</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>time_range_ms</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Raw Point Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">time_range_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="352" column="12" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="369" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a9206d38025d94744b1f29ef745fb8fa2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::TSQueryOptimizer::estimateAggregatePointCount</definition>
+        <argsstring>(int64_t time_range_ms, std::chrono::milliseconds window) const</argsstring>
+        <name>estimateAggregatePointCount</name>
+        <qualifiedname>themis::TSQueryOptimizer::estimateAggregatePointCount</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>time_range_ms</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Estimate Aggregate Point Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">time_range_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="359" column="12" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="377" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a2ac84fd86947e5cdaffb9cd96762d47c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::TSQueryOptimizer::shouldUseAggregate</definition>
+        <argsstring>(size_t raw_points, size_t agg_points, const OptimizationHint &amp;hint) const</argsstring>
+        <name>shouldUseAggregate</name>
+        <qualifiedname>themis::TSQueryOptimizer::shouldUseAggregate</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>raw_points</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>agg_points</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_optimization_hint" kindref="compound">OptimizationHint</ref> &amp;</type>
+          <declname>hint</declname>
+        </param>
+        <briefdescription>
+<para>Should Use Aggregate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True on success. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="367" column="10" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="384" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_t_s_query_optimizer_1a70f33e1ec82463cf941f59312bcdd92d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::TSQueryOptimizer::buildExplanation</definition>
+        <argsstring>(const QueryPlan &amp;plan, bool used_agg, size_t raw_points, size_t agg_points) const</argsstring>
+        <name>buildExplanation</name>
+        <qualifiedname>themis::TSQueryOptimizer::buildExplanation</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_query_optimizer_1_1_query_plan" kindref="compound">QueryPlan</ref> &amp;</type>
+          <declname>plan</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>used_agg</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>raw_points</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>agg_points</declname>
+        </param>
+        <briefdescription>
+<para>Build Explanation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plan</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">used_agg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">raw_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">agg_points</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/query_optimizer.h" line="376" column="17" bodyfile="src/timeseries/query_optimizer.cpp" bodystart="401" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Query optimizer for time-series queries.</para>
+<para>Automatically rewrites queries to use pre-computed continuous aggregates when available, improving query performance by orders of magnitude.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Automatic aggregate detection (checks for {metric}__agg_{window}ms)</para>
+</listitem><listitem><para>Cost-based optimization (prefer aggregates for large time ranges)</para>
+</listitem><listitem><para>Multi-level aggregate selection (1m → 1h → 1d)</para>
+</listitem><listitem><para>Fallback to raw data when aggregates unavailable</para>
+</listitem><listitem><para>Query rewrite explanations</para>
+</listitem><listitem><para>Predicate filter support for tag-based pre-filtering</para>
+</listitem><listitem><para>Query result plan caching for repeated identical queries</para>
+</listitem></itemizedlist>
+</para>
+<para>Example: Query: SELECT avg(cpu_usage) FROM server01 WHERE time &gt;= now() - 7d</para>
+<para>Without optimizer: Scans 604,800 raw data points (1 per 10s * 7 days) With optimizer: Scans 168 hourly aggregates (24 * 7 days) Speedup: ~3600x </para>
+    </detaileddescription>
+    <location file="include/timeseries/query_optimizer.h" line="78" column="1" bodyfile="include/timeseries/query_optimizer.h" bodystart="78" bodyend="377"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a9c36f9e15c1c0b2c2b3234d721235c22" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>aggregateExists</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a47bdff1f8bf836ccb6dd72c8bc7a937b" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>buildCacheKey</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a70f33e1ec82463cf941f59312bcdd92d" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>buildExplanation</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a657224562f10b79909d7d143bc5d3bbf" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>cache_hits_</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a047080e3291d87cea0fef67f8cbded75" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>cache_misses_</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a44c84d32159e5f5ecb4660099e15d05f" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>cache_mutex_</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a2848e1ddeb5e4910e5ba621a2118bd1d" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>cacheHits</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a52244054731b1d8f6c8b7b8eaee02ba6" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>cacheMisses</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1adafe25b42c2709b22f36cf455be0941b" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>cacheSize</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1aa00eeabd6f586ccfc8c31a805cf9ec19" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a0ba343351a6afedb966979ccb0e36b81" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>COMMON_WINDOWS</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a9206d38025d94744b1f29ef745fb8fa2" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>estimateAggregatePointCount</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a1377314fd8db96f75416433c7e478f2d" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>estimateRawPointCount</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1aa9e48e3ca5fe0e8a41a1c5ec0980de0d" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>findBestAggregate</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1aef7b6e50da6494e95565b2d4b73e7dfc" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>getIndexHint</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1ac569a09246a10508fc8e8b381cfd4173" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>index_hints_</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a60c8338a5a2cf9b2712392ec6fbf7987" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>index_mutex_</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1af70a488c9f526ff6c600a554d58905e2" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>IndexType</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1ad42c8e5b778adbddb8b792a37dac91d6" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>optimizeAggregateQuery</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a76560d82d61116d166314f3a08be8932" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>optimizeAggregateQuery</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a78cf9fff33ea4117749e04111ae24abf" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>optimizeWithTiers</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1aabc172f797acaf9cb4d6153f0ac3e17a" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>plan_cache_</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a30373d7992ce2d21a488ebb671d78f19" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>registerAvailableAggregate</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a8f2fe0ae74d804b73f72dfbbc30d3863" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>registerIndexHint</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a7551d7975c2917f7cc924ff7a777c6be" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>setTierSelector</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a2ac84fd86947e5cdaffb9cd96762d47c" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>shouldUseAggregate</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1aac2c349e51af6a3775da30bacd5ba8dc" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>store_</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a6c7b9b313d9a355bebee89ba000e33cc" prot="private" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>tier_selector_</name></member>
+      <member refid="classthemis_1_1_t_s_query_optimizer_1a49ee3e3c3e7609a540d265a511f05555" prot="public" virt="non-virtual"><scope>themis::TSQueryOptimizer</scope><name>TSQueryOptimizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

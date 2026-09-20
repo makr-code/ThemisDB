@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_i_network_observability_sink" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::network::INetworkObservabilitySink</compoundname>
+    <includes refid="network__observability_8h" local="no">network_observability.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_network_observability_sink_1a4929d6975192c5f9f343ac419d22a11a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>themis::network::INetworkObservabilitySink::~INetworkObservabilitySink</definition>
+        <argsstring>()</argsstring>
+        <name>~INetworkObservabilitySink</name>
+        <qualifiedname>themis::network::INetworkObservabilitySink::~INetworkObservabilitySink</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="215" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_network_observability_sink_1accba7c0df9b379751187a0943542e5f2" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::network::INetworkObservabilitySink::onSpan</definition>
+        <argsstring>(const NetworkSpanEvent &amp;event) noexcept=0</argsstring>
+        <name>onSpan</name>
+        <qualifiedname>themis::network::INetworkObservabilitySink::onSpan</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_network_span_event" kindref="compound">NetworkSpanEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Called once per completed span with the event descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Stack-allocated event; do not store a pointer to it beyond the duration of this call. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="223" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_i_network_observability_sink_1a3f580dcbd55795f85048dafefb9a91dd" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>virtual void themis::network::INetworkObservabilitySink::onMetricsFlush</definition>
+        <argsstring>(const NetworkMetrics::Snapshot &amp;metrics) noexcept</argsstring>
+        <name>onMetricsFlush</name>
+        <qualifiedname>themis::network::INetworkObservabilitySink::onMetricsFlush</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1network_1_1_network_metrics_1_1_snapshot" kindref="compound">NetworkMetrics::Snapshot</ref> &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Called periodically (e.g., every 10 s) with aggregated metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The default implementation is a no-op.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Read-only metrics snapshot from <computeroutput><ref refid="structthemis_1_1network_1_1_network_metrics_1a02876a08cc4bac9866127231aebcc460" kindref="member">NetworkMetrics::snapshot()</ref></computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/network_observability.h" line="232" column="18" bodyfile="include/network/network_observability.h" bodystart="232" bodyend="234"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Abstract sink for network observability events. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Register a concrete implementation via <computeroutput><ref refid="classthemis_1_1network_1_1_network_observability_registry_1a6fbc88c76958735190ea0778e9b071f7" kindref="member">NetworkObservabilityRegistry::setSink()</ref></computeroutput>. The default (null) sink discards all events.</para>
+<para>Implementations MUST be thread-safe: <computeroutput><ref refid="classthemis_1_1network_1_1_i_network_observability_sink_1accba7c0df9b379751187a0943542e5f2" kindref="member">onSpan()</ref></computeroutput> may be called from multiple threads concurrently. </para>
+    </detaileddescription>
+    <location file="include/network/network_observability.h" line="213" column="1" bodyfile="include/network/network_observability.h" bodystart="213" bodyend="235"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_i_network_observability_sink_1a3f580dcbd55795f85048dafefb9a91dd" prot="public" virt="virtual"><scope>themis::network::INetworkObservabilitySink</scope><name>onMetricsFlush</name></member>
+      <member refid="classthemis_1_1network_1_1_i_network_observability_sink_1accba7c0df9b379751187a0943542e5f2" prot="public" virt="pure-virtual"><scope>themis::network::INetworkObservabilitySink</scope><name>onSpan</name></member>
+      <member refid="classthemis_1_1network_1_1_i_network_observability_sink_1a4929d6975192c5f9f343ac419d22a11a" prot="public" virt="virtual"><scope>themis::network::INetworkObservabilitySink</scope><name>~INetworkObservabilitySink</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

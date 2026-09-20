@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::AdaptiveCircuitBreaker::ErrorClassConfig</compoundname>
+    <includes refid="adaptive__circuit__breaker_8h" local="no">adaptive_circuit_breaker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config_1a83a064575fdd218a42a448ad44b0bc31" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptiveCircuitBreaker::ErrorClassConfig::threshold</definition>
+        <argsstring></argsstring>
+        <name>threshold</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::ErrorClassConfig::threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+<para>Consecutive failures of this class that trip the circuit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="89" column="20" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config_1acae06dac358bd71d6be85eb222165cde" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::network::AdaptiveCircuitBreaker::ErrorClassConfig::adaptive_factor</definition>
+        <argsstring></argsstring>
+        <name>adaptive_factor</name>
+        <qualifiedname>themis::network::AdaptiveCircuitBreaker::ErrorClassConfig::adaptive_factor</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Fraction of the per-class threshold used for adaptive reduction. Inherits the parent Config::adaptive_factor when 0. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/adaptive_circuit_breaker.h" line="93" column="20" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-error-class threshold override. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When an error class has an entry here its failures are counted separately against <computeroutput>threshold</computeroutput>. A class whose consecutive failure count reaches its threshold immediately trips the circuit even if the global counter has not yet reached <computeroutput>failure_threshold</computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/network/adaptive_circuit_breaker.h" line="87" column="9" bodyfile="include/network/adaptive_circuit_breaker.h" bodystart="87" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config_1acae06dac358bd71d6be85eb222165cde" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::ErrorClassConfig</scope><name>adaptive_factor</name></member>
+      <member refid="structthemis_1_1network_1_1_adaptive_circuit_breaker_1_1_error_class_config_1a83a064575fdd218a42a448ad44b0bc31" prot="public" virt="non-virtual"><scope>themis::network::AdaptiveCircuitBreaker::ErrorClassConfig</scope><name>threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

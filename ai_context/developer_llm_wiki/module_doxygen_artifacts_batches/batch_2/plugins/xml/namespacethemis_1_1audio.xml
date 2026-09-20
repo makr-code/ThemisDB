@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1audio" kind="namespace" language="C++">
+    <compoundname>themis::audio</compoundname>
+    <innerclass refid="structthemis_1_1audio_1_1_transcription_token" prot="public">themis::audio::TranscriptionToken</innerclass>
+    <innerclass refid="structthemis_1_1audio_1_1_transcription_result" prot="public">themis::audio::TranscriptionResult</innerclass>
+    <innerclass refid="structthemis_1_1audio_1_1_language_detection_result" prot="public">themis::audio::LanguageDetectionResult</innerclass>
+    <innerclass refid="classthemis_1_1audio_1_1_i_audio_backend" prot="public">themis::audio::IAudioBackend</innerclass>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1audio_1abbe3ca65d1d1d3ecd9e002d4c39437b6" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::audio::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::audio::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="25" column="1" bodyfile="include/plugins/audio_backend_interface.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1audio_1a325512fb3b8197c824579396b30ed635" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1audio_1_1_transcription_token" kindref="compound">TranscriptionToken</ref> &amp;)&gt;</type>
+        <definition>using themis::audio::StreamCallback = std::function&lt;void(const TranscriptionToken&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>StreamCallback</name>
+        <qualifiedname>themis::audio::StreamCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type for streaming transcription. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invoked once per token on the transcription worker thread. The callback must not block; throwing from the callback is allowed and will cause transcribeStream() to return a result with success=false. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/audio_backend_interface.h" line="48" column="1" bodyfile="include/plugins/audio_backend_interface.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/audio_backend_interface.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

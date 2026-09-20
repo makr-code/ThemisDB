@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1_marketplace_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::MarketplaceManifest</compoundname>
+    <basecompoundref refid="structthemis_1_1plugins_1_1_plugin_manifest" prot="public" virt="non-virtual">themis::plugins::PluginManifest</basecompoundref>
+    <includes refid="plugin__interface_8h" local="no">plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a4aaa2891f9bda2556ae1f3e242e0649f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::author</definition>
+        <argsstring></argsstring>
+        <name>author</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::author</qualifiedname>
+        <briefdescription>
+<para>Publisher/author name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="577" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="577" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a902e4a4c6703cd9f2e2d41c98351394b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::license</definition>
+        <argsstring></argsstring>
+        <name>license</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::license</qualifiedname>
+        <briefdescription>
+<para>SPDX license identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="578" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="578" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a23d7039d33c5e93c4d6f8d57a3c320e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::homepage</definition>
+        <argsstring></argsstring>
+        <name>homepage</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::homepage</qualifiedname>
+        <briefdescription>
+<para>Plugin homepage URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="579" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="579" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a78dbc2a2a00f7d6bf093be5915901fda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::repository</definition>
+        <argsstring></argsstring>
+        <name>repository</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::repository</qualifiedname>
+        <briefdescription>
+<para>Source code repository URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="580" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="580" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a26befca72a4012fb41b3f21aecd21730" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::documentation</definition>
+        <argsstring></argsstring>
+        <name>documentation</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::documentation</qualifiedname>
+        <briefdescription>
+<para>Documentation URL or relative path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="581" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="581" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1ae8a7136c0f93032a9a40a50122c06f80" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::MarketplaceManifest::tags</definition>
+        <argsstring></argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::tags</qualifiedname>
+        <briefdescription>
+<para>Searchable tags. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="584" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="584" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a52b23780cccce34ee2e2f17bc855c0bc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::category</definition>
+        <argsstring></argsstring>
+        <name>category</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::category</qualifiedname>
+        <briefdescription>
+<para>Marketplace category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="585" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="585" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1abfb46ef75b5a7ec3c9c56ab14973235a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::marketplace_id</definition>
+        <argsstring></argsstring>
+        <name>marketplace_id</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::marketplace_id</qualifiedname>
+        <briefdescription>
+<para>UUID assigned by the marketplace. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="586" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="586" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a0044b2970db4a303810ef66b8ca17045" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::min_themis_version</definition>
+        <argsstring></argsstring>
+        <name>min_themis_version</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::min_themis_version</qualifiedname>
+        <briefdescription>
+<para>Minimum required ThemisDB version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="589" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="589" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a9e3a121299b1737248f40b405b71afda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::MarketplaceManifest::max_themis_version</definition>
+        <argsstring></argsstring>
+        <name>max_themis_version</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::max_themis_version</qualifiedname>
+        <briefdescription>
+<para>Maximum tested ThemisDB version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="590" column="17" bodyfile="include/plugins/plugin_interface.h" bodystart="590" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1aca4b6381fcff4190bad7d5cf59c9b8cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::MarketplaceManifest::verified_publisher</definition>
+        <argsstring></argsstring>
+        <name>verified_publisher</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::verified_publisher</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Publisher verified by ThemisDB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="593" column="10" bodyfile="include/plugins/plugin_interface.h" bodystart="593" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1_marketplace_manifest_1a56cfa478c34ec1171889fa7b9051c864" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1_plugin_signature_info" kindref="compound">PluginSignatureInfo</ref></type>
+        <definition>PluginSignatureInfo themis::plugins::MarketplaceManifest::signature</definition>
+        <argsstring></argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::plugins::MarketplaceManifest::signature</qualifiedname>
+        <briefdescription>
+<para>Publisher signature metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/plugin_interface.h" line="594" column="25" bodyfile="include/plugins/plugin_interface.h" bodystart="594" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Extended plugin manifest for marketplace-distributed plugins. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Adds marketplace-specific metadata fields on top of the base <ref refid="structthemis_1_1plugins_1_1_plugin_manifest" kindref="compound">PluginManifest</ref>. The JSON Schema for this format is defined in <computeroutput>include/plugins/manifest_schema_v2.json</computeroutput>.</para>
+<para>Example plugin.json (marketplace edition): <programlisting><codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;s3_blob_storage&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;1.0.0&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;blob_storage&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;AWS<sp/>S3<sp/>blob<sp/>storage<sp/>backend&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;author&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;ThemisDB<sp/>Team&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;license&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;Proprietary&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;homepage&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;https://marketplace.themisdb.io/plugins/s3_blob_storage&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;tags&quot;</highlight><highlight class="normal">:<sp/>[</highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;aws&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;s3&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;category&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;storage&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;min_themisdb_version&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;1.2.0&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;allowed_editions&quot;</highlight><highlight class="normal">:<sp/>[</highlight><highlight class="stringliteral">&quot;enterprise&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hyperscaler&quot;</highlight><highlight class="normal">],</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;license_feature&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;private_connector_pack&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;binary&quot;</highlight><highlight class="normal">:<sp/>{<sp/></highlight><highlight class="stringliteral">&quot;linux&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;themis_blob_s3.so&quot;</highlight><highlight class="normal"><sp/>},</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;verified_publisher&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::plugins::MarketplaceManifest</label>
+        <link refid="structthemis_1_1plugins_1_1_marketplace_manifest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::PluginManifest</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_manifest"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::MarketplaceManifest</label>
+        <link refid="structthemis_1_1plugins_1_1_marketplace_manifest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>signature</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::plugins::PluginCapabilities</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_capabilities"/>
+      </node>
+      <node id="2">
+        <label>themis::plugins::PluginManifest</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_manifest"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>capabilities</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::plugins::PluginSignatureInfo</label>
+        <link refid="structthemis_1_1plugins_1_1_plugin_signature_info"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/plugin_interface.h" line="575" column="1" bodyfile="include/plugins/plugin_interface.h" bodystart="575" bodyend="595"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a0d9353426da31cb7ea82535548a5b66d" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>allowed_editions</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a4aaa2891f9bda2556ae1f3e242e0649f" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>author</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a86fcebb12daad5b87b715186719cb8e4" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>auto_load</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1ab07088469a5e8f4172bdfc13376ac782" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>binary_linux</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a4a2dbb944cac5c960e4f34f31c26a2af" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>binary_macos</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1aa0a0a75ff40bcdb6c7b1d1b3b19dbcc9" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>binary_windows</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a9f051241c85ffd251b02b1c763c11a4a" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>capabilities</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a52b23780cccce34ee2e2f17bc855c0bc" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>category</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1ab426aace68d9edade11fd572531b6921" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>compatible_core_abi</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a92e5d5b40c6516e24925cd163771c80c" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>config_schema</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a2e2847cc0e1d6482005dfb0e0b48fa0d" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>dependencies</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a6ca97fa6a9addf286899be35e66ce8b5" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>description</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a26befca72a4012fb41b3f21aecd21730" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>documentation</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a7776c12c04ab1ca308f785ce4a47d693" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>expected_hash</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a23d7039d33c5e93c4d6f8d57a3c320e7" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>homepage</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a902e4a4c6703cd9f2e2d41c98351394b" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>license</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1ad099005ed61c3cf83d1355fe9c98eaf9" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>license_feature</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a194ca3e195ac7479bcc983027af19d52" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>load_priority</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1abfb46ef75b5a7ec3c9c56ab14973235a" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>marketplace_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a9e3a121299b1737248f40b405b71afda" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>max_themis_version</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a20dd592fc563d3161f317000d5295017" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>max_themisdb_version</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a0044b2970db4a303810ef66b8ca17045" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>min_themis_version</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1ab096aecd5049312ad3f275d2673853a0" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>min_themisdb_version</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1aebdd3b502b6a1f3a53b8d87231e3d4c3" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>name</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a78dbc2a2a00f7d6bf093be5915901fda" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>repository</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1a56cfa478c34ec1171889fa7b9051c864" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>signature</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1ae8a7136c0f93032a9a40a50122c06f80" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>tags</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a42ae34c04ec93f1a55b13249003a3a8d" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>type</name></member>
+      <member refid="structthemis_1_1plugins_1_1_marketplace_manifest_1aca4b6381fcff4190bad7d5cf59c9b8cb" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>verified_publisher</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a6892ed10724005b1be9cdfe63bd4a2bf" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>version</name></member>
+      <member refid="structthemis_1_1plugins_1_1_plugin_manifest_1a9d14780f9cc6079546c27c5015bf7726" prot="public" virt="non-virtual"><scope>themis::plugins::MarketplaceManifest</scope><name>visibility</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

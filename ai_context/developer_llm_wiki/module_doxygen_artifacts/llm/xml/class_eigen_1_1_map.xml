@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_eigen_1_1_map" kind="class" language="C++" prot="public">
+    <compoundname>Eigen::Map</compoundname>
+    <includes refid="eigen__stub_8h" local="no">eigen_stub.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_eigen_1_1_map_1a231a2aa720d41000d77c56e640b2d2e4" prot="private" static="no" mutable="no">
+        <type>T *</type>
+        <definition>T* Eigen::Map&lt; T &gt;::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>Eigen::Map::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="333" column="11" bodyfile="include/llm/eigen_stub.h" bodystart="333" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_eigen_1_1_map_1a66844605c5f68cc3a027038703d678c6" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Eigen::Map&lt; T &gt;::r_</definition>
+        <argsstring></argsstring>
+        <name>r_</name>
+        <qualifiedname>Eigen::Map::r_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="334" column="13" bodyfile="include/llm/eigen_stub.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_eigen_1_1_map_1ad446b109ba59537d6cb694455ddeb293" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int Eigen::Map&lt; T &gt;::c_</definition>
+        <argsstring></argsstring>
+        <name>c_</name>
+        <qualifiedname>Eigen::Map::c_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="334" column="16" bodyfile="include/llm/eigen_stub.h" bodystart="334" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_eigen_1_1_map_1a88fb3ecb056d76013c250dbec4265872" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>Eigen::Map&lt; T &gt;::Map</definition>
+        <argsstring>(T *data, int r, int c)</argsstring>
+        <name>Map</name>
+        <qualifiedname>Eigen::Map::Map</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>r</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="325" column="9" bodyfile="include/llm/eigen_stub.h" bodystart="325" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="class_eigen_1_1_map_1a71c0413e94a02b381e1ef643ffcb899a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="class_eigen_1_1_map_1a88fb3ecb056d76013c250dbec4265872" kindref="member">Map</ref> &amp;</type>
+        <definition>Map &amp; Eigen::Map&lt; T &gt;::operator=</definition>
+        <argsstring>(const T &amp;other)</argsstring>
+        <name>operator=</name>
+        <qualifiedname>Eigen::Map::operator=</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/eigen_stub.h" line="326" column="13" bodyfile="include/llm/eigen_stub.h" bodystart="326" bodyend="331"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/eigen_stub.h" line="323" column="5" bodyfile="include/llm/eigen_stub.h" bodystart="323" bodyend="335"/>
+    <listofallmembers>
+      <member refid="class_eigen_1_1_map_1ad446b109ba59537d6cb694455ddeb293" prot="private" virt="non-virtual"><scope>Eigen::Map</scope><name>c_</name></member>
+      <member refid="class_eigen_1_1_map_1a88fb3ecb056d76013c250dbec4265872" prot="public" virt="non-virtual"><scope>Eigen::Map</scope><name>Map</name></member>
+      <member refid="class_eigen_1_1_map_1a71c0413e94a02b381e1ef643ffcb899a" prot="public" virt="non-virtual"><scope>Eigen::Map</scope><name>operator=</name></member>
+      <member refid="class_eigen_1_1_map_1a231a2aa720d41000d77c56e640b2d2e4" prot="private" virt="non-virtual"><scope>Eigen::Map</scope><name>ptr_</name></member>
+      <member refid="class_eigen_1_1_map_1a66844605c5f68cc3a027038703d678c6" prot="private" virt="non-virtual"><scope>Eigen::Map</scope><name>r_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

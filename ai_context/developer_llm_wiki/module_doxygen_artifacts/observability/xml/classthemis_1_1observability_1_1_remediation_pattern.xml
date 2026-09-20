@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_remediation_pattern" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::observability::RemediationPattern</compoundname>
+    <includes refid="operator__remediation__engine_8h" local="no">operator_remediation_engine.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_pattern_1a358e2e610e0386e20e6c14c3f8d5f94f" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> &gt;</type>
+        <definition>virtual std::shared_ptr&lt; RemediationHint &gt; themis::observability::RemediationPattern::match</definition>
+        <argsstring>(const std::map&lt; std::string, double &gt; &amp;metrics)=0</argsstring>
+        <name>match</name>
+        <qualifiedname>themis::observability::RemediationPattern::match</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, double &gt; &amp;</type>
+          <declname>metrics</declname>
+        </param>
+        <briefdescription>
+<para>Check if the pattern matches the current system state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current metric values and system state. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Remediation hint if pattern matches, nullptr otherwise.</para>
+</simplesect>
+<simplesect kind="note"><para>Implementations must be thread-safe and complete quickly (target: &lt; 10ms). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="303" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_pattern_1a04381c9a08f895967e235a17475ade8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::observability::RemediationPattern::patternName</definition>
+        <argsstring>() const =0</argsstring>
+        <name>patternName</name>
+        <qualifiedname>themis::observability::RemediationPattern::patternName</qualifiedname>
+        <briefdescription>
+<para>Get the pattern name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="309" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_pattern_1a7ca40bd797729ca36c8c6ed231c8bfb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref></type>
+        <definition>virtual ProblemCategory themis::observability::RemediationPattern::problemCategory</definition>
+        <argsstring>() const =0</argsstring>
+        <name>problemCategory</name>
+        <qualifiedname>themis::observability::RemediationPattern::problemCategory</qualifiedname>
+        <briefdescription>
+<para>Get the problem category this pattern detects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="314" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_pattern_1abb24feca3fdb9e8087a53f15aa37a2c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::observability::RemediationPattern::~RemediationPattern</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RemediationPattern</name>
+        <qualifiedname>themis::observability::RemediationPattern::~RemediationPattern</qualifiedname>
+        <briefdescription>
+<para>Virtual destructor for safe polymorphic deletion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="319" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_pattern" kindref="compound">Pattern</ref> matcher for detecting observability problems. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Custom pattern implementations can be registered to extend the remediation engine with domain-specific problem detection. </para>
+    </detaileddescription>
+    <location file="include/observability/operator_remediation_engine.h" line="292" column="1" bodyfile="include/observability/operator_remediation_engine.h" bodystart="292" bodyend="320"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_remediation_pattern_1a358e2e610e0386e20e6c14c3f8d5f94f" prot="public" virt="pure-virtual"><scope>themis::observability::RemediationPattern</scope><name>match</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_pattern_1a04381c9a08f895967e235a17475ade8b" prot="public" virt="pure-virtual"><scope>themis::observability::RemediationPattern</scope><name>patternName</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_pattern_1a7ca40bd797729ca36c8c6ed231c8bfb3" prot="public" virt="pure-virtual"><scope>themis::observability::RemediationPattern</scope><name>problemCategory</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_pattern_1abb24feca3fdb9e8087a53f15aa37a2c7" prot="public" virt="virtual"><scope>themis::observability::RemediationPattern</scope><name>~RemediationPattern</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

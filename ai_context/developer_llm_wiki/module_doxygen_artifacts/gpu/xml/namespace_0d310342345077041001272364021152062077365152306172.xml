@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d310342345077041001272364021152062077365152306172" kind="namespace" language="C++">
+    <compoundname>@310342345077041001272364021152062077365152306172</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/gpu/test_gpu_highcardinality_stress.cpp" line="45" column="1"/>
+  </compounddef>
+</doxygen>

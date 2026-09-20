@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_agentic_r_a_g_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>AgenticRAGIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_agentic_r_a_g_integration_test_1a8d6c8a51d047c86936834776e7c16e0a" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; AgenticRAGIntegrationTest::knowledge_base</definition>
+        <argsstring></argsstring>
+        <name>knowledge_base</name>
+        <qualifiedname>AgenticRAGIntegrationTest::knowledge_base</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="387" column="17" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="387" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_agentic_r_a_g_integration_test_1a0fd0b2dbe66f4935405eb6d93ed37202" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AgenticRAGIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AgenticRAGIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/rag/test_rag_agentic.cpp" line="389" column="10" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="389" bodyend="397"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AgenticRAGIntegrationTest</label>
+        <link refid="class_agentic_r_a_g_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AgenticRAGIntegrationTest</label>
+        <link refid="class_agentic_r_a_g_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/rag/test_rag_agentic.cpp" line="385" column="1" bodyfile="tests/rag/test_rag_agentic.cpp" bodystart="385" bodyend="398"/>
+    <listofallmembers>
+      <member refid="class_agentic_r_a_g_integration_test_1a8d6c8a51d047c86936834776e7c16e0a" prot="protected" virt="non-virtual"><scope>AgenticRAGIntegrationTest</scope><name>knowledge_base</name></member>
+      <member refid="class_agentic_r_a_g_integration_test_1a0fd0b2dbe66f4935405eb6d93ed37202" prot="protected" virt="non-virtual"><scope>AgenticRAGIntegrationTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::storage::BlobRedundancyManager::Config</compoundname>
+    <includes refid="blob__redundancy__manager_8h" local="no">blob_redundancy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a6abef030bc2c176ef429c1308c1e3311" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobRedundancyManager::Config::config_path</definition>
+        <argsstring></argsstring>
+        <name>config_path</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::config_path</qualifiedname>
+        <initializer>= &quot;config/storage_redundancy.yaml&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="348" column="21" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1ad791d58ee9b48f4d605f535fc2c2c9e9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobRedundancyManager::Config::metadata_store</definition>
+        <argsstring></argsstring>
+        <name>metadata_store</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::metadata_store</qualifiedname>
+        <initializer>= &quot;etcd&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="351" column="21" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1ade35dcf863a062741601c6a9965a074b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::storage::BlobRedundancyManager::Config::metadata_endpoint</definition>
+        <argsstring></argsstring>
+        <name>metadata_endpoint</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::metadata_endpoint</qualifiedname>
+        <initializer>= &quot;http://localhost:2379&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="352" column="21" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a3b8956aad26dbe97683e6706dd249573" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::Config::enable_blob_tracking</definition>
+        <argsstring></argsstring>
+        <name>enable_blob_tracking</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::enable_blob_tracking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="355" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a63cbeac8eba825f402e8963c3292cbfb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1storage_1a7cc2e22f4f843691ea1c1c3763645888" kindref="member">ChecksumAlgorithm</ref></type>
+        <definition>ChecksumAlgorithm themisdb::storage::BlobRedundancyManager::Config::checksum_algorithm</definition>
+        <argsstring></argsstring>
+        <name>checksum_algorithm</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::checksum_algorithm</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1storage_1a7cc2e22f4f843691ea1c1c3763645888ab505df5aa812b4f320420b8a952f20e5" kindref="member">ChecksumAlgorithm::SHA256</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="358" column="27" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="358" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1ae75bfd51aa3b90acb37f36cf8bada0d3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::BlobRedundancyManager::Config::maintenance_interval_seconds</definition>
+        <argsstring></argsstring>
+        <name>maintenance_interval_seconds</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::maintenance_interval_seconds</qualifiedname>
+        <initializer>= 300</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="361" column="18" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="361" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1ab4cc529c2e7bfba33e4ef1a0185cb022" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::BlobRedundancyManager::Config::repair_parallelism</definition>
+        <argsstring></argsstring>
+        <name>repair_parallelism</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::repair_parallelism</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="362" column="18" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="362" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a39f691667334f6493da1fa9cb92e22fd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::storage::BlobRedundancyManager::Config::hot_reload_enabled</definition>
+        <argsstring></argsstring>
+        <name>hot_reload_enabled</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::hot_reload_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="365" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a7ddf7d3fd9e1d62eccefd779e7eec143" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::storage::BlobRedundancyManager::Config::hot_reload_check_seconds</definition>
+        <argsstring></argsstring>
+        <name>hot_reload_check_seconds</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyManager::Config::hot_reload_check_seconds</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="366" column="18" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="366" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Configuration </para>
+    </detaileddescription>
+    <location file="include/storage/blob_redundancy_manager.h" line="346" column="5" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="346" bodyend="367"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a63cbeac8eba825f402e8963c3292cbfb" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>checksum_algorithm</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a6abef030bc2c176ef429c1308c1e3311" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>config_path</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a3b8956aad26dbe97683e6706dd249573" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>enable_blob_tracking</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a7ddf7d3fd9e1d62eccefd779e7eec143" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>hot_reload_check_seconds</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1a39f691667334f6493da1fa9cb92e22fd" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>hot_reload_enabled</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1ae75bfd51aa3b90acb37f36cf8bada0d3" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>maintenance_interval_seconds</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1ade35dcf863a062741601c6a9965a074b" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>metadata_endpoint</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1ad791d58ee9b48f4d605f535fc2c2c9e9" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>metadata_store</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_manager_1_1_config_1ab4cc529c2e7bfba33e4ef1a0185cb022" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyManager::Config</scope><name>repair_parallelism</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1afa23b1ef95b6713d91f3e41b02f8d72b" kindref="member">TEST</ref>  (DiscourseHardening, DefaultConflictThresholdRatioIs0_6)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>DH-01: Default conflict_threshold_ratio is 0.6.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1abf78f3fc5cefd2e452a2f270a1bbbe7e" kindref="member">TEST</ref>  (DiscourseHardening, ZeroConflictThresholdIsAccepted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>DH-02: Zero conflict_threshold_ratio is accepted.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1a475062725e6f327e5ab702e594afedfb" kindref="member">TEST</ref>  (DiscourseHardening, ConflictThresholdOf1_0IsAccepted)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>DH-03: conflict_threshold_ratio of 1.0 is accepted.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1add1820b383f540fa92eb6463d933df9d" kindref="member">TEST</ref>  (DiscourseHardening, RouterConfigWithHardeningFieldsCompiles)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>DH-04: RouterConfig with both LDM hardening fields compiles and is assignable.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1a5df7e47f4aed420d78f61885acecefb3" kindref="member">TEST</ref>  (DiscourseHardening, HighScoreYieldsClearConsensus)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>DH-05: score &gt; 0.75 produces CLEAR_CONSENSUS.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1a7dc9136f2f45d4d63ef025ca580c43af" kindref="member">TEST</ref>  (DiscourseHardening, BoundaryScoreAt0_60IsContested)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>DH-06: score exactly 0.60 maps to CONTESTED (boundary check).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1aab38da406d939c30a09946e7f9984c72" kindref="member">TEST</ref>  (DiscourseHardening, ZeroScoreIsDissent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>DH-07: score 0.0 maps to DISSENT.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__discourse__hardening__focused_8cpp_1ae0b6e9107a228ee6513b86ab326a56b2" kindref="member">TEST</ref>  (DiscourseHardening, MetaVerdictThresholdIsDeterministic)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>DH-08: MetaVerdictThreshold is deterministic for identical inputs.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1ab66a6d3212cd52172a08114bafab3089" kindref="member">TEST</ref>  (CrossSchoolTensionGraph, UnknownPairReturnsZero)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>LDM6-01: tensionBetween() returns 0.0 for an unknown pair.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a8dd63e540cbfca6ae254a308192d0458" kindref="member">TEST</ref>  (CrossSchoolTensionGraph, TensionIsSymmetric)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>LDM6-02: tensionBetween() is symmetric.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a88b6ff284025247c700c7b71e145fa0f" kindref="member">TEST</ref>  (ClusterAssignment, SchoolsInClusterReturnsCorrectMembers)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>LDM6-03: schoolsInCluster() returns correct members.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a0416bd6e7f8e24ac0482e95fd44b4ce3" kindref="member">TEST</ref>  (ClusterAssignment, ClusterCountIsCorrect)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>LDM6-04: cluster_count reflects actual distinct indices.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a9093bd332e9a65bf03ba7a1cad55f6e9" kindref="member">TEST</ref>  (DynamicClusteringEngine, EmptyGraphProducesEmptyAssignment)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>LDM6-05: Empty graph produces an empty ClusterAssignment.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm6__clustering__focused_8cpp_1a9411b7f56f11ebdef84b5792d6a705d9" kindref="member">TEST</ref>  (DynamicClusteringEngine, HighTensionPairSeparatedIntoDifferentClusters)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>LDM6-06: High-tension pair lands in different clusters. </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm7__focused_8cpp_1ab234da7bdf532d7ebda42c4106eae726" kindref="member">TEST</ref>  (LDM7Schools, ConstantsAreNonEmptyAndDistinct)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>LDM7-01: LDM7Schools constants are non-empty and distinct.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm7__focused_8cpp_1ab32f8ff1332b813e7ca9fadb94360a18" kindref="member">TEST</ref>  (CulturalEthicsSchoolDescriptor, DefaultConstructed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>LDM7-02: CulturalEthicsSchoolDescriptor default-constructs correctly.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm7__focused_8cpp_1a34972344048265e7ec1d97dd2f0d7c17" kindref="member">TEST</ref>  (CulturalEthicsSchoolDescriptor, MaoriEthicsDescriptor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>LDM7-03: A Māori ethics descriptor can be constructed with required fields.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm7__focused_8cpp_1a1536b38fb3d9c545030cb666494ab0ec" kindref="member">TEST</ref>  (CulturalEthicsSchoolDescriptor, LatinLiberationTheologyDescriptor)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>LDM7-04: A Latin Liberation Theology descriptor can be constructed.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm8__focused_8cpp_1a977a6c4740383d35324a5bee7a2f5241" kindref="member">TEST</ref>  (AdaLoRABiasCorrector, IdentityHasNoAdapters)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>LDM8-01: IdentityAdaLoRABiasCorrector has no adapters for any school.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm8__focused_8cpp_1a617dc43493832e1aaf403f8d6caf9247" kindref="member">TEST</ref>  (AdaLoRABiasCorrector, IdentityReturnsRawScoreUnchanged)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>LDM8-02: IdentityAdaLoRABiasCorrector returns raw_score unchanged.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm8__focused_8cpp_1a01eff5c783fe02c6615d60c26e21ff7b" kindref="member">TEST</ref>  (AdaLoRABiasCorrector, ScalarHasAdapterOnlyForRegistered)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>LDM8-03: hasAdapter() returns true only for registered schools.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm8__focused_8cpp_1a1c50384677dd8a9675db56f52c90c193" kindref="member">TEST</ref>  (AdaLoRABiasCorrector, ScalarClampsResultToUnitInterval)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>LDM8-04: Corrected score is clamped to [0.0, 1.0] and deterministic.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__ldm8__focused_8cpp_1a5473fe14274b735959c8b8c7da36cdfb" kindref="member">TEST</ref>  (AdaLoRABiasCorrector, PolymorphicDispatchWorksCorrectly)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>LDM8 — Polymorphic dispatch through IAdaLoRABiasCorrector base pointer.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__profile__reload__focused_8cpp_1accd840f13b71d9498bc5ded50983a621" kindref="member">TEST</ref>  (ProfileReloadGuard, DefaultSnapshotFlagIsTrue)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000024"/>PR-01: Default value of snapshot_profile_on_round_start is true.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__profile__reload__focused_8cpp_1a28a46b78d4497df69581c93e0a443351" kindref="member">TEST</ref>  (ProfileReloadGuard, FlagCanBeSetToFalse)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000025"/>PR-02: Flag can be set to false (legacy/test mode).  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__profile__reload__focused_8cpp_1a1c95b30923268a55fc6968243f9ff153" kindref="member">TEST</ref>  (ProfileReloadGuard, FlagPreservedOnCopy)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000026"/>PR-03: Flag is preserved through copy construction.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__profile__reload__focused_8cpp_1aaa12d87b995626cf47a8ec8ed3c8e781" kindref="member">TEST</ref>  (ProfileReloadGuard, CopiedConfigIsIndependent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000027"/>PR-04: A copied RouterConfig is independent of the original.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__profile__reload__focused_8cpp_1ad6601b84572d7c5db2d9bd9c6d21289f" kindref="member">TEST</ref>  (ProfileReloadGuard, SnapshotCopiesConflictThreshold)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000028"/>PR-05: Copied config carries the same conflict_threshold_ratio.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__profile__reload__focused_8cpp_1a7d8493a4a271d08f307c1c927a8e7f08" kindref="member">TEST</ref>  (ProfileReloadGuard, IndependentConfigsDoNotInterfere)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000029"/>PR-06: Two configs with different thresholds do not interfere.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__profile__reload__focused_8cpp_1ab9b8a78614406ad7cebcbf01f6c02cd0" kindref="member">TEST</ref>  (ProfileReloadGuard, DefaultConstructedConfigIsUsable)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000030"/>PR-07: Default-constructed RouterConfig with snapshot=true is usable.  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="test__ethics__ai__profile__reload__focused_8cpp_1af8fa5d6d77f333d0e4d45133de632e2c" kindref="member">TEST</ref>  (ProfileReloadGuard, SchoolBiasCopyIsDeep)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000031"/>PR-08: Modifying school_bias on a copy does not affect the original. </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

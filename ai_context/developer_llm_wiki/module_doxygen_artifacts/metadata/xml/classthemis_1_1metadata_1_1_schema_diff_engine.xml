@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_schema_diff_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::SchemaDiffEngine</compoundname>
+    <includes refid="schema__diff_8h" local="no">schema_diff.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_schema_diff_engine_1a02d840844833c0672e082e402f0076b8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1metadata_1_1_schema_diff" kindref="compound">SchemaDiff</ref></type>
+        <definition>SchemaDiff themis::metadata::SchemaDiffEngine::diff</definition>
+        <argsstring>(const SchemaManager::TableSchema &amp;from, const SchemaManager::TableSchema &amp;to) const</argsstring>
+        <name>diff</name>
+        <qualifiedname>themis::metadata::SchemaDiffEngine::diff</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &amp;</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_schema_manager_1_1_table_schema" kindref="compound">SchemaManager::TableSchema</ref> &amp;</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Compute the structural diff between <computeroutput>from</computeroutput> and <computeroutput>to</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The baseline (old) schema. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target (new) schema. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A <ref refid="structthemis_1_1metadata_1_1_schema_diff" kindref="compound">SchemaDiff</ref> describing every detected change. Returns an empty diff when the schemas are identical. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_diff.h" line="248" column="16" bodyfile="include/metadata/schema_diff.h" bodystart="248" bodyend="371"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Computes structural diffs between two TableSchema instances. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>The engine is stateless; create a single instance and call <ref refid="classthemis_1_1metadata_1_1_schema_diff_engine_1a02d840844833c0672e082e402f0076b8" kindref="member">diff()</ref> as many times as needed. All comparisons are purely value-based — no database connection is required.</para>
+<para>Algorithm:<orderedlist>
+<listitem><para>Build name-keyed maps of PropertyInfo and IndexInfo for both schemas.</para>
+</listitem><listitem><para>Walk the union of property names to classify each as ADDED / REMOVED / TYPE_CHANGED / NULLABILITY_CHANGED / INDEX_CHANGED. A property may produce multiple <ref refid="structthemis_1_1metadata_1_1_column_diff" kindref="compound">ColumnDiff</ref> entries when more than one attribute changed.</para>
+</listitem><listitem><para>Walk the union of index names to classify each as ADDED / REMOVED / CHANGED (type, uniqueness, or column list differs).</para>
+</listitem><listitem><para>Sort both result lists alphabetically by name for deterministic output.</para>
+</listitem></orderedlist>
+</para>
+<para>Example: <programlisting><codeline><highlight class="normal">SchemaDiffEngine<sp/>engine;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1metadata_1_1_schema_diff_engine_1a02d840844833c0672e082e402f0076b8" kindref="member">diff</ref><sp/>=<sp/>engine.diff(old_schema,<sp/>new_schema);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="classthemis_1_1metadata_1_1_schema_diff_engine_1a02d840844833c0672e082e402f0076b8" kindref="member">diff</ref>.isEmpty())<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/><ref refid="classthemis_1_1metadata_1_1_schema_diff_engine_1a02d840844833c0672e082e402f0076b8" kindref="member">diff</ref>.toJSON().dump(2)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/metadata/schema_diff.h" line="238" column="1" bodyfile="include/metadata/schema_diff.h" bodystart="238" bodyend="372"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_schema_diff_engine_1a02d840844833c0672e082e402f0076b8" prot="public" virt="non-virtual"><scope>themis::metadata::SchemaDiffEngine</scope><name>diff</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

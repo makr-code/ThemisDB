@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1governance_1_1hipaa_1_1technical__safeguards" kind="namespace" language="C++">
+    <compoundname>themis::governance::hipaa::technical_safeguards</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1hipaa_1_1technical__safeguards_1a2fa5f6151dadd660d4b19a5f324f15db" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::hipaa::technical_safeguards::kAccessControl</definition>
+        <argsstring></argsstring>
+        <name>kAccessControl</name>
+        <qualifiedname>themis::governance::hipaa::technical_safeguards::kAccessControl</qualifiedname>
+        <initializer>= &quot;164.312(a)(2)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="290" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1hipaa_1_1technical__safeguards_1a7fa1b3b0e5977258a33728ce64521bda" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::hipaa::technical_safeguards::kAuditControls</definition>
+        <argsstring></argsstring>
+        <name>kAuditControls</name>
+        <qualifiedname>themis::governance::hipaa::technical_safeguards::kAuditControls</qualifiedname>
+        <initializer>= &quot;164.312(b)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="291" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1hipaa_1_1technical__safeguards_1aeba2c7ee7669056ef4fa361d9f9c853a" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::hipaa::technical_safeguards::kIntegrityControls</definition>
+        <argsstring></argsstring>
+        <name>kIntegrityControls</name>
+        <qualifiedname>themis::governance::hipaa::technical_safeguards::kIntegrityControls</qualifiedname>
+        <initializer>= &quot;164.312(c)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="292" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1hipaa_1_1technical__safeguards_1aab27d90534d6d81c2c0f0fe9dcb03322" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::hipaa::technical_safeguards::kTransmissionSecurity</definition>
+        <argsstring></argsstring>
+        <name>kTransmissionSecurity</name>
+        <qualifiedname>themis::governance::hipaa::technical_safeguards::kTransmissionSecurity</qualifiedname>
+        <initializer>= &quot;164.312(e)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="293" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1governance_1_1hipaa_1_1technical__safeguards_1aa4603f2d347d04e3320d175201169172" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>auto</type>
+        <definition>auto themis::governance::hipaa::technical_safeguards::kEncryption</definition>
+        <argsstring></argsstring>
+        <name>kEncryption</name>
+        <qualifiedname>themis::governance::hipaa::technical_safeguards::kEncryption</qualifiedname>
+        <initializer>= &quot;164.312(a)(2)(ii)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/compliance_mapping.h" line="294" column="20" bodyfile="include/governance/compliance_mapping.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/compliance_mapping.h" line="289" column="1"/>
+  </compounddef>
+</doxygen>

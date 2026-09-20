@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="columnar__cache_8h" kind="file" language="C++">
+    <compoundname>columnar_cache.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">list</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="columnar__cache_8cpp" local="yes">src/storage/columnar_cache.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/columnar_cache.h</label>
+        <link refid="columnar__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>list</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/storage/columnar_cache.h</label>
+        <link refid="columnar__cache_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/storage/columnar_cache.cpp</label>
+        <link refid="columnar__cache_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1storage_1_1_segment_key" prot="public">themis::storage::SegmentKey</innerclass>
+    <innerclass refid="structstd_1_1hash_3_01themis_1_1storage_1_1_segment_key_01_4" prot="public">std::hash&lt; themis::storage::SegmentKey &gt;</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_column_segment" prot="public">themis::storage::ColumnSegment</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_pin_guard" prot="public">themis::storage::PinGuard</innerclass>
+    <innerclass refid="classthemis_1_1storage_1_1_columnar_cache" prot="public">themis::storage::ColumnarCache</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config" prot="public">themis::storage::ColumnarCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_columnar_cache_1_1_entry" prot="private">themis::storage::ColumnarCache::Entry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1storage">themis::storage</innernamespace>
+    <innernamespace refid="namespacestd">std</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.10 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;list&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SegmentKey</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1storage_1_1_segment_key" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1storage_1_1_segment_key_1af8d6a40040a31868573674a892a899b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_segment_key_1af8d6a40040a31868573674a892a899b7" kindref="member">table_name</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1storage_1_1_segment_key_1ab873ba03ec6ad352c83d5e52afae8ea3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1storage_1_1_segment_key_1ab873ba03ec6ad352c83d5e52afae8ea3" kindref="member">column_name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1storage_1_1_segment_key_1a684c7cb8386f280a326f7b6b023a764c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_segment_key_1a684c7cb8386f280a326f7b6b023a764c" kindref="member">segment_id</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1storage_1_1_segment_key_1a718a84f87d1c5807ca40e1c5b27d132a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_segment_key_1a718a84f87d1c5807ca40e1c5b27d132a" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref>&amp;<sp/>o)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_segment_key_1af8d6a40040a31868573674a892a899b7" kindref="member">table_name</ref><sp/>==<sp/>o.table_name<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_segment_key_1ab873ba03ec6ad352c83d5e52afae8ea3" kindref="member">column_name</ref><sp/>==<sp/>o.column_name<sp/>&amp;&amp;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_segment_key_1a684c7cb8386f280a326f7b6b023a764c" kindref="member">segment_id</ref><sp/><sp/>==<sp/>o.segment_id;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="namespacestd" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref><sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;&gt;</highlight></codeline>
+<codeline lineno="53" refid="structstd_1_1hash_3_01themis_1_1storage_1_1_segment_key_01_4" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">hash&lt;<ref refid="namespacethemis" kindref="compound">themis</ref>::storage::SegmentKey&gt;<sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structstd_1_1hash_3_01themis_1_1storage_1_1_segment_key_01_4_1acba62786d5bba3534fe915aef566ea44" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structstd_1_1hash_3_01themis_1_1storage_1_1_segment_key_01_4_1acba62786d5bba3534fe915aef566ea44" kindref="member">operator()</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">themis::storage::SegmentKey</ref>&amp;<sp/>k)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>std::hash&lt;std::string&gt;{}(k.table_name);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h<sp/>^=<sp/>std::hash&lt;std::string&gt;{}(k.column_name)<sp/>+<sp/>0x9e3779b9u<sp/>+<sp/>(h<sp/>&lt;&lt;<sp/>6)<sp/>+<sp/>(h<sp/>&gt;&gt;<sp/>2);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>h<sp/>^=<sp/>std::hash&lt;uint64_t&gt;{}(k.segment_id)<sp/><sp/><sp/><sp/>+<sp/>0x9e3779b9u<sp/>+<sp/>(h<sp/>&lt;&lt;<sp/>6)<sp/>+<sp/>(h<sp/>&gt;&gt;<sp/>2);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>h;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>std</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1storage" kindref="compound">storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ColumnSegment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9" kindref="member">SegmentDType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9afbde23b11d7e59af7828e81144c8b487" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9afbde23b11d7e59af7828e81144c8b487" kindref="member">Int64</ref>,</highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9ad909d38d705ce75386dd86e611a82f5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9ad909d38d705ce75386dd86e611a82f5b" kindref="member">Double</ref>,</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9a27118326006d3829667a400ad23d5d98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9a27118326006d3829667a400ad23d5d98" kindref="member">String</ref>,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9ac26f15e86e3de4c398a8273272aba034" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9ac26f15e86e3de4c398a8273272aba034" kindref="member">Bool</ref>,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1storage_1_1_column_segment" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_column_segment_1a256dbcc0024703f520c4231a08327abe" kindref="member">ColumnSegment</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref><sp/><sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1storage_1_1_column_segment_1a4dd9e102103c0fe4d6109922a293a6fa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9" kindref="member">SegmentDType</ref><sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1a4dd9e102103c0fe4d6109922a293a6fa" kindref="member">dtype</ref><sp/>=<sp/><ref refid="namespacethemis_1_1storage_1ae48fb7daba11677f04069dea613d15b9afbde23b11d7e59af7828e81144c8b487" kindref="member">SegmentDType::Int64</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Exactly<sp/>one<sp/>of<sp/>the<sp/>following<sp/>is<sp/>populated<sp/>(matching<sp/>`dtype`).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1storage_1_1_column_segment_1a33c9590521423d7f8c2ae7982d8b4554" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1a33c9590521423d7f8c2ae7982d8b4554" kindref="member">int64_data</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1storage_1_1_column_segment_1aa896cd9429d61a11cd98ff38f48493e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1aa896cd9429d61a11cd98ff38f48493e3" kindref="member">double_data</ref>;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1storage_1_1_column_segment_1af99345aae36e9815c99fe1206b6f5fa7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1af99345aae36e9815c99fe1206b6f5fa7" kindref="member">string_data</ref>;</highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1storage_1_1_column_segment_1a7b95ef007bb9323d5f9ffc83a1c61586" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1a7b95ef007bb9323d5f9ffc83a1c61586" kindref="member">bool_data</ref>;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1storage_1_1_column_segment_1a37d0b836c67938628ee569fadd3ceed3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1a37d0b836c67938628ee569fadd3ceed3" kindref="member">null_bitmap</ref>;<sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1storage_1_1_column_segment_1ab4f4bc8561a7d0e3a098757942ce65c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1ab4f4bc8561a7d0e3a098757942ce65c8" kindref="member">row_count</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1a90fde1f2c812b750214ce725c2faae99" kindref="member">byteSize</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>PinGuard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal">class<sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache" kindref="compound">ColumnarCache</ref>;<sp/></highlight><highlight class="comment">//<sp/>forward</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1storage_1_1_pin_guard" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref><sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>()<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>(<ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1storage_1_1_pin_guard_1a98fdde6c9372d323c59784f463776dad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>(const<sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1storage_1_1_pin_guard_1af5c09e915f6ea3306fda7367de2732a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1storage_1_1_pin_guard_1a8959182c3bab75c0aeaf7980f9d2f2cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>explicit<sp/>operator<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal">()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>segment_<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1storage_1_1_pin_guard_1a086c436d7bc6366d538be543761efc88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a086c436d7bc6366d538be543761efc88" kindref="member">segment</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*segment_;<sp/>}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>release()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1storage_1_1_pin_guard_1a29694f72ded88dbbebc7031867cf7d8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a29694f72ded88dbbebc7031867cf7d8e" kindref="member">ColumnarCache</ref>;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a6bbfc08f4190dbf73316e91fe0ded20b" kindref="member">PinGuard</ref>(<ref refid="classthemis_1_1storage_1_1_pin_guard_1a29694f72ded88dbbebc7031867cf7d8e" kindref="member">ColumnarCache</ref>*<sp/>cache,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" kindref="member">key</ref>,</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref>*<sp/>seg)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_pin_guard_1a29694f72ded88dbbebc7031867cf7d8e" kindref="member">ColumnarCache</ref>*<sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache_<sp/><sp/><sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>key_;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref>*<sp/>segment_<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ColumnarCache</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168" refid="classthemis_1_1storage_1_1_columnar_cache" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" kindref="member">ColumnarCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1af04fc5d4b2fbf874faa46c7dd08271e1" kindref="member">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="176" refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1aa4ea222d653ba2730531e1edd4319454" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1aa4ea222d653ba2730531e1edd4319454" kindref="member">max_bytes</ref><sp/>=<sp/>256ull<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight><highlight class="comment">//<sp/>256<sp/>MB<sp/>default</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180" refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1a15baf2a76597e50b0b3d92595fa76613" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref>&amp;)&gt;<sp/><ref refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1a15baf2a76597e50b0b3d92595fa76613" kindref="member">on_evict</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1af04fc5d4b2fbf874faa46c7dd08271e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config_1af04fc5d4b2fbf874faa46c7dd08271e1" kindref="member">Config</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" kindref="member">ColumnarCache</ref>(<ref refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1storage_1_1_columnar_cache_1a130a720d3e325a81d792855ab051f8b1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a130a720d3e325a81d792855ab051f8b1" kindref="member">ColumnarCache</ref>()<sp/>:<sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" kindref="member">ColumnarCache</ref>(<ref refid="structthemis_1_1storage_1_1_columnar_cache_1_1_config" kindref="compound">Config</ref>{})<sp/>{}</highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1storage_1_1_columnar_cache_1ab0b07fa4d8740c74f43a1bf780e2a1af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1ab0b07fa4d8740c74f43a1bf780e2a1af" kindref="member">~ColumnarCache</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="classthemis_1_1storage_1_1_columnar_cache_1a14b1a5f784e194ce08473a96ce8cd5b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a14b1a5f784e194ce08473a96ce8cd5b2" kindref="member">ColumnarCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" kindref="member">ColumnarCache</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1storage_1_1_columnar_cache_1ae189edd644c43950ed86400d1f0422ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" kindref="member">ColumnarCache</ref>&amp;<sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1ae189edd644c43950ed86400d1f0422ad" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a5f91f0fe9c61633d451d39be8f51217a" kindref="member">ColumnarCache</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1ac2a4e0da47a7060f02ce302a70f26398" kindref="member">put</ref>(<ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref><sp/>segment);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1aabd5101d7de464808d2a68a4135be2f0" kindref="member">PinGuard</ref><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a688f118570bd0f06ed14d86167d4c905" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref>&amp;<sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" kindref="member">key</ref>);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a65a7b06f180680242e71d4d71cfd39b6" kindref="member">contains</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref>&amp;<sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" kindref="member">key</ref>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a90f6c99a06d13c8d5b6956ab60cb9fca" kindref="member">evict</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref>&amp;<sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" kindref="member">key</ref>);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1ad521bc6b80a8cb04b4a393260d2f0793" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>/<sp/>introspection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a4c3ee15d986c0a27428dd8cd48063e00" kindref="member">size</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1ad6cd9968423ac90c0eb89a67e7538e78" kindref="member">pinnedCount</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1a58c5cadcea31b081ebd340d2f3cf50b3" kindref="member">bytesUsed</ref>()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="classthemis_1_1storage_1_1_columnar_cache_1acaeae189fc134253cab5f61895f76a0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1acaeae189fc134253cab5f61895f76a0a" kindref="member">maxBytes</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cfg_.max_bytes;<sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>hitCount()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>missCount()<sp/>const<sp/>noexcept;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="268" refid="classthemis_1_1storage_1_1_columnar_cache_1aabd5101d7de464808d2a68a4135be2f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>friend<sp/>class<sp/><ref refid="classthemis_1_1storage_1_1_columnar_cache_1aabd5101d7de464808d2a68a4135be2f0" kindref="member">PinGuard</ref>;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>decrementPin(const<sp/><ref refid="structthemis_1_1storage_1_1_segment_key" kindref="compound">SegmentKey</ref>&amp;<sp/><ref refid="structthemis_1_1storage_1_1_column_segment_1aafeadb0923d6d81c64aa37a30675f960" kindref="member">key</ref>)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Evict<sp/>unpinned<sp/>LRU<sp/>segments<sp/>until<sp/>`bytes_used_<sp/>&lt;=<sp/>cfg_.max_bytes`.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>be<sp/>called<sp/>under<sp/>mu_.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>evictLRU();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/>Entry<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1storage_1_1_column_segment" kindref="compound">ColumnSegment</ref><sp/>segment;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pin_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LRU<sp/>list:<sp/>front<sp/>=<sp/>MRU,<sp/>back<sp/>=<sp/>LRU.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">LruList<sp/>=<sp/>std::list&lt;SegmentKey&gt;;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mu_;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>cfg_;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;SegmentKey,<sp/>Entry&gt;<sp/>store_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>LruList<sp/>lru_list_;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;SegmentKey,<sp/>LruList::iterator&gt;<sp/>lru_map_;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/>bytes_used_{0};</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>hit_count_{0};</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>miss_count_{0};</highlight></codeline>
+<codeline lineno="304"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>storage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/columnar_cache.h"/>
+  </compounddef>
+</doxygen>

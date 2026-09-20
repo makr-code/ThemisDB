@@ -1,0 +1,537 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1projects" kind="namespace" language="C++">
+    <compoundname>themis::projects</compoundname>
+    <innerclass refid="structthemis_1_1projects_1_1_audit_query_options" prot="public">themis::projects::AuditQueryOptions</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_bundle_export_options" prot="public">themis::projects::BundleExportOptions</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_bundle_import_result" prot="public">themis::projects::BundleImportResult</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_change" prot="public">themis::projects::Change</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_chunking_config" prot="public">themis::projects::ChunkingConfig</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_chunk_meta" prot="public">themis::projects::ChunkMeta</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_collaboration_manager" prot="public">themis::projects::CollaborationManager</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_delta_entry" prot="public">themis::projects::DeltaEntry</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_delta_set" prot="public">themis::projects::DeltaSet</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_document_manager" prot="public">themis::projects::DocumentManager</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_document_meta" prot="public">themis::projects::DocumentMeta</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_in_memory_project_audit_log" prot="public">themis::projects::InMemoryProjectAuditLog</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_i_project_audit_log" prot="public">themis::projects::IProjectAuditLog</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_i_project_bundle_manager" prot="public">themis::projects::IProjectBundleManager</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_merge_result" prot="public">themis::projects::MergeResult</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_project_audit_entry" prot="public">themis::projects::ProjectAuditEntry</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_project_bundle_manifest" prot="public">themis::projects::ProjectBundleManifest</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_project_diff" prot="public">themis::projects::ProjectDiff</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_project_lifecycle" prot="public">themis::projects::ProjectLifecycle</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_project_merge" prot="public">themis::projects::ProjectMerge</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_project_metrics" prot="public">themis::projects::ProjectMetrics</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_project_state_transition" prot="public">themis::projects::ProjectStateTransition</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_project_template" prot="public">themis::projects::ProjectTemplate</innerclass>
+    <innerclass refid="classthemis_1_1projects_1_1_project_versioning" prot="public">themis::projects::ProjectVersioning</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_snapshot_meta" prot="public">themis::projects::SnapshotMeta</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_status" prot="public">themis::projects::Status</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_template_instantiation_result" prot="public">themis::projects::TemplateInstantiationResult</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_template_options" prot="public">themis::projects::TemplateOptions</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_upload_result" prot="public">themis::projects::UploadResult</innerclass>
+    <innerclass refid="structthemis_1_1projects_1_1_user" prot="public">themis::projects::User</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Permission</name>
+        <qualifiedname>themis::projects::Permission</qualifiedname>
+        <enumvalue id="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102a3466fab4975481651940ed328aa990e4" prot="public">
+          <name>READ</name>
+          <briefdescription>
+<para>Read-only access to project objects. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102ad4b9e47f65b6e79b010582f15785867e" prot="public">
+          <name>WRITE</name>
+          <briefdescription>
+<para>Read + write access; no admin operations. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1aaef97d20e316658cec2840c087605102a73acd9a5972130b75066c82595a1fae3" prot="public">
+          <name>ADMIN</name>
+          <briefdescription>
+<para>Full access including share/revoke. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Access-level granted to a shared project user. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="36" column="1" bodyfile="include/projects/collaboration_manager.h" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>ProjError</name>
+        <qualifiedname>themis::projects::ProjError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792abe30a2335130f52bd96ddd89381ff3b0" prot="public">
+          <name>kMemberNotFound</name>
+          <initializer>= 7700</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792ab10d0b77c4ed520bb94b0ddd8cf83621" prot="public">
+          <name>kProjectNotFound</name>
+          <initializer>= 7701</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792a8d83460fe7aadda95b8be728c9f201f5" prot="public">
+          <name>kQuotaExceeded</name>
+          <initializer>= 7702</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1ae7a289f4148dcf52f78dd53d7e50d792a9f346b27328ea1f407fbc7bc41dc548d" prot="public">
+          <name>kAuditOverflow</name>
+          <initializer>= 7703</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/projects_api_contract.h" line="47" column="1" bodyfile="include/projects/projects_api_contract.h" bodystart="47" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProjectAuditAction</name>
+        <qualifiedname>themis::projects::ProjectAuditAction</qualifiedname>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a88bb07aa1ecfd79ad6454c1c36e8820c" prot="public">
+          <name>PROJECT_CREATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a338b2ccb1dd47e54c61400cdd2c58c6a" prot="public">
+          <name>PROJECT_DELETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317aaea75af768592f936d9b0cfd55f1e224" prot="public">
+          <name>PROJECT_UPDATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317ab2232f7d20daa77f3349776e1aa64629" prot="public">
+          <name>COLLECTION_CREATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a8bc54ee9bd0038b91762fd6f8570c7e5" prot="public">
+          <name>COLLECTION_DELETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a85fbb951d28b664766057df4070e09bd" prot="public">
+          <name>DOCUMENT_INSERTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317ac951e6aa76291a133ad670cb4dc5c30f" prot="public">
+          <name>DOCUMENT_UPDATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317acef592a079c7080a00c675a8384992c7" prot="public">
+          <name>DOCUMENT_DELETED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a066b1771351cc47be43a2ae67889a7b9" prot="public">
+          <name>INDEX_CREATED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a7f367239413d0772aea50fc0e089ce8d" prot="public">
+          <name>INDEX_DROPPED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a73a8457acd7bf0fb276f0c662082b37b" prot="public">
+          <name>PERMISSION_GRANTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a699c28dc394dbc14e439d42e08b88e47" prot="public">
+          <name>PERMISSION_REVOKED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317adfd141f7b2723c0945b99ed85e007010" prot="public">
+          <name>BUNDLE_EXPORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a6741919c040f08f791a1d3d25afd8b83" prot="public">
+          <name>BUNDLE_IMPORTED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a6e5e76fc2a18141fde0e05ccf0f6a317a4694287bf0dd975d5fbe5a5e5dcfe273" prot="public">
+          <name>TEMPLATE_APPLIED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_audit_log.h" line="22" column="1" bodyfile="include/projects/project_audit_log.h" bodystart="22" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1projects_1a616ae74777e090a13dd6829945269ecc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeltaType</name>
+        <qualifiedname>themis::projects::DeltaType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1projects_1a616ae74777e090a13dd6829945269ecca55771bcb939a8afbf4d119d6e0099317" prot="public">
+          <name>ADDED</name>
+          <briefdescription>
+<para>Field / document was not present in <computeroutput>from</computeroutput> but is in <computeroutput>to</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a616ae74777e090a13dd6829945269eccab3461745d64b12346503b2980e436db5" prot="public">
+          <name>REMOVED</name>
+          <briefdescription>
+<para>Field / document was present in <computeroutput>from</computeroutput> but not in <computeroutput>to</computeroutput>. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a616ae74777e090a13dd6829945269ecca40e3819215b52841e19a7cac06b5f065" prot="public">
+          <name>MODIFIED</name>
+          <briefdescription>
+<para>Field / document exists in both but has a different value. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Kind of change recorded in a <ref refid="structthemis_1_1projects_1_1_delta_entry" kindref="compound">DeltaEntry</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_diff.h" line="32" column="1" bodyfile="include/projects/project_diff.h" bodystart="32" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ProjectState</name>
+        <qualifiedname>themis::projects::ProjectState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44a98690bf632c29c17c9e4c5a64069903c" prot="public">
+          <name>CREATED</name>
+          <briefdescription>
+<para>Project was initialised but not yet activated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44a18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+<para>Project is live and accepting reads/writes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44a75b8b0f4c0aee5b8df95a0541307c9f4" prot="public">
+          <name>ARCHIVED</name>
+          <briefdescription>
+<para>Project is read-only; data is preserved. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44a63c2867fdcae0e8e8413d7ac21b69b59" prot="public">
+          <name>DELETED</name>
+          <briefdescription>
+<para>Project is logically deleted (terminal state). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Valid states in the project lifecycle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Allowed transitions ─────────────────── CREATED → ACTIVE ACTIVE → ARCHIVED ACTIVE → DELETED ARCHIVED → ACTIVE (un-archive) ARCHIVED → DELETED</para>
+<para>The DELETED state is terminal: no further transitions are permitted. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_lifecycle.h" line="43" column="1" bodyfile="include/projects/project_lifecycle.h" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>BuiltinTemplate</name>
+        <qualifiedname>themis::projects::BuiltinTemplate</qualifiedname>
+        <enumvalue id="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835aba2b45bdc11e2a4a6e86aab2ac693cbb" prot="public">
+          <name>EMPTY</name>
+          <briefdescription>
+<para>Blank project — no pre-created objects. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835aff8f45b64257ae5ef27d7d0afcbdb28a" prot="public">
+          <name>WEB_APPLICATION</name>
+          <briefdescription>
+<para>Web-app backend: users, sessions, posts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a31d1f3a308d98579c5958981a5d02e69" prot="public">
+          <name>MACHINE_LEARNING</name>
+          <briefdescription>
+<para>ML pipeline: datasets, features, experiments. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835abe25776fa91444b6d85c015efeddfc0e" prot="public">
+          <name>ANALYTICS</name>
+          <briefdescription>
+<para>Analytics warehouse: facts, dimensions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a0a605c71302498d57d6f7cda6385a321" prot="public">
+          <name>TIME_SERIES</name>
+          <briefdescription>
+<para>Time-series: sensors, metrics, alerts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835a0a32297bb33f609d68fc868ec196eeb9" prot="public">
+          <name>GRAPH_ANALYTICS</name>
+          <briefdescription>
+<para>Graph database: nodes, edges. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835ab59e24e7b420622b8dbef639d67cb622" prot="public">
+          <name>DOCUMENT_STORE</name>
+          <briefdescription>
+<para>Document-oriented: collections with schemas. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration of pre-defined project templates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Templates define a curated set of object types (document collections, table schemas, index configurations) that are created during instantiation. CUSTOM is not a built-in — it is used as a sentinel when a caller provides an explicit <computeroutput>template_def</computeroutput> JSON document. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_template.h" line="36" column="1" bodyfile="include/projects/project_template.h" bodystart="36" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::projects::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::projects::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="29" column="1" bodyfile="include/projects/collaboration_manager.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1projects_1acea6781f2af81a373e5b08bbb576a93b" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1projects_1_1_change" kindref="compound">Change</ref> &amp;)&gt;</type>
+        <definition>using themis::projects::ProjectEventCallback = std::function&lt;void(const Change&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ProjectEventCallback</name>
+        <qualifiedname>themis::projects::ProjectEventCallback</qualifiedname>
+        <briefdescription>
+<para>Callback type invoked for each collaboration change event. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/collaboration_manager.h" line="71" column="1" bodyfile="include/projects/collaboration_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1projects_1a904262ebb886578d2e21ef7718def9be" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::projects::SnapshotId = std::string</definition>
+        <argsstring></argsstring>
+        <name>SnapshotId</name>
+        <qualifiedname>themis::projects::SnapshotId</qualifiedname>
+        <briefdescription>
+<para>Opaque snapshot identifier (prefixed with &quot;snap:&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="30" column="1" bodyfile="include/projects/project_versioning.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1projects_1ae12285e4416206b25da7ad0755116906" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::projects::Sha256Digest = std::string</definition>
+        <argsstring></argsstring>
+        <name>Sha256Digest</name>
+        <qualifiedname>themis::projects::Sha256Digest</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hex digest string (64 hex chars). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/projects/project_versioning.h" line="33" column="1" bodyfile="include/projects/project_versioning.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1projects_1a8533fe4f9bb04eddb1485bc5b199b5cc" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::projects::projectStateToString</definition>
+        <argsstring>(ProjectState state) noexcept</argsstring>
+        <name>projectStateToString</name>
+        <qualifiedname>themis::projects::projectStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44" kindref="member">ProjectState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable name for a <ref refid="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44" kindref="member">ProjectState</ref> value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/projects/project_lifecycle.cpp" line="24" column="12" bodyfile="src/projects/project_lifecycle.cpp" bodystart="24" bodyend="32" declfile="include/projects/project_lifecycle.h" declline="51" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1projects_1af06cedc12ee4923504329ae579fa1cb9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1projects_1a83a8895d15c04fb2fd197304c0873e44" kindref="member">ProjectState</ref> &gt;</type>
+        <definition>std::optional&lt; ProjectState &gt; themis::projects::projectStateFromString</definition>
+        <argsstring>(const std::string &amp;s) noexcept</argsstring>
+        <name>projectStateFromString</name>
+        <qualifiedname>themis::projects::projectStateFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse a state string produced by <ref refid="namespacethemis_1_1projects_1a8533fe4f9bb04eddb1485bc5b199b5cc" kindref="member">projectStateToString()</ref>. Returns std::nullopt for unknown strings. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/projects/project_lifecycle.cpp" line="34" column="15" bodyfile="src/projects/project_lifecycle.cpp" bodystart="34" bodyend="48" declfile="include/projects/project_lifecycle.h" declline="55" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1projects_1a97e8ff9718174c6c543ad93c3eb4116e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::projects::builtinTemplateToString</definition>
+        <argsstring>(BuiltinTemplate tmpl) noexcept</argsstring>
+        <name>builtinTemplateToString</name>
+        <qualifiedname>themis::projects::builtinTemplateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835" kindref="member">BuiltinTemplate</ref></type>
+          <declname>tmpl</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable name for a <ref refid="namespacethemis_1_1projects_1a809f611f175cfb6b5db53ccce173c835" kindref="member">BuiltinTemplate</ref> value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/projects/project_template.cpp" line="25" column="12" bodyfile="src/projects/project_template.cpp" bodystart="25" bodyend="36" declfile="include/projects/project_template.h" declline="47" declcolumn="12"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1projects_1ae77a6a216c6d940c046a4e8404a5d2c2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1projects_1aa6ebfecbbf761b81a776c2845d5200d7" kindref="member">json</ref></type>
+        <definition>static json themis::projects::safeJsonParse</definition>
+        <argsstring>(const std::string &amp;data, const char *context) noexcept</argsstring>
+        <name>safeJsonParse</name>
+        <qualifiedname>themis::projects::safeJsonParse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/projects/project_versioning.cpp" line="30" column="13" bodyfile="src/projects/project_versioning.cpp" bodystart="30" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/projects/collaboration_manager.h" line="27" column="1"/>
+  </compounddef>
+</doxygen>

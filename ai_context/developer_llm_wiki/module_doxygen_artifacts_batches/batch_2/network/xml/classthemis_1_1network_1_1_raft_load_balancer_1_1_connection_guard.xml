@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::RaftLoadBalancer::ConnectionGuard</compoundname>
+    <includes refid="raft__load__balancer_8h" local="no">raft_load_balancer.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1afaa3f8a95b3a52ba84e8048e6c7b8862" prot="private" static="no" mutable="no">
+        <type>std::reference_wrapper&lt; <ref refid="classthemis_1_1network_1_1_raft_load_balancer_1ae858bce1f1a3f7311c664d794f41357b" kindref="member">RaftLoadBalancer</ref> &gt;</type>
+        <definition>std::reference_wrapper&lt;RaftLoadBalancer&gt; themis::network::RaftLoadBalancer::ConnectionGuard::lb_</definition>
+        <argsstring></argsstring>
+        <name>lb_</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::lb_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="244" column="32" bodyfile="include/network/raft_load_balancer.h" bodystart="244" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aae73eee0074f876620baee4a715f0cc6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::RaftLoadBalancer::ConnectionGuard::backend_address_</definition>
+        <argsstring></argsstring>
+        <name>backend_address_</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::backend_address_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="245" column="21" bodyfile="include/network/raft_load_balancer.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aa3d3ba01172324d4d4a9a2787296720c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::RaftLoadBalancer::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(RaftLoadBalancer &amp;lb, const std::string &amp;backend_address) noexcept</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_raft_load_balancer_1ae858bce1f1a3f7311c664d794f41357b" kindref="member">RaftLoadBalancer</ref> &amp;</type>
+          <declname>lb</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>backend_address</declname>
+        </param>
+        <briefdescription>
+<para>Create a connection guard for the given backend. Automatically calls <ref refid="classthemis_1_1network_1_1_raft_load_balancer_1ad061005c475d0e969b30e8e74dfb14fc" kindref="member">onConnectionOpened()</ref> on construction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lb</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to <ref refid="classthemis_1_1network_1_1_raft_load_balancer" kindref="compound">RaftLoadBalancer</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend_address</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1network_1_1_raft_load_balancer_1_1_backend" kindref="compound">Backend</ref> address returned by <ref refid="classthemis_1_1network_1_1_raft_load_balancer_1a0652c5b1ecbab5cb573b7f9e715f0a92" kindref="member">selectBackend()</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="191" column="9" bodyfile="include/network/raft_load_balancer.h" bodystart="191" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1af8c22c622fb1d8533b138c3a2506cd33" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::RaftLoadBalancer::ConnectionGuard::~ConnectionGuard</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ConnectionGuard</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::~ConnectionGuard</qualifiedname>
+        <briefdescription>
+<para>Destructor automatically calls <ref refid="classthemis_1_1network_1_1_raft_load_balancer_1abf185c6015a4fa7cddd287d55abee162" kindref="member">onConnectionClosed()</ref>. Exception-safe: marked noexcept and suppresses any exceptions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="201" column="9" bodyfile="include/network/raft_load_balancer.h" bodystart="201" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1a390637fb783c410012094a0ebe1b09fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::RaftLoadBalancer::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(const ConnectionGuard &amp;)=delete</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>const ConnectionGuard &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="212" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1a96a04cd226c6714f46dd4e82c72d2359" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aa3d3ba01172324d4d4a9a2787296720c" kindref="member">ConnectionGuard</ref> &amp;</type>
+        <definition>ConnectionGuard &amp; themis::network::RaftLoadBalancer::ConnectionGuard::operator=</definition>
+        <argsstring>(const ConnectionGuard &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aa3d3ba01172324d4d4a9a2787296720c" kindref="member">ConnectionGuard</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="213" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1ad7d46aa5796d63a9827cf6fb26a24e6b" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::RaftLoadBalancer::ConnectionGuard::ConnectionGuard</definition>
+        <argsstring>(ConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>ConnectionGuard</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::ConnectionGuard</qualifiedname>
+        <param>
+          <type>ConnectionGuard &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="216" column="9" bodyfile="include/network/raft_load_balancer.h" bodystart="216" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1a41f83750f29594645fe0868bcc8902c2" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aa3d3ba01172324d4d4a9a2787296720c" kindref="member">ConnectionGuard</ref> &amp;</type>
+        <definition>ConnectionGuard &amp; themis::network::RaftLoadBalancer::ConnectionGuard::operator=</definition>
+        <argsstring>(ConnectionGuard &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aa3d3ba01172324d4d4a9a2787296720c" kindref="member">ConnectionGuard</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="222" column="25" bodyfile="include/network/raft_load_balancer.h" bodystart="222" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1a662c1685ff009556f2e986bb884030fc" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::network::RaftLoadBalancer::ConnectionGuard::address</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>address</name>
+        <qualifiedname>themis::network::RaftLoadBalancer::ConnectionGuard::address</qualifiedname>
+        <briefdescription>
+<para>Get the backend address this guard is managing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/raft_load_balancer.h" line="241" column="27" bodyfile="include/network/raft_load_balancer.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAII guard for connection lifecycle management. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Ensures <ref refid="classthemis_1_1network_1_1_raft_load_balancer_1ad061005c475d0e969b30e8e74dfb14fc" kindref="member">onConnectionOpened()</ref> and <ref refid="classthemis_1_1network_1_1_raft_load_balancer_1abf185c6015a4fa7cddd287d55abee162" kindref="member">onConnectionClosed()</ref> are called in pairs, even if errors occur or exceptions are thrown. Prevents connection leaks from imbalanced callback invocations.</para>
+<para>Example: <programlisting><codeline><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>conn<sp/>=<sp/>lb-&gt;selectBackend();<sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>backend<sp/>address</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">lb-&gt;onConnectionOpened(conn);<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>open<sp/>(or<sp/>use<sp/>guard)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>use<sp/>connection<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">lb-&gt;onConnectionClosed(conn);<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manual<sp/>close</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>OR<sp/>using<sp/>guard<sp/>(exception-safe):</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aa3d3ba01172324d4d4a9a2787296720c" kindref="member">ConnectionGuard</ref><sp/>guard(*lb,<sp/>backend_address);</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>...<sp/>use<sp/>connection<sp/>(guard.address()<sp/>==<sp/>backend_address)</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>guard<sp/>destructor<sp/>calls<sp/>onConnectionClosed<sp/>even<sp/>if<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/network/raft_load_balancer.h" line="183" column="5" bodyfile="include/network/raft_load_balancer.h" bodystart="183" bodyend="246"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1a662c1685ff009556f2e986bb884030fc" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>address</name></member>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aae73eee0074f876620baee4a715f0cc6" prot="private" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>backend_address_</name></member>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1aa3d3ba01172324d4d4a9a2787296720c" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1a390637fb783c410012094a0ebe1b09fe" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1ad7d46aa5796d63a9827cf6fb26a24e6b" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>ConnectionGuard</name></member>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1afaa3f8a95b3a52ba84e8048e6c7b8862" prot="private" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>lb_</name></member>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1a96a04cd226c6714f46dd4e82c72d2359" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1a41f83750f29594645fe0868bcc8902c2" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1network_1_1_raft_load_balancer_1_1_connection_guard_1af8c22c622fb1d8533b138c3a2506cd33" prot="public" virt="non-virtual"><scope>themis::network::RaftLoadBalancer::ConnectionGuard</scope><name>~ConnectionGuard</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

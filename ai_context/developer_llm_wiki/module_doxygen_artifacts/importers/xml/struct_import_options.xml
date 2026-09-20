@@ -1,0 +1,326 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_import_options" kind="struct" language="C++" prot="public">
+    <compoundname>ImportOptions</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_import_options_1a698deab4f3b3dc396d31cff435a278af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ImportOptions::dry_run</definition>
+        <argsstring></argsstring>
+        <name>dry_run</name>
+        <qualifiedname>ImportOptions::dry_run</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="65" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a9aa8aa3c5500e45741e8341fd6a340af" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ImportOptions::continue_on_error</definition>
+        <argsstring></argsstring>
+        <name>continue_on_error</name>
+        <qualifiedname>ImportOptions::continue_on_error</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="66" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a1c577c7ae3e702edbfe38a21a0071c3a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportOptions::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>ImportOptions::batch_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="67" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a72a02dfd6656418e56cecadeb408d735" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ImportOptions::default_namespace</definition>
+        <argsstring></argsstring>
+        <name>default_namespace</name>
+        <qualifiedname>ImportOptions::default_namespace</qualifiedname>
+        <initializer>= &quot;imported&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="68" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a734a8f54f38325fadef81570be853d22" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; ImportOptions::include_tables</definition>
+        <argsstring></argsstring>
+        <name>include_tables</name>
+        <qualifiedname>ImportOptions::include_tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="69" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a765c13a9f232ccb99c71f946831e26b0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; ImportOptions::exclude_tables</definition>
+        <argsstring></argsstring>
+        <name>exclude_tables</name>
+        <qualifiedname>ImportOptions::exclude_tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="70" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a5aeff00e6e2cbcbc058fa4c706e8f360" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; ImportOptions::type_overrides</definition>
+        <argsstring></argsstring>
+        <name>type_overrides</name>
+        <qualifiedname>ImportOptions::type_overrides</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="71" column="14" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1ad60df8a58a7cfd313e28fa176d8531f9" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportOptions::max_row_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_row_size_bytes</name>
+        <qualifiedname>ImportOptions::max_row_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="72" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a0c394e4b2a8c825a67fdb64590e8fd42" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t ImportOptions::max_statement_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_statement_size_bytes</name>
+        <qualifiedname>ImportOptions::max_statement_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="73" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a35c52d367584d2d763af6896b999fe40" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool ImportOptions::enforce_utf8</definition>
+        <argsstring></argsstring>
+        <name>enforce_utf8</name>
+        <qualifiedname>ImportOptions::enforce_utf8</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="74" column="12" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1ab5e6e5544f548c128772eccfc25f9a95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ImportOptions::checkpoint_file</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_file</name>
+        <qualifiedname>ImportOptions::checkpoint_file</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_async_api.cpp" line="75" column="17" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a3d53a49c12b6a946a66a22a73097fe6e" prot="public" static="no" mutable="no">
+        <type><ref refid="test__importer__conflict__resolver_8cpp_1a47dda21acd080b724f0a813ebb0b74eb" kindref="member">ConflictStrategy</ref></type>
+        <definition>ConflictStrategy ImportOptions::conflict_strategy</definition>
+        <argsstring></argsstring>
+        <name>conflict_strategy</name>
+        <qualifiedname>ImportOptions::conflict_strategy</qualifiedname>
+        <initializer>= <ref refid="test__importer__conflict__resolver_8cpp_1a47dda21acd080b724f0a813ebb0b74eba1038b7c5b38b3977c52e47d18cc741ee" kindref="member">ConflictStrategy::OVERWRITE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="61" column="22" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a74868a05864e419105f122ecc37aa878" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; ImportOptions::conflict_key_columns</definition>
+        <argsstring></argsstring>
+        <name>conflict_key_columns</name>
+        <qualifiedname>ImportOptions::conflict_key_columns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="62" column="17" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1ae3baa785a494b90f8ada70bcc88c502f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; ImportOptions::protected_fields</definition>
+        <argsstring></argsstring>
+        <name>protected_fields</name>
+        <qualifiedname>ImportOptions::protected_fields</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="63" column="17" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a8f48c5701fad0f4c083b6c38e7064f55" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int ImportOptions::merge_depth</definition>
+        <argsstring></argsstring>
+        <name>merge_depth</name>
+        <qualifiedname>ImportOptions::merge_depth</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="64" column="10" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a53640e2aff5bb07a0c3f6c7d4db19cb4" prot="public" static="no" mutable="no">
+        <type><ref refid="test__importer__conflict__resolver_8cpp_1acc0d209c9ff757c6a5a79a0a6b1e40b6" kindref="member">MetricsCallback</ref></type>
+        <definition>MetricsCallback ImportOptions::metrics_callback</definition>
+        <argsstring></argsstring>
+        <name>metrics_callback</name>
+        <qualifiedname>ImportOptions::metrics_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_importer_conflict_resolver.cpp" line="66" column="21" bodyfile="tests/importers/test_importer_conflict_resolver.cpp" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1ac68e7d1a81a9b111f287230dca46506e" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp;, const std::string&amp;)&gt; ImportOptions::permission_check</definition>
+        <argsstring></argsstring>
+        <name>permission_check</name>
+        <qualifiedname>ImportOptions::permission_check</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="87" column="19" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a18ca7a9ec9f42ee98db654af71b35a0e" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(const std::string &amp;, const json &amp;)&gt;</type>
+        <definition>std::function&lt;bool(const std::string&amp;, const json&amp;)&gt; ImportOptions::streaming_row_callback</definition>
+        <argsstring></argsstring>
+        <name>streaming_row_callback</name>
+        <qualifiedname>ImportOptions::streaming_row_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="88" column="26" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1ac89663e6d225b69b1ae18ece482dcedc" prot="public" static="no" mutable="no">
+        <type>std::function&lt; void(const std::string &amp;, const std::map&lt; std::string, std::string &gt; &amp;, double)&gt;</type>
+        <definition>std::function&lt;void(const std::string&amp;, const std::map&lt;std::string,std::string&gt;&amp;, double)&gt; ImportOptions::metrics_callback</definition>
+        <argsstring></argsstring>
+        <name>metrics_callback</name>
+        <qualifiedname>ImportOptions::metrics_callback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="89" column="19" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t ImportOptions::import_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>import_timeout_ms</name>
+        <qualifiedname>ImportOptions::import_timeout_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>I1: 0 = disabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/importers/test_phase4_importer_hardening.cpp" line="90" column="14" bodyfile="tests/importers/test_phase4_importer_hardening.cpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/importers/test_importer_async_api.cpp" line="64" column="1" bodyfile="tests/importers/test_importer_async_api.cpp" bodystart="64" bodyend="76"/>
+    <listofallmembers>
+      <member refid="struct_import_options_1a1c577c7ae3e702edbfe38a21a0071c3a" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>batch_size</name></member>
+      <member refid="struct_import_options_1ab5e6e5544f548c128772eccfc25f9a95" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>checkpoint_file</name></member>
+      <member refid="struct_import_options_1a74868a05864e419105f122ecc37aa878" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>conflict_key_columns</name></member>
+      <member refid="struct_import_options_1a3d53a49c12b6a946a66a22a73097fe6e" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>conflict_strategy</name></member>
+      <member refid="struct_import_options_1a9aa8aa3c5500e45741e8341fd6a340af" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>continue_on_error</name></member>
+      <member refid="struct_import_options_1a72a02dfd6656418e56cecadeb408d735" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>default_namespace</name></member>
+      <member refid="struct_import_options_1a698deab4f3b3dc396d31cff435a278af" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>dry_run</name></member>
+      <member refid="struct_import_options_1a35c52d367584d2d763af6896b999fe40" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>enforce_utf8</name></member>
+      <member refid="struct_import_options_1a765c13a9f232ccb99c71f946831e26b0" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>exclude_tables</name></member>
+      <member refid="struct_import_options_1a2bf9016b54d8724f073d687e7e40adae" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>import_timeout_ms</name></member>
+      <member refid="struct_import_options_1a734a8f54f38325fadef81570be853d22" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>include_tables</name></member>
+      <member refid="struct_import_options_1ad60df8a58a7cfd313e28fa176d8531f9" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>max_row_size_bytes</name></member>
+      <member refid="struct_import_options_1a0c394e4b2a8c825a67fdb64590e8fd42" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>max_statement_size_bytes</name></member>
+      <member refid="struct_import_options_1a8f48c5701fad0f4c083b6c38e7064f55" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>merge_depth</name></member>
+      <member refid="struct_import_options_1a53640e2aff5bb07a0c3f6c7d4db19cb4" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>metrics_callback</name></member>
+      <member refid="struct_import_options_1ac89663e6d225b69b1ae18ece482dcedc" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>metrics_callback</name></member>
+      <member refid="struct_import_options_1ac68e7d1a81a9b111f287230dca46506e" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>permission_check</name></member>
+      <member refid="struct_import_options_1ae3baa785a494b90f8ada70bcc88c502f" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>protected_fields</name></member>
+      <member refid="struct_import_options_1a18ca7a9ec9f42ee98db654af71b35a0e" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>streaming_row_callback</name></member>
+      <member refid="struct_import_options_1a5aeff00e6e2cbcbc058fa4c706e8f360" prot="public" virt="non-virtual"><scope>ImportOptions</scope><name>type_overrides</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,2634 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1evaluation" kind="namespace" language="C++">
+    <compoundname>themis::evaluation</compoundname>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_config" prot="public">themis::evaluation::AblationConfig</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_ablation_error" prot="public">themis::evaluation::AblationError</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_query" prot="public">themis::evaluation::AblationQuery</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_report" prot="public">themis::evaluation::AblationReport</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ablation_result" prot="public">themis::evaluation::AblationResult</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_ablation_runner" prot="public">themis::evaluation::AblationRunner</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_approximation_boundary" prot="public">themis::evaluation::ApproximationBoundary</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_approximation_policy" prot="public">themis::evaluation::ApproximationPolicy</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_approximation_rule_engine" prot="public">themis::evaluation::ApproximationRuleEngine</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_artifact_lifecycle_manager" prot="public">themis::evaluation::ArtifactLifecycleManager</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_benchmark_entry" prot="public">themis::evaluation::BenchmarkEntry</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_benchmark_matrix" prot="public">themis::evaluation::BenchmarkMatrix</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_benchmark_result" prot="public">themis::evaluation::BenchmarkResult</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_boundary_check_result" prot="public">themis::evaluation::BoundaryCheckResult</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_compression_metrics" prot="public">themis::evaluation::CompressionMetrics</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_default_approximation_rule_engine" prot="public">themis::evaluation::DefaultApproximationRuleEngine</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_default_query_planner" prot="public">themis::evaluation::DefaultQueryPlanner</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" prot="public">themis::evaluation::DistributedEfficiencyMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics" prot="public">themis::evaluation::EvidenceQualityMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_execution_eligibility" prot="public">themis::evaluation::ExecutionEligibility</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_hardware_profile" prot="public">themis::evaluation::HardwareProfile</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_hardware_profile_registry" prot="public">themis::evaluation::HardwareProfileRegistry</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result" prot="public">themis::evaluation::HardwareProfileValidationResult</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_layer_sizing_rule" prot="public">themis::evaluation::LayerSizingRule</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_lifecycle_metadata" prot="public">themis::evaluation::LifecycleMetadata</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics" prot="public">themis::evaluation::LlmAnswerQualityMetrics</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_metric_collector" prot="public">themis::evaluation::MetricCollector</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_metric_error" prot="public">themis::evaluation::MetricError</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_planner_config" prot="public">themis::evaluation::PlannerConfig</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_planner_decision" prot="public">themis::evaluation::PlannerDecision</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_planner_observer" prot="public">themis::evaluation::PlannerObserver</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_provenance_assertion" prot="public">themis::evaluation::ProvenanceAssertion</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics" prot="public">themis::evaluation::ProvenanceQualityMetrics</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_query_planner" prot="public">themis::evaluation::QueryPlanner</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_ranked_result" prot="public">themis::evaluation::RankedResult</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_resource_sizing_band" prot="public">themis::evaluation::ResourceSizingBand</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics" prot="public">themis::evaluation::RetrievalQualityMetrics</innerclass>
+    <innerclass refid="classthemis_1_1evaluation_1_1_staleness_policy" prot="public">themis::evaluation::StalenessPolicy</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_tensor_artifact_freshness" prot="public">themis::evaluation::TensorArtifactFreshness</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" prot="public">themis::evaluation::TensorGraphRuntimeMetrics</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" prot="public">themis::evaluation::TensorGraphSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_tiering_policy" prot="public">themis::evaluation::TieringPolicy</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_tier_transition_request" prot="public">themis::evaluation::TierTransitionRequest</innerclass>
+    <innerclass refid="structthemis_1_1evaluation_1_1_tier_transition_result" prot="public">themis::evaluation::TierTransitionResult</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>PathVariant</name>
+        <qualifiedname>themis::evaluation::PathVariant</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a3e68b850f1a019ba9d2201c9cd484dd4" prot="public">
+          <name>AnnOnly</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>ANN candidate generation only; no tensor or graph layer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a897795e8f83035e14a64f027a8653a07" prot="public">
+          <name>AnnTensor</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>ANN + tensor summary refinement; no graph validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad1f9f8157d6f398ced3e56ef9f9c8018a8dfa4f3f3946a828bbe52e7e52005d47" prot="public">
+          <name>AnnTensorGraph</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>ANN + tensor + exact graph validation (full pipeline). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="67" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>FreshnessVariant</name>
+        <qualifiedname>themis::evaluation::FreshnessVariant</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662afe8965a9748c1bc48af1711be837124e" prot="public">
+          <name>Fresh</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Artifact is within the configured staleness threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a6faf8bc523857892928f03cd42937662af1ac273d3c6d8e6489bf332819a2f650" prot="public">
+          <name>Stale</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Artifact exceeds the staleness threshold; exact fallback expected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="73" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="73" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75bef" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>UpdateVariant</name>
+        <qualifiedname>themis::evaluation::UpdateVariant</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa156e10596fdc76ee5300bab931d89c0f" prot="public">
+          <name>Patch</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Incremental delta patch applied to existing artifact. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a359c142ca468344239d13ac014c75befa1c6aac0280240c97962b30423f1f852b" prot="public">
+          <name>Rebuild</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Full rebuild of the tensor artifact from scratch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="78" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="78" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ComputeVariant</name>
+        <qualifiedname>themis::evaluation::ComputeVariant</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a54c82ef76ecbbd4c2293e09bae01b54e" prot="public">
+          <name>Cpu</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>CPU SIMD path; always available as fallback. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aba33ff427c96ad1f3ef4df265eacd210a3432ca64f06615abf07ab44c10cada38" prot="public">
+          <name>Gpu</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>GPU refinement path; requires CUDA device. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/ablation_framework.h" line="83" column="1" bodyfile="src/evaluation/include/ablation_framework.h" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ApproximationZone</name>
+        <qualifiedname>themis::evaluation::ApproximationZone</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab81a30c12698563b79179ec37d43629b" prot="public">
+          <name>Approximate</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4ab6369be4060d10dd19fce02048a7b304" prot="public">
+          <name>Bounded</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a7dc7b041b8263150354f73ec0eab0ab4a1649aed298f99d587e2eb30c1db5946b" prot="public">
+          <name>Exact</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="53" column="1" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117c" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>RetrievalLayer</name>
+        <qualifiedname>themis::evaluation::RetrievalLayer</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca82e335f7ac0e0e412b2ae15abe662110" prot="public">
+          <name>Ann</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca394db8ff39ea04432ee87ef30f156958" prot="public">
+          <name>TensorSummary</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117cad37c39b27db98d9282658cc19099967f" prot="public">
+          <name>ExactGraph</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a85e56e2ecdf7733e87043e05c6fc117ca7bd46c646101021cf4b172812926575e" prot="public">
+          <name>DistributedShard</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="65" column="1" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="65" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daae" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>GovernanceDecision</name>
+        <qualifiedname>themis::evaluation::GovernanceDecision</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea45f0fb72a0defdfdb01de4b5a5a6876b" prot="public">
+          <name>Allow</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea3682d1665cf331373000c20680732d3a" prot="public">
+          <name>Deny</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaead031c6077533a83e8ef9c1f180484912" prot="public">
+          <name>EscalateToExact</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a53b22b9834c3dd6eb6e82c4ba689daaea5ce88c4d66118388a69c6fd4262ca3a1" prot="public">
+          <name>Bypass</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="79" column="1" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="79" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675f" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>ExactnessViolation</name>
+        <qualifiedname>themis::evaluation::ExactnessViolation</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa69b037b46eeb02ab2f3bb61bcce41941" prot="public">
+          <name>ApproximateForTruthBearing</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa2cd3c88004a83f389b86d7743d5431e6" prot="public">
+          <name>BoundedForTruthBearing</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa6e63e7794fd9328dce2e3a04a8cb916a" prot="public">
+          <name>RequestedZoneBelowCanonicalMinimum</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675facbbd2082c49f2bc89c28d0b20402c26c" prot="public">
+          <name>CategoryCOnNonExactLayer</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa303614724233738e20b9085ea31a5916" prot="public">
+          <name>CategoryCGpuAttempt</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa483faf71bb22d660ca20930e4f1979e7" prot="public">
+          <name>StaleArtifactForFreshnessGate</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fab0e5510a5e92be5da7b2619756dc9d8c" prot="public">
+          <name>ConfidenceBelowThreshold</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fade91009326c29955bdf1c36a08e7fc19" prot="public">
+          <name>PolicyVersionMismatch</name>
+          <initializer>= 400</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675facbaa02a5090716731070d716f782c527" prot="public">
+          <name>FallbackNotPermitted</name>
+          <initializer>= 401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa293978564768b201fad5348a8949f806" prot="public">
+          <name>UnknownLayer</name>
+          <initializer>= 402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab41c3b9286d8999dfb3cf0e43116675fa0fce1bb8327d611ed4327993879a9d13" prot="public">
+          <name>UnknownZone</name>
+          <initializer>= 403</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="93" column="1" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="93" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>LifecycleState</name>
+        <qualifiedname>themis::evaluation::LifecycleState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a491ca4a69e8dd441c32a551d1339552c" prot="public">
+          <name>PRISTINE</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2baa69eafc7204f3bd8648eba580c489" prot="public">
+          <name>READY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a4d855a061b3066dc14a3b12ed26b5456" prot="public">
+          <name>STALE</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a2b4710604f043a2056edb0c8d2462e39" prot="public">
+          <name>INVALIDATED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1a509579b889462e42f8ff497733516749" prot="public">
+          <name>REBUILDING</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="86" column="1" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="86" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0b" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>InvalidationReason</name>
+        <qualifiedname>themis::evaluation::InvalidationReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0ba696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0baf378dffaebd3e65168c2771db0d4effd" prot="public">
+          <name>INTEGRITY_CHECK_FAILED</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0bab3cb5a62e39afc6be880a16f152a78bc" prot="public">
+          <name>STALENESS_EXCEEDED</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0ba73b8097d176de6d65433a5d20c803b9b" prot="public">
+          <name>SOURCE_INVALIDATED</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0bae53a408c01b8dbc39be51928fc7b261c" prot="public">
+          <name>SOURCE_LINEAGE_CORRUPTED</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0ba169cb04bda558347b02294770e4b9e0c" prot="public">
+          <name>POLICY_VIOLATION</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0baf436b6d4588b7b891c8bbe0933b3e60d" prot="public">
+          <name>ADMIN_REQUESTED</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0baf71da8a6c905d1ee9298d5136f147b09" prot="public">
+          <name>SHARD_UNAVAILABLE</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0baa6a01402082b80b96fd6b78011d3a636" prot="public">
+          <name>SCHEMA_INCOMPATIBLE</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/artifact_lifecycle.h" line="104" column="1" bodyfile="src/evaluation/include/artifact_lifecycle.h" bodystart="104" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>BenchmarkScenario</name>
+        <qualifiedname>themis::evaluation::BenchmarkScenario</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea286ed3584532f106fd303199903f6ce1" prot="public">
+          <name>HNSW_ANN_ONLY</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea12df5614c70b3d838a2cb5ea7f2f6e99" prot="public">
+          <name>DISKANN_ANN_ONLY</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea496f63b968ae8e46cb0d4d28a1e07209" prot="public">
+          <name>ANN_TENSOR</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea2eea721a5537ae58d443d8de4e46953d" prot="public">
+          <name>ANN_TENSOR_DYNAMIC_UPDATE</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea24d000bd9799da1760a3b1e35f97d898" prot="public">
+          <name>ANN_TENSOR_SNAPSHOT_REBUILT</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea1da9425cfd34b4395281054307a0164a" prot="public">
+          <name>ANN_TENSOR_PATCH_REFIT</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea2bbbb8739643f0deadf2b41bb8b54e2d" prot="public">
+          <name>ANN_TENSOR_GRAPH</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea6a40b89028ffc066bf1a72a776890136" prot="public">
+          <name>DIRECT_EXACT_GRAPH</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea9fd91a7825726781e935de1b76d466ff" prot="public">
+          <name>SUMMARY_FIRST_DISTRIBUTED</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47beaf0f1fb3fb63e58006dbf71383be5a6d0" prot="public">
+          <name>DISTRIBUTED_EXACT_LOAD</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea583bcf118d9b6d4f7692af74f3fdfe31" prot="public">
+          <name>LLM_FULL_PROMPT</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea8cc2cf881df44681d9cd49c4de73ea5e" prot="public">
+          <name>LLM_TENSOR_COMPRESSED</name>
+          <initializer>= 11</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47beabe3575a442a1ea5f149a7ff3c6d38bb4" prot="public">
+          <name>LORA_INFERENCE</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea1d9cb6da711af8efc2c9a155bca9bd75" prot="public">
+          <name>COMMIT_OVERHEAD</name>
+          <initializer>= 13</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea9393911bc06bdfb0c3663d541246e15a" prot="public">
+          <name>CPU_ONLY</name>
+          <initializer>= 14</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47bea54d9009c7b3fbaf79084799dcba5026e" prot="public">
+          <name>GPU_ACCELERATED</name>
+          <initializer>= 15</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47beaf3351ee60ccc810690817d90739bf103" prot="public">
+          <name>_COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="48" column="1" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="48" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>BenchmarkDimension</name>
+        <qualifiedname>themis::evaluation::BenchmarkDimension</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba065cd7a8414d42706ee4684abcf04833" prot="public">
+          <name>RECALL_AT_K</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+<para>Recall@k — fraction of true positives in top-k. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba45c3147a308601984faf36c7da48e780" prot="public">
+          <name>PRECISION_AT_K</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Precision@k. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abacd82b88f5a4cdcf97383b40bac3c8469" prot="public">
+          <name>CANDIDATE_REDUCTION</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Fraction of index skipped by pre-filtering. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba8ecb1701afd743f64c895bd2d2e6fd2d" prot="public">
+          <name>QUERY_LATENCY_MS</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>End-to-end query latency in milliseconds. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba89e05821481765643ff0e7711c8ea3cf" prot="public">
+          <name>REBUILD_LATENCY_MS</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+<para>Snapshot/index rebuild latency in milliseconds. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abafe41ed2e5b551209e34e83a3063f04d3" prot="public">
+          <name>COMMIT_OVERHEAD_MS</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+<para>Extra latency per write commit vs. pure read path. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abac01848341f440fa8cf8fd87f94a569f4" prot="public">
+          <name>QPS</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+<para>Queries per second (steady-state). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abaf7eb094c5036475f18d0832384b8160f" prot="public">
+          <name>UPDATE_THROUGHPUT</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+<para>Tensor-update writes per second. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abaacef616112c28bc2e9eb903b028c1e7d" prot="public">
+          <name>MEMORY_MB</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+<para>Resident memory footprint in megabytes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba34fba297be8e598015ebb5045e3d8880" prot="public">
+          <name>INDEX_BUILD_TIME_S</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+<para>Time to build the index from scratch (seconds). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abaee78f2e63392e2c01b808cf41ae56d9c" prot="public">
+          <name>COMPRESSION_RATIO</name>
+          <initializer>= 10</initializer>
+          <briefdescription>
+<para>Tensor summary size vs. raw size. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba751b6069d471b406ff784b9380935cd0" prot="public">
+          <name>APPROXIMATION_LOSS</name>
+          <initializer>= 11</initializer>
+          <briefdescription>
+<para>Information loss after tensor compression [0,1]. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba90f62f87c57d2f34bd74f5ee81887059" prot="public">
+          <name>FAITHFULNESS_SCORE</name>
+          <initializer>= 12</initializer>
+          <briefdescription>
+<para>Answer groundedness vs. retrieved evidence [0,1]. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba93dc0c04be8024b3869270333cfdb369" prot="public">
+          <name>HALLUCINATION_RATE</name>
+          <initializer>= 13</initializer>
+          <briefdescription>
+<para>Fraction of unsupported claims [0,1]. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba53aae05f98ee035ea910ef0bcfaa8a8e" prot="public">
+          <name>PROMPT_TOKEN_COUNT</name>
+          <initializer>= 14</initializer>
+          <briefdescription>
+<para>Average token count sent to the LLM. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba76461f533eb8eea040dd9c8f9f9baf03" prot="public">
+          <name>SHARD_FAN_OUT</name>
+          <initializer>= 15</initializer>
+          <briefdescription>
+<para>Number of shards contacted per query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308aba5e054a708f3773dc668cd13727bd00ec" prot="public">
+          <name>BYTES_TRANSFERRED</name>
+          <initializer>= 16</initializer>
+          <briefdescription>
+<para>Bytes transferred across shard boundaries per query. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ababbd35d1df4332a1af9f9889fd8e0a2b6" prot="public">
+          <name>GPU_SPEEDUP_FACTOR</name>
+          <initializer>= 17</initializer>
+          <briefdescription>
+<para>GPU throughput / CPU throughput ratio. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308abaf3351ee60ccc810690817d90739bf103" prot="public">
+          <name>_COUNT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="108" column="1" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="108" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>BenchmarkEdgeCase</name>
+        <qualifiedname>themis::evaluation::BenchmarkEdgeCase</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <initializer>= 0x0000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298abbcaa8bc3d625c61baebec95c2db13ab" prot="public">
+          <name>STALE_ARTIFACT</name>
+          <initializer>= 0x0001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298a3a525c7c12eb369eda4c576ab79e602d" prot="public">
+          <name>SHARD_SUMMARY_MISMATCH</name>
+          <initializer>= 0x0002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298a27d0db46c3d63f95758e58c90965919e" prot="public">
+          <name>RESIDUAL_PLANNER_FALLBACK</name>
+          <initializer>= 0x0004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298afa871617d0f703031384eae9d4673df3" prot="public">
+          <name>UNMEASURED_COMBINATION</name>
+          <initializer>= 0x0008</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298acb10a43e03a0bc4f6b2bbdb34db299c6" prot="public">
+          <name>INSUFFICIENT_METRIC_DATA</name>
+          <initializer>= 0x0010</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="174" column="1" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="174" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeploymentProfileId</name>
+        <qualifiedname>themis::evaluation::DeploymentProfileId</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8a330f49df8243756a8a4dc7f7f7ee6dfe" prot="public">
+          <name>Development</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8a756d97bb256b8580d4d71ee0c547804e" prot="public">
+          <name>Production</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8af21f4e05a9f9862c3dffdb453c86a7f7" prot="public">
+          <name>HighPerformanceFederated</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="17" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="17" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StorageTier</name>
+        <qualifiedname>themis::evaluation::StorageTier</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006a4194726ee334e1085d93e002837b73f0" prot="public">
+          <name>Hot</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006a18297117d3d251afceed9ecbe797c849" prot="public">
+          <name>Warm</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006a1a3c2e99e572ec71d3820d0363d90742" prot="public">
+          <name>Cold</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="23" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="23" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>NetworkFabric</name>
+        <qualifiedname>themis::evaluation::NetworkFabric</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564a92d3a56e45f42d8178a4d201b14d6a1c" prot="public">
+          <name>Workstation</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564a615707baa418ce315e44ac2a5d6164af" prot="public">
+          <name>Datacenter</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564a79d896d6e86ccd07f23376b06210eccb" prot="public">
+          <name>HighBandwidthFabric</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="29" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="29" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81e" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AcceleratorClass</name>
+        <qualifiedname>themis::evaluation::AcceleratorClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81ea704a9259df22b8d5fce1391c71c5a28a" prot="public">
+          <name>CpuOnly</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81ea9921067bafc39971a17aea89661a7ede" prot="public">
+          <name>OptionalGpu</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81ea9980ae3a0be09167bfacbbf3469bae6e" prot="public">
+          <name>RequiredGpu</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="35" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>LayerId</name>
+        <qualifiedname>themis::evaluation::LayerId</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253a9e4320e6012570a78bd81858dc506274" prot="public">
+          <name>AnnFrontdoor</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253ab4ee09f11b7b4f9d7f1d93cca4f816c7" prot="public">
+          <name>TensorMidLayer</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253a7e39368105b4be0d2fdca2e053ad4cf2" prot="public">
+          <name>GraphTruthLayer</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253a0b0422f8342a2c718ffac13f8f19e859" prot="public">
+          <name>LlmFinalLayer</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/hardware_profile.h" line="41" column="1" bodyfile="src/evaluation/include/hardware_profile.h" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adc" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>ExecutionPath</name>
+        <qualifiedname>themis::evaluation::ExecutionPath</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adca3e68b850f1a019ba9d2201c9cd484dd4" prot="public">
+          <name>AnnOnly</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adcaedf65229175b3f9e0ad9863c098a7935" prot="public">
+          <name>AnnTensorSummary</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adca675a13e49d361f283141ff3635a31661" prot="public">
+          <name>AnnTensorExactGraph</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adcadefc5c9258471d12484c76a1b8ec77f5" prot="public">
+          <name>DirectExactGraph</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1aa4a7e1978a67c73fd81caf85fc824adcaff320726a7386907a4b3e1ab862474cb" prot="public">
+          <name>DistributedSummaryFirstExactOnDemand</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="45" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="45" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170a" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>KernelCategory</name>
+        <qualifiedname>themis::evaluation::KernelCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170aa7fc56270e7a70fa81a5935b72eacbe29" prot="public">
+          <name>A</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170aa9d5ed678fe57bcca610140957afab571" prot="public">
+          <name>B</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ae5fd56f14b7d2264a7da89545ebb170aa0d61f8370cad1d412f80b84d143e1257" prot="public">
+          <name>C</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="61" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>FallbackReason</name>
+        <qualifiedname>themis::evaluation::FallbackReason</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a36aec4337256da10b758eff39b78a9ca" prot="public">
+          <name>GpuKernelError</name>
+          <initializer>= 100</initializer>
+          <briefdescription>
+<para>GPU kernel returned an error code. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aee510c37ce684b32ddc17964f0cdfdda" prot="public">
+          <name>GpuKernelTimeout</name>
+          <initializer>= 101</initializer>
+          <briefdescription>
+<para>Kernel exceeded 5-second SLA. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a7d1f422b1d5bca39b94aff5c6a793807" prot="public">
+          <name>GpuOutputValidation</name>
+          <initializer>= 102</initializer>
+          <briefdescription>
+<para>Output size, range, or CPU parity check failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a67d3b489ae3fd96f71cfe0889889db8a" prot="public">
+          <name>GpuParityCheckFailed</name>
+          <initializer>= 103</initializer>
+          <briefdescription>
+<para>GPU result did not match CPU verification. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aa7489ebe985075ee40501e8ff2bcd639" prot="public">
+          <name>GpuUnavailable</name>
+          <initializer>= 104</initializer>
+          <briefdescription>
+<para>CUDA device not available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a74146f4f47e7ff98c6745cce0748b1c1" prot="public">
+          <name>BfsFrontierExceeded</name>
+          <initializer>= 200</initializer>
+          <briefdescription>
+<para>BFS frontier &gt; 10 000 nodes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a3110b3598eb3fb71e49a138eb5569cdb" prot="public">
+          <name>BfsHopsExceeded</name>
+          <initializer>= 201</initializer>
+          <briefdescription>
+<para>BFS depth &gt; 3 hops. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a4dafc5a88f94f7a0179eadaf2dafe008" prot="public">
+          <name>DijkstraPairsExceeded</name>
+          <initializer>= 202</initializer>
+          <briefdescription>
+<para>Dijkstra vertex pair count &gt; 1 000. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aa01d771e3a66e59e86f1ee00d066f415" prot="public">
+          <name>GeoCoordInvalid</name>
+          <initializer>= 203</initializer>
+          <briefdescription>
+<para>Input coordinates failed WGS84 validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a84849ff8635b4c1411de1ccd0bc140d5" prot="public">
+          <name>GeoOutputRangeInvalid</name>
+          <initializer>= 204</initializer>
+          <briefdescription>
+<para>Output distances or containment flags out of range. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a59774dca9301646249ac0d4bee97fd1f" prot="public">
+          <name>TensorArtifactStale</name>
+          <initializer>= 300</initializer>
+          <briefdescription>
+<para>artifact_age_ms &gt;= max_staleness_ms. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008ac55af387e71423a47b27ddb7d0d87168" prot="public">
+          <name>TensorArtifactMissing</name>
+          <initializer>= 301</initializer>
+          <briefdescription>
+<para>No tensor artifact available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aa051848d06e36169113af22d86e3d695" prot="public">
+          <name>TensorRebuildInProgress</name>
+          <initializer>= 302</initializer>
+          <briefdescription>
+<para>rebuild_in_progress == true. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008ac9a520749be0e53446cf7c68c2a80925" prot="public">
+          <name>TensorResidualLow</name>
+          <initializer>= 303</initializer>
+          <briefdescription>
+<para>residual_threshold &lt; configured minimum. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a039db5d7e1eb442df98a0b637b332e6d" prot="public">
+          <name>TensorRankCapExceeded</name>
+          <initializer>= 304</initializer>
+          <briefdescription>
+<para>rank_cap outside policy range. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008aefb9d08b82be15577ec904173c3ba5f5" prot="public">
+          <name>TensorSeqIncompatible</name>
+          <initializer>= 305</initializer>
+          <briefdescription>
+<para>source_seq_range incompatible with current snapshot. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a241b1a16c6e6361ca15299c321021281" prot="public">
+          <name>ModuleGapThreshold</name>
+          <initializer>= 400</initializer>
+          <briefdescription>
+<para>Module gap severity above the safe threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008afd66bbd02925c26f69ca3a82cfab8c38" prot="public">
+          <name>CategoryCSubpathDetected</name>
+          <initializer>= 500</initializer>
+          <briefdescription>
+<para>ACL / provenance / transaction path detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a9ab734a0b94fa80d2ccaa4231128ab14" prot="public">
+          <name>ForceExact</name>
+          <initializer>= 501</initializer>
+          <briefdescription>
+<para>force_exact flag set on query context. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008afa420e55a6bf1bbc22ad9c1d14f66be1" prot="public">
+          <name>ForceCpu</name>
+          <initializer>= 502</initializer>
+          <briefdescription>
+<para>force_cpu flag set on query context. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a636bdaeff00ed9dfc9adddd8d8411d6a" prot="public">
+          <name>ShardSummaryLowConfidence</name>
+          <initializer>= 600</initializer>
+          <briefdescription>
+<para>Shard summary confidence below threshold. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1a142bb8182e534e4057c9b31b464b9008a8b09f2d0000af4518f88b44efa825d9c" prot="public">
+          <name>ShardManifestMissing</name>
+          <initializer>= 601</initializer>
+          <briefdescription>
+<para>Shard manifest unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/query_planner.h" line="73" column="1" bodyfile="src/evaluation/include/query_planner.h" bodystart="73" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7" prot="public" static="no" strong="yes">
+        <type>uint8_t</type>
+        <name>MetricErrorKind</name>
+        <qualifiedname>themis::evaluation::MetricErrorKind</qualifiedname>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7aeef25089cff60a497bfad633196f143c" prot="public">
+          <name>EmptyGroundTruth</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a62f8017bdad8c34179b416fa34e107f9" prot="public">
+          <name>InvalidK</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a21ae32494c3baf76d7a186e0086b45d3" prot="public">
+          <name>NonFiniteInput</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7aefcb4954ae74945cf0eba28983e28b6e" prot="public">
+          <name>InvalidRange</name>
+          <initializer>= 4</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a0399549e1d8624c81e1861fee9438f26" prot="public">
+          <name>DuplicateEntries</name>
+          <initializer>= 5</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ae36c5525b73a21d250a5f57bad1aaadb" prot="public">
+          <name>MissingGroundTruthLabels</name>
+          <initializer>= 6</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ac625fc07928707117b1f8f15de501ec8" prot="public">
+          <name>DoubleCountedItems</name>
+          <initializer>= 7</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7a51017b10ba8591ea01c2cb4cb146477b" prot="public">
+          <name>SummaryFirstFalseNegativeNoFallback</name>
+          <initializer>= 8</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1evaluation_1ab2d48098ccebbe69b2e5bc0c06f230b7ac57ac2c219c709a77e00018b6dbff53e" prot="public">
+          <name>ResidualTooHighForPlanner</name>
+          <initializer>= 9</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="60" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="60" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a64f0d5505b0bde72fbe51f6b3a1c47b5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1evaluation_1_1_approximation_rule_engine" kindref="compound">ApproximationRuleEngine</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; ApproximationRuleEngine &gt; themis::evaluation::makeDefaultApproximationRuleEngine</definition>
+        <argsstring>()</argsstring>
+        <name>makeDefaultApproximationRuleEngine</name>
+        <qualifiedname>themis::evaluation::makeDefaultApproximationRuleEngine</qualifiedname>
+        <briefdescription>
+<para>Create the default production approximation rule engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>std::unique_ptr&lt;ApproximationRuleEngine&gt; owning the default engine. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/approximation_rules.cc" line="521" column="1" bodyfile="src/evaluation/src/approximation_rules.cc" bodystart="521" bodyend="524" declfile="src/evaluation/include/approximation_rules.h" declline="216" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a66b11552f028e4c30b8bbad3663db0dd" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::lifecycleStateToString</definition>
+        <argsstring>(LifecycleState state) noexcept</argsstring>
+        <name>lifecycleStateToString</name>
+        <qualifiedname>themis::evaluation::lifecycleStateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" kindref="member">LifecycleState</ref></type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/artifact_lifecycle.cc" line="260" column="13" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="260" bodyend="277" declfile="src/evaluation/include/artifact_lifecycle.h" declline="339" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a7fb2a414afe6e3b78e08d0f0f4608704" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1evaluation_1afb53dd0c20fe2fb99ed818b2aace92a1" kindref="member">LifecycleState</ref> &gt;</type>
+        <definition>std::optional&lt; LifecycleState &gt; themis::evaluation::stringToLifecycleState</definition>
+        <argsstring>(const std::string &amp;state_str) noexcept</argsstring>
+        <name>stringToLifecycleState</name>
+        <qualifiedname>themis::evaluation::stringToLifecycleState</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>state_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/artifact_lifecycle.cc" line="279" column="15" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="279" bodyend="296" declfile="src/evaluation/include/artifact_lifecycle.h" declline="341" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a74cc438ee9219bc5e4ca661092912ffe" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::invalidationReasonToString</definition>
+        <argsstring>(InvalidationReason reason) noexcept</argsstring>
+        <name>invalidationReasonToString</name>
+        <qualifiedname>themis::evaluation::invalidationReasonToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0b" kindref="member">InvalidationReason</ref></type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/artifact_lifecycle.cc" line="298" column="13" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="298" bodyend="321" declfile="src/evaluation/include/artifact_lifecycle.h" declline="345" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a1e28138232aa33f7cd468569ff9f2491" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1evaluation_1aa642fd5599f7df6058d613cb55a99a0b" kindref="member">InvalidationReason</ref> &gt;</type>
+        <definition>std::optional&lt; InvalidationReason &gt; themis::evaluation::stringToInvalidationReason</definition>
+        <argsstring>(const std::string &amp;reason_str) noexcept</argsstring>
+        <name>stringToInvalidationReason</name>
+        <qualifiedname>themis::evaluation::stringToInvalidationReason</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason_str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/artifact_lifecycle.cc" line="323" column="15" bodyfile="src/evaluation/src/artifact_lifecycle.cc" bodystart="323" bodyend="346" declfile="src/evaluation/include/artifact_lifecycle.h" declline="347" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1afea47a6a5647bdeeacac41db01048049" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::evaluation::scenarioName</definition>
+        <argsstring>(BenchmarkScenario s) noexcept</argsstring>
+        <name>scenarioName</name>
+        <qualifiedname>themis::evaluation::scenarioName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a4cc607cc61cfaa5ef6661061fd2e47be" kindref="member">BenchmarkScenario</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="82" column="29" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="82" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1ae68e4a389d405d8487b1293ca3c00d51" prot="public" static="no" nodiscard="yes" constexpr="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::evaluation::dimensionName</definition>
+        <argsstring>(BenchmarkDimension d) noexcept</argsstring>
+        <name>dimensionName</name>
+        <qualifiedname>themis::evaluation::dimensionName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa737c90e2ef1a712004b38f21be308ab" kindref="member">BenchmarkDimension</ref></type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="146" column="29" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="146" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a96ee2b42119fbfd50fa96103a7eb72c0" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+        <definition>BenchmarkEdgeCase themis::evaluation::operator|</definition>
+        <argsstring>(BenchmarkEdgeCase a, BenchmarkEdgeCase b) noexcept</argsstring>
+        <name>operator|</name>
+        <qualifiedname>themis::evaluation::operator|</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="183" column="26" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="183" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1aab68a85fc578ef49c9be73dac3fde074" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+        <definition>BenchmarkEdgeCase themis::evaluation::operator&amp;</definition>
+        <argsstring>(BenchmarkEdgeCase a, BenchmarkEdgeCase b) noexcept</argsstring>
+        <name>operator&amp;</name>
+        <qualifiedname>themis::evaluation::operator&amp;</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="188" column="26" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="188" bodyend="191"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a5b3fef6bf6cd31fa19741182f70a1e07" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::evaluation::hasEdgeCase</definition>
+        <argsstring>(BenchmarkEdgeCase flags, BenchmarkEdgeCase flag) noexcept</argsstring>
+        <name>hasEdgeCase</name>
+        <qualifiedname>themis::evaluation::hasEdgeCase</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+          <declname>flags</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1ad7a674f4acc1604a6a5af9342c35d298" kindref="member">BenchmarkEdgeCase</ref></type>
+          <declname>flag</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/benchmark_matrix.h" line="193" column="13" bodyfile="src/evaluation/include/benchmark_matrix.h" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a18ada6dfe2fd4378ca0dc8f0f97128d5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::toString</definition>
+        <argsstring>(DeploymentProfileId profile_id)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::evaluation::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kindref="member">DeploymentProfileId</ref></type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="70" column="13" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="70" bodyend="80" declfile="src/evaluation/include/hardware_profile.h" declline="111" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a2efb0c2b812c2bb0c11c105c7d20bc64" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::toString</definition>
+        <argsstring>(StorageTier tier)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::evaluation::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006" kindref="member">StorageTier</ref></type>
+          <declname>tier</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tier</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="88" column="13" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="88" bodyend="98" declfile="src/evaluation/include/hardware_profile.h" declline="112" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1aefc896334432506b710b358b4154f771" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::toString</definition>
+        <argsstring>(NetworkFabric fabric)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::evaluation::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa08a12bdae7ba2e56509b3b9f9c65564" kindref="member">NetworkFabric</ref></type>
+          <declname>fabric</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fabric</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="106" column="13" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="106" bodyend="116" declfile="src/evaluation/include/hardware_profile.h" declline="113" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1ad0a1c4b69147d0d81e4acacc81f68740" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::toString</definition>
+        <argsstring>(AcceleratorClass accelerator_class)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::evaluation::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1aa23a8a349d52d38e3e43519983e3b81e" kindref="member">AcceleratorClass</ref></type>
+          <declname>accelerator_class</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">accelerator_class</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="124" column="13" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="124" bodyend="134" declfile="src/evaluation/include/hardware_profile.h" declline="114" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a5575abb9552ae2c629a2e7c628ca0f60" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::toString</definition>
+        <argsstring>(LayerId layer)</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::evaluation::toString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253" kindref="member">LayerId</ref></type>
+          <declname>layer</declname>
+        </param>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements toString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="142" column="13" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="142" bodyend="154" declfile="src/evaluation/include/hardware_profile.h" declline="115" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a14b67248c6b52b6ef68b791596dd2847" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kindref="member">DeploymentProfileId</ref> &gt;</type>
+        <definition>std::optional&lt; DeploymentProfileId &gt; themis::evaluation::parseDeploymentProfileId</definition>
+        <argsstring>(std::string_view value)</argsstring>
+        <name>parseDeploymentProfileId</name>
+        <qualifiedname>themis::evaluation::parseDeploymentProfileId</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Parse Deployment Profile Id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeToken(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="162" column="15" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="162" bodyend="175" declfile="src/evaluation/include/hardware_profile.h" declline="117" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1ab5f169e1b3677310bc4cc84ec82c10ad" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1evaluation_1a884006dfed1b453fbcba52017164a006" kindref="member">StorageTier</ref> &gt;</type>
+        <definition>std::optional&lt; StorageTier &gt; themis::evaluation::parseStorageTier</definition>
+        <argsstring>(std::string_view value)</argsstring>
+        <name>parseStorageTier</name>
+        <qualifiedname>themis::evaluation::parseStorageTier</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Parse Storage Tier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalizeToken(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="183" column="15" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="183" bodyend="195" declfile="src/evaluation/include/hardware_profile.h" declline="119" declcolumn="16"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a63618a5697f00a18b64da3bc10577113" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &gt;</type>
+        <definition>std::vector&lt; HardwareProfile &gt; themis::evaluation::defaultHardwareProfiles</definition>
+        <argsstring>()</argsstring>
+        <name>defaultHardwareProfiles</name>
+        <qualifiedname>themis::evaluation::defaultHardwareProfiles</qualifiedname>
+        <briefdescription>
+<para>Default Hardware Profiles. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: developmentLayerRules(), productionLayerRules(), federatedLayerRules(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="202" column="13" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="202" bodyend="256" declfile="src/evaluation/include/hardware_profile.h" declline="121" declcolumn="14"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a77c962c7565dfa47bf899a2b31133977" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_hardware_profile_validation_result" kindref="compound">HardwareProfileValidationResult</ref></type>
+        <definition>HardwareProfileValidationResult themis::evaluation::validateHardwareProfile</definition>
+        <argsstring>(const HardwareProfile &amp;profile)</argsstring>
+        <name>validateHardwareProfile</name>
+        <qualifiedname>themis::evaluation::validateHardwareProfile</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <briefdescription>
+<para>Validate Hardware Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: push_back(), std::string(), empty(), validate_band(), unique_tiers(), begin(), end(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="264" column="33" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="264" bodyend="366" declfile="src/evaluation/include/hardware_profile.h" declline="123" declcolumn="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a453f264503c4ba18a57b159dd2406ca6" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> *</type>
+        <definition>const HardwareProfile * themis::evaluation::findHardwareProfile</definition>
+        <argsstring>(std::span&lt; const HardwareProfile &gt; profiles, DeploymentProfileId profile_id)</argsstring>
+        <name>findHardwareProfile</name>
+        <qualifiedname>themis::evaluation::findHardwareProfile</qualifiedname>
+        <param>
+          <type>std::span&lt; const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &gt;</type>
+          <declname>profiles</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a1ef9310c33b6f44622d6301273bf0bb8" kindref="member">DeploymentProfileId</ref></type>
+          <declname>profile_id</declname>
+        </param>
+        <briefdescription>
+<para>Find Hardware Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profiles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: std::find_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="375" column="23" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="375" bodyend="383" declfile="src/evaluation/include/hardware_profile.h" declline="125" declcolumn="24"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a99574c4e6455db4f923e7b895f802d2e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> *</type>
+        <definition>const HardwareProfile * themis::evaluation::findHardwareProfile</definition>
+        <argsstring>(std::span&lt; const HardwareProfile &gt; profiles, std::string_view profile_name)</argsstring>
+        <name>findHardwareProfile</name>
+        <qualifiedname>themis::evaluation::findHardwareProfile</qualifiedname>
+        <param>
+          <type>std::span&lt; const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &gt;</type>
+          <declname>profiles</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>profile_name</declname>
+        </param>
+        <briefdescription>
+<para>Find Hardware Profile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profiles</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">profile_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the profile. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1evaluation_1a14b67248c6b52b6ef68b791596dd2847" kindref="member">parseDeploymentProfileId()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="392" column="23" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="392" bodyend="398" declfile="src/evaluation/include/hardware_profile.h" declline="130" declcolumn="24"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a6a9105073d9dd99e5a9155ba820aa864" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1evaluation_1_1_layer_sizing_rule" kindref="compound">LayerSizingRule</ref> *</type>
+        <definition>const LayerSizingRule * themis::evaluation::findLayerSizingRule</definition>
+        <argsstring>(const HardwareProfile &amp;profile, LayerId layer)</argsstring>
+        <name>findLayerSizingRule</name>
+        <qualifiedname>themis::evaluation::findLayerSizingRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &amp;</type>
+          <declname>profile</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1evaluation_1a325e9d934cb97c8b46e78ce1088c5253" kindref="member">LayerId</ref></type>
+          <declname>layer</declname>
+        </param>
+        <briefdescription>
+<para>Find Layer Sizing Rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">profile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">layer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: std::find_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="407" column="23" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="407" bodyend="412" declfile="src/evaluation/include/hardware_profile.h" declline="135" declcolumn="24"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a4d4fcc86b5ec08cfc1d45a6b54c7ac11" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_tier_transition_result" kindref="compound">TierTransitionResult</ref></type>
+        <definition>TierTransitionResult themis::evaluation::validateTierTransition</definition>
+        <argsstring>(const HardwareProfile &amp;current, const HardwareProfile &amp;target, const TierTransitionRequest &amp;request)</argsstring>
+        <name>validateTierTransition</name>
+        <qualifiedname>themis::evaluation::validateTierTransition</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &amp;</type>
+          <declname>current</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_hardware_profile" kindref="compound">HardwareProfile</ref> &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1evaluation_1_1_tier_transition_request" kindref="compound">TierTransitionRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <briefdescription>
+<para>Validate Tier Transition. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1evaluation_1a77c962c7565dfa47bf899a2b31133977" kindref="member">validateHardwareProfile()</ref>, insert(), end(), begin(), containsTier(), push_back(), <ref refid="namespacethemis_1_1evaluation_1a18ada6dfe2fd4378ca0dc8f0f97128d5" kindref="member">toString()</ref>, <ref refid="namespacethemis_1_1evaluation_1a6a9105073d9dd99e5a9155ba820aa864" kindref="member">findLayerSizingRule()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/hardware_profile.cc" line="422" column="22" bodyfile="src/evaluation/src/hardware_profile.cc" bodystart="422" bodyend="482" declfile="src/evaluation/include/hardware_profile.h" declline="137" declcolumn="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a588a9eafb4aa8c95bdaf7b3fe98e2917" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1evaluation_1_1_query_planner" kindref="compound">QueryPlanner</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QueryPlanner &gt; themis::evaluation::makeDefaultQueryPlanner</definition>
+        <argsstring>()</argsstring>
+        <name>makeDefaultQueryPlanner</name>
+        <qualifiedname>themis::evaluation::makeDefaultQueryPlanner</qualifiedname>
+        <briefdescription>
+<para>Create a <computeroutput><ref refid="classthemis_1_1evaluation_1_1_default_query_planner" kindref="compound">DefaultQueryPlanner</ref></computeroutput> instance without an observer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns a <computeroutput>std::unique_ptr&lt;<ref refid="classthemis_1_1evaluation_1_1_query_planner" kindref="compound">QueryPlanner</ref>&gt;</computeroutput> owning a <computeroutput><ref refid="classthemis_1_1evaluation_1_1_default_query_planner" kindref="compound">DefaultQueryPlanner</ref></computeroutput>. Use this factory in production code to avoid coupling to the concrete type.</para>
+<para><simplesect kind="return"><para>Owning pointer to the default planner implementation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/query_planner.cc" line="434" column="18" bodyfile="src/evaluation/src/query_planner.cc" bodystart="434" bodyend="436" declfile="src/evaluation/include/query_planner.h" declline="315" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a6be0551e196c7763f9f88cf8dcef9e9d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1evaluation_1_1_query_planner" kindref="compound">QueryPlanner</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; QueryPlanner &gt; themis::evaluation::makeDefaultQueryPlanner</definition>
+        <argsstring>(PlannerObserver *observer)</argsstring>
+        <name>makeDefaultQueryPlanner</name>
+        <qualifiedname>themis::evaluation::makeDefaultQueryPlanner</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1evaluation_1_1_planner_observer" kindref="compound">PlannerObserver</ref> *</type>
+          <declname>observer</declname>
+        </param>
+        <briefdescription>
+<para>Create a <computeroutput><ref refid="classthemis_1_1evaluation_1_1_default_query_planner" kindref="compound">DefaultQueryPlanner</ref></computeroutput> instance with an optional observer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When <computeroutput>observer</computeroutput> is non-null, <ref refid="classthemis_1_1evaluation_1_1_planner_observer_1a194eef3877c6cefbb2df2e5a78f67135" kindref="member">PlannerObserver::onDecision()</ref> is invoked after every <computeroutput>selectPath()</computeroutput> call with the decision and wall-clock latency. The caller owns <computeroutput>observer</computeroutput>; its lifetime must exceed the planner&apos;s.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>observer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-owning observer pointer, or <computeroutput>nullptr</computeroutput> to disable hooks. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Owning pointer to the default planner implementation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/query_planner.cc" line="448" column="18" bodyfile="src/evaluation/src/query_planner.cc" bodystart="448" bodyend="452" declfile="src/evaluation/include/query_planner.h" declline="317" declcolumn="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a1ec04aaaf0ce841c811f026d0de3cf5f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_retrieval_quality_metrics" kindref="compound">RetrievalQualityMetrics</ref></type>
+        <definition>RetrievalQualityMetrics themis::evaluation::computeRetrievalQuality</definition>
+        <argsstring>(const std::vector&lt; RankedResult &gt; &amp;ranked, const std::vector&lt; std::string &gt; &amp;ground_truth, std::size_t k, std::size_t total_candidates)</argsstring>
+        <name>computeRetrievalQuality</name>
+        <qualifiedname>themis::evaluation::computeRetrievalQuality</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_ranked_result" kindref="compound">RankedResult</ref> &gt; &amp;</type>
+          <declname>ranked</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>ground_truth</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>total_candidates</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Compute Retrieval Quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ranked</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ground_truth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para><mdash/> NDCG@k <mdash/> Binary relevance: gain = 1. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+0 if in ground truth, 0.0 otherwise.</para>
+        </inbodydescription>
+        <location file="src/evaluation/src/retrieval_metrics.cc" line="123" column="25" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="123" bodyend="209" declfile="src/evaluation/include/retrieval_metrics.h" declline="106" declcolumn="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a001499e7402ac77eef88306c2e2df397" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_evidence_quality_metrics" kindref="compound">EvidenceQualityMetrics</ref></type>
+        <definition>EvidenceQualityMetrics themis::evaluation::computeEvidenceQuality</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;returned_evidence_ids, const std::vector&lt; std::string &gt; &amp;required_evidence_ids, const std::vector&lt; int &gt; &amp;hop_chain_lengths)</argsstring>
+        <name>computeEvidenceQuality</name>
+        <qualifiedname>themis::evaluation::computeEvidenceQuality</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>returned_evidence_ids</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>required_evidence_ids</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>hop_chain_lengths</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Compute Evidence Quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">returned_evidence_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">required_evidence_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hop_chain_lengths</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/retrieval_metrics.cc" line="222" column="24" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="222" bodyend="279" declfile="src/evaluation/include/retrieval_metrics.h" declline="122" declcolumn="25"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1af096c24f110831a0f6ea6acba30061a5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_provenance_quality_metrics" kindref="compound">ProvenanceQualityMetrics</ref></type>
+        <definition>ProvenanceQualityMetrics themis::evaluation::computeProvenanceQuality</definition>
+        <argsstring>(const std::vector&lt; ProvenanceAssertion &gt; &amp;returned, const std::vector&lt; ProvenanceAssertion &gt; &amp;ground_truth)</argsstring>
+        <name>computeProvenanceQuality</name>
+        <qualifiedname>themis::evaluation::computeProvenanceQuality</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_provenance_assertion" kindref="compound">ProvenanceAssertion</ref> &gt; &amp;</type>
+          <declname>returned</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_provenance_assertion" kindref="compound">ProvenanceAssertion</ref> &gt; &amp;</type>
+          <declname>ground_truth</declname>
+        </param>
+        <briefdescription>
+<para>Compute Provenance Quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">returned</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ground_truth</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/retrieval_metrics.cc" line="291" column="26" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="291" bodyend="374" declfile="src/evaluation/include/retrieval_metrics.h" declline="143" declcolumn="27"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a8499ffac1ddde63a29158d96b836c446" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_compression_metrics" kindref="compound">CompressionMetrics</ref></type>
+        <definition>CompressionMetrics themis::evaluation::computeCompressionMetrics</definition>
+        <argsstring>(std::size_t original_size_bytes, std::size_t compressed_size_bytes, const std::vector&lt; double &gt; &amp;approximation_errors, const std::vector&lt; int &gt; &amp;rank_samples)</argsstring>
+        <name>computeCompressionMetrics</name>
+        <qualifiedname>themis::evaluation::computeCompressionMetrics</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>original_size_bytes</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>compressed_size_bytes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>approximation_errors</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; int &gt; &amp;</type>
+          <declname>rank_samples</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Compute Compression Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">original_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_size_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">approximation_errors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rank_samples</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/retrieval_metrics.cc" line="388" column="20" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="388" bodyend="454" declfile="src/evaluation/include/retrieval_metrics.h" declline="159" declcolumn="21"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a9118a2961c1c0ac5ba3c45f3b6e64c5e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_llm_answer_quality_metrics" kindref="compound">LlmAnswerQualityMetrics</ref></type>
+        <definition>LlmAnswerQualityMetrics themis::evaluation::computeLlmAnswerQuality</definition>
+        <argsstring>(uint32_t supported_claims, uint32_t total_claims, uint32_t evidence_tokens, uint32_t prompt_token_count)</argsstring>
+        <name>computeLlmAnswerQuality</name>
+        <qualifiedname>themis::evaluation::computeLlmAnswerQuality</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>supported_claims</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>total_claims</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>evidence_tokens</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>prompt_token_count</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Compute Llm Answer Quality. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">supported_claims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_claims</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">evidence_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">prompt_token_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/retrieval_metrics.cc" line="468" column="25" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="468" bodyend="503" declfile="src/evaluation/include/retrieval_metrics.h" declline="177" declcolumn="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a40fae84fd82855a0552a8d2ed282636b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_distributed_efficiency_metrics" kindref="compound">DistributedEfficiencyMetrics</ref></type>
+        <definition>DistributedEfficiencyMetrics themis::evaluation::computeDistributedEfficiency</definition>
+        <argsstring>(const std::vector&lt; uint32_t &gt; &amp;per_query_shard_counts, const std::vector&lt; double &gt; &amp;per_query_bytes, const std::vector&lt; uint32_t &gt; &amp;summary_skipped_shards, uint32_t total_shards)</argsstring>
+        <name>computeDistributedEfficiency</name>
+        <qualifiedname>themis::evaluation::computeDistributedEfficiency</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>per_query_shard_counts</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>per_query_bytes</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint32_t &gt; &amp;</type>
+          <declname>summary_skipped_shards</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>total_shards</declname>
+        </param>
+        <briefdescription>
+<para>Compute Distributed Efficiency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">per_query_shard_counts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">per_query_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">summary_skipped_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">total_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/retrieval_metrics.cc" line="517" column="30" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="517" bodyend="576" declfile="src/evaluation/include/retrieval_metrics.h" declline="195" declcolumn="31"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1evaluation_1a69400ea30de03cc98147030206c9084c" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" kindref="compound">TensorGraphRuntimeMetrics</ref></type>
+        <definition>TensorGraphRuntimeMetrics themis::evaluation::computeTensorGraphRuntimeMetrics</definition>
+        <argsstring>(const std::vector&lt; TensorGraphSnapshot &gt; &amp;snapshots, double max_residual_error)</argsstring>
+        <name>computeTensorGraphRuntimeMetrics</name>
+        <qualifiedname>themis::evaluation::computeTensorGraphRuntimeMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1evaluation_1_1_tensor_graph_snapshot" kindref="compound">TensorGraphSnapshot</ref> &gt; &amp;</type>
+          <declname>snapshots</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>max_residual_error</declname>
+          <defval>0.10</defval>
+        </param>
+        <briefdescription>
+<para>============================================================================ § 7 Tensor-graph runtime metrics ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshots</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_residual_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/src/retrieval_metrics.cc" line="585" column="27" bodyfile="src/evaluation/src/retrieval_metrics.cc" bodystart="585" bodyend="669" declfile="src/evaluation/include/retrieval_metrics.h" declline="244" declcolumn="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/ablation_framework.h" line="61" column="1"/>
+  </compounddef>
+</doxygen>

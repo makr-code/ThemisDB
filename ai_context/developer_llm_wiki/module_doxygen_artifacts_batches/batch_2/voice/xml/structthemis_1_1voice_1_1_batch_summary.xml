@@ -1,0 +1,159 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_batch_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::BatchSummary</compoundname>
+    <includes refid="voice__batch__processor_8h" local="no">voice_batch_processor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1ab17500ef9f3457df9eb44c4fbf9135c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::BatchSummary::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::voice::BatchSummary::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="65" column="17" bodyfile="include/voice/voice_batch_processor.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1a1e80838dd890e9bbbf193422765cda27" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821" kindref="member">BatchJobStatus</ref></type>
+        <definition>BatchJobStatus themis::voice::BatchSummary::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::voice::BatchSummary::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1voice_1ac9fc25c02868c5bfd8e21fb951817821ac69f06e1a9b016d133907b4e5f5864d2" kindref="member">BatchJobStatus::PENDING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="66" column="20" bodyfile="include/voice/voice_batch_processor.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1ab3d330edd7221647363cf0714ea3561d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::BatchSummary::total_items</definition>
+        <argsstring></argsstring>
+        <name>total_items</name>
+        <qualifiedname>themis::voice::BatchSummary::total_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="67" column="12" bodyfile="include/voice/voice_batch_processor.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1aaf75319ea22cf357f5d336df1bb192da" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::BatchSummary::completed_items</definition>
+        <argsstring></argsstring>
+        <name>completed_items</name>
+        <qualifiedname>themis::voice::BatchSummary::completed_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="68" column="12" bodyfile="include/voice/voice_batch_processor.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1a2f1279a6d2a22de3b36c65638ad8e712" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::BatchSummary::failed_items</definition>
+        <argsstring></argsstring>
+        <name>failed_items</name>
+        <qualifiedname>themis::voice::BatchSummary::failed_items</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="69" column="12" bodyfile="include/voice/voice_batch_processor.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1aef589bccd49880979f27d6f25a447a80" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::BatchSummary::avg_wer</definition>
+        <argsstring></argsstring>
+        <name>avg_wer</name>
+        <qualifiedname>themis::voice::BatchSummary::avg_wer</qualifiedname>
+        <initializer>= -1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="70" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1a2b4b0262517bf2ba88c79803f2cfa3c2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::voice::BatchSummary::avg_pesq</definition>
+        <argsstring></argsstring>
+        <name>avg_pesq</name>
+        <qualifiedname>themis::voice::BatchSummary::avg_pesq</qualifiedname>
+        <initializer>= -1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="71" column="11" bodyfile="include/voice/voice_batch_processor.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1a3ba794f99ccb70105d596c3f23a73bfc" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::BatchSummary::total_processing_ms</definition>
+        <argsstring></argsstring>
+        <name>total_processing_ms</name>
+        <qualifiedname>themis::voice::BatchSummary::total_processing_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="72" column="13" bodyfile="include/voice/voice_batch_processor.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_batch_summary_1af6a70d42337ff1637088910120234e45" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::BatchSummary::elapsed_ms</definition>
+        <argsstring></argsstring>
+        <name>elapsed_ms</name>
+        <qualifiedname>themis::voice::BatchSummary::elapsed_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_batch_processor.h" line="73" column="13" bodyfile="include/voice/voice_batch_processor.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_batch_processor.h" line="64" column="1" bodyfile="include/voice/voice_batch_processor.h" bodystart="64" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1a2b4b0262517bf2ba88c79803f2cfa3c2" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>avg_pesq</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1aef589bccd49880979f27d6f25a447a80" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>avg_wer</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1aaf75319ea22cf357f5d336df1bb192da" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>completed_items</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1af6a70d42337ff1637088910120234e45" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>elapsed_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1a2f1279a6d2a22de3b36c65638ad8e712" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>failed_items</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1ab17500ef9f3457df9eb44c4fbf9135c6" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1a1e80838dd890e9bbbf193422765cda27" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>status</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1ab3d330edd7221647363cf0714ea3561d" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>total_items</name></member>
+      <member refid="structthemis_1_1voice_1_1_batch_summary_1a3ba794f99ccb70105d596c3f23a73bfc" prot="public" virt="non-virtual"><scope>themis::voice::BatchSummary</scope><name>total_processing_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

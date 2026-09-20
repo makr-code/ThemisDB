@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1whisper_1_1_composite_audio_chunk_reader" kind="class" language="C++" prot="public">
+    <compoundname>themis::whisper::CompositeAudioChunkReader</compoundname>
+    <basecompoundref refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" prot="public" virt="non-virtual">themis::whisper::IAudioChunkReader</basecompoundref>
+    <includes refid="audio__chunk__reader_8h" local="no">audio_chunk_reader.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a352251c5b74cd22e2f99bd452ec27334" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" kindref="compound">IAudioChunkReader</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;IAudioChunkReader&gt; &gt; themis::whisper::CompositeAudioChunkReader::readers_</definition>
+        <argsstring></argsstring>
+        <name>readers_</name>
+        <qualifiedname>themis::whisper::CompositeAudioChunkReader::readers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/audio_chunk_reader.h" line="162" column="17" bodyfile="include/whisper/audio_chunk_reader.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a416945b6d907f42ab0abef98fbab4e5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::CompositeAudioChunkReader::addReader</definition>
+        <argsstring>(std::unique_ptr&lt; IAudioChunkReader &gt; reader)</argsstring>
+        <name>addReader</name>
+        <qualifiedname>themis::whisper::CompositeAudioChunkReader::addReader</qualifiedname>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" kindref="compound">IAudioChunkReader</ref> &gt;</type>
+          <declname>reader</declname>
+        </param>
+        <briefdescription>
+<para>Register a reader. Readers are tried in the order they are added. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── <ref refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader" kindref="compound">CompositeAudioChunkReader</ref> ────────────────────────────────────────────────</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reader</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/audio_chunk_reader.h" line="152" column="10" bodyfile="src/whisper/audio_chunk_reader.cpp" bodystart="364" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a03276621d830ce905af3dfd60a9f7b3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::whisper::CompositeAudioChunkReader::readFile</definition>
+        <argsstring>(const std::string &amp;path, float &amp;out_sample_rate) override</argsstring>
+        <name>readFile</name>
+        <qualifiedname>themis::whisper::CompositeAudioChunkReader::readFile</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1abc2bf64cd0e996a2da833653ca8cce99">readFile</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>float &amp;</type>
+          <declname>out_sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Read File. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out_sample_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a29b75428f8fabf806a5d5271d1eb4ef3" kindref="member">canRead()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/audio_chunk_reader.h" line="154" column="17" bodyfile="src/whisper/audio_chunk_reader.cpp" bodystart="394" bodyend="403"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a29b75428f8fabf806a5d5271d1eb4ef3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::CompositeAudioChunkReader::canRead</definition>
+        <argsstring>(const std::string &amp;path) const override</argsstring>
+        <name>canRead</name>
+        <qualifiedname>themis::whisper::CompositeAudioChunkReader::canRead</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a51f166398ee42f4888aa9b1c4b16af98">canRead</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Prüft, ob der Reader mit den Inhalten des angegebenen Dateipfades lesen kann. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Diese Funktion analysiert die Metadaten oder versucht einen kleinen Test-Read, um zu entscheiden, ob das Format (z.B. WAV, MP3 etc.) mit dem hinterlegten Reader-Typ kompatibel ist. Sie dient als vorgelagerte Prüfung vor einem teuren <computeroutput><ref refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a03276621d830ce905af3dfd60a9f7b3f" kindref="member">readFile</ref></computeroutput>-Aufruf.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Der Pfad zur Audiodatei, die überprüft werden soll. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True, wenn der Reader voraussichtlich geeignete Metadaten findet oder das Format unterstützt wird; andernfalls False. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>Keine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>spezifischen Ausnahmen erwartet, da es sich um eine reine Überprüfung handelt. Fehlerhafte Dateipfade sollten in einer Exception (z.B. FileSystemError) abgefangen werden können. @ownership Die Funktion hat nur Lesezugriff und erzeugt keinen dauerhaften Ownership-Zustand. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/audio_chunk_reader.h" line="157" column="10" bodyfile="src/whisper/audio_chunk_reader.cpp" bodystart="368" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a9e2dd791b1e09d90438e022ecae041ff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::whisper::CompositeAudioChunkReader::getMetadata</definition>
+        <argsstring>(const std::string &amp;path) const override</argsstring>
+        <name>getMetadata</name>
+        <qualifiedname>themis::whisper::CompositeAudioChunkReader::getMetadata</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a1d4d89be3f4601bda04e42e5f0b26f05">getMetadata</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Ruft Metadaten des derzeit verarbeiteten Audio-Chunks ab oder gibt einen Standardwert zurück, falls keine spezifischen Metadaten verfügbar sind. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Diese Funktion ist entscheidend für die Validierung der Audioquelle und liefert Informationen wie das Dateiformat, die Bitrate oder die Sample Rate in einem einheitlichen Container. Die Implementierung muss die zugrundeliegenden Spezifika (z.B. WAV-Header-Parsing vs. FFMPEG-Streams) korrekt abstrahieren.</para>
+<para><simplesect kind="return"><para>std::map&lt;std::string, std::string&gt; Ein Kartencontainer, der Schlüssel-Wert-Paare mit den extrahierten Metadaten enthält. Der Schlüssel sollte eine standardisierte Bezeichnung (z. B. &quot;SampleRate&quot;, &quot;Format&quot;) verwenden. Bei Fehlschlagen des Abrufs wird ein leeres oder notwendiger Standardeintrag zurückgegeben.</para>
+</simplesect>
+Die Rückgabestruktur dient als universelle Schnittstelle, um unterschiedliche Quelleigenschaften konsolidiert darzustellen. @ownership Die übergebenen Daten im Map-Objekt müssen vom Aufrufer sorgfältig auf Gültigkeit geprüft werden. @threading Der Aufruf ist thread-sicher zu gewährleisten; ggf. muss ein externer Mutex zum Schutz der internen Zustandsvariablen verwendet werden, falls das Laden von Metadaten nicht atomar ist. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/audio_chunk_reader.h" line="159" column="14" bodyfile="src/whisper/audio_chunk_reader.cpp" bodystart="377" bodyend="384"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Composite reader that delegates to the first registered <ref refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader" kindref="compound">IAudioChunkReader</ref> whose <ref refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a29b75428f8fabf806a5d5271d1eb4ef3" kindref="member">canRead()</ref> returns true. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Readers are tried in registration order. If none accepts the file, <ref refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a03276621d830ce905af3dfd60a9f7b3f" kindref="member">readFile()</ref> throws std::runtime_error. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::whisper::CompositeAudioChunkReader</label>
+        <link refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::whisper::IAudioChunkReader</label>
+        <link refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::whisper::CompositeAudioChunkReader</label>
+        <link refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::whisper::IAudioChunkReader</label>
+        <link refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/whisper/audio_chunk_reader.h" line="149" column="1" bodyfile="include/whisper/audio_chunk_reader.h" bodystart="149" bodyend="163"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a416945b6d907f42ab0abef98fbab4e5a" prot="public" virt="non-virtual"><scope>themis::whisper::CompositeAudioChunkReader</scope><name>addReader</name></member>
+      <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a29b75428f8fabf806a5d5271d1eb4ef3" prot="public" virt="virtual"><scope>themis::whisper::CompositeAudioChunkReader</scope><name>canRead</name></member>
+      <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a9e2dd791b1e09d90438e022ecae041ff" prot="public" virt="virtual"><scope>themis::whisper::CompositeAudioChunkReader</scope><name>getMetadata</name></member>
+      <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a352251c5b74cd22e2f99bd452ec27334" prot="private" virt="non-virtual"><scope>themis::whisper::CompositeAudioChunkReader</scope><name>readers_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_composite_audio_chunk_reader_1a03276621d830ce905af3dfd60a9f7b3f" prot="public" virt="virtual"><scope>themis::whisper::CompositeAudioChunkReader</scope><name>readFile</name></member>
+      <member refid="classthemis_1_1whisper_1_1_i_audio_chunk_reader_1a9e356312eb0cb2547505524aaddf5c98" prot="public" virt="virtual"><scope>themis::whisper::CompositeAudioChunkReader</scope><name>~IAudioChunkReader</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

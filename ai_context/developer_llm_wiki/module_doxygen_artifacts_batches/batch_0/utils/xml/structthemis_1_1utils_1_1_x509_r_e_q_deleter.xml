@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_x509_r_e_q_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::X509REQDeleter</compoundname>
+    <includes refid="openssl__deleter_8h" local="no">openssl_deleter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_x509_r_e_q_deleter_1a738f4bf12fa3ec78c09ead1613ba0737" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::X509REQDeleter::operator()</definition>
+        <argsstring>(X509_REQ *req) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::utils::X509REQDeleter::operator()</qualifiedname>
+        <param>
+          <type>X509_REQ *</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/openssl_deleter.h" line="83" column="10" bodyfile="include/utils/openssl_deleter.h" bodystart="83" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deleter for X509_REQ (PKCS#10 Certificate Signing Request). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/openssl_deleter.h" line="82" column="1" bodyfile="include/utils/openssl_deleter.h" bodystart="82" bodyend="88"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_x509_r_e_q_deleter_1a738f4bf12fa3ec78c09ead1613ba0737" prot="public" virt="non-virtual"><scope>themis::utils::X509REQDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

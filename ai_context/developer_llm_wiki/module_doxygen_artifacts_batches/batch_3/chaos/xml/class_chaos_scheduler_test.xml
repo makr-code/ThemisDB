@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_chaos_scheduler_test" kind="class" language="C++" prot="public">
+    <compoundname>ChaosSchedulerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_chaos_scheduler_test_1a5923ddab36fce29f4d3c5cb3775233d8" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ChaosSchedulerTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>ChaosSchedulerTest::db_path_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="99" column="17" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_chaos_scheduler_test_1a8fc306ce89486e37e48d16c54f78f219" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; ChaosSchedulerTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>ChaosSchedulerTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="100" column="21" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_chaos_scheduler_test_1af2411178c7487666766c3a116713a5dc" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SecondaryIndexManager&gt; ChaosSchedulerTest::idx_</definition>
+        <argsstring></argsstring>
+        <name>idx_</name>
+        <qualifiedname>ChaosSchedulerTest::idx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="101" column="21" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_chaos_scheduler_test_1a583cea0c7434531a34ed6e1ecca2eb8e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; QueryEngine &gt;</type>
+        <definition>std::unique_ptr&lt;QueryEngine&gt; ChaosSchedulerTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>ChaosSchedulerTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="102" column="21" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_chaos_scheduler_test_1a3e41be3f535eed0cef3a978fd9401db6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; TaskScheduler &gt;</type>
+        <definition>std::unique_ptr&lt;TaskScheduler&gt; ChaosSchedulerTest::scheduler_</definition>
+        <argsstring></argsstring>
+        <name>scheduler_</name>
+        <qualifiedname>ChaosSchedulerTest::scheduler_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="103" column="21" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_chaos_scheduler_test_1a282b5c1b294576513b5e147df7367809" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChaosSchedulerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ChaosSchedulerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="39" column="10" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="39" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="class_chaos_scheduler_test_1af2b1aa37217181357053fea4fd278f29" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChaosSchedulerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ChaosSchedulerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="60" column="10" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="60" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_chaos_scheduler_test_1af46c50fe440257e69bd2666863628014" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ChaosSchedulerTest::makeScheduler</definition>
+        <argsstring>(size_t max_concurrent=8)</argsstring>
+        <name>makeScheduler</name>
+        <qualifiedname>ChaosSchedulerTest::makeScheduler</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_concurrent</declname>
+          <defval>8</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="75" column="10" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="75" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_chaos_scheduler_test_1a923b6c2cc7855fdfc98669c85411f26e" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ChaosSchedulerTest::registerFn</definition>
+        <argsstring>(const std::string &amp;name, std::function&lt; nlohmann::json(const nlohmann::json &amp;)&gt; fn)</argsstring>
+        <name>registerFn</name>
+        <qualifiedname>ChaosSchedulerTest::registerFn</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::function&lt; nlohmann::json(const nlohmann::json &amp;)&gt;</type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/chaos/test_chaos_scheduler.cpp" line="88" column="17" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="88" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ChaosSchedulerTest</label>
+        <link refid="class_chaos_scheduler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ChaosSchedulerTest</label>
+        <link refid="class_chaos_scheduler_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/chaos/test_chaos_scheduler.cpp" line="37" column="1" bodyfile="tests/chaos/test_chaos_scheduler.cpp" bodystart="37" bodyend="104"/>
+    <listofallmembers>
+      <member refid="class_chaos_scheduler_test_1a5923ddab36fce29f4d3c5cb3775233d8" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>db_path_</name></member>
+      <member refid="class_chaos_scheduler_test_1a583cea0c7434531a34ed6e1ecca2eb8e" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>engine_</name></member>
+      <member refid="class_chaos_scheduler_test_1af2411178c7487666766c3a116713a5dc" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>idx_</name></member>
+      <member refid="class_chaos_scheduler_test_1af46c50fe440257e69bd2666863628014" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>makeScheduler</name></member>
+      <member refid="class_chaos_scheduler_test_1a923b6c2cc7855fdfc98669c85411f26e" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>registerFn</name></member>
+      <member refid="class_chaos_scheduler_test_1a3e41be3f535eed0cef3a978fd9401db6" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>scheduler_</name></member>
+      <member refid="class_chaos_scheduler_test_1a282b5c1b294576513b5e147df7367809" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>SetUp</name></member>
+      <member refid="class_chaos_scheduler_test_1a8fc306ce89486e37e48d16c54f78f219" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>storage_</name></member>
+      <member refid="class_chaos_scheduler_test_1af2b1aa37217181357053fea4fd278f29" prot="protected" virt="non-virtual"><scope>ChaosSchedulerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

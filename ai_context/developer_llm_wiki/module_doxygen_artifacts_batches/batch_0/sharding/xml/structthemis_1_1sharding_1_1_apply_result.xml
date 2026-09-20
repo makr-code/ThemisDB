@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_apply_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ApplyResult</compoundname>
+    <includes refid="wal__applier_8h" local="no">wal_applier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_apply_result_1acce89e6d7a4cc36549d30e7aef5fd530" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ApplyResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::ApplyResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when all entries in the batch were applied successfully. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="87" column="10" bodyfile="include/sharding/wal_applier.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_apply_result_1a1a5f2f563f64061a58098bfef51ede82" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::ApplyResult::entries_applied</definition>
+        <argsstring></argsstring>
+        <name>entries_applied</name>
+        <qualifiedname>themis::sharding::ApplyResult::entries_applied</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of entries applied before failure/termination. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="89" column="12" bodyfile="include/sharding/wal_applier.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_apply_result_1abc311aab83dc1a89f98b4d5f402615d6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ApplyResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::sharding::ApplyResult::errors</qualifiedname>
+        <briefdescription>
+<para>Human-readable error list collected during processing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="91" column="17" bodyfile="include/sharding/wal_applier.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_apply_result_1a4c34e798513789715bf717d3af8fba20" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themis::sharding::ApplyResult::last_applied_lsn</definition>
+        <argsstring></argsstring>
+        <name>last_applied_lsn</name>
+        <qualifiedname>themis::sharding::ApplyResult::last_applied_lsn</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> of the last successfully applied entry in this batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_applier.h" line="93" column="9" bodyfile="include/sharding/wal_applier.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result payload returned by one batch-apply invocation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::sharding::ApplyResult</label>
+        <link refid="structthemis_1_1sharding_1_1_apply_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>last_applied_lsn</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/wal_applier.h" line="85" column="1" bodyfile="include/sharding/wal_applier.h" bodystart="85" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_apply_result_1a1a5f2f563f64061a58098bfef51ede82" prot="public" virt="non-virtual"><scope>themis::sharding::ApplyResult</scope><name>entries_applied</name></member>
+      <member refid="structthemis_1_1sharding_1_1_apply_result_1abc311aab83dc1a89f98b4d5f402615d6" prot="public" virt="non-virtual"><scope>themis::sharding::ApplyResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1sharding_1_1_apply_result_1a4c34e798513789715bf717d3af8fba20" prot="public" virt="non-virtual"><scope>themis::sharding::ApplyResult</scope><name>last_applied_lsn</name></member>
+      <member refid="structthemis_1_1sharding_1_1_apply_result_1acce89e6d7a4cc36549d30e7aef5fd530" prot="public" virt="non-virtual"><scope>themis::sharding::ApplyResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

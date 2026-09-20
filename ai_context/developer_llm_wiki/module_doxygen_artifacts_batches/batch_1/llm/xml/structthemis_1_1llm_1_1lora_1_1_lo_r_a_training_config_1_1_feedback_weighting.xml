@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</compoundname>
+    <includes refid="lora__training__config_8h" local="no">lora_training_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a643db30f824b440fa4b81c5164da3028" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::direct_response_weight</definition>
+        <argsstring></argsstring>
+        <name>direct_response_weight</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::direct_response_weight</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="41" column="15" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1aed50a2e95040b73813b54600a5f9466d" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::exact_cache_weight</definition>
+        <argsstring></argsstring>
+        <name>exact_cache_weight</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::exact_cache_weight</qualifiedname>
+        <initializer>= 0.4f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="42" column="15" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a3784a3ec0d266bacb9ffecec2a9b0442" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::semantic_cache_base_weight</definition>
+        <argsstring></argsstring>
+        <name>semantic_cache_base_weight</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::semantic_cache_base_weight</qualifiedname>
+        <initializer>= 0.3f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="43" column="15" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a7241cf48900aec10fe0586ca11a8e8fb" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::similarity_weight_factor</definition>
+        <argsstring></argsstring>
+        <name>similarity_weight_factor</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::similarity_weight_factor</qualifiedname>
+        <initializer>= 0.5f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="44" column="15" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a14811d350a291ea3b8791b92885fd461" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::disable_cache_training</definition>
+        <argsstring></argsstring>
+        <name>disable_cache_training</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::disable_cache_training</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="45" column="14" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a650ee5aa18f70771005cc639b42bdb99" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, float &gt;</type>
+        <definition>std::map&lt;std::string, float&gt; themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::type_weights</definition>
+        <argsstring></argsstring>
+        <name>type_weights</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::type_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="47" column="18" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a53c5f965874a2a6af94cc263e32005f3" prot="public" static="no" mutable="no">
+        <type>std::map&lt; int, float &gt;</type>
+        <definition>std::map&lt;int, float&gt; themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::rating_weights</definition>
+        <argsstring></argsstring>
+        <name>rating_weights</name>
+        <qualifiedname>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting::rating_weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_training_config.h" line="48" column="18" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_training_config.h" line="40" column="5" bodyfile="include/llm/lora_framework/lora_training_config.h" bodystart="40" bodyend="49"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a643db30f824b440fa4b81c5164da3028" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</scope><name>direct_response_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a14811d350a291ea3b8791b92885fd461" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</scope><name>disable_cache_training</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1aed50a2e95040b73813b54600a5f9466d" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</scope><name>exact_cache_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a53c5f965874a2a6af94cc263e32005f3" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</scope><name>rating_weights</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a3784a3ec0d266bacb9ffecec2a9b0442" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</scope><name>semantic_cache_base_weight</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a7241cf48900aec10fe0586ca11a8e8fb" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</scope><name>similarity_weight_factor</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_lo_r_a_training_config_1_1_feedback_weighting_1a650ee5aa18f70771005cc639b42bdb99" prot="public" virt="non-virtual"><scope>themis::llm::lora::LoRATrainingConfig::FeedbackWeighting</scope><name>type_weights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

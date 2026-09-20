@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_ocr_processor_1_1_preprocess_info" kind="struct" language="C++" prot="private">
+    <compoundname>themis::content::OcrProcessor::PreprocessInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_preprocess_info_1aee3484f406f3ca965716cbe4a5c78a54" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::content::OcrProcessor::PreprocessInfo::original_dpi</definition>
+        <argsstring></argsstring>
+        <name>original_dpi</name>
+        <qualifiedname>themis::content::OcrProcessor::PreprocessInfo::original_dpi</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>DPI read from image metadata (0 = unknown). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="90" column="14" bodyfile="include/content/ocr_processor.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_preprocess_info_1a74b159cecbb4a5c6976e34e9e8b99a97" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::OcrProcessor::PreprocessInfo::rescaled</definition>
+        <argsstring></argsstring>
+        <name>rescaled</name>
+        <qualifiedname>themis::content::OcrProcessor::PreprocessInfo::rescaled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Image was rescaled to <ref refid="structthemis_1_1content_1_1_ocr_processor_1_1_config_1a9eb50bc524ccafbb2ae64718af69c7f5" kindref="member">Config::target_dpi</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="91" column="14" bodyfile="include/content/ocr_processor.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_ocr_processor_1_1_preprocess_info_1a9c615c4e8ce7c5804d53146ed20f4af1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::OcrProcessor::PreprocessInfo::binarized</definition>
+        <argsstring></argsstring>
+        <name>binarized</name>
+        <qualifiedname>themis::content::OcrProcessor::PreprocessInfo::binarized</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Adaptive (Sauvola) binarisation was applied. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/ocr_processor.h" line="92" column="14" bodyfile="include/content/ocr_processor.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/ocr_processor.h" line="89" column="5" bodyfile="include/content/ocr_processor.h" bodystart="89" bodyend="93"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_preprocess_info_1a9c615c4e8ce7c5804d53146ed20f4af1" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::PreprocessInfo</scope><name>binarized</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_preprocess_info_1aee3484f406f3ca965716cbe4a5c78a54" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::PreprocessInfo</scope><name>original_dpi</name></member>
+      <member refid="structthemis_1_1content_1_1_ocr_processor_1_1_preprocess_info_1a74b159cecbb4a5c6976e34e9e8b99a97" prot="public" virt="non-virtual"><scope>themis::content::OcrProcessor::PreprocessInfo</scope><name>rescaled</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

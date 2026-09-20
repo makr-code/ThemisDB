@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::SafeDeleteWrapper</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper_1a0205208d3f315cda160a2933e1ae2c73" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; int &gt; *</type>
+        <definition>std::vector&lt;int&gt;* themis::llm::test::SafeDeleteWrapper::ptr_</definition>
+        <argsstring></argsstring>
+        <name>ptr_</name>
+        <qualifiedname>themis::llm::test::SafeDeleteWrapper::ptr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="195" column="15" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper_1a7c5a57e7422f6eeeee972991005bb7c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::SafeDeleteWrapper::SafeDeleteWrapper</definition>
+        <argsstring>()</argsstring>
+        <name>SafeDeleteWrapper</name>
+        <qualifiedname>themis::llm::test::SafeDeleteWrapper::SafeDeleteWrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="183" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper_1a59b1ca7b00a9bea82987c559b589476d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::SafeDeleteWrapper::~SafeDeleteWrapper</definition>
+        <argsstring>()</argsstring>
+        <name>~SafeDeleteWrapper</name>
+        <qualifiedname>themis::llm::test::SafeDeleteWrapper::~SafeDeleteWrapper</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="185" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="185" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper_1a352ac14e44c6155a126ff28fc6ed14e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::test::SafeDeleteWrapper::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::llm::test::SafeDeleteWrapper::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="192" column="8" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="192" bodyend="192"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="181" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="181" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper_1a352ac14e44c6155a126ff28fc6ed14e4" prot="public" virt="non-virtual"><scope>themis::llm::test::SafeDeleteWrapper</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper_1a0205208d3f315cda160a2933e1ae2c73" prot="private" virt="non-virtual"><scope>themis::llm::test::SafeDeleteWrapper</scope><name>ptr_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper_1a7c5a57e7422f6eeeee972991005bb7c3" prot="public" virt="non-virtual"><scope>themis::llm::test::SafeDeleteWrapper</scope><name>SafeDeleteWrapper</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_safe_delete_wrapper_1a59b1ca7b00a9bea82987c559b589476d" prot="public" virt="non-virtual"><scope>themis::llm::test::SafeDeleteWrapper</scope><name>~SafeDeleteWrapper</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

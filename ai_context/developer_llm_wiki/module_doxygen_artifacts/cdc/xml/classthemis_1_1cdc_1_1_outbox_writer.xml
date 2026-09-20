@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_outbox_writer" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::OutboxWriter</compoundname>
+    <includes refid="outbox_8h" local="no">outbox.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_writer_1a1b532fc88eee5f97b2f3a4d36c546e8c" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::cdc::OutboxWriter::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::cdc::OutboxWriter::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="122" column="33" bodyfile="include/cdc/outbox.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_writer_1ada17365212f86f898fa8ad378df8a141" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::cdc::OutboxWriter::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::cdc::OutboxWriter::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="123" column="33" bodyfile="include/cdc/outbox.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_writer_1a32b50a71c5d9322a9d5b6b9ac413571f" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::cdc::OutboxWriter::sequence_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sequence_mutex_</name>
+        <qualifiedname>themis::cdc::OutboxWriter::sequence_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="124" column="34" bodyfile="include/cdc/outbox.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_writer_1ab75da12a3bf7ca91dc762c3890dbbb71" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::OutboxWriter::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::cdc::OutboxWriter::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;cdc_outbox:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="126" column="33" bodyfile="include/cdc/outbox.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1cdc_1_1_outbox_writer_1a9d9a247713de80083f8f198767f94d43" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::cdc::OutboxWriter::SEQUENCE_KEY</definition>
+        <argsstring></argsstring>
+        <name>SEQUENCE_KEY</name>
+        <qualifiedname>themis::cdc::OutboxWriter::SEQUENCE_KEY</qualifiedname>
+        <initializer>= &quot;cdc_outbox_sequence&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="127" column="33" bodyfile="include/cdc/outbox.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_writer_1a08b040047b374173653af12d1f7a5965" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::OutboxWriter::OutboxWriter</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr)</argsstring>
+        <name>OutboxWriter</name>
+        <qualifiedname>themis::cdc::OutboxWriter::OutboxWriter</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="105" column="14" bodyfile="src/cdc/outbox.cpp" bodystart="156" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_writer_1a2813e7dea4e840aab683aa7791c64ee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::OutboxWriter::~OutboxWriter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~OutboxWriter</name>
+        <qualifiedname>themis::cdc::OutboxWriter::~OutboxWriter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="108" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_writer_1a4284afa128cd707139b8a2a73d3b58b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::OutboxWriter::OutboxWriter</definition>
+        <argsstring>(const OutboxWriter &amp;)=delete</argsstring>
+        <name>OutboxWriter</name>
+        <qualifiedname>themis::cdc::OutboxWriter::OutboxWriter</qualifiedname>
+        <param>
+          <type>const OutboxWriter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="110" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_writer_1ac5f954d7506ddb6af895cedc7c2890f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_outbox_writer_1a08b040047b374173653af12d1f7a5965" kindref="member">OutboxWriter</ref> &amp;</type>
+        <definition>OutboxWriter &amp; themis::cdc::OutboxWriter::operator=</definition>
+        <argsstring>(const OutboxWriter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::OutboxWriter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cdc_1_1_outbox_writer_1a08b040047b374173653af12d1f7a5965" kindref="member">OutboxWriter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="111" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_writer_1aa1a338f4a03de9134c00546e7493fdbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_outbox_record" kindref="compound">OutboxRecord</ref> &amp;</type>
+        <definition>OutboxRecord &amp; themis::cdc::OutboxWriter::writeToOutbox</definition>
+        <argsstring>(rocksdb::Transaction *txn, OutboxRecord &amp;rec)</argsstring>
+        <name>writeToOutbox</name>
+        <qualifiedname>themis::cdc::OutboxWriter::writeToOutbox</qualifiedname>
+        <param>
+          <type>rocksdb::Transaction *</type>
+          <declname>txn</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1cdc_1_1_outbox_record" kindref="compound">OutboxRecord</ref> &amp;</type>
+          <declname>rec</declname>
+        </param>
+        <briefdescription>
+<para>Write To Outbox. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">txn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="119" column="18" bodyfile="src/cdc/outbox.cpp" bodystart="219" bodyend="253"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_writer_1a834fb9dbcdf853d83d9cd0b965bd818a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::OutboxWriter::makeKey</definition>
+        <argsstring>(uint64_t seq) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::cdc::OutboxWriter::makeKey</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>seq</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seq</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="134" column="18" bodyfile="src/cdc/outbox.cpp" bodystart="162" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_outbox_writer_1a3d0fd1a625ae2faf8abdc4f33e391397" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::cdc::OutboxWriter::nextSequence</definition>
+        <argsstring>()</argsstring>
+        <name>nextSequence</name>
+        <qualifiedname>themis::cdc::OutboxWriter::nextSequence</qualifiedname>
+        <briefdescription>
+<para>Next Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>CDCException</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), Get(), ok(), std::stoull(), std::to_string(), Put(), ToString(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/outbox.h" line="139" column="18" bodyfile="src/cdc/outbox.cpp" bodystart="174" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/outbox.h" line="103" column="1" bodyfile="include/cdc/outbox.h" bodystart="103" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1ada17365212f86f898fa8ad378df8a141" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1a1b532fc88eee5f97b2f3a4d36c546e8c" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>db_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1ab75da12a3bf7ca91dc762c3890dbbb71" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1a834fb9dbcdf853d83d9cd0b965bd818a" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1a3d0fd1a625ae2faf8abdc4f33e391397" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>nextSequence</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1ac5f954d7506ddb6af895cedc7c2890f3" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1a08b040047b374173653af12d1f7a5965" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>OutboxWriter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1a4284afa128cd707139b8a2a73d3b58b2" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>OutboxWriter</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1a9d9a247713de80083f8f198767f94d43" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>SEQUENCE_KEY</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1a32b50a71c5d9322a9d5b6b9ac413571f" prot="private" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>sequence_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1aa1a338f4a03de9134c00546e7493fdbf" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>writeToOutbox</name></member>
+      <member refid="classthemis_1_1cdc_1_1_outbox_writer_1a2813e7dea4e840aab683aa7791c64ee8" prot="public" virt="non-virtual"><scope>themis::cdc::OutboxWriter</scope><name>~OutboxWriter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

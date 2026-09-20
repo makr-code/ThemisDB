@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tracer_8h" kind="file" language="C++">
+    <compoundname>tracer.h</compoundname>
+    <includes local="yes">core/concerns/i_tracer.h</includes>
+    <includes refid="continuous__profiler_8h" local="yes">observability/continuous_profiler.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__observability__goals_8cpp" local="yes">benchmarks/observability/bench_observability_goals.cpp</includedby>
+    <includedby refid="opentelemetry__tracer_8h" local="yes">include/observability/opentelemetry_tracer.h</includedby>
+    <includedby refid="tracer_8cpp" local="yes">src/observability/tracer.cpp</includedby>
+    <incdepgraph>
+      <node id="3">
+        <label>observability/continuous_profiler.h</label>
+        <link refid="continuous__profiler_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/tracer.h</label>
+        <link refid="tracer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>core/concerns/i_tracer.h</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="9">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="4">
+        <label>benchmarks/observability/bench_observability_block_b_gates.cpp</label>
+        <link refid="bench__observability__block__b__gates_8cpp"/>
+      </node>
+      <node id="2">
+        <label>benchmarks/observability/bench_observability_goals.cpp</label>
+        <link refid="bench__observability__goals_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/observability/opentelemetry_tracer.h</label>
+        <link refid="opentelemetry__tracer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/observability/tracer.h</label>
+        <link refid="tracer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/observability/opentelemetry_tracer.cpp</label>
+        <link refid="opentelemetry__tracer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/observability/tracer.cpp</label>
+        <link refid="tracer_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/observability/test_observability_block_b_focused.cpp</label>
+        <link refid="test__observability__block__b__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/observability/test_observability_contract_hardening_focused.cpp</label>
+        <link refid="test__observability__contract__hardening__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1observability_1_1_tracer_stats" prot="public">themis::observability::TracerStats</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_observability_tracer_config" prot="public">themis::observability::ObservabilityTracerConfig</innerclass>
+    <innerclass refid="structthemis_1_1observability_1_1_span_record" prot="public">themis::observability::SpanRecord</innerclass>
+    <innerclass refid="classthemis_1_1observability_1_1_observability_tracer" prot="public">themis::observability::ObservabilityTracer</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;core/concerns/i_tracer.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="continuous__profiler_8h" kindref="compound">observability/continuous_profiler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1observability_1_1_tracer_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_tracer_stats" kindref="compound">TracerStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1observability_1_1_tracer_stats_1a87b91a86b0f92b36040c74aa97105e8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_tracer_stats_1a87b91a86b0f92b36040c74aa97105e8a" kindref="member">total_spans</ref>{0};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1observability_1_1_tracer_stats_1a8324a65f800d71678b589d82dbc51656" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_tracer_stats_1a8324a65f800d71678b589d82dbc51656" kindref="member">active_spans</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1observability_1_1_tracer_stats_1a123aabf81198148ca17ab88a7efc7c3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1observability_1_1_tracer_stats_1a123aabf81198148ca17ab88a7efc7c3b" kindref="member">dropped_spans</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1observability_1_1_observability_tracer_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_observability_tracer_config" kindref="compound">ObservabilityTracerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1observability_1_1_observability_tracer_config_1a32c8a3242f858baf396997d9a0dd7107" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config_1a32c8a3242f858baf396997d9a0dd7107" kindref="member">service_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;themisdb&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1observability_1_1_observability_tracer_config_1a929b9a6aaddec3adfe7688eef73f5750" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config_1a929b9a6aaddec3adfe7688eef73f5750" kindref="member">endpoint</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1observability_1_1_observability_tracer_config_1a9e9c7d01f5851326a1295776d097c412" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config_1a9e9c7d01f5851326a1295776d097c412" kindref="member">sample_rate</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1observability_1_1_observability_tracer_config_1a9a2ec329523453001ad371e124c63efa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config_1a9a2ec329523453001ad371e124c63efa" kindref="member">max_retained_spans</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1observability_1_1_observability_tracer_config_1a6f26409ae427752163f60b33b7532ebd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config_1a6f26409ae427752163f60b33b7532ebd" kindref="member">publish_metrics</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1observability_1_1_observability_tracer_config_1a5e2dcd82badc91cd1225b95f9447d6e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config_1a5e2dcd82badc91cd1225b95f9447d6e9" kindref="member">attach_profile_on_span_end</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1observability_1_1_observability_tracer_config_1a97d3fb31bec4f58e650d6bc852d33a97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ContinuousProfiler&gt;<sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config_1a97d3fb31bec4f58e650d6bc852d33a97" kindref="member">profiler</ref>;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1observability_1_1_span_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1observability_1_1_span_record" kindref="compound">SpanRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1observability_1_1_span_record_1ade0173a3e8c328312ea2362e283b8983" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1ade0173a3e8c328312ea2362e283b8983" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1observability_1_1_span_record_1a841a0dd7ffb64a91b5fd1928e8f52e3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1a841a0dd7ffb64a91b5fd1928e8f52e3f" kindref="member">trace_id</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1observability_1_1_span_record_1ac9c4b70f2db2c9d9be2ba253368bfc7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1ac9c4b70f2db2c9d9be2ba253368bfc7b" kindref="member">span_id</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1observability_1_1_span_record_1a484fcb3eb42bfefa3ae042861d124c96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1a484fcb3eb42bfefa3ae042861d124c96" kindref="member">parent_span_id</ref>;</highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1observability_1_1_span_record_1a1e3bdb6df9af339beaf4ad8b44b505b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1a1e3bdb6df9af339beaf4ad8b44b505b8" kindref="member">start_time</ref>;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1observability_1_1_span_record_1a58be3775ad0520fd62df293c3ba8dc5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1a58be3775ad0520fd62df293c3ba8dc5c" kindref="member">end_time</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1observability_1_1_span_record_1ae0a5397c8b14e2eda60af99e6831efe2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_span_record_1ae0a5397c8b14e2eda60af99e6831efe2" kindref="member">ok</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1observability_1_1_span_record_1ab4f31e43d0ba34d7090a35cf196abc51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1ab4f31e43d0ba34d7090a35cf196abc51" kindref="member">status_description</ref>;</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1observability_1_1_span_record_1a535c81062349448d7f2532efb8fc7179" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1a535c81062349448d7f2532efb8fc7179" kindref="member">attributes</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1observability_1_1_span_record_1a429e4b0bd9d42e6d724fa2c715fa5e8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1observability_1_1_span_record_1a429e4b0bd9d42e6d724fa2c715fa5e8e" kindref="member">cpu_profile_folded</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1observability_1_1_observability_tracer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a32e7192d3b8dafad72402099f4c22d8c" kindref="member">ObservabilityTracer</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>core::concerns::ITracer<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a32e7192d3b8dafad72402099f4c22d8c" kindref="member">ObservabilityTracer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config" kindref="compound">ObservabilityTracerConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config" kindref="compound">ObservabilityTracerConfig</ref>{});</highlight></codeline>
+<codeline lineno="138" refid="classthemis_1_1observability_1_1_observability_tracer_1a1c89da3dbd09a12a53879c948c9fb784" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a1c89da3dbd09a12a53879c948c9fb784" kindref="member">~ObservabilityTracer</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1observability_1_1_observability_tracer_1a6d0db21da38398e278a2efbde2ceef72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a6d0db21da38398e278a2efbde2ceef72" kindref="member">ObservabilityTracer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a32e7192d3b8dafad72402099f4c22d8c" kindref="member">ObservabilityTracer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1observability_1_1_observability_tracer_1aa98699163b54280943e19539a3bc5d6e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a32e7192d3b8dafad72402099f4c22d8c" kindref="member">ObservabilityTracer</ref>&amp;<sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1aa98699163b54280943e19539a3bc5d6e" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a32e7192d3b8dafad72402099f4c22d8c" kindref="member">ObservabilityTracer</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ITracer<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a55cbe4cb1393c5bb9a4ffac71fc313d2" kindref="member">startSpan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a71d0ef67a6cd2c1542b05ebf52f30374" kindref="member">startChildSpan</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ISpan&amp;<sp/>parent)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ISpan&gt;<sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a1f46ddf95a0ca74f7f5c33da4f70b827" kindref="member">startSpanFromHeaders</ref>(</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>name,</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1aa9fea57e60186f9e58ba71eae9e48f2d" kindref="member">injectContext</ref>(std::map&lt;std::string,<sp/>std::string&gt;&amp;<sp/>headers)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a26af6853eb8be8dcad2272e86bf431e1" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>serviceName,</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>endpoint)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1afe127229429cbe87d101848f9aa99840" kindref="member">shutdown</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a375ad00fc039f3ff2e6476cb34e2e6a3" kindref="member">isInitialized</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1ae8f1e2818a7404a7d2f8277add82fae3" kindref="member">flush</ref>()<sp/>noexcept<sp/>override;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>core::concerns::ProbeResult<sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a02152322fe76777931c00ccade57f4ff" kindref="member">isHealthy</ref>()<sp/>const<sp/>override;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Diagnostics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_tracer_stats" kindref="compound">TracerStats</ref><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1ac8cd4346626a8a44992438ed880aa153" kindref="member">stats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1observability_1_1_span_record" kindref="compound">SpanRecord</ref>&gt;<sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a595b011d53f4701d14b85c7008fccd4c" kindref="member">completedSpans</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1aa96ca8734902fd38df129dcfb56039b1" kindref="member">clearCompletedSpans</ref>();</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_observability_tracer_config" kindref="compound">ObservabilityTracerConfig</ref><sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1a31790b0c57ba929831d4f7a78ff7ba42" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>class<sp/><ref refid="classthemis_1_1observability_1_1_observability_tracer_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="classthemis_1_1observability_1_1_observability_tracer_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="230"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/observability/tracer.h"/>
+  </compounddef>
+</doxygen>

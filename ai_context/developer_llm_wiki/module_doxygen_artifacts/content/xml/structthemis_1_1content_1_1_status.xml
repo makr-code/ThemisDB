@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_status" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::Status</compoundname>
+    <includes refid="content__manager_8h" local="no">content_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_status_1ad928e99536fcf274bc98b58be559f9b2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::content::Status::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::content::Status::ok</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="143" column="10" bodyfile="include/content/content_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_status_1a5c2ad576e20088fef687f196eb74f694" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::Status::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::content::Status::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="144" column="17" bodyfile="include/content/content_manager.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1content_1_1_status_1a75c7ffdeccb08a9087db244f55ef3e7d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::content::Status::OK</definition>
+        <argsstring>()</argsstring>
+        <name>OK</name>
+        <qualifiedname>themis::content::Status::OK</qualifiedname>
+        <briefdescription>
+<para>OK. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements OK without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="150" column="19" bodyfile="include/content/content_manager.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1content_1_1_status_1a436e87233b7b5cacb9043db1bbb983ac" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1content_1_1_status" kindref="compound">Status</ref></type>
+        <definition>static Status themis::content::Status::Error</definition>
+        <argsstring>(std::string msg)</argsstring>
+        <name>Error</name>
+        <qualifiedname>themis::content::Status::Error</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+<para>Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_manager.h" line="157" column="19" bodyfile="include/content/content_manager.h" bodystart="157" bodyend="157"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_manager.h" line="142" column="1" bodyfile="include/content/content_manager.h" bodystart="142" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_status_1a436e87233b7b5cacb9043db1bbb983ac" prot="public" virt="non-virtual"><scope>themis::content::Status</scope><name>Error</name></member>
+      <member refid="structthemis_1_1content_1_1_status_1a5c2ad576e20088fef687f196eb74f694" prot="public" virt="non-virtual"><scope>themis::content::Status</scope><name>message</name></member>
+      <member refid="structthemis_1_1content_1_1_status_1a75c7ffdeccb08a9087db244f55ef3e7d" prot="public" virt="non-virtual"><scope>themis::content::Status</scope><name>OK</name></member>
+      <member refid="structthemis_1_1content_1_1_status_1ad928e99536fcf274bc98b58be559f9b2" prot="public" virt="non-virtual"><scope>themis::content::Status</scope><name>ok</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

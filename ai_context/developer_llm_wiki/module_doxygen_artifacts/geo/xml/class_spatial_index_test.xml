@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_spatial_index_test" kind="class" language="C++" prot="public">
+    <compoundname>SpatialIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_spatial_index_test_1a8e91c183cd198deb91d11627185aa97b" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; SpatialIndexTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>SpatialIndexTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="43" column="21" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_spatial_index_test_1a8db79d1cb24cf8fb390e46fa219bb663" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; SpatialIndexManager &gt;</type>
+        <definition>std::unique_ptr&lt;SpatialIndexManager&gt; SpatialIndexTest::spatial_mgr_</definition>
+        <argsstring></argsstring>
+        <name>spatial_mgr_</name>
+        <qualifiedname>SpatialIndexTest::spatial_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="44" column="21" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_spatial_index_test_1a5a17db71de25ddd0f7d5099a45c2bbbe" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpatialIndexTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SpatialIndexTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="15" column="10" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="15" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spatial_index_test_1a46a410c77ad249af17badb43b6e8e2da" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SpatialIndexTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>SpatialIndexTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="30" column="10" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="30" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_spatial_index_test_1a66e8d06bb65f842066a630a37fd979d1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool SpatialIndexTest::approxEqual</definition>
+        <argsstring>(double a, double b, double epsilon=1e-6)</argsstring>
+        <name>approxEqual</name>
+        <qualifiedname>SpatialIndexTest::approxEqual</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+          <defval>1e-6</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_spatial_index.cpp" line="39" column="10" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SpatialIndexTest</label>
+        <link refid="class_spatial_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SpatialIndexTest</label>
+        <link refid="class_spatial_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_spatial_index.cpp" line="13" column="1" bodyfile="tests/geo/test_spatial_index.cpp" bodystart="13" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_spatial_index_test_1a66e8d06bb65f842066a630a37fd979d1" prot="protected" virt="non-virtual"><scope>SpatialIndexTest</scope><name>approxEqual</name></member>
+      <member refid="class_spatial_index_test_1a8e91c183cd198deb91d11627185aa97b" prot="protected" virt="non-virtual"><scope>SpatialIndexTest</scope><name>db_</name></member>
+      <member refid="class_spatial_index_test_1a5a17db71de25ddd0f7d5099a45c2bbbe" prot="protected" virt="non-virtual"><scope>SpatialIndexTest</scope><name>SetUp</name></member>
+      <member refid="class_spatial_index_test_1a8db79d1cb24cf8fb390e46fa219bb663" prot="protected" virt="non-virtual"><scope>SpatialIndexTest</scope><name>spatial_mgr_</name></member>
+      <member refid="class_spatial_index_test_1a46a410c77ad249af17badb43b6e8e2da" prot="protected" virt="non-virtual"><scope>SpatialIndexTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

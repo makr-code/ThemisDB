@@ -1,0 +1,222 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_t_t_interval" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::TTInterval</compoundname>
+    <includes refid="truetime_8h" local="no">truetime.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_t_t_interval_1a9f59e525a74c742e217ee504912b27c0" prot="public" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::TTInterval::earliest</definition>
+        <argsstring></argsstring>
+        <name>earliest</name>
+        <qualifiedname>themis::sharding::TTInterval::earliest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="34" column="30" bodyfile="include/sharding/truetime.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_t_t_interval_1a8c1c0aed4e60f0106f89fcf0e9ea8871" prot="public" static="no" mutable="no">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::TTInterval::latest</definition>
+        <argsstring></argsstring>
+        <name>latest</name>
+        <qualifiedname>themis::sharding::TTInterval::latest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="35" column="30" bodyfile="include/sharding/truetime.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_t_t_interval_1a1301543c76151bae1be111f4ad98d78c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TTInterval::TTInterval</definition>
+        <argsstring>()</argsstring>
+        <name>TTInterval</name>
+        <qualifiedname>themis::sharding::TTInterval::TTInterval</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="37" column="5" bodyfile="include/sharding/truetime.h" bodystart="37" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_t_t_interval_1ab4d4eb07d52326beac4b609e619aaf1e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::TTInterval::TTInterval</definition>
+        <argsstring>(std::chrono::nanoseconds e, std::chrono::nanoseconds l)</argsstring>
+        <name>TTInterval</name>
+        <qualifiedname>themis::sharding::TTInterval::TTInterval</qualifiedname>
+        <param>
+          <type>std::chrono::nanoseconds</type>
+          <declname>e</declname>
+        </param>
+        <param>
+          <type>std::chrono::nanoseconds</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="40" column="5" bodyfile="include/sharding/truetime.h" bodystart="40" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_t_t_interval_1a3f1531a2b8244da6eeae284839c607ef" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::TTInterval::uncertainty</definition>
+        <argsstring>() const</argsstring>
+        <name>uncertainty</name>
+        <qualifiedname>themis::sharding::TTInterval::uncertainty</qualifiedname>
+        <briefdescription>
+<para>Get the uncertainty (epsilon) of this interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The half-width of the uncertainty interval </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="47" column="30" bodyfile="include/sharding/truetime.h" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_t_t_interval_1a9289c5e92ec517c4914fe31ad001ec35" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::nanoseconds</type>
+        <definition>std::chrono::nanoseconds themis::sharding::TTInterval::midpoint</definition>
+        <argsstring>() const</argsstring>
+        <name>midpoint</name>
+        <qualifiedname>themis::sharding::TTInterval::midpoint</qualifiedname>
+        <briefdescription>
+<para>Get the midpoint of the interval. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The best estimate of the true time </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="55" column="30" bodyfile="include/sharding/truetime.h" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_t_t_interval_1a4561ab9dcb165747cdabd4b50add9b4d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TTInterval::definitelyBefore</definition>
+        <argsstring>(const TTInterval &amp;other) const</argsstring>
+        <name>definitelyBefore</name>
+        <qualifiedname>themis::sharding::TTInterval::definitelyBefore</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_t_t_interval_1a1301543c76151bae1be111f4ad98d78c" kindref="member">TTInterval</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Check if this interval is definitely before another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other interval to compare </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if this.latest &lt; other.earliest </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="64" column="10" bodyfile="include/sharding/truetime.h" bodystart="64" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_t_t_interval_1abe6b7c43ef14e275dccecc992e40d5c3" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TTInterval::definitelyAfter</definition>
+        <argsstring>(const TTInterval &amp;other) const</argsstring>
+        <name>definitelyAfter</name>
+        <qualifiedname>themis::sharding::TTInterval::definitelyAfter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_t_t_interval_1a1301543c76151bae1be111f4ad98d78c" kindref="member">TTInterval</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Check if this interval is definitely after another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other interval to compare </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if this.earliest &gt; other.latest </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="73" column="10" bodyfile="include/sharding/truetime.h" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_t_t_interval_1a5ab70ff341c8bac873e170a0f8b6e313" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::TTInterval::maybeOverlaps</definition>
+        <argsstring>(const TTInterval &amp;other) const</argsstring>
+        <name>maybeOverlaps</name>
+        <qualifiedname>themis::sharding::TTInterval::maybeOverlaps</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_t_t_interval_1a1301543c76151bae1be111f4ad98d78c" kindref="member">TTInterval</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Check if intervals might overlap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The other interval to compare </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True if intervals could overlap </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/truetime.h" line="82" column="10" bodyfile="include/sharding/truetime.h" bodystart="82" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> interval representing a time with uncertainty bounds. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Inspired by Google Spanner&apos;s <ref refid="classthemis_1_1sharding_1_1_true_time" kindref="compound">TrueTime</ref> API, this provides a time interval [earliest, latest] where the true time is guaranteed to be within this range. </para>
+    </detaileddescription>
+    <location file="include/sharding/truetime.h" line="33" column="1" bodyfile="include/sharding/truetime.h" bodystart="33" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1abe6b7c43ef14e275dccecc992e40d5c3" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>definitelyAfter</name></member>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1a4561ab9dcb165747cdabd4b50add9b4d" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>definitelyBefore</name></member>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1a9f59e525a74c742e217ee504912b27c0" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>earliest</name></member>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1a8c1c0aed4e60f0106f89fcf0e9ea8871" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>latest</name></member>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1a5ab70ff341c8bac873e170a0f8b6e313" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>maybeOverlaps</name></member>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1a9289c5e92ec517c4914fe31ad001ec35" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>midpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1a1301543c76151bae1be111f4ad98d78c" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>TTInterval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1ab4d4eb07d52326beac4b609e619aaf1e" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>TTInterval</name></member>
+      <member refid="structthemis_1_1sharding_1_1_t_t_interval_1a3f1531a2b8244da6eeae284839c607ef" prot="public" virt="non-virtual"><scope>themis::sharding::TTInterval</scope><name>uncertainty</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_h_s_m_startup_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>HSMStartupIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_h_s_m_startup_integration_test_1abae0f3591d997724c45236b016c7e9ed" prot="protected" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; HSMStartupIntegrationTest::saved_prod_mode_</definition>
+        <argsstring></argsstring>
+        <name>saved_prod_mode_</name>
+        <qualifiedname>HSMStartupIntegrationTest::saved_prod_mode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="64" column="19" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_h_s_m_startup_integration_test_1a4e93684aefce6d0a1d644ad6f12b6905" prot="protected" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; HSMStartupIntegrationTest::saved_environment_</definition>
+        <argsstring></argsstring>
+        <name>saved_environment_</name>
+        <qualifiedname>HSMStartupIntegrationTest::saved_environment_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="65" column="19" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_h_s_m_startup_integration_test_1a5d87060b58e3415f4388cf93ac68300d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HSMStartupIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>HSMStartupIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="36" column="10" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="36" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_h_s_m_startup_integration_test_1a6bcb045f3844701f4a870c9a5d701591" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void HSMStartupIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>HSMStartupIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_hsm_startup_integration.cpp" line="49" column="10" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="49" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>HSM Startup Integration Tests</para>
+<para>These tests verify that:<orderedlist>
+<listitem><para>Startup warning is displayed when stub HSM is active</para>
+</listitem><listitem><para>Warning can be suppressed with <ndash/>allow-stub-hsm flag</para>
+</listitem><listitem><para>Production mode blocks stub HSM without flag</para>
+</listitem><listitem><para>Metrics are properly exposed </para>
+</listitem></orderedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HSMStartupIntegrationTest</label>
+        <link refid="class_h_s_m_startup_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HSMStartupIntegrationTest</label>
+        <link refid="class_h_s_m_startup_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_hsm_startup_integration.cpp" line="34" column="1" bodyfile="tests/security/test_hsm_startup_integration.cpp" bodystart="34" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_h_s_m_startup_integration_test_1a4e93684aefce6d0a1d644ad6f12b6905" prot="protected" virt="non-virtual"><scope>HSMStartupIntegrationTest</scope><name>saved_environment_</name></member>
+      <member refid="class_h_s_m_startup_integration_test_1abae0f3591d997724c45236b016c7e9ed" prot="protected" virt="non-virtual"><scope>HSMStartupIntegrationTest</scope><name>saved_prod_mode_</name></member>
+      <member refid="class_h_s_m_startup_integration_test_1a5d87060b58e3415f4388cf93ac68300d" prot="protected" virt="non-virtual"><scope>HSMStartupIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_h_s_m_startup_integration_test_1a6bcb045f3844701f4a870c9a5d701591" prot="protected" virt="non-virtual"><scope>HSMStartupIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

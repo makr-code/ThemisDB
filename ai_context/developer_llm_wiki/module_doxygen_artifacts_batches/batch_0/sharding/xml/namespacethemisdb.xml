@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb" kind="namespace" language="C++">
+    <compoundname>themisdb</compoundname>
+    <innernamespace refid="namespacethemisdb_1_1backpressure">themisdb::backpressure</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1streaming">themisdb::streaming</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB RAID Auto-Recovery Manager</para>
+<para>Automated monitoring and recovery system for RAID redundancy:<itemizedlist>
+<listitem><para>Background health checks</para>
+</listitem><listitem><para>Automatic degraded document detection</para>
+</listitem><listitem><para>Self-healing with configurable policies</para>
+</listitem><listitem><para>Alerting and notifications</para>
+</listitem></itemizedlist>
+</para>
+<para>ThemisDB Adaptive Backpressure Handshake Protocol</para>
+<para>Cassandra-inspired protocol for load-aware synchronization deferral. Defers sync operations during high load and replays them (WAL-like) during low-load periods.</para>
+<para>Features:<itemizedlist>
+<listitem><para>System load monitoring (CPU, Memory, I/O, Network)</para>
+</listitem><listitem><para>Adaptive sync strategies (IMMEDIATE, THROTTLED, DEFERRED)</para>
+</listitem><listitem><para>WAL-like persistent deferral queue</para>
+</listitem><listitem><para>Automatic replay during idle periods</para>
+</listitem><listitem><para>Integration with existing StreamSession</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Predictive Failure Detection</para>
+<para>ML-based system to predict shard failures before they occur:<itemizedlist>
+<listitem><para>SMART metrics monitoring</para>
+</listitem><listitem><para>Performance degradation detection</para>
+</listitem><listitem><para>Proactive failure prediction</para>
+</listitem><listitem><para>Integration with auto-recovery system</para>
+</listitem></itemizedlist>
+</para>
+<para>ThemisDB RAID Performance Optimizations</para>
+<para>Optimized implementations for:<itemizedlist>
+<listitem><para>Parallel I/O operations</para>
+</listitem><listitem><para>Zero-copy data paths</para>
+</listitem><listitem><para>SIMD-accelerated erasure coding</para>
+</listitem><listitem><para>Batch operations</para>
+</listitem></itemizedlist>
+</para>
+<para>ThemisDB RAID-like Redundancy Strategy</para>
+<para>Provides RAID-inspired data distribution and redundancy patterns for distributed sharding with configurable modes per collection.</para>
+<para>Supported Modes:<itemizedlist>
+<listitem><para>NONE: No redundancy, pure sharding</para>
+</listitem><listitem><para>MIRROR: Full replication (RAID-1 like)</para>
+</listitem><listitem><para>STRIPE: Data striping for throughput (RAID-0 like)</para>
+</listitem><listitem><para>STRIPE_MIRROR: Striping + Mirroring (RAID-10 like)</para>
+</listitem><listitem><para>PARITY: Erasure coding (RAID-5/6 like)</para>
+</listitem><listitem><para>GEO_MIRROR: Geo-distributed replication</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Inter-Shard Streaming Protocol</para>
+<para>Cassandra-inspired streaming architecture for efficient data transfer between shards during rebalancing, repair, and bootstrap operations.</para>
+<para>Features:<itemizedlist>
+<listitem><para>Chunk-based transfer with checksums</para>
+</listitem><listitem><para>LZ4/Zstd compression</para>
+</listitem><listitem><para>Bandwidth throttling</para>
+</listitem><listitem><para>Resume on interruption</para>
+</listitem><listitem><para>Multi-stream parallelization</para>
+</listitem><listitem><para>Progress tracking</para>
+</listitem></itemizedlist>
+</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0</para>
+<para>ThemisDB Predictive Failure Detection Implementation</para>
+<para>ThemisDB Inter-Shard Streaming Protocol Implementation</para>
+<para>Copyright (c) 2025 VCC-URN Project SPDX-License-Identifier: Apache-2.0 </para>
+    </detaileddescription>
+    <location file="include/sharding/auto_rebalancer.h" line="34" column="1"/>
+  </compounddef>
+</doxygen>

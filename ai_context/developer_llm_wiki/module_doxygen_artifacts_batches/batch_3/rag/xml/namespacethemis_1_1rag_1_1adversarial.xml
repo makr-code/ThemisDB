@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1adversarial" kind="namespace" language="C++">
+    <compoundname>themis::rag::adversarial</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_example" prot="public">themis::rag::adversarial::AdversarialExample</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1adversarial_1_1_adversarial_tester" prot="public">themis::rag::adversarial::AdversarialTester</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_adversarial_tester_config" prot="public">themis::rag::adversarial::AdversarialTesterConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_base_query" prot="public">themis::rag::adversarial::BaseQuery</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_input" prot="public">themis::rag::adversarial::EvaluationInput</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_evaluation_result" prot="public">themis::rag::adversarial::EvaluationResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_poisoning_result" prot="public">themis::rag::adversarial::PoisoningResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1adversarial_1_1_r_a_g_judge" prot="public">themis::rag::adversarial::RAGJudge</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_retrieved_document" prot="public">themis::rag::adversarial::RetrievedDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1adversarial_1_1_robustness_report" prot="public">themis::rag::adversarial::RobustnessReport</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>AdversarialStrategy</name>
+        <qualifiedname>themis::rag::adversarial::AdversarialStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da83d15c0f92336101d6622dff6de2ecf5" prot="public">
+          <name>SEMANTIC_PERTURBATION</name>
+          <briefdescription>
+<para>Rephrase without changing meaning. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21416b40ed4599ee8ade821a240d207b" prot="public">
+          <name>LEXICAL_SUBSTITUTION</name>
+          <briefdescription>
+<para>Swap synonyms or related words. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979dae4238401b6631673833656f3fd9219ca" prot="public">
+          <name>TYPO_INJECTION</name>
+          <briefdescription>
+<para>Introduce common spelling mistakes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da21cd4c42925b52573e258a6108e8bae3" prot="public">
+          <name>NEGATION_FLIP</name>
+          <briefdescription>
+<para>Add/remove negation to change semantics. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a6b190ab73593cfbb85a5dfcea0d1979da383ca755958edd3ae315417d2b663faa" prot="public">
+          <name>SYCOPHANCY</name>
+          <briefdescription>
+<para>Frame as leading/biased question. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Strategy used to generate adversarial queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="34" column="1" bodyfile="include/rag/adversarial_tester.h" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>VulnerabilityCategory</name>
+        <qualifiedname>themis::rag::adversarial::VulnerabilityCategory</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a766dfc728d8b22a68ac493acab34f2b2" prot="public">
+          <name>QUERY_INSTABILITY</name>
+          <briefdescription>
+<para>Score varies greatly for minor query changes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a730c71fdf9f9c1bd882bff11628d0150" prot="public">
+          <name>DOCUMENT_POISONING</name>
+          <briefdescription>
+<para>Poisoned documents affect faithfulness. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298aa6ac4db48d599bfc1c70461012c07c9c" prot="public">
+          <name>PROMPT_INJECTION</name>
+          <briefdescription>
+<para>Injection payload detected in documents. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a3525f904c1769a9549ea1f7fa4350982" prot="public">
+          <name>CONTEXT_OVERFLOW</name>
+          <briefdescription>
+<para>Long contexts degrade answer quality. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1adversarial_1a281ec023c21049bfa500cedcfd856298a383ca755958edd3ae315417d2b663faa" prot="public">
+          <name>SYCOPHANCY</name>
+          <briefdescription>
+<para>System agrees with incorrect leading premise. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Category of a detected adversarial vulnerability. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/adversarial_tester.h" line="45" column="1" bodyfile="include/rag/adversarial_tester.h" bodystart="45" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1rag_1_1adversarial_1a134032deb1bb8b6b29ed416bf2883638" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref></type>
+        <definition>EvaluationInput themis::rag::adversarial::sanitizeEvaluationInput</definition>
+        <argsstring>(const EvaluationInput &amp;input)</argsstring>
+        <name>sanitizeEvaluationInput</name>
+        <qualifiedname>themis::rag::adversarial::sanitizeEvaluationInput</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_evaluation_input" kindref="compound">EvaluationInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Evaluation Input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: themis::llm::prompt_safety::sanitizePromptWithSharedPolicy(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/adversarial_tester.cpp" line="39" column="17" bodyfile="src/rag/adversarial_tester.cpp" bodystart="39" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/adversarial_tester.h" line="20" column="1"/>
+  </compounddef>
+</doxygen>

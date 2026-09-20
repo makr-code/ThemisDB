@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_process_mining_1_1_variant_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ProcessMining::VariantInfo</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_variant_info_1acd1e74434df8fae8c2a706adfb328d96" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessMining::VariantInfo::variant_id</definition>
+        <argsstring></argsstring>
+        <name>variant_id</name>
+        <qualifiedname>themis::ProcessMining::VariantInfo::variant_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="260" column="13" bodyfile="include/analytics/process_mining.h" bodystart="260" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_variant_info_1a00221e3b8d926df0a00a382327f6b604" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessMining::VariantInfo::activities</definition>
+        <argsstring></argsstring>
+        <name>activities</name>
+        <qualifiedname>themis::ProcessMining::VariantInfo::activities</qualifiedname>
+        <briefdescription>
+<para>Aktivitätssequenz. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="261" column="21" bodyfile="include/analytics/process_mining.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_variant_info_1aba856c33c34126df35f1cb813282f668" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ProcessMining::VariantInfo::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::ProcessMining::VariantInfo::frequency</qualifiedname>
+        <briefdescription>
+<para>Anzahl Cases. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="262" column="13" bodyfile="include/analytics/process_mining.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_variant_info_1a2cfc315960625972dcc2002236047aed" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessMining::VariantInfo::percentage</definition>
+        <argsstring></argsstring>
+        <name>percentage</name>
+        <qualifiedname>themis::ProcessMining::VariantInfo::percentage</qualifiedname>
+        <briefdescription>
+<para>Anteil am Gesamt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="263" column="16" bodyfile="include/analytics/process_mining.h" bodystart="263" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_variant_info_1acb04f017f0795791f24cac81169554b6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::ProcessMining::VariantInfo::avg_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_duration_ms</name>
+        <qualifiedname>themis::ProcessMining::VariantInfo::avg_duration_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="264" column="16" bodyfile="include/analytics/process_mining.h" bodystart="264" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_process_mining_1_1_variant_info_1ae69aec5f58e048e809e2d1da9e293fb7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ProcessMining::VariantInfo::case_ids</definition>
+        <argsstring></argsstring>
+        <name>case_ids</name>
+        <qualifiedname>themis::ProcessMining::VariantInfo::case_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="265" column="21" bodyfile="include/analytics/process_mining.h" bodystart="265" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="259" column="5" bodyfile="include/analytics/process_mining.h" bodystart="259" bodyend="266"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_process_mining_1_1_variant_info_1a00221e3b8d926df0a00a382327f6b604" prot="public" virt="non-virtual"><scope>themis::ProcessMining::VariantInfo</scope><name>activities</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_variant_info_1acb04f017f0795791f24cac81169554b6" prot="public" virt="non-virtual"><scope>themis::ProcessMining::VariantInfo</scope><name>avg_duration_ms</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_variant_info_1ae69aec5f58e048e809e2d1da9e293fb7" prot="public" virt="non-virtual"><scope>themis::ProcessMining::VariantInfo</scope><name>case_ids</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_variant_info_1aba856c33c34126df35f1cb813282f668" prot="public" virt="non-virtual"><scope>themis::ProcessMining::VariantInfo</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_variant_info_1a2cfc315960625972dcc2002236047aed" prot="public" virt="non-virtual"><scope>themis::ProcessMining::VariantInfo</scope><name>percentage</name></member>
+      <member refid="structthemis_1_1_process_mining_1_1_variant_info_1acd1e74434df8fae8c2a706adfb328d96" prot="public" virt="non-virtual"><scope>themis::ProcessMining::VariantInfo</scope><name>variant_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

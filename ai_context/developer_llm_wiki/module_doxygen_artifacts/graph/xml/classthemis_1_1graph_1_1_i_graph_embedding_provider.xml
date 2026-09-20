@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_i_graph_embedding_provider" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::graph::IGraphEmbeddingProvider</compoundname>
+    <includes refid="graph__embedding_8h" local="no">graph_embedding.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_embedding_provider_1a345275f1d2fbead35a8bc768832a5ee8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::graph::IGraphEmbeddingProvider::~IGraphEmbeddingProvider</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IGraphEmbeddingProvider</name>
+        <qualifiedname>themis::graph::IGraphEmbeddingProvider::~IGraphEmbeddingProvider</qualifiedname>
+        <briefdescription>
+<para>IGraph Embedding Provider. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="79" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_embedding_provider_1aaa763c21165426201b69336e7d01187d" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_graph_embedding_stats" kindref="compound">GraphEmbeddingStats</ref></type>
+        <definition>virtual GraphEmbeddingStats themis::graph::IGraphEmbeddingProvider::train</definition>
+        <argsstring>(const GraphEmbeddingConfig &amp;config)=0</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::graph::IGraphEmbeddingProvider::train</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_embedding_config" kindref="compound">GraphEmbeddingConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="81" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_embedding_provider_1a5a72ee96dde5090eeb58d8f299bdc11b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1graph_1_1_node_embedding" kindref="compound">NodeEmbedding</ref></type>
+        <definition>virtual NodeEmbedding themis::graph::IGraphEmbeddingProvider::getEmbedding</definition>
+        <argsstring>(const std::string &amp;node_id)=0</argsstring>
+        <name>getEmbedding</name>
+        <qualifiedname>themis::graph::IGraphEmbeddingProvider::getEmbedding</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="83" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_embedding_provider_1aee7f8c6b9c67d2be1687f881358131ad" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1graph_1_1_node_embedding" kindref="compound">NodeEmbedding</ref> &gt;</type>
+        <definition>virtual std::vector&lt; NodeEmbedding &gt; themis::graph::IGraphEmbeddingProvider::getEmbeddings</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;node_ids)=0</argsstring>
+        <name>getEmbeddings</name>
+        <qualifiedname>themis::graph::IGraphEmbeddingProvider::getEmbeddings</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>node_ids</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="85" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_embedding_provider_1a9510fdcba4bb75a4967b4be643d5d706" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::pair&lt; std::string, float &gt; &gt; themis::graph::IGraphEmbeddingProvider::findSimilarNodes</definition>
+        <argsstring>(const std::string &amp;node_id, size_t k)=0</argsstring>
+        <name>findSimilarNodes</name>
+        <qualifiedname>themis::graph::IGraphEmbeddingProvider::findSimilarNodes</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="88" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_i_graph_embedding_provider_1a0f222157ef80b4a93cda7b6811f8415e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::graph::IGraphEmbeddingProvider::isModelTrained</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isModelTrained</name>
+        <qualifiedname>themis::graph::IGraphEmbeddingProvider::isModelTrained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_embedding.h" line="91" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_embedding.h" line="73" column="1" bodyfile="include/graph/graph_embedding.h" bodystart="73" bodyend="92"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_i_graph_embedding_provider_1a9510fdcba4bb75a4967b4be643d5d706" prot="public" virt="pure-virtual"><scope>themis::graph::IGraphEmbeddingProvider</scope><name>findSimilarNodes</name></member>
+      <member refid="classthemis_1_1graph_1_1_i_graph_embedding_provider_1a5a72ee96dde5090eeb58d8f299bdc11b" prot="public" virt="pure-virtual"><scope>themis::graph::IGraphEmbeddingProvider</scope><name>getEmbedding</name></member>
+      <member refid="classthemis_1_1graph_1_1_i_graph_embedding_provider_1aee7f8c6b9c67d2be1687f881358131ad" prot="public" virt="pure-virtual"><scope>themis::graph::IGraphEmbeddingProvider</scope><name>getEmbeddings</name></member>
+      <member refid="classthemis_1_1graph_1_1_i_graph_embedding_provider_1a0f222157ef80b4a93cda7b6811f8415e" prot="public" virt="pure-virtual"><scope>themis::graph::IGraphEmbeddingProvider</scope><name>isModelTrained</name></member>
+      <member refid="classthemis_1_1graph_1_1_i_graph_embedding_provider_1aaa763c21165426201b69336e7d01187d" prot="public" virt="pure-virtual"><scope>themis::graph::IGraphEmbeddingProvider</scope><name>train</name></member>
+      <member refid="classthemis_1_1graph_1_1_i_graph_embedding_provider_1a345275f1d2fbead35a8bc768832a5ee8" prot="public" virt="virtual"><scope>themis::graph::IGraphEmbeddingProvider</scope><name>~IGraphEmbeddingProvider</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

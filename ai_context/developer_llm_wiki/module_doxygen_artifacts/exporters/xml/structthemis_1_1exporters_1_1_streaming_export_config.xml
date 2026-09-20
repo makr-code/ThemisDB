@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_streaming_export_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::StreamingExportConfig</compoundname>
+    <includes refid="streaming__exporter_8h" local="no">streaming_exporter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_streaming_export_config_1af9528d05c725615b75315b958cd8bca4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::StreamingExportConfig::page_size</definition>
+        <argsstring></argsstring>
+        <name>page_size</name>
+        <qualifiedname>themis::exporters::StreamingExportConfig::page_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/streaming_exporter.h" line="59" column="12" bodyfile="include/exporters/streaming_exporter.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_streaming_export_config_1a5b33758ef288e36a8fe2231e204b5f86" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::StreamingExportConfig::max_buffer_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_buffer_bytes</name>
+        <qualifiedname>themis::exporters::StreamingExportConfig::max_buffer_bytes</qualifiedname>
+        <initializer>= 256 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/streaming_exporter.h" line="61" column="12" bodyfile="include/exporters/streaming_exporter.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_streaming_export_config_1a8e845e577df98933aa28acce42ff41cf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::StreamingExportConfig::checkpoint_path</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_path</name>
+        <qualifiedname>themis::exporters::StreamingExportConfig::checkpoint_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/streaming_exporter.h" line="63" column="17" bodyfile="include/exporters/streaming_exporter.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/streaming_exporter.h" line="58" column="1" bodyfile="include/exporters/streaming_exporter.h" bodystart="58" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_streaming_export_config_1a8e845e577df98933aa28acce42ff41cf" prot="public" virt="non-virtual"><scope>themis::exporters::StreamingExportConfig</scope><name>checkpoint_path</name></member>
+      <member refid="structthemis_1_1exporters_1_1_streaming_export_config_1a5b33758ef288e36a8fe2231e204b5f86" prot="public" virt="non-virtual"><scope>themis::exporters::StreamingExportConfig</scope><name>max_buffer_bytes</name></member>
+      <member refid="structthemis_1_1exporters_1_1_streaming_export_config_1af9528d05c725615b75315b958cd8bca4" prot="public" virt="non-virtual"><scope>themis::exporters::StreamingExportConfig</scope><name>page_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

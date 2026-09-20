@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_w_a_s_m_kernel_sandbox_test" kind="class" language="C++" prot="public">
+    <compoundname>WASMKernelSandboxTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_w_a_s_m_kernel_sandbox_test_1a712888c25d64bf1f5bae6f9a48bf1ab0" prot="protected" static="no" mutable="no">
+        <type>WASMKernelSandbox</type>
+        <definition>WASMKernelSandbox WASMKernelSandboxTest::sandbox</definition>
+        <argsstring></argsstring>
+        <name>sandbox</name>
+        <qualifiedname>WASMKernelSandboxTest::sandbox</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="53" column="23" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_w_a_s_m_kernel_sandbox_test_1ad49b6f769b95b1054615fc4b14458a47" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WASMKernelSandboxTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>WASMKernelSandboxTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="41" column="10" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="41" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_w_a_s_m_kernel_sandbox_test_1ae9e2ab445e5ec90d8f2b942450e99806" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void WASMKernelSandboxTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>WASMKernelSandboxTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="48" column="10" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="48" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>WASMKernelSandboxTest</label>
+        <link refid="class_w_a_s_m_kernel_sandbox_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>WASMKernelSandboxTest</label>
+        <link refid="class_w_a_s_m_kernel_sandbox_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" line="39" column="1" bodyfile="tests/gpu/test_gpu_wasm_kernel_sandbox.cpp" bodystart="39" bodyend="54"/>
+    <listofallmembers>
+      <member refid="class_w_a_s_m_kernel_sandbox_test_1a712888c25d64bf1f5bae6f9a48bf1ab0" prot="protected" virt="non-virtual"><scope>WASMKernelSandboxTest</scope><name>sandbox</name></member>
+      <member refid="class_w_a_s_m_kernel_sandbox_test_1ad49b6f769b95b1054615fc4b14458a47" prot="protected" virt="non-virtual"><scope>WASMKernelSandboxTest</scope><name>SetUp</name></member>
+      <member refid="class_w_a_s_m_kernel_sandbox_test_1ae9e2ab445e5ec90d8f2b942450e99806" prot="protected" virt="non-virtual"><scope>WASMKernelSandboxTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::TensorGraphRuntimeMetrics</compoundname>
+    <includes refid="retrieval__metrics_8h" local="no">retrieval_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1ad234b28ab9d30b5c7cb079e7bd0ce4f1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphRuntimeMetrics::mean_artifact_age_ms</definition>
+        <argsstring></argsstring>
+        <name>mean_artifact_age_ms</name>
+        <qualifiedname>themis::evaluation::TensorGraphRuntimeMetrics::mean_artifact_age_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="206" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="206" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a50704c43bda311009b7536ef6fb355f1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphRuntimeMetrics::mean_delta_lag</definition>
+        <argsstring></argsstring>
+        <name>mean_delta_lag</name>
+        <qualifiedname>themis::evaluation::TensorGraphRuntimeMetrics::mean_delta_lag</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="208" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="208" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a58e9bffb606be6902cbb5c274fdb9c45" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphRuntimeMetrics::mean_residual_error</definition>
+        <argsstring></argsstring>
+        <name>mean_residual_error</name>
+        <qualifiedname>themis::evaluation::TensorGraphRuntimeMetrics::mean_residual_error</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="210" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a1e386e1cd5c0dff1d1f8d6c02544fbac" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphRuntimeMetrics::rank_growth_fraction</definition>
+        <argsstring></argsstring>
+        <name>rank_growth_fraction</name>
+        <qualifiedname>themis::evaluation::TensorGraphRuntimeMetrics::rank_growth_fraction</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="212" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a4043165a2055f428c5292a4d633cfe06" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphRuntimeMetrics::rebuild_frequency</definition>
+        <argsstring></argsstring>
+        <name>rebuild_frequency</name>
+        <qualifiedname>themis::evaluation::TensorGraphRuntimeMetrics::rebuild_frequency</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="214" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="214" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a7ad5123a1490fa6f204821ca4102ba87" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphRuntimeMetrics::exact_fallback_frequency</definition>
+        <argsstring></argsstring>
+        <name>exact_fallback_frequency</name>
+        <qualifiedname>themis::evaluation::TensorGraphRuntimeMetrics::exact_fallback_frequency</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="216" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="216" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1af344bff17b1d9b516cd56ef1ebfabf86" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphRuntimeMetrics::summary_first_false_negative_rate</definition>
+        <argsstring></argsstring>
+        <name>summary_first_false_negative_rate</name>
+        <qualifiedname>themis::evaluation::TensorGraphRuntimeMetrics::summary_first_false_negative_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="218" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="218" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a8a9aba63f6f9317d4e1502fc99ad67d2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::TensorGraphRuntimeMetrics::graph_verified_finalization_pass_rate</definition>
+        <argsstring></argsstring>
+        <name>graph_verified_finalization_pass_rate</name>
+        <qualifiedname>themis::evaluation::TensorGraphRuntimeMetrics::graph_verified_finalization_pass_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/retrieval_metrics.h" line="220" column="12" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/retrieval_metrics.h" line="205" column="1" bodyfile="src/evaluation/include/retrieval_metrics.h" bodystart="205" bodyend="221"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a7ad5123a1490fa6f204821ca4102ba87" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphRuntimeMetrics</scope><name>exact_fallback_frequency</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a8a9aba63f6f9317d4e1502fc99ad67d2" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphRuntimeMetrics</scope><name>graph_verified_finalization_pass_rate</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1ad234b28ab9d30b5c7cb079e7bd0ce4f1" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphRuntimeMetrics</scope><name>mean_artifact_age_ms</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a50704c43bda311009b7536ef6fb355f1" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphRuntimeMetrics</scope><name>mean_delta_lag</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a58e9bffb606be6902cbb5c274fdb9c45" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphRuntimeMetrics</scope><name>mean_residual_error</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a1e386e1cd5c0dff1d1f8d6c02544fbac" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphRuntimeMetrics</scope><name>rank_growth_fraction</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1a4043165a2055f428c5292a4d633cfe06" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphRuntimeMetrics</scope><name>rebuild_frequency</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_tensor_graph_runtime_metrics_1af344bff17b1d9b516cd56ef1ebfabf86" prot="public" virt="non-virtual"><scope>themis::evaluation::TensorGraphRuntimeMetrics</scope><name>summary_first_false_negative_rate</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

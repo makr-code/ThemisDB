@@ -1,0 +1,728 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.17.0" xml:lang="en-US">
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service" kind="class"><name>themis::plugins::user_storage::Argon2idKeyDerivationService</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1afa529790d0764cd47059ba8e80ac42b4" kind="typedef"><name>DeriveKeyFn</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a5b6f0595431eb5fe774ee17e49e88cb9" kind="variable"><name>kMemoryCost</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ab2a26ab70ed84fc7f17ef35064d6c804" kind="variable"><name>kTimeCost</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a055ba60ba4d76f024cdf90116bcbbcff" kind="variable"><name>kParallelism</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ae79f1d884e15f57d27ebe5da824af811" kind="variable"><name>kKeyLength</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ac1f1ae9292607973c66b0f8b1966320c" kind="variable"><name>params_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1ac8c1a352be5319647609e214d1950d15" kind="function"><name>Argon2idKeyDerivationService</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abb8f3facbb9b8e0c110f0544b253cd49" kind="function"><name>~Argon2idKeyDerivationService</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1abacb854a43377d2afcb9c862a966b113" kind="function"><name>deriveKey</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a165e881f885e9ce9b42338632cc865d8" kind="function"><name>generateSalt</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a50de0cabb54d91a924104b0672d83e68" kind="function"><name>loadOrCreateSalt</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1aa4cb19e39968e18ba040e8de951e2f84" kind="function"><name>derive</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a4d7396feff10cc27fe3c499637fc3c2f" kind="function"><name>generateSalt</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_argon2id_key_derivation_service_1a003e4fd62e173c7109ecfc360b04a363" kind="function"><name>setDeriveKeyFn</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params" kind="struct"><name>themis::plugins::user_storage::Argon2idParams</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1aac45a2f9628a59a92aebf943d7632704" kind="variable"><name>memory_kb</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a2a6b4b9b7798d27d04b6a89feaf0e04a" kind="variable"><name>iterations</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a76f3e4dea220c957fad257ce1b5f8c11" kind="variable"><name>parallelism</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_argon2id_params_1a4cfb0a20ab7a41c146ac18286f180aac" kind="variable"><name>output_len</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager" kind="class"><name>themis::plugins::user_storage::CommandTimeoutManager</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager_1a132486fbee4b632e4340597d6776a8f9" kind="variable"><name>timeout_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager_1aa1983322a43e883e0f754e5b40da0091" kind="variable"><name>start_time_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager_1abe47983abca28eee59b0cdbf2f66f48f" kind="function"><name>CommandTimeoutManager</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager_1a0d3f76172cf503623c5ff4fc07cabf09" kind="function"><name>hasTimedOut</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager_1ab5c80c53fd378029fe96ec69eb34911f" kind="function"><name>getRemaining</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager_1ab3ac32ba7977c86e40f59654789cd896" kind="function"><name>getElapsed</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_command_timeout_manager_1a8ba50a65b13093c65d09f552d5844c6d" kind="function"><name>terminateProcess</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event" kind="struct"><name>themis::plugins::user_storage::DiagnosticEvent</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bb" kind="enum"><name>Type</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bbadabc4454f46ce1a176066aefd8f6a71b" kind="enumvalue"><name>MOUNT_STARTED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba0b10bc839c122d5c34355d7f0fdce4be" kind="enumvalue"><name>MOUNT_COMPLETED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba3a759b355791c7fdcd938efda8884bd8" kind="enumvalue"><name>MOUNT_FAILED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba2b43680b360a5b04663401bc241aa1e5" kind="enumvalue"><name>UNMOUNT_STARTED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba876c53d05878d49c3ff3f132c7c1dde3" kind="enumvalue"><name>UNMOUNT_COMPLETED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba4417fc0fa7311b95af6202cfc7ed2415" kind="enumvalue"><name>UNMOUNT_FAILED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba3dc85b41871ddb6808ce3526aacb828e" kind="enumvalue"><name>ROTATION_STARTED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba73dce36514cc20e22769c9276cc5f654" kind="enumvalue"><name>ROTATION_COMPLETED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba7a56be4c620afa716876c88fab31ea3a" kind="enumvalue"><name>ROTATION_FAILED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bba3f31c1de4158700e9052b9b10164d507" kind="enumvalue"><name>STALE_MOUNT_RECONCILED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a730b24c31616cb4545cb626cc4c264bbaa9fec51e89626d8b7c6400ce3f34cb17" kind="enumvalue"><name>ERROR_DETECTED</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1aaf58c163a4495d19cc802992b183bc6b" kind="variable"><name>type</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1aaafddc382dc3e887177395d2c6b55852" kind="variable"><name>timestamp_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a0d670a44a9ae081dd5b42599267ee165" kind="variable"><name>error_code</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1ab7cb32ab4384ee781816449462f837d5" kind="variable"><name>component</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a95df93b19a1661e1f6f0c0753e29cf40" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a1df203434ff1e52a61b47ae9aeffbdc9" kind="variable"><name>level</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1ad5475b2016ade4ad45d3a7179f74753f" kind="variable"><name>system_errno_val</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a293b6873d7274d5ce7144185b29d5b14" kind="variable"><name>remediation</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_diagnostic_event_1a688b18e03fd50f05b42ff96d8189fe68" kind="function"><name>toJsonString</name></member>
+  </compound>
+  <compound refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test" kind="class"><name>themis::user_storage_encrypted::test::E2EIntegrationTest</name>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a0ad08d65ed205b7fea7d806ca6467d64" kind="variable"><name>kTestDataDir</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a90a33946c83290c3529ef8fa47e64824" kind="variable"><name>kTestMntDir</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a44524a3c67e54d6401d1401fdbd8e021" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a76065b4f6e3fd8e569e716b8916b2b98" kind="function"><name>TearDown</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1a7c8d1cba0e1067764e59c0def7941624" kind="function"><name>MakeTempContainer</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_e2_e_integration_test_1ae09d9a3206fa4c21692c01f8b9c10994" kind="function"><name>MakeTempMountPoint</name></member>
+  </compound>
+  <compound refid="structthemis_1_1user__storage__encrypted_1_1_encrypted_mount_descriptor" kind="struct"><name>themis::user_storage_encrypted::EncryptedMountDescriptor</name>
+    <member refid="structthemis_1_1user__storage__encrypted_1_1_encrypted_mount_descriptor_1a4ef6caa263956b00f443b9acafa3013f" kind="variable"><name>container_path</name></member>
+    <member refid="structthemis_1_1user__storage__encrypted_1_1_encrypted_mount_descriptor_1a2874d3b54376ddfa52e1acb941513d10" kind="variable"><name>mount_point</name></member>
+    <member refid="structthemis_1_1user__storage__encrypted_1_1_encrypted_mount_descriptor_1afea093998cdb4cd3d9e47a461798a12d" kind="variable"><name>read_only</name></member>
+    <member refid="structthemis_1_1user__storage__encrypted_1_1_encrypted_mount_descriptor_1a87c29b9dce2eb5b27b6d90c037ab5cb0" kind="variable"><name>timeout</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface" kind="class"><name>themis::plugins::user_storage::EncryptionBackendInterface</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a7fcfc7bb7ebbe6aab54c6a6ee71f48db" kind="function"><name>~EncryptionBackendInterface</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6e6d63f00c64df2cdc4959b427ecd97b" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a9b82bb07f11eaab99e57d9ffd4775166" kind="function"><name>createContainer</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1adb183b46addf68150eaa2299e567fdec" kind="function"><name>mountContainer</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae7b0830d46716df3f02194712cc6861c" kind="function"><name>unmountContainer</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1aa2993add4aaccef2a244de4ad5a6a376" kind="function"><name>isMounted</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1ae4d6cd7940216534f2da29b2424fbb25" kind="function"><name>getBackendName</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a24c0538fc98746aad724928516175cd2" kind="function"><name>getBackendVersion</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_encryption_backend_interface_1a6ede73ebf8f28fcbe657bf335464e2d6" kind="function"><name>checkAvailability</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test" kind="class"><name>themis::plugins::user_storage::test::ErrorCodesTest</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test_1a2a5e62a2faf9d2ed091e1f00a9071e82" kind="variable"><name>captured_events</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1test_1_1_error_codes_test_1a6b5a86de212529584877e0f2d7c3869b" kind="function"><name>SetUp</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store" kind="class"><name>themis::plugins::user_storage::FileRotationStore</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1aff30a1882c71ceeb9461e8df58b9606d" kind="variable"><name>path_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a978b231d820c114219252ce1db6c1edd" kind="variable"><name>mtx_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a40339d034413680e211a47076d545324" kind="function"><name>FileRotationStore</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1abcb3fe92b6cd005a89f6398e304f3f1a" kind="function"><name>get</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1aba6e1f23c3b6ea5a46f391d10ed5ba28" kind="function"><name>put</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_file_rotation_store_1a0209f9f696a9637e1df80f06b0a0bead" kind="function"><name>load_json</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend" kind="class"><name>themis::plugins::user_storage::GocryptfsBackend</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a76abdf5f0f7c2086f96ae139f97f56e0" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a68daf323e6bf363f8b04c726c6fcb55a" kind="function"><name>GocryptfsBackend</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a5351e0d379b2fd9fb1bfa125ae903b16" kind="function"><name>GocryptfsBackend</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a9715e46cc06a9a6c91e5fa130b227e74" kind="function"><name>~GocryptfsBackend</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a21337816c8b532759835417425d73617" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1aeb6d7c08ff95c6d043b0f377d0be1431" kind="function"><name>createContainer</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ad370458d97a6d4e3759b27ac1f5af087" kind="function"><name>mountContainer</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a5521a44a722449b5cd9460be08453007" kind="function"><name>unmountContainer</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a731cc0c29cb03857714073f084e1535d" kind="function"><name>isMounted</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a572eb23016587e1495539617b40d9e8f" kind="function"><name>getBackendName</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1abe032546435bfce241a7bf1a4b004134" kind="function"><name>getBackendVersion</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a0c684b0192c158a359027e3000c81718" kind="function"><name>checkAvailability</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a27d21d4780061c027e3b6f8a74a56c17" kind="function"><name>executeCommandWithStdin</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a241306a03aff2471c5f99d04356e03fe" kind="function"><name>deliverKeyViaStdin</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1abc8c9f9c032c381ad566b5028b246f72" kind="function"><name>createPasswordFile</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ad36ce7ab6a36cbfc71c808c91c77f3f0" kind="function"><name>executeCommandWithStdin</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a6ef550d55b6ee4576cb789f70ede2c73" kind="function"><name>deliverKeyViaStdin</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a7c7e1cccb4a63f348c0a079950c94b25" kind="function"><name>executeCommandSafe</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1ae28071e506eaf33e536ad75f2b974f32" kind="function"><name>resolveKey</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a26e289a7bb64916f24316e76b6214161" kind="function"><name>directoryExists</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1a244505f02e36a5d030c5a95eb27f0b0a" kind="function"><name>createDirectory</name></member>
+  </compound>
+  <compound refid="class_gocryptfs_bench_fixture" kind="class"><name>GocryptfsBenchFixture</name>
+    <member refid="class_gocryptfs_bench_fixture_1a29f936cbb5ebf32ef2c6e93453bc3227" kind="variable"><name>backend</name></member>
+    <member refid="class_gocryptfs_bench_fixture_1aa67267d94a5cd241cfbf5ad797c9396e" kind="function"><name>SetUp</name></member>
+    <member refid="class_gocryptfs_bench_fixture_1a47f8dc2a2563767e2f374e4acb36a87c" kind="function"><name>TearDown</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_group" kind="struct"><name>themis::plugins::user_storage::Group</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_group_1a555c1a2e0bcdf125204a51c71616bfa3" kind="variable"><name>group_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_group_1a285c16dd925e990642c8268281f2d1f4" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_group_1acdb715487cfb2f237e87c6d5179b8f7a" kind="variable"><name>description</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_group_1a9498089e6d3ba7a8dbf9cfd70ac6aa16" kind="variable"><name>member_ids</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_group_1aa08807f244dd6788583caf462131e82d" kind="variable"><name>classification</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_group_1ae5f516611747b7520d9f38b54e223e4f" kind="variable"><name>created_at_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_group_1a006c06cdf2be5a592a22764d08c32111" kind="function"><name>Group</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status" kind="struct"><name>themis::plugins::user_storage::HealthStatus</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1af13b0799b5003dae5fc8d852374efa17" kind="variable"><name>healthy</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a3082bb4075049cdb8e7637c512416782" kind="variable"><name>message</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a1630a467e9f36158000b96e0e5f0bd52" kind="variable"><name>errors</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a86bdab924d919863d895dd4f7d3a1d94" kind="variable"><name>checked_at_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_health_status_1a39d56c1e6b68261ba7a1ad74615821f9" kind="function"><name>HealthStatus</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service" kind="class"><name>themis::plugins::user_storage::IKeyDerivationService</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1ad8faeafb85140dcee5c0f70e12540b4a" kind="function"><name>~IKeyDerivationService</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a03c2df5d557322b844aac5b3b7d55767" kind="function"><name>deriveKey</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a93819bc58b0097456c966372931fc353" kind="function"><name>generateSalt</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_key_derivation_service_1a33b9d6a0ce6df85c3fd4695be70d0d06" kind="function"><name>loadOrCreateSalt</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl" kind="struct"><name>themis::plugins::user_storage::GocryptfsBackend::Impl</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1afb16243c6a66e5fd5ea0d86daa2be35a" kind="variable"><name>gocryptfs_binary</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1a30479dc9a65576b5110b821f1671c1b8" kind="variable"><name>initialized</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1a6da139de7ba4395468fa2a4069d548d1" kind="variable"><name>kdf_service</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend_1_1_impl_1ab9750701ac0ce636449a5d76c6f6aacc" kind="function"><name>Impl</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl" kind="struct"><name>themis::plugins::user_storage::KeyRotationScheduler::Impl</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1ae3872666cf960379e3c2a499b7d8fbf2" kind="variable"><name>schedules</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1a6bd380ee627282eb4d61a8c53de8efdb" kind="variable"><name>mutex</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1a6265d8df4878cb813b000f3010905ca9" kind="variable"><name>running</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1aa6b25e6b2c6432474ceb6a7e967ed4e6" kind="variable"><name>scheduler_thread</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1a16f86c44344ad99952a1082e205c7b58" kind="variable"><name>check_interval_seconds</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1ac7cc2b91630c61ddbfe1b56c6dbf4f00" kind="variable"><name>store</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1abee09fbd7e35fb1be62d9d55d7e538e6" kind="variable"><name>cv</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1a615f351973c99fbd023827e7e5ecd0d0" kind="variable"><name>cv_mutex</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1_1_impl_1a1993db852cb12468e1a56b175477681c" kind="function"><name>Impl</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl" kind="struct"><name>themis::plugins::user_storage::MultiLevelEncryptedStorage::Impl</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1af423cc83a8a7e4f44241f22d6d53c37f" kind="variable"><name>level_configs</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1add28ebfdc898aec382734e186a7cdefb" kind="variable"><name>backends</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a6631bc0af512c4c0a540bce62bb86f81" kind="variable"><name>key_providers</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a42186026475ec6849292bb73ee444975" kind="variable"><name>mutex</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1a9634928a2d10cf8b5bbe106942e80258" kind="variable"><name>initialized</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1aae96a9d671d3c2f61502d5ef234e955c" kind="variable"><name>metrics</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1_1_impl_1ab83eb87807b68f79640c0e2fec4b3f28" kind="function"><name>Impl</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store" kind="class"><name>themis::plugins::user_storage::IRotationStore</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1ada6e0aa146692ef0ee67fecf789810e4" kind="function"><name>~IRotationStore</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1a595a61e5d12eebc68612a497506a7161" kind="function"><name>get</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1a06ccd778ecd0aa4023469e6bc2405128" kind="function"><name>put</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1ad88ee749b3a058d46c21f5d13b9db36f" kind="function"><name>save</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_i_rotation_store_1ac0f01843d8b943d833db66cf01893456" kind="function"><name>load</name></member>
+  </compound>
+  <compound refid="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request" kind="struct"><name>themis::user_storage_encrypted::KeyDerivationRequest</name>
+    <member refid="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1aa45f22e62d4d6a1dd034042a02d03164" kind="variable"><name>passphrase</name></member>
+    <member refid="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1aba0444c5f03f4b9cf37fa840f494b06a" kind="variable"><name>salt</name></member>
+    <member refid="structthemis_1_1user__storage__encrypted_1_1_key_derivation_request_1a1e69cf21bc8b32b533185105a807ff9d" kind="variable"><name>iterations</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service" kind="class"><name>themis::plugins::user_storage::KeyDerivationService</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1ad3f3dcc9c359238db5ef58233e8e5977" kind="function"><name>~KeyDerivationService</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1abf508cab4525d6e1524afb441aa505a9" kind="function"><name>derive</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_derivation_service_1a8d83a4462949fca86c59d8fbf4c9ade6" kind="function"><name>generateSalt</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler" kind="class"><name>themis::plugins::user_storage::KeyRotationScheduler</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a2aa75e5bb70b5fcba2cc50adff8afa13" kind="typedef"><name>RotationCallback</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a7ec59a9b9a5d13ac6382a428e2179a3f" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a7468938443f72c2daf0e308ddc48df93" kind="function"><name>KeyRotationScheduler</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a36d707bd416b1653e86bc34ab8855f88" kind="function"><name>~KeyRotationScheduler</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a746a06f38186e56c02b4c4e3eee914ea" kind="function"><name>setRotationStore</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a68795fc9fa0ca47cea858393cc98f40a" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1abe996f82fa9b6eae0c9be1ac04c50ee5" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1ab007c99a74114d75188d0950600ca3b9" kind="function"><name>scheduleRotation</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a78f54e41eb486780f8c6ef4d770caecc" kind="function"><name>cancelRotation</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1acd93004cddb00266f4387c7ab2deef54" kind="function"><name>isRotationDue</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aa0b15b61cb94b2acd50014c7df776c7e" kind="function"><name>getNextRotationTime</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1af6088bf8579e506b802d6d84235ea6a9" kind="function"><name>triggerRotation</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aa05fde7c1a6ea9106ab934448ed63ffa" kind="function"><name>schedulerLoop</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1aec26b0479ff44ff0a219778cf92ceace" kind="function"><name>getCurrentTimeMs</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1a3ea45b6af570f4e222509dd1feda4df5" kind="function"><name>persistRotationState</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_key_rotation_scheduler_1ae305fcaa723f1dc5cc60d4b16f7ddc22" kind="function"><name>loadRotationState</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config" kind="struct"><name>themis::plugins::user_storage::LevelConfig</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a5cc8f8d6b5c22de79ce3b8b4b55bd9b5" kind="variable"><name>level</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a6dacd13bf610c63ee39311896c49bbb6" kind="variable"><name>name</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a263124abe35c2ae571d3b308927b7785" kind="variable"><name>encrypted</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ae28c3640c6c3c75d8e2520860e9ae65e" kind="variable"><name>base_path</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a2b15027e65fb49feeac6c8e2e6170c77" kind="variable"><name>encrypted_dir</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1aea12d3e1e865ec0f40ad6609aa872a68" kind="variable"><name>mount_point</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a52bbb8ead10580c19474463b0f3b8bbf" kind="variable"><name>backend</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a175a7d416f9238c314b7b793b5e90bb7" kind="variable"><name>key_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a7094a19e75dc988c89f32785bc1d3314" kind="variable"><name>key_provider</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a79b2e91f2b8a6c71117a7ef2492c5677" kind="variable"><name>vault_addr</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a40ef214f7f1ec53558f2c040b794d826" kind="variable"><name>vault_mount</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1accf84386bc0b097951ffd47342604302" kind="variable"><name>hsm_library</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a50058d0d75c844333c772bd443d8ee89" kind="variable"><name>hsm_slot</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a3f6d2cf2e022ef0feda06b80a67fdbcd" kind="variable"><name>hsm_key_label</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a1467b2e7db38b4f47a7ac5f5521bd469" kind="variable"><name>rotation_enabled</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a978ffff626a98731d16d283517b9ab5f" kind="variable"><name>rotation_interval_days</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1a5a56ff920941fd90165f259420369944" kind="variable"><name>auto_rotate</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ac73a499ab2ea299a46ea56e1a606b111" kind="variable"><name>notification_email</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_level_config_1ae38b47aa4ece96dda240551d71884aac" kind="function"><name>LevelConfig</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage" kind="class"><name>themis::plugins::user_storage::MultiLevelEncryptedStorage</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1af7281bc2e43fa71a01f42dceb3b8e723" kind="variable"><name>impl_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aaa6e424315d79f977c5a0d543732e06b" kind="function"><name>MultiLevelEncryptedStorage</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a782a18784fecc28afa9ec4c59c7e9736" kind="function"><name>~MultiLevelEncryptedStorage</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aefeae6679cb23b1877f06baa93ebab4c" kind="function"><name>getName</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aebb535e58febe98da31cd7534dad5c60" kind="function"><name>getVersion</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1afc247d8095c16c4f7c558a41948416cd" kind="function"><name>getType</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1adc369e5b25dc80e59808340a86054bff" kind="function"><name>getCapabilities</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a9056c9e8d8577f67c243d1acdaa9b426" kind="function"><name>initialize</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a22e0ad5b3758521f9c748ec88e3a0d6d" kind="function"><name>shutdown</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a8e159a6a3867fb16bd162da59b8093de" kind="function"><name>getInstance</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a5d69f27b6b99a0743a8ba57a3325516b" kind="function"><name>createUser</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a8ca6c362ea9ba6e7413980fcf1a622cf" kind="function"><name>getUser</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a542ad9af2294b618ea37945db07021fa" kind="function"><name>updateUser</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a26e50290a92370e2df37f1bb5de41eac" kind="function"><name>deleteUser</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a94e615c5b74498118b45a05f07060117" kind="function"><name>listUsers</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a650f0adafb355165f866798a19de2428" kind="function"><name>createGroup</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab558c81047306f8288f60cbe28ccb121" kind="function"><name>getGroup</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a3620e3c8c41aacdbb8c271258f10fb48" kind="function"><name>updateGroup</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a4f248a6813f4e45448df71003a0e8333" kind="function"><name>deleteGroup</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aeff6c2f2ee49d177f1a848eb1c4890e6" kind="function"><name>listGroups</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1afa3be5b073c20a32f81cdf9a1ddc547c" kind="function"><name>mountAll</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0a40540963d0131a60170a16466a2ad9" kind="function"><name>unmountAll</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1aad9072fdecd4870dd45d763a1d745a4d" kind="function"><name>mountLevel</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ad8c0d38c1d36eba8e50edad1de87443d" kind="function"><name>unmountLevel</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0ac48787f3670dfd6dca8fb7858aa0da" kind="function"><name>rotateKey</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a33afcd0b473ebcae90f28344b98e0600" kind="function"><name>checkHealth</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0d06200e64a13add27f9688925f8545c" kind="function"><name>checkLevelHealth</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a73d02c2c9c6b17923c075bae242a6e73" kind="function"><name>getMetricsText</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a89df9e4bf8085607c9698fff39b7af6a" kind="function"><name>recordKeyRotation</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a5d8905febcee654ff848e3cab2af1b37" kind="function"><name>loadConfiguration</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1abf92e7a5f028cc62afc53e669a7fc54d" kind="function"><name>validateConfiguration</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ad525b327558797faf1411d21bf5f3124" kind="function"><name>initializeLevel</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a91b6f66603f00e02561e514ece775086" kind="function"><name>mountLevel</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a1f8e327a82538fb7fa75116e7b679af9" kind="function"><name>unmountLevel</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0e297cdf2f4d0880d416b1e585710a06" kind="function"><name>reconcileStaleMounts</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a3345005c5acfd6eb6d5eaf764320016c" kind="function"><name>getKeyProvider</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a305d49dfed875e715042d3828de3333c" kind="function"><name>writeUserFile</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab28632644c41eddc967dc1b8b85b3013" kind="function"><name>readUserFile</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ab258c512d1c74891bb3bc8f3e93d257d" kind="function"><name>writeGroupFile</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1af5d34e2504bcb430f9b1e70f1710ad97" kind="function"><name>readGroupFile</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a70e0be7c89f4a103078dfd48d4a3cdab" kind="function"><name>getUserPath</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a72ed5b0ac3afa87691e26bc68445fc8d" kind="function"><name>getGroupPath</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1ae8a7939cf390185b06dca04a96756439" kind="function"><name>getBasePath</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_multi_level_encrypted_storage_1a0028801f19d22c635fa50311139f58bd" kind="function"><name>reconcileStaleMounts</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_null_rotation_store" kind="class"><name>themis::plugins::user_storage::NullRotationStore</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_null_rotation_store_1a88c0dfb7926f3a1a4c339a9d66fa80d1" kind="function"><name>get</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_null_rotation_store_1aba706c6a3e361d152bf65ba963c7390b" kind="function"><name>put</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard" kind="class"><name>themis::plugins::user_storage::PipeGuard</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a93bc36841d4988e2ccb1f2c3f6c58757" kind="variable"><name>fds_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a27b261f6e23075c2321f71ae3a5ee330" kind="function"><name>PipeGuard</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a58423f8120b7b84b046869b2f5448fb5" kind="function"><name>~PipeGuard</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a8b4b1ee122ba765219b7f7a2e94da9f1" kind="function"><name>PipeGuard</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a7620b53c0d776241a187293e9b6471c0" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a6358faf4ccb74f99ac090a007fc92f8f" kind="function"><name>PipeGuard</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ac2ae5f1913b4c0082e540efee8f1890a" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ab9ee31f142cce06352918d3d03f0d9ab" kind="function"><name>isValid</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a87dbb839db8448fbbc4ac30a5432a16c" kind="function"><name>isReadOpen</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a6dbd4d79e04f5b3ff153f5576791c33a" kind="function"><name>isWriteOpen</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a0eda425f5a94ac4ba1b215a7b8edd923" kind="function"><name>readFd</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1ac3f5d05c42053fe021cbeb47a7b4965e" kind="function"><name>writeFd</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a896c8525b6fb6716f72b9328fb4ea4b0" kind="function"><name>operator[]</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a90770f047e79a57cfba2027157a57082" kind="function"><name>closeRead</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a319bb606ee9b72ed4189a5a65fef5a44" kind="function"><name>closeWrite</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a22a14d9be4df695431f2b94a5eaa031a" kind="function"><name>closeAll</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a58a6dec4d08243ee54775905c4eb1156" kind="function"><name>detach</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1afa256a83baad52e4305308d2cb91fb12" kind="function"><name>status</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_pipe_guard_1a2ab575ea5116499414c88d2ba30b70be" kind="function"><name>create</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_result" kind="class"><name>themis::plugins::user_storage::Result</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ad6c29152d2d33998c79df91a9371ca7e" kind="variable"><name>value_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a617030b4a66c4d55c286942e767ccc86" kind="variable"><name>success_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a815fd5160e3641d37f59a7af528069ba" kind="variable"><name>error_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ace4b464a8d992e72cb7abcb082c13102" kind="function"><name>Result</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1af1c87d42c06eb09af64dcc0f6dbe3c88" kind="function"><name>isSuccess</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1aaee944223e926304879d26bca8d5e4e8" kind="function"><name>isError</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3d0ff92c2dca2d4bb5fba6cd1ac7679a" kind="function"><name>value</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3bc30f194a09a3715f18de261c18e7bf" kind="function"><name>value</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a92ed1fb1c18f5941363d6469688db72d" kind="function"><name>error</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1abdc92ed0e932dd50cf2d80f32ef2bcd8" kind="function"><name>error</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a8321dff147befabdfa1da25618be3cc6" kind="function"><name>Result</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4" kind="class"><name>themis::plugins::user_storage::Result&lt; void &gt;</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a7acd3fb756caa570a0f026e6a31400cd" kind="variable"><name>success_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1afe4a688c6fe9ffc95adf5de8ddabb165" kind="variable"><name>error_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1ad6c29152d2d33998c79df91a9371ca7e" kind="variable"><name>value_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4c15b85140474839709e516bcb45246b" kind="function"><name>Result</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a61ee7944cf93e6f139cad12b74583478" kind="function"><name>isSuccess</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a4d0ccee52dc1c7ac1e9d6cfec4b97a09" kind="function"><name>isError</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1a2b1c117656cd0748375fcfbb491a4f11" kind="function"><name>error</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_1a3d0ff92c2dca2d4bb5fba6cd1ac7679a" kind="function"><name>value</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_result_3_01void_01_4_1ae0231c67ff6b6cc6bfe1e35ad9029acc" kind="function"><name>error</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule" kind="struct"><name>themis::plugins::user_storage::RotationSchedule</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a56c8db313d906366a81ec0bbd5513100" kind="variable"><name>level</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a756a2ef1cc0e6e3234936eb606d0112b" kind="variable"><name>interval_days</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1afd110f749eee66fc9dcd1b231d5de1b6" kind="variable"><name>auto_rotate</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a603b6412859ab771907b3712fb15836a" kind="variable"><name>callback</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1a21623f069dbb13bbda2e92c6b9f7e78d" kind="variable"><name>last_check_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_rotation_schedule_1ab7676873c4ea2b406aa4caf59bd9dd73" kind="function"><name>RotationSchedule</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics" kind="struct"><name>themis::plugins::user_storage::StorageMetrics</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics_1a4c9cda5ba98fdf19624f28fdbcaad1be" kind="variable"><name>mounts_active</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics_1afd87d36effef03adfea568d725ae0c2f" kind="variable"><name>mount_ops_total</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics_1acec4a69433906e74e744ad84289974b4" kind="variable"><name>unmount_ops_total</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics_1afdc895f0a382c497f5d532d3339f1e9d" kind="variable"><name>key_rotations_total</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics_1a7252a3441e85c16cfddee783c261d53b" kind="variable"><name>container_size_bytes</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics_1a2c9418c8c8a96388a861d88f8811fd2a" kind="function"><name>StorageMetrics</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics_1abc23d3c88f9a1c9a9ecaefe1abddee04" kind="function"><name>StorageMetrics</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_storage_metrics_1aa0e62d9a440083a63d7857ee4dcb34cf" kind="function"><name>operator=</name></member>
+  </compound>
+  <compound refid="struct_store_seed_fixture" kind="struct"><name>StoreSeedFixture</name>
+    <member refid="struct_store_seed_fixture_1a29b9065f9ba4194d181f9b8c7e056658" kind="function"><name>StoreSeedFixture</name></member>
+  </compound>
+  <compound refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test" kind="class"><name>themis::user_storage_encrypted::test::StressTest</name>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1aec411594218ca17ef610651bb6204826" kind="variable"><name>kTestDataDir</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a2150ac8dfb4cb739c4fcc3ded0fbe9f0" kind="variable"><name>kTestMntDir</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a57eb1e851fce9db588c56df858a9bbca" kind="variable"><name>operation_count</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1aad696264e51ce282d126409882f52def" kind="variable"><name>stop_operations</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1ad72a9f7cd7e4070308d8cc229de66e6f" kind="variable"><name>error_mutex</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a368ddff3749259311855515029e4360c" kind="variable"><name>errors</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1ab3c02be71f7c8b5963f5799fdc2c9ea0" kind="function"><name>SetUp</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a37d51c6fb1e234859fe4124a4ab6f19c" kind="function"><name>TearDown</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a11ff0f1ec6192ccd3812aaee9423c011" kind="function"><name>MakeTempContainer</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a645e716995143c189673d3effed084ee" kind="function"><name>MakeTempMountPoint</name></member>
+    <member refid="classthemis_1_1user__storage__encrypted_1_1test_1_1_stress_test_1a31849a2c6057b8fb03f7efa348a033ea" kind="function"><name>RecordError</name></member>
+  </compound>
+  <compound refid="class_stub_encrypted_store_bench" kind="class"><name>StubEncryptedStoreBench</name>
+    <member refid="class_stub_encrypted_store_bench_1a0fb938b13d472f5307a2ebbee6ea938c" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_encrypted_store_bench_1ab870cf66f4bc9e00a3fa902f418eaf0a" kind="variable"><name>store_</name></member>
+    <member refid="class_stub_encrypted_store_bench_1ac0a9aec7ac804bab5a8de9d406e30d93" kind="function"><name>write</name></member>
+    <member refid="class_stub_encrypted_store_bench_1a95ba71c6718ddff915928b1b0c6d1379" kind="function"><name>read</name></member>
+    <member refid="class_stub_encrypted_store_bench_1a59bd3e7c8ea7fdf84fcfca666399a765" kind="function"><name>rotateKey</name></member>
+    <member refid="class_stub_encrypted_store_bench_1a662b49b10b2e5e120f3fabe7c73135ca" kind="function"><name>encrypt</name></member>
+    <member refid="class_stub_encrypted_store_bench_1a51af6ed1845b2d17243ce46117de2ae0" kind="function"><name>decrypt</name></member>
+  </compound>
+  <compound refid="class_stub_encrypted_store_stress" kind="class"><name>StubEncryptedStoreStress</name>
+    <member refid="class_stub_encrypted_store_stress_1a66033af1e08322d69242c16e2747e2a4" kind="variable"><name>mu_</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a22fc5300a907f6491f402019f76fcc15" kind="variable"><name>store_</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a6e355a770e97204a46d788bbae9dbe4e" kind="variable"><name>write_count_</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a97c43945c6f5ddfa9e5ce73d42bc06b3" kind="variable"><name>rotation_count_</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a3b818df1752c54aa2c7334d3d149e221" kind="variable"><name>enc_count_</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a564f4d4d58cc9e57e158ab67da358869" kind="variable"><name>dec_count_</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a311cfc46e9392290660655dad40be77c" kind="function"><name>write</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a25d2ba60aa2833f5919a58f0902aec74" kind="function"><name>rotateKey</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a4d76cdaec6aa97c477fea57bd76edc52" kind="function"><name>encrypt</name></member>
+    <member refid="class_stub_encrypted_store_stress_1ab42a39ad79ff9cbbe1bb8a4226fb37dc" kind="function"><name>decrypt</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a0bdad7977fb38695f370546e72ab97f6" kind="function"><name>writeCount</name></member>
+    <member refid="class_stub_encrypted_store_stress_1ab34a36815d93fdc3932a27f1d71d887b" kind="function"><name>rotationCount</name></member>
+    <member refid="class_stub_encrypted_store_stress_1accd2f1cc0203e724f9fbcb179b37669e" kind="function"><name>encCount</name></member>
+    <member refid="class_stub_encrypted_store_stress_1a2bc83d338b317dc9973e58378bfe78e2" kind="function"><name>decCount</name></member>
+  </compound>
+  <compound refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation" kind="class"><name>themis::plugins::user_storage::TimedFileOperation</name>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a151fc0f24bd65a15a967e2552b600209" kind="typedef"><name>DurationMs</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a182f779252b8b213ad318d4846855341" kind="typedef"><name>DurationS</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1abe39f7a1d48bf4ce4c053a4b42da4011" kind="variable"><name>fd_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a683e08f102065e5efe19a28acdd73e1f" kind="variable"><name>timeout_ms_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af93c461b7dc3e060b3862187d19d594a" kind="variable"><name>policy_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a11dcebacdb6f0d88a508c55f585d5e22" kind="variable"><name>start_time_</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1af7b912d4fbe1953c8326e90496a30430" kind="function"><name>TimedFileOperation</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ad3ebf6a37d661edce8ad2c9d2058a364" kind="function"><name>TimedFileOperation</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a28021bd89864753048d702e180e5fd4b" kind="function"><name>TimedFileOperation</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a166cb4d116905426ff3f358cf9950617" kind="function"><name>operator=</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aead6978529c2aaa559233974401dd777" kind="function"><name>~TimedFileOperation</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a7f054bfece8c3de9e89eb27f62d68bb7" kind="function"><name>read</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ab0492fb3140a10245d365315c2479553" kind="function"><name>write</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a616a2f939e0258376b216d073492ad0d" kind="function"><name>hasTimedOut</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1a063da9c9359a35f55f5b69f9c938f2c3" kind="function"><name>fd</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aa267a936b5d7d6688f28b81ef3ccc6db" kind="function"><name>timeoutMs</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1aa4ffc8f74023466a2977f8e01da32c83" kind="function"><name>getRemainingTimeoutMs</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1ae7b01899a87b00d9e6049322b57142d2" kind="function"><name>poll_for_readability</name></member>
+    <member refid="classthemis_1_1plugins_1_1user__storage_1_1_timed_file_operation_1acb3c8b8d47bba3674524660e2392a66c" kind="function"><name>poll_for_writability</name></member>
+  </compound>
+  <compound refid="structthemis_1_1plugins_1_1user__storage_1_1_user" kind="struct"><name>themis::plugins::user_storage::User</name>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a3e1311cd428909557de063263ba19c88" kind="variable"><name>user_id</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a00cfba6b96c12f884946f334522d6cf7" kind="variable"><name>username</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1ae0a16a8f9b953dc0ae91a0adb03534cc" kind="variable"><name>email</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1af2ec314abdd976488024df37973d8a85" kind="variable"><name>full_name</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a7158c50273df23fb161023901d86652a" kind="variable"><name>roles</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a861427143f2238e76ab7013268e60365" kind="variable"><name>classification</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1ab3a4d5e517e08bfb426f9fb98f353838" kind="variable"><name>created_at_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a70815aa7ca85f5130e5a429e9aaa4e89" kind="variable"><name>updated_at_ms</name></member>
+    <member refid="structthemis_1_1plugins_1_1user__storage_1_1_user_1a8d897f8533a80a0e67d4f3fa1614f9a6" kind="function"><name>User</name></member>
+  </compound>
+  <compound refid="namespacebenchmark" kind="namespace"><name>benchmark</name>
+  </compound>
+  <compound refid="namespacetesting" kind="namespace"><name>testing</name>
+  </compound>
+  <compound refid="namespacethemis" kind="namespace"><name>themis</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench" kind="namespace"><name>themis::bench</name>
+  </compound>
+  <compound refid="namespacethemis_1_1bench_1_1use" kind="namespace"><name>themis::bench::use</name>
+    <member refid="namespacethemis_1_1bench_1_1use_1a8d002d88976a3456a469efd318222732" kind="variable"><name>kCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a15c8ee6770f16cd21cdb68f8f299add6" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1ad592c82ccdbac87f1bff341d93b11cbb" kind="variable"><name>kBenchDataDir</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a8d002d88976a3456a469efd318222732" kind="variable"><name>kCanonicalSeed</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a15c8ee6770f16cd21cdb68f8f299add6" kind="variable"><name>kRepetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1ae640ea755b4c143cda8842f55d4e11ef" kind="function"><name>ComputePercentile</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a3956cc7939112ce3e7c078c631835052" kind="function"><name>BM_USK_P5_01_MountLatency</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1addc543d1bbac2a9793c6a1d5c1b636fa" kind="function"><name>Repetitions</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1aa466352efe5077029b11bb5b50745c7a" kind="function"><name>BM_USK_P5_02_UnmountLatency</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a050643fd70333646dab2badc9ca23743" kind="function"><name>BM_USK_P5_03_KeyDerivationLatency</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1ae2a1d52c65fbb07471c1dcfed4ac1102" kind="function"><name>BM_USK_P5_04_KeyRotationLatency</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a6cd325bd873b8457fe1edbd8cbb82322" kind="function"><name>BM_USK_P5_05_ConcurrentMountThroughput</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1ac79bef8f94bbe79f452ef8b78e964268" kind="function"><name>BM_USK_P5_06_EncryptedWriteThroughput_1MB</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1ad1df94b96e13b7e1c186f443fd5f9f74" kind="function"><name>BM_USK_P5_06_EncryptedWriteThroughput_10MB</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a7a1063c36827f8b34bcba3353d922072" kind="function"><name>BM_USK_P5_06_EncryptedWriteThroughput_100MB</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a276ab7330d3135f36e5a9c8aebbce907" kind="function"><name>BM_USE01_ErrorEnumCast</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1aa8bcc72b39c70be1d9f70e5f891bf321" kind="function"><name>BM_USE02_SwitchDispatch</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1ae0d91ea38d8910a5588bfd6797bafcc3" kind="function"><name>BM_USE03_StructAlloc</name></member>
+    <member refid="namespacethemis_1_1bench_1_1use_1a7107857a2f3cc94aa9f9267ebf57196e" kind="function"><name>BM_USE04_BatchCast</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins" kind="namespace"><name>themis::plugins</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1user__storage" kind="namespace"><name>themis::plugins::user_storage</name>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37c" kind="enum"><name>ErrorCode</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cad0749aaba8b833466dfcbb0428e4f89c" kind="enumvalue"><name>SUCCESS</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca34c3a659d7f4b0319042e2c3e95723b6" kind="enumvalue"><name>BACKEND_NOT_AVAILABLE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca55dbabe1034eb45e670e9f710de98b8c" kind="enumvalue"><name>FUSE_NOT_AVAILABLE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca9cf456609a29e64011153cacbf60a9d2" kind="enumvalue"><name>MOUNT_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cac0adaf09304db9fae8846613cbcbb628" kind="enumvalue"><name>UNMOUNT_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca3a759b355791c7fdcd938efda8884bd8" kind="enumvalue"><name>MOUNT_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca4417fc0fa7311b95af6202cfc7ed2415" kind="enumvalue"><name>UNMOUNT_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cafc79d48f26d702c6ec0a1db8a2620463" kind="enumvalue"><name>STALE_MOUNT_DETECTED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca15fb0118b7c6e191512c4aa93c3df8a9" kind="enumvalue"><name>FUSE_PERMISSION_DENIED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca8510b12aec57178654fd55ac5c9916c9" kind="enumvalue"><name>MOUNT_POINT_INVALID</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca44e0fc9c698d79ccb492d2a6e7f28a59" kind="enumvalue"><name>ENCRYPTED_DIR_INVALID</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cae9d01bf150cbe65cd34dd89d490e96ee" kind="enumvalue"><name>STDIN_DELIVERY_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca94cd801ec80681e0cb50312efd76a360" kind="enumvalue"><name>STDIN_DELIVERY_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca20f2c8a1c096ad69b2f155da0bb6baea" kind="enumvalue"><name>COMMAND_EXECUTION_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca94aa8cff4ffade879161c9663c2214f7" kind="enumvalue"><name>ROTATION_CALLBACK_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cae416b8eff3c6a6336d03ffeb338c877d" kind="enumvalue"><name>ROTATION_CALLBACK_TIMEOUT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca51cc33fb2139de7fdc894c3519a3dd3b" kind="enumvalue"><name>ROTATION_CALLBACK_EXCEPTION</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca5c3e98fc66bdeaebd4e0766b464a3354" kind="enumvalue"><name>ROTATION_STORE_FAILURE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca2e264bdbc8dfd09afb42ae34c3449c87" kind="enumvalue"><name>ROTATION_INTERVAL_INVALID</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca18b336303b99c847e6a85cfc9ccaaa51" kind="enumvalue"><name>ROTATION_LEVEL_NOT_SCHEDULED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca12588034a6ce426e0230da6dfed80d20" kind="enumvalue"><name>LEVEL_INITIALIZATION_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cad2f91391e20d5634ed2f0307b9adda63" kind="enumvalue"><name>LEVEL_MOUNT_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca27afda7a752e34c3a757afc3e909b79b" kind="enumvalue"><name>LEVEL_UNMOUNT_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca91dd422ec080bebc525cf0eb940860f9" kind="enumvalue"><name>LEVEL_CONFIG_INVALID</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca94d1f60bf55a3b365e78e905189ac42f" kind="enumvalue"><name>KEY_PROVIDER_NOT_FOUND</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cae32219f87b79c73231a5873c3aed766b" kind="enumvalue"><name>KEY_PROVIDER_ERROR</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37caeafe8375d9b5fc0d8dbfcba3cdd69b07" kind="enumvalue"><name>KDF_INVALID_MASTER_KEY</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca464e8e559a1c2a248903ac29bf6e505e" kind="enumvalue"><name>KDF_SALT_GENERATION_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca103dc876643a859ad4a5bbd18d1ec3fc" kind="enumvalue"><name>KDF_SALT_PERSISTENCE_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca8d6a7ce6828adb752f284a066aed5102" kind="enumvalue"><name>KDF_DERIVATION_FAILED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca0b2ce5a7eeded141808050fb6d7a5499" kind="enumvalue"><name>KDF_INVALID_PARAMETERS</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cad3bd536b65f3c0a655e710a264f70d2b" kind="enumvalue"><name>PATH_EMPTY</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cabe8b2beb21df852a899b63249f1f909e" kind="enumvalue"><name>PATH_NOT_ABSOLUTE_OR_RELATIVE</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca04a0156a6350a2d7a1aff3bff5d9d385" kind="enumvalue"><name>PATH_TRAVERSAL_DETECTED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca3f8ad5905cedf44904514dc88f4ee616" kind="enumvalue"><name>PATH_INVALID_CHARACTERS</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37cab069c730820051ce3ff3f1eea5f78700" kind="enumvalue"><name>PATH_SYMLINK_TO_PARENT</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29224b09f5421361e2820f2ad2f7f37ca255df50c140519133f1489ab44a389d9" kind="enumvalue"><name>PERMISSION_DENIED</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28" kind="enum"><name>SecurityLevel</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28a6a68f4e10a043ceb2bf7f27f93f8ca0f" kind="enumvalue"><name>OFFEN</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28a7004ee333fde5198f25e2e9f17781e51" kind="enumvalue"><name>VS_NFD</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28ab2016af253087887ccb510d7543ed514" kind="enumvalue"><name>GEHEIM</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a5fe9068ebf2d8aa837e4480acaedaa28aab518b2123485e57a2099a471943ffeb" kind="enumvalue"><name>STRENG_GEHEIM</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908" kind="enum"><name>IoTimeoutPolicy</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908abab0767e88027de9944aa55c24c8387a" kind="enumvalue"><name>kAbsolute</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a4ab6cc5ffd4d37e7d4013bb387b52908a88ca00ad71a74ac2f70001ec14d0c29f" kind="enumvalue"><name>kPerOperation</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a15d774467f9f031f61715f51192570b4" kind="typedef"><name>DiagnosticEventHandler</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a7b3bce06473584831e139c5b32a2e778" kind="typedef"><name>Argon2idContainerKeyService</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1ac5935df3fcf8200e56cdf7d942efcfc4" kind="variable"><name>s_kdf_fn_mutex_</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a047abb750934b228c13348c8fe43d6d5" kind="variable"><name>s_derive_key_fn_</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a5dc0b6663f98c1e960f1d6d1a0731a2b" kind="function"><name>errorCodeToString</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a9a49b4eeed0ff59ee775fee9986cdbce" kind="function"><name>registerDiagnosticEventHandler</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1aeb249a981b2f5fc4741e2d0e22f64d1b" kind="function"><name>emitDiagnosticEvent</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1a29902bdf997d755c8e98ebfc83215697" kind="function"><name>securityLevelToString</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1ac96958f13caa26cb8dbe519ae7b24ba9" kind="function"><name>stringToSecurityLevel</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1user__storage_1_1_0d005166074022122332075232003111242113056050020150" kind="namespace"><name>themis::plugins::user_storage::@005166074022122332075232003111242113056050020150</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1user__storage_1_1_0d157145267066264247054361266231343235216251102132" kind="namespace"><name>themis::plugins::user_storage::@157145267066264247054361266231343235216251102132</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1user__storage_1_1_0d251005120243005021261315251066020231010226102177" kind="namespace"><name>themis::plugins::user_storage::@251005120243005021261315251066020231010226102177</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1user__storage_1_1_command_argument_validator" kind="namespace"><name>themis::plugins::user_storage::CommandArgumentValidator</name>
+  </compound>
+  <compound refid="namespacethemis_1_1plugins_1_1user__storage_1_1test" kind="namespace"><name>themis::plugins::user_storage::test</name>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a4fd69cfec4f29c59ece2c0c2e090a3da" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1ae8527d5f9e27a553bee15f14b8ccc7cc" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aac1b589130cb7082c47271f397fd898d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a6120920a1dafe5b89b5e9642afdb3007" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a0feffb99957c9a10be59ca7dc07bedcf" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a51b6b8c6f5826c30461547fb7b8dad40" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aede1ae361ed71afebc6838636425d62a" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a9c66d8a199829177ef4aa75b5c69cb5d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aca3841f61c2e6ae89c4eca6c8f555e86" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a4d6d519d4d2b3a8f9086aabb0aa1bd88" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aeaa819ec584e2706b2fbf0e601476d1c" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a12504ae3fac692ab7b1cba3591d108b7" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a1a0e96957ab35cb931d190d3c5c6d196" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a984d409722548e4f897ee7bc493384ba" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aae5ddc4332f2a3661877547ba761f3fe" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a53ab2b2c55820e003ee0f3f6dc026869" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a9496bd9607eac917e374d00ce393a12b" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a751871b65a72d7ce02ddeb4436a918d4" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1abc607621f509f33d18f2f28428b47366" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1adc6caf2fed2690b88a6f4c626139be31" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1ac46d7473afe9c2adb81c9d68b4f50bd5" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a5a7bef7f0c7d4674fcd79b8043d6b33a" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a4567ba99a85d4938f036c07557c5af62" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a1bea060eba4701ae09fc9d01d5b8b6cf" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aaa1f612641d70810ab41dfdefebe3429" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a5338e97532960ff28e685c2f6af18745" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aaba987aa962cb1b0ac61a8fc73a9780d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1af3b49175f6dcdafc74c57444baac6e8a" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aa057bfcf8a9edaae13df5c02d266c2a9" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1af7f85c98047fe67012ca8bb9dd21dc02" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a8069323281aacc8a82b5c49f787a688c" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1acf0e4f125fa8d848ab886dc7e8ca0dfd" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1add1e4390a4f642cfe81fcf80652e8374" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a9a4ffac1bb21ea4cdf230a2dfddec561" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a2173b12d0abd05cf74f2edd5fdefbd8e" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1aa7c1f4dec9c9c4da45a6e9802747154d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1af251304502abd8f2beaf68d8ffa1ea96" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a8edbd8cc5ac72102407d2ebc2a98a71f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a53e96aa9a28e1e54b47273aac682e607" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a7c3f24a45f14b5f693dc05c1b94a03ff" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1acb3e9fe1bc0c7539fb7526b68a0a3a6b" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a5134c4e8cc100565b91f63ee43bf537f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1ab0ee954e5d854381a2a7d4a1d15af076" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1abbb2a5348949638f814869ff7f59d1bc" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1afaa97ac3f3713aaf2d942ed9813aa8aa" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a665638338682c3219dd5f11aff97d985" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1plugins_1_1user__storage_1_1test_1a566458f08de480d7fd6af253fe482fa2" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1user__storage__encrypted" kind="namespace"><name>themis::user_storage_encrypted</name>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30" kind="enum"><name>UserStorageEncryptedError</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8c632159fa131f09d04f94e3cbcd8782" kind="enumvalue"><name>kSuccess</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a89fac98a6c0330a83200efd9e959469a" kind="enumvalue"><name>kMountFailed</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a7edbbc1dc229b886a002e7b3832b722a" kind="enumvalue"><name>kUnmountFailed</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8b8a8241e3d9a6276628a1c6965dea83" kind="enumvalue"><name>kKeyDerivationFailed</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a62e2b7540ba13d6eb4e80ccf2ceeda3b" kind="enumvalue"><name>kRotationFailed</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a353e71b117acbf17b4d48bbd3f5ea917" kind="enumvalue"><name>kBackendUnavailable</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30a8cc651c72dce2275bb12691f545170ad" kind="enumvalue"><name>kInvalidPath</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30adc0b458db7d0dd510aae0367dfafc4af" kind="enumvalue"><name>kPermissionDenied</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ae1ae641246d82a4bb3733196ff0dbc30afcd417a134c251034b0d61b07c826394" kind="enumvalue"><name>kInternalError</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1a043495cfcad8961bf905e308d45535fb" kind="variable"><name>kMaxContainerPathBytes</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1aad88efe33fc4e92038296a891c684211" kind="variable"><name>kMinPassphraseBytes</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1a263a21e84ed27cdc3db4a0b141476ffb" kind="variable"><name>kMaxPassphraseBytes</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1a26dda1fdd6789347bedf07020a1b3751" kind="variable"><name>kKdfSaltBytes</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1abaa9b1cf5bb2b8f2a3e6d731f2a93972" kind="variable"><name>kDefaultRotationInterval</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1ad61be314ea2613c72723ba70c2788dca" kind="variable"><name>kMaxMountTimeout</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1a3cef2eca2c4a44f0a69be4c4e0f32577" kind="function"><name>isUserStorageEncryptedFailClosed</name></member>
+  </compound>
+  <compound refid="namespacethemis_1_1user__storage__encrypted_1_1test" kind="namespace"><name>themis::user_storage_encrypted::test</name>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a100018eb80a91ead6d1343ec5d728924" kind="variable"><name>kSeed</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a7b50189b7fc846b8f28dd7868889f8f6" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a80bc383f9621b7078e65bfc8b76fe661" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a519b81e80a349a1e6ad987fb46a0009e" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a582e02e86a1527143a653b1d8402d712" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1abaab959d621a09654fe5d8c14bd59d51" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a3586e30699560487c1f309a70d66881f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a2884a145094447cf1a57665211a3180a" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a981f504ab9f0a9c4d30af2a9d046177f" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a4ee2178a81e53e9260237840141b76de" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1adfbe8377ca208d63c5afe67a6211c2aa" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1af6f9824c0a15e0dbc786698c7086867a" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a33124db883e1ebf57978aa17e2d07ff3" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a10dc873f233a3d8ad80b0f6c4d6bab40" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a07dfb5246fa7f91ad6889a4417aa073d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a019348f1e552c921988c2a154a4d3533" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a2482934df8324310e82d5a96380438fb" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a25b3b235f625f36a1945311917bfad86" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a11471ea6078c8a8a25578f98c3d10a2d" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a986f3e9d613aa863f70c12d2b02b30c5" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a1642449635d106b2054d837afdf5dbdb" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a89afdc8522c5bf2277a77df06d8e0436" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1ad8162bd2382fc7b95bebf3e0378e3bf4" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a453ccc4c5179b059163843f21a9eceb1" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a84683f33c5ea4decca610d5428dad1ce" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1ac579b396c4f9f9c2df156bdbb390d600" kind="function"><name>TEST</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a752744ac05344fd4a7b98f82f3ee75fb" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1ab236ba4b7e48ba2d7266f0531966d8a7" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a2453582a7853740b4a7db0a7acf50020" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1ae102f22f19f69328341eea720bc4405e" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1abbbc7e1ff1a1177b9eac976fc3d383bd" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a260a4a38072afd244e1edada77289c5c" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1abc0e3839189e8bdf46b1059cf4386890" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a1ba0838a7aa35a75b52e5ad860626351" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1adff16125f1727cf51a5c52b73cd5ac68" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a9441ba9017c76d40420c38fb32c9e7e5" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a4117ab2688071a57751274b94c4f22dd" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1aa97a0c2b7c5955811d52eafc4ae45978" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a22490c0d4c9e6ff07e71291f19505da5" kind="function"><name>TEST_F</name></member>
+    <member refid="namespacethemis_1_1user__storage__encrypted_1_1test_1a30990be9054d5d18568f9f6f6ea6568d" kind="function"><name>TEST_F</name></member>
+  </compound>
+  <compound refid="bench__encrypted__storage__dedicated__gates_8cpp" kind="file"><name>bench_encrypted_storage_dedicated_gates.cpp</name>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1ad41a516481f8fe09390b444e484c8eba" kind="variable"><name>g_store</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1ac7ae4ead6528732f18a7cdf4d25ea108" kind="variable"><name>kSeed</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1a91f1b192e335ea1f8990ad498c56ecac" kind="function"><name>ES_BM_01_EncryptedWrite_Throughput</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1abf532b42ab4a73b8a03d4ba7bca54274" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1a74cb9cc2b2235cf2c87c6961d0ce77d7" kind="function"><name>ES_BM_02_EncryptedRead_Throughput</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1a190c10c80610616c6c8020b1edd6dae8" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1aca3abf977bfbe236101dabce9a10f8f2" kind="function"><name>ES_BM_03_KeyRotation_Latency</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1af900eca9f714a7a2db7ecf0aabf8e42f" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1acc310791deddc7db455ee47bfa91bf22" kind="function"><name>ES_BM_04_EncDec_RoundTrip_Latency</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1a2201292062b372b9f2f9ae10040cc979" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__encrypted__storage__dedicated__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__user__storage__encrypted__lifecycle__gates_8cpp" kind="file"><name>bench_user_storage_encrypted_lifecycle_gates.cpp</name>
+  </compound>
+  <compound refid="bench__user__storage__encrypted__release__gates_8cpp" kind="file"><name>bench_user_storage_encrypted_release_gates.cpp</name>
+    <member refid="bench__user__storage__encrypted__release__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kind="function"><name>BENCHMARK_MAIN</name></member>
+  </compound>
+  <compound refid="bench__user__storage__mount__latency_8cpp" kind="file"><name>bench_user_storage_mount_latency.cpp</name>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a69ebe097f822cc188c9ae5a9bc63c54a" kind="variable"><name>kBenchDir</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1af5d34df836128bbcf5617bb20bb51f9e" kind="variable"><name>kBenchMount</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a40ce9f4ff53d5c44223c703b628b19d8" kind="function"><name>makeKey</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a6bdee4a92a6786a85b06ddeff4dc040e" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1ab21459d447faf09288281ca318183230" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a79703d73b98fd17325333aec42cdb136" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a5164890782377b53f532ca0347d3c44d" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a7d7312958a7ba6bca55cae8a5623d92a" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a936b57fbe5529a477833074d6cd9928d" kind="function"><name>BENCHMARK_F</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1abc746eeccce55f5b5548b00c0a2ec407" kind="function"><name>UseRealTime</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1ac49925cb5219ccb7a4942d1af18429bc" kind="function"><name>BM_MountDispatch_NoKDF</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a6aa101202eec04822ce02104d0a84a07" kind="function"><name>BENCHMARK</name></member>
+    <member refid="bench__user__storage__mount__latency_8cpp_1a9ab6e4ee126f25b85786e7ea73692d8e" kind="function"><name>BENCHMARK_F</name></member>
+  </compound>
+  <compound refid="command__timeout__manager_8hpp" kind="file"><name>command_timeout_manager.hpp</name>
+  </compound>
+  <compound refid="encryption__backend__interface_8hpp" kind="file"><name>encryption_backend_interface.hpp</name>
+  </compound>
+  <compound refid="error__codes_8hpp" kind="file"><name>error_codes.hpp</name>
+  </compound>
+  <compound refid="gocryptfs__backend_8hpp" kind="file"><name>gocryptfs_backend.hpp</name>
+  </compound>
+  <compound refid="irotation__store_8hpp" kind="file"><name>irotation_store.hpp</name>
+  </compound>
+  <compound refid="key__derivation__service_8hpp" kind="file"><name>key_derivation_service.hpp</name>
+  </compound>
+  <compound refid="key__rotation__scheduler_8hpp" kind="file"><name>key_rotation_scheduler.hpp</name>
+  </compound>
+  <compound refid="multi__level__storage_8hpp" kind="file"><name>multi_level_storage.hpp</name>
+  </compound>
+  <compound refid="pipe__guard_8hpp" kind="file"><name>pipe_guard.hpp</name>
+  </compound>
+  <compound refid="security__level_8hpp" kind="file"><name>security_level.hpp</name>
+  </compound>
+  <compound refid="timed__file__operation_8hpp" kind="file"><name>timed_file_operation.hpp</name>
+  </compound>
+  <compound refid="user__models_8hpp" kind="file"><name>user_models.hpp</name>
+  </compound>
+  <compound refid="user__storage__encrypted__api__contract_8h" kind="file"><name>user_storage_encrypted_api_contract.h</name>
+  </compound>
+  <compound refid="diagnostic__events_8cpp" kind="file"><name>diagnostic_events.cpp</name>
+    <member refid="diagnostic__events_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kind="typedef"><name>json</name></member>
+  </compound>
+  <compound refid="gocryptfs__backend_8cpp" kind="file"><name>gocryptfs_backend.cpp</name>
+  </compound>
+  <compound refid="key__derivation__service_8cpp" kind="file"><name>key_derivation_service.cpp</name>
+    <member refid="key__derivation__service_8cpp_1a29dface6436c9eefb11b9106d6b075d7" kind="define"><name>THEMIS_HAS_ARGON2</name></member>
+  </compound>
+  <compound refid="key__rotation__scheduler_8cpp" kind="file"><name>key_rotation_scheduler.cpp</name>
+  </compound>
+  <compound refid="multi__level__storage_8cpp" kind="file"><name>multi_level_storage.cpp</name>
+  </compound>
+  <compound refid="test__backend__command__injection__focused_8cpp" kind="file"><name>test_backend_command_injection_focused.cpp</name>
+  </compound>
+  <compound refid="test__backend__io__timeout__focused_8cpp" kind="file"><name>test_backend_io_timeout_focused.cpp</name>
+  </compound>
+  <compound refid="test__phase2__error__codes__focused_8cpp" kind="file"><name>test_phase2_error_codes_focused.cpp</name>
+  </compound>
+  <compound refid="test__user__storage__encrypted__contract__hardening__focused_8cpp" kind="file"><name>test_user_storage_encrypted_contract_hardening_focused.cpp</name>
+  </compound>
+  <compound refid="test__user__storage__encrypted__e2e__vault__integration__focused_8cpp" kind="file"><name>test_user_storage_encrypted_e2e_vault_integration_focused.cpp</name>
+  </compound>
+  <compound refid="test__user__storage__encrypted__highcardinality__stress_8cpp" kind="file"><name>test_user_storage_encrypted_highcardinality_stress.cpp</name>
+    <member refid="test__user__storage__encrypted__highcardinality__stress_8cpp_1aa756154382db5827c9d4fb7e17030bf3" kind="function"><name>TEST</name></member>
+    <member refid="test__user__storage__encrypted__highcardinality__stress_8cpp_1abf979393d4790b7abb6d7a25a9646c84" kind="function"><name>TEST</name></member>
+    <member refid="test__user__storage__encrypted__highcardinality__stress_8cpp_1a79dedc3eb89a4e229226492b820cfef4" kind="function"><name>TEST</name></member>
+  </compound>
+  <compound refid="test__user__storage__encrypted__phase1__hardening_8cpp" kind="file"><name>test_user_storage_encrypted_phase1_hardening.cpp</name>
+  </compound>
+  <compound refid="test__user__storage__encrypted__stress__focused_8cpp" kind="file"><name>test_user_storage_encrypted_stress_focused.cpp</name>
+  </compound>
+  <compound refid="deprecated" kind="page"><name>deprecated</name>
+  </compound>
+  <compound refid="test" kind="page"><name>test</name>
+  </compound>
+  <compound refid="dir_13a41d9ad64fb9ae396cb953294783cf" kind="dir"><name>benchmarks</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
+  </compound>
+  <compound refid="dir_59425e443f801f1f2fd8bbe4959a3ccf" kind="dir"><name>tests</name>
+  </compound>
+  <compound refid="dir_f50f2e584dae177c655d046b34769525" kind="dir"><name>benchmarks/user_storage_encrypted</name>
+  </compound>
+  <compound refid="dir_edfda061906b889f377457fa505e9c3b" kind="dir"><name>include/user_storage_encrypted</name>
+  </compound>
+  <compound refid="dir_347ab8981545aed418ae5a2326c5dda8" kind="dir"><name>src/user_storage_encrypted</name>
+  </compound>
+  <compound refid="dir_608ee1f485a002ddf3cfce46ffc2935a" kind="dir"><name>tests/user_storage_encrypted</name>
+  </compound>
+</doxygenindex>

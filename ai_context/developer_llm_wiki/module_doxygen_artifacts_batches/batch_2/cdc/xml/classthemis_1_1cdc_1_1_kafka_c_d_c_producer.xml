@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer" kind="class" language="C++" prot="public">
+    <compoundname>themis::cdc::KafkaCDCProducer</compoundname>
+    <basecompoundref refid="classthemis_1_1cdc_1_1_i_c_d_c_transport" prot="public" virt="non-virtual">themis::cdc::ICDCTransport</basecompoundref>
+    <includes refid="kafka__cdc__producer_8h" local="no">kafka_cdc_producer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ab1c254702b0bce7add788b1050088451" prot="public" static="no">
+        <type>std::function&lt; bool()&gt;</type>
+        <definition>using themis::cdc::KafkaCDCProducer::StartFn = std::function&lt;bool()&gt;</definition>
+        <argsstring></argsstring>
+        <name>StartFn</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::StartFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="225" column="5" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a222898ffaa47167a29f9eb18b6b87195" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::cdc::KafkaCDCProducer::PublishFn = std::function&lt;bool(const Changefeed::ChangeEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PublishFn</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::PublishFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="226" column="5" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ad03a77ffc973518e8b590cbc0a72add7" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::KafkaCDCProducer::KafkaCDCProducer</definition>
+        <argsstring>(Changefeed *, KafkaProducerConfig={}, CDCMetrics *=nullptr)</argsstring>
+        <name>KafkaCDCProducer</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::KafkaCDCProducer</qualifiedname>
+        <param>
+          <type><ref refid="class_changefeed" kindref="compound">Changefeed</ref> *</type>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1cdc_1_1_kafka_producer_config" kindref="compound">KafkaProducerConfig</ref></type>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1cdc_1_1_c_d_c_metrics" kindref="compound">CDCMetrics</ref> *</type>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="196" column="14" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="196" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a1dc57f99cdc8f9fbe8d0cdab693c5c78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::KafkaCDCProducer::~KafkaCDCProducer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~KafkaCDCProducer</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::~KafkaCDCProducer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="199" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a97f04dffd063920b6de10bdc1d594749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::cdc::KafkaCDCProducer::KafkaCDCProducer</definition>
+        <argsstring>(const KafkaCDCProducer &amp;)=delete</argsstring>
+        <name>KafkaCDCProducer</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::KafkaCDCProducer</qualifiedname>
+        <param>
+          <type>const KafkaCDCProducer &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="201" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a6c0188ccfabe89437ce77364bbf81a4b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ad03a77ffc973518e8b590cbc0a72add7" kindref="member">KafkaCDCProducer</ref> &amp;</type>
+        <definition>KafkaCDCProducer &amp; themis::cdc::KafkaCDCProducer::operator=</definition>
+        <argsstring>(const KafkaCDCProducer &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ad03a77ffc973518e8b590cbc0a72add7" kindref="member">KafkaCDCProducer</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="202" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a7331d838c6b40ca7a96d53ec3ce3c4e6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::KafkaCDCProducer::start</definition>
+        <argsstring>() override</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::start</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1a50aa70a8d4e6b3894c3e7f11b7d5fcb7">start</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="204" column="10" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="204" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a8743f13fb9fcf14572da351c82f85ac8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::cdc::KafkaCDCProducer::stop</definition>
+        <argsstring>() override</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::stop</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1a1a788edc6fe7c2f58a6e1c396cd8edf4">stop</reimplements>
+        <briefdescription>
+<para>Stop. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="211" column="10" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="211" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a4732337b5aabb7a5c659fd4e9777f4c0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::cdc::KafkaCDCProducer::publish</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;event) override</argsstring>
+        <name>publish</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::publish</qualifiedname>
+        <reimplements refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1ab4b9fad9dca393c235367b43f06ce6dd">publish</reimplements>
+        <param>
+          <type>const <ref refid="struct_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="213" column="10" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="213" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a639f12377f9625b216d3315a20b7bcb8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_kafka_producer_stats" kindref="compound">KafkaProducerStats</ref></type>
+        <definition>KafkaProducerStats themis::cdc::KafkaCDCProducer::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="220" column="24" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="220" bodyend="220"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ab8a4d5c011261b80cc79fbcb03386faa" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cdc::KafkaCDCProducer::setStartFn</definition>
+        <argsstring>(StartFn fn)</argsstring>
+        <name>setStartFn</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::setStartFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ab1c254702b0bce7add788b1050088451" kindref="member">StartFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Start Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), s_start_fn_mutex_(), s_start_fn_(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="233" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="233" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a87a2e59f614f78801b057a7b2815a839" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::cdc::KafkaCDCProducer::setPublishFn</definition>
+        <argsstring>(PublishFn fn)</argsstring>
+        <name>setPublishFn</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::setPublishFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a222898ffaa47167a29f9eb18b6b87195" kindref="member">PublishFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Publish Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), s_publish_fn_mutex_(), s_publish_fn_(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="243" column="17" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="243" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a8a56de618e3ff0a847dd6e1144cbf442" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::cdc::KafkaCDCProducer::s_start_fn_mutex_</definition>
+        <argsstring>()</argsstring>
+        <name>s_start_fn_mutex_</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::s_start_fn_mutex_</qualifiedname>
+        <briefdescription>
+<para>Static storage via function-local statics so they are lazily initialised and avoid static-initialisation-order issues. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements s_start_fn_mutex_ without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="254" column="25" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="254" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a2741088447a1826e00686d52c93f8a50" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ab1c254702b0bce7add788b1050088451" kindref="member">StartFn</ref> &amp;</type>
+        <definition>static StartFn &amp; themis::cdc::KafkaCDCProducer::s_start_fn_</definition>
+        <argsstring>()</argsstring>
+        <name>s_start_fn_</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::s_start_fn_</qualifiedname>
+        <briefdescription>
+<para>S start fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements s_start_fn_ without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="260" column="25" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="260" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a342d63d3f0f0f77ee418289848fb6e52" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::mutex &amp;</type>
+        <definition>static std::mutex &amp; themis::cdc::KafkaCDCProducer::s_publish_fn_mutex_</definition>
+        <argsstring>()</argsstring>
+        <name>s_publish_fn_mutex_</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::s_publish_fn_mutex_</qualifiedname>
+        <briefdescription>
+<para>S publish fn mutex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements s_publish_fn_mutex_ without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="266" column="25" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="266" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a1fad64f7401a1126cfe010286ff37a4b" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a222898ffaa47167a29f9eb18b6b87195" kindref="member">PublishFn</ref> &amp;</type>
+        <definition>static PublishFn &amp; themis::cdc::KafkaCDCProducer::s_publish_fn_</definition>
+        <argsstring>()</argsstring>
+        <name>s_publish_fn_</name>
+        <qualifiedname>themis::cdc::KafkaCDCProducer::s_publish_fn_</qualifiedname>
+        <briefdescription>
+<para>S publish fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements s_publish_fn_ without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/kafka_cdc_producer.h" line="272" column="25" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::cdc::ICDCTransport</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_transport"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::KafkaCDCProducer</label>
+        <link refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::cdc::ICDCTransport</label>
+        <link refid="classthemis_1_1cdc_1_1_i_c_d_c_transport"/>
+      </node>
+      <node id="1">
+        <label>themis::cdc::KafkaCDCProducer</label>
+        <link refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/cdc/kafka_cdc_producer.h" line="194" column="1" bodyfile="include/cdc/kafka_cdc_producer.h" bodystart="194" bodyend="273"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a639f12377f9625b216d3315a20b7bcb8" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ad03a77ffc973518e8b590cbc0a72add7" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>KafkaCDCProducer</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a97f04dffd063920b6de10bdc1d594749" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>KafkaCDCProducer</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a6c0188ccfabe89437ce77364bbf81a4b" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a4732337b5aabb7a5c659fd4e9777f4c0" prot="public" virt="virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>publish</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a222898ffaa47167a29f9eb18b6b87195" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>PublishFn</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a1fad64f7401a1126cfe010286ff37a4b" prot="private" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>s_publish_fn_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a342d63d3f0f0f77ee418289848fb6e52" prot="private" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>s_publish_fn_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a2741088447a1826e00686d52c93f8a50" prot="private" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>s_start_fn_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a8a56de618e3ff0a847dd6e1144cbf442" prot="private" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>s_start_fn_mutex_</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a87a2e59f614f78801b057a7b2815a839" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>setPublishFn</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ab8a4d5c011261b80cc79fbcb03386faa" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>setStartFn</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a7331d838c6b40ca7a96d53ec3ce3c4e6" prot="public" virt="virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>start</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1ab1c254702b0bce7add788b1050088451" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>StartFn</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a8743f13fb9fcf14572da351c82f85ac8" prot="public" virt="virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>stop</name></member>
+      <member refid="classthemis_1_1cdc_1_1_i_c_d_c_transport_1ad8b70e2293510d7c8cc63892aa070a00" prot="public" virt="virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>~ICDCTransport</name></member>
+      <member refid="classthemis_1_1cdc_1_1_kafka_c_d_c_producer_1a1dc57f99cdc8f9fbe8d0cdab693c5c78" prot="public" virt="non-virtual"><scope>themis::cdc::KafkaCDCProducer</scope><name>~KafkaCDCProducer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

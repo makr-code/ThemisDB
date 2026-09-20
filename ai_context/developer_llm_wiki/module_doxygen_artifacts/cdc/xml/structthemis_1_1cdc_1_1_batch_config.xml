@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_batch_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::BatchConfig</compoundname>
+    <includes refid="icdc__batch__commit__coordinator_8h" local="no">icdc_batch_commit_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_batch_config_1a82e151c7952ce5bd74c113af4fa9ad01" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::BatchConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::cdc::BatchConfig::max_batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="82" column="17" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_batch_config_1a09f4fe6163b44288f0ed0e1d282c2e63" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::cdc::BatchConfig::commit_history_size</definition>
+        <argsstring></argsstring>
+        <name>commit_history_size</name>
+        <qualifiedname>themis::cdc::BatchConfig::commit_history_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/icdc_batch_commit_coordinator.h" line="84" column="17" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/icdc_batch_commit_coordinator.h" line="81" column="1" bodyfile="include/cdc/icdc_batch_commit_coordinator.h" bodystart="81" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_batch_config_1a09f4fe6163b44288f0ed0e1d282c2e63" prot="public" virt="non-virtual"><scope>themis::cdc::BatchConfig</scope><name>commit_history_size</name></member>
+      <member refid="structthemis_1_1cdc_1_1_batch_config_1a82e151c7952ce5bd74c113af4fa9ad01" prot="public" virt="non-virtual"><scope>themis::cdc::BatchConfig</scope><name>max_batch_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

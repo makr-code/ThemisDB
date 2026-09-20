@@ -1,0 +1,1674 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_exporter_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::ExporterMetrics</compoundname>
+    <includes refid="exporter__metrics_8h" local="no">exporter_metrics.h</includes>
+    <innerclass refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats" prot="public">themis::exporters::ExporterMetrics::SchemaValidationStats</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_latency_histogram" prot="private">themis::exporters::ExporterMetrics::LatencyHistogram</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a574d77d7fc71f39ac719361a5788d1ab" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::exporters::ExporterMetrics::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="266" column="24" bodyfile="include/exporters/exporter_metrics.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1ab6ab2909b1d0bf52701c0d09100764a6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::total_exports_</definition>
+        <argsstring></argsstring>
+        <name>total_exports_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::total_exports_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="269" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a1665df4c826a9755edda3b38b2a4b1b6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::total_entities_</definition>
+        <argsstring></argsstring>
+        <name>total_entities_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::total_entities_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="270" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="270" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1acc4071ce742302cb5b380c08a4eddd4b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::total_bytes_</definition>
+        <argsstring></argsstring>
+        <name>total_bytes_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::total_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="271" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="271" bodyend="271"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1ad452e2a85a2491d64f2da345b56a5fdc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::total_duration_ms_</definition>
+        <argsstring></argsstring>
+        <name>total_duration_ms_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::total_duration_ms_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="272" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="272" bodyend="272"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1aabfb27a4e74c2c53eb41496311b67fe5" prot="private" static="no" mutable="no">
+        <type>struct themis::exporters::ExporterMetrics::LatencyHistogram</type>
+        <definition>struct themis::exporters::ExporterMetrics::LatencyHistogram themis::exporters::ExporterMetrics::latency_histogram_</definition>
+        <argsstring></argsstring>
+        <name>latency_histogram_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::latency_histogram_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="281" column="24"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a9cd41d037607a796c0699c25d14dd0ec" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::total_errors_</definition>
+        <argsstring></argsstring>
+        <name>total_errors_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::total_errors_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="284" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="284" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a1d980f0a1ee35da0aafbb361313b9b47" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::exporters::ExporterMetrics::errors_by_type_</definition>
+        <argsstring></argsstring>
+        <name>errors_by_type_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::errors_by_type_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="285" column="14" bodyfile="include/exporters/exporter_metrics.h" bodystart="285" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a2c23388508d7f93289318a219fd80b47" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::total_duplicates_</definition>
+        <argsstring></argsstring>
+        <name>total_duplicates_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::total_duplicates_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="288" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="288" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1ad6aba7009adfa0c4739576eb22675a50" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::exporters::ExporterMetrics::quality_filter_rejections_</definition>
+        <argsstring></argsstring>
+        <name>quality_filter_rejections_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::quality_filter_rejections_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="291" column="14" bodyfile="include/exporters/exporter_metrics.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a054e38c9932b85947d94bf1eb1b4dc32" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::schema_validations_total_</definition>
+        <argsstring></argsstring>
+        <name>schema_validations_total_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::schema_validations_total_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="294" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="294" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1ac21bc81b32ce218666998b9f01c68b75" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::schema_validations_passed_</definition>
+        <argsstring></argsstring>
+        <name>schema_validations_passed_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::schema_validations_passed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="295" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="295" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1aae5c74236a57401b7324f62da0c1e0e3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::schema_validations_failed_</definition>
+        <argsstring></argsstring>
+        <name>schema_validations_failed_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::schema_validations_failed_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="296" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="296" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a2f0ec50dd594efa2bf59b8174b73fc90" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::pii_detections_</definition>
+        <argsstring></argsstring>
+        <name>pii_detections_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::pii_detections_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="299" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="299" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a53af15c5587faaba21b3ad4b481bdc84" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::pii_redactions_</definition>
+        <argsstring></argsstring>
+        <name>pii_redactions_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::pii_redactions_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="300" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="300" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1ac8d27ea701234736b3b737a48f868ece" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::compression_uncompressed_bytes_</definition>
+        <argsstring></argsstring>
+        <name>compression_uncompressed_bytes_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::compression_uncompressed_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="303" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="303" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a33eafa2bba2ed3a5830be1ed4b9b7b9d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::compression_compressed_bytes_</definition>
+        <argsstring></argsstring>
+        <name>compression_compressed_bytes_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::compression_compressed_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="304" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="304" bodyend="304"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a00c2c595f04e9678ddf90a620888f7f5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::parquet_bytes_written_</definition>
+        <argsstring></argsstring>
+        <name>parquet_bytes_written_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::parquet_bytes_written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="307" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="307" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1aa4813497850962d6e62fa6eabf77361b" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::checkpoint_count_</definition>
+        <argsstring></argsstring>
+        <name>checkpoint_count_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::checkpoint_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="310" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="310" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1ad570607e0c3018b53e160698516312fc" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::delta_docs_skipped_</definition>
+        <argsstring></argsstring>
+        <name>delta_docs_skipped_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::delta_docs_skipped_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="313" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="313" bodyend="313"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1aff16376cb7f18a1d8f8ba93f36eec6e2" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::encryption_plaintext_bytes_</definition>
+        <argsstring></argsstring>
+        <name>encryption_plaintext_bytes_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::encryption_plaintext_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="316" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="316" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a236fd9494021d404e6d12af34727d66e" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::encryption_output_bytes_</definition>
+        <argsstring></argsstring>
+        <name>encryption_output_bytes_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::encryption_output_bytes_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="317" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="317" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a380b39ddf78eeb341038f7686187f67c" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::encrypted_bytes_written_</definition>
+        <argsstring></argsstring>
+        <name>encrypted_bytes_written_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::encrypted_bytes_written_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="320" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="320" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a71bf30162cea4b9d01473e044164eed6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::rate_limit_hits_</definition>
+        <argsstring></argsstring>
+        <name>rate_limit_hits_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::rate_limit_hits_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="323" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="323" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a552a14044100988bf8c3f5b31c64e37a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::policy_denials_</definition>
+        <argsstring></argsstring>
+        <name>policy_denials_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::policy_denials_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="326" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="326" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_exporter_metrics_1a6806b905c1c46c394f2579c9b3e5d459" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::exporters::ExporterMetrics::hub_upload_failures_</definition>
+        <argsstring></argsstring>
+        <name>hub_upload_failures_</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::hub_upload_failures_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="329" column="17" bodyfile="include/exporters/exporter_metrics.h" bodystart="329" bodyend="329"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a64f614420d123ffcc701ee2dec5676ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::ExporterMetrics::ExporterMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>ExporterMetrics</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::ExporterMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="25" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a6d524dad901b276c5ad07aad3b802a9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="30" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="37" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a527e6e8ee8d69f2fc7f8236ae19fa0a5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordExport</definition>
+        <argsstring>(size_t entity_count, size_t bytes_written, std::chrono::milliseconds duration)</argsstring>
+        <name>recordExport</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordExport</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>entity_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>bytes_written</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Record Export. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_written</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_written</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), updateLatencyHistogram(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="38" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="88" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a43499761b8ee4be3bbe42d2f9aa00b92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordError</definition>
+        <argsstring>(const std::string &amp;error_type)</argsstring>
+        <name>recordError</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>error_type</declname>
+        </param>
+        <briefdescription>
+<para>Record Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">error_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="45" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="106" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a29e8b7ebd91652c37ada2ac916587425" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordDuplicate</definition>
+        <argsstring>()</argsstring>
+        <name>recordDuplicate</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordDuplicate</qualifiedname>
+        <briefdescription>
+<para>Record Duplicate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordDuplicate without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="50" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="117" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a6bb531030c99697793047182d37efb3f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordQualityFilterRejection</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>recordQualityFilterRejection</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordQualityFilterRejection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Record Quality Filter Rejection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="56" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="126" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a5a2c3a769641cfd9aa72f8df9e37244a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordSchemaValidation</definition>
+        <argsstring>(bool passed)</argsstring>
+        <name>recordSchemaValidation</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordSchemaValidation</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>passed</declname>
+        </param>
+        <briefdescription>
+<para>Record Schema Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">passed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">passed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordSchemaValidation without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="62" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="136" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a80df229e20d0b6ea617cb2a83a71f59b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::getExportRate</definition>
+        <argsstring>() const</argsstring>
+        <name>getExportRate</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getExportRate</qualifiedname>
+        <briefdescription>
+<para>Get Export Rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="68" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="145" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a817f57bbad9c4a5b265aba1b337e8c2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::getThroughput</definition>
+        <argsstring>() const</argsstring>
+        <name>getThroughput</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getThroughput</qualifiedname>
+        <briefdescription>
+<para>Get Throughput. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="74" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="155" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a1f467b2e63da06f738c0dd947c664e3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::getAverageLatency</definition>
+        <argsstring>() const</argsstring>
+        <name>getAverageLatency</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getAverageLatency</qualifiedname>
+        <briefdescription>
+<para>Get Average Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="80" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="165" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a7bb7da041aabf6daede3a23e71938dde" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::getP50Latency</definition>
+        <argsstring>() const</argsstring>
+        <name>getP50Latency</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getP50Latency</qualifiedname>
+        <briefdescription>
+<para>Get P50 Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="86" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1ae8f9375297f1d620ceb93a0a47ba871e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::getP95Latency</definition>
+        <argsstring>() const</argsstring>
+        <name>getP95Latency</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getP95Latency</qualifiedname>
+        <briefdescription>
+<para>Get P95 Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="92" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="179" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a057f16a7eaa182e18dd043295acdfec1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::getP99Latency</definition>
+        <argsstring>() const</argsstring>
+        <name>getP99Latency</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getP99Latency</qualifiedname>
+        <briefdescription>
+<para>Get P99 Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="98" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="183" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a64272a04a980cbe94d725c0e984a0f74" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getTotalErrors</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalErrors</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getTotalErrors</qualifiedname>
+        <briefdescription>
+<para>Get Total Errors. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="104" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="187" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1ae717346cd1fce836a754d74282a1afb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt; std::string, size_t &gt; themis::exporters::ExporterMetrics::getErrorsByType</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorsByType</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getErrorsByType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="106" column="14" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="191" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a0d397cf020ce6c9e0d459b488f4c29bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getTotalDuplicates</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalDuplicates</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getTotalDuplicates</qualifiedname>
+        <briefdescription>
+<para>Get Total Duplicates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="112" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="201" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a15bb61e51115a49600111cbb48a094ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt; std::string, size_t &gt; themis::exporters::ExporterMetrics::getQualityFilterRejections</definition>
+        <argsstring>() const</argsstring>
+        <name>getQualityFilterRejections</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getQualityFilterRejections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="114" column="14" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="205" bodyend="213"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a673e928bbae4fe15f28b13684739d7ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_exporter_metrics_1_1_schema_validation_stats" kindref="compound">SchemaValidationStats</ref></type>
+        <definition>ExporterMetrics::SchemaValidationStats themis::exporters::ExporterMetrics::getSchemaValidationStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getSchemaValidationStats</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getSchemaValidationStats</qualifiedname>
+        <briefdescription>
+<para>Get Schema Validation Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="126" column="27" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="215" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1ad2515781dfc99c36e866f13cc0994d64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordPIIDetection</definition>
+        <argsstring>(size_t count=1)</argsstring>
+        <name>recordPIIDetection</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordPIIDetection</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Record PIIDetection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordPIIDetection without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="128" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="233" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a0d38f229b2b7a4502426fb3edb5f5edb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordPIIRedaction</definition>
+        <argsstring>(size_t count=1)</argsstring>
+        <name>recordPIIRedaction</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordPIIRedaction</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Record PIIRedaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordPIIRedaction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="130" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="242" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a0cf8d67c6611be409a99c1e510215a19" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getPIIDetections</definition>
+        <argsstring>() const</argsstring>
+        <name>getPIIDetections</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getPIIDetections</qualifiedname>
+        <briefdescription>
+<para>Get PIIDetections. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="136" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="246" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a9b3311bb3d85fa97cd5f7f7550135e6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getPIIRedactions</definition>
+        <argsstring>() const</argsstring>
+        <name>getPIIRedactions</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getPIIRedactions</qualifiedname>
+        <briefdescription>
+<para>Get PIIRedactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="141" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="250" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a76adc3719eb8a72101b6d5d4ec370ad8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordCompression</definition>
+        <argsstring>(size_t uncompressed_bytes, size_t compressed_bytes)</argsstring>
+        <name>recordCompression</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordCompression</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>uncompressed_bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>compressed_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Compression. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">uncompressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">uncompressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">compressed_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordCompression without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="148" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="260" bodyend="263"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1ac4c1e55f73176fee7d050434c83a9907" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::getCompressionRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressionRatio</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getCompressionRatio</qualifiedname>
+        <briefdescription>
+<para>Get Compression Ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="154" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="265" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a8d84b6608862e23b7afff245776977f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordParquetBytesWritten</definition>
+        <argsstring>(size_t bytes)</argsstring>
+        <name>recordParquetBytesWritten</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordParquetBytesWritten</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Parquet Bytes Written. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordParquetBytesWritten without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="160" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="280" bodyend="282"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a38f2c90fcd68c719174f0a2281478bd1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getParquetBytesWritten</definition>
+        <argsstring>() const</argsstring>
+        <name>getParquetBytesWritten</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getParquetBytesWritten</qualifiedname>
+        <briefdescription>
+<para>Get Parquet Bytes Written. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="166" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="284" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1aa381ff513efb85d3332c6116cbe61456" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordCheckpoint</definition>
+        <argsstring>()</argsstring>
+        <name>recordCheckpoint</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordCheckpoint</qualifiedname>
+        <briefdescription>
+<para>Record Checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordCheckpoint without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="171" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="292" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1adc17fbd16e4fb498066eee2c74d885ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getCheckpointCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getCheckpointCount</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getCheckpointCount</qualifiedname>
+        <briefdescription>
+<para>Get Checkpoint Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="177" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="296" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a22d46a103067956174eab15f22bbb5d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordDeltaDocSkipped</definition>
+        <argsstring>(size_t count=1)</argsstring>
+        <name>recordDeltaDocSkipped</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordDeltaDocSkipped</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+          <defval>1</defval>
+        </param>
+        <briefdescription>
+<para>Record Delta Doc Skipped. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordDeltaDocSkipped without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="179" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="305" bodyend="307"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1ac39112ed3716258b9da0bc1362243860" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getDeltaDocsSkipped</definition>
+        <argsstring>() const</argsstring>
+        <name>getDeltaDocsSkipped</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getDeltaDocsSkipped</qualifiedname>
+        <briefdescription>
+<para>Get Delta Docs Skipped. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="185" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="309" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a2e97cdae46d43656a916e027c16ff1a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordEncryption</definition>
+        <argsstring>(size_t plaintext_bytes, size_t encrypted_bytes)</argsstring>
+        <name>recordEncryption</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordEncryption</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>plaintext_bytes</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>encrypted_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">plaintext_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordEncryption without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="192" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="319" bodyend="323"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1ada1cca9f9a2d4d967d7c3d0805d78b24" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getEncryptedPlaintextBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>getEncryptedPlaintextBytes</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getEncryptedPlaintextBytes</qualifiedname>
+        <briefdescription>
+<para>Get Encrypted Plaintext Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="198" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="325" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1ae44bcb8d938b853c323393cb56a2b72e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getEncryptedOutputBytes</definition>
+        <argsstring>() const</argsstring>
+        <name>getEncryptedOutputBytes</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getEncryptedOutputBytes</qualifiedname>
+        <briefdescription>
+<para>Get Encrypted Output Bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="204" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="329" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a64a1ec7412fc577ec76e53b756ac651b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordEncryption</definition>
+        <argsstring>(size_t encrypted_bytes)</argsstring>
+        <name>recordEncryption</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordEncryption</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>encrypted_bytes</declname>
+        </param>
+        <briefdescription>
+<para>Record Encryption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">encrypted_bytes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements recordEncryption without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="209" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="338" bodyend="340"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a58f0dd3e3d0adb6f9b6ca44c4c6f9dc8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getEncryptedBytesWritten</definition>
+        <argsstring>() const</argsstring>
+        <name>getEncryptedBytesWritten</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getEncryptedBytesWritten</qualifiedname>
+        <briefdescription>
+<para>Get Encrypted Bytes Written. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="215" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="342" bodyend="344"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a5d28ba71ac133787df4874236274b8e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordRateLimitHit</definition>
+        <argsstring>()</argsstring>
+        <name>recordRateLimitHit</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordRateLimitHit</qualifiedname>
+        <briefdescription>
+<para>Record Rate Limit Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordRateLimitHit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="220" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="350" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a127a3daa4bce7305acee096ba624bb9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getRateLimitHits</definition>
+        <argsstring>() const</argsstring>
+        <name>getRateLimitHits</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getRateLimitHits</qualifiedname>
+        <briefdescription>
+<para>Get Rate Limit Hits. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="226" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="354" bodyend="356"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordPolicyDenial</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;user)</argsstring>
+        <name>recordPolicyDenial</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordPolicyDenial</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user</declname>
+        </param>
+        <briefdescription>
+<para>Record Policy Denial. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a43499761b8ee4be3bbe42d2f9aa00b92" kindref="member">recordError()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="233" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="364" bodyend="372"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a7a9e759dd95e0810e6ca00bdc698490c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getPolicyDenials</definition>
+        <argsstring>() const</argsstring>
+        <name>getPolicyDenials</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getPolicyDenials</qualifiedname>
+        <briefdescription>
+<para>Get Policy Denials. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="239" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="374" bodyend="376"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a59c2a99d7876fd41ae4a59259bf62b81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::recordHubUploadFailure</definition>
+        <argsstring>(const std::string &amp;reason)</argsstring>
+        <name>recordHubUploadFailure</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::recordHubUploadFailure</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Record Hub Upload Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1exporters_1_1_exporter_metrics_1a43499761b8ee4be3bbe42d2f9aa00b92" kindref="member">recordError()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="245" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="383" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a1f0f2952ccd4793b28a95087ec19eb3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::exporters::ExporterMetrics::getHubUploadFailures</definition>
+        <argsstring>() const</argsstring>
+        <name>getHubUploadFailures</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::getHubUploadFailures</qualifiedname>
+        <briefdescription>
+<para>Get Hub Upload Failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="251" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="389" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a09c24da4476c85d4933c7dc6ccbac03a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::exporters::ExporterMetrics::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="257" column="20" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="393" bodyend="486"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1ab2383acfdd33bbfb12015ab85df616ce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::ExporterMetrics::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::toString</qualifiedname>
+        <briefdescription>
+<para>To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="263" column="17" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="488" bodyend="513"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a4f26807bd10508dc4b17d1254d7dbb42" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::ExporterMetrics::updateLatencyHistogram</definition>
+        <argsstring>(std::chrono::milliseconds duration)</argsstring>
+        <name>updateLatencyHistogram</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::updateLatencyHistogram</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>duration</declname>
+        </param>
+        <briefdescription>
+<para>Update Latency Histogram. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">duration</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="335" column="10" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="520" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_exporter_metrics_1a4d8593f694b5598d9eaa3bf3f927a84b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::exporters::ExporterMetrics::calculatePercentile</definition>
+        <argsstring>(double percentile) const</argsstring>
+        <name>calculatePercentile</name>
+        <qualifiedname>themis::exporters::ExporterMetrics::calculatePercentile</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>percentile</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Percentile. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">percentile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/exporter_metrics.h" line="342" column="12" bodyfile="src/exporters/exporter_metrics.cpp" bodystart="536" bodyend="571"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/exporter_metrics.h" line="23" column="1" bodyfile="include/exporters/exporter_metrics.h" bodystart="23" bodyend="343"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a4d8593f694b5598d9eaa3bf3f927a84b" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>calculatePercentile</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1aa4813497850962d6e62fa6eabf77361b" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>checkpoint_count_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a33eafa2bba2ed3a5830be1ed4b9b7b9d" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>compression_compressed_bytes_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ac8d27ea701234736b3b737a48f868ece" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>compression_uncompressed_bytes_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ad570607e0c3018b53e160698516312fc" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>delta_docs_skipped_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a380b39ddf78eeb341038f7686187f67c" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>encrypted_bytes_written_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a236fd9494021d404e6d12af34727d66e" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>encryption_output_bytes_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1aff16376cb7f18a1d8f8ba93f36eec6e2" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>encryption_plaintext_bytes_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1d980f0a1ee35da0aafbb361313b9b47" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>errors_by_type_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64f614420d123ffcc701ee2dec5676ee" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>ExporterMetrics</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f467b2e63da06f738c0dd947c664e3f" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getAverageLatency</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1adc17fbd16e4fb498066eee2c74d885ad" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getCheckpointCount</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ac4c1e55f73176fee7d050434c83a9907" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getCompressionRatio</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ac39112ed3716258b9da0bc1362243860" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getDeltaDocsSkipped</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a58f0dd3e3d0adb6f9b6ca44c4c6f9dc8" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getEncryptedBytesWritten</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ae44bcb8d938b853c323393cb56a2b72e" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getEncryptedOutputBytes</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ada1cca9f9a2d4d967d7c3d0805d78b24" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getEncryptedPlaintextBytes</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ae717346cd1fce836a754d74282a1afb2" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getErrorsByType</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a80df229e20d0b6ea617cb2a83a71f59b" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getExportRate</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1f0f2952ccd4793b28a95087ec19eb3e" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getHubUploadFailures</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7bb7da041aabf6daede3a23e71938dde" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getP50Latency</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ae8f9375297f1d620ceb93a0a47ba871e" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getP95Latency</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a057f16a7eaa182e18dd043295acdfec1" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getP99Latency</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a38f2c90fcd68c719174f0a2281478bd1" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getParquetBytesWritten</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a0cf8d67c6611be409a99c1e510215a19" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getPIIDetections</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a9b3311bb3d85fa97cd5f7f7550135e6a" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getPIIRedactions</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a7a9e759dd95e0810e6ca00bdc698490c" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getPolicyDenials</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a15bb61e51115a49600111cbb48a094ae" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getQualityFilterRejections</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a127a3daa4bce7305acee096ba624bb9d" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getRateLimitHits</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a673e928bbae4fe15f28b13684739d7ec" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getSchemaValidationStats</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a817f57bbad9c4a5b265aba1b337e8c2d" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getThroughput</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a0d397cf020ce6c9e0d459b488f4c29bd" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getTotalDuplicates</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64272a04a980cbe94d725c0e984a0f74" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>getTotalErrors</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a6806b905c1c46c394f2579c9b3e5d459" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>hub_upload_failures_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1aabfb27a4e74c2c53eb41496311b67fe5" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>latency_histogram_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a574d77d7fc71f39ac719361a5788d1ab" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a00c2c595f04e9678ddf90a620888f7f5" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>parquet_bytes_written_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2f0ec50dd594efa2bf59b8174b73fc90" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>pii_detections_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a53af15c5587faaba21b3ad4b481bdc84" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>pii_redactions_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a552a14044100988bf8c3f5b31c64e37a" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>policy_denials_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ad6aba7009adfa0c4739576eb22675a50" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>quality_filter_rejections_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a71bf30162cea4b9d01473e044164eed6" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>rate_limit_hits_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1aa381ff513efb85d3332c6116cbe61456" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordCheckpoint</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a76adc3719eb8a72101b6d5d4ec370ad8" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordCompression</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a22d46a103067956174eab15f22bbb5d3" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordDeltaDocSkipped</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a29e8b7ebd91652c37ada2ac916587425" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordDuplicate</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2e97cdae46d43656a916e027c16ff1a7" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordEncryption</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a64a1ec7412fc577ec76e53b756ac651b" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordEncryption</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a43499761b8ee4be3bbe42d2f9aa00b92" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordError</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a527e6e8ee8d69f2fc7f8236ae19fa0a5" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordExport</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a59c2a99d7876fd41ae4a59259bf62b81" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordHubUploadFailure</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a8d84b6608862e23b7afff245776977f0" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordParquetBytesWritten</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ad2515781dfc99c36e866f13cc0994d64" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordPIIDetection</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a0d38f229b2b7a4502426fb3edb5f5edb" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordPIIRedaction</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2420115fc10e17b12abf2cfa4911aa42" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordPolicyDenial</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a6bb531030c99697793047182d37efb3f" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordQualityFilterRejection</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a5d28ba71ac133787df4874236274b8e1" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordRateLimitHit</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a5a2c3a769641cfd9aa72f8df9e37244a" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>recordSchemaValidation</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a6d524dad901b276c5ad07aad3b802a9b" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1aae5c74236a57401b7324f62da0c1e0e3" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>schema_validations_failed_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ac21bc81b32ce218666998b9f01c68b75" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>schema_validations_passed_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a054e38c9932b85947d94bf1eb1b4dc32" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>schema_validations_total_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a09c24da4476c85d4933c7dc6ccbac03a" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>toJson</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ab2383acfdd33bbfb12015ab85df616ce" prot="public" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>toString</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1acc4071ce742302cb5b380c08a4eddd4b" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>total_bytes_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a2c23388508d7f93289318a219fd80b47" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>total_duplicates_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ad452e2a85a2491d64f2da345b56a5fdc" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>total_duration_ms_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a1665df4c826a9755edda3b38b2a4b1b6" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>total_entities_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a9cd41d037607a796c0699c25d14dd0ec" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>total_errors_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1ab6ab2909b1d0bf52701c0d09100764a6" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>total_exports_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_exporter_metrics_1a4f26807bd10508dc4b17d1254d7dbb42" prot="private" virt="non-virtual"><scope>themis::exporters::ExporterMetrics</scope><name>updateLatencyHistogram</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

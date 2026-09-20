@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_validation_stub_index_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>ValidationStubIndex::Entry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_validation_stub_index_1_1_entry_1a19d480e415db7846e1c0dcd6429e073f" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t ValidationStubIndex::Entry::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>ValidationStubIndex::Entry::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="55" column="24" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_validation_stub_index_1_1_entry_1ab0a47bc78464e0c1f8c95ebac2162b8e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float ValidationStubIndex::Entry::distance</definition>
+        <argsstring></argsstring>
+        <name>distance</name>
+        <qualifiedname>ValidationStubIndex::Entry::distance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="55" column="33" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/test_ann_frontdoor_validation_focused.cpp" line="55" column="5" bodyfile="tests/index/test_ann_frontdoor_validation_focused.cpp" bodystart="55" bodyend="55"/>
+    <listofallmembers>
+      <member refid="struct_validation_stub_index_1_1_entry_1ab0a47bc78464e0c1f8c95ebac2162b8e" prot="public" virt="non-virtual"><scope>ValidationStubIndex::Entry</scope><name>distance</name></member>
+      <member refid="struct_validation_stub_index_1_1_entry_1a19d480e415db7846e1c0dcd6429e073f" prot="public" virt="non-virtual"><scope>ValidationStubIndex::Entry</scope><name>id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ethics__ai__plugin__interface_8h" kind="file" language="C++">
+    <compoundname>ethics_ai_plugin_interface.h</compoundname>
+    <includes local="yes">plugins/plugin_interface.h</includes>
+    <includes refid="ethics__ai__types_8h" local="yes">ethics_ai/ethics_ai_types.h</includes>
+    <includes local="no">variant</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="ethics__ai__plugin_8cpp" local="yes">src/ethics_ai/ethics_ai_plugin.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/ethics_ai/ethics_ai_plugin_interface.h</label>
+        <link refid="ethics__ai__plugin__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ethics_ai/ethics_ai_types.h</label>
+        <link refid="ethics__ai__types_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>variant</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/ethics_ai/ethics_ai_plugin_interface.h</label>
+        <link refid="ethics__ai__plugin__interface_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/ethics_ai/ethics_ai_plugin.cpp</label>
+        <link refid="ethics__ai__plugin_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin" prot="public">themis::plugins::ethics::IEthicsAIPlugin</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1ethics">themis::plugins::ethics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;plugins/plugin_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ethics__ai__types_8h" kindref="compound">ethics_ai/ethics_ai_types.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1ethics" kindref="compound">ethics</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin" kindref="compound">IEthicsAIPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>IThemisPlugin<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ae7180b5e597d44af5948a4853c2a1cc5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ae7180b5e597d44af5948a4853c2a1cc5" kindref="member">~IEthicsAIPlugin</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Debate<sp/>Initialization<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ad64f794651aff0f25daaf625387dba3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;DebateInitialization,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ad64f794651aff0f25daaf625387dba3b" kindref="member">initializeDebate</ref>(</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_description,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>philosophy_schools,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;general&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Argument<sp/>Management<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1add139141afefe6e8e3f2820421f973d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1add139141afefe6e8e3f2820421f973d3" kindref="member">storeArgument</ref>(</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_argument" kindref="compound">EthicalArgument</ref>&amp;<sp/>argument,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>store_vector<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1af228c1139d61f742484b4923ba26d4d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;std::vector&lt;EthicalArgument&gt;,<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1af228c1139d61f742484b4923ba26d4d5" kindref="member">getArgumentsByPhilosophy</ref>(</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy_school,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ArgumentType&gt;&amp;<sp/>argument_types<sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>20</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a0dc96f010ddf6d5fd12950bb55c860fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;EthicalArgument,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a0dc96f010ddf6d5fd12950bb55c860fb" kindref="member">getArgumentById</ref>(</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>argument_id</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1aacbf27e8f077af653525263abf021539" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1aacbf27e8f077af653525263abf021539" kindref="member">storeArgumentChain</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_argument_chain" kindref="compound">ArgumentChain</ref>&amp;<sp/>chain)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a65ce5e869662d22de7d4679584803a05" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;ArgumentChain,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a65ce5e869662d22de7d4679584803a05" kindref="member">getArgumentChain</ref>(</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>chain_id</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>RAG<sp/>Context<sp/>Retrieval<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a45c71d77235952f8e51afaaed8b800f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;RAGContext,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a45c71d77235952f8e51afaaed8b800f4" kindref="member">buildRAGContext</ref>(</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_description,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>philosophy_schools,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;general&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a83ea81c80b22cca14faf6d14e13e2087" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;std::vector&lt;std::string&gt;,<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a83ea81c80b22cca14faf6d14e13e2087" kindref="member">findSimilarDilemmas</ref>(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>query_text,</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>threshold<sp/>=<sp/>0.65,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a014437f1c7f536231dc5e3454e2539c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;std::vector&lt;std::string&gt;,<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a014437f1c7f536231dc5e3454e2539c9" kindref="member">getBestPractices</ref>(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>category,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>min_satisfaction<sp/>=<sp/>0.8,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>10</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;std::vector&lt;std::pair&lt;std::string,<sp/>double&gt;&gt;,<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref>&gt;<sp/></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1af5dd875568030d09cb4298170e057d02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1af5dd875568030d09cb4298170e057d02" kindref="member">vectorSemanticSearch</ref>(</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_embedding,</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy_school<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>20</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a9c7953210a2b16d280845feeae3c0a9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;std::vector&lt;std::string&gt;,<sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref>&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a9c7953210a2b16d280845feeae3c0a9a" kindref="member">traverseArgumentChain</ref>(</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>start_argument_id,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>max_depth<sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>direction<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;both&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Decision<sp/>Making<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a19ac9d4a89dbd4c2ce54656509554f01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;EthicalDecision,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a19ac9d4a89dbd4c2ce54656509554f01" kindref="member">makeDecision</ref>(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>dilemma_description,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>philosophy_schools,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>category<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;general&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>use_rag<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a74bc3971a00c7e7edaf77a998cd131e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a74bc3971a00c7e7edaf77a998cd131e1" kindref="member">storeDecision</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref>&amp;<sp/>decision)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a3942c6642fc964b958734aac2dd1ec94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;EthicalDecision,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a3942c6642fc964b958734aac2dd1ec94" kindref="member">getDecision</ref>(</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>decision_id</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Evaluation<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a95574cd40355a629d2dd8f8a8233ddd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;EthicsEvaluationResult,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a95574cd40355a629d2dd8f8a8233ddd7" kindref="member">evaluateDecision</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_ethical_decision" kindref="compound">EthicalDecision</ref>&amp;<sp/>decision,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;EthicalArgument&gt;&amp;<sp/>arguments<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Philosophy<sp/>Profile<sp/>Management<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a33cde317d500e5656ac1f55e170746a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;size_t,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a33cde317d500e5656ac1f55e170746a4" kindref="member">loadPhilosophyProfiles</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>philosophy_dir</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a5e100cfaf8c36b48c0510b073e2e749a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::variant&lt;PhilosophyProfile,<sp/>Status&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a5e100cfaf8c36b48c0510b073e2e749a" kindref="member">getPhilosophyProfile</ref>(</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>school_id</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1abdea9105b4b8b6f389c4dca621e043f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1abdea9105b4b8b6f389c4dca621e043f9" kindref="member">listPhilosophySchools</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Monitoring<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ab81b8fcfcafd2f98fa056ecab44e2714" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ab81b8fcfcafd2f98fa056ecab44e2714" kindref="member">getPrometheusMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a9cf41a22e41eec34138e8705b60987f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a9cf41a22e41eec34138e8705b60987f1" kindref="member">getDashboardJSON</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a214fbb0ec668bee5e281325b22faf8b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::map&lt;std::string,<sp/>double&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a214fbb0ec668bee5e281325b22faf8b4" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>==========<sp/>Configuration<sp/>==========</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a218121ae0d01874dfe22279fa0ddae12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1ethics_1_1_status" kindref="compound">Status</ref><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a218121ae0d01874dfe22279fa0ddae12" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a94b9a5265fd1f9e5f36cff8d34d7851c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1a94b9a5265fd1f9e5f36cff8d34d7851c" kindref="member">getConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ae5c531f3b1f9050a58b224e9d6c787fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1ethics_1_1_i_ethics_a_i_plugin_1ae5c531f3b1f9050a58b224e9d6c787fb" kindref="member">setEthicalGuidelinesManager</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>manager)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ethics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/ethics_ai/ethics_ai_plugin_interface.h"/>
+  </compounddef>
+</doxygen>

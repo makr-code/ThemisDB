@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint" kind="struct" language="C++" prot="private">
+    <compoundname>themis::importers::PostgreSQLImporter::ExcludeConstraint</compoundname>
+    <innerclass refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1_1_element" prot="public">themis::importers::PostgreSQLImporter::ExcludeConstraint::Element</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a77de2cae0688889d539bc3ec7d1021f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ExcludeConstraint::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ExcludeConstraint::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="87" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a8e9f908bb4348b05615fafeedd13f0ba" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ExcludeConstraint::index_method</definition>
+        <argsstring></argsstring>
+        <name>index_method</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ExcludeConstraint::index_method</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="88" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a9da6db94e183c8a3424adbf62588b777" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1_1_element" kindref="compound">Element</ref> &gt;</type>
+        <definition>std::vector&lt;Element&gt; themis::importers::PostgreSQLImporter::ExcludeConstraint::elements</definition>
+        <argsstring></argsstring>
+        <name>elements</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ExcludeConstraint::elements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="93" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a3a0f59d648029e72a49624967d6ec4b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::PostgreSQLImporter::ExcludeConstraint::definition</definition>
+        <argsstring></argsstring>
+        <name>definition</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ExcludeConstraint::definition</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="94" column="21" bodyfile="include/importers/postgres_importer.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a8fe5c5cf631d1996bcf455a6bf195610" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::PostgreSQLImporter::ExcludeConstraint::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::PostgreSQLImporter::ExcludeConstraint::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/postgres_importer.h" line="96" column="14" bodyfile="include/importers/postgres_importer.h" bodystart="96" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/postgres_importer.h" line="86" column="5" bodyfile="include/importers/postgres_importer.h" bodystart="86" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a3a0f59d648029e72a49624967d6ec4b1" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ExcludeConstraint</scope><name>definition</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a9da6db94e183c8a3424adbf62588b777" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ExcludeConstraint</scope><name>elements</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a8e9f908bb4348b05615fafeedd13f0ba" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ExcludeConstraint</scope><name>index_method</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a77de2cae0688889d539bc3ec7d1021f4" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ExcludeConstraint</scope><name>name</name></member>
+      <member refid="structthemis_1_1importers_1_1_postgre_s_q_l_importer_1_1_exclude_constraint_1a8fe5c5cf631d1996bcf455a6bf195610" prot="public" virt="non-virtual"><scope>themis::importers::PostgreSQLImporter::ExcludeConstraint</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

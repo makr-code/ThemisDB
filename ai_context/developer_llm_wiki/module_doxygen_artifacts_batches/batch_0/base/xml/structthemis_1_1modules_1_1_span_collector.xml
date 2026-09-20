@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_span_collector" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::SpanCollector</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_span_collector_1a4984a8e3522273de5616fcde566ba278" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::modules::SpanCollector::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::modules::SpanCollector::mtx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="42" column="27" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_span_collector_1a8c1d7c5f55a206815e3729cb626aad26" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; SpanEvent &gt;</type>
+        <definition>std::vector&lt;SpanEvent&gt; themis::modules::SpanCollector::events</definition>
+        <argsstring></argsstring>
+        <name>events</name>
+        <qualifiedname>themis::modules::SpanCollector::events</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="43" column="17" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_span_collector_1a9b694ea413d47e7a58c866be48738a40" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>SpanEmitter</type>
+        <definition>SpanEmitter themis::modules::SpanCollector::emitter</definition>
+        <argsstring>()</argsstring>
+        <name>emitter</name>
+        <qualifiedname>themis::modules::SpanCollector::emitter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="45" column="17" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="45" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_span_collector_1a85ee53718291ee4d9b2c6fc26725f61a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::modules::SpanCollector::countStartEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>countStartEvents</name>
+        <qualifiedname>themis::modules::SpanCollector::countStartEvents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="52" column="17" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_span_collector_1ab37d77f52a98e642f995420397f6fddf" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::modules::SpanCollector::countEndEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>countEndEvents</name>
+        <qualifiedname>themis::modules::SpanCollector::countEndEvents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="59" column="17" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="59" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_span_collector_1a918cf28947aae31996344119b2fef951" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::modules::SpanCollector::countErrorEndEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>countErrorEndEvents</name>
+        <qualifiedname>themis::modules::SpanCollector::countErrorEndEvents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="66" column="17" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="66" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_span_collector_1a5e5f2736414510a1fb12b810801ee550" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::modules::SpanCollector::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::modules::SpanCollector::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="75" column="10" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="75" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_span_collector_1a2e3f452240014474fabcc4a0dc216ad4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>SpanEvent</type>
+        <definition>SpanEvent themis::modules::SpanCollector::lastEvent</definition>
+        <argsstring>() const</argsstring>
+        <name>lastEvent</name>
+        <qualifiedname>themis::modules::SpanCollector::lastEvent</qualifiedname>
+        <briefdescription>
+<para>Return a copy of the most recent event under the lock. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/base/test_base_wave_d_tracing.cpp" line="81" column="15" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="81" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safe accumulator for SpanEvent records. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/base/test_base_wave_d_tracing.cpp" line="41" column="1" bodyfile="tests/base/test_base_wave_d_tracing.cpp" bodystart="41" bodyend="85"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_span_collector_1a5e5f2736414510a1fb12b810801ee550" prot="public" virt="non-virtual"><scope>themis::modules::SpanCollector</scope><name>clear</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_collector_1ab37d77f52a98e642f995420397f6fddf" prot="public" virt="non-virtual"><scope>themis::modules::SpanCollector</scope><name>countEndEvents</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_collector_1a918cf28947aae31996344119b2fef951" prot="public" virt="non-virtual"><scope>themis::modules::SpanCollector</scope><name>countErrorEndEvents</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_collector_1a85ee53718291ee4d9b2c6fc26725f61a" prot="public" virt="non-virtual"><scope>themis::modules::SpanCollector</scope><name>countStartEvents</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_collector_1a9b694ea413d47e7a58c866be48738a40" prot="public" virt="non-virtual"><scope>themis::modules::SpanCollector</scope><name>emitter</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_collector_1a8c1d7c5f55a206815e3729cb626aad26" prot="public" virt="non-virtual"><scope>themis::modules::SpanCollector</scope><name>events</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_collector_1a2e3f452240014474fabcc4a0dc216ad4" prot="public" virt="non-virtual"><scope>themis::modules::SpanCollector</scope><name>lastEvent</name></member>
+      <member refid="structthemis_1_1modules_1_1_span_collector_1a4984a8e3522273de5616fcde566ba278" prot="public" virt="non-virtual"><scope>themis::modules::SpanCollector</scope><name>mtx</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

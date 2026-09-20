@@ -1,0 +1,393 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="logical__replication_8h" kind="file" language="C++">
+    <compoundname>logical_replication.h</compoundname>
+    <includes refid="replication__manager_8h" local="yes">replication/replication_manager.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="logical__replication_8cpp" local="yes">src/replication/logical_replication.cpp</includedby>
+    <includedby refid="test__replication__wave1__critical__fixes_8cpp" local="yes">tests/replication/test_replication_wave1_critical_fixes.cpp</includedby>
+    <incdepgraph>
+      <node id="18">
+        <label>replication/geo_placement.h</label>
+        <link refid="geo__placement_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/replication/logical_replication.h</label>
+        <link refid="logical__replication_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>replication/replication_manager.h</label>
+        <link refid="replication__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="6">
+        <label>chrono</label>
+      </node>
+      <node id="11">
+        <label>condition_variable</label>
+      </node>
+      <node id="15">
+        <label>deque</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="16">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="21">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="13">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>queue</label>
+      </node>
+      <node id="17">
+        <label>set</label>
+      </node>
+      <node id="10">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>thread</label>
+      </node>
+      <node id="19">
+        <label>unordered_map</label>
+      </node>
+      <node id="20">
+        <label>unordered_set</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/replication/logical_replication.h</label>
+        <link refid="logical__replication_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/replication/logical_replication.cpp</label>
+        <link refid="logical__replication_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/replication/test_replication_wave1_critical_fixes.cpp</label>
+        <link refid="test__replication__wave1__critical__fixes_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_change" prot="public">themisdb::replication::LogicalChange</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_logical_replication_manager" prot="public">themisdb::replication::LogicalReplicationManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" prot="public">themisdb::replication::LogicalReplicationManager::ReplicationFilter</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" prot="public">themisdb::replication::LogicalReplicationManager::LogicalReplicationSlot</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config" prot="public">themisdb::replication::LogicalReplicationManager::Config</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats" prot="public">themisdb::replication::LogicalReplicationManager::Stats</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_slot_runtime" prot="private">themisdb::replication::LogicalReplicationManager::SlotRuntime</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication">themisdb::replication</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="replication__manager_8h" kindref="compound">replication/replication_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1replication" kindref="compound">replication</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemisdb_1_1replication_1_1_logical_change" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref><sp/>{</highlight></codeline>
+<codeline lineno="41" refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a35b615a70e0c452f5ba9a94ec544e72b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548" kindref="member">Type</ref><sp/>:<sp/>uint8_t<sp/>{<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a61ee777e7f71dc466c3b2c685d8d313b" kindref="member">INSERT</ref>,<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">UPDATE</ref>,<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a32f68a60cef40faedbc6af20298c1a1e" kindref="member">DELETE</ref>,<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a0a83d15fde12983f199bdeb76667660f" kindref="member">TRUNCATE</ref>,<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a35b615a70e0c452f5ba9a94ec544e72b" kindref="member">DDL</ref>,<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a46b8744c6bc840d2cb241fa165f3e204" kindref="member">SNAPSHOT</ref>,<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">UNKNOWN</ref><sp/>};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>to<sp/>UNKNOWN<sp/>to<sp/>avoid<sp/>misclassifying<sp/>uninitialized<sp/>changes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1replication_1_1_logical_change_1a2fb6151376f974320743a4674e88bb93" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548" kindref="member">Type</ref><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a2fb6151376f974320743a4674e88bb93" kindref="member">type</ref><sp/>=<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a9dd46810a6c990f3eb64292d700b1548a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">Type::UNKNOWN</ref>;</highlight></codeline>
+<codeline lineno="45" refid="structthemisdb_1_1replication_1_1_logical_change_1ae4e1dfff53e7493484818c9ed444419d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1ae4e1dfff53e7493484818c9ed444419d" kindref="member">collection</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1replication_1_1_logical_change_1afa4b2d031f5a2ad6317a58aba38f650e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1afa4b2d031f5a2ad6317a58aba38f650e" kindref="member">schema_version</ref>;</highlight></codeline>
+<codeline lineno="47" refid="structthemisdb_1_1replication_1_1_logical_change_1aec5bf0aedeadfaa963fde59a42fadadf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1aec5bf0aedeadfaa963fde59a42fadadf" kindref="member">source_version</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1replication_1_1_logical_change_1adb90639aa4e3726e0c6f742027d7821a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1adb90639aa4e3726e0c6f742027d7821a" kindref="member">target_version</ref>;</highlight></codeline>
+<codeline lineno="49" refid="structthemisdb_1_1replication_1_1_logical_change_1a8e6028f430609b2ba30f796bae979f48" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a8e6028f430609b2ba30f796bae979f48" kindref="member">old_data</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemisdb_1_1replication_1_1_logical_change_1a23ed0722ff932764a51cc32da70d43da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a23ed0722ff932764a51cc32da70d43da" kindref="member">new_data</ref>;</highlight></codeline>
+<codeline lineno="51" refid="structthemisdb_1_1replication_1_1_logical_change_1adeee2c9429e6ebedb27bf7b60b60b765" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1adeee2c9429e6ebedb27bf7b60b60b765" kindref="member">ddl_statement</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemisdb_1_1replication_1_1_logical_change_1adebe0ccab2f28ddbc4c2440d9fd3511d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1adebe0ccab2f28ddbc4c2440d9fd3511d" kindref="member">lsn</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="53" refid="structthemisdb_1_1replication_1_1_logical_change_1a5abe3c6abf3f1299b94656ded89d61e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_change_1a5abe3c6abf3f1299b94656ded89d61e1" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemisdb_1_1replication_1_1_logical_replication_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1acf9b55d49a0c86105d936ffea1602846" kindref="member">LogicalReplicationManager</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref>,</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::enable_shared_from_this&lt;LogicalReplicationManager&gt;<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="68" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="69" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1acab6ef88410cfe9f082280a3aac0cd52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1acab6ef88410cfe9f082280a3aac0cd52" kindref="member">include_collections</ref>;</highlight></codeline>
+<codeline lineno="70" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1ab5d06e8e96cb326db598c1e511b0fb08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1ab5d06e8e96cb326db598c1e511b0fb08" kindref="member">exclude_collections</ref>;</highlight></codeline>
+<codeline lineno="71" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1aa8c2bf31167a240b5d5d0ee7de6c878f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1aa8c2bf31167a240b5d5d0ee7de6c878f" kindref="member">row_filter_expression</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="72" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1a952b3cd70a1ebcfdf9b8e077a2b0ccda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1a952b3cd70a1ebcfdf9b8e077a2b0ccda" kindref="member">replicate_ddl</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1a5ea649142df4c9feb15993c51ce4be1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter_1a5ea649142df4c9feb15993c51ce4be1d" kindref="member">replicate_dml</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1acb8eef34f0a9927dba62a87a96742383" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1acb8eef34f0a9927dba62a87a96742383" kindref="member">slot_name</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1aa96516eb380167e089554f0a597cf752" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1aa96516eb380167e089554f0a597cf752" kindref="member">restart_lsn</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="79" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a8d79ed29005af309e39a3be496d226cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a8d79ed29005af309e39a3be496d226cc" kindref="member">confirmed_flush_lsn</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a537f8b493229abd44ff3d3f1efb429fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a537f8b493229abd44ff3d3f1efb429fd" kindref="member">plugin_name</ref>;</highlight></codeline>
+<codeline lineno="81" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a11e5829edac27ee5260189f0a4c31d0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1a11e5829edac27ee5260189f0a4c31d0d" kindref="member">filter</ref>;</highlight></codeline>
+<codeline lineno="82" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1adbfa19a159fb1aef106669a7cf08aaa8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot_1adbfa19a159fb1aef106669a7cf08aaa8" kindref="member">initial_sync_pending</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="86" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1a7e33697360d2b2f346be288ed6453d12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1a7e33697360d2b2f346be288ed6453d12" kindref="member">wal_directory</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1a99e2427fb02e7045fe1b0fc4575c6aff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1a99e2427fb02e7045fe1b0fc4575c6aff" kindref="member">source_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1.5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1a5c7fc8427149e556fce3e711175fb5ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1a5c7fc8427149e556fce3e711175fb5ec" kindref="member">target_version</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1.6&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="89" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1ab023517bf3a1e2e14199dc16d1b43385" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1ab023517bf3a1e2e14199dc16d1b43385" kindref="member">parallel_decoding</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="90" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1abe1e28ff09ad9d3d946b42951b9d30bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;void(<ref refid="structthemisdb_1_1replication_1_1_logical_change" kindref="compound">LogicalChange</ref>&amp;)&gt;<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1abe1e28ff09ad9d3d946b42951b9d30bc" kindref="member">transform</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1a248ca0a97072eba610379e10d359240f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config_1a248ca0a97072eba610379e10d359240f" kindref="member">file_io_timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1af38e544e3e1c22567514a6d4570b617c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1af38e544e3e1c22567514a6d4570b617c" kindref="member">changes_enqueued</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="99" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1a8bd820317c2e4bcef6223480b5a3f7ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1a8bd820317c2e4bcef6223480b5a3f7ac" kindref="member">ddl_enqueued</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1ab5fa89b9103ae00e0bd32c5f050a343c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1ab5fa89b9103ae00e0bd32c5f050a343c" kindref="member">filtered_out</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101" refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1a5b2439dd394b837b5554901edf1e2fe7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats_1a5b2439dd394b837b5554901edf1e2fe7" kindref="member">slots_loaded</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1acf9b55d49a0c86105d936ffea1602846" kindref="member">LogicalReplicationManager</ref>(std::shared_ptr&lt;WALManager&gt;<sp/>wal);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1acf9b55d49a0c86105d936ffea1602846" kindref="member">LogicalReplicationManager</ref>(std::shared_ptr&lt;WALManager&gt;<sp/>wal,<sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_config" kindref="compound">Config</ref><sp/>config);</highlight></codeline>
+<codeline lineno="121" refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a608aa631775c5cf90c4ea2f428224ce3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a608aa631775c5cf90c4ea2f428224ce3" kindref="member">~LogicalReplicationManager</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Slot<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3c558679b106487e3c9bb6ff62a88872" kindref="member">createSlot</ref>(</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_plugin);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3c558679b106487e3c9bb6ff62a88872" kindref="member">createSlot</ref>(</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name,</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_plugin,</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref>&amp;<sp/>filter);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3c558679b106487e3c9bb6ff62a88872" kindref="member">createSlot</ref>(</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_plugin,</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref>&amp;<sp/>filter,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>perform_initial_sync);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a3c558679b106487e3c9bb6ff62a88872" kindref="member">createSlot</ref>(</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name,</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_plugin,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_replication_filter" kindref="compound">ReplicationFilter</ref>&amp;<sp/>filter,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>perform_initial_sync,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;LogicalChange&gt;<sp/>initial_snapshot);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1afed9b4ace17c8f526ef07eccf8377a44" kindref="member">advanceSlot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name,<sp/>uint64_t<sp/>lsn);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogicalReplicationSlot&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ae44972fd728f154d8e7c8f0c9d4720d0" kindref="member">listSlots</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aabd4169df3600aa0e6103ebb48271813" kindref="member">hasSlot</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Change<sp/>streaming</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;LogicalChange&gt;<sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a94f9d63f4d7f3dee4f08365cb35655fe" kindref="member">readChanges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name,<sp/>uint32_t<sp/>max_changes<sp/>=<sp/>1000);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ae42437b4737cd3c7d0bb6950761b5432" kindref="member">recordDDLChange</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>ddl_statement,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>schema_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>lsn<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Listener<sp/>callback<sp/>(invoked<sp/>by<sp/>ReplicationManager)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a8c14e2d00d68bdaa3b9fdd1f53a742a5" kindref="member">onRoleChange</ref>(<ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref><sp/>old_role,<sp/><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref><sp/>new_role)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a7a7297545efb3ab4b3dcbd5d5619869f" kindref="member">onLeaderElected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>leader_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a2173113451bee2d1a9bca07495b4f6a9" kindref="member">onReplicaAdded</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref>&amp;<sp/>replica)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1aa6a647094eee57928eae267cc63f6d32" kindref="member">onReplicaRemoved</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ac2045265984f37a75cac7ef6be9c6fd5" kindref="member">onConflictDetected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>document_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a33c1422fb46b3627822ca20e61f314de" kindref="member">onReplicationLagWarning</ref>(int64_t<sp/>lag_ms)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a9736129c7e2ef2ce325cb388d16802da" kindref="member">onReplicaHealthChanged</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>node_id,</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref><sp/>old_status,</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref><sp/>new_status)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a230d51e35802fb25c627eaa2fbbf2392" kindref="member">onFailoverStarted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>failed_leader_id,</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_leader_id)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a37a7275118b5d0d2bc505fd34f211591" kindref="member">onFailoverCompleted</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>new_leader_id,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>success)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1ad0527d252378da456c5025cff3405602" kindref="member">onNetworkPartitionDetected</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>unreachable_nodes)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a4fa7e9af0bc36181cea6fd239ff42df3" kindref="member">onWALEntryApplied</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;<sp/>entry)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemisdb_1_1replication_1_1_logical_replication_manager_1a72ca0a2e67ca64736f4500bd4da8d9dd" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SlotRuntime<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1replication_1_1_logical_replication_manager_1_1_logical_replication_slot" kindref="compound">LogicalReplicationSlot</ref><sp/>meta;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::deque&lt;LogicalChange&gt;<sp/>buffer;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;std::string&gt;<sp/>snapshot_keys;</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>initial_sync_pending<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mutex<sp/>mutex;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;WALManager&gt;<sp/>wal_;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>slots_mutex_;</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>std::shared_ptr&lt;SlotRuntime&gt;&gt;<sp/>slots_;</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>stats_mutex_;</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>Stats<sp/>stats_;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;bool&gt;<sp/>missing_seq_warned_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Persistence<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadPersistedSlots();</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>persistSlot(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>SlotRuntime&amp;<sp/>slot)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>slotStatePath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>slot_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Filtering<sp/>and<sp/>transformation<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>matchesFilter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LogicalChange&amp;<sp/>change,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ReplicationFilter&amp;<sp/>filter)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>evaluateRowFilter(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>expression,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>payload)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/>LogicalChange<sp/>makeLogicalChange(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>WALEntry&amp;<sp/>entry)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>applyTransform(LogicalChange&amp;<sp/>change)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>documentIdFromChange(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>LogicalChange&amp;<sp/>change)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>collectionKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>document_id);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>replication</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/replication/logical_replication.h"/>
+  </compounddef>
+</doxygen>

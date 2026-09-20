@@ -1,0 +1,315 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__raid__routing_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_raid_routing.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">sharding/adaptive_shard_router.h</includes>
+    <includes local="yes">sharding/consistent_hash.h</includes>
+    <includes local="yes">sharding/shard_topology.h</includes>
+    <includes local="yes">sharding/urn_resolver.h</includes>
+    <includes local="yes">distributed_knowledge/adapter_capability_announcement.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/llm/test_llm_raid_routing.cpp</label>
+        <link refid="test__llm__raid__routing_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>distributed_knowledge/adapter_capability_announcement.h</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="3">
+        <label>sharding/adaptive_shard_router.h</label>
+      </node>
+      <node id="4">
+        <label>sharding/consistent_hash.h</label>
+      </node>
+      <node id="5">
+        <label>sharding/shard_topology.h</label>
+      </node>
+      <node id="6">
+        <label>sharding/urn_resolver.h</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__raid__routing_8cpp_1a3ab99258ad49b96341a5581d24048891" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMRaidRouting, DLR01_HighestAccuracyDeltaWins)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMRaidRouting</type>
+        </param>
+        <param>
+          <type>DLR01_HighestAccuracyDeltaWins</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_raid_routing.cpp" line="68" column="1" bodyfile="tests/llm/test_llm_raid_routing.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__raid__routing_8cpp_1a81c41f2825e51f145c7bb7c69ed7a512" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMRaidRouting, DLR02_TieBreakPicksIdleShard)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMRaidRouting</type>
+        </param>
+        <param>
+          <type>DLR02_TieBreakPicksIdleShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_raid_routing.cpp" line="78" column="1" bodyfile="tests/llm/test_llm_raid_routing.cpp" bodystart="78" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__raid__routing_8cpp_1a86fa50cde0ebe35499f733226a764a78" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMRaidRouting, DLR03_HigherAccuracyBeatsLowerLoad)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMRaidRouting</type>
+        </param>
+        <param>
+          <type>DLR03_HigherAccuracyBeatsLowerLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_raid_routing.cpp" line="90" column="1" bodyfile="tests/llm/test_llm_raid_routing.cpp" bodystart="90" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__raid__routing_8cpp_1ac3a16a59db3cadb675d2399c7d3aed6b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMRaidRouting, DLR04_UpdateLLMLoadLastWriteWins)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMRaidRouting</type>
+        </param>
+        <param>
+          <type>DLR04_UpdateLLMLoadLastWriteWins</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_raid_routing.cpp" line="102" column="1" bodyfile="tests/llm/test_llm_raid_routing.cpp" bodystart="102" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__raid__routing_8cpp_1ae43420e9844757dedfac3a2bee2699b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMRaidRouting, DLR05_UnknownDomainReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMRaidRouting</type>
+        </param>
+        <param>
+          <type>DLR05_UnknownDomainReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_raid_routing.cpp" line="119" column="1" bodyfile="tests/llm/test_llm_raid_routing.cpp" bodystart="119" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__raid__routing_8cpp_1a8a9f6bd04a94fafaf08aeee8ccc1a5c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(LLMRaidRouting, DLR06_ThreeWayTiePicksMinPending)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>LLMRaidRouting</type>
+        </param>
+        <param>
+          <type>DLR06_ThreeWayTiePicksMinPending</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_raid_routing.cpp" line="127" column="1" bodyfile="tests/llm/test_llm_raid_routing.cpp" bodystart="127" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>LLM+RAID Phase 2 integration: focused unit tests for LEAST_LOADED domain routing. Tests CBS-LLM-01..03 live in test_continuous_batch_scheduler.cpp and are exercised via themis_tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Coverage (6 tests):<itemizedlist>
+<listitem><para>DLR-01: routeByDomain() picks shard with highest accuracy_delta</para>
+</listitem><listitem><para>DLR-02: LEAST_LOADED tie-break — idle shard wins when deltas are equal</para>
+</listitem><listitem><para>DLR-03: Higher accuracy_delta beats lower pending load</para>
+</listitem><listitem><para>DLR-04: updateShardLLMLoad() is idempotent (last write wins)</para>
+</listitem><listitem><para>DLR-05: routeByDomain() returns &quot;&quot; when no domain is registered</para>
+</listitem><listitem><para>DLR-06: Three-way tie — least pending wins </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB<sp/>—<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/adaptive_shard_router.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/consistent_hash.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/shard_topology.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;sharding/urn_resolver.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;distributed_knowledge/adapter_capability_announcement.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::distributed_knowledge;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding" kindref="compound">themis::sharding</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">AdaptiveShardRouter<sp/>makeRouter()<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topology<sp/>=<sp/>std::make_shared&lt;ShardTopology&gt;();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>ring<sp/><sp/><sp/><sp/><sp/>=<sp/>std::make_shared&lt;ConsistentHashRing&gt;();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resolver<sp/>=<sp/>std::make_shared&lt;URNResolver&gt;(topology,<sp/>ring);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>ShardRouter::Config<sp/>base_cfg;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>AdaptiveShardRouter(resolver,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>topology,<sp/>base_cfg);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reg(AdaptiveShardRouter&amp;<sp/>r,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>shard_id,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>AdapterDomainType<sp/>domain,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>delta)</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>AdapterCapabilityAnnouncement<sp/>cap;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>cap.domain_type<sp/><sp/><sp/><sp/>=<sp/>domain;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>cap.accuracy_delta<sp/>=<sp/>delta;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>cap.adapter_version<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;v1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateAdapterCapability(shard_id,<sp/>cap);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Domain-routing<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DLR-01:<sp/>Highest<sp/>accuracy_delta<sp/>wins<sp/>without<sp/>load<sp/>information.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><ref refid="test__llm__raid__routing_8cpp_1a3ab99258ad49b96341a5581d24048891" kindref="member">TEST</ref>(LLMRaidRouting,<sp/>DLR01_HighestAccuracyDeltaWins)<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>makeRouter();</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-low&quot;</highlight><highlight class="normal">,<sp/><sp/>AdapterDomainType::TRANSACTION,<sp/>0.3);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-high&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::TRANSACTION,<sp/>0.8);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-mid&quot;</highlight><highlight class="normal">,<sp/><sp/>AdapterDomainType::TRANSACTION,<sp/>0.5);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.routeByDomain(AdapterDomainType::TRANSACTION),<sp/></highlight><highlight class="stringliteral">&quot;shard-high&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DLR-02:<sp/>Tied<sp/>accuracy_delta<sp/>→<sp/>idle<sp/>shard<sp/>(lower<sp/>pending)<sp/>wins.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><ref refid="test__llm__raid__routing_8cpp_1a3ab99258ad49b96341a5581d24048891" kindref="member">TEST</ref>(LLMRaidRouting,<sp/>DLR02_TieBreakPicksIdleShard)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>makeRouter();</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-busy&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::TRANSACTION,<sp/>0.7);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-idle&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::TRANSACTION,<sp/>0.7);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;shard-busy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">80,<sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">150.0);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;shard-idle&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">1,<sp/><sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">2.0);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.routeByDomain(AdapterDomainType::TRANSACTION),<sp/></highlight><highlight class="stringliteral">&quot;shard-idle&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DLR-03:<sp/>Higher<sp/>accuracy_delta<sp/>beats<sp/>low<sp/>pending<sp/>load.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><ref refid="test__llm__raid__routing_8cpp_1a3ab99258ad49b96341a5581d24048891" kindref="member">TEST</ref>(LLMRaidRouting,<sp/>DLR03_HigherAccuracyBeatsLowerLoad)<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>makeRouter();</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-expert&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::GEOSPATIAL,<sp/>0.95);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-empty&quot;</highlight><highlight class="normal">,<sp/><sp/>AdapterDomainType::GEOSPATIAL,<sp/>0.40);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;shard-expert&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">200,<sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">500.0);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;shard-empty&quot;</highlight><highlight class="normal">,<sp/><sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">0,<sp/><sp/><sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">0.0);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.routeByDomain(AdapterDomainType::GEOSPATIAL),<sp/></highlight><highlight class="stringliteral">&quot;shard-expert&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DLR-04:<sp/>updateShardLLMLoad()<sp/>is<sp/>idempotent<sp/>—<sp/>last<sp/>write<sp/>wins.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><ref refid="test__llm__raid__routing_8cpp_1a3ab99258ad49b96341a5581d24048891" kindref="member">TEST</ref>(LLMRaidRouting,<sp/>DLR04_UpdateLLMLoadLastWriteWins)<sp/>{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>makeRouter();</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-a&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::VECTOR_SEARCH,<sp/>0.6);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-b&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::VECTOR_SEARCH,<sp/>0.6);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First:<sp/>shard-a<sp/>has<sp/>low<sp/>load<sp/>→<sp/>would<sp/>win</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;shard-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">2,<sp/><sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">3.0);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;shard-b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">50,<sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">100.0);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.routeByDomain(AdapterDomainType::VECTOR_SEARCH),<sp/></highlight><highlight class="stringliteral">&quot;shard-a&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Overwrite:<sp/>shard-b<sp/>now<sp/>has<sp/>low<sp/>load<sp/>→<sp/>must<sp/>win<sp/>after<sp/>update</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;shard-a&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">50,<sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">100.0);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;shard-b&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">2,<sp/><sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">3.0);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.routeByDomain(AdapterDomainType::VECTOR_SEARCH),<sp/></highlight><highlight class="stringliteral">&quot;shard-b&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DLR-05:<sp/>routeByDomain()<sp/>returns<sp/>&quot;&quot;<sp/>when<sp/>no<sp/>shard<sp/>registered<sp/>for<sp/>domain.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><ref refid="test__llm__raid__routing_8cpp_1a3ab99258ad49b96341a5581d24048891" kindref="member">TEST</ref>(LLMRaidRouting,<sp/>DLR05_UnknownDomainReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>makeRouter();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;shard-a&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::TRANSACTION,<sp/>0.5);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.routeByDomain(AdapterDomainType::GEOSPATIAL),<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DLR-06:<sp/>Three-way<sp/>tie<sp/>→<sp/>shard<sp/>with<sp/>minimum<sp/>pending<sp/>wins.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><ref refid="test__llm__raid__routing_8cpp_1a3ab99258ad49b96341a5581d24048891" kindref="member">TEST</ref>(LLMRaidRouting,<sp/>DLR06_ThreeWayTiePicksMinPending)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>r<sp/>=<sp/>makeRouter();</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;s0&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::SCHEMA_ADVISOR,<sp/>0.55);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::SCHEMA_ADVISOR,<sp/>0.55);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>reg(r,<sp/></highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/>AdapterDomainType::SCHEMA_ADVISOR,<sp/>0.55);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;s0&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">30,<sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">60.0);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">5,<sp/><sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">10.0);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>r.updateShardLLMLoad(</highlight><highlight class="stringliteral">&quot;s2&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*pending=*/</highlight><highlight class="normal">20,<sp/></highlight><highlight class="comment">/*avg_queue_ms=*/</highlight><highlight class="normal">40.0);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.routeByDomain(AdapterDomainType::SCHEMA_ADVISOR),<sp/></highlight><highlight class="stringliteral">&quot;s1&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_raid_routing.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,327 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_http_scraper_api_client" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::HttpScraperApiClient</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_api_client" prot="public" virt="non-virtual">themis::scraper::IScraperApiClient</basecompoundref>
+    <includes refid="scraper__api__client_8h" local="no">scraper_api_client.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1a59928cedcc89b0092da2a165edbe5c4d" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1scraper_1a4992904a8ccbde4b4d6d4dee8c26fa6c" kindref="member">HttpFetchFn</ref></type>
+        <definition>HttpFetchFn themis::scraper::HttpScraperApiClient::fetch_fn_</definition>
+        <argsstring></argsstring>
+        <name>fetch_fn_</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::fetch_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="143" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::HttpScraperApiClient::HttpScraperApiClient</definition>
+        <argsstring>(HttpFetchFn fetch_fn={})</argsstring>
+        <name>HttpScraperApiClient</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::HttpScraperApiClient</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1scraper_1a4992904a8ccbde4b4d6d4dee8c26fa6c" kindref="member">HttpFetchFn</ref></type>
+          <declname>fetch_fn</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="132" column="14" bodyfile="src/scraper/scraper_api_client.cpp" bodystart="33" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1a1f8401467ba15e4f7b2abecb6585f019" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::HttpScraperApiClient::~HttpScraperApiClient</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~HttpScraperApiClient</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::~HttpScraperApiClient</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="133" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1a80acf4dbfaba04f27f70363384c47527" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::scraper::HttpScraperApiClient::HttpScraperApiClient</definition>
+        <argsstring>(const HttpScraperApiClient &amp;)=delete</argsstring>
+        <name>HttpScraperApiClient</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::HttpScraperApiClient</qualifiedname>
+        <param>
+          <type>const HttpScraperApiClient &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1a19d95a2fcb8129d3c054e5429eeedf5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" kindref="member">HttpScraperApiClient</ref> &amp;</type>
+        <definition>HttpScraperApiClient &amp; themis::scraper::HttpScraperApiClient::operator=</definition>
+        <argsstring>(const HttpScraperApiClient &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" kindref="member">HttpScraperApiClient</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="136" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1a7d610320f50a7ffe9fb4cc39b89a6142" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_api_result" kindref="compound">ApiResult</ref> &gt;</type>
+        <definition>std::vector&lt; ApiResult &gt; themis::scraper::HttpScraperApiClient::fetchAll</definition>
+        <argsstring>(const ApiEndpointConfig &amp;cfg, const std::string &amp;query) override</argsstring>
+        <name>fetchAll</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::fetchAll</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a13e74fea6caa8b016d604a1f48953369">fetchAll</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Fetch All. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: buildGetUrl(), buildBody(), fetch_fn_(), empty(), parseResultsArray(), insert(), end(), begin(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="138" column="17" bodyfile="src/scraper/scraper_api_client.cpp" bodystart="224" bodyend="307"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1add9c67dcb5faaaa7294f7d38def6a03a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::HttpScraperApiClient::buildGetUrl</definition>
+        <argsstring>(const ApiEndpointConfig &amp;cfg, const std::string &amp;query, int page, int offset, const std::string &amp;cursor) const</argsstring>
+        <name>buildGetUrl</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::buildGetUrl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>offset</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cursor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="145" column="17" bodyfile="src/scraper/scraper_api_client.cpp" bodystart="94" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1a637e7c333d8b67a4ab1c36d103c28f7a" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::HttpScraperApiClient::buildBody</definition>
+        <argsstring>(const ApiEndpointConfig &amp;cfg, const std::string &amp;query, int page, const std::string &amp;cursor) const</argsstring>
+        <name>buildBody</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::buildBody</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_api_endpoint_config" kindref="compound">ApiEndpointConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cursor</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="150" column="17" bodyfile="src/scraper/scraper_api_client.cpp" bodystart="120" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1ae7619147ec57168fcb8f26963ffab562" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1scraper_1_1_api_result" kindref="compound">ApiResult</ref> &gt;</type>
+        <definition>std::vector&lt; ApiResult &gt; themis::scraper::HttpScraperApiClient::parseResultsArray</definition>
+        <argsstring>(const std::string &amp;json_text, const std::string &amp;results_field, const std::string &amp;source_url)</argsstring>
+        <name>parseResultsArray</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::parseResultsArray</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>results_field</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>source_url</declname>
+        </param>
+        <briefdescription>
+<para>Parse a JSON array field into <ref refid="structthemis_1_1scraper_1_1_api_result" kindref="compound">ApiResult</ref> objects. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="156" column="24" bodyfile="src/scraper/scraper_api_client.cpp" bodystart="162" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1a49c9dde768d33603174f7413383997eb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::HttpScraperApiClient::flattenJson</definition>
+        <argsstring>(const std::string &amp;json_text)</argsstring>
+        <name>flattenJson</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::flattenJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json_text</declname>
+        </param>
+        <briefdescription>
+<para>Flatten a JSON value to plain text recursively. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="162" column="24" bodyfile="src/scraper/scraper_api_client.cpp" bodystart="145" bodyend="160"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_http_scraper_api_client_1a817b384570eae8280001c2c0e81c3d72" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::HttpScraperApiClient::curlFetch</definition>
+        <argsstring>(const std::string &amp;url, const std::string &amp;method, const std::map&lt; std::string, std::string &gt; &amp;headers, const std::string &amp;body)</argsstring>
+        <name>curlFetch</name>
+        <qualifiedname>themis::scraper::HttpScraperApiClient::curlFetch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>method</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>headers</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Default libcurl-backed HTTP fetch implementation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="165" column="24" bodyfile="src/scraper/scraper_api_client.cpp" bodystart="336" bodyend="383"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Production API client backed by libcurl. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>When THEMIS_ENABLE_CURL is not defined the client still compiles but <ref refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a7d610320f50a7ffe9fb4cc39b89a6142" kindref="member">fetchAll()</ref> returns an empty vector (for environments without libcurl). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::scraper::HttpScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_http_scraper_api_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::scraper::IScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_api_client"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::scraper::HttpScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_http_scraper_api_client"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::scraper::IScraperApiClient</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_api_client"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_api_client.h" line="130" column="1" bodyfile="include/scraper/scraper_api_client.h" bodystart="130" bodyend="170"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a637e7c333d8b67a4ab1c36d103c28f7a" prot="private" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>buildBody</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1add9c67dcb5faaaa7294f7d38def6a03a" prot="private" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>buildGetUrl</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a817b384570eae8280001c2c0e81c3d72" prot="private" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>curlFetch</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a59928cedcc89b0092da2a165edbe5c4d" prot="private" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>fetch_fn_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a7d610320f50a7ffe9fb4cc39b89a6142" prot="public" virt="virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>fetchAll</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a49c9dde768d33603174f7413383997eb" prot="private" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>flattenJson</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1acf5eebb988db483a22ad19f8d539e939" prot="public" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>HttpScraperApiClient</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a80acf4dbfaba04f27f70363384c47527" prot="public" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>HttpScraperApiClient</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a19d95a2fcb8129d3c054e5429eeedf5e" prot="public" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1ae7619147ec57168fcb8f26963ffab562" prot="private" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>parseResultsArray</name></member>
+      <member refid="classthemis_1_1scraper_1_1_http_scraper_api_client_1a1f8401467ba15e4f7b2abecb6585f019" prot="public" virt="non-virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>~HttpScraperApiClient</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_api_client_1a19fe8e8a47c135840940c6bdd362e293" prot="public" virt="virtual"><scope>themis::scraper::HttpScraperApiClient</scope><name>~IScraperApiClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

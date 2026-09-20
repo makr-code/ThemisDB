@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_pool_acquire_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::PoolAcquireResult</compoundname>
+    <includes refid="performance__api__contract_8h" local="no">performance_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::performance::PoolAcquireResult::acquired</definition>
+        <argsstring></argsstring>
+        <name>acquired</name>
+        <qualifiedname>themis::performance::PoolAcquireResult::acquired</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>true if resource was obtained </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/performance_api_contract.h" line="94" column="14" bodyfile="include/performance/performance_api_contract.h" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_pool_acquire_result_1a58f49d16fc1b84f2be51f116c6aa714d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72c" kindref="member">PerfError</ref></type>
+        <definition>PerfError themis::performance::PoolAcquireResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::performance::PoolAcquireResult::error</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1performance_1a93c4c2ebc0fd1c21fc301c45a64de72ca1b2b165717a1de7a26bb87921998ae69" kindref="member">PerfError::kPoolExhausted</ref>}</initializer>
+        <briefdescription>
+<para>error if !acquired </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/performance_api_contract.h" line="95" column="15" bodyfile="include/performance/performance_api_contract.h" bodystart="95" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resource pool acquisition result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/performance_api_contract.h" line="93" column="1" bodyfile="include/performance/performance_api_contract.h" bodystart="93" bodyend="96"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_pool_acquire_result_1a4ab5d541e759041dab7f680729257d0b" prot="public" virt="non-virtual"><scope>themis::performance::PoolAcquireResult</scope><name>acquired</name></member>
+      <member refid="structthemis_1_1performance_1_1_pool_acquire_result_1a58f49d16fc1b84f2be51f116c6aa714d" prot="public" virt="non-virtual"><scope>themis::performance::PoolAcquireResult</scope><name>error</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

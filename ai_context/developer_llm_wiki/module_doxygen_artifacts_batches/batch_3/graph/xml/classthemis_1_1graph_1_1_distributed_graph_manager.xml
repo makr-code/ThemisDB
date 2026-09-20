@@ -1,0 +1,455 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_distributed_graph_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::DistributedGraphManager</compoundname>
+    <includes refid="distributed__graph_8h" local="no">distributed_graph.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_distributed_graph_manager_1ae33e2bb4b6a950a750f05928f6ee52cf" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1graph_1_1_distributed_graph_config" kindref="compound">DistributedGraphConfig</ref></type>
+        <definition>DistributedGraphConfig themis::graph::DistributedGraphManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="200" column="28" bodyfile="include/graph/distributed_graph.h" bodystart="200" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a94b11b0dec6af6a70c4a6c25728b4868" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1graph_1_1_shard_graph_executor" kindref="compound">ShardGraphExecutor</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;ShardGraphExecutor&gt; &gt; themis::graph::DistributedGraphManager::shards_</definition>
+        <argsstring></argsstring>
+        <name>shards_</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="203" column="24" bodyfile="include/graph/distributed_graph.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a2690fc47d2d1b1fd592ede1bffa8a411" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::graph::DistributedGraphManager::shards_mutex_</definition>
+        <argsstring></argsstring>
+        <name>shards_mutex_</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::shards_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="204" column="31" bodyfile="include/graph/distributed_graph.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a8c235583a0834679f7d61bf84591fa74" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::DistributedGraphManager::DistributedGraphManager</definition>
+        <argsstring>(const DistributedGraphConfig &amp;config={})</argsstring>
+        <name>DistributedGraphManager</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::DistributedGraphManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_distributed_graph_config" kindref="compound">DistributedGraphConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="133" column="14" bodyfile="src/graph/distributed_graph.cpp" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a40725cb6cd5f2852c1c458457b2ee3e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::DistributedGraphManager::addShard</definition>
+        <argsstring>(const std::string &amp;shard_id, std::shared_ptr&lt; ShardGraphExecutor &gt; executor)</argsstring>
+        <name>addShard</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::addShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1graph_1_1_shard_graph_executor" kindref="compound">ShardGraphExecutor</ref> &gt;</type>
+          <declname>executor</declname>
+        </param>
+        <briefdescription>
+<para>Add Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">executor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="144" column="10" bodyfile="src/graph/distributed_graph.cpp" bodystart="153" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1af1dc4b7fd8a88a19f20cb9978ea1126f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::DistributedGraphManager::removeShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>removeShard</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::removeShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="151" column="10" bodyfile="src/graph/distributed_graph.cpp" bodystart="163" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a6ea69cf68c570b7e3fecd2be2abd974f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::graph::DistributedGraphManager::shardIds</definition>
+        <argsstring>() const</argsstring>
+        <name>shardIds</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::shardIds</qualifiedname>
+        <briefdescription>
+<para>Shard Ids. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shards_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="157" column="17" bodyfile="src/graph/distributed_graph.cpp" bodystart="168" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::DistributedGraphManager::shardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>shardCount</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::shardCount</qualifiedname>
+        <briefdescription>
+<para>Shard Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shards_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="163" column="12" bodyfile="src/graph/distributed_graph.cpp" bodystart="184" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1ad8a92078ac7a497b14f065586d2dd720" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; GraphIndexManager::PathResult &gt;</type>
+        <definition>Result&lt; GraphIndexManager::PathResult &gt; themis::graph::DistributedGraphManager::shortestPath</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex, const GraphQueryOptimizer::QueryConstraints &amp;constraints={})</argsstring>
+        <name>shortestPath</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::shortestPath</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="169" column="12" bodyfile="src/graph/distributed_graph.cpp" bodystart="288" bodyend="405"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a19cbe8607826a0d3f23b4e075c6a68d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; std::string &gt; &gt; themis::graph::DistributedGraphManager::kHopNeighbors</definition>
+        <argsstring>(std::string_view start_vertex, int k, const GraphQueryOptimizer::QueryConstraints &amp;constraints={})</argsstring>
+        <name>kHopNeighbors</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::kHopNeighbors</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="174" column="12" bodyfile="src/graph/distributed_graph.cpp" bodystart="412" bodyend="480"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a44b9812d183185cee99250a14e972e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_optimization_plan" kindref="compound">GraphQueryOptimizer::OptimizationPlan</ref> &gt;</type>
+        <definition>Result&lt; GraphQueryOptimizer::OptimizationPlan &gt; themis::graph::DistributedGraphManager::optimizePlan</definition>
+        <argsstring>(std::string_view start_vertex, std::string_view target_vertex, GraphQueryOptimizer::QueryPattern pattern, const GraphQueryOptimizer::QueryConstraints &amp;constraints={})</argsstring>
+        <name>optimizePlan</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::optimizePlan</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>start_vertex</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target_vertex</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1graph_1_1_graph_query_optimizer_1a18766e7448153fed23be2b6b4a8884d5" kindref="member">GraphQueryOptimizer::QueryPattern</ref></type>
+          <declname>pattern</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1graph_1_1_graph_query_optimizer_1_1_query_constraints" kindref="compound">GraphQueryOptimizer::QueryConstraints</ref> &amp;</type>
+          <declname>constraints</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="179" column="12" bodyfile="src/graph/distributed_graph.cpp" bodystart="487" bodyend="545"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a7f2a05dac61345f634e67ab3294b8fcc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::DistributedGraphManager::resolveShardForVertex</definition>
+        <argsstring>(const std::string &amp;local_vertex_id) const</argsstring>
+        <name>resolveShardForVertex</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::resolveShardForVertex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>local_vertex_id</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Shard For Vertex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">local_vertex_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the local vertex. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shards_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="197" column="17" bodyfile="src/graph/distributed_graph.cpp" bodystart="232" bodyend="281"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a865357b9ea7d56296fc048aa75b8f1a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>std::pair&lt; std::string, std::string &gt; themis::graph::DistributedGraphManager::parseVertexId</definition>
+        <argsstring>(std::string_view qualified_id)</argsstring>
+        <name>parseVertexId</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::parseVertexId</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>qualified_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="189" column="22" bodyfile="src/graph/distributed_graph.cpp" bodystart="224" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1a0e66df521601b9c1008641d8eba2eac6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="classthemis_1_1graph_1_1_shard_graph_executor" kindref="compound">ShardGraphExecutor</ref> &gt; &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; ShardGraphExecutor &gt; &gt; &gt; themis::graph::DistributedGraphManager::healthyShards</definition>
+        <argsstring>() const</argsstring>
+        <name>healthyShards</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::healthyShards</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shards_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="207" column="5" bodyfile="src/graph/distributed_graph.cpp" bodystart="195" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_distributed_graph_manager_1ac850df06712c68c6c4986e4130163067" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::DistributedGraphManager::effectiveParallelism</definition>
+        <argsstring>(size_t num_shards) const</argsstring>
+        <name>effectiveParallelism</name>
+        <qualifiedname>themis::graph::DistributedGraphManager::effectiveParallelism</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_shards</declname>
+        </param>
+        <briefdescription>
+<para>Effective Parallelism. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_shards</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/distributed_graph.h" line="214" column="12" bodyfile="src/graph/distributed_graph.cpp" bodystart="212" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/distributed_graph.h" line="131" column="1" bodyfile="include/graph/distributed_graph.h" bodystart="131" bodyend="215"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a40725cb6cd5f2852c1c458457b2ee3e1" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>addShard</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1ae33e2bb4b6a950a750f05928f6ee52cf" prot="private" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a8c235583a0834679f7d61bf84591fa74" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>DistributedGraphManager</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1ac850df06712c68c6c4986e4130163067" prot="private" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>effectiveParallelism</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a0e66df521601b9c1008641d8eba2eac6" prot="private" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>healthyShards</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a19cbe8607826a0d3f23b4e075c6a68d9" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>kHopNeighbors</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a44b9812d183185cee99250a14e972e73" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>optimizePlan</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a865357b9ea7d56296fc048aa75b8f1a7" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>parseVertexId</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af1dc4b7fd8a88a19f20cb9978ea1126f" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>removeShard</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a7f2a05dac61345f634e67ab3294b8fcc" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>resolveShardForVertex</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1af49ec134292805502a0f4e96f77f65ae" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>shardCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a6ea69cf68c570b7e3fecd2be2abd974f" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>shardIds</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a94b11b0dec6af6a70c4a6c25728b4868" prot="private" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>shards_</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1a2690fc47d2d1b1fd592ede1bffa8a411" prot="private" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>shards_mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_distributed_graph_manager_1ad8a92078ac7a497b14f065586d2dd720" prot="public" virt="non-virtual"><scope>themis::graph::DistributedGraphManager</scope><name>shortestPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::ahp::DistributedBlacklistFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a6cdcc31376ce905e148d76b171389f8a" prot="public" static="no" mutable="no">
+        <type>fs::path</type>
+        <definition>fs::path themis::bench::ahp::DistributedBlacklistFixture::db_path</definition>
+        <argsstring></argsstring>
+        <name>db_path</name>
+        <qualifiedname>themis::bench::ahp::DistributedBlacklistFixture::db_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="334" column="14" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="334" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1ace809e11d6ece41a48c82c67f3550ebb" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist" kindref="compound">DistributedTokenBlacklist</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DistributedTokenBlacklist&gt; themis::bench::ahp::DistributedBlacklistFixture::bl</definition>
+        <argsstring></argsstring>
+        <name>bl</name>
+        <qualifiedname>themis::bench::ahp::DistributedBlacklistFixture::bl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="335" column="21" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="335" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a2b1a80ae79881523d9c53b21a2d12bd9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::DistributedBlacklistFixture::SetUp</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::bench::ahp::DistributedBlacklistFixture::SetUp</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="337" column="10" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="337" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1aa41d0ee2e47d2bf9f36f6da820dd8196" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::ahp::DistributedBlacklistFixture::TearDown</definition>
+        <argsstring>(const ::benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::bench::ahp::DistributedBlacklistFixture::TearDown</qualifiedname>
+        <param>
+          <type>const ::benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="351" column="10" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="351" bodyend="354"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>AHP-06: <ref refid="classthemis_1_1auth_1_1_distributed_token_blacklist_1aa61dbfd8d949d29a1319b3915650a583" kindref="member">DistributedTokenBlacklist::add()</ref> — single RocksDB Put latency. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Uses UseRealTime() because the RocksDB Put includes kernel I/O. GATE-AHP-05: p99 ≤ 2 ms. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::bench::ahp::DistributedBlacklistFixture</label>
+        <link refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+      <node id="1">
+        <label>themis::bench::ahp::DistributedBlacklistFixture</label>
+        <link refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/auth/bench_auth_hotpaths.cpp" line="332" column="1" bodyfile="benchmarks/auth/bench_auth_hotpaths.cpp" bodystart="332" bodyend="355"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1ace809e11d6ece41a48c82c67f3550ebb" prot="public" virt="non-virtual"><scope>themis::bench::ahp::DistributedBlacklistFixture</scope><name>bl</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a6cdcc31376ce905e148d76b171389f8a" prot="public" virt="non-virtual"><scope>themis::bench::ahp::DistributedBlacklistFixture</scope><name>db_path</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1a2b1a80ae79881523d9c53b21a2d12bd9" prot="public" virt="non-virtual"><scope>themis::bench::ahp::DistributedBlacklistFixture</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1bench_1_1ahp_1_1_distributed_blacklist_fixture_1aa41d0ee2e47d2bf9f36f6da820dd8196" prot="public" virt="non-virtual"><scope>themis::bench::ahp::DistributedBlacklistFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

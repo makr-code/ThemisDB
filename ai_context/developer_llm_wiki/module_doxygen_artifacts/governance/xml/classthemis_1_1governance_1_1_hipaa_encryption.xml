@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1governance_1_1_hipaa_encryption" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::governance::HipaaEncryption</compoundname>
+    <basecompoundref refid="classthemis_1_1governance_1_1_i_compliance_rule" prot="public" virt="non-virtual">themis::governance::IComplianceRule</basecompoundref>
+    <includes refid="hipaa__rules_8h" local="no">hipaa_rules.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_encryption_1a7593457245b7da9d74dd937c116c842f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaEncryption::id</definition>
+        <argsstring>() const override</argsstring>
+        <name>id</name>
+        <qualifiedname>themis::governance::HipaaEncryption::id</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a01395f8af99fa20ce9be6b77cd3b5557">id</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="64" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_encryption_1a8facfe9a18ea4c43535ff86d6a2ecf20" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaEncryption::framework</definition>
+        <argsstring>() const override</argsstring>
+        <name>framework</name>
+        <qualifiedname>themis::governance::HipaaEncryption::framework</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1ae95c843e2f550ded2eeb7ad923960aba">framework</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="65" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_encryption_1a0c520a8df1097de5ce9634a47e75423d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::governance::HipaaEncryption::description</definition>
+        <argsstring>() const override</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::HipaaEncryption::description</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1af1ff57617e2151936aa46d9a4d6d39b2">description</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="66" column="17" bodyfile="include/governance/hipaa_rules.h" bodystart="66" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1governance_1_1_hipaa_encryption_1a469831262431aa154f792db62fdb1d3e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::governance::HipaaEncryption::evaluate</definition>
+        <argsstring>(const PolicyRule &amp;rule) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::governance::HipaaEncryption::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1governance_1_1_i_compliance_rule_1a96562e0417b8471400cfcf2ea185a7ea">evaluate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1governance_1_1_policy_rule" kindref="compound">PolicyRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/hipaa_rules.h" line="72" column="10" bodyfile="src/governance/hipaa_rules.cpp" bodystart="55" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::governance::HipaaEncryption</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::governance::HipaaEncryption</label>
+        <link refid="classthemis_1_1governance_1_1_hipaa_encryption"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::governance::IComplianceRule</label>
+        <link refid="classthemis_1_1governance_1_1_i_compliance_rule"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/governance/hipaa_rules.h" line="62" column="1" bodyfile="include/governance/hipaa_rules.h" bodystart="62" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1governance_1_1_hipaa_encryption_1a0c520a8df1097de5ce9634a47e75423d" prot="public" virt="virtual"><scope>themis::governance::HipaaEncryption</scope><name>description</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_encryption_1a469831262431aa154f792db62fdb1d3e" prot="public" virt="virtual"><scope>themis::governance::HipaaEncryption</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_encryption_1a8facfe9a18ea4c43535ff86d6a2ecf20" prot="public" virt="virtual"><scope>themis::governance::HipaaEncryption</scope><name>framework</name></member>
+      <member refid="classthemis_1_1governance_1_1_hipaa_encryption_1a7593457245b7da9d74dd937c116c842f" prot="public" virt="virtual"><scope>themis::governance::HipaaEncryption</scope><name>id</name></member>
+      <member refid="classthemis_1_1governance_1_1_i_compliance_rule_1a6f34423b2bbde587233879f221cb63b8" prot="public" virt="virtual"><scope>themis::governance::HipaaEncryption</scope><name>~IComplianceRule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

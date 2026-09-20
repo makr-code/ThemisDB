@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::TensorRAGPipelineConfig</compoundname>
+    <includes refid="tensor__rag__pipeline_8h" local="no">tensor_rag_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a19e9b9a1190d1cc6259a808e3a6bde79" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_flare_config" kindref="compound">FlareConfig</ref></type>
+        <definition>FlareConfig themis::rag::TensorRAGPipelineConfig::flare_config</definition>
+        <argsstring></argsstring>
+        <name>flare_config</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::flare_config</qualifiedname>
+        <briefdescription>
+<para>FLARE log-probability gating parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only used when <computeroutput><ref refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a50a490f133f9cba51cf370eec0758550" kindref="member">use_flare</ref> = true</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="43" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a5917496048f10cb1e595ecac6ce3156b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_t_a_r_g_config" kindref="compound">TARGConfig</ref></type>
+        <definition>TARGConfig themis::rag::TensorRAGPipelineConfig::targ_config</definition>
+        <argsstring></argsstring>
+        <name>targ_config</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::targ_config</qualifiedname>
+        <briefdescription>
+<para>TARG logit-gap gating parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Only used when <computeroutput><ref refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1aaec7a0ca27c442cc9ce1f4b95e27c325" kindref="member">use_targ</ref> = true</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="50" column="16" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a50a490f133f9cba51cf370eec0758550" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::TensorRAGPipelineConfig::use_flare</definition>
+        <argsstring></argsstring>
+        <name>use_flare</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::use_flare</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable the FLARE mid-generation retrieval gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When false, the FLARE gate is bypassed entirely and does not consume any per-token log-probability signal.</para>
+<para>Default: true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="60" column="10" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1aaec7a0ca27c442cc9ce1f4b95e27c325" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::TensorRAGPipelineConfig::use_targ</definition>
+        <argsstring></argsstring>
+        <name>use_targ</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::use_targ</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable the TARG logit-gap gate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When false, the TARG gate is bypassed entirely and raw logits are not processed.</para>
+<para>Default: true. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="70" column="10" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1aef257e9110d93fda47d9c4ebc21fd5b7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::TensorRAGPipelineConfig::session_id</definition>
+        <argsstring></argsstring>
+        <name>session_id</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::session_id</qualifiedname>
+        <briefdescription>
+<para>Optional session identifier for logging and diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Not used by pipeline logic; propagated to stats for tracing. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="77" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a4dd24c47728b84d3b34447277e857f1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::TensorRAGPipelineConfig::final_layer_package_id</definition>
+        <argsstring></argsstring>
+        <name>final_layer_package_id</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::final_layer_package_id</qualifiedname>
+        <briefdescription>
+<para>Optional final-layer package to resolve when retrieval triggers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="82" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a3e42cfbe19f0d5276e401b4c294aa8f7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::TensorRAGPipelineConfig::final_layer_base_model</definition>
+        <argsstring></argsstring>
+        <name>final_layer_base_model</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::final_layer_base_model</qualifiedname>
+        <briefdescription>
+<para>Optional base model name used for final-layer compatibility checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="87" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a956be764567c43b7487fcf4372b93de9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::TensorRAGPipelineConfig::final_layer_base_model_version</definition>
+        <argsstring></argsstring>
+        <name>final_layer_base_model_version</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::final_layer_base_model_version</qualifiedname>
+        <briefdescription>
+<para>Optional base model version used for final-layer compatibility checks. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="92" column="17" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a9a8b14c0b29e90b7aa6203b6cb3b98cc" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::rag::TensorRAGPipelineConfig::final_layer_metadata</definition>
+        <argsstring></argsstring>
+        <name>final_layer_metadata</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::final_layer_metadata</qualifiedname>
+        <initializer>= nlohmann::json::object()</initializer>
+        <briefdescription>
+<para>Optional metadata forwarded to the final-layer orchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="97" column="20" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a15adb38cf910cbd467d7e97b469dee7b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; observability::IProvenanceStore &gt;</type>
+        <definition>std::shared_ptr&lt;observability::IProvenanceStore&gt; themis::rag::TensorRAGPipelineConfig::provenance_store</definition>
+        <argsstring></argsstring>
+        <name>provenance_store</name>
+        <qualifiedname>themis::rag::TensorRAGPipelineConfig::provenance_store</qualifiedname>
+        <briefdescription>
+<para>Optional persistent provenance store for per-step lineage records. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When configured, step() persists one ProvenanceStepRecord per call, allowing post-generation chain queryability by query_id. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/tensor_rag_pipeline.h" line="105" column="21" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for the unified FLARE+TARG pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::FlareConfig</label>
+        <link refid="structthemis_1_1rag_1_1_flare_config"/>
+      </node>
+      <node id="3">
+        <label>themis::rag::TARGConfig</label>
+        <link refid="structthemis_1_1rag_1_1_t_a_r_g_config"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::TensorRAGPipelineConfig</label>
+        <link refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>flare_config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>targ_config</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/tensor_rag_pipeline.h" line="37" column="1" bodyfile="include/rag/tensor_rag_pipeline.h" bodystart="37" bodyend="106"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a3e42cfbe19f0d5276e401b4c294aa8f7" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>final_layer_base_model</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a956be764567c43b7487fcf4372b93de9" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>final_layer_base_model_version</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a9a8b14c0b29e90b7aa6203b6cb3b98cc" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>final_layer_metadata</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a4dd24c47728b84d3b34447277e857f1b" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>final_layer_package_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a19e9b9a1190d1cc6259a808e3a6bde79" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>flare_config</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a15adb38cf910cbd467d7e97b469dee7b" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>provenance_store</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1aef257e9110d93fda47d9c4ebc21fd5b7" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>session_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a5917496048f10cb1e595ecac6ce3156b" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>targ_config</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1a50a490f133f9cba51cf370eec0758550" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>use_flare</name></member>
+      <member refid="structthemis_1_1rag_1_1_tensor_r_a_g_pipeline_config_1aaec7a0ca27c442cc9ce1f4b95e27c325" prot="public" virt="non-virtual"><scope>themis::rag::TensorRAGPipelineConfig</scope><name>use_targ</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

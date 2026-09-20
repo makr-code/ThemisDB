@@ -1,0 +1,362 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1graph_1_1_graph_thread_pool" kind="class" language="C++" prot="public">
+    <compoundname>themis::graph::GraphThreadPool</compoundname>
+    <includes refid="graph__resource__pool_8h" local="no">graph_resource_pool.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_thread_pool_1a220b314a66001856805946d6f4673ad0" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::graph::GraphThreadPool::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::graph::GraphThreadPool::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="291" column="37" bodyfile="include/graph/graph_resource_pool.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_thread_pool_1a32df73dede96eeefb4955b04e0205046" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::graph::GraphThreadPool::cv_</definition>
+        <argsstring></argsstring>
+        <name>cv_</name>
+        <qualifiedname>themis::graph::GraphThreadPool::cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="292" column="37" bodyfile="include/graph/graph_resource_pool.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_thread_pool_1afcd5be949bf6096b1e7fd1835e3739fa" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::thread &gt;</type>
+        <definition>std::vector&lt;std::thread&gt; themis::graph::GraphThreadPool::workers_</definition>
+        <argsstring></argsstring>
+        <name>workers_</name>
+        <qualifiedname>themis::graph::GraphThreadPool::workers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="293" column="24" bodyfile="include/graph/graph_resource_pool.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_thread_pool_1a58642f0d00379f140cae9a6b56784ddf" prot="private" static="no" mutable="no">
+        <type>std::queue&lt; std::function&lt; void()&gt; &gt;</type>
+        <definition>std::queue&lt;std::function&lt;void()&gt; &gt; themis::graph::GraphThreadPool::tasks_</definition>
+        <argsstring></argsstring>
+        <name>tasks_</name>
+        <qualifiedname>themis::graph::GraphThreadPool::tasks_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="294" column="16" bodyfile="include/graph/graph_resource_pool.h" bodystart="294" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_thread_pool_1a76c905cf42866e16352cb79278428431" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphThreadPool::stopped_</definition>
+        <argsstring></argsstring>
+        <name>stopped_</name>
+        <qualifiedname>themis::graph::GraphThreadPool::stopped_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="295" column="37" bodyfile="include/graph/graph_resource_pool.h" bodystart="295" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_thread_pool_1a3d5c7cd1fc57782e9e37f230fc4c66ae" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphThreadPool::queued_count_</definition>
+        <argsstring></argsstring>
+        <name>queued_count_</name>
+        <qualifiedname>themis::graph::GraphThreadPool::queued_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="296" column="27" bodyfile="include/graph/graph_resource_pool.h" bodystart="296" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1graph_1_1_graph_thread_pool_1a18b46bd25f080289ff3cc62807debea8" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::graph::GraphThreadPool::completed_count_</definition>
+        <argsstring></argsstring>
+        <name>completed_count_</name>
+        <qualifiedname>themis::graph::GraphThreadPool::completed_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="297" column="27" bodyfile="include/graph/graph_resource_pool.h" bodystart="297" bodyend="297"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a9549aec6f588b70e5c3f8ff69eeeba7b" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphThreadPool::GraphThreadPool</definition>
+        <argsstring>(size_t num_threads)</argsstring>
+        <name>GraphThreadPool</name>
+        <qualifiedname>themis::graph::GraphThreadPool::GraphThreadPool</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>num_threads</declname>
+        </param>
+        <briefdescription>
+<para>Graph Thread Pool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_threads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: reserve(), emplace_back(), workerLoop(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="192" column="14" bodyfile="include/graph/graph_resource_pool.h" bodystart="192" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a00244e57774a8524a74978f0b96d22cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphThreadPool::~GraphThreadPool</definition>
+        <argsstring>()</argsstring>
+        <name>~GraphThreadPool</name>
+        <qualifiedname>themis::graph::GraphThreadPool::~GraphThreadPool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="201" column="5" bodyfile="include/graph/graph_resource_pool.h" bodystart="201" bodyend="201"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a508b286d14bbd9923f24b453e024abb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GraphThreadPool::GraphThreadPool</definition>
+        <argsstring>(const GraphThreadPool &amp;)=delete</argsstring>
+        <name>GraphThreadPool</name>
+        <qualifiedname>themis::graph::GraphThreadPool::GraphThreadPool</qualifiedname>
+        <param>
+          <type>const GraphThreadPool &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="204" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1ac5bb212bbdd276352eabed51444b5ea5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1graph_1_1_graph_thread_pool_1a9549aec6f588b70e5c3f8ff69eeeba7b" kindref="member">GraphThreadPool</ref> &amp;</type>
+        <definition>GraphThreadPool &amp; themis::graph::GraphThreadPool::operator=</definition>
+        <argsstring>(const GraphThreadPool &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::graph::GraphThreadPool::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1graph_1_1_graph_thread_pool_1a9549aec6f588b70e5c3f8ff69eeeba7b" kindref="member">GraphThreadPool</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="205" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a9fd81d004076dd6007fa1409b1cf57fe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename F</type>
+          </param>
+        </templateparamlist>
+        <type>std::future&lt; decltype(f())&gt;</type>
+        <definition>std::future&lt; decltype(f())&gt; themis::graph::GraphThreadPool::submit</definition>
+        <argsstring>(F &amp;&amp;f)</argsstring>
+        <name>submit</name>
+        <qualifiedname>themis::graph::GraphThreadPool::submit</qualifiedname>
+        <param>
+          <type>F &amp;&amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="208" column="10" bodyfile="include/graph/graph_resource_pool.h" bodystart="208" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a6fcce5f47eb9a5177991718891834cfc" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GraphThreadPool::threadCount</definition>
+        <argsstring>() const</argsstring>
+        <name>threadCount</name>
+        <qualifiedname>themis::graph::GraphThreadPool::threadCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="229" column="12" bodyfile="include/graph/graph_resource_pool.h" bodystart="229" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1adc9635c32f55a25e40109b29b1eb04eb" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphThreadPool::queuedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>queuedCount</name>
+        <qualifiedname>themis::graph::GraphThreadPool::queuedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="231" column="14" bodyfile="include/graph/graph_resource_pool.h" bodystart="231" bodyend="233"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a65a6ae51a2267f18a7d6c1ce5068b4a0" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::GraphThreadPool::completedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>completedCount</name>
+        <qualifiedname>themis::graph::GraphThreadPool::completedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="235" column="14" bodyfile="include/graph/graph_resource_pool.h" bodystart="235" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a546d9460883b1bdea5f8d0632159ec0f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphThreadPool::shutdown</definition>
+        <argsstring>()</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::graph::GraphThreadPool::shutdown</qualifiedname>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), notify_all(), joinable(), join(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="243" column="10" bodyfile="include/graph/graph_resource_pool.h" bodystart="243" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a5fa35b5c1472da90c7e63f25793cf702" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphThreadPool::isStopped</definition>
+        <argsstring>() const</argsstring>
+        <name>isStopped</name>
+        <qualifiedname>themis::graph::GraphThreadPool::isStopped</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="259" column="10" bodyfile="include/graph/graph_resource_pool.h" bodystart="259" bodyend="267"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1graph_1_1_graph_thread_pool_1a959916b42653d146332d01af325ddad4" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::graph::GraphThreadPool::workerLoop</definition>
+        <argsstring>()</argsstring>
+        <name>workerLoop</name>
+        <qualifiedname>themis::graph::GraphThreadPool::workerLoop</qualifiedname>
+        <briefdescription>
+<para>Worker Loop. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: void(), lock(), wait(), empty(), std::move(), front(), pop(), task(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_resource_pool.h" line="274" column="10" bodyfile="include/graph/graph_resource_pool.h" bodystart="274" bodyend="289"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_resource_pool.h" line="183" column="1" bodyfile="include/graph/graph_resource_pool.h" bodystart="183" bodyend="298"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a18b46bd25f080289ff3cc62807debea8" prot="private" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>completed_count_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a65a6ae51a2267f18a7d6c1ce5068b4a0" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>completedCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a32df73dede96eeefb4955b04e0205046" prot="private" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>cv_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a9549aec6f588b70e5c3f8ff69eeeba7b" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>GraphThreadPool</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a508b286d14bbd9923f24b453e024abb8" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>GraphThreadPool</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a5fa35b5c1472da90c7e63f25793cf702" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>isStopped</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a220b314a66001856805946d6f4673ad0" prot="private" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1ac5bb212bbdd276352eabed51444b5ea5" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a3d5c7cd1fc57782e9e37f230fc4c66ae" prot="private" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>queued_count_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1adc9635c32f55a25e40109b29b1eb04eb" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>queuedCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a546d9460883b1bdea5f8d0632159ec0f" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a76c905cf42866e16352cb79278428431" prot="private" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>stopped_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a9fd81d004076dd6007fa1409b1cf57fe" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>submit</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a58642f0d00379f140cae9a6b56784ddf" prot="private" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>tasks_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a6fcce5f47eb9a5177991718891834cfc" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>threadCount</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a959916b42653d146332d01af325ddad4" prot="private" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>workerLoop</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1afcd5be949bf6096b1e7fd1835e3739fa" prot="private" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>workers_</name></member>
+      <member refid="classthemis_1_1graph_1_1_graph_thread_pool_1a00244e57774a8524a74978f0b96d22cd" prot="public" virt="non-virtual"><scope>themis::graph::GraphThreadPool</scope><name>~GraphThreadPool</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

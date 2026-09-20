@@ -1,0 +1,741 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__governance__policy__simulation_8cpp" kind="file" language="C++">
+    <compoundname>test_governance_policy_simulation.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="policy__engine_8h" local="yes">governance/policy_engine.h</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>governance/data_masker.h</label>
+        <link refid="data__masker_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>governance/governance_diagnostics.h</label>
+        <link refid="governance__diagnostics_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>governance/policy_engine.h</label>
+        <link refid="policy__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/governance/test_governance_policy_simulation.cpp</label>
+        <link refid="test__governance__policy__simulation_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>filesystem</label>
+      </node>
+      <node id="18">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="16">
+        <label>themis/export.h</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="10">
+        <label>unordered_set</label>
+      </node>
+      <node id="17">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_policy_simulation_test" prot="public">PolicySimulationTest</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="test__governance__policy__simulation_8cpp_1ab1ceb399698693a00ea10effc0a99a9e" prot="public" static="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* kTestYaml</definition>
+        <argsstring></argsstring>
+        <name>kTestYaml</name>
+        <initializer>                            = R&quot;(
+vs_classification:
+  offen:
+    encryption_required: false
+    ann_allowed: true
+    export_allowed: true
+    cache_allowed: true
+    redaction_level: &quot;none&quot;
+    retention_days: 30
+    log_encryption: false
+  geheim:
+    encryption_required: true
+    ann_allowed: false
+    export_allowed: false
+    cache_allowed: false
+    redaction_level: &quot;strict&quot;
+    retention_days: 7
+    log_encryption: true
+enforcement:
+  default_mode: enforce
+  resource_mapping:
+    /public: offen
+    /secret: geheim
+)&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="30" column="19" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1ac5ce53f388977b2cd320a0262c7c38be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_DryRunFlagAlwaysTrue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_DryRunFlagAlwaysTrue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="82" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="82" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1a581d5a56d328cdb80015e67918003114" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_DecisionMatchesEvaluate_Offen)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_DecisionMatchesEvaluate_Offen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="95" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="95" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1ac813b434bce63d5ffaad5dbf7ae96f23" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_DecisionMatchesEvaluate_Geheim)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_DecisionMatchesEvaluate_Geheim</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="118" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="118" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1afd7ab4c46d8a4c47c5f0a574aae17578" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_MatchedProfilePopulated_Offen)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_MatchedProfilePopulated_Offen</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="142" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="142" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1a3793c71aecd45bb52f67b4bb6755f4bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_MatchedProfilePopulated_Geheim)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_MatchedProfilePopulated_Geheim</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="151" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="151" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1a5b731bdfa8b93adfd962560fb3385493" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_MatchedResourcePopulated_ViaMapping)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_MatchedResourcePopulated_ViaMapping</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="164" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="164" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1abaab27e5dc917c5705158f583b0c7de6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_MatchedResource_EmptyWhenHeaderProvided)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_MatchedResource_EmptyWhenHeaderProvided</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="174" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="174" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1a42b8f0008d4dc10deb141221ebac6463" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_HeuristicFallback_UnknownClassification)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_HeuristicFallback_UnknownClassification</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="189" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="189" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1a068c2acfee609fdeddb12a28c664ef85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_HeaderOverride_RedactionLevel)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_HeaderOverride_RedactionLevel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="209" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="209" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1a81c1fdb454ff3039cfede7835382203a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_HeaderOverride_EncryptLogs_True)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_HeaderOverride_EncryptLogs_True</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="219" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="219" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1ab3c8f4156dbe486667bc018900b9af67" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_HeaderOverride_GovernanceModeObserve)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_HeaderOverride_GovernanceModeObserve</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="229" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="229" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1a84fece18d138d546385765caf2d3d6be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_DoesNotWriteAuditEntry)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_DoesNotWriteAuditEntry</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="243" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="243" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1af63e319b7424275473f43b752719fbe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(PolicySimulationNoYamlTest, SimulateDecision_NoYamlLoaded_ReturnsDefault)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>PolicySimulationNoYamlTest</type>
+        </param>
+        <param>
+          <type>SimulateDecision_NoYamlLoaded_ReturnsDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="272" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="272" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="test__governance__policy__simulation_8cpp_1acacd778e16145aabf1aeaa1509846189" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(PolicySimulationTest, SimulateDecision_DefaultClassification_VsNfd)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref></type>
+        </param>
+        <param>
+          <type>SimulateDecision_DefaultClassification_VsNfd</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/governance/test_governance_policy_simulation.cpp" line="293" column="1" bodyfile="tests/governance/test_governance_policy_simulation.cpp" bodystart="293" bodyend="301"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Unit tests for PolicyEngine::simulateDecision() – dry-run / simulation mode. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests cover:<itemizedlist>
+<listitem><para>simulateDecision returns dry_run=true and never writes audit entries</para>
+</listitem><listitem><para>Decision matches evaluate() for the same inputs</para>
+</listitem><listitem><para>matched_profile is populated when a profile is found</para>
+</listitem><listitem><para>matched_resource is populated when a resource mapping resolves the classification</para>
+</listitem><listitem><para>Heuristic fallback (unknown classification) is reflected in the result</para>
+</listitem><listitem><para>Header overrides (X-Encrypt-Logs, X-Redaction-Level, X-Governance-Mode) are honoured</para>
+</listitem><listitem><para>simulateDecision works on a freshly constructed engine (no YAML loaded) </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="policy__engine_8h" kindref="compound">governance/policy_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">fs<sp/>=<sp/>std::filesystem;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1governance" kindref="compound">themis::governance</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Shared<sp/>YAML<sp/>fixture<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>kTestYaml<sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="31"><highlight class="stringliteral">vs_classification:</highlight></codeline>
+<codeline lineno="32"><highlight class="stringliteral"><sp/><sp/>offen:</highlight></codeline>
+<codeline lineno="33"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>encryption_required:<sp/>false</highlight></codeline>
+<codeline lineno="34"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ann_allowed:<sp/>true</highlight></codeline>
+<codeline lineno="35"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>export_allowed:<sp/>true</highlight></codeline>
+<codeline lineno="36"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>cache_allowed:<sp/>true</highlight></codeline>
+<codeline lineno="37"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>redaction_level:<sp/>&quot;none&quot;</highlight></codeline>
+<codeline lineno="38"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>retention_days:<sp/>30</highlight></codeline>
+<codeline lineno="39"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>log_encryption:<sp/>false</highlight></codeline>
+<codeline lineno="40"><highlight class="stringliteral"><sp/><sp/>geheim:</highlight></codeline>
+<codeline lineno="41"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>encryption_required:<sp/>true</highlight></codeline>
+<codeline lineno="42"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>ann_allowed:<sp/>false</highlight></codeline>
+<codeline lineno="43"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>export_allowed:<sp/>false</highlight></codeline>
+<codeline lineno="44"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>cache_allowed:<sp/>false</highlight></codeline>
+<codeline lineno="45"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>redaction_level:<sp/>&quot;strict&quot;</highlight></codeline>
+<codeline lineno="46"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>retention_days:<sp/>7</highlight></codeline>
+<codeline lineno="47"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>log_encryption:<sp/>true</highlight></codeline>
+<codeline lineno="48"><highlight class="stringliteral">enforcement:</highlight></codeline>
+<codeline lineno="49"><highlight class="stringliteral"><sp/><sp/>default_mode:<sp/>enforce</highlight></codeline>
+<codeline lineno="50"><highlight class="stringliteral"><sp/><sp/>resource_mapping:</highlight></codeline>
+<codeline lineno="51"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>/public:<sp/>offen</highlight></codeline>
+<codeline lineno="52"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>/secret:<sp/>geheim</highlight></codeline>
+<codeline lineno="53"><highlight class="stringliteral">)&quot;;</highlight></codeline>
+<codeline lineno="54"><highlight class="stringliteral"></highlight></codeline>
+<codeline lineno="55" refid="class_policy_simulation_test" refkind="compound"><highlight class="stringliteral"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_policy_simulation_test_1a5350d01b5dd8fed93dd8a12c4086e1e8" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_policy_simulation_test_1acbfde24f6df3d61e7e23bea7ee3196ef" kindref="member">tmp_dir_</ref><sp/><sp/>=<sp/>fs::temp_directory_path()<sp/>/<sp/></highlight><highlight class="stringliteral">&quot;gov_sim_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::create_directories(<ref refid="class_policy_simulation_test_1acbfde24f6df3d61e7e23bea7ee3196ef" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_policy_simulation_test_1a62edd59c507d7471589f5f8658b2b74f" kindref="member">yaml_path_</ref><sp/>=<sp/>(<ref refid="class_policy_simulation_test_1acbfde24f6df3d61e7e23bea7ee3196ef" kindref="member">tmp_dir_</ref><sp/>/<sp/></highlight><highlight class="stringliteral">&quot;governance.yaml&quot;</highlight><highlight class="normal">).</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">();</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ofstream<sp/>f(<ref refid="class_policy_simulation_test_1a62edd59c507d7471589f5f8658b2b74f" kindref="member">yaml_path_</ref>);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f<sp/>&lt;&lt;<sp/>kTestYaml;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.flush();</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_policy_simulation_test_1a5baa04a3fe04d1d321af82494125686c" kindref="member">engine_</ref>.loadFromYAML(<ref refid="class_policy_simulation_test_1a62edd59c507d7471589f5f8658b2b74f" kindref="member">yaml_path_</ref>));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_policy_simulation_test_1adeb9750e374721e4cea032bd5b51b93e" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fs::remove_all(<ref refid="class_policy_simulation_test_1acbfde24f6df3d61e7e23bea7ee3196ef" kindref="member">tmp_dir_</ref>);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>fs::path<sp/><sp/><sp/><sp/><ref refid="class_policy_simulation_test_1acbfde24f6df3d61e7e23bea7ee3196ef" kindref="member">tmp_dir_</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_policy_simulation_test_1a62edd59c507d7471589f5f8658b2b74f" kindref="member">yaml_path_</ref>;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine" kindref="compound">PolicyEngine</ref><sp/><ref refid="class_policy_simulation_test_1a5baa04a3fe04d1d321af82494125686c" kindref="member">engine_</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>dry_run<sp/>flag<sp/>is<sp/>always<sp/>true</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_DryRunFlagAlwaysTrue)<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/public&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.dry_run);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Decision<sp/>matches<sp/>evaluate()<sp/>for<sp/>the<sp/>same<sp/>inputs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_DecisionMatchesEvaluate_Offen)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>headers;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>route<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/public&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eval_d<sp/>=<sp/>engine_.evaluate(headers,<sp/>route);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref><sp/>=<sp/>headers;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/><sp/><sp/>=<sp/>route;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sim_r<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.classification,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.classification);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.mode,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.mode);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.encrypt_logs,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.encrypt_logs);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.redaction,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.redaction);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.ann_allowed,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.ann_allowed);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.require_content_encryption,<sp/>eval_d.require_content_encryption);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.export_allowed,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.export_allowed);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.cache_allowed,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.cache_allowed);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.retention_days,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.retention_days);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_DecisionMatchesEvaluate_Geheim)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/>headers;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>headers[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>route<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/secret&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>eval_d<sp/>=<sp/>engine_.evaluate(headers,<sp/>route);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref><sp/>=<sp/>headers;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/><sp/><sp/>=<sp/>route;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>sim_r<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.classification,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.classification);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.require_content_encryption,<sp/>eval_d.require_content_encryption);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.ann_allowed,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.ann_allowed);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.export_allowed,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.export_allowed);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.cache_allowed,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.cache_allowed);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(sim_r.decision.redaction,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>eval_d.redaction);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>matched_profile<sp/>is<sp/>populated<sp/>from<sp/>the<sp/>YAML<sp/>profile</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_MatchedProfilePopulated_Offen)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/some/route&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.matched_profile,<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_MatchedProfilePopulated_Geheim)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/some/route&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.matched_profile,<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>matched_resource<sp/>is<sp/>populated<sp/>when<sp/>the<sp/>resource<sp/>mapping<sp/>resolves<sp/>the<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_MatchedResourcePopulated_ViaMapping)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>explicit<sp/>X-Classification<sp/>–<sp/>resolved<sp/>from<sp/>resource_mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/public&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.decision.classification,<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.matched_resource,<sp/></highlight><highlight class="stringliteral">&quot;/public&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_MatchedResource_EmptyWhenHeaderProvided)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/public&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>mapping<sp/>would<sp/>say<sp/>&quot;offen&quot;,<sp/>but<sp/>header<sp/>wins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.decision.classification,<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Header<sp/>classification<sp/>–<sp/>resource<sp/>mapping<sp/>was<sp/>not<sp/>consulted</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.matched_resource.empty());</highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Heuristic<sp/>fallback<sp/>for<sp/>unknown<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_HeuristicFallback_UnknownClassification)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;streng-geheim&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>not<sp/>in<sp/>YAML<sp/>profiles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/any&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.decision.classification,<sp/></highlight><highlight class="stringliteral">&quot;streng-geheim&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>matched_profile<sp/>should<sp/>be<sp/>empty<sp/>since<sp/>no<sp/>profile<sp/>was<sp/>found</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.matched_profile.empty());</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Heuristic:<sp/>strict<sp/>class<sp/>→<sp/>encryption<sp/>required,<sp/>no<sp/>ANN,<sp/>no<sp/>export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.decision.require_content_encryption);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.decision.ann_allowed);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.decision.export_allowed);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.decision.redaction,<sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Header<sp/>overrides<sp/>are<sp/>honoured<sp/>in<sp/>simulation<sp/>just<sp/>like<sp/>in<sp/>evaluate()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_HeaderOverride_RedactionLevel)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Redaction-Level&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>override</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/public&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.decision.redaction,<sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_HeaderOverride_EncryptLogs_True)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>offen<sp/>profile:<sp/>log_encryption=false</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Encrypt-Logs&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>override</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/public&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.decision.encrypt_logs);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_HeaderOverride_GovernanceModeObserve)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Governance-Mode&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;observe&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/public&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.decision.mode,<sp/></highlight><highlight class="stringliteral">&quot;observe&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>simulateDecision<sp/>does<sp/>NOT<sp/>write<sp/>to<sp/>the<sp/>audit<sp/>log</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_DoesNotWriteAuditEntry)<sp/>{</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Install<sp/>a<sp/>collecting<sp/>audit<sp/>logger</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>themis::utils::AuditLoggerConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.enabled<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/></highlight><highlight class="comment">//<sp/>sink-only,<sp/>no<sp/>file<sp/>I/O</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>logger<sp/>=<sp/>std::make_shared&lt;themis::utils::AuditLogger&gt;(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/>engine_.setAuditLogger(logger);</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;geheim&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/secret&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>simulation<sp/>–<sp/>must<sp/>not<sp/>throw<sp/>and<sp/>must<sp/>not<sp/>write<sp/>audit<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(We<sp/>cannot<sp/>directly<sp/>count<sp/>entries<sp/>in<sp/>AuditLogger<sp/>without<sp/>access<sp/>to<sp/>internals,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>so<sp/>we<sp/>verify<sp/>it<sp/>doesn&apos;t<sp/>throw<sp/>and<sp/>returns<sp/>dry_run=true<sp/>as<sp/>the<sp/>observable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/>contract<sp/>that<sp/>audit<sp/>was<sp/>suppressed.)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.dry_run);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Contrast:<sp/>evaluate()<sp/>with<sp/>enforce<sp/>mode<sp/>WOULD<sp/>write<sp/>an<sp/>audit<sp/>entry.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>call<sp/>it<sp/>just<sp/>to<sp/>confirm<sp/>the<sp/>logger<sp/>is<sp/>wired<sp/>correctly<sp/>(no<sp/>crash).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW(engine_.evaluate(req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>,<sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref>));</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Works<sp/>on<sp/>a<sp/>freshly<sp/>constructed<sp/>engine<sp/>(no<sp/>YAML<sp/>loaded,<sp/>empty<sp/>policy<sp/>state)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__governance__policy__simulation_8cpp_1af63e319b7424275473f43b752719fbe3" kindref="member">TEST</ref>(PolicySimulationNoYamlTest,<sp/>SimulateDecision_NoYamlLoaded_ReturnsDefault)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1governance_1_1_policy_engine" kindref="compound">PolicyEngine</ref><sp/>pe;</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1abaf644dd28fa305475c9b79e249591c0" kindref="member">headers</ref>[</highlight><highlight class="stringliteral">&quot;X-Classification&quot;</highlight><highlight class="normal">]<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/any&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>throw<sp/>even<sp/>with<sp/>empty<sp/>policy<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>pe.<ref refid="classthemis_1_1governance_1_1_policy_engine_1a41ce8c770060eb2d5b63c7fc80dcc09c" kindref="member">simulateDecision</ref>(req);</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.dry_run);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(result.decision.classification,<sp/></highlight><highlight class="stringliteral">&quot;offen&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>profile<sp/>loaded<sp/>→<sp/>heuristic<sp/>fallback<sp/>(offen<sp/>is<sp/>non-strict)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(result.decision.require_content_encryption);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="287"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default<sp/>classification<sp/>(no<sp/>header,<sp/>no<sp/>resource<sp/>mapping)<sp/>=<sp/>&quot;vs-nfd&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><ref refid="namespacethemis_1_1governance_1a0a458ed7ede83c3395173ffc67c6f15f" kindref="member">TEST_F</ref>(<ref refid="class_policy_simulation_test" kindref="compound">PolicySimulationTest</ref>,<sp/>SimulateDecision_DefaultClassification_VsNfd)<sp/>{</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1governance_1_1_simulation_request" kindref="compound">SimulationRequest</ref><sp/>req;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>X-Classification<sp/>header,<sp/>no<sp/>matching<sp/>resource<sp/>mapping</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>req.<ref refid="structthemis_1_1governance_1_1_simulation_request_1aff2cb8f8202869dd50f23e8c7b802830" kindref="member">route</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/unknown/route&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>engine_.simulateDecision(req);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result.decision.classification,<sp/></highlight><highlight class="stringliteral">&quot;vs-nfd&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.matched_resource.empty());</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/governance/test_governance_policy_simulation.cpp"/>
+  </compounddef>
+</doxygen>

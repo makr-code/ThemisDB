@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::SchoolPositionSummary</compoundname>
+    <includes refid="synthesis__matrix__builder_8h" local="no">synthesis_matrix_builder.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1ac8e53818b242afab0870569106d8a33a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::SchoolPositionSummary::school_id</definition>
+        <argsstring></argsstring>
+        <name>school_id</name>
+        <qualifiedname>themis::plugins::ethics::SchoolPositionSummary::school_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/synthesis_matrix_builder.h" line="25" column="17" bodyfile="include/ethics_ai/synthesis_matrix_builder.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a15266410260c675c9e4dfdf1a0886e80" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::ethics::SchoolPositionSummary::verdict</definition>
+        <argsstring></argsstring>
+        <name>verdict</name>
+        <qualifiedname>themis::plugins::ethics::SchoolPositionSummary::verdict</qualifiedname>
+        <briefdescription>
+<para>&quot;PROHIBIT&quot;|&quot;PERMIT&quot;|&quot;CONDITIONAL&quot;|&quot;ABSTAIN&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/synthesis_matrix_builder.h" line="26" column="17" bodyfile="include/ethics_ai/synthesis_matrix_builder.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a2bffc830ebc596e77b588fb2ca6f56f5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::ethics::SchoolPositionSummary::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::plugins::ethics::SchoolPositionSummary::confidence</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/synthesis_matrix_builder.h" line="27" column="17" bodyfile="include/ethics_ai/synthesis_matrix_builder.h" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a737da5887314af7a809f48927cec4a2a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::ethics::SchoolPositionSummary::core_thesis_ids</definition>
+        <argsstring></argsstring>
+        <name>core_thesis_ids</name>
+        <qualifiedname>themis::plugins::ethics::SchoolPositionSummary::core_thesis_ids</qualifiedname>
+        <briefdescription>
+<para>≤ 3 thesis_ids </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/synthesis_matrix_builder.h" line="28" column="17" bodyfile="include/ethics_ai/synthesis_matrix_builder.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/synthesis_matrix_builder.h" line="24" column="1" bodyfile="include/ethics_ai/synthesis_matrix_builder.h" bodystart="24" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a2bffc830ebc596e77b588fb2ca6f56f5" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolPositionSummary</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a737da5887314af7a809f48927cec4a2a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolPositionSummary</scope><name>core_thesis_ids</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1ac8e53818b242afab0870569106d8a33a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolPositionSummary</scope><name>school_id</name></member>
+      <member refid="structthemis_1_1plugins_1_1ethics_1_1_school_position_summary_1a15266410260c675c9e4dfdf1a0886e80" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::SchoolPositionSummary</scope><name>verdict</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

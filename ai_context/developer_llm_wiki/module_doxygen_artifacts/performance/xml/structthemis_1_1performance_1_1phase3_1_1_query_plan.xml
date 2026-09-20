@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1phase3_1_1_query_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::performance::phase3::QueryPlan</compoundname>
+    <includes refid="bao_8h" local="no">bao.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a73861bdb5175e23eab909d26d62d2bb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::performance::phase3::QueryPlan::plan_id</definition>
+        <argsstring></argsstring>
+        <name>plan_id</name>
+        <qualifiedname>themis::performance::phase3::QueryPlan::plan_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="33" column="17" bodyfile="include/performance/phase3/bao.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a54817414b4cd16df0afb89e15dda18ec" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::performance::phase3::QueryPlan::operators</definition>
+        <argsstring></argsstring>
+        <name>operators</name>
+        <qualifiedname>themis::performance::phase3::QueryPlan::operators</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="34" column="17" bodyfile="include/performance/phase3/bao.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a01cb2dfc59db14c76a8bf062e572e229" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::performance::phase3::QueryPlan::estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>estimated_cost</name>
+        <qualifiedname>themis::performance::phase3::QueryPlan::estimated_cost</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase3/bao.h" line="35" column="12" bodyfile="include/performance/phase3/bao.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Query plan representation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/performance/phase3/bao.h" line="32" column="1" bodyfile="include/performance/phase3/bao.h" bodystart="32" bodyend="36"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a01cb2dfc59db14c76a8bf062e572e229" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryPlan</scope><name>estimated_cost</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a54817414b4cd16df0afb89e15dda18ec" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryPlan</scope><name>operators</name></member>
+      <member refid="structthemis_1_1performance_1_1phase3_1_1_query_plan_1a73861bdb5175e23eab909d26d62d2bb2" prot="public" virt="non-virtual"><scope>themis::performance::phase3::QueryPlan</scope><name>plan_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

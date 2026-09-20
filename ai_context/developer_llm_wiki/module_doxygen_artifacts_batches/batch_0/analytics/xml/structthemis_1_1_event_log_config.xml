@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_event_log_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::EventLogConfig</compoundname>
+    <includes refid="process__mining_8h" local="no">process_mining.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1a85a89c891445302bebb241c3859c78c2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EventLogConfig::case_id_field</definition>
+        <argsstring></argsstring>
+        <name>case_id_field</name>
+        <qualifiedname>themis::EventLogConfig::case_id_field</qualifiedname>
+        <briefdescription>
+<para>Feld für Case-ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="157" column="17" bodyfile="include/analytics/process_mining.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1a4540f4725bb1fdf5379e12bd5f1d5684" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EventLogConfig::activity_field</definition>
+        <argsstring></argsstring>
+        <name>activity_field</name>
+        <qualifiedname>themis::EventLogConfig::activity_field</qualifiedname>
+        <briefdescription>
+<para>Feld für Aktivitätsname. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="158" column="17" bodyfile="include/analytics/process_mining.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1a5cb5b4a0ae53cbe0535b07dd8196e3c9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::EventLogConfig::timestamp_field</definition>
+        <argsstring></argsstring>
+        <name>timestamp_field</name>
+        <qualifiedname>themis::EventLogConfig::timestamp_field</qualifiedname>
+        <briefdescription>
+<para>Feld für Zeitstempel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="159" column="17" bodyfile="include/analytics/process_mining.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1a2fdbf1297737c348a206f31d8a783bd9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::EventLogConfig::resource_field</definition>
+        <argsstring></argsstring>
+        <name>resource_field</name>
+        <qualifiedname>themis::EventLogConfig::resource_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="162" column="19" bodyfile="include/analytics/process_mining.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1a04838ca5227a072831d685f9c26f51f9" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::EventLogConfig::lifecycle_field</definition>
+        <argsstring></argsstring>
+        <name>lifecycle_field</name>
+        <qualifiedname>themis::EventLogConfig::lifecycle_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="163" column="19" bodyfile="include/analytics/process_mining.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1a3c8391e98e54cd0fdc7b832948c10f59" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::EventLogConfig::embedding_field</definition>
+        <argsstring></argsstring>
+        <name>embedding_field</name>
+        <qualifiedname>themis::EventLogConfig::embedding_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="164" column="19" bodyfile="include/analytics/process_mining.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1acd90fa90530600ca883a3c1ea849fccc" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::EventLogConfig::location_field</definition>
+        <argsstring></argsstring>
+        <name>location_field</name>
+        <qualifiedname>themis::EventLogConfig::location_field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="165" column="19" bodyfile="include/analytics/process_mining.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1a067fa6f160b98aca55d060aeccc7073e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::EventLogConfig::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::EventLogConfig::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="168" column="19" bodyfile="include/analytics/process_mining.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1a5c4ede731b93d91f89db9c5808a206f7" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::EventLogConfig::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::EventLogConfig::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="169" column="19" bodyfile="include/analytics/process_mining.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1aca94289290c05dea31be389e9eb67cbc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::EventLogConfig::include_activities</definition>
+        <argsstring></argsstring>
+        <name>include_activities</name>
+        <qualifiedname>themis::EventLogConfig::include_activities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="170" column="17" bodyfile="include/analytics/process_mining.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_event_log_config_1ad87126a915f45c22bbf7e86a951c7cdf" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::EventLogConfig::exclude_activities</definition>
+        <argsstring></argsstring>
+        <name>exclude_activities</name>
+        <qualifiedname>themis::EventLogConfig::exclude_activities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_mining.h" line="171" column="17" bodyfile="include/analytics/process_mining.h" bodystart="171" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/process_mining.h" line="156" column="1" bodyfile="include/analytics/process_mining.h" bodystart="156" bodyend="172"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_event_log_config_1a4540f4725bb1fdf5379e12bd5f1d5684" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>activity_field</name></member>
+      <member refid="structthemis_1_1_event_log_config_1a85a89c891445302bebb241c3859c78c2" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>case_id_field</name></member>
+      <member refid="structthemis_1_1_event_log_config_1a3c8391e98e54cd0fdc7b832948c10f59" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>embedding_field</name></member>
+      <member refid="structthemis_1_1_event_log_config_1a5c4ede731b93d91f89db9c5808a206f7" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1_event_log_config_1ad87126a915f45c22bbf7e86a951c7cdf" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>exclude_activities</name></member>
+      <member refid="structthemis_1_1_event_log_config_1aca94289290c05dea31be389e9eb67cbc" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>include_activities</name></member>
+      <member refid="structthemis_1_1_event_log_config_1a04838ca5227a072831d685f9c26f51f9" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>lifecycle_field</name></member>
+      <member refid="structthemis_1_1_event_log_config_1acd90fa90530600ca883a3c1ea849fccc" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>location_field</name></member>
+      <member refid="structthemis_1_1_event_log_config_1a2fdbf1297737c348a206f31d8a783bd9" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>resource_field</name></member>
+      <member refid="structthemis_1_1_event_log_config_1a067fa6f160b98aca55d060aeccc7073e" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1_event_log_config_1a5cb5b4a0ae53cbe0535b07dd8196e3c9" prot="public" virt="non-virtual"><scope>themis::EventLogConfig</scope><name>timestamp_field</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

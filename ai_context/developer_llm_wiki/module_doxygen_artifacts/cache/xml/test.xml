@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test" kind="page">
+    <compoundname>test</compoundname>
+    <title>Test List</title>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><variablelist>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a2fad2f77dc80d0ee973e63b67b6cb49e" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, HotTierBehavior_FrequentlyAccessedItemSurvivesEviction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000001"/>HotTierBehavior_FrequentlyAccessedItemSurvivesEviction  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a521861a3ed040b037c32c4f3a22dedd5" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, WarmTierBehavior_ModeratelyAccessedItemOutlivesUnaccessed)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000002"/>WarmTierBehavior_ModeratelyAccessedItemOutlivesUnaccessed  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a0dd0417ac17a017fc96ca0883a451eae" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, ColdTierBehavior_UnaccesdItemEvictedFirst)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000003"/>ColdTierBehavior_UnaccesdItemEvictedFirst  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1af4312b97f733fc97a8174aa683b85f2d" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, TierPromotion_AccessedItemMovesToFront)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000004"/>TierPromotion_AccessedItemMovesToFront  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a07e2e340784c650208363bd57a85f6ba" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, WeightedScoring_LFUPolicy_EvictsLeastFrequent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000005"/>WeightedScoring_LFUPolicy_EvictsLeastFrequent  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a3fad567c60f7de9fc93b696ca426b397" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, WeightedScoring_LRUPolicy_EvictsLeastRecent)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000006"/>WeightedScoring_LRUPolicy_EvictsLeastRecent  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1af21482b2521da15efe27366f48374c94" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, WeightedScoring_FIFOPolicy_EvictsOldestCreated)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000007"/>WeightedScoring_FIFOPolicy_EvictsOldestCreated  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a6d461bce725d1eead6741e198eb490fb" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, WeightedScoring_PolicyFactory_CreatesAllTypes)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000008"/>WeightedScoring_PolicyFactory_CreatesAllTypes  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a8442813d6d72816dd9a5a16e1c2d9590" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, WeightedScoring_EmptyCandidateList_NoEviction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000009"/>WeightedScoring_EmptyCandidateList_NoEviction  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1acb8bc570661139faa3d4bdbce1c93468" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, EvictionUnderCapacity_CorrectItemRemoved)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000010"/>EvictionUnderCapacity_CorrectItemRemoved  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a3ce1757f540953c58de79f31eadd734a" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, EvictionUnderCapacity_ExactlyAtCapacity_NoUnnecessaryEviction)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000011"/>EvictionUnderCapacity_ExactlyAtCapacity_NoUnnecessaryEviction  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a6a7afe3492947e8987d8f94173772485" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, ConcurrentAccess_PutGetEvict_ThreadSafe)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000012"/>ConcurrentAccess_PutGetEvict_ThreadSafe  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a199a9698c7f9e94d802501c9ee789573" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, ConcurrentAccess_StatsConsistentUnderLoad)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000013"/>ConcurrentAccess_StatsConsistentUnderLoad  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a3b62c6806efff127bd69b393cf2c2f1a" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, MemoryBounds_SizeNeverExceedsMax)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000014"/>MemoryBounds_SizeNeverExceedsMax  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a5026dd187be8c9b14782704553e46927" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, TTLExpiry_ExpiredEntryReturnsNullopt)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000015"/>TTLExpiry_ExpiredEntryReturnsNullopt  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1aea72ce03783e444888732610a4a94763" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, TTLExpiry_ValidEntryBeforeExpiry)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000016"/>TTLExpiry_ValidEntryBeforeExpiry  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a446282a447106fe5a1d21e22e2534f2f" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, TTLExpiry_PerEntryTTLOverridesDefault)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000017"/>TTLExpiry_PerEntryTTLOverridesDefault  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a173d866186a8d7a8a3170e9bf1a4198d" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, EvictionLatency_BulkEvictionCompletesWithinBound)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000018"/>EvictionLatency_BulkEvictionCompletesWithinBound  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a9f80f3bfb5ed4a5072874835b0e9b21e" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, EdgeCase_SingleItemCache_PutGetRemoveWork)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000019"/>EdgeCase_SingleItemCache_PutGetRemoveWork  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1afac87d4f73d19ec5b5a4c315c4d90d6c" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, EdgeCase_EmptyCacheEvictionAttempt_ReturnsFalse)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000020"/>EdgeCase_EmptyCacheEvictionAttempt_ReturnsFalse  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1aedb4585f971c1007eb851b35579eafd6" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, EdgeCase_OversizedTTL_PutIsRejected)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000021"/>EdgeCase_OversizedTTL_PutIsRejected  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1ac3eb9b71c6044a9a4f51a5e9e159b4f0" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, EdgeCase_UpdateExistingKey_DoesNotGrowCache)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000022"/>EdgeCase_UpdateExistingKey_DoesNotGrowCache  </para>
+</listitem>
+<varlistentry><term>Member <ref refid="namespacethemis_1_1cache_1_1test_1a81485199332d67282843fc05112788f6" kindref="member">themis::cache::test::TEST_F</ref>  (<ref refid="classthemis_1_1cache_1_1test_1_1_cache_eviction_hardening_test" kindref="compound">CacheEvictionHardeningTest</ref>, EdgeCase_ContainsVsGet_ConsistentForValid)</term></varlistentry>
+<listitem><para><anchor id="test_1_test000023"/>EdgeCase_ContainsVsGet_ConsistentForValid </para>
+</listitem>
+</variablelist>
+</para>
+    </detaileddescription>
+    <location file="test"/>
+  </compounddef>
+</doxygen>

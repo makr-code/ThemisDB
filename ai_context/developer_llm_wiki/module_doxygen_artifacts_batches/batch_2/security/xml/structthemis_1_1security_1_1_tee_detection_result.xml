@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_tee_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::TeeDetectionResult</compoundname>
+    <includes refid="confidential__computing_8h" local="no">confidential_computing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_tee_detection_result_1a6897cdb38da47b9466b27a95e083cab7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824d" kindref="member">TeeType</ref></type>
+        <definition>TeeType themis::security::TeeDetectionResult::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::security::TeeDetectionResult::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1security_1a5839a34a29cd06daa704afb85c01824dab50339a10e1de285ac99d4c3990b8693" kindref="member">TeeType::NONE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="38" column="13" bodyfile="include/security/confidential_computing.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_tee_detection_result_1ab2543530b0aded7427a601a361917f82" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TeeDetectionResult::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::security::TeeDetectionResult::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable technology name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="39" column="17" bodyfile="include/security/confidential_computing.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_tee_detection_result_1a1d8705dc2bb261eb3e858ce6c0a24868" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TeeDetectionResult::hardware_attested</definition>
+        <argsstring></argsstring>
+        <name>hardware_attested</name>
+        <qualifiedname>themis::security::TeeDetectionResult::hardware_attested</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when the kernel driver confirmed TEE presence. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/confidential_computing.h" line="40" column="10" bodyfile="include/security/confidential_computing.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of TEE detection at startup. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/confidential_computing.h" line="37" column="1" bodyfile="include/security/confidential_computing.h" bodystart="37" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_tee_detection_result_1ab2543530b0aded7427a601a361917f82" prot="public" virt="non-virtual"><scope>themis::security::TeeDetectionResult</scope><name>description</name></member>
+      <member refid="structthemis_1_1security_1_1_tee_detection_result_1a1d8705dc2bb261eb3e858ce6c0a24868" prot="public" virt="non-virtual"><scope>themis::security::TeeDetectionResult</scope><name>hardware_attested</name></member>
+      <member refid="structthemis_1_1security_1_1_tee_detection_result_1a6897cdb38da47b9466b27a95e083cab7" prot="public" virt="non-virtual"><scope>themis::security::TeeDetectionResult</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

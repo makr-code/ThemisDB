@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::llm_wiki::WikiIngestResult</compoundname>
+    <includes refid="llm__wiki__plugin__interface_8h" local="no">llm_wiki_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a19b49339d4a6a3a66c244a9e8b55889f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiIngestResult::files_processed</definition>
+        <argsstring></argsstring>
+        <name>files_processed</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestResult::files_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of source files processed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="128" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a3d6a39c64966b337fa93992732b908d1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiIngestResult::chunks_written</definition>
+        <argsstring></argsstring>
+        <name>chunks_written</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestResult::chunks_written</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of chunks added to the index. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="129" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a47d57af5ce35e5485525c031a5774d09" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiIngestResult::chunks_skipped</definition>
+        <argsstring></argsstring>
+        <name>chunks_skipped</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestResult::chunks_skipped</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Chunks skipped (already present when skip_existing=true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="130" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a8e892a7bd2e0c6139727b2db07fb1602" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::plugins::llm_wiki::WikiIngestResult::errors</definition>
+        <argsstring></argsstring>
+        <name>errors</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestResult::errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of files that failed to ingest. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="131" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a933e1f64a62e8dc2c8ebdaae75b05ea1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::plugins::llm_wiki::WikiIngestResult::failed_files</definition>
+        <argsstring></argsstring>
+        <name>failed_files</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestResult::failed_files</qualifiedname>
+        <briefdescription>
+<para>File paths that produced errors. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="132" column="17" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1abd34b5a4403b25def88b21e8ac0b0c42" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::plugins::llm_wiki::WikiIngestResult::duration</definition>
+        <argsstring></argsstring>
+        <name>duration</name>
+        <qualifiedname>themis::plugins::llm_wiki::WikiIngestResult::duration</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Wall-clock ingestion time. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="133" column="31" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="133" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result returned by <computeroutput><ref refid="classthemis_1_1plugins_1_1llm__wiki_1_1_i_l_l_m_wiki_plugin_1a06d2ba30a839e13275853b941f35376b" kindref="member">ILLMWikiPlugin::ingest()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm_wiki/llm_wiki_plugin_interface.h" line="127" column="1" bodyfile="include/llm_wiki/llm_wiki_plugin_interface.h" bodystart="127" bodyend="134"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a47d57af5ce35e5485525c031a5774d09" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestResult</scope><name>chunks_skipped</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a3d6a39c64966b337fa93992732b908d1" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestResult</scope><name>chunks_written</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1abd34b5a4403b25def88b21e8ac0b0c42" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestResult</scope><name>duration</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a8e892a7bd2e0c6139727b2db07fb1602" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestResult</scope><name>errors</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a933e1f64a62e8dc2c8ebdaae75b05ea1" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestResult</scope><name>failed_files</name></member>
+      <member refid="structthemis_1_1plugins_1_1llm__wiki_1_1_wiki_ingest_result_1a19b49339d4a6a3a66c244a9e8b55889f" prot="public" virt="non-virtual"><scope>themis::plugins::llm_wiki::WikiIngestResult</scope><name>files_processed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

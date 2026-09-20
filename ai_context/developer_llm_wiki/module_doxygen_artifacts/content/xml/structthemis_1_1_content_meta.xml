@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_content_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::ContentMeta</compoundname>
+    <includes refid="content__fs_8h" local="no">content_fs.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_content_meta_1a44b575c954a18c1f212f6895e8ef17b0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ContentMeta::pk</definition>
+        <argsstring></argsstring>
+        <name>pk</name>
+        <qualifiedname>themis::ContentMeta::pk</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="24" column="17" bodyfile="include/content/content_fs.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_content_meta_1a7c050dc62627c3583ed736cae042f316" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ContentMeta::mime</definition>
+        <argsstring></argsstring>
+        <name>mime</name>
+        <qualifiedname>themis::ContentMeta::mime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="25" column="17" bodyfile="include/content/content_fs.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_content_meta_1ab6f38ee5a5a0c255ad99ccefba383fc4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ContentMeta::size</definition>
+        <argsstring></argsstring>
+        <name>size</name>
+        <qualifiedname>themis::ContentMeta::size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="26" column="14" bodyfile="include/content/content_fs.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_content_meta_1abf0887feea4ce624384097606ab87121" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ContentMeta::sha256_hex</definition>
+        <argsstring></argsstring>
+        <name>sha256_hex</name>
+        <qualifiedname>themis::ContentMeta::sha256_hex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="27" column="17" bodyfile="include/content/content_fs.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_content_meta_1afdc81f47a17d1567a9404bc9e89ce1ac" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ContentMeta::chunk_size</definition>
+        <argsstring></argsstring>
+        <name>chunk_size</name>
+        <qualifiedname>themis::ContentMeta::chunk_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="28" column="14" bodyfile="include/content/content_fs.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_content_meta_1a3e02b3d4a6676f979586f85bea5f320a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::ContentMeta::chunks</definition>
+        <argsstring></argsstring>
+        <name>chunks</name>
+        <qualifiedname>themis::ContentMeta::chunks</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_fs.h" line="29" column="14" bodyfile="include/content/content_fs.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_fs.h" line="23" column="1" bodyfile="include/content/content_fs.h" bodystart="23" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_content_meta_1afdc81f47a17d1567a9404bc9e89ce1ac" prot="public" virt="non-virtual"><scope>themis::ContentMeta</scope><name>chunk_size</name></member>
+      <member refid="structthemis_1_1_content_meta_1a3e02b3d4a6676f979586f85bea5f320a" prot="public" virt="non-virtual"><scope>themis::ContentMeta</scope><name>chunks</name></member>
+      <member refid="structthemis_1_1_content_meta_1a7c050dc62627c3583ed736cae042f316" prot="public" virt="non-virtual"><scope>themis::ContentMeta</scope><name>mime</name></member>
+      <member refid="structthemis_1_1_content_meta_1a44b575c954a18c1f212f6895e8ef17b0" prot="public" virt="non-virtual"><scope>themis::ContentMeta</scope><name>pk</name></member>
+      <member refid="structthemis_1_1_content_meta_1abf0887feea4ce624384097606ab87121" prot="public" virt="non-virtual"><scope>themis::ContentMeta</scope><name>sha256_hex</name></member>
+      <member refid="structthemis_1_1_content_meta_1ab6f38ee5a5a0c255ad99ccefba383fc4" prot="public" virt="non-virtual"><scope>themis::ContentMeta</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

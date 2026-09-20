@@ -1,0 +1,435 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_ontology_aware_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::OntologyAwareRetriever</compoundname>
+    <includes refid="ontology__aware__retriever_8h" local="no">ontology_aware_retriever.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a50bcb1bcff869953a7753c099c764a2f" prot="private" static="no" mutable="no">
+        <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">kg::KnowledgeGraph</ref> *</type>
+        <definition>const kg::KnowledgeGraph* themis::rag::OntologyAwareRetriever::raw_graph_</definition>
+        <argsstring></argsstring>
+        <name>raw_graph_</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::raw_graph_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="176" column="46" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1af67fbf263b154260f997aed1ae3e7249" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; kg::IKnowledgeGraph &gt;</type>
+        <definition>std::shared_ptr&lt;kg::IKnowledgeGraph&gt; themis::rag::OntologyAwareRetriever::graph_iface_</definition>
+        <argsstring></argsstring>
+        <name>graph_iface_</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::graph_iface_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="177" column="26" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1add5007e54c1395b1211f18413a724457" prot="private" static="no" mutable="no">
+        <type>const graph::OntologyManager &amp;</type>
+        <definition>const graph::OntologyManager&amp; themis::rag::OntologyAwareRetriever::ontology_</definition>
+        <argsstring></argsstring>
+        <name>ontology_</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::ontology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="178" column="46" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a4ebaccd2dd587707de50e5c477002a38" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_ontology_retriever_config" kindref="compound">OntologyRetrieverConfig</ref></type>
+        <definition>OntologyRetrieverConfig themis::rag::OntologyAwareRetriever::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="179" column="35" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a0f3d4491dc4793a799aabfb46267b086" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::OntologyAwareRetriever::OntologyAwareRetriever</definition>
+        <argsstring>(const kg::KnowledgeGraph &amp;graph, const graph::OntologyManager &amp;ontology, const OntologyRetrieverConfig &amp;config={})</argsstring>
+        <name>OntologyAwareRetriever</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::OntologyAwareRetriever</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph" kindref="compound">kg::KnowledgeGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const graph::OntologyManager &amp;</type>
+          <declname>ontology</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_ontology_retriever_config" kindref="compound">OntologyRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with a knowledge graph, ontology, and optional config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Knowledge graph (must outlive this retriever). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ontology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>OntologyManager (must outlive this retriever). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieval configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="116" column="14" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="71" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a120114fab1b6bb3d082176eb547c4e16" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::OntologyAwareRetriever::OntologyAwareRetriever</definition>
+        <argsstring>(std::shared_ptr&lt; kg::IKnowledgeGraph &gt; graph, const graph::OntologyManager &amp;ontology, const OntologyRetrieverConfig &amp;config={})</argsstring>
+        <name>OntologyAwareRetriever</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::OntologyAwareRetriever</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; kg::IKnowledgeGraph &gt;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const graph::OntologyManager &amp;</type>
+          <declname>ontology</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_ontology_retriever_config" kindref="compound">OntologyRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct from an abstract knowledge-graph interface. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prefer this constructor when callers only have an <computeroutput>IKnowledgeGraph</computeroutput> implementation (runtime factories / adapters). The retriever will use the provided interface methods for traversal and linking. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="128" column="14" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="81" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a08fbddd182766171207f41d7920b08d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::OntologyAwareRetriever::~OntologyAwareRetriever</definition>
+        <argsstring>()</argsstring>
+        <name>~OntologyAwareRetriever</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::~OntologyAwareRetriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="133" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1afb213bc7f94902772b6ea59d33942902" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::OntologyAwareRetriever::OntologyAwareRetriever</definition>
+        <argsstring>(const OntologyAwareRetriever &amp;)=delete</argsstring>
+        <name>OntologyAwareRetriever</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::OntologyAwareRetriever</qualifiedname>
+        <param>
+          <type>const OntologyAwareRetriever &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="135" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a95e07fc3c1c2440b6fb1131c143fd6c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a0f3d4491dc4793a799aabfb46267b086" kindref="member">OntologyAwareRetriever</ref> &amp;</type>
+        <definition>OntologyAwareRetriever &amp; themis::rag::OntologyAwareRetriever::operator=</definition>
+        <argsstring>(const OntologyAwareRetriever &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a0f3d4491dc4793a799aabfb46267b086" kindref="member">OntologyAwareRetriever</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="136" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a64c15fb814db6a20cce1ec636c17f6e8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::OntologyAwareRetriever::OntologyAwareRetriever</definition>
+        <argsstring>(OntologyAwareRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>OntologyAwareRetriever</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::OntologyAwareRetriever</qualifiedname>
+        <param>
+          <type>OntologyAwareRetriever &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="137" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a2389de97b5a2d0c438095cea40e0c4d7" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a0f3d4491dc4793a799aabfb46267b086" kindref="member">OntologyAwareRetriever</ref> &amp;</type>
+        <definition>OntologyAwareRetriever &amp; themis::rag::OntologyAwareRetriever::operator=</definition>
+        <argsstring>(OntologyAwareRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a0f3d4491dc4793a799aabfb46267b086" kindref="member">OntologyAwareRetriever</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="138" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1aea55e185baf67c6bf8db726033c035f9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_ontology_retrieval_result" kindref="compound">OntologyRetrievalResult</ref></type>
+        <definition>OntologyRetrievalResult themis::rag::OntologyAwareRetriever::retrieve</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; judge::RetrievedDocument &gt; &amp;candidates) const</argsstring>
+        <name>retrieve</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::retrieve</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Augment <computeroutput>candidates</computeroutput> using ontology-aware KG signal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original user query text. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial retrieval results. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ontology-augmented and re-ranked documents. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>When an IKnowledgeGraph is provided, construct a retriever that operates over the interface implementation. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">graph_iface_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">kg_cfg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="147" column="30" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="167" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a3cc194dee16f8f70bf097f1145de5be0" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_ontology_retriever_config" kindref="compound">OntologyRetrieverConfig</ref> &amp;</type>
+        <definition>const OntologyRetrieverConfig &amp; themis::rag::OntologyAwareRetriever::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::config</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="154" column="35" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="97" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1ad7535fe9c85b20e09779f9c5ff54203d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::OntologyAwareRetriever::setConfig</definition>
+        <argsstring>(const OntologyRetrieverConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_ontology_retriever_config" kindref="compound">OntologyRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="159" column="10" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="106" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a2209cddfa33332c7d4c653d9cb781071" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt; std::string &gt; themis::rag::OntologyAwareRetriever::expandConcept</definition>
+        <argsstring>(const std::string &amp;concept_id) const</argsstring>
+        <name>expandConcept</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::expandConcept</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>concept_id</declname>
+        </param>
+        <briefdescription>
+<para>Expand a concept ID to its ancestor chain (up to max_superclass_expansion). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="163" column="25" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="115" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_ontology_aware_retriever_1a8bd2a66eda2062135539409b8628d4cf" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::OntologyAwareRetriever::isEdgeAllowed</definition>
+        <argsstring>(const std::string &amp;from_type, const std::string &amp;to_type, const std::string &amp;edge_type_name) const</argsstring>
+        <name>isEdgeAllowed</name>
+        <qualifiedname>themis::rag::OntologyAwareRetriever::isEdgeAllowed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>from_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>to_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>edge_type_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Test whether an edge relation type is allowed between two node type names. Returns true when either class is unknown (graceful degradation). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/ontology_aware_retriever.h" line="168" column="11" bodyfile="src/rag/ontology_aware_retriever.cpp" bodystart="148" bodyend="161"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Knowledge-graph retriever with ontology-guided entity expansion. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="par"><title>Overview</title><para>Wraps <computeroutput><ref refid="classthemis_1_1rag_1_1kg_1_1_knowledge_graph_retriever" kindref="compound">kg::KnowledgeGraphRetriever</ref></computeroutput> and adds two ontology-driven steps:<orderedlist>
+<listitem><para><bold>Entity expansion</bold>: each linked entity concept is expanded via <computeroutput>OntologyManager::isA()</computeroutput> to include its superclass chain up to <computeroutput>max_superclass_expansion</computeroutput> ancestors. The expanded concept set is used to widen the KG neighbourhood query.</para>
+</listitem><listitem><para><bold>Edge-type filtering</bold> (optional): KG BFS only follows edges whose relation type is permitted by <computeroutput>OntologyManager::allowedEdgeTypes()</computeroutput> for the current source and target node types. Edges whose type is unknown to the ontology are passed through (graceful degradation).</para>
+</listitem></orderedlist>
+</para>
+</simplesect>
+When the ontology is not loaded or a concept is unknown the retriever degrades gracefully to standard KG retrieval without throwing.</para>
+<para><simplesect kind="par"><title>Thread safety</title><para>Retrieve is const and thread-safe for concurrent calls once constructed.</para>
+</simplesect>
+<simplesect kind="par"><title>Usage example</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">kg::KnowledgeGraph<sp/>graph;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="comment">//<sp/>...<sp/>populate<sp/>graph<sp/>...</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">themis::graph::OntologyManager<sp/>ontology;</highlight></codeline>
+<codeline><highlight class="normal">ontology.loadFromJsonString(R</highlight><highlight class="stringliteral">&quot;({&quot;concepts&quot;:[{&quot;id&quot;:&quot;Entity&quot;},</highlight></codeline>
+<codeline><highlight class="stringliteral"><sp/><sp/>{&quot;id&quot;:&quot;Person&quot;,&quot;parents&quot;:[&quot;Entity&quot;]}],&quot;axioms&quot;:[]})&quot;);</highlight></codeline>
+<codeline><highlight class="stringliteral">ontology.build();</highlight></codeline>
+<codeline><highlight class="stringliteral"></highlight></codeline>
+<codeline><highlight class="stringliteral"><ref refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a0f3d4491dc4793a799aabfb46267b086" kindref="member">OntologyAwareRetriever</ref><sp/>retriever(graph,<sp/>ontology);</highlight></codeline>
+<codeline><highlight class="stringliteral"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.retrieve(query,<sp/>candidates);</highlight></codeline>
+</programlisting> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/rag/ontology_aware_retriever.h" line="107" column="1" bodyfile="include/rag/ontology_aware_retriever.h" bodystart="107" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a3cc194dee16f8f70bf097f1145de5be0" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>config</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a4ebaccd2dd587707de50e5c477002a38" prot="private" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a2209cddfa33332c7d4c653d9cb781071" prot="private" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>expandConcept</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1af67fbf263b154260f997aed1ae3e7249" prot="private" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>graph_iface_</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a8bd2a66eda2062135539409b8628d4cf" prot="private" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>isEdgeAllowed</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1add5007e54c1395b1211f18413a724457" prot="private" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>ontology_</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a0f3d4491dc4793a799aabfb46267b086" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>OntologyAwareRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a120114fab1b6bb3d082176eb547c4e16" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>OntologyAwareRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1afb213bc7f94902772b6ea59d33942902" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>OntologyAwareRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a64c15fb814db6a20cce1ec636c17f6e8" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>OntologyAwareRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a95e07fc3c1c2440b6fb1131c143fd6c7" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a2389de97b5a2d0c438095cea40e0c4d7" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a50bcb1bcff869953a7753c099c764a2f" prot="private" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>raw_graph_</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1aea55e185baf67c6bf8db726033c035f9" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>retrieve</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1ad7535fe9c85b20e09779f9c5ff54203d" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_ontology_aware_retriever_1a08fbddd182766171207f41d7920b08d3" prot="public" virt="non-virtual"><scope>themis::rag::OntologyAwareRetriever</scope><name>~OntologyAwareRetriever</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

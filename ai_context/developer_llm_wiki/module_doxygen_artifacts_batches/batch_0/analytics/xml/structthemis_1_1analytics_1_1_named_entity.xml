@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_named_entity" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::NamedEntity</compoundname>
+    <includes refid="nlp__text__analyzer_8h" local="no">nlp_text_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_named_entity_1ac9804a1d5b1553d2298d1528dea1fe61" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NamedEntity::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::analytics::NamedEntity::text</qualifiedname>
+        <briefdescription>
+<para>Entity text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="38" column="17" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_named_entity_1a12cebc4d1008a4f127a4f8fcd7b7a4c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::NamedEntity::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::analytics::NamedEntity::type</qualifiedname>
+        <briefdescription>
+<para>Entity type (PERSON, ORG, LOC, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="39" column="17" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_named_entity_1affeee942fab13bd72285e48f611d8955" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::analytics::NamedEntity::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::analytics::NamedEntity::confidence</qualifiedname>
+        <briefdescription>
+<para>Confidence score [0.0, 1.0]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="40" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_named_entity_1a0554cd4d6a4beb2ce79022358451fd19" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::NamedEntity::start_pos</definition>
+        <argsstring></argsstring>
+        <name>start_pos</name>
+        <qualifiedname>themis::analytics::NamedEntity::start_pos</qualifiedname>
+        <briefdescription>
+<para>Start position in text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="41" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_named_entity_1a57b8779482eefdd36f85f697ebf8d93a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::analytics::NamedEntity::end_pos</definition>
+        <argsstring></argsstring>
+        <name>end_pos</name>
+        <qualifiedname>themis::analytics::NamedEntity::end_pos</qualifiedname>
+        <briefdescription>
+<para>End position in text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="42" column="12" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1analytics_1_1_named_entity_1acd98186f713652a00b9bec5be6537d8b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::analytics::NamedEntity::NamedEntity</definition>
+        <argsstring>(std::string t, std::string ty, double conf=1.0)</argsstring>
+        <name>NamedEntity</name>
+        <qualifiedname>themis::analytics::NamedEntity::NamedEntity</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>ty</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>conf</declname>
+          <defval>1.0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/nlp_text_analyzer.h" line="44" column="5" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/nlp_text_analyzer.h" line="37" column="1" bodyfile="include/analytics/nlp_text_analyzer.h" bodystart="37" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_named_entity_1affeee942fab13bd72285e48f611d8955" prot="public" virt="non-virtual"><scope>themis::analytics::NamedEntity</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1analytics_1_1_named_entity_1a57b8779482eefdd36f85f697ebf8d93a" prot="public" virt="non-virtual"><scope>themis::analytics::NamedEntity</scope><name>end_pos</name></member>
+      <member refid="structthemis_1_1analytics_1_1_named_entity_1acd98186f713652a00b9bec5be6537d8b" prot="public" virt="non-virtual"><scope>themis::analytics::NamedEntity</scope><name>NamedEntity</name></member>
+      <member refid="structthemis_1_1analytics_1_1_named_entity_1a0554cd4d6a4beb2ce79022358451fd19" prot="public" virt="non-virtual"><scope>themis::analytics::NamedEntity</scope><name>start_pos</name></member>
+      <member refid="structthemis_1_1analytics_1_1_named_entity_1ac9804a1d5b1553d2298d1528dea1fe61" prot="public" virt="non-virtual"><scope>themis::analytics::NamedEntity</scope><name>text</name></member>
+      <member refid="structthemis_1_1analytics_1_1_named_entity_1a12cebc4d1008a4f127a4f8fcd7b7a4c0" prot="public" virt="non-virtual"><scope>themis::analytics::NamedEntity</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

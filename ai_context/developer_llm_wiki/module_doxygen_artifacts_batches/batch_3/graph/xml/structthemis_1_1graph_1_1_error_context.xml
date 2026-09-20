@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_error_context" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::ErrorContext</compoundname>
+    <includes refid="graph__error__taxonomy_8h" local="no">graph_error_taxonomy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_error_context_1af028b86eca49c4f9413e7d2a6ea53344" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7d" kindref="member">GraphErrorCode</ref></type>
+        <definition>GraphErrorCode themis::graph::ErrorContext::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::graph::ErrorContext::code</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1graph_1a35682df880ae891f2475e8f5d8584d7dad0749aaba8b833466dfcbb0428e4f89c" kindref="member">GraphErrorCode::SUCCESS</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="269" column="20" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="269" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_error_context_1aef2e8d31943ab7faf2651fb83cee4e57" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::ErrorContext::component</definition>
+        <argsstring></argsstring>
+        <name>component</name>
+        <qualifiedname>themis::graph::ErrorContext::component</qualifiedname>
+        <briefdescription>
+<para>Component where error originated (e.g., &quot;optimizer&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="270" column="17" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_error_context_1a4492174888029126c1338a3e46297b87" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::ErrorContext::operation</definition>
+        <argsstring></argsstring>
+        <name>operation</name>
+        <qualifiedname>themis::graph::ErrorContext::operation</qualifiedname>
+        <briefdescription>
+<para>Operation being attempted (e.g., &quot;plan_generation&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="271" column="17" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_error_context_1a14a35784339dbbb99be329309f6af730" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::ErrorContext::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::graph::ErrorContext::context</qualifiedname>
+        <briefdescription>
+<para>Additional context (query ID, vertex ID, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="272" column="17" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_error_context_1a77439b1a3b10746cfdd1def316bf3e4e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graph::ErrorContext::recovery_hint</definition>
+        <argsstring></argsstring>
+        <name>recovery_hint</name>
+        <qualifiedname>themis::graph::ErrorContext::recovery_hint</qualifiedname>
+        <briefdescription>
+<para>Operator-facing recovery suggestion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="273" column="17" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="273" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_error_context_1a7153800ff880f89465a0326da10699cf" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::ErrorContext::getRecoveryRecommendation</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getRecoveryRecommendation</name>
+        <qualifiedname>themis::graph::ErrorContext::getRecoveryRecommendation</qualifiedname>
+        <briefdescription>
+<para>Constructs recovery recommendation based on error category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>String suitable for logging or UI display </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="280" column="5" bodyfile="src/graph/graph_error_taxonomy.cpp" bodystart="108" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_error_context_1a17dd2609571cb3ba4c3425c2e6f11eb0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graph::ErrorContext::formatDiagnostic</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>formatDiagnostic</name>
+        <qualifiedname>themis::graph::ErrorContext::formatDiagnostic</qualifiedname>
+        <briefdescription>
+<para>Formats diagnostic message for operator debugging. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Structured diagnostic string </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_error_taxonomy.h" line="287" column="5" bodyfile="src/graph/graph_error_taxonomy.cpp" bodystart="126" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Error context helper for diagnostics. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Captures error code, context, and recovery recommendation. Used by fallback_incident reporting and operator diagnostics. </para>
+    </detaileddescription>
+    <location file="include/graph/graph_error_taxonomy.h" line="268" column="1" bodyfile="include/graph/graph_error_taxonomy.h" bodystart="268" bodyend="288"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_error_context_1af028b86eca49c4f9413e7d2a6ea53344" prot="public" virt="non-virtual"><scope>themis::graph::ErrorContext</scope><name>code</name></member>
+      <member refid="structthemis_1_1graph_1_1_error_context_1aef2e8d31943ab7faf2651fb83cee4e57" prot="public" virt="non-virtual"><scope>themis::graph::ErrorContext</scope><name>component</name></member>
+      <member refid="structthemis_1_1graph_1_1_error_context_1a14a35784339dbbb99be329309f6af730" prot="public" virt="non-virtual"><scope>themis::graph::ErrorContext</scope><name>context</name></member>
+      <member refid="structthemis_1_1graph_1_1_error_context_1a17dd2609571cb3ba4c3425c2e6f11eb0" prot="public" virt="non-virtual"><scope>themis::graph::ErrorContext</scope><name>formatDiagnostic</name></member>
+      <member refid="structthemis_1_1graph_1_1_error_context_1a7153800ff880f89465a0326da10699cf" prot="public" virt="non-virtual"><scope>themis::graph::ErrorContext</scope><name>getRecoveryRecommendation</name></member>
+      <member refid="structthemis_1_1graph_1_1_error_context_1a4492174888029126c1338a3e46297b87" prot="public" virt="non-virtual"><scope>themis::graph::ErrorContext</scope><name>operation</name></member>
+      <member refid="structthemis_1_1graph_1_1_error_context_1a77439b1a3b10746cfdd1def316bf3e4e" prot="public" virt="non-virtual"><scope>themis::graph::ErrorContext</scope><name>recovery_hint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

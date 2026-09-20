@@ -1,0 +1,585 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::LoRAPatternClassifier</compoundname>
+    <includes refid="lora__pattern__classifier_8h" local="no">lora_pattern_classifier.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" prot="public" static="no">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_config" kindref="compound">LoRAPatternClassifierConfig</ref></type>
+        <definition>using themisdb::analytics::LoRAPatternClassifier::Config = LoRAPatternClassifierConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="75" column="5" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7f61901fb05aabdff23e183fc527cd78" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;adapter_id, const std::string &amp;prompt)&gt;</type>
+        <definition>using themisdb::analytics::LoRAPatternClassifier::InferenceFn = std::function&lt;std::string(const std::string&amp; adapter_id,
+                                                   const std::string&amp; prompt)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InferenceFn</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::InferenceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="77" column="5" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a40257f21fde607c318252f2611be03ba" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; double &gt;(const std::string &amp;text)&gt;</type>
+        <definition>using themisdb::analytics::LoRAPatternClassifier::EmbeddingFn = std::function&lt;std::vector&lt;double&gt;(const std::string&amp; text)&gt;</definition>
+        <argsstring></argsstring>
+        <name>EmbeddingFn</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::EmbeddingFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="80" column="5" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acd893bc94c24795dd14845f3b910154a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" kindref="member">Config</ref></type>
+        <definition>Config themisdb::analytics::LoRAPatternClassifier::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="135" column="32" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aa06ea8ba1fb933e4c5eae24cd70d5710" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7f61901fb05aabdff23e183fc527cd78" kindref="member">InferenceFn</ref></type>
+        <definition>InferenceFn themisdb::analytics::LoRAPatternClassifier::inference_fn_</definition>
+        <argsstring></argsstring>
+        <name>inference_fn_</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::inference_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="136" column="32" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a81e44f25fac3db3d1403ec2670cbe9ab" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a40257f21fde607c318252f2611be03ba" kindref="member">EmbeddingFn</ref></type>
+        <definition>EmbeddingFn themisdb::analytics::LoRAPatternClassifier::embedding_fn_</definition>
+        <argsstring></argsstring>
+        <name>embedding_fn_</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::embedding_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="137" column="32" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a324302a0946a09fe2c9ee0995bcf9224" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_adapter_domain" kindref="compound">AdapterDomain</ref> &gt;</type>
+        <definition>std::vector&lt;AdapterDomain&gt; themisdb::analytics::LoRAPatternClassifier::domains_</definition>
+        <argsstring></argsstring>
+        <name>domains_</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::domains_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="138" column="17" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a246a7a898a21263246949abf31f1b89c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themisdb::analytics::LoRAPatternClassifier::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="139" column="32" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::LoRAPatternClassifier::LoRAPatternClassifier</definition>
+        <argsstring>(Config cfg=Config{})</argsstring>
+        <name>LoRAPatternClassifier</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::LoRAPatternClassifier</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" kindref="member">Config</ref></type>
+          <declname>cfg</declname>
+          <defval><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" kindref="member">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="82" column="14" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a13da0edd43a5cbba4aa4e951a5ea8080" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::LoRAPatternClassifier::~LoRAPatternClassifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>~LoRAPatternClassifier</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::~LoRAPatternClassifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="83" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac5380ca63fceec3714d8b625ec7af6fd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::analytics::LoRAPatternClassifier::LoRAPatternClassifier</definition>
+        <argsstring>(const LoRAPatternClassifier &amp;)=delete</argsstring>
+        <name>LoRAPatternClassifier</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::LoRAPatternClassifier</qualifiedname>
+        <param>
+          <type>const LoRAPatternClassifier &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="85" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a99dfb009e71450889c96592efd24a74a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" kindref="member">LoRAPatternClassifier</ref> &amp;</type>
+        <definition>LoRAPatternClassifier &amp; themisdb::analytics::LoRAPatternClassifier::operator=</definition>
+        <argsstring>(const LoRAPatternClassifier &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" kindref="member">LoRAPatternClassifier</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="86" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::LoRAPatternClassifier::setInferenceFn</definition>
+        <argsstring>(InferenceFn fn)</argsstring>
+        <name>setInferenceFn</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::setInferenceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7f61901fb05aabdff23e183fc527cd78" kindref="member">InferenceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject an inference function used by <ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" kindref="member">classify()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inference function to inject.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Inference function to inject.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="93" column="10" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="39" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8ec71bb3b79abf80ec1d15009b686b20" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::LoRAPatternClassifier::setEmbeddingFn</definition>
+        <argsstring>(EmbeddingFn fn)</argsstring>
+        <name>setEmbeddingFn</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::setEmbeddingFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a40257f21fde607c318252f2611be03ba" kindref="member">EmbeddingFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Embedding Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="99" column="10" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="49" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::analytics::LoRAPatternClassifier::registerAdapterDomain</definition>
+        <argsstring>(AdapterDomain domain)</argsstring>
+        <name>registerAdapterDomain</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::registerAdapterDomain</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1analytics_1_1_adapter_domain" kindref="compound">AdapterDomain</ref></type>
+          <declname>domain</declname>
+        </param>
+        <briefdescription>
+<para>Register Adapter Domain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">domain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::find_if(), begin(), end(), std::move(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="105" column="10" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="59" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_pattern_result" kindref="compound">PatternResult</ref></type>
+        <definition>PatternResult themisdb::analytics::LoRAPatternClassifier::classify</definition>
+        <argsstring>(const std::vector&lt; DataPoint &gt; &amp;events, const std::string &amp;adapter_id=&quot;&quot;)</argsstring>
+        <name>classify</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::classify</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Classify the semantic intent of a query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">adapter_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the adapter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aed5621b5dd81d5130e6056f59085708a" kindref="member">selectAdapter()</ref>, buildPrompt(), lock(), automlFallback(), inference_fn_(), parseInferenceResponse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="109" column="20" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="331" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8a27f160e931ce603f323c22691b9549" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_pattern_result" kindref="compound">PatternResult</ref> &gt;</type>
+        <definition>std::vector&lt; PatternResult &gt; themisdb::analytics::LoRAPatternClassifier::batchClassify</definition>
+        <argsstring>(const std::vector&lt; DataPoint &gt; &amp;events)</argsstring>
+        <name>batchClassify</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::batchClassify</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <briefdescription>
+<para>Batch Classify. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">events</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), size(), results(), reserve(), clear(), std::min(), push_back(), std::async(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="112" column="18" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="364" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aed5621b5dd81d5130e6056f59085708a" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::LoRAPatternClassifier::selectAdapter</definition>
+        <argsstring>(const std::string &amp;context)</argsstring>
+        <name>selectAdapter</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::selectAdapter</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Select Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), empty(), front(), embedding_fn_(), cosineSimilarity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="115" column="18" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="295" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a1fe5c33f2bc5864b96b7f44b3904e9dc" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t themisdb::analytics::LoRAPatternClassifier::registeredAdapterCount</definition>
+        <argsstring>() const</argsstring>
+        <name>registeredAdapterCount</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::registeredAdapterCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="119" column="18" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="399" bodyend="407"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a36ef4fec9f3743590b2b4ab200b660d3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::LoRAPatternClassifier::hasInferenceFn</definition>
+        <argsstring>() const</argsstring>
+        <name>hasInferenceFn</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::hasInferenceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="120" column="18" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="409" bodyend="417"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac418a51a247c9ba29e32173fc8ad6fb2" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::LoRAPatternClassifier::buildPrompt</definition>
+        <argsstring>(const std::vector&lt; DataPoint &gt; &amp;events, const std::string &amp;adapter_id)</argsstring>
+        <name>buildPrompt</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::buildPrompt</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="123" column="25" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="75" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a13cc43a46b22d6399f5537cc2988ac38" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themisdb::analytics::LoRAPatternClassifier::cosineSimilarity</definition>
+        <argsstring>(const std::vector&lt; double &gt; &amp;a, const std::vector&lt; double &gt; &amp;b)</argsstring>
+        <name>cosineSimilarity</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::cosineSimilarity</qualifiedname>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; double &gt; &amp;</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="132" column="20" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="268" bodyend="283"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a365198456a1fa60a8ab5eb4dd0e42e55" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_pattern_result" kindref="compound">PatternResult</ref></type>
+        <definition>PatternResult themisdb::analytics::LoRAPatternClassifier::parseInferenceResponse</definition>
+        <argsstring>(const std::string &amp;json, const std::string &amp;adapter_id) const</argsstring>
+        <name>parseInferenceResponse</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::parseInferenceResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>json</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="126" column="20" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="117" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a84222e58ba6c46c2be75cb77a8695073" prot="private" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_pattern_result" kindref="compound">PatternResult</ref></type>
+        <definition>PatternResult themisdb::analytics::LoRAPatternClassifier::automlFallback</definition>
+        <argsstring>(const std::vector&lt; DataPoint &gt; &amp;events, const std::string &amp;adapter_id) const</argsstring>
+        <name>automlFallback</name>
+        <qualifiedname>themisdb::analytics::LoRAPatternClassifier::automlFallback</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemisdb_1_1analytics_1_1_data_point" kindref="compound">DataPoint</ref> &gt; &amp;</type>
+          <declname>events</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>adapter_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/lora_pattern_classifier.h" line="129" column="20" bodyfile="src/analytics/lora_pattern_classifier.cpp" bodystart="159" bodyend="262"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/lora_pattern_classifier.h" line="73" column="1" bodyfile="include/analytics/lora_pattern_classifier.h" bodystart="73" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a84222e58ba6c46c2be75cb77a8695073" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>automlFallback</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8a27f160e931ce603f323c22691b9549" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>batchClassify</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac418a51a247c9ba29e32173fc8ad6fb2" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>buildPrompt</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acd893bc94c24795dd14845f3b910154a" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>cfg_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ae23e668fc09afd1579143f83db659758" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>classify</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a4c622498f622a03d6c0fb04f3803e8c0" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>Config</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a13cc43a46b22d6399f5537cc2988ac38" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>cosineSimilarity</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a324302a0946a09fe2c9ee0995bcf9224" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>domains_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a81e44f25fac3db3d1403ec2670cbe9ab" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>embedding_fn_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a40257f21fde607c318252f2611be03ba" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>EmbeddingFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a36ef4fec9f3743590b2b4ab200b660d3" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>hasInferenceFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aa06ea8ba1fb933e4c5eae24cd70d5710" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>inference_fn_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7f61901fb05aabdff23e183fc527cd78" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>InferenceFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac13dbb3cc83c54be20454399f314efae" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>LoRAPatternClassifier</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1ac5380ca63fceec3714d8b625ec7af6fd" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>LoRAPatternClassifier</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a246a7a898a21263246949abf31f1b89c" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>mutex_</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a99dfb009e71450889c96592efd24a74a" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>operator=</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a365198456a1fa60a8ab5eb4dd0e42e55" prot="private" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>parseInferenceResponse</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a7eedccea29705ed09066e5c5f8d7fa98" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>registerAdapterDomain</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a1fe5c33f2bc5864b96b7f44b3904e9dc" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>registeredAdapterCount</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1aed5621b5dd81d5130e6056f59085708a" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>selectAdapter</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a8ec71bb3b79abf80ec1d15009b686b20" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>setEmbeddingFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1acfb294a538b4c35cb56707d8e5977603" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>setInferenceFn</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_lo_r_a_pattern_classifier_1a13da0edd43a5cbba4aa4e951a5ea8080" prot="public" virt="non-virtual"><scope>themisdb::analytics::LoRAPatternClassifier</scope><name>~LoRAPatternClassifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

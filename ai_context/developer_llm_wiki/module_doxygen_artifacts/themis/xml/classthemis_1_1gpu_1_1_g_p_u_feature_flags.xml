@@ -1,0 +1,504 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1gpu_1_1_g_p_u_feature_flags" kind="class" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUFeatureFlags</compoundname>
+    <includes refid="feature__flags_8h" local="no">feature_flags.h</includes>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_feature_flags_1_1_feature_status" prot="public">themis::gpu::GPUFeatureFlags::FeatureStatus</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Feature</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::Feature</qualifiedname>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a48b12ad4c3a3dbfcc6579dec967a92c7" prot="public">
+          <name>MEMORY_POOL</name>
+          <briefdescription>
+<para>Slab-based pre-allocator (<ref refid="classthemis_1_1gpu_1_1_g_p_u_memory_pool" kindref="compound">GPUMemoryPool</ref>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0aa9615726b399793a602b053eb43e39a7" prot="public">
+          <name>ASYNC_LAUNCHER</name>
+          <briefdescription>
+<para>Async work-item launcher (<ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher" kindref="compound">GPULauncher</ref>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0ab6920c39c6a23119fa3fa0cf6941b1d3" prot="public">
+          <name>MULTI_GPU</name>
+          <briefdescription>
+<para>Multi-GPU device management (<ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer" kindref="compound">GPULoadBalancer</ref>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a4b48b5b60ccdf57029728108566ad09d" prot="public">
+          <name>TENSOR_OPS</name>
+          <briefdescription>
+<para>GPU tensor kernel operations (future). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a6e728cb13a29f71199d9e8e8b014dd7a" prot="public">
+          <name>POLICY_GATE</name>
+          <briefdescription>
+<para>Default-deny capability gate (<ref refid="classthemis_1_1gpu_1_1_g_p_u_policy" kindref="compound">GPUPolicy</ref>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a8e509def84a97bcf301682c8a77a1011" prot="public">
+          <name>AUDIT_LOG</name>
+          <briefdescription>
+<para>Ring-buffer audit event log (<ref refid="classthemis_1_1gpu_1_1_g_p_u_audit_log" kindref="compound">GPUAuditLog</ref>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a9e7c5e4965876742432dc75e07229a12" prot="public">
+          <name>METRICS</name>
+          <briefdescription>
+<para>Prometheus-compatible metrics (<ref refid="classthemis_1_1gpu_1_1_g_p_u_metrics" kindref="compound">GPUMetrics</ref>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a33fb49bffe3e844314db79988feb6daa" prot="public">
+          <name>LOAD_BALANCER</name>
+          <briefdescription>
+<para>Load balancing across devices (<ref refid="classthemis_1_1gpu_1_1_g_p_u_load_balancer" kindref="compound">GPULoadBalancer</ref>). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a1a7e6b012948b143b5bb5679777c40f6" prot="public">
+          <name>KERNEL_VALIDATOR</name>
+          <briefdescription>
+<para>Kernel checksum/signature validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a2cd47afa88eec154ae28bfe6d8340491" prot="public">
+          <name>ALERTS</name>
+          <briefdescription>
+<para>Threshold-based alert manager (GPUAlertManager). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0afc5b94789976590dfca7e0130deb5f95" prot="public">
+          <name>WASM_SANDBOX</name>
+          <briefdescription>
+<para>WASM-based kernel sandbox for untrusted third-party kernels. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0ab7a37358efc4005d2a5244521e3e4cf3" prot="public">
+          <name>MIG_MANAGER</name>
+          <briefdescription>
+<para>MIG (Multi-Instance GPU) partitioning for NVIDIA A/H series. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0a7c4141c6e11b46d206ec23d11434e98c" prot="public">
+          <name>VULKAN_BACKEND</name>
+          <briefdescription>
+<para>Vulkan compute backend for cross-vendor GPU support. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0ab79a473320bb56764bc6188aea66cfc5" prot="public">
+          <name>PEER_TO_PEER</name>
+          <briefdescription>
+<para>Peer-to-peer GPU-to-GPU direct transfers (NVLink/PCIe). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="57" column="5" bodyfile="include/themis/gpu/feature_flags.h" bodystart="57" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a065c2f88444c2aba365ed8ddd65a5785" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::gpu::GPUFeatureFlags::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="136" column="24" bodyfile="include/themis/gpu/feature_flags.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a9df4cc61750e48266cb145f2a54645bf" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, bool &gt;</type>
+        <definition>std::unordered_map&lt;int, bool&gt; themis::gpu::GPUFeatureFlags::defaults_</definition>
+        <argsstring></argsstring>
+        <name>defaults_</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::defaults_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="139" column="24" bodyfile="include/themis/gpu/feature_flags.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a376949cf5487ffc30b6f4f4246b06f8c" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, bool &gt;</type>
+        <definition>std::unordered_map&lt;int, bool&gt; themis::gpu::GPUFeatureFlags::overrides_</definition>
+        <argsstring></argsstring>
+        <name>overrides_</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::overrides_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="143" column="24" bodyfile="include/themis/gpu/feature_flags.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1afaca4c3df79139b2a3505cd345f431e9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>GPUFeatureFlags &amp;</type>
+        <definition>static GPUFeatureFlags &amp; themis::gpu::GPUFeatureFlags::GetInstance</definition>
+        <argsstring>()</argsstring>
+        <name>GetInstance</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::GetInstance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="77" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a6150f456770aa30e53618652acde0a03" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>static const char * themis::gpu::GPUFeatureFlags::featureName</definition>
+        <argsstring>(Feature feature) noexcept</argsstring>
+        <name>featureName</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::featureName</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" kindref="member">Feature</ref></type>
+          <declname>feature</declname>
+        </param>
+        <briefdescription>
+<para>Return the feature name as a string (for logging). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="91" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a703954388969580d5e95fc6357d66580" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::gpu::GPUFeatureFlags::editionName</definition>
+        <argsstring>()</argsstring>
+        <name>editionName</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::editionName</qualifiedname>
+        <briefdescription>
+<para>Return the human-readable edition name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="131" column="24"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a509f1101c092ffa888fb3b049068fd2c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::gpu::GPUFeatureFlags::isEnabled</definition>
+        <argsstring>(Feature feature) const</argsstring>
+        <name>isEnabled</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::isEnabled</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" kindref="member">Feature</ref></type>
+          <declname>feature</declname>
+        </param>
+        <briefdescription>
+<para>Return true if <computeroutput>feature</computeroutput> is currently enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="86" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1ad196e483c02faa521d066abd4fd98876" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUFeatureFlags::enable</definition>
+        <argsstring>(Feature feature)</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::enable</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" kindref="member">Feature</ref></type>
+          <declname>feature</declname>
+        </param>
+        <briefdescription>
+<para>Explicitly enable a feature, overriding the edition default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="100" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1ae4d511e052f146f59ed2e31c4672521e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUFeatureFlags::disable</definition>
+        <argsstring>(Feature feature)</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::disable</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" kindref="member">Feature</ref></type>
+          <declname>feature</declname>
+        </param>
+        <briefdescription>
+<para>Explicitly disable a feature, overriding the edition default. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="105" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1ae70c5554a199c3919ae51b54a5e07c6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUFeatureFlags::resetToDefaults</definition>
+        <argsstring>()</argsstring>
+        <name>resetToDefaults</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::resetToDefaults</qualifiedname>
+        <briefdescription>
+<para>Reset all overrides; features revert to their edition defaults. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="110" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1ade9ddc8f90a35cb1210142cf29d7b427" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1gpu_1_1_g_p_u_feature_flags_1_1_feature_status" kindref="compound">FeatureStatus</ref> &gt;</type>
+        <definition>std::vector&lt; FeatureStatus &gt; themis::gpu::GPUFeatureFlags::getAll</definition>
+        <argsstring>() const</argsstring>
+        <name>getAll</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::getAll</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="126" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1aed859f71b6c147c4d9f7729c1a330863" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::gpu::GPUFeatureFlags::GPUFeatureFlags</definition>
+        <argsstring>()</argsstring>
+        <name>GPUFeatureFlags</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::GPUFeatureFlags</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="134" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a474f698bad2f83daf38d25d0b270b27f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::gpu::GPUFeatureFlags::initDefaults</definition>
+        <argsstring>()</argsstring>
+        <name>initDefaults</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::initDefaults</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="147" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1aabedc14143a3111cdf58c6e550b448e3" prot="private" static="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::gpu::GPUFeatureFlags::key</definition>
+        <argsstring>(Feature f) noexcept</argsstring>
+        <name>key</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::key</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" kindref="member">Feature</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="145" column="16" bodyfile="include/themis/gpu/feature_flags.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a5fa9b839233e36ab1ccd20a151756769" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::gpu::GPUFeatureFlags::editionDefaultFor</definition>
+        <argsstring>(Feature f)</argsstring>
+        <name>editionDefaultFor</name>
+        <qualifiedname>themis::gpu::GPUFeatureFlags::editionDefaultFor</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" kindref="member">Feature</ref></type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/feature_flags.h" line="148" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Per-edition GPU feature flag registry. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Controls which GPU capabilities are active at runtime. <ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" kindref="member">Feature</ref> enablement is initialised from the compiled edition but can be overridden at startup (e.g. via config file or environment variable) to allow staged rollouts and emergency disablement without a recompile.</para>
+<sect1 id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1autotoc_md9_1s1"><sect2 id="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1autotoc_md9">
+<title>Default enablement per edition</title><para><table rows="15" cols="4"><row>
+<entry thead="yes"><para><ref refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" kindref="member">Feature</ref>  </para>
+</entry><entry thead="yes"><para>COMMUNITY  </para>
+</entry><entry thead="yes"><para>ENTERPRISE  </para>
+</entry><entry thead="yes"><para>HYPERSCALER  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>MEMORY_POOL  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ASYNC_LAUNCHER  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>MULTI_GPU  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>TENSOR_OPS  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>POLICY_GATE  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>AUDIT_LOG  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>METRICS  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>LOAD_BALANCER  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>KERNEL_VALIDATOR  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ALERTS  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>WASM_SANDBOX  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>MIG_MANAGER  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>VULKAN_BACKEND  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>PEER_TO_PEER  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry></row>
+</table>
+</para>
+<para>Thread safety: all public methods are protected by an internal mutex. </para>
+</sect2></sect1>
+    </detaileddescription>
+    <location file="include/themis/gpu/feature_flags.h" line="52" column="1" bodyfile="include/themis/gpu/feature_flags.h" bodystart="52" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a9df4cc61750e48266cb145f2a54645bf" prot="private" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>defaults_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1ae4d511e052f146f59ed2e31c4672521e" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>disable</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a5fa9b839233e36ab1ccd20a151756769" prot="private" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>editionDefaultFor</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a703954388969580d5e95fc6357d66580" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>editionName</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1ad196e483c02faa521d066abd4fd98876" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>enable</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a98634c6f2cebbbb028998d15c07316b0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>Feature</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a6150f456770aa30e53618652acde0a03" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>featureName</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1ade9ddc8f90a35cb1210142cf29d7b427" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>getAll</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1afaca4c3df79139b2a3505cd345f431e9" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>GetInstance</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1aed859f71b6c147c4d9f7729c1a330863" prot="private" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>GPUFeatureFlags</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a474f698bad2f83daf38d25d0b270b27f" prot="private" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>initDefaults</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a509f1101c092ffa888fb3b049068fd2c" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>isEnabled</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1aabedc14143a3111cdf58c6e550b448e3" prot="private" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>key</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a065c2f88444c2aba365ed8ddd65a5785" prot="private" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1a376949cf5487ffc30b6f4f4246b06f8c" prot="private" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>overrides_</name></member>
+      <member refid="classthemis_1_1gpu_1_1_g_p_u_feature_flags_1ae70c5554a199c3919ae51b54a5e07c6a" prot="public" virt="non-virtual"><scope>themis::gpu::GPUFeatureFlags</scope><name>resetToDefaults</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

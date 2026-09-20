@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::ContinuousBatchScheduler::SchedulerConfig</compoundname>
+    <includes refid="continuous__batch__scheduler_8h" local="no">continuous_batch_scheduler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a856cc19f98462cc26ae3c74cb689efb5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::max_batch_size</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="31" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a8d32a6f02e0e701365f089c2fa9577c0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::max_concurrent_requests</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_requests</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::max_concurrent_requests</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="32" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a855fb2e8dfd77ed5b3ada3095f089b1a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::max_tokens_per_batch</definition>
+        <argsstring></argsstring>
+        <name>max_tokens_per_batch</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::max_tokens_per_batch</qualifiedname>
+        <initializer>= 8192</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="33" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1ace0f6a22990d7dfe658769837ac91b60" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::max_queue_depth</definition>
+        <argsstring></argsstring>
+        <name>max_queue_depth</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::max_queue_depth</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="39" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1adfc125aa26250760109ed334d834813e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_preemption</definition>
+        <argsstring></argsstring>
+        <name>enable_preemption</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_preemption</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="42" column="14" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1ad2c7d16b0bb99f95b1a5ad7e5501bc0a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_chunked_prefill</definition>
+        <argsstring></argsstring>
+        <name>enable_chunked_prefill</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_chunked_prefill</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="43" column="14" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a64b38eb1c25c7821456f5bf55085fc50" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::prefill_chunk_size</definition>
+        <argsstring></argsstring>
+        <name>prefill_chunk_size</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::prefill_chunk_size</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="44" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a7c3eb3aa1f0ac2b7654e39bf92b7166d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_adaptive_batch_retry</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_batch_retry</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_adaptive_batch_retry</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="45" column="14" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a5b21444f29788ffd53b604c3c30841bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_priority_scheduling</definition>
+        <argsstring></argsstring>
+        <name>enable_priority_scheduling</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_priority_scheduling</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="48" column="14" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1afc88bac666f106739bfe2f15dffd34fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::high_priority_threshold</definition>
+        <argsstring></argsstring>
+        <name>high_priority_threshold</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::high_priority_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="49" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a22bf70d598e2b350c0c1382e73a6b0d6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::scheduling_overhead_ms</definition>
+        <argsstring></argsstring>
+        <name>scheduling_overhead_ms</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::scheduling_overhead_ms</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="52" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a4cbdae40460dbaaac8fee8c0feed071c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_continuous_batching</definition>
+        <argsstring></argsstring>
+        <name>enable_continuous_batching</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::enable_continuous_batching</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="53" column="14" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1af8772fe19f1ed8bbdafe1439474039bd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::block_size_tokens</definition>
+        <argsstring></argsstring>
+        <name>block_size_tokens</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::block_size_tokens</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="56" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1aeffcd6f3a6922795d8f91df71988f18d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::ContinuousBatchScheduler::SchedulerConfig::low_memory_threshold_blocks</definition>
+        <argsstring></argsstring>
+        <name>low_memory_threshold_blocks</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::low_memory_threshold_blocks</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="57" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a0921dc3cd2e9cd57ac85e3810b612111" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::ContinuousBatchScheduler::SchedulerConfig::memory_pressure_throughput_factor</definition>
+        <argsstring></argsstring>
+        <name>memory_pressure_throughput_factor</name>
+        <qualifiedname>themis::llm::ContinuousBatchScheduler::SchedulerConfig::memory_pressure_throughput_factor</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/continuous_batch_scheduler.h" line="58" column="16" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/continuous_batch_scheduler.h" line="30" column="5" bodyfile="include/llm/continuous_batch_scheduler.h" bodystart="30" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1af8772fe19f1ed8bbdafe1439474039bd" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>block_size_tokens</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a7c3eb3aa1f0ac2b7654e39bf92b7166d" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>enable_adaptive_batch_retry</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1ad2c7d16b0bb99f95b1a5ad7e5501bc0a" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>enable_chunked_prefill</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a4cbdae40460dbaaac8fee8c0feed071c" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>enable_continuous_batching</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1adfc125aa26250760109ed334d834813e" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>enable_preemption</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a5b21444f29788ffd53b604c3c30841bd" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>enable_priority_scheduling</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1afc88bac666f106739bfe2f15dffd34fc" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>high_priority_threshold</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1aeffcd6f3a6922795d8f91df71988f18d" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>low_memory_threshold_blocks</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a856cc19f98462cc26ae3c74cb689efb5" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a8d32a6f02e0e701365f089c2fa9577c0" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>max_concurrent_requests</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1ace0f6a22990d7dfe658769837ac91b60" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>max_queue_depth</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a855fb2e8dfd77ed5b3ada3095f089b1a" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>max_tokens_per_batch</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a0921dc3cd2e9cd57ac85e3810b612111" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>memory_pressure_throughput_factor</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a64b38eb1c25c7821456f5bf55085fc50" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>prefill_chunk_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_continuous_batch_scheduler_1_1_scheduler_config_1a22bf70d598e2b350c0c1382e73a6b0d6" prot="public" virt="non-virtual"><scope>themis::llm::ContinuousBatchScheduler::SchedulerConfig</scope><name>scheduling_overhead_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_interaction" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::Interaction</compoundname>
+    <includes refid="learning__metrics_8h" local="no">learning_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1ad10d08b9b636d5094348ef55044ab608" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::Interaction::interaction_id</definition>
+        <argsstring></argsstring>
+        <name>interaction_id</name>
+        <qualifiedname>themis::rag::learning::Interaction::interaction_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="51" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1aeb28bf62169917d80e86e9e6fd0e4151" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::learning::Interaction::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::rag::learning::Interaction::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="52" column="43" bodyfile="include/rag/learning_metrics.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a843f33736630eea90f8b82ee2f015715" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::Interaction::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::learning::Interaction::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="55" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1ae910da3a150f0ea0944616d2580cd008" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1learning_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; themis::rag::learning::Interaction::retrieved_docs</definition>
+        <argsstring></argsstring>
+        <name>retrieved_docs</name>
+        <qualifiedname>themis::rag::learning::Interaction::retrieved_docs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="56" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1ab66810a2d98d00e43a966a904e97b6b1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::Interaction::prompt_template_used</definition>
+        <argsstring></argsstring>
+        <name>prompt_template_used</name>
+        <qualifiedname>themis::rag::learning::Interaction::prompt_template_used</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="57" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a97a73f3ae1a435256b75295b82c85915" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::Interaction::generated_answer</definition>
+        <argsstring></argsstring>
+        <name>generated_answer</name>
+        <qualifiedname>themis::rag::learning::Interaction::generated_answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="60" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1aa9af4415889bf56ea45609be94adb486" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themis::rag::learning::Interaction::token_probabilities</definition>
+        <argsstring></argsstring>
+        <name>token_probabilities</name>
+        <qualifiedname>themis::rag::learning::Interaction::token_probabilities</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="61" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a3eb571319f4c8e84ad08a43b57ed8ebc" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result" kindref="compound">knowledge_gap::DetectionResult</ref></type>
+        <definition>knowledge_gap::DetectionResult themis::rag::learning::Interaction::gap_detection_result</definition>
+        <argsstring></argsstring>
+        <name>gap_detection_result</name>
+        <qualifiedname>themis::rag::learning::Interaction::gap_detection_result</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="64" column="36" bodyfile="include/rag/learning_metrics.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a09725b3dfabacbe037c776004f2e958d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::Interaction::perplexity</definition>
+        <argsstring></argsstring>
+        <name>perplexity</name>
+        <qualifiedname>themis::rag::learning::Interaction::perplexity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="65" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a03149b7793482d7c007163fbaab708ad" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::learning::Interaction::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::rag::learning::Interaction::confidence_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="66" column="12" bodyfile="include/rag/learning_metrics.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a84e2c2e1d19b3f2893381f45c836e6bc" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1rag_1_1learning_1a01fedeb53a7494a87e787f88ec6605d2" kindref="member">FeedbackType</ref> &gt;</type>
+        <definition>std::optional&lt;FeedbackType&gt; themis::rag::learning::Interaction::user_feedback</definition>
+        <argsstring></argsstring>
+        <name>user_feedback</name>
+        <qualifiedname>themis::rag::learning::Interaction::user_feedback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="69" column="19" bodyfile="include/rag/learning_metrics.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a8247e53b2578657e44ca0252c3083de2" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::rag::learning::Interaction::user_correction</definition>
+        <argsstring></argsstring>
+        <name>user_correction</name>
+        <qualifiedname>themis::rag::learning::Interaction::user_correction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="70" column="19" bodyfile="include/rag/learning_metrics.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1ac16a70a1c0a48394d17d18e2681cee0a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::Interaction::model_version</definition>
+        <argsstring></argsstring>
+        <name>model_version</name>
+        <qualifiedname>themis::rag::learning::Interaction::model_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="73" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a51163f1fc2d8690ac0e6cd8b3cf746e3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::Interaction::retrieval_config_version</definition>
+        <argsstring></argsstring>
+        <name>retrieval_config_version</name>
+        <qualifiedname>themis::rag::learning::Interaction::retrieval_config_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="74" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1a0458b5c9e578532b902e78b70f60c434" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::Interaction::prompt_version</definition>
+        <argsstring></argsstring>
+        <name>prompt_version</name>
+        <qualifiedname>themis::rag::learning::Interaction::prompt_version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="75" column="17" bodyfile="include/rag/learning_metrics.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_interaction_1ac46e8729645c288958d91c702ab4cdbb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::learning::Interaction::is_ab_test_traffic</definition>
+        <argsstring></argsstring>
+        <name>is_ab_test_traffic</name>
+        <qualifiedname>themis::rag::learning::Interaction::is_ab_test_traffic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/learning_metrics.h" line="76" column="10" bodyfile="include/rag/learning_metrics.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Complete interaction record for learning. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::rag::knowledge_gap::DetectionResult</label>
+        <link refid="structthemis_1_1rag_1_1knowledge__gap_1_1_detection_result"/>
+      </node>
+      <node id="1">
+        <label>themis::rag::learning::Interaction</label>
+        <link refid="structthemis_1_1rag_1_1learning_1_1_interaction"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>gap_detection_result</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/rag/learning_metrics.h" line="50" column="1" bodyfile="include/rag/learning_metrics.h" bodystart="50" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a03149b7793482d7c007163fbaab708ad" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a3eb571319f4c8e84ad08a43b57ed8ebc" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>gap_detection_result</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a97a73f3ae1a435256b75295b82c85915" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>generated_answer</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ad10d08b9b636d5094348ef55044ab608" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>interaction_id</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ac46e8729645c288958d91c702ab4cdbb" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>is_ab_test_traffic</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ac16a70a1c0a48394d17d18e2681cee0a" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>model_version</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a09725b3dfabacbe037c776004f2e958d" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>perplexity</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ab66810a2d98d00e43a966a904e97b6b1" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>prompt_template_used</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a0458b5c9e578532b902e78b70f60c434" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>prompt_version</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a843f33736630eea90f8b82ee2f015715" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a51163f1fc2d8690ac0e6cd8b3cf746e3" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>retrieval_config_version</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1ae910da3a150f0ea0944616d2580cd008" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>retrieved_docs</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1aeb28bf62169917d80e86e9e6fd0e4151" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1aa9af4415889bf56ea45609be94adb486" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>token_probabilities</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a8247e53b2578657e44ca0252c3083de2" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>user_correction</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_interaction_1a84e2c2e1d19b3f2893381f45c836e6bc" prot="public" virt="non-virtual"><scope>themis::rag::learning::Interaction</scope><name>user_feedback</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

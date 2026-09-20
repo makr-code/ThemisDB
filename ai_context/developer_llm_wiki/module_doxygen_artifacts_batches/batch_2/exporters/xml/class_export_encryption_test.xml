@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_export_encryption_test" kind="class" language="C++" prot="public">
+    <compoundname>ExportEncryptionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_export_encryption_test_1abdb7160967bbbdf78338465618b7ec3a" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ExportEncryptionTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>ExportEncryptionTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="106" column="17" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_export_encryption_test_1abd1f1e504c6ea83714d73ee834409c9d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; MockKeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;MockKeyProvider&gt; ExportEncryptionTest::key_provider_</definition>
+        <argsstring></argsstring>
+        <name>key_provider_</name>
+        <qualifiedname>ExportEncryptionTest::key_provider_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="107" column="21" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_export_encryption_test_1a7bc6fbe355f328aa9d57f43bb0b7b8e7" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ExportEncryptionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ExportEncryptionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="52" column="10" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="52" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_export_encryption_test_1a318d4ea124b125a342485f7908a529ce" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ExportEncryptionTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ExportEncryptionTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="65" column="10" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_export_encryption_test_1a06bd3c2eeced4465a41dd831e6161761" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ExportEncryptionTest::writePlainFile</definition>
+        <argsstring>(const std::string &amp;filename, const std::string &amp;content)</argsstring>
+        <name>writePlainFile</name>
+        <qualifiedname>ExportEncryptionTest::writePlainFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="72" column="17" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_export_encryption_test_1a0408d56b05894260c23ad27b3e523843" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ExportEncryptionTest::readFile</definition>
+        <argsstring>(const std::string &amp;path)</argsstring>
+        <name>readFile</name>
+        <qualifiedname>ExportEncryptionTest::readFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="81" column="17" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="81" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_export_encryption_test_1a77eb3b6f9848e3f85b7aca56cf1f64a1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; BaseEntity &gt;</type>
+        <definition>std::vector&lt; BaseEntity &gt; ExportEncryptionTest::makeEntities</definition>
+        <argsstring>(int count=5)</argsstring>
+        <name>makeEntities</name>
+        <qualifiedname>ExportEncryptionTest::makeEntities</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+          <defval>5</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="92" column="17" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="92" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="function" id="class_export_encryption_test_1a3a5b294c9a97897ab6de8704700bace5" prot="protected" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1exporters_1_1_export_encryption_config" kindref="compound">ExportEncryptionConfig</ref></type>
+        <definition>ExportEncryptionConfig ExportEncryptionTest::makeConfig</definition>
+        <argsstring>(const std::string &amp;kek_id=&quot;test_kek&quot;, std::shared_ptr&lt; KeyProvider &gt; kp=nullptr, const std::string &amp;job_id=&quot;job-001&quot;) const</argsstring>
+        <name>makeConfig</name>
+        <qualifiedname>ExportEncryptionTest::makeConfig</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kek_id</declname>
+          <defval>&quot;test_kek&quot;</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; KeyProvider &gt;</type>
+          <declname>kp</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+          <defval>&quot;job-001&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/exporters/test_export_encryption.cpp" line="110" column="28" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="110" bodyend="119"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ExportEncryptionTest</label>
+        <link refid="class_export_encryption_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ExportEncryptionTest</label>
+        <link refid="class_export_encryption_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/exporters/test_export_encryption.cpp" line="50" column="1" bodyfile="tests/exporters/test_export_encryption.cpp" bodystart="50" bodyend="120"/>
+    <listofallmembers>
+      <member refid="class_export_encryption_test_1abd1f1e504c6ea83714d73ee834409c9d" prot="protected" virt="non-virtual"><scope>ExportEncryptionTest</scope><name>key_provider_</name></member>
+      <member refid="class_export_encryption_test_1a3a5b294c9a97897ab6de8704700bace5" prot="protected" virt="non-virtual"><scope>ExportEncryptionTest</scope><name>makeConfig</name></member>
+      <member refid="class_export_encryption_test_1a77eb3b6f9848e3f85b7aca56cf1f64a1" prot="protected" virt="non-virtual"><scope>ExportEncryptionTest</scope><name>makeEntities</name></member>
+      <member refid="class_export_encryption_test_1a0408d56b05894260c23ad27b3e523843" prot="protected" virt="non-virtual"><scope>ExportEncryptionTest</scope><name>readFile</name></member>
+      <member refid="class_export_encryption_test_1a7bc6fbe355f328aa9d57f43bb0b7b8e7" prot="protected" virt="non-virtual"><scope>ExportEncryptionTest</scope><name>SetUp</name></member>
+      <member refid="class_export_encryption_test_1a318d4ea124b125a342485f7908a529ce" prot="protected" virt="non-virtual"><scope>ExportEncryptionTest</scope><name>TearDown</name></member>
+      <member refid="class_export_encryption_test_1abdb7160967bbbdf78338465618b7ec3a" prot="protected" virt="non-virtual"><scope>ExportEncryptionTest</scope><name>test_dir_</name></member>
+      <member refid="class_export_encryption_test_1a06bd3c2eeced4465a41dd831e6161761" prot="protected" virt="non-virtual"><scope>ExportEncryptionTest</scope><name>writePlainFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

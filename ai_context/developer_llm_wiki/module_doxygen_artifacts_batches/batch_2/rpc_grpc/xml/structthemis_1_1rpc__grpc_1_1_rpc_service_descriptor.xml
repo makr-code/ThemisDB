@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rpc_grpc::RpcServiceDescriptor</compoundname>
+    <includes refid="rpc__grpc__api__contract_8h" local="no">rpc_grpc_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ad6b9ef0b957e0a4a5a19b7206d05aff8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc_grpc::RpcServiceDescriptor::service_name</definition>
+        <argsstring></argsstring>
+        <name>service_name</name>
+        <qualifiedname>themis::rpc_grpc::RpcServiceDescriptor::service_name</qualifiedname>
+        <briefdescription>
+<para>Fully-qualified gRPC service name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="128" column="17" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1a436c9b987c45f8caffbea3016d90ad2d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rpc_grpc::RpcServiceDescriptor::proto_file</definition>
+        <argsstring></argsstring>
+        <name>proto_file</name>
+        <qualifiedname>themis::rpc_grpc::RpcServiceDescriptor::proto_file</qualifiedname>
+        <briefdescription>
+<para>Path to .proto file (informational; may be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="129" column="17" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ab7a3906640cd36fea645ac301d527c13" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rpc_grpc::RpcServiceDescriptor::require_auth</definition>
+        <argsstring></argsstring>
+        <name>require_auth</name>
+        <qualifiedname>themis::rpc_grpc::RpcServiceDescriptor::require_auth</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+<para>Whether the service requires authenticated callers. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="130" column="17" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="130" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1acf63a57d2ba90313e9dcf7a661ca7867" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::rpc_grpc::RpcServiceDescriptor::max_concurrent_streams</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_streams</name>
+        <qualifiedname>themis::rpc_grpc::RpcServiceDescriptor::max_concurrent_streams</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+<para>Per-service concurrent stream cap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="131" column="17" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Descriptor for a gRPC service being registered on a running server. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rpc_grpc/rpc_grpc_api_contract.h" line="127" column="1" bodyfile="include/rpc_grpc/rpc_grpc_api_contract.h" bodystart="127" bodyend="132"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1acf63a57d2ba90313e9dcf7a661ca7867" prot="public" virt="non-virtual"><scope>themis::rpc_grpc::RpcServiceDescriptor</scope><name>max_concurrent_streams</name></member>
+      <member refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1a436c9b987c45f8caffbea3016d90ad2d" prot="public" virt="non-virtual"><scope>themis::rpc_grpc::RpcServiceDescriptor</scope><name>proto_file</name></member>
+      <member refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ab7a3906640cd36fea645ac301d527c13" prot="public" virt="non-virtual"><scope>themis::rpc_grpc::RpcServiceDescriptor</scope><name>require_auth</name></member>
+      <member refid="structthemis_1_1rpc__grpc_1_1_rpc_service_descriptor_1ad6b9ef0b957e0a4a5a19b7206d05aff8" prot="public" virt="non-virtual"><scope>themis::rpc_grpc::RpcServiceDescriptor</scope><name>service_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_binary_quantizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::BinaryQuantizer</compoundname>
+    <includes refid="binary__quantizer_8h" local="no">binary_quantizer.h</includes>
+    <innerclass refid="structthemis_1_1_binary_quantizer_1_1_config" prot="public">themis::BinaryQuantizer::Config</innerclass>
+    <innerclass refid="structthemis_1_1_binary_quantizer_1_1_status" prot="public">themis::BinaryQuantizer::Status</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_binary_quantizer_1aa846300ea46242fac708eba763d0efe0" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::BinaryQuantizer::dimension_</definition>
+        <argsstring></argsstring>
+        <name>dimension_</name>
+        <qualifiedname>themis::BinaryQuantizer::dimension_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="135" column="9" bodyfile="include/index/binary_quantizer.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_binary_quantizer_1ab8fc74744637f1080f053cfb1cd75325" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_binary_quantizer_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::BinaryQuantizer::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::BinaryQuantizer::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="136" column="12" bodyfile="include/index/binary_quantizer.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_binary_quantizer_1a0067a21061144b75f7eec39fe6eafc19" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::BinaryQuantizer::trained_</definition>
+        <argsstring></argsstring>
+        <name>trained_</name>
+        <qualifiedname>themis::BinaryQuantizer::trained_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="137" column="10" bodyfile="include/index/binary_quantizer.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_binary_quantizer_1ad1e4d2ce87754654bc3ba2b59b1c9571" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::BinaryQuantizer::scale_</definition>
+        <argsstring></argsstring>
+        <name>scale_</name>
+        <qualifiedname>themis::BinaryQuantizer::scale_</qualifiedname>
+        <initializer>= 1.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="138" column="11" bodyfile="include/index/binary_quantizer.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_binary_quantizer_1a32bdb760ff5dd18eedf2b2f408cc82a0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::BinaryQuantizer::mean_values_</definition>
+        <argsstring></argsstring>
+        <name>mean_values_</name>
+        <qualifiedname>themis::BinaryQuantizer::mean_values_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="139" column="17" bodyfile="include/index/binary_quantizer.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_binary_quantizer_1a37ae76a9125aa4550e4f183786c5fda0" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::BinaryQuantizer::use_faiss_</definition>
+        <argsstring></argsstring>
+        <name>use_faiss_</name>
+        <qualifiedname>themis::BinaryQuantizer::use_faiss_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="156" column="10" bodyfile="include/index/binary_quantizer.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1ac1f02248fef2ef187582f08d2ad09c9d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BinaryQuantizer::BinaryQuantizer</definition>
+        <argsstring>(int dimension)</argsstring>
+        <name>BinaryQuantizer</name>
+        <qualifiedname>themis::BinaryQuantizer::BinaryQuantizer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dimension</declname>
+        </param>
+        <briefdescription>
+<para>Binary Quantizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="60" column="14" bodyfile="src/index/binary_quantizer.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a86614f70c36e6f91b412f5bf283d7852" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BinaryQuantizer::BinaryQuantizer</definition>
+        <argsstring>(int dimension, const Config &amp;config)</argsstring>
+        <name>BinaryQuantizer</name>
+        <qualifiedname>themis::BinaryQuantizer::BinaryQuantizer</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>dimension</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_binary_quantizer_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Binary Quantizer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="67" column="14" bodyfile="src/index/binary_quantizer.cpp" bodystart="29" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a95f64066b06c2aa380b48b44cff58c01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::BinaryQuantizer::~BinaryQuantizer</definition>
+        <argsstring>()</argsstring>
+        <name>~BinaryQuantizer</name>
+        <qualifiedname>themis::BinaryQuantizer::~BinaryQuantizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a06d362755ea7022a4ae2b7d363c25f90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_binary_quantizer_1_1_status" kindref="compound">Status</ref></type>
+        <definition>BinaryQuantizer::Status themis::BinaryQuantizer::train</definition>
+        <argsstring>(const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;training_vectors)</argsstring>
+        <name>train</name>
+        <qualifiedname>themis::BinaryQuantizer::train</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::vector&lt; float &gt; &gt; &amp;</type>
+          <declname>training_vectors</declname>
+        </param>
+        <briefdescription>
+<para>Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">training_vectors</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="structthemis_1_1_binary_quantizer_1_1_status_1ad4ffa53a696b1a07ef7462733cc1a2a3" kindref="member">Status::Error()</ref>, size(), THEMIS_INFO(), std::fill(), begin(), end(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="76" column="12" bodyfile="src/index/binary_quantizer.cpp" bodystart="61" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a8c7af291b6f8d353baf7a2b79ebca315" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::BinaryQuantizer::encode</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vector) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>themis::BinaryQuantizer::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Encode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="83" column="17" bodyfile="src/index/binary_quantizer.cpp" bodystart="123" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a079577a3e5f31b69c349d6803b59c6f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::BinaryQuantizer::decode</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;codes) const</argsstring>
+        <name>decode</name>
+        <qualifiedname>themis::BinaryQuantizer::decode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes</declname>
+        </param>
+        <briefdescription>
+<para>Decode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">codes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Result. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">dimension_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="90" column="17" bodyfile="src/index/binary_quantizer.cpp" bodystart="161" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a73df416b4dafe91c8589cd9474664bc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::BinaryQuantizer::hammingDistance</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;codes_a, const std::vector&lt; uint8_t &gt; &amp;codes_b) const</argsstring>
+        <name>hammingDistance</name>
+        <qualifiedname>themis::BinaryQuantizer::hammingDistance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes_a</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes_b</declname>
+        </param>
+        <briefdescription>
+<para>Hamming Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">codes_a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">codes_b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="98" column="11" bodyfile="src/index/binary_quantizer.cpp" bodystart="192" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1afc8cfb4fd266c277150ea83d03f4dfda" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::BinaryQuantizer::asymmetricDistance</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;query, const std::vector&lt; uint8_t &gt; &amp;codes) const</argsstring>
+        <name>asymmetricDistance</name>
+        <qualifiedname>themis::BinaryQuantizer::asymmetricDistance</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>codes</declname>
+        </param>
+        <briefdescription>
+<para>Asymmetric Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">codes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="107" column="11" bodyfile="src/index/binary_quantizer.cpp" bodystart="228" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1af4b21ce3acd091de480480337b50d0fa" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::BinaryQuantizer::isTrained</definition>
+        <argsstring>() const</argsstring>
+        <name>isTrained</name>
+        <qualifiedname>themis::BinaryQuantizer::isTrained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="110" column="10" bodyfile="include/index/binary_quantizer.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a540db0c53783bcd9e981099e46513782" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::BinaryQuantizer::getCompressionRatio</definition>
+        <argsstring>() const</argsstring>
+        <name>getCompressionRatio</name>
+        <qualifiedname>themis::BinaryQuantizer::getCompressionRatio</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="112" column="11" bodyfile="include/index/binary_quantizer.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a66c3d4591cf266b0a3800bb4e504f5c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::BinaryQuantizer::getMemoryUsage</definition>
+        <argsstring>() const</argsstring>
+        <name>getMemoryUsage</name>
+        <qualifiedname>themis::BinaryQuantizer::getMemoryUsage</qualifiedname>
+        <briefdescription>
+<para>Get Memory Usage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="118" column="12" bodyfile="src/index/binary_quantizer.cpp" bodystart="275" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a2a99169c1a3036cd77c5371af8f5c260" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::BinaryQuantizer::getDimension</definition>
+        <argsstring>() const</argsstring>
+        <name>getDimension</name>
+        <qualifiedname>themis::BinaryQuantizer::getDimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="120" column="9" bodyfile="include/index/binary_quantizer.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1aae14206f105b00e028492f87a9bee46a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::BinaryQuantizer::getScale</definition>
+        <argsstring>() const</argsstring>
+        <name>getScale</name>
+        <qualifiedname>themis::BinaryQuantizer::getScale</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="122" column="11" bodyfile="include/index/binary_quantizer.h" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a19a9a5d6873b5c78b850c490497027c9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::BinaryQuantizer::getEncodedSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getEncodedSize</name>
+        <qualifiedname>themis::BinaryQuantizer::getEncodedSize</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="124" column="12" bodyfile="include/index/binary_quantizer.h" bodystart="124" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a5f167d7faba845bb311ae55f0cf5e199" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::BinaryQuantizer::getBackend</definition>
+        <argsstring>() const</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>themis::BinaryQuantizer::getBackend</qualifiedname>
+        <briefdescription>
+<para>Get Backend. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="132" column="16" bodyfile="src/index/binary_quantizer.cpp" bodystart="279" bodyend="286"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a3a22c7ac159422d32e3b41d3e4bc7819" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>float</type>
+        <definition>float themis::BinaryQuantizer::computeNorm</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;vector) const</argsstring>
+        <name>computeNorm</name>
+        <qualifiedname>themis::BinaryQuantizer::computeNorm</qualifiedname>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>vector</declname>
+        </param>
+        <briefdescription>
+<para>Compute Norm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vector</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="147" column="11" bodyfile="src/index/binary_quantizer.cpp" bodystart="250" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_binary_quantizer_1a9dca2a9c9b388637eef8395289455765" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::BinaryQuantizer::popcount</definition>
+        <argsstring>(uint8_t byte) const</argsstring>
+        <name>popcount</name>
+        <qualifiedname>themis::BinaryQuantizer::popcount</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+          <declname>byte</declname>
+        </param>
+        <briefdescription>
+<para>Popcount. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">byte</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/binary_quantizer.h" line="153" column="9" bodyfile="src/index/binary_quantizer.cpp" bodystart="258" bodyend="273"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/binary_quantizer.h" line="21" column="1" bodyfile="include/index/binary_quantizer.h" bodystart="21" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_binary_quantizer_1afc8cfb4fd266c277150ea83d03f4dfda" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>asymmetricDistance</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1ac1f02248fef2ef187582f08d2ad09c9d" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>BinaryQuantizer</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a86614f70c36e6f91b412f5bf283d7852" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>BinaryQuantizer</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a3a22c7ac159422d32e3b41d3e4bc7819" prot="private" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>computeNorm</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1ab8fc74744637f1080f053cfb1cd75325" prot="private" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a079577a3e5f31b69c349d6803b59c6f0" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>decode</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1aa846300ea46242fac708eba763d0efe0" prot="private" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>dimension_</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a8c7af291b6f8d353baf7a2b79ebca315" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>encode</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a5f167d7faba845bb311ae55f0cf5e199" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>getBackend</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a540db0c53783bcd9e981099e46513782" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>getCompressionRatio</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a2a99169c1a3036cd77c5371af8f5c260" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>getDimension</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a19a9a5d6873b5c78b850c490497027c9" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>getEncodedSize</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a66c3d4591cf266b0a3800bb4e504f5c9" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>getMemoryUsage</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1aae14206f105b00e028492f87a9bee46a" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>getScale</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a73df416b4dafe91c8589cd9474664bc5" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>hammingDistance</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1af4b21ce3acd091de480480337b50d0fa" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>isTrained</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a32bdb760ff5dd18eedf2b2f408cc82a0" prot="private" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>mean_values_</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a9dca2a9c9b388637eef8395289455765" prot="private" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>popcount</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1ad1e4d2ce87754654bc3ba2b59b1c9571" prot="private" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>scale_</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a06d362755ea7022a4ae2b7d363c25f90" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>train</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a0067a21061144b75f7eec39fe6eafc19" prot="private" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>trained_</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a37ae76a9125aa4550e4f183786c5fda0" prot="private" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>use_faiss_</name></member>
+      <member refid="classthemis_1_1_binary_quantizer_1a95f64066b06c2aa380b48b44cff58c01" prot="public" virt="non-virtual"><scope>themis::BinaryQuantizer</scope><name>~BinaryQuantizer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

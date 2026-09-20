@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::CUDAGeoBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_geo_backend" prot="public" virt="non-virtual">themis::acceleration::IGeoBackend</basecompoundref>
+    <includes refid="cuda__backend_8h" local="no">cuda_backend.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a3d0f80690f1005c418113f71919555d6" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAGeoBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="520" column="10" bodyfile="include/acceleration/cuda_backend.h" bodystart="520" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a733b1c1ab5908793ff9037b2a642520d" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::acceleration::CUDAGeoBackend::deviceContext_</definition>
+        <argsstring></argsstring>
+        <name>deviceContext_</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::deviceContext_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="525" column="10" bodyfile="include/acceleration/cuda_backend.h" bodystart="525" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a3f5bb668cc9298b4d7df81c6410100f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CUDAGeoBackend::CUDAGeoBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>CUDAGeoBackend</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::CUDAGeoBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="488" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1ac29941eda0114e035227c10f26ea005b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::CUDAGeoBackend::~CUDAGeoBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~CUDAGeoBackend</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::~CUDAGeoBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="489" column="5" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2096" bodyend="2098"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a92020b7fe2ce6972080f7ee65d2b09d5" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::CUDAGeoBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="491" column="16" bodyfile="include/acceleration/cuda_backend.h" bodystart="491" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a77177700f7295bfbabd2ec036741ba25" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::CUDAGeoBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="492" column="17" bodyfile="include/acceleration/cuda_backend.h" bodystart="492" bodyend="492"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1ac5ae42aed506392b44cdc645d994dad2" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAGeoBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="493" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2100" bodyend="2108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a0cd6aea7a8e8bdd9d490b2d11bed89b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::CUDAGeoBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="495" column="25" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2110" bodyend="2129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a04d9a69f3a5a9ea3941d97a2e6c6d106" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::CUDAGeoBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1ac5ae42aed506392b44cdc645d994dad2" kindref="member">isAvailable()</ref>, cudaGetDeviceCount(), <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, <ref refid="namespacethemis_1_1acceleration_1_1_error_context_helpers_1af287ad83b903a7dbf9d1a2344c6f0eb4" kindref="member">ErrorContextHelpers::createNoDevicesError()</ref>, ErrorContext(), std::string(), cudaGetErrorString(), format(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="496" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2136" bodyend="2196"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a947848488d99ffb21b98a980796a672d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::CUDAGeoBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements shutdown without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="497" column="10" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2202" bodyend="2209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1adb03beec48240faf23333cc5ac1c3ae7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::CUDAGeoBackend::batchDistances</definition>
+        <argsstring>(const double *latitudes1, const double *longitudes1, const double *latitudes2, const double *longitudes2, size_t count, bool useHaversine=true) override</argsstring>
+        <name>batchDistances</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::batchDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1ae34e694d046de8d04e9d4bc5a6f9bf20">batchDistances</reimplements>
+        <param>
+          <type>const double *</type>
+          <declname>latitudes1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>longitudes1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>latitudes2</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>longitudes2</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useHaversine</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Batch Distances. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latitudes1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">longitudes1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latitudes2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">longitudes2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">useHaversine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), ErrorContext(), format(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1a01d511d41ba796140c329ad2429180bf" kindref="member">BatchValidator::validateGeoBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a92020b7fe2ce6972080f7ee65d2b09d5" kindref="member">name()</ref>, get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="499" column="17" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2222" bodyend="2304"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a0b1932cbcbe43c3a87bf146a6010cb2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt; bool &gt; themis::acceleration::CUDAGeoBackend::batchPointInPolygon</definition>
+        <argsstring>(const double *pointLats, const double *pointLons, size_t numPoints, const double *polygonCoords, size_t numPolygonVertices) override</argsstring>
+        <name>batchPointInPolygon</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::batchPointInPolygon</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1aa209021f6690e6716d739ce59b6e3b38">batchPointInPolygon</reimplements>
+        <param>
+          <type>const double *</type>
+          <declname>pointLats</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>pointLons</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPoints</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>polygonCoords</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPolygonVertices</declname>
+        </param>
+        <briefdescription>
+<para>Batch Point In Polygon. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">pointLats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">pointLons</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPoints</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">polygonCoords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">numPolygonVertices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" kindref="member">clearError()</ref>, <ref refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" kindref="member">setError()</ref>, std::move(), ErrorContext(), format(), <ref refid="structthemis_1_1acceleration_1_1_batch_validator_1a2e92c6c7430eb8c441b77b90d3c15150" kindref="member">BatchValidator::validatePointInPolygonBatch()</ref>, <ref refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a92020b7fe2ce6972080f7ee65d2b09d5" kindref="member">name()</ref>, get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="508" column="17" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2316" bodyend="2397"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1acb59786bfc3c722ccdaac57cf9fd33a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::CUDAGeoBackend::populateGeoDispatch</definition>
+        <argsstring>() const override</argsstring>
+        <name>populateGeoDispatch</name>
+        <qualifiedname>themis::acceleration::CUDAGeoBackend::populateGeoDispatch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1add9612e93b771a0133e09e91a7baa0e5">populateGeoDispatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/cuda_backend.h" line="517" column="23" bodyfile="src/acceleration/cuda_backend.cpp" bodystart="2483" bodyend="2492"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::CUDAGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::acceleration::CUDAGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/cuda_backend.h" line="486" column="1" bodyfile="include/acceleration/cuda_backend.h" bodystart="486" bodyend="527"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1adb03beec48240faf23333cc5ac1c3ae7" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>batchDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a0b1932cbcbe43c3a87bf146a6010cb2e" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>batchPointInPolygon</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a3f5bb668cc9298b4d7df81c6410100f2" prot="public" virt="non-virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>CUDAGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a733b1c1ab5908793ff9037b2a642520d" prot="private" virt="non-virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>deviceContext_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a0cd6aea7a8e8bdd9d490b2d11bed89b3" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a04d9a69f3a5a9ea3941d97a2e6c6d106" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a3d0f80690f1005c418113f71919555d6" prot="private" virt="non-virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1ac5ae42aed506392b44cdc645d994dad2" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a92020b7fe2ce6972080f7ee65d2b09d5" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1acb59786bfc3c722ccdaac57cf9fd33a7" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>populateGeoDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a947848488d99ffb21b98a980796a672d" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1a77177700f7295bfbabd2ec036741ba25" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_c_u_d_a_geo_backend_1ac29941eda0114e035227c10f26ea005b" prot="public" virt="non-virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>~CUDAGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_geo_backend_1ab1b7cba05606ee8ec1ae8cf06a24dc8f" prot="public" virt="virtual"><scope>themis::acceleration::CUDAGeoBackend</scope><name>~IGeoBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

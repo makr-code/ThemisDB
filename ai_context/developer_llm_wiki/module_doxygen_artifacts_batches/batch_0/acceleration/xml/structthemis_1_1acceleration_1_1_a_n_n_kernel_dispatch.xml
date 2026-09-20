@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::ANNKernelDispatch</compoundname>
+    <includes refid="kernel__invocation_8h" local="no">kernel_invocation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a496471d178fff443b65c821858573ea9" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref></type>
+        <definition>ANNDistanceFn themis::acceleration::ANNKernelDispatch::launchL2Distance</definition>
+        <argsstring></argsstring>
+        <name>launchL2Distance</name>
+        <qualifiedname>themis::acceleration::ANNKernelDispatch::launchL2Distance</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Squared L2 distance kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="193" column="19" bodyfile="include/acceleration/kernel_invocation.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a92a3b823f21bc6d47c6074186d7345a4" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref></type>
+        <definition>ANNDistanceFn themis::acceleration::ANNKernelDispatch::launchCosine</definition>
+        <argsstring></argsstring>
+        <name>launchCosine</name>
+        <qualifiedname>themis::acceleration::ANNKernelDispatch::launchCosine</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Cosine distance kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="194" column="19" bodyfile="include/acceleration/kernel_invocation.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1af597ddaa9f7d1aeea3eb976b30975e54" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref></type>
+        <definition>ANNDistanceFn themis::acceleration::ANNKernelDispatch::launchInnerProduct</definition>
+        <argsstring></argsstring>
+        <name>launchInnerProduct</name>
+        <qualifiedname>themis::acceleration::ANNKernelDispatch::launchInnerProduct</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Inner-product kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="195" column="19" bodyfile="include/acceleration/kernel_invocation.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a6f7dee0b9389fa9e6e3b15d0cc597715" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1acceleration_1af80a3b84a1a63de5ad4bffd114831951" kindref="member">ANNTopKFn</ref></type>
+        <definition>ANNTopKFn themis::acceleration::ANNKernelDispatch::launchTopK</definition>
+        <argsstring></argsstring>
+        <name>launchTopK</name>
+        <qualifiedname>themis::acceleration::ANNKernelDispatch::launchTopK</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Top-k selection kernel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="196" column="19" bodyfile="include/acceleration/kernel_invocation.h" bodystart="196" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a99a82dd1bcdf4a11b3bd7164b7013765" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a278189123062935cc7aa1a7aeb615a8f" kindref="member">ANNDistanceFn</ref></type>
+        <definition>ANNDistanceFn themis::acceleration::ANNKernelDispatch::distanceLauncherFor</definition>
+        <argsstring>(DistanceMetric metric) const noexcept</argsstring>
+        <name>distanceLauncherFor</name>
+        <qualifiedname>themis::acceleration::ANNKernelDispatch::distanceLauncherFor</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1acceleration_1a3f56f43f7bcdd1b76771562053808100" kindref="member">DistanceMetric</ref></type>
+          <declname>metric</declname>
+        </param>
+        <briefdescription>
+<para>Returns the distance launcher matching <computeroutput>metric</computeroutput>, or nullptr if absent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_invocation.h" line="199" column="20" bodyfile="include/acceleration/kernel_invocation.h" bodystart="199" bodyend="206"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ANN kernel dispatch table — one per backend instance. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_invocation.h" line="192" column="1" bodyfile="include/acceleration/kernel_invocation.h" bodystart="192" bodyend="207"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a99a82dd1bcdf4a11b3bd7164b7013765" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelDispatch</scope><name>distanceLauncherFor</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a92a3b823f21bc6d47c6074186d7345a4" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelDispatch</scope><name>launchCosine</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1af597ddaa9f7d1aeea3eb976b30975e54" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelDispatch</scope><name>launchInnerProduct</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a496471d178fff443b65c821858573ea9" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelDispatch</scope><name>launchL2Distance</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_a_n_n_kernel_dispatch_1a6f7dee0b9389fa9e6e3b15d0cc597715" prot="public" virt="non-virtual"><scope>themis::acceleration::ANNKernelDispatch</scope><name>launchTopK</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

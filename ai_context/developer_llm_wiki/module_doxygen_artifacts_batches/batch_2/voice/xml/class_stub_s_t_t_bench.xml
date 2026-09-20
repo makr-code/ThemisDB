@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_s_t_t_bench" kind="class" language="C++" prot="public">
+    <compoundname>StubSTTBench</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_s_t_t_bench_1a6952e22235d346dcd4dda3cb93831082" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string StubSTTBench::transcribe</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;)</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>StubSTTBench::transcribe</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="38" column="17" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_dedicated_gates.cpp" line="36" column="1" bodyfile="benchmarks/voice/bench_voice_dedicated_gates.cpp" bodystart="36" bodyend="41"/>
+    <listofallmembers>
+      <member refid="class_stub_s_t_t_bench_1a6952e22235d346dcd4dda3cb93831082" prot="public" virt="non-virtual"><scope>StubSTTBench</scope><name>transcribe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

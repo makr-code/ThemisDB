@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_distributed_transaction_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::DistributedTransactionManager</compoundname>
+    <includes refid="distributed__transaction__manager_8h" local="no">distributed_transaction_manager.h</includes>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config" prot="public">themis::storage::DistributedTransactionManager::ShardConfig</innerclass>
+    <innerclass refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics" prot="public">themis::storage::DistributedTransactionManager::Statistics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1ae6d70f534dff90fde6f8c07844869969" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1storage_1_1_distributed_txn_config" kindref="compound">DistributedTxnConfig</ref></type>
+        <definition>DistributedTxnConfig themis::storage::DistributedTransactionManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="430" column="41" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="430" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a11dd735b2729d0d309a201ff212ec11a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1storage_1_1_manager_shared_state" kindref="compound">ManagerSharedState</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ManagerSharedState&gt; themis::storage::DistributedTransactionManager::state_</definition>
+        <argsstring></argsstring>
+        <name>state_</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::state_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="431" column="21" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="431" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DistributedTransactionManager::DistributedTransactionManager</definition>
+        <argsstring>(std::vector&lt; ShardConfig &gt; shards={}, DistributedTxnConfig config={})</argsstring>
+        <name>DistributedTransactionManager</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::DistributedTransactionManager</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_shard_config" kindref="compound">ShardConfig</ref> &gt;</type>
+          <declname>shards</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1storage_1_1_distributed_txn_config" kindref="compound">DistributedTxnConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct a manager with an optional initial set of shards. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="358" column="14" bodyfile="src/storage/distributed_transaction_manager.cpp" bodystart="377" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a04ae1dcd6eb89a65cb34335f86e36014" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DistributedTransactionManager::~DistributedTransactionManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~DistributedTransactionManager</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::~DistributedTransactionManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="363" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a17e68b7531872ccc4de53c8516e2f07a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DistributedTransactionManager::DistributedTransactionManager</definition>
+        <argsstring>(const DistributedTransactionManager &amp;)=delete</argsstring>
+        <name>DistributedTransactionManager</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::DistributedTransactionManager</qualifiedname>
+        <param>
+          <type>const DistributedTransactionManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="366" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a3a1d1f333a025d4fed1a411a39167cc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref> &amp;</type>
+        <definition>DistributedTransactionManager &amp; themis::storage::DistributedTransactionManager::operator=</definition>
+        <argsstring>(const DistributedTransactionManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="367" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a561fe3fd581d80827947d36b13973702" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::storage::DistributedTransactionManager::DistributedTransactionManager</definition>
+        <argsstring>(DistributedTransactionManager &amp;&amp;)=delete</argsstring>
+        <name>DistributedTransactionManager</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::DistributedTransactionManager</qualifiedname>
+        <param>
+          <type>DistributedTransactionManager &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="368" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1ac3067eb9fc844e5976ffed45f13c6322" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref> &amp;</type>
+        <definition>DistributedTransactionManager &amp; themis::storage::DistributedTransactionManager::operator=</definition>
+        <argsstring>(DistributedTransactionManager &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" kindref="member">DistributedTransactionManager</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="369" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a5ee938d0f997f20ed5b9d5c83522a1f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::storage::DistributedTransactionManager::registerShard</definition>
+        <argsstring>(const std::string &amp;shard_id, IDistributedShardParticipant *participant)</argsstring>
+        <name>registerShard</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::registerShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" kindref="compound">IDistributedShardParticipant</ref> *</type>
+          <declname>participant</declname>
+        </param>
+        <briefdescription>
+<para>Register a shard participant. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>── Shard management ──────────────────────────────────────────────────────────</para>
+<para>The participant is stored internally as a reference — the caller retains ownership. The caller must ensure the participant object remains valid until it is either explicitly unregistered or this manager is destroyed.</para>
+<para>Safe to call concurrently with other shard management operations.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical shard identifier (prefix in &quot;shard_id:key&quot;). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Non-null pointer to the shard&apos;s 2PC proxy. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if shard_id is empty or participant is null.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">participant</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), lk(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="386" column="10" bodyfile="src/storage/distributed_transaction_manager.cpp" bodystart="397" bodyend="422"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a0c93018bd1aeab2707960a80208e1e59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::DistributedTransactionManager::unregisterShard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>unregisterShard</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::unregisterShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Unregister a shard. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Unregister Shard.</para>
+<para>Safe to call concurrently. After this call returns, no new transactions will route operations to the shard. In-flight transactions that already hold a reference to the participant will complete their current call safely before releasing the reference.</para>
+<para><simplesect kind="return"><para>true if the shard was found and removed.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lk(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="401" column="10" bodyfile="src/storage/distributed_transaction_manager.cpp" bodystart="430" bodyend="438"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1aae5204740fa1d5c42a87f90a01e817eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::storage::DistributedTransactionManager::shardCount</definition>
+        <argsstring>() const</argsstring>
+        <name>shardCount</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::shardCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Number of registered shards. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="404" column="12" bodyfile="src/storage/distributed_transaction_manager.cpp" bodystart="440" bodyend="443"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1acae8e00ba65866067aa86a191b595c64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::storage::DistributedTransactionManager::hasShard</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>hasShard</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::hasShard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if the given shard_id is registered. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="407" column="10" bodyfile="src/storage/distributed_transaction_manager.cpp" bodystart="445" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a3d9b64c980459dbf896c2d18c8ab078c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1storage_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; DistributedTransaction &gt; themis::storage::DistributedTransactionManager::beginDistributedTransaction</definition>
+        <argsstring>()</argsstring>
+        <name>beginDistributedTransaction</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::beginDistributedTransaction</qualifiedname>
+        <briefdescription>
+<para>Begin a new distributed transaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A non-null shared_ptr to the new <ref refid="classthemis_1_1storage_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="416" column="21" bodyfile="src/storage/distributed_transaction_manager.cpp" bodystart="453" bodyend="468"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a34c483337a0ba09353394e79a04addff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1storage_1_1_distributed_transaction_manager_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>DistributedTransactionManager::Statistics themis::storage::DistributedTransactionManager::statistics</definition>
+        <argsstring>() const</argsstring>
+        <name>statistics</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::statistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Approximate snapshot of coordinator statistics.</para>
+</simplesect>
+Counters are updated with relaxed ordering and may not reflect the very latest completed transactions on all cores. Suitable for monitoring; not suitable for synchronization. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="427" column="16" bodyfile="src/storage/distributed_transaction_manager.cpp" bodystart="473" bodyend="481"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_distributed_transaction_manager_1a44812d520efe938e36817d804f8c477b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::storage::DistributedTransactionManager::generateTransactionId</definition>
+        <argsstring>()</argsstring>
+        <name>generateTransactionId</name>
+        <qualifiedname>themis::storage::DistributedTransactionManager::generateTransactionId</qualifiedname>
+        <briefdescription>
+<para>── ID generation ───────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), std::chrono::system_clock::now(), time_since_epoch(), count(), std::setw(), std::setfill(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/distributed_transaction_manager.h" line="433" column="17" bodyfile="src/storage/distributed_transaction_manager.cpp" bodystart="489" bodyend="499"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Coordinator for distributed storage transactions (v1.7.0). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages shard registration and drives Two-Phase Commit (2PC) across registered <ref refid="classthemis_1_1storage_1_1_i_distributed_shard_participant" kindref="compound">IDistributedShardParticipant</ref> instances.</para>
+<para>This class is thread-safe; individual <ref refid="classthemis_1_1storage_1_1_distributed_transaction" kindref="compound">DistributedTransaction</ref> handles are single-threaded.</para>
+<para><simplesect kind="note"><para>Participants are stored as raw pointers (wrapped internally with a no-op deleter shared_ptr). Callers must ensure that any registered participant object is not destroyed before it is either unregistered or the manager itself is destroyed. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/storage/distributed_transaction_manager.h" line="339" column="1" bodyfile="include/storage/distributed_transaction_manager.h" bodystart="339" bodyend="434"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a3d9b64c980459dbf896c2d18c8ab078c" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>beginDistributedTransaction</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1ae6d70f534dff90fde6f8c07844869969" prot="private" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a6ebebabb9ffbf7de341e0adc724b34fb" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>DistributedTransactionManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a17e68b7531872ccc4de53c8516e2f07a" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>DistributedTransactionManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a561fe3fd581d80827947d36b13973702" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>DistributedTransactionManager</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a44812d520efe938e36817d804f8c477b" prot="private" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>generateTransactionId</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1acae8e00ba65866067aa86a191b595c64" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>hasShard</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a3a1d1f333a025d4fed1a411a39167cc6" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1ac3067eb9fc844e5976ffed45f13c6322" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a5ee938d0f997f20ed5b9d5c83522a1f0" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>registerShard</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1aae5204740fa1d5c42a87f90a01e817eb" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>shardCount</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a11dd735b2729d0d309a201ff212ec11a" prot="private" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>state_</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a34c483337a0ba09353394e79a04addff" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>statistics</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a0c93018bd1aeab2707960a80208e1e59" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>unregisterShard</name></member>
+      <member refid="classthemis_1_1storage_1_1_distributed_transaction_manager_1a04ae1dcd6eb89a65cb34335f86e36014" prot="public" virt="non-virtual"><scope>themis::storage::DistributedTransactionManager</scope><name>~DistributedTransactionManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

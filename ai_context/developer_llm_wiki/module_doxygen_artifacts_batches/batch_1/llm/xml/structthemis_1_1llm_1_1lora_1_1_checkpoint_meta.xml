@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::CheckpointMeta</compoundname>
+    <includes refid="lora__checkpoint__manager_8h" local="no">lora_checkpoint_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a873b7f4df932b6a558c220df5c8c0bbf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::CheckpointMeta::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::adapter_id</qualifiedname>
+        <briefdescription>
+<para>Unique adapter identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="39" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a9d12714379477defc166036eae37dfbe" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::llm::lora::CheckpointMeta::step</definition>
+        <argsstring></argsstring>
+        <name>step</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::step</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Global training step at checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="40" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a72e609e6ff903b4de52a91f50f6e1585" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::llm::lora::CheckpointMeta::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Epoch at checkpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="41" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a3adde178e7da4cce53633671af3f7071" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CheckpointMeta::train_loss</definition>
+        <argsstring></argsstring>
+        <name>train_loss</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::train_loss</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Training loss. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="42" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1ae8ea694d38ce9a2e0dfa9e6519cea580" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::lora::CheckpointMeta::val_loss</definition>
+        <argsstring></argsstring>
+        <name>val_loss</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::val_loss</qualifiedname>
+        <initializer>= std::numeric_limits&lt;float&gt;::infinity()</initializer>
+        <briefdescription>
+<para>Validation loss (lower=better). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="43" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a4f0849af03ad6b0537998968323c34c9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::llm::lora::CheckpointMeta::elapsed_s</definition>
+        <argsstring></argsstring>
+        <name>elapsed_s</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::elapsed_s</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock training time in seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="44" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1ae9f31b1da329e3f5769fff8e553175b5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::CheckpointMeta::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO-8601 UTC timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="45" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a7dbce45179655c7123cdee85a3849b52" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::lora::CheckpointMeta::weights_sha256</definition>
+        <argsstring></argsstring>
+        <name>weights_sha256</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::weights_sha256</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hex digest of the weight blob. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="46" column="17" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a49078d9bf9e129d8093ab6b977cd2ed4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::CheckpointMeta::~CheckpointMeta</definition>
+        <argsstring>()=default</argsstring>
+        <name>~CheckpointMeta</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::~CheckpointMeta</qualifiedname>
+        <briefdescription>
+<para>Checkpoint Meta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="38" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1ae8f0335550765acc1e3c3992770761b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref></type>
+        <definition>json themis::llm::lora::CheckpointMeta::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::toJSON</qualifiedname>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="52" column="10" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="38" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a1a850e484a526ed87eeff5c3dcfd0aaf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta" kindref="compound">CheckpointMeta</ref></type>
+        <definition>CheckpointMeta themis::llm::lora::CheckpointMeta::fromJSON</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJSON</name>
+        <qualifiedname>themis::llm::lora::CheckpointMeta::fromJSON</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1llm_1_1lora_1ace018f937d5ade06895e7f41ffd1f0ba" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), infinity(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="58" column="27" bodyfile="src/llm/lora_framework/lora_checkpoint_manager.cpp" bodystart="57" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_checkpoint_manager.h" line="33" column="1" bodyfile="include/llm/lora_framework/lora_checkpoint_manager.h" bodystart="33" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a873b7f4df932b6a558c220df5c8c0bbf" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1ae9f31b1da329e3f5769fff8e553175b5" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a4f0849af03ad6b0537998968323c34c9" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>elapsed_s</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a72e609e6ff903b4de52a91f50f6e1585" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a1a850e484a526ed87eeff5c3dcfd0aaf" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>fromJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a9d12714379477defc166036eae37dfbe" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>step</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1ae8f0335550765acc1e3c3992770761b4" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a3adde178e7da4cce53633671af3f7071" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>train_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1ae8ea694d38ce9a2e0dfa9e6519cea580" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>val_loss</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a7dbce45179655c7123cdee85a3849b52" prot="public" virt="non-virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>weights_sha256</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_checkpoint_meta_1a49078d9bf9e129d8093ab6b977cd2ed4" prot="public" virt="virtual"><scope>themis::llm::lora::CheckpointMeta</scope><name>~CheckpointMeta</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

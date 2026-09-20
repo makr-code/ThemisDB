@@ -1,0 +1,902 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::test</compoundname>
+    <innerclass refid="classthemis_1_1test_1_1_fault_injectable_coordinator" prot="public">themis::test::FaultInjectableCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_mock_s_a_g_a_step" prot="public">themis::test::MockSAGAStep</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_mock_transaction_coordinator" prot="public">themis::test::MockTransactionCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_stress_transaction_manager" prot="public">themis::test::StressTransactionManager</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_transaction_chaos_test" prot="public">themis::test::TransactionChaosTest</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" prot="public">themis::test::TransactionFaultInjectionPhase3Test</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" prot="public">themis::test::TransactionSAGAPhase2Test</innerclass>
+    <innerclass refid="classthemis_1_1test_1_1_transaction_stress_test" prot="public">themis::test::TransactionStressTest</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0c" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FaultPattern</name>
+        <qualifiedname>themis::test::FaultPattern</qualifiedname>
+        <enumvalue id="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0cab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0cae148921acf0a7aa48f8a2cd14292d796" prot="public">
+          <name>RANDOM_TIMEOUTS</name>
+          <briefdescription>
+<para>50 % of prepare() calls return TIMEOUT. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0ca5e6751b3c28541f49cd57187f457ecf4" prot="public">
+          <name>CASCADING_FAILURES</name>
+          <briefdescription>
+<para>prepare() always returns INTERNAL_ERROR. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0caade112fdd87f84d5ef30d41534765d9d" prot="public">
+          <name>SIMULTANEOUS_CRASHES</name>
+          <briefdescription>
+<para>prepare() returns PARTICIPANT_ABORT. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0cac8b76678aa288ce084455344e2e96733" prot="public">
+          <name>NETWORK_PARTITIONS</name>
+          <briefdescription>
+<para>prepare() returns TIMEOUT; commit() returns TIMEOUT. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0ca59d35ebc0c6d8de2b699c77af8f5ce42" prot="public">
+          <name>SLOW_RECOVERY</name>
+          <briefdescription>
+<para>prepare() succeeds; commit() returns INTERNAL_ERROR. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1test_1a37ce46af03bbb76ec4c5136c64858b0ca8baa1f477f5c3bc1973862e34f3b802a" prot="public">
+          <name>BYZANTINE_BEHAVIOR</name>
+          <briefdescription>
+<para>prepare() returns PARTICIPANT_ABORT; abort() fails. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Controls which fault the mock coordinator will simulate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="45" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="45" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1test_1ae9d9d0159e23df5c7abd984b536f2da8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionChaosTest, CoordinatorCrashRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_chaos_test" kindref="compound">TransactionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CoordinatorCrashRecovery</type>
+        </param>
+        <briefdescription>
+<para>Test: Coordinator crash mid-commit recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Injects crash before FSYNC during commit phase. Verifies transaction is either fully committed or fully rolled back. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="239" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="239" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ab56a1922a1522a81fb11473c54e02bdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionChaosTest, DeadlockDetectionAndBreak)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_chaos_test" kindref="compound">TransactionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>DeadlockDetectionAndBreak</type>
+        </param>
+        <briefdescription>
+<para>Test: Deadlock detection and breaking. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates circular wait condition and verifies deadlock detector. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="293" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="293" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a416fc642659356420c24214268869637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionChaosTest, LongRunningTransactionTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_chaos_test" kindref="compound">TransactionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>LongRunningTransactionTimeout</type>
+        </param>
+        <briefdescription>
+<para>Test: Long-running transaction timeout. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Transaction that exceeds timeout limit. Verifies system triggers timeout and cleans up resources. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="325" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="325" bodyend="345"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ae423608f03d053637004978aba4ed82c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionChaosTest, CascadingRollbackScenario)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_chaos_test" kindref="compound">TransactionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>CascadingRollbackScenario</type>
+        </param>
+        <briefdescription>
+<para>Test: Cascading rollback scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiple transactions fail sequentially, causing cascade of rollbacks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="352" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="352" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a998653df494a46cbffdde8f219df79e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionChaosTest, PreCommitCrashRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_chaos_test" kindref="compound">TransactionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>PreCommitCrashRecovery</type>
+        </param>
+        <briefdescription>
+<para>Test: Pre-commit crash recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Crash between prepare and commit phases. Verifies recovery mechanism restores consistent state. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="394" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="394" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a3edd28bd03eebd2e2accda44859c21ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionChaosTest, ConcurrentPrepareAndCommit)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_chaos_test" kindref="compound">TransactionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentPrepareAndCommit</type>
+        </param>
+        <briefdescription>
+<para>Test: Concurrent prepare and commit operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiple threads executing prepare and commit concurrently. Verifies no race conditions or deadlocks. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="434" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="434" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a4861862faf11fe0280fb0cb54adcf597" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionChaosTest, WALRecoveryAfterCrash)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_chaos_test" kindref="compound">TransactionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>WALRecoveryAfterCrash</type>
+        </param>
+        <briefdescription>
+<para>Test: WAL recovery after crash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Simulates WAL-based recovery from crash. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="468" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="468" bodyend="488"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a2b517dcd018962d9577674d9ec95741d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionChaosTest, TimeoutRecoveryCorrectness)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_chaos_test" kindref="compound">TransactionChaosTest</ref></type>
+        </param>
+        <param>
+          <type>TimeoutRecoveryCorrectness</type>
+        </param>
+        <briefdescription>
+<para>Test: Timeout recovery correctness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify proper cleanup when transaction times out. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_chaos.cpp" line="495" column="1" bodyfile="tests/transaction/test_transaction_chaos.cpp" bodystart="495" bodyend="514"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ada03809613fc61f5cbf42c85c053d1ec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::test::runHappyPath</definition>
+        <argsstring>(ITransactionCoordinator &amp;coord, const std::string &amp;txn_id)</argsstring>
+        <name>runHappyPath</name>
+        <qualifiedname>themis::test::runHappyPath</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1transaction_1_1_i_transaction_coordinator" kindref="compound">ITransactionCoordinator</ref> &amp;</type>
+          <declname>coord</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txn_id</declname>
+        </param>
+        <briefdescription>
+<para>Begin + prepare + commit (or abort on prepare failure). Returns true on full commit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="256" column="13" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="256" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a226d0f91d8859857d0cc3280e361af46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, FaultInjection_PreparePhaseTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>FaultInjection_PreparePhaseTimeout</type>
+        </param>
+        <briefdescription>
+<para>Inject TIMEOUT errors during prepare phase. @acceptance AC-11: Extended Fault Injection Coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>FaultInjection_PreparePhaseTimeout </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="297" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="297" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a6dad0ad1a231f4a6437f3e8470b47c5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, FaultInjection_CommitPhaseTimeout)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>FaultInjection_CommitPhaseTimeout</type>
+        </param>
+        <briefdescription>
+<para>Inject faults in commit phase after successful prepare. @acceptance AC-11: Extended Fault Injection Coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>FaultInjection_CommitPhaseTimeout </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="322" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="322" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a41b686eed84e5ed3650e3de1ffa4d613" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, FaultInjection_CrossShardCoordination)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>FaultInjection_CrossShardCoordination</type>
+        </param>
+        <briefdescription>
+<para>Cascade failures across multiple logical shards (coordinator instances). @acceptance AC-11: Extended Fault Injection Coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>FaultInjection_CrossShardCoordination </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="348" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="348" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a035484b4d1f62fecd22e5f5db8cc685a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, FaultInjection_ParticipantNodeRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>FaultInjection_ParticipantNodeRecovery</type>
+        </param>
+        <briefdescription>
+<para>Simulate crash/recovery cycles via recoverInDoubt(). @acceptance AC-11: Extended Fault Injection Coverage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>FaultInjection_ParticipantNodeRecovery </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="393" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="393" bodyend="410"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ae32ee7670e7fc955f618eb90f793de28" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, ChaosEngineering_SimultaneousParticipantCrashes)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ChaosEngineering_SimultaneousParticipantCrashes</type>
+        </param>
+        <briefdescription>
+<para>Inject simultaneous participant abort (crash) on every prepare. @acceptance AC-12: Chaos Engineering Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>ChaosEngineering_SimultaneousParticipantCrashes </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="421" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="421" bodyend="439"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1affcd409620de8ccfff922d76371f9335" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, ChaosEngineering_NetworkPartitions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ChaosEngineering_NetworkPartitions</type>
+        </param>
+        <briefdescription>
+<para>Simulate network partitions (prepare and commit timeouts). @acceptance AC-12: Chaos Engineering Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>ChaosEngineering_NetworkPartitions </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="446" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="446" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a917db92c5ed3e404e35cfce45a3abd4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, ChaosEngineering_ByzantineBehavior)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>ChaosEngineering_ByzantineBehavior</type>
+        </param>
+        <briefdescription>
+<para>Simulate Byzantine failures (conflicting/unexpected prepare results). @acceptance AC-12: Chaos Engineering Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>ChaosEngineering_ByzantineBehavior </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="473" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="473" bodyend="487"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a8b6251bfb1db041415416d7bed61f8ce" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, CascadingFailureRecovery_ThreeLevel)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>CascadingFailureRecovery_ThreeLevel</type>
+        </param>
+        <briefdescription>
+<para>Accumulate cascading failures and recover via recoverInDoubt(). @acceptance AC-13: Recovery from Cascading Failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>CascadingFailureRecovery_ThreeLevel </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="498" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="498" bodyend="522"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ae1f7d18016069d6e1a4ebf88c81b3eab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, CascadingFailureRecovery_MultiNodeRecovery)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>CascadingFailureRecovery_MultiNodeRecovery</type>
+        </param>
+        <briefdescription>
+<para>Validate recovery of cascading failures across sequential node failures. @acceptance AC-13: Recovery from Cascading Failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>CascadingFailureRecovery_MultiNodeRecovery </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="529" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="529" bodyend="547"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a893e2ff2b83b3996c1edc2032042b0f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, StressTest_HighConcurrencyWithFaultInjection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>StressTest_HighConcurrencyWithFaultInjection</type>
+        </param>
+        <briefdescription>
+<para>Stress test with high concurrency and continuous fault injection. @acceptance AC-11, AC-12: Fault injection under load. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000023"><xreftitle>Test</xreftitle><xrefdescription><para>StressTest_HighConcurrencyWithFaultInjection </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="558" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="558" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a761092ede425e61c2bceed309d860c0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionFaultInjectionPhase3Test, StressTest_LongRunningDegradedConditions)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_fault_injection_phase3_test" kindref="compound">TransactionFaultInjectionPhase3Test</ref></type>
+        </param>
+        <param>
+          <type>StressTest_LongRunningDegradedConditions</type>
+        </param>
+        <briefdescription>
+<para>Long-running test with sustained cascading fault injection. @acceptance AC-11, AC-12: Chaos validation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000024"><xreftitle>Test</xreftitle><xrefdescription><para>StressTest_LongRunningDegradedConditions </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_fault_injection_phase3.cpp" line="601" column="1" bodyfile="tests/transaction/test_transaction_fault_injection_phase3.cpp" bodystart="601" bodyend="637"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a2a9d67d809a21eb6ee76ed4ecad63e7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, CompensationIdempotency_SingleStepCompensation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>CompensationIdempotency_SingleStepCompensation</type>
+        </param>
+        <briefdescription>
+<para>Validates compensation is idempotent for single step @acceptance AC-8: Compensation Idempotency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000025"><xreftitle>Test</xreftitle><xrefdescription><para>CompensationIdempotency_SingleStepCompensation </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="100" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="100" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a3e59b451ddc25896316fd4ce375a16f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, CompensationIdempotency_MultiStepChain)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>CompensationIdempotency_MultiStepChain</type>
+        </param>
+        <briefdescription>
+<para>Validates compensation order and idempotency in multi-step chain @acceptance AC-8: Compensation Idempotency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000026"><xreftitle>Test</xreftitle><xrefdescription><para>CompensationIdempotency_MultiStepChain </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="128" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="128" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a2bb1f128b18191d4667ceb848368a928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, CompensationIdempotency_RetryStorm)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>CompensationIdempotency_RetryStorm</type>
+        </param>
+        <briefdescription>
+<para>Validates compensation handles retry storms (repeated compensation) @acceptance AC-8: Compensation Idempotency, AC-10: Retry Storm Handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000027"><xreftitle>Test</xreftitle><xrefdescription><para>CompensationIdempotency_RetryStorm </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="169" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="169" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ac28d31646e4448cd59b440985fd007c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, SAGAOrchestration_PartialRemoteFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>SAGAOrchestration_PartialRemoteFailure</type>
+        </param>
+        <briefdescription>
+<para>Validates SAGA behavior when remote service fails mid-execution @acceptance AC-9: SAGA Orchestration Under Failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000028"><xreftitle>Test</xreftitle><xrefdescription><para>SAGAOrchestration_PartialRemoteFailure </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="200" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="200" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1af9654b8b4fc65ff3065764295be6e8a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, SAGAOrchestration_NetworkDegradation)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>SAGAOrchestration_NetworkDegradation</type>
+        </param>
+        <briefdescription>
+<para>Validates SAGA handles network degradation (slow responses) @acceptance AC-9: SAGA Orchestration Under Failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000029"><xreftitle>Test</xreftitle><xrefdescription><para>SAGAOrchestration_NetworkDegradation </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="243" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="243" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1ae132373703cde0bcb8d6ef13cd23203d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, SAGAOrchestration_CascadingFailure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>SAGAOrchestration_CascadingFailure</type>
+        </param>
+        <briefdescription>
+<para>Validates SAGA handles cascading failures (step fails, affects next) @acceptance AC-9: SAGA Orchestration Under Failures. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000030"><xreftitle>Test</xreftitle><xrefdescription><para>SAGAOrchestration_CascadingFailure </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="282" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="282" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a2f442fbf343ce011ea9252eb353aeee5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, RetryStormHandling_BoundedRetries)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>RetryStormHandling_BoundedRetries</type>
+        </param>
+        <briefdescription>
+<para>Validates retry storm is bounded (max retries enforced) @acceptance AC-10: Recovery and Retry Storm Handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000031"><xreftitle>Test</xreftitle><xrefdescription><para>RetryStormHandling_BoundedRetries </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="321" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="321" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a140bbe242d846e8ab15b26adba16dc92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, RetryStormHandling_CircuitBreaker)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>RetryStormHandling_CircuitBreaker</type>
+        </param>
+        <briefdescription>
+<para>Validates circuit breaker pattern prevents retry storms @acceptance AC-10: Recovery and Retry Storm Handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000032"><xreftitle>Test</xreftitle><xrefdescription><para>RetryStormHandling_CircuitBreaker </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="350" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="350" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1aad371e6b360a47035f3140d501ad512e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(TransactionSAGAPhase2OrchestratorHardening, CircuitBreakerBlocksRetryStormAfterThreshold)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>TransactionSAGAPhase2OrchestratorHardening</type>
+        </param>
+        <param>
+          <type>CircuitBreakerBlocksRetryStormAfterThreshold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="379" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="379" bodyend="408"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a52688757a56281c33a93729ae6d0b11e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST</definition>
+        <argsstring>(TransactionSAGAPhase2OrchestratorHardening, HalfOpenAllowsOnlySingleConcurrentProbe)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themis::test::TEST</qualifiedname>
+        <param>
+          <type>TransactionSAGAPhase2OrchestratorHardening</type>
+        </param>
+        <param>
+          <type>HalfOpenAllowsOnlySingleConcurrentProbe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="410" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="410" bodyend="469"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a65439aac1c5fa32b8bca39e6f6442b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, RecoveryPath_ManualIntervention)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>RecoveryPath_ManualIntervention</type>
+        </param>
+        <briefdescription>
+<para>Validates manual intervention path for stuck compensation @acceptance AC-10: Recovery and Retry Storm Handling. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000033"><xreftitle>Test</xreftitle><xrefdescription><para>RecoveryPath_ManualIntervention </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="476" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="476" bodyend="499"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a961d3b5fbc31b1b13cdd37cbf8934321" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, StressTest_ConcurrentSAGAFlows)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>StressTest_ConcurrentSAGAFlows</type>
+        </param>
+        <briefdescription>
+<para>Stress test with multiple concurrent SAGA flows @acceptance AC-8, AC-9: SAGA orchestration and compensation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000034"><xreftitle>Test</xreftitle><xrefdescription><para>StressTest_ConcurrentSAGAFlows </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="510" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="510" bodyend="558"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a9a345e82fed3b8e21ee487022ebd7ad1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionSAGAPhase2Test, StressTest_SAGAWithIntermittentFailures)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_s_a_g_a_phase2_test" kindref="compound">TransactionSAGAPhase2Test</ref></type>
+        </param>
+        <param>
+          <type>StressTest_SAGAWithIntermittentFailures</type>
+        </param>
+        <briefdescription>
+<para>Stress test SAGA with random intermittent failures @acceptance AC-9, AC-10: Failure handling and recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000035"><xreftitle>Test</xreftitle><xrefdescription><para>StressTest_SAGAWithIntermittentFailures </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_saga_compensation_phase2.cpp" line="565" column="1" bodyfile="tests/transaction/test_transaction_saga_compensation_phase2.cpp" bodystart="565" bodyend="613"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a631e863f75c08ca8069443a6e2f02497" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionStressTest, ConcurrentShortTransactions10k)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_stress_test" kindref="compound">TransactionStressTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentShortTransactions10k</type>
+        </param>
+        <briefdescription>
+<para>Stress: 10k concurrent short transactions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>10 threads × 1000 transactions each = 10k total Verifies all commit successfully and cleanup occurs. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="114" column="1" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="114" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a14683e25dc1b74f60a1f8250626207d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionStressTest, HighContentionLockStress)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_stress_test" kindref="compound">TransactionStressTest</ref></type>
+        </param>
+        <param>
+          <type>HighContentionLockStress</type>
+        </param>
+        <briefdescription>
+<para>Stress: High contention lock stress. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Multiple threads contending for same locks. Verifies no deadlocks and reasonable performance. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="160" column="1" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="160" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1test_1a11f71a3ef2537e437c2641cece10db89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::test::TEST_F</definition>
+        <argsstring>(TransactionStressTest, TransactionCleanupVerification)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1test_1_1_transaction_stress_test" kindref="compound">TransactionStressTest</ref></type>
+        </param>
+        <param>
+          <type>TransactionCleanupVerification</type>
+        </param>
+        <briefdescription>
+<para>Stress: Transaction cleanup verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify all transactions are cleaned up after execution. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="204" column="1" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="204" bodyend="229"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/transaction/test_transaction_chaos.cpp" line="36" column="1"/>
+  </compounddef>
+</doxygen>

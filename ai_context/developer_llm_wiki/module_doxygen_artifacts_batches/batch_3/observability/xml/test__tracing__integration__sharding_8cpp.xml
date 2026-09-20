@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__tracing__integration__sharding_8cpp" kind="file" language="C++">
+    <compoundname>test_tracing_integration_sharding.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">vector</includes>
+    <includes refid="distributed__trace__span_8h" local="yes">observability/distributed_trace_span.h</includes>
+    <includes refid="distributed__tracing__sdk_8h" local="yes">observability/distributed_tracing_sdk.h</includes>
+    <incdepgraph>
+      <node id="6">
+        <label>observability/distributed_trace_span.h</label>
+        <link refid="distributed__trace__span_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>observability/distributed_tracing_sdk.h</label>
+        <link refid="distributed__tracing__sdk_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/observability/test_tracing_integration_sharding.cpp</label>
+        <link refid="test__tracing__integration__sharding_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" prot="public">themis::observability::test::ShardingTracingIntegrationTest</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability">themis::observability</innernamespace>
+    <innernamespace refid="namespacethemis_1_1observability_1_1test">themis::observability::test</innernamespace>
+    <briefdescription>
+<para>Integration tests for distributed tracing in Sharding module. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.4.0 </para>
+</simplesect>
+<simplesect kind="date"><para>2026-09-02</para>
+</simplesect>
+Wave D Phase 2A: Distributed Tracing SDK - Sharding Integration</para>
+<para>Tests:<itemizedlist>
+<listitem><para>SHARD_TRACE_001: routeWrite span creation with shard context baggage</para>
+</listitem><listitem><para>SHARD_TRACE_002: Exact-path gate transition tracing</para>
+</listitem><listitem><para>SHARD_TRACE_003: Topology change event recording</para>
+</listitem><listitem><para>SHARD_TRACE_004: Rebalance operation span hierarchy</para>
+</listitem><listitem><para>SHARD_TRACE_005: Multi-shard write distribution tracing</para>
+</listitem><listitem><para>SHARD_TRACE_006: Shard discovery latency in spans</para>
+</listitem><listitem><para>SHARD_TRACE_007: Stall detection event pattern</para>
+</listitem><listitem><para>SHARD_TRACE_008: Topology refresh trigger tracing</para>
+</listitem><listitem><para>SHARD_TRACE_009: Parent span reference from coordinator</para>
+</listitem><listitem><para>SHARD_TRACE_010: Baggage propagation across shards</para>
+</listitem></itemizedlist>
+</para>
+<para>Gate: W4A-TRACE-01 (overhead ≤ 2% vs Wave 7 baseline) </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__trace__span_8h" kindref="compound">observability/distributed_trace_span.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="distributed__tracing__sdk_8h" kindref="compound">observability/distributed_tracing_sdk.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability" kindref="compound">observability</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test" kindref="compound">test</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test_1a8a457a5fb5243fb54297d00b1ced1f04" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1observability_1_1_distributed_tracing_config" kindref="compound">DistributedTracingConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a2cf99cbb8b712a5652f744ad913a2580" kindref="member">service_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;shard-router&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1observability_1_1_distributed_tracing_config_1a64c937a0a74323df75b10ce8663dff1d" kindref="member">enable_trace_correlation_logging</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test_1a2c20e35b53fb62a40d2a336a7492c5c0" kindref="member">sdk_</ref><sp/>=<sp/>std::make_unique&lt;DistributedTracingSDK&gt;(config);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;DistributedTracingSDK&gt;<sp/><ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test_1a2c20e35b53fb62a40d2a336a7492c5c0" kindref="member">sdk_</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>RouteWriteSpanCreation)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>route_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight><highlight class="stringliteral">&quot;ShardRouter::routeWrite&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>routing<sp/>context<sp/>as<sp/>baggage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>route_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;txn_route_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>route_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;write_key&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user:123:profile&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>route_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;shard_count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>route_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;consistency_level&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;strong&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>route_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;routing_started&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(route_span-&gt;spanId().empty());</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(route_span-&gt;traceId().empty());</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(route_span-&gt;operationName(),<sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::routeWrite&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>baggage<sp/>=<sp/>route_span-&gt;baggage();</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(baggage.size(),<sp/>4);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(ShardingTracingIntegrationTest,<sp/>ExactPathGateTransition)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>gate_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::validateExactPath&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>gate_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;txn_exact_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>gate_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;shard_set&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2,4,6&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trace<sp/>state<sp/>transitions<sp/>through<sp/>exact-path<sp/>gate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>gate_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;gate_validation_start&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;current_topology&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;epoch_42&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shard_count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>gate_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;gate_validation_passed&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;latency_us&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;245&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;exactness_verified&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>gate_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>gate_span-&gt;events();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(events.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>TopologyChangeEventRecording)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>topo_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::onTopologyChange&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>topo_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;old_epoch&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;41&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>topo_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;new_epoch&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>topo_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;topology_change_detected&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;old_shard_count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;new_shard_count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;10&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>topo_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;topology_update_in_progress&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shards_being_added&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shards_being_removed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;0&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>topo_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;topology_update_complete&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;update_latency_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;156&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>topo_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>events<sp/>=<sp/>topo_span-&gt;events();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(events.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>RebalanceSpanHierarchy)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rebalance_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::rebalanceTopology&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>rebalance_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;txn_rebalance_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>rebalance_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;rebalance_started&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shard_count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;target_distribution&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;even&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>child<sp/>spans<sp/>for<sp/>each<sp/>shard<sp/>movement</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id<sp/>=<sp/>0;<sp/>shard_id<sp/>&lt;<sp/>3;<sp/>++shard_id)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard_ctx<sp/>=<sp/>rebalance_span-&gt;childContext(</highlight><highlight class="stringliteral">&quot;MoveShard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard_id));</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;MoveShard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard_id),<sp/>shard_ctx);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">,<sp/>std::to_string(shard_id));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;shard_move_start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;shard_move_complete&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;duration_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;234&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>rebalance_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;rebalance_complete&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;total_duration_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1050&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>rebalance_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>MultiShardDistribution)<sp/>{</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dist_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::distributeWrite&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>dist_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;txn_distribute_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>dist_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;target_shards&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2,4,6&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>dist_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;distribution_started&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;shard_count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;3&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trace<sp/>writes<sp/>to<sp/>each<sp/>shard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_ids[]<sp/>=<sp/>{2,<sp/>4,<sp/>6};</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id<sp/>:<sp/>shard_ids)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard_ctx<sp/>=<sp/>dist_span-&gt;childContext(</highlight><highlight class="stringliteral">&quot;WriteShard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard_id));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;WriteShard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard_id),<sp/>shard_ctx);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">,<sp/>std::to_string(shard_id));</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;write_queued&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;write_acknowledged&quot;</highlight><highlight class="normal">,<sp/>{{</highlight><highlight class="stringliteral">&quot;latency_us&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;342&quot;</highlight><highlight class="normal">}});</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>shard_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>dist_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;distribution_complete&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>dist_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>ShardDiscoveryLatency)<sp/>{</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>discovery_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::discoverShards&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>discovery_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;discovery_start&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>discovery<sp/>delay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>latency_us<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>discovery_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;discovery_complete&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;discovered_shards&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;latency_us&quot;</highlight><highlight class="normal">,<sp/>std::to_string(latency_us)}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>discovery_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>duration<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>duration<sp/>=<sp/>discovery_span-&gt;durationMicros();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(duration,<sp/>9000);<sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>at<sp/>least<sp/>9ms</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>StallDetectionPattern)<sp/>{</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stall_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::detectStall&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>stall_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;txn_stall_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>stall_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;stall_monitoring_started&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>stall<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>stall_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;stall_detected&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shard_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;4&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;pending_operations&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;125&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;time_since_last_progress_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;5034&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>stall_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;stall_recovery_attempted&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;recovery_strategy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FORCE_COMPLETE&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>stall_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;stall_recovered&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;recovery_latency_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;245&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>stall_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>TopologyRefreshTrigger)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>refresh_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::refreshTopology&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>refresh_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;trigger_reason&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;STALE_EPOCH&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>refresh_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;topology_refresh_started&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;current_epoch&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;41&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;latest_epoch&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>refresh_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;topology_fetched&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;shard_count&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;fetch_latency_ms&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;34&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>refresh_span-&gt;addEvent(</highlight><highlight class="stringliteral">&quot;topology_refresh_complete&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;new_epoch&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;42&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>refresh_span-&gt;setStatus(<ref refid="namespacethemis_1_1observability_1aacae63b47939ea3afdc418859f8a2198aa60852f204ed8028c1c58808b746d115" kindref="member">SpanStatus::Ok</ref>);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>ParentCoordinatorReference)<sp/>{</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>coordinator<sp/>creating<sp/>parent<sp/>span</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>coordinator_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>coordinator_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Coordinator::execute&quot;</highlight><highlight class="normal">,<sp/>coordinator_ctx);</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>coordinator_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;txn_parent_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Router<sp/>receives<sp/>child<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>router_ctx<sp/>=<sp/>coordinator_span-&gt;childContext(</highlight><highlight class="stringliteral">&quot;ShardRouter::route&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>router_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::route&quot;</highlight><highlight class="normal">,<sp/>router_ctx);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>parent-child<sp/>linkage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(router_span-&gt;traceId(),<sp/>coordinator_span-&gt;traceId());</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(router_ctx-&gt;parentSpanId(),<sp/>coordinator_span-&gt;spanId());</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>baggage<sp/>inheritance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>router_baggage<sp/>=<sp/>router_span-&gt;baggage();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>has_txn_id<sp/>=<sp/>std::find_if(router_baggage.begin(),<sp/>router_baggage.end(),</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>pair)<sp/>{<sp/>return<sp/>pair.first<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(has_txn_id,<sp/>router_baggage.end());</highlight></codeline>
+<codeline lineno="295"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="namespacethemis_1_1observability_1_1test_1a6feb4621a26fdf1fc7548f661f6aa095" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1observability_1_1test_1_1_sharding_tracing_integration_test" kindref="compound">ShardingTracingIntegrationTest</ref>,<sp/>BaggagePropagationAcrossShards)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>root_ctx<sp/>=<sp/><ref refid="classthemis_1_1observability_1_1_distributed_trace_context_1a45a228a9858eb2ae932cd8356937cdee" kindref="member">DistributedTraceContext::createRoot</ref>();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>route_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;ShardRouter::route&quot;</highlight><highlight class="normal">,<sp/>root_ctx);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>routing<sp/>baggage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>route_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;txn_prop_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>route_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;client_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;client_abc&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/>route_span-&gt;addBaggage(</highlight><highlight class="stringliteral">&quot;consistency_level&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;strong&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>propagation<sp/>to<sp/>shards</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>shard_id<sp/>=<sp/>0;<sp/>shard_id<sp/>&lt;<sp/>4;<sp/>++shard_id)<sp/>{</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard_ctx<sp/>=<sp/>route_span-&gt;childContext(</highlight><highlight class="stringliteral">&quot;Shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard_id));</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard_span<sp/>=<sp/>std::make_shared&lt;DistributedTraceSpan&gt;(</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Shard_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(shard_id),<sp/>shard_ctx);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>all<sp/>baggage<sp/>items<sp/>propagated</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shard_baggage<sp/>=<sp/>shard_span-&gt;baggage();</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GE(shard_baggage.size(),<sp/>3);</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>has_txn<sp/>=<sp/>std::find_if(shard_baggage.begin(),<sp/>shard_baggage.end(),</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>pair)<sp/>{<sp/>return<sp/>pair.first<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;transaction_id&quot;</highlight><highlight class="normal">;<sp/>});</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NE(has_txn,<sp/>shard_baggage.end());</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(has_txn-&gt;second,<sp/></highlight><highlight class="stringliteral">&quot;txn_prop_001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>observability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/observability/test_tracing_integration_sharding.cpp"/>
+  </compounddef>
+</doxygen>

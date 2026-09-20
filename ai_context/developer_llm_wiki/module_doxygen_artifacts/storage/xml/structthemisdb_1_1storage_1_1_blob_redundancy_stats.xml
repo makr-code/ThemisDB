@@ -1,0 +1,317 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1storage_1_1_blob_redundancy_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::storage::BlobRedundancyStats</compoundname>
+    <includes refid="blob__redundancy__manager_8h" local="no">blob_redundancy_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a8e3a886c3c6d969d7528b90dd8c0dd8d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::total_blobs</definition>
+        <argsstring></argsstring>
+        <name>total_blobs</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::total_blobs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="304" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a2f3e70bde2c01ee4b36a4f457531c8ac" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::healthy_blobs</definition>
+        <argsstring></argsstring>
+        <name>healthy_blobs</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::healthy_blobs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="305" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a0f94f8c2c635002aefff02a25ac2374a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::degraded_blobs</definition>
+        <argsstring></argsstring>
+        <name>degraded_blobs</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::degraded_blobs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="306" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1ad51bdfeea9ca2c74a720bb4699577e46" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::critical_blobs</definition>
+        <argsstring></argsstring>
+        <name>critical_blobs</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::critical_blobs</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="307" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="307" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a04baeda507a4e83d5a374f766dd308f1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::logical_bytes</definition>
+        <argsstring></argsstring>
+        <name>logical_bytes</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::logical_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="310" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a41674d13b682493db173cf05467f82ad" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::physical_bytes</definition>
+        <argsstring></argsstring>
+        <name>physical_bytes</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::physical_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="311" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="311" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a91cd18b28aeec66d3f719ac3d63dfdf7" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::redundant_bytes</definition>
+        <argsstring></argsstring>
+        <name>redundant_bytes</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::redundant_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="312" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1abe4c9e4c870dacfe90eb48edc3c493e3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themisdb::storage::BlobRedundancyStats::storage_efficiency</definition>
+        <argsstring></argsstring>
+        <name>storage_efficiency</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::storage_efficiency</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="313" column="12" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a05ac559f4526947cb43a78dd08f17f0b" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" kindref="member">BlobType</ref>, uint64_t &gt;</type>
+        <definition>std::map&lt;BlobType, uint64_t&gt; themisdb::storage::BlobRedundancyStats::blobs_by_type</definition>
+        <argsstring></argsstring>
+        <name>blobs_by_type</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::blobs_by_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="316" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="316" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a7f2404da460246a8487572d7c53bd51a" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1storage_1a1343b5d6b6d1f7ef10516e3d2403098b" kindref="member">BlobType</ref>, uint64_t &gt;</type>
+        <definition>std::map&lt;BlobType, uint64_t&gt; themisdb::storage::BlobRedundancyStats::bytes_by_type</definition>
+        <argsstring></argsstring>
+        <name>bytes_by_type</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::bytes_by_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="317" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="317" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1aac73c793714c53b20bdbfaed264cb94e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5" kindref="member">StorageTier</ref>, uint64_t &gt;</type>
+        <definition>std::map&lt;StorageTier, uint64_t&gt; themisdb::storage::BlobRedundancyStats::blobs_by_tier</definition>
+        <argsstring></argsstring>
+        <name>blobs_by_tier</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::blobs_by_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="320" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="320" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a7577f74a047747497f4cdbaf1707239e" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1storage_1af621d748d6a2a85cbadefeb0dd4c3bd5" kindref="member">StorageTier</ref>, uint64_t &gt;</type>
+        <definition>std::map&lt;StorageTier, uint64_t&gt; themisdb::storage::BlobRedundancyStats::bytes_by_tier</definition>
+        <argsstring></argsstring>
+        <name>bytes_by_tier</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::bytes_by_tier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="321" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1af7bdd0ff4ad4dec9e01e8f8fae4afa98" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::repair_operations</definition>
+        <argsstring></argsstring>
+        <name>repair_operations</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::repair_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="324" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a1af0f49dfeac36a26ba49581d213fb7a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::tier_transitions</definition>
+        <argsstring></argsstring>
+        <name>tier_transitions</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::tier_transitions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="325" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1aa2521266919610f30dce88cd85cf319d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::scrub_operations</definition>
+        <argsstring></argsstring>
+        <name>scrub_operations</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::scrub_operations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="326" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="326" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a284e026323d75157d5b0c56d3881699a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::storage::BlobRedundancyStats::scrub_errors_found</definition>
+        <argsstring></argsstring>
+        <name>scrub_errors_found</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::scrub_errors_found</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="327" column="14" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1ac56f4b771dcc72d1c99439ce7c59a3f1" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themisdb::storage::BlobRedundancyStats::avg_write_latency</definition>
+        <argsstring></argsstring>
+        <name>avg_write_latency</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::avg_write_latency</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="330" column="31" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="330" bodyend="330"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a0e2001c0ee94f5c0e5f9d46b429b93be" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themisdb::storage::BlobRedundancyStats::avg_read_latency</definition>
+        <argsstring></argsstring>
+        <name>avg_read_latency</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::avg_read_latency</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="331" column="31" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="331" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a16092e42b034724cce8cdc0d6ad8159d" prot="public" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themisdb::storage::BlobRedundancyStats::avg_repair_time</definition>
+        <argsstring></argsstring>
+        <name>avg_repair_time</name>
+        <qualifiedname>themisdb::storage::BlobRedundancyStats::avg_repair_time</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/blob_redundancy_manager.h" line="332" column="31" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="332" bodyend="332"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Blob Redundancy Statistics </para>
+    </detaileddescription>
+    <location file="include/storage/blob_redundancy_manager.h" line="302" column="1" bodyfile="include/storage/blob_redundancy_manager.h" bodystart="302" bodyend="333"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a0e2001c0ee94f5c0e5f9d46b429b93be" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>avg_read_latency</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a16092e42b034724cce8cdc0d6ad8159d" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>avg_repair_time</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1ac56f4b771dcc72d1c99439ce7c59a3f1" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>avg_write_latency</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1aac73c793714c53b20bdbfaed264cb94e" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>blobs_by_tier</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a05ac559f4526947cb43a78dd08f17f0b" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>blobs_by_type</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a7577f74a047747497f4cdbaf1707239e" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>bytes_by_tier</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a7f2404da460246a8487572d7c53bd51a" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>bytes_by_type</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1ad51bdfeea9ca2c74a720bb4699577e46" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>critical_blobs</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a0f94f8c2c635002aefff02a25ac2374a" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>degraded_blobs</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a2f3e70bde2c01ee4b36a4f457531c8ac" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>healthy_blobs</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a04baeda507a4e83d5a374f766dd308f1" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>logical_bytes</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a41674d13b682493db173cf05467f82ad" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>physical_bytes</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a91cd18b28aeec66d3f719ac3d63dfdf7" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>redundant_bytes</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1af7bdd0ff4ad4dec9e01e8f8fae4afa98" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>repair_operations</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a284e026323d75157d5b0c56d3881699a" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>scrub_errors_found</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1aa2521266919610f30dce88cd85cf319d" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>scrub_operations</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1abe4c9e4c870dacfe90eb48edc3c493e3" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>storage_efficiency</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a1af0f49dfeac36a26ba49581d213fb7a" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>tier_transitions</name></member>
+      <member refid="structthemisdb_1_1storage_1_1_blob_redundancy_stats_1a8e3a886c3c6d969d7528b90dd8c0dd8d" prot="public" virt="non-virtual"><scope>themisdb::storage::BlobRedundancyStats</scope><name>total_blobs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

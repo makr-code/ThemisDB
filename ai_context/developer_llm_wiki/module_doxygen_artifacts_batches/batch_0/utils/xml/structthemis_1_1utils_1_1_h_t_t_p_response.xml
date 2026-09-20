@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_h_t_t_p_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::HTTPResponse</compoundname>
+    <includes refid="http__client__pool_8h" local="no">http_client_pool.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_response_1a25027caa9d7c41101edc3fa04a58a819" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::utils::HTTPResponse::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::utils::HTTPResponse::status_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="58" column="9" bodyfile="include/utils/http_client_pool.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_response_1a27f4604ffc4390b8b94384d177b7b0a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::HTTPResponse::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::utils::HTTPResponse::body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="59" column="17" bodyfile="include/utils/http_client_pool.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_h_t_t_p_response_1a21d92fc2812810fd74a606b3dd6677fd" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::utils::HTTPResponse::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::utils::HTTPResponse::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="60" column="24" bodyfile="include/utils/http_client_pool.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_h_t_t_p_response_1a0cf76556ebf53ac108281460eb7d935b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::HTTPResponse::isSuccess</definition>
+        <argsstring>() const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::utils::HTTPResponse::isSuccess</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/http_client_pool.h" line="62" column="10" bodyfile="include/utils/http_client_pool.h" bodystart="62" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HTTP Response structure. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/http_client_pool.h" line="57" column="1" bodyfile="include/utils/http_client_pool.h" bodystart="57" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_response_1a27f4604ffc4390b8b94384d177b7b0a4" prot="public" virt="non-virtual"><scope>themis::utils::HTTPResponse</scope><name>body</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_response_1a21d92fc2812810fd74a606b3dd6677fd" prot="public" virt="non-virtual"><scope>themis::utils::HTTPResponse</scope><name>headers</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_response_1a0cf76556ebf53ac108281460eb7d935b" prot="public" virt="non-virtual"><scope>themis::utils::HTTPResponse</scope><name>isSuccess</name></member>
+      <member refid="structthemis_1_1utils_1_1_h_t_t_p_response_1a25027caa9d7c41101edc3fa04a58a819" prot="public" virt="non-virtual"><scope>themis::utils::HTTPResponse</scope><name>status_code</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

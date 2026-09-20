@@ -1,0 +1,400 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="access__control__manager_8h" kind="file" language="C++">
+    <compoundname>access_control_manager.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">unordered_map</includes>
+    <includes refid="rbac_8h" local="yes">security/rbac.h</includes>
+    <includes refid="zero__trust__policy__enforcer_8h" local="yes">security/zero_trust_policy_enforcer.h</includes>
+    <includes refid="row__level__security_8h" local="yes">security/row_level_security.h</includes>
+    <includes local="yes">server/policy_engine.h</includes>
+    <includedby refid="access__control__manager_8cpp" local="yes">src/security/access_control_manager.cpp</includedby>
+    <includedby refid="row__level__security_8cpp" local="yes">src/security/row_level_security.cpp</includedby>
+    <includedby refid="test__access__control__manager_8cpp" local="yes">tests/security/test_access_control_manager.cpp</includedby>
+    <includedby refid="test__row__level__security_8cpp" local="yes">tests/security/test_row_level_security.cpp</includedby>
+    <includedby refid="test__security__phase3__policy__hardening__focused_8cpp" local="yes">tests/security/test_security_phase3_policy_hardening_focused.cpp</includedby>
+    <includedby refid="test__security__wavec__production__validation__focused_8cpp" local="yes">tests/security/test_security_wavec_production_validation_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/security/access_control_manager.h</label>
+        <link refid="access__control__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>security/rbac.h</label>
+        <link refid="rbac_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>security/row_level_security.h</label>
+        <link refid="row__level__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>security/zero_trust_policy_enforcer.h</label>
+        <link refid="zero__trust__policy__enforcer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>array</label>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="16">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="18">
+        <label>server/policy_engine.h</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/security/access_control_manager.h</label>
+        <link refid="access__control__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/security/access_control_manager.cpp</label>
+        <link refid="access__control__manager_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/security/row_level_security.cpp</label>
+        <link refid="row__level__security_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/security/test_access_control_manager.cpp</label>
+        <link refid="test__access__control__manager_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/security/test_row_level_security.cpp</label>
+        <link refid="test__row__level__security_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/security/test_security_phase3_policy_hardening_focused.cpp</label>
+        <link refid="test__security__phase3__policy__hardening__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/security/test_security_wavec_production_validation_focused.cpp</label>
+        <link refid="test__security__wavec__production__validation__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1security_1_1_security_context" prot="public">themis::security::SecurityContext</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_decision" prot="public">themis::security::AccessDecision</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_config" prot="public">themis::security::AccessControlConfig</innerclass>
+    <innerclass refid="classthemis_1_1security_1_1_access_control_manager" prot="public">themis::security::AccessControlManager</innerclass>
+    <innerclass refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics" prot="public">themis::security::AccessControlManager::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1security">themis::security</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rbac_8h" kindref="compound">security/rbac.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="zero__trust__policy__enforcer_8h" kindref="compound">security/zero_trust_policy_enforcer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="row__level__security_8h" kindref="compound">security/row_level_security.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/policy_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AuthMiddleware;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">security</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1security_1_1_security_context" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref><sp/>{</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1security_1_1_security_context_1aac621c85d9d7f09b376acc86f2170664" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_security_context_1aac621c85d9d7f09b376acc86f2170664" kindref="member">user_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authenticated<sp/>user<sp/>ID</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1security_1_1_security_context_1af7bbf54e5ec2ab5b7269b5f5011880ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_security_context_1af7bbf54e5ec2ab5b7269b5f5011880ed" kindref="member">roles</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User&apos;s<sp/>assigned<sp/>roles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1security_1_1_security_context_1ab9df057927518ea8cdd6238d2c04ce7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_security_context_1ab9df057927518ea8cdd6238d2c04ce7b" kindref="member">groups</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User&apos;s<sp/>groups<sp/>(from<sp/>JWT/LDAP)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1security_1_1_security_context_1a39b662fa86c7acdb7f237d0cac92ccaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_security_context_1a39b662fa86c7acdb7f237d0cac92ccaa" kindref="member">session_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Session<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1security_1_1_security_context_1ab1c94f99d0b2c57e8f99374b7cb5c073" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_security_context_1ab1c94f99d0b2c57e8f99374b7cb5c073" kindref="member">source_ip</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Request<sp/>source<sp/>IP</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1security_1_1_security_context_1adf56868e698a58cdf79dec3c32d9f4a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_security_context_1adf56868e698a58cdf79dec3c32d9f4a8" kindref="member">user_agent</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>HTTP<sp/>User-Agent<sp/>(used<sp/>by<sp/>ABAC<sp/>policies)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1security_1_1_security_context_1a7138895229ead24457fdba07c93ea37b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_security_context_1a7138895229ead24457fdba07c93ea37b" kindref="member">attributes</ref>;<sp/></highlight><highlight class="comment">//<sp/>Additional<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_security_context_1af119c0946fc4c800a91c35c26ce0bd28" kindref="member">hasRole</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_security_context_1aec80e8c8d00280f8fb8ddf041a927d6b" kindref="member">hasGroup</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>group)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1security_1_1_access_decision" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref><sp/>{</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1security_1_1_access_decision_1a24a6c4be310bc2f5988fc0391a0defa5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_decision_1a24a6c4be310bc2f5988fc0391a0defa5" kindref="member">granted</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Was<sp/>access<sp/>granted?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1security_1_1_access_decision_1af9ba5aeadc2c05911d1b64f902102796" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_decision_1af9ba5aeadc2c05911d1b64f902102796" kindref="member">reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reason<sp/>for<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1security_1_1_access_decision_1ab553b50c359a2e7a6820aa909e1aac9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1security_1_1_access_decision_1ab553b50c359a2e7a6820aa909e1aac9e" kindref="member">applied_permissions</ref>;<sp/></highlight><highlight class="comment">//<sp/>Which<sp/>permissions<sp/>were<sp/>applied</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1security_1_1_access_decision_1a636291b48df623e852ca0c8cee23626c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref><sp/><ref refid="structthemis_1_1security_1_1_access_decision_1a636291b48df623e852ca0c8cee23626c" kindref="member">Allow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1security_1_1_access_decision_1af9ba5aeadc2c05911d1b64f902102796" kindref="member">reason</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Access<sp/>granted&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1security_1_1_access_decision_1af9ba5aeadc2c05911d1b64f902102796" kindref="member">reason</ref>,<sp/>{}};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1security_1_1_access_decision_1a50fd9c21b13976135570bad4f2001017" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref><sp/><ref refid="structthemis_1_1security_1_1_access_decision_1a50fd9c21b13976135570bad4f2001017" kindref="member">Deny</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="structthemis_1_1security_1_1_access_decision_1af9ba5aeadc2c05911d1b64f902102796" kindref="member">reason</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1security_1_1_access_decision_1af9ba5aeadc2c05911d1b64f902102796" kindref="member">reason</ref>,<sp/>{}};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2" kindref="member">AuthorizationFailureMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2ae2a5e3081b1d16414412c3b8258a9270" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2ae2a5e3081b1d16414412c3b8258a9270" kindref="member">DenyOnError</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Default<sp/>secure<sp/>behavior:<sp/>deny<sp/>access<sp/>on<sp/>auth<sp/>failures.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2aa2e4ea88f752c713ab26d92fe5aacad0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2aa2e4ea88f752c713ab26d92fe5aacad0" kindref="member">AllowOnErrorExplicit</ref><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Explicit<sp/>fail-open<sp/>override:<sp/>requires<sp/>an<sp/>override<sp/>reason.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1security_1_1_access_control_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_access_control_config" kindref="compound">AccessControlConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1security_1_1_access_control_config_1a130e266b09d9df03f1dc0f60642d4bec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1a130e266b09d9df03f1dc0f60642d4bec" kindref="member">rbac_config_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>RBAC<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1security_1_1_access_control_config_1ab175649c98718213f2b890c747ce84c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1ab175649c98718213f2b890c747ce84c6" kindref="member">user_role_store_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>user-role<sp/>mappings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1security_1_1_access_control_config_1a3ee4004b37097e69319e2b6f8642ec5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1a3ee4004b37097e69319e2b6f8642ec5c" kindref="member">enable_audit_logging</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>access<sp/>control<sp/>audit<sp/>logs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1security_1_1_access_control_config_1a95385a060c35a5037ad770bb0f342c3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1a95385a060c35a5037ad770bb0f342c3b" kindref="member">fail_closed</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>compatibility<sp/>flag;<sp/>prefer<sp/>failure_mode.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1security_1_1_access_control_config_1a43af24e046097064f3f7d1c8d7b308a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2" kindref="member">AuthorizationFailureMode</ref><sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1a43af24e046097064f3f7d1c8d7b308a3" kindref="member">failure_mode</ref><sp/>=<sp/><ref refid="namespacethemis_1_1security_1a3a4e24bbbd0222175b36a25854f229e2ae2a5e3081b1d16414412c3b8258a9270" kindref="member">AuthorizationFailureMode::DenyOnError</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1security_1_1_access_control_config_1aac07492bab7143452ac63ca9cc92bea2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1aac07492bab7143452ac63ca9cc92bea2" kindref="member">fail_open_reason</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Required<sp/>when<sp/>failure_mode<sp/>is<sp/>AllowOnErrorExplicit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1security_1_1_access_control_config_1a498288e5fb13abc22015034887789ddb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1a498288e5fb13abc22015034887789ddb" kindref="member">enable_resource_wildcards</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>wildcards<sp/>in<sp/>resources</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ABAC<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1security_1_1_access_control_config_1a9521afbb46f829a6436337d53e707a99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1a9521afbb46f829a6436337d53e707a99" kindref="member">abac_policy_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>ABAC<sp/>policy<sp/>file<sp/>(JSON/YAML)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1security_1_1_access_control_config_1ad8fa1d4c3b3b45bd08c16685618db63c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1ad8fa1d4c3b3b45bd08c16685618db63c" kindref="member">enable_abac</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>ABAC<sp/>evaluation<sp/>alongside<sp/>RBAC</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zero-trust<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1security_1_1_access_control_config_1a4ebbe2e651e5769190630b4d4b527c35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1a4ebbe2e651e5769190630b4d4b527c35" kindref="member">enable_zero_trust</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>per-request<sp/>zero-trust<sp/>identity<sp/>verification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RLS<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1security_1_1_access_control_config_1aad29a9a42dcd1e640bfb4259c730012f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1aad29a9a42dcd1e640bfb4259c730012f" kindref="member">rls_policy_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Path<sp/>to<sp/>RLS<sp/>policy<sp/>file<sp/>(JSON)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1security_1_1_access_control_config_1a80b45b376e0dab1370bd0a702b66b4bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1a80b45b376e0dab1370bd0a702b66b4bc" kindref="member">enable_rls</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>RLS<sp/>filtering<sp/>of<sp/>query<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;<ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1security_1_1_access_control_config_1aabf94709a98ac7e45b76282ac6a0ac43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_access_control_config_1aabf94709a98ac7e45b76282ac6a0ac43" kindref="member">custom_authorizer</ref>;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1security_1_1_access_control_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1security_1_1_access_control_manager_1a7730dd0b197be6e816bef88f6b517465" kindref="member">AccessControlManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a7730dd0b197be6e816bef88f6b517465" kindref="member">AccessControlManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_control_config" kindref="compound">AccessControlConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a006b3a31696ceedebe91f19c41baa5bc" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;SecurityContext&gt;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a5fe646c80c5011bd2d39035ebcc45fcf" kindref="member">authenticate</ref>(</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token,</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a9e829b2155542db39e19a7d210af8616" kindref="member">authorize</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref>&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resource,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1ac74355f73e9861091be16d9629296974" kindref="member">checkAccess</ref>(</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>token,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resource,</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action,</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_ip<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1aacf0dc3ab2287dd759e9063f9efd5f57" kindref="member">assignRole</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1abc0e68a31cf77dabb36a45a37ce8c89b" kindref="member">revokeRole</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>role);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1aed48ae0d12dafb13b4cdd41bd5987a90" kindref="member">getUserRoles</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Permission&gt;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1ae869aecea9600f994633047966a28d10" kindref="member">getUserPermissions</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>user_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1ac13a7f2ae2ffec66c43a090159fbd994" kindref="member">setAuthMiddleware</ref>(std::shared_ptr&lt;AuthMiddleware&gt;<sp/>auth_middleware);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1ac5d538c3d18d562d520eafe1b7d38cb3" kindref="member">setZeroTrustEnforcer</ref>(<ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer" kindref="compound">ZeroTrustPolicyEnforcer</ref>*<sp/>enforcer);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184" refid="classthemis_1_1security_1_1_access_control_manager_1ac8adb15836e6ba04f947479b82cd8c79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RBAC&gt;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1ac8adb15836e6ba04f947479b82cd8c79" kindref="member">getRBAC</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rbac_;<sp/>}</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186" refid="classthemis_1_1security_1_1_access_control_manager_1a70f5444ac0c0a4c0a5580edd9f99aca9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;UserRoleStore&gt;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a70f5444ac0c0a4c0a5580edd9f99aca9" kindref="member">getUserRoleStore</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>user_store_;<sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="193" refid="classthemis_1_1security_1_1_access_control_manager_1a6eca5476a065e6904db080c9921e49fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>PolicyEngine&amp;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a6eca5476a065e6904db080c9921e49fc" kindref="member">getABACEngine</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>policy_engine_;<sp/>}</highlight></codeline>
+<codeline lineno="194" refid="classthemis_1_1security_1_1_access_control_manager_1a78d76b9087c5a2ff9c5c770c017717f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PolicyEngine&amp;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a78d76b9087c5a2ff9c5c770c017717f7" kindref="member">getABACEngine</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>policy_engine_;<sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1af7632675db3f544fd2c355b844661b18" kindref="member">addABACPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>PolicyEngine::Policy&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1aadcdcdc7457714f43f0ef0587330d5e5" kindref="member">removeABACPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_id);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a6a6fb83087619402ef61e48dcb333dad" kindref="member">addRLSPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_r_l_s_policy" kindref="compound">RLSPolicy</ref>&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a872fdbaeca4aafef58c514c17d163c1b" kindref="member">removeRLSPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>policy_id);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1security_1_1_access_control_manager_1a8ce747aa2db1d49dc287007f06fd294d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_r_l_s_manager" kindref="compound">RLSManager</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a8ce747aa2db1d49dc287007f06fd294d" kindref="member">getRLSManager</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rls_manager_;<sp/>}</highlight></codeline>
+<codeline lineno="229" refid="classthemis_1_1security_1_1_access_control_manager_1a41fef7b47f8ddc1802c7296a180a2414" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_r_l_s_manager" kindref="compound">RLSManager</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a41fef7b47f8ddc1802c7296a180a2414" kindref="member">getRLSManager</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rls_manager_;<sp/>}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a38db8f34314a03783427370816328646" kindref="member">filterQueryResults</ref>(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref>&amp;<sp/>ctx,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>rows</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a6eae5afadeb3202157eefa1c23a19a46" kindref="member">isRLSActive</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>collection,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref>&amp;<sp/>ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1a01b9db0609110e89a7696bcf2a24e39a" kindref="member">reloadConfiguration</ref>();</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1abbd43b8058253dfebfaaf42c599aa20f" kindref="member">saveConfiguration</ref>();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264" refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="265" refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a15788239c6ba9f0dd214e3c5ffad05f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a15788239c6ba9f0dd214e3c5ffad05f1" kindref="member">authentication_success</ref>{0};</highlight></codeline>
+<codeline lineno="266" refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1ac7d3b463b63f71d727ec288c2c489fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1ac7d3b463b63f71d727ec288c2c489fb7" kindref="member">authentication_failure</ref>{0};</highlight></codeline>
+<codeline lineno="267" refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a63c91b61451ed8ffd196855bece67ffb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a63c91b61451ed8ffd196855bece67ffb" kindref="member">authorization_success</ref>{0};</highlight></codeline>
+<codeline lineno="268" refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a2adb1291e344634e1aeaf26aaaeaab09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a2adb1291e344634e1aeaf26aaaeaab09" kindref="member">authorization_failure</ref>{0};</highlight></codeline>
+<codeline lineno="269" refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a84e90905e544af477c37f32e21b8c448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics_1a84e90905e544af477c37f32e21b8c448" kindref="member">access_denied</ref>{0};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="272" refid="classthemis_1_1security_1_1_access_control_manager_1aa072b720dff98a6127ee69853d9bda3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_control_manager_1_1_metrics" kindref="compound">Metrics</ref>&amp;<sp/><ref refid="classthemis_1_1security_1_1_access_control_manager_1aa072b720dff98a6127ee69853d9bda3b" kindref="member">getMetrics</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metrics_;<sp/>}</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1security_1_1_access_control_config" kindref="compound">AccessControlConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;RBAC&gt;<sp/>rbac_;</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;UserRoleStore&gt;<sp/>user_store_;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;AuthMiddleware&gt;<sp/>auth_middleware_;</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_zero_trust_policy_enforcer" kindref="compound">ZeroTrustPolicyEnforcer</ref>*<sp/>zero_trust_enforcer_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Metrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>PolicyEngine<sp/>policy_engine_;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1security_1_1_r_l_s_manager" kindref="compound">RLSManager</ref><sp/>rls_manager_;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>auditAccessDecision(</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_security_context" kindref="compound">SecurityContext</ref>&amp;<sp/>context,</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resource,</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>action,</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1security_1_1_access_decision" kindref="compound">AccessDecision</ref>&amp;<sp/>decision</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>security</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/security/access_control_manager.h"/>
+  </compounddef>
+</doxygen>

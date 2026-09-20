@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1geo_1_1_geo_geometry_collection" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::geo::GeoGeometryCollection</compoundname>
+    <basecompoundref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" prot="public" virt="non-virtual">themis::geo::IGeoJSONGeometry</basecompoundref>
+    <includes refid="geo__json__geometry_8h" local="no">geo_json_geometry.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_geometry_collection_1ab478a84028e4487b97b66366396b03dc" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;IGeoJSONGeometry&gt; &gt; themis::geo::GeoGeometryCollection::members_</definition>
+        <argsstring></argsstring>
+        <name>members_</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::members_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="275" column="17" bodyfile="include/geo/geo_json_geometry.h" bodystart="275" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1geo_1_1_geo_geometry_collection_1ad725e5a98acb4361485fc467739503c2" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+        <definition>CrsId themis::geo::GeoGeometryCollection::crs_</definition>
+        <argsstring></argsstring>
+        <name>crs_</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::crs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="276" column="52" bodyfile="include/geo/geo_json_geometry.h" bodystart="276" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_geometry_collection_1a961428f0c5f50834f3437408419ce07e" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::geo::GeoGeometryCollection::GeoGeometryCollection</definition>
+        <argsstring>(std::vector&lt; std::shared_ptr&lt; IGeoJSONGeometry &gt; &gt; members, CrsId crs)</argsstring>
+        <name>GeoGeometryCollection</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::GeoGeometryCollection</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &gt; &gt;</type>
+          <declname>members</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+          <declname>crs</declname>
+        </param>
+        <briefdescription>
+<para>Geo Geometry Collection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">members</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">crs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="253" column="14" bodyfile="include/geo/geo_json_geometry.h" bodystart="253" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_geometry_collection_1acbbaa81f7df6be83d01bc30e1450f3ce" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::shared_ptr&lt; <ref refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry" kindref="compound">IGeoJSONGeometry</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::shared_ptr&lt; IGeoJSONGeometry &gt; &gt; &amp; themis::geo::GeoGeometryCollection::members</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>members</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::members</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="257" column="24" bodyfile="include/geo/geo_json_geometry.h" bodystart="257" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_geometry_collection_1a0d512f723fec2ae99d0a677598a2d34b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoGeometryCollection::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::type</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac58fe30f8b9e0bdc47ea9ccc532d990f">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="262" column="18" bodyfile="include/geo/geo_json_geometry.h" bodystart="262" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_geometry_collection_1a090faa5de694d7e32c542a2cdd25126e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1geo_1_1_b_box" kindref="compound">BBox</ref></type>
+        <definition>BBox themis::geo::GeoGeometryCollection::bbox</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>bbox</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::bbox</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a9327bfb81cf7aeabe769de40ab7d1db0">bbox</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="266" column="11" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="319" bodyend="328"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_geometry_collection_1a096df1bd191b90435a718faa8899493f" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1geo_1a30da0e4ade2a2eeb9047c7a93d5d87d6" kindref="member">CrsId</ref></type>
+        <definition>CrsId themis::geo::GeoGeometryCollection::crs</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>crs</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::crs</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1af846d57b98bcd75d7afd1c49a6ca575b">crs</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="268" column="12" bodyfile="include/geo/geo_json_geometry.h" bodystart="268" bodyend="268"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_geometry_collection_1a97d67b5a927a1710302af8e656688fa2" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::geo::GeoGeometryCollection::toGeoJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toGeoJSON</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::toGeoJSON</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1a3fef104ac282e441cc3095ba60323111">toGeoJSON</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="270" column="18" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="330" bodyend="343"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1geo_1_1_geo_geometry_collection_1a7f02bf97a6536f83b439f13f00864da0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classthemis_1_1geo_1_1_validation_result" kindref="compound">ValidationResult</ref></type>
+        <definition>ValidationResult themis::geo::GeoGeometryCollection::validate</definition>
+        <argsstring>() const override</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::geo::GeoGeometryCollection::validate</qualifiedname>
+        <reimplements refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ac5126002fdb01f895145e5c43bc9e94b">validate</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="272" column="23" bodyfile="src/geo/geo_json_geometry.cpp" bodystart="345" bodyend="356"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::geo::GeoGeometryCollection</label>
+        <link refid="classthemis_1_1geo_1_1_geo_geometry_collection"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::IGeoJSONGeometry</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::geo::GeoGeometryCollection</label>
+        <link refid="classthemis_1_1geo_1_1_geo_geometry_collection"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::geo::IGeoJSONGeometry</label>
+        <link refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/geo/geo_json_geometry.h" line="245" column="1" bodyfile="include/geo/geo_json_geometry.h" bodystart="245" bodyend="277"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a090faa5de694d7e32c542a2cdd25126e" prot="public" virt="virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>bbox</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a096df1bd191b90435a718faa8899493f" prot="public" virt="virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>crs</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1ad725e5a98acb4361485fc467739503c2" prot="private" virt="non-virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>crs_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a961428f0c5f50834f3437408419ce07e" prot="public" virt="non-virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>GeoGeometryCollection</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1acbbaa81f7df6be83d01bc30e1450f3ce" prot="public" virt="non-virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>members</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1ab478a84028e4487b97b66366396b03dc" prot="private" virt="non-virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>members_</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a97d67b5a927a1710302af8e656688fa2" prot="public" virt="virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>toGeoJSON</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a0d512f723fec2ae99d0a677598a2d34b" prot="public" virt="virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>type</name></member>
+      <member refid="classthemis_1_1geo_1_1_geo_geometry_collection_1a7f02bf97a6536f83b439f13f00864da0" prot="public" virt="virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>validate</name></member>
+      <member refid="classthemis_1_1geo_1_1_i_geo_j_s_o_n_geometry_1ab35bb619771c27d844644c59ca2b64bc" prot="public" virt="virtual"><scope>themis::geo::GeoGeometryCollection</scope><name>~IGeoJSONGeometry</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

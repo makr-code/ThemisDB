@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1transaction_1_1_0d044277112360073350317214061107317207365142140360" kind="namespace" language="C++">
+    <compoundname>themis::transaction::@044277112360073350317214061107317207365142140360</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/transaction/distributed_transaction_manager.cpp" line="82" column="1"/>
+  </compounddef>
+</doxygen>

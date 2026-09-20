@@ -1,0 +1,645 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="process__model__manager_8h" kind="file" language="C++">
+    <compoundname>process_model_manager.h</compoundname>
+    <includes local="yes">index/process_graph.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">shared_mutex</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="bench__process__import__retrieval_8cpp" local="yes">benchmarks/process/bench_process_import_retrieval.cpp</includedby>
+    <includedby refid="fim__importer_8h" local="yes">include/process/fim_importer.h</includedby>
+    <includedby refid="llm__process__descriptor_8h" local="yes">include/process/llm_process_descriptor.h</includedby>
+    <includedby refid="object__centric__tracer_8h" local="yes">include/process/object_centric_tracer.h</includedby>
+    <includedby refid="ocel__exporter_8h" local="yes">include/process/ocel_exporter.h</includedby>
+    <includedby refid="process__graph__rag_8h" local="yes">include/process/process_graph_rag.h</includedby>
+    <includedby refid="process__model__generator_8h" local="yes">include/process/process_model_generator.h</includedby>
+    <includedby refid="vcc__vpb__importer_8h" local="yes">include/process/vcc_vpb_importer.h</includedby>
+    <includedby refid="llm__process__descriptor_8cpp" local="yes">src/process/llm_process_descriptor.cpp</includedby>
+    <includedby refid="process__community__detector_8cpp" local="yes">src/process/process_community_detector.cpp</includedby>
+    <includedby refid="process__model__manager_8cpp" local="yes">src/process/process_model_manager.cpp</includedby>
+    <includedby refid="test__bottleneck__analytics_8cpp" local="yes">tests/process/test_bottleneck_analytics.cpp</includedby>
+    <includedby refid="test__object__centric__tracer_8cpp" local="yes">tests/process/test_object_centric_tracer.cpp</includedby>
+    <includedby refid="test__process__aris__xml_8cpp" local="yes">tests/process/test_process_aris_xml.cpp</includedby>
+    <includedby refid="test__process__community__detector_8cpp" local="yes">tests/process/test_process_community_detector.cpp</includedby>
+    <includedby refid="test__process__contract__hardening__focused_8cpp" local="yes">tests/process/test_process_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__process__light__retriever_8cpp" local="yes">tests/process/test_process_light_retriever.cpp</includedby>
+    <includedby refid="test__process__module_8cpp" local="yes">tests/process/test_process_module.cpp</includedby>
+    <includedby refid="test__sla__monitoring_8cpp" local="yes">tests/process/test_sla_monitoring.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/process/process_model_manager.h</label>
+        <link refid="process__model__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>index/process_graph.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>shared_mutex</label>
+      </node>
+      <node id="3">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>string_view</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/process/bench_process_import_retrieval.cpp</label>
+        <link refid="bench__process__import__retrieval_8cpp"/>
+      </node>
+      <node id="3">
+        <label>include/process/fim_importer.h</label>
+        <link refid="fim__importer_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/process/llm_process_descriptor.h</label>
+        <link refid="llm__process__descriptor_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/process/object_centric_tracer.h</label>
+        <link refid="object__centric__tracer_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/process/ocel_exporter.h</label>
+        <link refid="ocel__exporter_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/process/process_agentic_rag.h</label>
+        <link refid="process__agentic__rag_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/process/process_graph_rag.h</label>
+        <link refid="process__graph__rag_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/process/process_light_retriever.h</label>
+        <link refid="process__light__retriever_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/process/process_model_generator.h</label>
+        <link refid="process__model__generator_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/process/process_model_manager.h</label>
+        <link refid="process__model__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/process/vcc_vpb_importer.h</label>
+        <link refid="vcc__vpb__importer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/process/fim_importer.cpp</label>
+        <link refid="fim__importer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/process/llm_process_descriptor.cpp</label>
+        <link refid="llm__process__descriptor_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/process/object_centric_tracer.cpp</label>
+        <link refid="object__centric__tracer_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/process/ocel_exporter.cpp</label>
+        <link refid="ocel__exporter_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/process/process_agentic_rag.cpp</label>
+        <link refid="process__agentic__rag_8cpp"/>
+      </node>
+      <node id="32">
+        <label>src/process/process_community_detector.cpp</label>
+        <link refid="process__community__detector_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/process/process_graph_rag.cpp</label>
+        <link refid="process__graph__rag_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/process/process_light_retriever.cpp</label>
+        <link refid="process__light__retriever_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/process/process_model_generator.cpp</label>
+        <link refid="process__model__generator_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/process/process_model_manager.cpp</label>
+        <link refid="process__model__manager_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/process/vcc_vpb_importer.cpp</label>
+        <link refid="vcc__vpb__importer_8cpp"/>
+      </node>
+      <node id="25">
+        <label>tests/process/test_bottleneck_analytics.cpp</label>
+        <link refid="test__bottleneck__analytics_8cpp"/>
+      </node>
+      <node id="31">
+        <label>tests/process/test_critical_batch1_fixes.cpp</label>
+        <link refid="test__critical__batch1__fixes_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/process/test_fim_importer.cpp</label>
+        <link refid="test__fim__importer_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/process/test_object_centric_tracer.cpp</label>
+        <link refid="test__object__centric__tracer_8cpp"/>
+      </node>
+      <node id="18">
+        <label>tests/process/test_process_aris_xml.cpp</label>
+        <link refid="test__process__aris__xml_8cpp"/>
+      </node>
+      <node id="33">
+        <label>tests/process/test_process_community_detector.cpp</label>
+        <link refid="test__process__community__detector_8cpp"/>
+      </node>
+      <node id="34">
+        <label>tests/process/test_process_contract_hardening_focused.cpp</label>
+        <link refid="test__process__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/process/test_process_high_batch_2a.cpp</label>
+        <link refid="test__process__high__batch__2a_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/process/test_process_light_retriever.cpp</label>
+        <link refid="test__process__light__retriever_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/process/test_process_module.cpp</label>
+        <link refid="test__process__module_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/process/test_process_retriever_edge_focused.cpp</label>
+        <link refid="test__process__retriever__edge__focused_8cpp"/>
+      </node>
+      <node id="26">
+        <label>tests/process/test_sla_monitoring.cpp</label>
+        <link refid="test__sla__monitoring_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_record" prot="public">themis::process::ProcessModelRecord</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_result" prot="public">themis::process::ProcessModelResult</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_model_manager" prot="public">themis::process::ProcessModelManager</innerclass>
+    <innerclass refid="structthemis_1_1process_1_1_process_model_manager_1_1_transaction_context" prot="private">themis::process::ProcessModelManager::TransactionContext</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_process_model_manager_1_1_transaction_guard" prot="private">themis::process::ProcessModelManager::TransactionGuard</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.13 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/process_graph.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;shared_mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">InvertedIndex;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VectorIndexManager;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">process</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" kindref="member">ProcessNotation</ref><sp/>{</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6ac9ae3527cc4cdf79c04b9ef7e6a81bcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6ac9ae3527cc4cdf79c04b9ef7e6a81bcb" kindref="member">BPMN_2_0</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6a9cd3f2518446501a2af3b5bbe27ce9f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6a9cd3f2518446501a2af3b5bbe27ce9f0" kindref="member">EPK</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6af32ae9fdea14c8b44788cbc8eea538a5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6af32ae9fdea14c8b44788cbc8eea538a5" kindref="member">VCC_VPB</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6afd1f5e440cf351035d51de53d1ed7f81" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6afd1f5e440cf351035d51de53d1ed7f81" kindref="member">CMMN_1_1</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6ad24702c2905818746024fcf71fab7342" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6ad24702c2905818746024fcf71fab7342" kindref="member">DMN_1_5</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83adc71a1526c568b177031c8b1dd1fc3d5" kindref="member">ADMINISTRATION</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a124f71327e0b6686ec9acf8336784424" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a124f71327e0b6686ec9acf8336784424" kindref="member">BUSINESS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83ad0503e80cd668b3b6e57030f2f131543" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83ad0503e80cd668b3b6e57030f2f131543" kindref="member">IT_SERVICE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83af63b8cc961587d3925da55097fefe02c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83af63b8cc961587d3925da55097fefe02c" kindref="member">HEALTHCARE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a65fe55e3801a7036f00d6e15acc72475" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a65fe55e3801a7036f00d6e15acc72475" kindref="member">FINANCE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a46dbfa3dc39836ba049082e13115a418" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a46dbfa3dc39836ba049082e13115a418" kindref="member">CUSTOMER_SERVICE</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a72baef04098f035e8a320b03ad197818" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a72baef04098f035e8a320b03ad197818" kindref="member">CUSTOM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" kindref="member">ProcessModelState</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a521019040a0f4f7773357aa6bc22180b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a521019040a0f4f7773357aa6bc22180b" kindref="member">DRAFT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a18ff74f43da410c5529f7d6fca84f115" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a2aa962a0f0bab21681cfd4dbb1ddf44ba18ff74f43da410c5529f7d6fca84f115" kindref="member">ACTIVE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93af0d9e10417deacee308b91a46ddc1746" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93af0d9e10417deacee308b91a46ddc1746" kindref="member">DEPRECATED</ref>,<sp/></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a75b8b0f4c0aee5b8df95a0541307c9f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a75b8b0f4c0aee5b8df95a0541307c9f4" kindref="member">ARCHIVED</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1process_1_1_process_model_record" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref><sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1process_1_1_process_model_record_1a72f4aec96ca2f648f178f409d4244774" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a72f4aec96ca2f648f178f409d4244774" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1process_1_1_process_model_record_1a1d53df2f4efa62f9ba57360ad96174c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a1d53df2f4efa62f9ba57360ad96174c5" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1process_1_1_process_model_record_1ad2a408d64240328b098f70091aeaf284" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1ad2a408d64240328b098f70091aeaf284" kindref="member">name_en</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1process_1_1_process_model_record_1a13dd4e8a8db9ce53fff1d6bb44a074ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a13dd4e8a8db9ce53fff1d6bb44a074ca" kindref="member">version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1process_1_1_process_model_record_1a134bcf041f6129e0e42aec42f33d4747" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a134bcf041f6129e0e42aec42f33d4747" kindref="member">revision</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1process_1_1_process_model_record_1a6d093e1ac63a3a1a77bb5b664390bbb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" kindref="member">ProcessNotation</ref><sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a6d093e1ac63a3a1a77bb5b664390bbb8" kindref="member">notation</ref>{<ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6ac9ae3527cc4cdf79c04b9ef7e6a81bcb" kindref="member">ProcessNotation::BPMN_2_0</ref>};</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1process_1_1_process_model_record_1a1883ba67ff9524cc10141f35b3d71a2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a1883ba67ff9524cc10141f35b3d71a2b" kindref="member">domain</ref>{<ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83a124f71327e0b6686ec9acf8336784424" kindref="member">ProcessDomain::BUSINESS</ref>};</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1process_1_1_process_model_record_1abdc9b69e7c70e42ae729aa10729d0b1c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" kindref="member">ProcessModelState</ref><sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1abdc9b69e7c70e42ae729aa10729d0b1c" kindref="member">state</ref>{<ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93a521019040a0f4f7773357aa6bc22180b" kindref="member">ProcessModelState::DRAFT</ref>};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Description<sp/>(used<sp/>for<sp/>LLM<sp/>context<sp/>and<sp/>semantic<sp/>search)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1process_1_1_process_model_record_1ad4940a161717d248ed8e6afb0f88b4f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1ad4940a161717d248ed8e6afb0f88b4f0" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1process_1_1_process_model_record_1abcdfdffeb6d7bf9887a3caf754422c1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1abcdfdffeb6d7bf9887a3caf754422c1e" kindref="member">description_en</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1process_1_1_process_model_record_1ab38ca2f4b911174966aa86537de447ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1ab38ca2f4b911174966aa86537de447ba" kindref="member">long_description</ref>;<sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compliance<sp/>/<sp/>regulatory<sp/>tags<sp/>(e.g.<sp/>&quot;DSGVO&quot;,<sp/>&quot;GWB&quot;,<sp/>&quot;§34<sp/>BauO&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1process_1_1_process_model_record_1adc2eb8c8f4cf56619a234a244a836c80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1adc2eb8c8f4cf56619a234a244a836c80" kindref="member">compliance_tags</ref>;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ownership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1process_1_1_process_model_record_1a7bd21cbdb94b46992da025a3bfeea55d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a7bd21cbdb94b46992da025a3bfeea55d" kindref="member">owner</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1process_1_1_process_model_record_1aed560335643b9c4248ecc89d5ba77f97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1aed560335643b9c4248ecc89d5ba77f97" kindref="member">created_by</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1process_1_1_process_model_record_1a517051332bde4d6359fae6f730d90326" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a517051332bde4d6359fae6f730d90326" kindref="member">updated_by</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1process_1_1_process_model_record_1a618b4120dd8ba699e5d5313846c83c35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a618b4120dd8ba699e5d5313846c83c35" kindref="member">created_at_ms</ref>{0};</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1process_1_1_process_model_record_1aff81b74e8d5d330cff35362e1a38c609" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1aff81b74e8d5d330cff35362e1a38c609" kindref="member">updated_at_ms</ref>{0};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Embedded<sp/>model<sp/>payload<sp/>(raw<sp/>format<sp/>bytes<sp/>/<sp/>YAML<sp/>/<sp/>XML)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1process_1_1_process_model_record_1af57f26649b88ef8a259184c35c4438bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1af57f26649b88ef8a259184c35c4438bf" kindref="member">raw_payload</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normalised<sp/>internal<sp/>representation<sp/>(built<sp/>by<sp/>import)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1process_1_1_process_model_record_1a814c6661c9a25fb16172544b0d2e2e88" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a814c6661c9a25fb16172544b0d2e2e88" kindref="member">normalized</ref>;<sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>embedding<sp/>of<sp/>the<sp/>long_description<sp/>for<sp/>semantic<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1process_1_1_process_model_record_1a7b3ba75eade2675218e23971130916c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a7b3ba75eade2675218e23971130916c2" kindref="member">embedding</ref>;<sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1a29700ab2421353dbd6322f9667efa325" kindref="member">toDocument</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref><sp/><ref refid="structthemis_1_1process_1_1_process_model_record_1ad7b1109257b55f9eb8c4234871959d5d" kindref="member">fromDocument</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>doc);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Operation<sp/>result<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1process_1_1_process_model_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="134" refid="structthemis_1_1process_1_1_process_model_result_1a868d7a76fc83f039d4337562e3e1e906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_result_1a868d7a76fc83f039d4337562e3e1e906" kindref="member">ok</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1process_1_1_process_model_result_1a1238c4ba230d27144b02522dca866db5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_result_1a1238c4ba230d27144b02522dca866db5" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="136" refid="structthemis_1_1process_1_1_process_model_result_1a8621a425a6fd1461ca5a8525950be46f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_process_model_result_1a8621a425a6fd1461ca5a8525950be46f" kindref="member">model_id</ref>;<sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref><sp/><ref refid="structthemis_1_1process_1_1_process_model_result_1aa876fa2c50a7c060692770261801567f" kindref="member">success</ref>(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref><sp/><ref refid="structthemis_1_1process_1_1_process_model_result_1a1c9eba571c3e7f227f152ef1e4738f5e" kindref="member">failure</ref>(std::string_view<sp/>msg);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ProcessModelManager</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176" refid="classthemis_1_1process_1_1_process_model_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref>(::themis::RocksDBWrapper&amp;<sp/>db);</highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1process_1_1_process_model_manager_1a305b8ac5d0e20c39d689122ab57ccbb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a305b8ac5d0e20c39d689122ab57ccbb4" kindref="member">~ProcessModelManager</ref>();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>accidental<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199" refid="classthemis_1_1process_1_1_process_model_manager_1acc7e511aac50d4d465d20f2a58fb6682" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1acc7e511aac50d4d465d20f2a58fb6682" kindref="member">ProcessModelManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200" refid="classthemis_1_1process_1_1_process_model_manager_1aa6653c13397553011259dadbece5ba58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref>&amp;<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1aa6653c13397553011259dadbece5ba58" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Import</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a1210c9c8023799dbbd5fb3e859d8b77f" kindref="member">importBpmn</ref>(</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>bpmn_xml,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref>&amp;<sp/>meta<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_process_model_result" kindref="compound">ProcessModelResult</ref><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1af015f8b4276666e568f59152a4fea1d4" kindref="member">importEpk</ref>(</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>epk_text,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_process_model_record" kindref="compound">ProcessModelRecord</ref>&amp;<sp/>meta<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessModelResult<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a69768dc81090aac8b44e1b09f5408029" kindref="member">importVccVpb</ref>(</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>yaml_text,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessModelRecord&amp;<sp/>meta<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessModelResult<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a2f0f06af93ca5b3bdf6b5e688677a74b" kindref="member">importArisXml</ref>(</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>aml_xml,</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessModelRecord&amp;<sp/>meta<sp/>=<sp/>{}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CRUD</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessModelResult<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a3c7c107088240ed6a7fd35494c2ca2ec" kindref="member">save</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessModelRecord&amp;<sp/>record);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;ProcessModelRecord&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a1b90480c9701be6599a92c56a97b74a1" kindref="member">load</ref>(std::string_view<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessModelResult<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a38a273b3dde09bb9f35d7fae7bd6ed00" kindref="member">remove</ref>(std::string_view<sp/>model_id);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Query<sp/>/<sp/>Search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ProcessModelRecord&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a63a09c224574b3440950e5975052625a" kindref="member">list</ref>(</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;ProcessDomain&gt;<sp/><sp/><sp/><sp/><sp/><sp/>domain<sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;ProcessModelState&gt;<sp/><sp/>state<sp/><sp/>=<sp/>std::nullopt,</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>limit<sp/><sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ProcessModelRecord&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a285369ad459375b8f9cd20de3d669c7a" kindref="member">search</ref>(</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>query,</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>limit<sp/>=<sp/>20</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;ProcessModelRecord,<sp/>float&gt;&gt;<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a32611e3d78aa006c49d2b5e9a43da92d" kindref="member">findSimilar</ref>(</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>query_embedding,</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>k<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>min_similarity<sp/>=<sp/>0.7f</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Export</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a69b7f38119c0ad527a36797e81a1cd01" kindref="member">exportBpmn</ref>(std::string_view<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a3b259831b8f66bdd1acc2a17f70253c8" kindref="member">exportEpk</ref>(std::string_view<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a4d30e8aed8a9a7d31f0c54712f5aeace" kindref="member">generateLlmDescriptor</ref>(std::string_view<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Execution<sp/>bridge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessModelResult<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1ad3de844e94b057e9e637d6904817ee3c" kindref="member">deployToEngine</ref>(</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/><sp/>model_id,</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ProcessGraphManager&amp;<sp/><sp/>engine</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessModelResult<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1ad53e78430365776e26035a0631440c79" kindref="member">undeployFromEngine</ref>(</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><sp/><sp/><sp/><sp/>model_id,</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ProcessGraphManager&amp;<sp/>engine</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"></highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>and<sp/>Hardening</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/>ProcessModelResult<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a5a42b5a8c49682f625307e57ecf06125" kindref="member">validateModelConsistency</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessModelRecord&amp;<sp/>record)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>nlohmann::json<sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a818af2af43113a863aeefa8a7ed289b8" kindref="member">getConsistencyDiagnostics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"></highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>integrations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a3e6353b0c877dd5f25c112a15cb46cd7" kindref="member">setEmbedder</ref>(std::function&lt;std::vector&lt;float&gt;(std::string_view)&gt;<sp/>embedder);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1ab7e4cce7b71311f1754298a388193361" kindref="member">setInvertedIndex</ref>(std::shared_ptr&lt;InvertedIndex&gt;<sp/>fts);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1aa73708d4d9b3d3c29645eefb80ac2d09" kindref="member">setVectorIndex</ref>(std::shared_ptr&lt;VectorIndexManager&gt;<sp/>vi);</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"></highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/>::themis::RocksDBWrapper&amp;<sp/>db_;</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>std::function&lt;std::vector&lt;float&gt;(std::string_view)&gt;<sp/>embedder_;</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;InvertedIndex&gt;<sp/>fts_index_;</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;VectorIndexManager&gt;<sp/>vector_index_;</highlight></codeline>
+<codeline lineno="467"><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Concurrency<sp/>guards<sp/>and<sp/>determinism<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>model_state_lock_;<sp/><sp/></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::shared_mutex<sp/>linking_lock_;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/>operation_counter_{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="472"><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TransactionContext<sp/>{</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>txn_id<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>model_id;</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>start_time_ms;</highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>revision_at_start;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/>modified_keys;</highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_active{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">TransactionGuard<sp/>{</highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="492"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TransactionGuard(<ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref>&amp;<sp/>mgr,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TransactionContext&amp;<sp/>ctx)</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>manager_(mgr),<sp/>context_(ctx),<sp/>failed_(false)<sp/>{}</highlight></codeline>
+<codeline lineno="494"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>~TransactionGuard();</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>markFailed()<sp/>{<sp/>failed_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TransactionContext&amp;<sp/>getContext()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>context_;<sp/>}</highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>copying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="500"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TransactionGuard(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TransactionGuard&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TransactionGuard&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TransactionGuard&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="503"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_process_model_manager_1a7f3f3f6837b18319a3e39369ad2324df" kindref="member">ProcessModelManager</ref>&amp;<sp/>manager_;</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>TransactionContext<sp/>context_;</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>failed_;</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeKey_(std::string_view<sp/>model_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="511"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeVersionedKey_(std::string_view<sp/>model_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>revision)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="512"><highlight class="normal"></highlight></codeline>
+<codeline lineno="513"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal:<sp/>build<sp/>normalised<sp/>JSON<sp/>from<sp/>a<sp/>raw<sp/>import</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="514"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>nlohmann::json<sp/>buildNormalizedGraph_(</highlight></codeline>
+<codeline lineno="515"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProcessNodeInfo&gt;&amp;<sp/><sp/>nodes,</highlight></codeline>
+<codeline lineno="516"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;ProcessEdgeInfo&gt;&amp;<sp/><sp/>edges,</highlight></codeline>
+<codeline lineno="517"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ProcessModelRecord&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>meta</highlight></codeline>
+<codeline lineno="518"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="519"><highlight class="normal"></highlight></codeline>
+<codeline lineno="520"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Determinism<sp/>and<sp/>churn<sp/>detection<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="527"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>detectConflict_(std::string_view<sp/>model_id,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>expected_revision)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="528"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>rollbackTransaction_(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>TransactionContext&amp;<sp/>txn);</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"></highlight></codeline>
+<codeline lineno="540"><highlight class="normal"><sp/><sp/><sp/><sp/>TransactionContext<sp/>createTransaction_(std::string_view<sp/>model_id);</highlight></codeline>
+<codeline lineno="541"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"></highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="544"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>human-readable<sp/>names<sp/>for<sp/>enums</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="545"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="546"><highlight class="normal"></highlight></codeline>
+<codeline lineno="547"><highlight class="normal">std::string_view<sp/><ref refid="namespacethemis_1_1process_1a01a13e3b60f6dc7f775b149a5ccb5e73" kindref="member">toString</ref>(<ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" kindref="member">ProcessNotation</ref><sp/>n);</highlight></codeline>
+<codeline lineno="548"><highlight class="normal">std::string_view<sp/><ref refid="namespacethemis_1_1process_1a01a13e3b60f6dc7f775b149a5ccb5e73" kindref="member">toString</ref>(<ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref><sp/><sp/><sp/>d);</highlight></codeline>
+<codeline lineno="549"><highlight class="normal">std::string_view<sp/><ref refid="namespacethemis_1_1process_1a01a13e3b60f6dc7f775b149a5ccb5e73" kindref="member">toString</ref>(<ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" kindref="member">ProcessModelState</ref><sp/>s);</highlight></codeline>
+<codeline lineno="550"><highlight class="normal"></highlight></codeline>
+<codeline lineno="551"><highlight class="normal"><ref refid="namespacethemis_1_1process_1ab94b6a0b17c791df3b72d4a68ab73dc6" kindref="member">ProcessNotation</ref><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a82cff8388bec86942ba3855e46acd2ff" kindref="member">notationFromString</ref>(std::string_view<sp/>s);</highlight></codeline>
+<codeline lineno="552"><highlight class="normal"><ref refid="namespacethemis_1_1process_1aa8c2d110feadfe23ae1555f745abdb83" kindref="member">ProcessDomain</ref><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a202ff5d7da898bafac8e22efed10b53a" kindref="member">domainFromString</ref>(std::string_view<sp/>s);</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><ref refid="namespacethemis_1_1process_1a3e3663b2db3b75c8007d61cc101a7f93" kindref="member">ProcessModelState</ref><sp/><ref refid="namespacethemis_1_1process_1aac413c465affc211788974a771a11d73" kindref="member">stateFromString</ref>(std::string_view<sp/>s);</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight></codeline>
+<codeline lineno="555"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>process</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="556"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/process_model_manager.h"/>
+  </compounddef>
+</doxygen>

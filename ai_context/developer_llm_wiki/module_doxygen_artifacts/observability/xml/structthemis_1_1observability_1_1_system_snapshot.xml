@@ -1,0 +1,274 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_system_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::SystemSnapshot</compoundname>
+    <includes refid="root__cause__analyzer_8h" local="no">root_cause_analyzer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a58b7179f038b9888d3f5a57d683dfc66" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::SystemSnapshot::captured_at</definition>
+        <argsstring></argsstring>
+        <name>captured_at</name>
+        <qualifiedname>themis::observability::SystemSnapshot::captured_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="65" column="43" bodyfile="include/observability/root_cause_analyzer.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a2a1bef00707dd961646c86d12f9a0a97" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::write_amplification</definition>
+        <argsstring></argsstring>
+        <name>write_amplification</name>
+        <qualifiedname>themis::observability::SystemSnapshot::write_amplification</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="68" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1aac67de1f1afbac02f6b00c5834fca18a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::read_amplification</definition>
+        <argsstring></argsstring>
+        <name>read_amplification</name>
+        <qualifiedname>themis::observability::SystemSnapshot::read_amplification</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="69" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a236671ff0ac81f37bac1616147855e09" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::compaction_rate_mb_s</definition>
+        <argsstring></argsstring>
+        <name>compaction_rate_mb_s</name>
+        <qualifiedname>themis::observability::SystemSnapshot::compaction_rate_mb_s</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="70" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a9e87a74a5aaa8692581a4c6362540076" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::memtable_flush_rate_mb_s</definition>
+        <argsstring></argsstring>
+        <name>memtable_flush_rate_mb_s</name>
+        <qualifiedname>themis::observability::SystemSnapshot::memtable_flush_rate_mb_s</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="71" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a0db7f3e7168f5b1ef34521d119ef8f69" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::sstable_count</definition>
+        <argsstring></argsstring>
+        <name>sstable_count</name>
+        <qualifiedname>themis::observability::SystemSnapshot::sstable_count</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="72" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a27b082974711d22461dbaab58bd41822" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::block_cache_hit_rate_pct</definition>
+        <argsstring></argsstring>
+        <name>block_cache_hit_rate_pct</name>
+        <qualifiedname>themis::observability::SystemSnapshot::block_cache_hit_rate_pct</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="75" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a852a39fa6ed2a9b858c34e2c4a33baf7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::row_cache_hit_rate_pct</definition>
+        <argsstring></argsstring>
+        <name>row_cache_hit_rate_pct</name>
+        <qualifiedname>themis::observability::SystemSnapshot::row_cache_hit_rate_pct</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="76" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a311ed63befd44493826fb3c73a1cd12d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::avg_query_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_query_latency_ms</name>
+        <qualifiedname>themis::observability::SystemSnapshot::avg_query_latency_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="79" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="79" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a1dc49c3a13fb4a05ff00fcf4dc27b1d9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::p99_query_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>p99_query_latency_ms</name>
+        <qualifiedname>themis::observability::SystemSnapshot::p99_query_latency_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="80" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="80" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a7a779985e4f43d63fb44495295fdc5f6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::queries_per_second</definition>
+        <argsstring></argsstring>
+        <name>queries_per_second</name>
+        <qualifiedname>themis::observability::SystemSnapshot::queries_per_second</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="81" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="81" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1ac0080142fc2a87b6bac659ee48fda80f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::cpu_usage_pct</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage_pct</name>
+        <qualifiedname>themis::observability::SystemSnapshot::cpu_usage_pct</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="84" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="84" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a3e4b5ebe2d4a1039815f1caf594b5651" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::memory_usage_mb</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_mb</name>
+        <qualifiedname>themis::observability::SystemSnapshot::memory_usage_mb</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="85" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a903c636aa7d80cc11470b0de5dffde85" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::SystemSnapshot::disk_io_utilization_pct</definition>
+        <argsstring></argsstring>
+        <name>disk_io_utilization_pct</name>
+        <qualifiedname>themis::observability::SystemSnapshot::disk_io_utilization_pct</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="86" column="12" bodyfile="include/observability/root_cause_analyzer.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_system_snapshot_1a2274789c50fdf1333c9dde1d9b79de5d" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::observability::SystemSnapshot::extra_metrics</definition>
+        <argsstring></argsstring>
+        <name>extra_metrics</name>
+        <qualifiedname>themis::observability::SystemSnapshot::extra_metrics</qualifiedname>
+        <briefdescription>
+<para>Arbitrary extra metrics not covered by the named fields above. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="89" column="14" bodyfile="include/observability/root_cause_analyzer.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_system_snapshot_1ad23ab836e6847d0d81bfc53b5330040c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::SystemSnapshot::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::observability::SystemSnapshot::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/root_cause_analyzer.h" line="91" column="10" bodyfile="src/observability/root_cause_analyzer.cpp" bodystart="52" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Captures the state of key performance metrics at a point in time. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used to compare &quot;before&quot; and &quot;after&quot; states when diagnosing a performance regression. </para>
+    </detaileddescription>
+    <location file="include/observability/root_cause_analyzer.h" line="64" column="1" bodyfile="include/observability/root_cause_analyzer.h" bodystart="64" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a311ed63befd44493826fb3c73a1cd12d" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>avg_query_latency_ms</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a27b082974711d22461dbaab58bd41822" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>block_cache_hit_rate_pct</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a58b7179f038b9888d3f5a57d683dfc66" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>captured_at</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a236671ff0ac81f37bac1616147855e09" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>compaction_rate_mb_s</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1ac0080142fc2a87b6bac659ee48fda80f" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>cpu_usage_pct</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a903c636aa7d80cc11470b0de5dffde85" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>disk_io_utilization_pct</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a2274789c50fdf1333c9dde1d9b79de5d" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>extra_metrics</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a3e4b5ebe2d4a1039815f1caf594b5651" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>memory_usage_mb</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a9e87a74a5aaa8692581a4c6362540076" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>memtable_flush_rate_mb_s</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a1dc49c3a13fb4a05ff00fcf4dc27b1d9" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>p99_query_latency_ms</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a7a779985e4f43d63fb44495295fdc5f6" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>queries_per_second</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1aac67de1f1afbac02f6b00c5834fca18a" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>read_amplification</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a852a39fa6ed2a9b858c34e2c4a33baf7" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>row_cache_hit_rate_pct</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a0db7f3e7168f5b1ef34521d119ef8f69" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>sstable_count</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1ad23ab836e6847d0d81bfc53b5330040c" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1observability_1_1_system_snapshot_1a2a1bef00707dd961646c86d12f9a0a97" prot="public" virt="non-virtual"><scope>themis::observability::SystemSnapshot</scope><name>write_amplification</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

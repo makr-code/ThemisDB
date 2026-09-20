@@ -1,0 +1,368 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_cache_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::CacheApiHandler</compoundname>
+    <includes refid="cache__api__handler_8h" local="no">cache_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_cache_api_handler_1aeb3ab0f8b12b3de08bc4c897d0583515" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SemanticCache &gt;</type>
+        <definition>std::shared_ptr&lt;SemanticCache&gt; themis::server::CacheApiHandler::semantic_cache_</definition>
+        <argsstring></argsstring>
+        <name>semantic_cache_</name>
+        <qualifiedname>themis::server::CacheApiHandler::semantic_cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_api_handler.h" line="59" column="21" bodyfile="include/server/cache_api_handler.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_cache_api_handler_1a9ca4d499daa611e059d25cabbc20f196" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;themis::AuthMiddleware&gt; themis::server::CacheApiHandler::auth_</definition>
+        <argsstring></argsstring>
+        <name>auth_</name>
+        <qualifiedname>themis::server::CacheApiHandler::auth_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_api_handler.h" line="60" column="21" bodyfile="include/server/cache_api_handler.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_api_handler_1a00dd2fb16983a614d6025f68058aace4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::CacheApiHandler::CacheApiHandler</definition>
+        <argsstring>(std::shared_ptr&lt; SemanticCache &gt; semantic_cache, std::shared_ptr&lt; themis::AuthMiddleware &gt; auth)</argsstring>
+        <name>CacheApiHandler</name>
+        <qualifiedname>themis::server::CacheApiHandler::CacheApiHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; SemanticCache &gt;</type>
+          <declname>semantic_cache</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_auth_middleware" kindref="compound">themis::AuthMiddleware</ref> &gt;</type>
+          <declname>auth</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_api_handler.h" line="32" column="5" bodyfile="src/server/cache_api_handler.cpp" bodystart="21" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_api_handler_1a66679bf31440660b061500baac596fdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheApiHandler::handleQuery</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleQuery</name>
+        <qualifiedname>themis::server::CacheApiHandler::handleQuery</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_api_handler.h" line="42" column="20" bodyfile="src/server/cache_api_handler.cpp" bodystart="36" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_api_handler_1ab4402659a9501de9b357d2afdc6e9922" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheApiHandler::handlePut</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handlePut</name>
+        <qualifiedname>themis::server::CacheApiHandler::handlePut</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Put. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), nlohmann::json::parse(), body(), contains(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_api_handler.h" line="49" column="20" bodyfile="src/server/cache_api_handler.cpp" bodystart="101" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_api_handler_1a45048cf6a8ab6c5307de8e16e8b7e452" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheApiHandler::handleStats</definition>
+        <argsstring>(const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>handleStats</name>
+        <qualifiedname>themis::server::CacheApiHandler::handleStats</qualifiedname>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Handle Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: Tracer::startSpan(), setAttribute(), setStatus(), makeErrorResponse(), getStats(), toJson(), makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_api_handler.h" line="56" column="20" bodyfile="src/server/cache_api_handler.cpp" bodystart="161" bodyend="189"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_api_handler_1a65d5929c12d58f80f1869790e2e8dd6b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheApiHandler::makeErrorResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;message, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeErrorResponse</name>
+        <qualifiedname>themis::server::CacheApiHandler::makeErrorResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make Error <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: makeResponse(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_api_handler.h" line="69" column="20" bodyfile="src/server/cache_api_handler.cpp" bodystart="199" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_cache_api_handler_1a56b6905064760887a882c6dbd66889bd" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>http::response&lt; http::string_body &gt;</type>
+        <definition>http::response&lt; http::string_body &gt; themis::server::CacheApiHandler::makeResponse</definition>
+        <argsstring>(http::status status, const std::string &amp;body, const http::request&lt; http::string_body &gt; &amp;req)</argsstring>
+        <name>makeResponse</name>
+        <qualifiedname>themis::server::CacheApiHandler::makeResponse</qualifiedname>
+        <param>
+          <type>http::status</type>
+          <declname>status</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+        </param>
+        <param>
+          <type>const http::request&lt; http::string_body &gt; &amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+<para>Make <ref refid="structthemis_1_1server_1_1_response" kindref="compound">Response</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: version(), set(), keep_alive(), body(), prepare_payload(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/cache_api_handler.h" line="78" column="20" bodyfile="src/server/cache_api_handler.cpp" bodystart="219" bodyend="230"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/cache_api_handler.h" line="30" column="1" bodyfile="include/server/cache_api_handler.h" bodystart="30" bodyend="80"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_cache_api_handler_1a9ca4d499daa611e059d25cabbc20f196" prot="private" virt="non-virtual"><scope>themis::server::CacheApiHandler</scope><name>auth_</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_api_handler_1a00dd2fb16983a614d6025f68058aace4" prot="public" virt="non-virtual"><scope>themis::server::CacheApiHandler</scope><name>CacheApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_api_handler_1ab4402659a9501de9b357d2afdc6e9922" prot="public" virt="non-virtual"><scope>themis::server::CacheApiHandler</scope><name>handlePut</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_api_handler_1a66679bf31440660b061500baac596fdc" prot="public" virt="non-virtual"><scope>themis::server::CacheApiHandler</scope><name>handleQuery</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_api_handler_1a45048cf6a8ab6c5307de8e16e8b7e452" prot="public" virt="non-virtual"><scope>themis::server::CacheApiHandler</scope><name>handleStats</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_api_handler_1a65d5929c12d58f80f1869790e2e8dd6b" prot="private" virt="non-virtual"><scope>themis::server::CacheApiHandler</scope><name>makeErrorResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_api_handler_1a56b6905064760887a882c6dbd66889bd" prot="private" virt="non-virtual"><scope>themis::server::CacheApiHandler</scope><name>makeResponse</name></member>
+      <member refid="classthemis_1_1server_1_1_cache_api_handler_1aeb3ab0f8b12b3de08bc4c897d0583515" prot="private" virt="non-virtual"><scope>themis::server::CacheApiHandler</scope><name>semantic_cache_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

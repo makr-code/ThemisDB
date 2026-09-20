@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1testing_1_1_mock_provider_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::testing::MockProviderResult</compoundname>
+    <includes refid="mock__provider__factory_8h" local="no">mock_provider_factory.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1a4c97d88309f9d597c67f4cc6103428bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::aql::testing::MockProviderResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::aql::testing::MockProviderResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="112" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1ac7d2bca137283139a0863f5ccb56e7d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockProviderResult::response</definition>
+        <argsstring></argsstring>
+        <name>response</name>
+        <qualifiedname>themis::aql::testing::MockProviderResult::response</qualifiedname>
+        <briefdescription>
+<para>Response content on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="113" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1a92d7035cb5e9dda2ac8ee80391ea0e0d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockProviderResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::aql::testing::MockProviderResult::error_message</qualifiedname>
+        <briefdescription>
+<para>Error message on failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="114" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1a93d6827076d950f3ef4dbfdfe76c3566" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::aql::testing::MockProviderResult::error_category</definition>
+        <argsstring></argsstring>
+        <name>error_category</name>
+        <qualifiedname>themis::aql::testing::MockProviderResult::error_category</qualifiedname>
+        <briefdescription>
+<para>AQL error category string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="115" column="17" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1aff3076a799a9468650f6783257ec92f1" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result" kindref="compound">MockProviderResult</ref></type>
+        <definition>static MockProviderResult themis::aql::testing::MockProviderResult::Ok</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>Ok</name>
+        <qualifiedname>themis::aql::testing::MockProviderResult::Ok</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="117" column="31" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="117" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1a76fe8c0e1a4c5ee0e791a26dbd66caa6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result" kindref="compound">MockProviderResult</ref></type>
+        <definition>static MockProviderResult themis::aql::testing::MockProviderResult::Fail</definition>
+        <argsstring>(const std::string &amp;msg, const std::string &amp;category=ProviderError::InferFailed)</argsstring>
+        <name>Fail</name>
+        <qualifiedname>themis::aql::testing::MockProviderResult::Fail</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+          <defval><ref refid="namespacethemis_1_1aql_1_1_provider_error_1a21722178ae77c35454fa494b51db8992" kindref="member">ProviderError::InferFailed</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="120" column="31" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="120" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1ae179aa1eebc7e852889ffb365b44fcd6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result" kindref="compound">MockProviderResult</ref></type>
+        <definition>static MockProviderResult themis::aql::testing::MockProviderResult::Timeout</definition>
+        <argsstring>(const std::string &amp;msg=&quot;Provider request timed out&quot;)</argsstring>
+        <name>Timeout</name>
+        <qualifiedname>themis::aql::testing::MockProviderResult::Timeout</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>msg</declname>
+          <defval>&quot;Provider request timed out&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/fixtures/mock_provider_factory.h" line="123" column="31" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="123" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/fixtures/mock_provider_factory.h" line="111" column="1" bodyfile="tests/aql/fixtures/mock_provider_factory.h" bodystart="111" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1a93d6827076d950f3ef4dbfdfe76c3566" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderResult</scope><name>error_category</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1a92d7035cb5e9dda2ac8ee80391ea0e0d" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1a76fe8c0e1a4c5ee0e791a26dbd66caa6" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderResult</scope><name>Fail</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1aff3076a799a9468650f6783257ec92f1" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderResult</scope><name>Ok</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1ac7d2bca137283139a0863f5ccb56e7d5" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderResult</scope><name>response</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1a4c97d88309f9d597c67f4cc6103428bf" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1aql_1_1testing_1_1_mock_provider_result_1ae179aa1eebc7e852889ffb365b44fcd6" prot="public" virt="non-virtual"><scope>themis::aql::testing::MockProviderResult</scope><name>Timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

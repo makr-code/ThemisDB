@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::HIPVectorBackend::DeviceInfo</compoundname>
+    <includes refid="hip__backend_8h" local="no">hip_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a57c3759c8a8e3eabca48ec67452b3148" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::HIPVectorBackend::DeviceInfo::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::DeviceInfo::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="36" column="21" bodyfile="include/acceleration/hip_backend.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1ab6fa131dc955dc543dde2e347002c140" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::HIPVectorBackend::DeviceInfo::computeUnits</definition>
+        <argsstring></argsstring>
+        <name>computeUnits</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::DeviceInfo::computeUnits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="37" column="13" bodyfile="include/acceleration/hip_backend.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a1c0c88b44bdebf7b89faaaab3a2775bc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::HIPVectorBackend::DeviceInfo::totalMemory</definition>
+        <argsstring></argsstring>
+        <name>totalMemory</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::DeviceInfo::totalMemory</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="38" column="16" bodyfile="include/acceleration/hip_backend.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a5e6ff8f50ec8376a447f157cb6291a94" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::HIPVectorBackend::DeviceInfo::waveSize</definition>
+        <argsstring></argsstring>
+        <name>waveSize</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::DeviceInfo::waveSize</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="39" column="13" bodyfile="include/acceleration/hip_backend.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1aee78b74e65fa626ea61cc4abbe9fffd1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::acceleration::HIPVectorBackend::DeviceInfo::gcnArchName</definition>
+        <argsstring></argsstring>
+        <name>gcnArchName</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::DeviceInfo::gcnArchName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="40" column="21" bodyfile="include/acceleration/hip_backend.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a5b2f483146a71bac2b5674e11742bb18" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPVectorBackend::DeviceInfo::supportsInt8</definition>
+        <argsstring></argsstring>
+        <name>supportsInt8</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::DeviceInfo::supportsInt8</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="41" column="14" bodyfile="include/acceleration/hip_backend.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a368a5919cdf1f4bc28f85cb9cc9c2bf5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPVectorBackend::DeviceInfo::supportsFP16</definition>
+        <argsstring></argsstring>
+        <name>supportsFP16</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::DeviceInfo::supportsFP16</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="42" column="14" bodyfile="include/acceleration/hip_backend.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/hip_backend.h" line="35" column="5" bodyfile="include/acceleration/hip_backend.h" bodystart="35" bodyend="43"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1ab6fa131dc955dc543dde2e347002c140" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::DeviceInfo</scope><name>computeUnits</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1aee78b74e65fa626ea61cc4abbe9fffd1" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::DeviceInfo</scope><name>gcnArchName</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a57c3759c8a8e3eabca48ec67452b3148" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::DeviceInfo</scope><name>name</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a368a5919cdf1f4bc28f85cb9cc9c2bf5" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::DeviceInfo</scope><name>supportsFP16</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a5b2f483146a71bac2b5674e11742bb18" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::DeviceInfo</scope><name>supportsInt8</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a1c0c88b44bdebf7b89faaaab3a2775bc" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::DeviceInfo</scope><name>totalMemory</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_device_info_1a5e6ff8f50ec8376a447f157cb6291a94" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::DeviceInfo</scope><name>waveSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

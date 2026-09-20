@@ -1,0 +1,657 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1sharding_1_1_mock_consensus_module" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::sharding::MockConsensusModule</compoundname>
+    <basecompoundref refid="classthemisdb_1_1sharding_1_1_consensus_module" prot="public" virt="non-virtual">themisdb::sharding::ConsensusModule</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1af1be8ae6b16d048813ff4aa4aab59353" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(ConsensusType, getType,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1ac79adee074eab49343ada346bcc78dcf" kindref="member">ConsensusType</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a7072331bf9ce83ff94e404e752d0ffcb" kindref="member">getType</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="32" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a0aff8c0ff931f2e47db226ce2fe4f1d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, initialize,(const std::string &amp;, const std::vector&lt; std::string &gt; &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a83a2c537c9426f7ee018c5ab143b0ed7" kindref="member">initialize</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;, const std::vector&lt; std::string &gt; &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="33" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a957e75b03eda0d1e48394bd80bf2c701" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, start,(),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a5851d5f141f85e31b42f5fc0370bf723" kindref="member">start</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ad9acacf7bfa9603806e2fe13926280a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(void, stop,(),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1afbcf4f19b90bb6ada83b36ad470f4488" kindref="member">stop</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="35" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a4d32aaad2632921beb1247ab985f20a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, isLeader,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a383eaf86a69a5fc663436aaaa78aaea0" kindref="member">isLeader</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ae95a3c8bd86cd7efcdf5ea7c298eeba0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(std::string, getLeaderId,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::string</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a3421abadc4205d3daaeaf86d964e40a1" kindref="member">getLeaderId</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="37" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a5149963c8c7d3298872c67b642c8dc76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(ConsensusState, getState,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1ae8b42fa6c903fab2751e5603a477a278" kindref="member">getState</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a61301428439c8f7156fe8f963cb60d6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(std::optional&lt; uint64_t &gt;, propose,(const std::string &amp;, const nlohmann::json &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::optional&lt; uint64_t &gt;</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1adaf2b0f967c4c635d78c8123fefe80fc" kindref="member">propose</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;, const nlohmann::json &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="39" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a0b3a6f90a4f64c935138887d5887cd2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, waitForCommit,(uint64_t, std::chrono::milliseconds),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a2c9b5927f506d55d5f6482046e771a39" kindref="member">waitForCommit</ref></type>
+        </param>
+        <param>
+          <type>(uint64_t, std::chrono::milliseconds)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="40" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a2337b6aaff0dc0a1a3144b56e3bbd36c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(std::vector&lt; ConsensusLogEntry &gt;, readLog,(uint64_t, std::optional&lt; uint64_t &gt;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &gt;</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1adf94c2f9a7bba429c7d0faaaee55e763" kindref="member">readLog</ref></type>
+        </param>
+        <param>
+          <type>(uint64_t, std::optional&lt; uint64_t &gt;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="41" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a61f6bd9b1b693d21008f541039fd0d8c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(uint64_t, getCommitIndex,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1acd6b4da71aa70374b3780bc1d957eeef" kindref="member">getCommitIndex</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1acae3bab0f5994196462ff34bad0f476c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(uint64_t, getLastLogIndex,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a9549840aa654b3d6858f12e42bd7ec7b" kindref="member">getLastLogIndex</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="43" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ac8d3733a89a65e68c197e3a2cdd93d92" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, addNode,(const std::string &amp;, const std::string &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa3f3baf10ca603e105ffd09038868d2a" kindref="member">addNode</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;, const std::string &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a5dd182536e26ebb2261f0eaffff0520d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, removeNode,(const std::string &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a0912ec311abb7769bcda991c9d042179" kindref="member">removeNode</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a1d2b373e4792183ad0a81fa542c776ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, transferLeadership,(const std::string &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1ab5d1da4f19a6f003c8610833c6256413" kindref="member">transferLeadership</ref></type>
+        </param>
+        <param>
+          <type>(const std::string &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ae31b65e092fc9e851c3420c780b58c54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, takeSnapshot,(const nlohmann::json &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6787d6aba6ba9b5d1c605ff8bf49b8f" kindref="member">takeSnapshot</ref></type>
+        </param>
+        <param>
+          <type>(const nlohmann::json &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1acd5610d20bf6e2cfb14cda0cf0252895" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(bool, restoreSnapshot,(const nlohmann::json &amp;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>bool</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a1fcfa30acb35b9d6976c4d880327d370" kindref="member">restoreSnapshot</ref></type>
+        </param>
+        <param>
+          <type>(const nlohmann::json &amp;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ae82593e92e1e97c3381948c51b5bff2f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(ConsensusStats, getStats,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type><ref refid="structthemisdb_1_1sharding_1_1_consensus_stats" kindref="compound">ConsensusStats</ref></type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1abbbbcfd0623ef2d7f77240a55663c1f3" kindref="member">getStats</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a58bf4df3cf871a029f9e35824c4e8140" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(nlohmann::json, getStatus,(),(const, override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>nlohmann::json</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1a872896a5ebf381b720a88448d0a31e07" kindref="member">getStatus</ref></type>
+        </param>
+        <param>
+          <type>()</type>
+        </param>
+        <param>
+          <type>(const, override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1af4b0204cd43f24226bf2314f59120d4c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(void, onCommit,(std::function&lt; void(const ConsensusLogEntry &amp;)&gt;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6d7a8f5129bf1b2cc98a240537a0884" kindref="member">onCommit</ref></type>
+        </param>
+        <param>
+          <type>(std::function&lt; void(const <ref refid="structthemisdb_1_1sharding_1_1_consensus_log_entry" kindref="compound">ConsensusLogEntry</ref> &amp;)&gt;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="51" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a968f9c9df9373249630a5d32a4bb67c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(void, onStateChange,(std::function&lt; void(ConsensusState, ConsensusState)&gt;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1aee56e58061ad88aa336bc576227c62e1" kindref="member">onStateChange</ref></type>
+        </param>
+        <param>
+          <type>(std::function&lt; void(<ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>, <ref refid="namespacethemisdb_1_1sharding_1a9316f2eccc539fa5ed381b18bfdf205f" kindref="member">ConsensusState</ref>)&gt;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="52" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a270a58705a0160726efb528334662cda" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::sharding::MockConsensusModule::MOCK_METHOD</definition>
+        <argsstring>(void, onLeaderChange,(std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt;),(override))</argsstring>
+        <name>MOCK_METHOD</name>
+        <qualifiedname>themisdb::sharding::MockConsensusModule::MOCK_METHOD</qualifiedname>
+        <param>
+          <type>void</type>
+        </param>
+        <param>
+          <type><ref refid="classthemisdb_1_1sharding_1_1_consensus_module_1af4e15a033c7c2064dfe930b0972406fd" kindref="member">onLeaderChange</ref></type>
+        </param>
+        <param>
+          <type>(std::function&lt; void(const std::string &amp;, const std::string &amp;)&gt;)</type>
+        </param>
+        <param>
+          <type>(override)</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/sharding/test_dual_consensus.cpp" line="53" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themisdb::sharding::ConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_consensus_module"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::MockConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_mock_consensus_module"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themisdb::sharding::ConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_consensus_module"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::MockConsensusModule</label>
+        <link refid="classthemisdb_1_1sharding_1_1_mock_consensus_module"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/sharding/test_dual_consensus.cpp" line="30" column="1" bodyfile="tests/sharding/test_dual_consensus.cpp" bodystart="30" bodyend="54"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa3f3baf10ca603e105ffd09038868d2a" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>addNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1acd6b4da71aa70374b3780bc1d957eeef" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>getCommitIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a9549840aa654b3d6858f12e42bd7ec7b" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>getLastLogIndex</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a3421abadc4205d3daaeaf86d964e40a1" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>getLeaderId</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1ae8b42fa6c903fab2751e5603a477a278" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>getState</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1abbbbcfd0623ef2d7f77240a55663c1f3" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>getStats</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a872896a5ebf381b720a88448d0a31e07" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>getStatus</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a7072331bf9ce83ff94e404e752d0ffcb" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>getType</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a83a2c537c9426f7ee018c5ab143b0ed7" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>initialize</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a383eaf86a69a5fc663436aaaa78aaea0" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>isLeader</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1af1be8ae6b16d048813ff4aa4aab59353" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a0aff8c0ff931f2e47db226ce2fe4f1d5" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a957e75b03eda0d1e48394bd80bf2c701" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ad9acacf7bfa9603806e2fe13926280a4" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a4d32aaad2632921beb1247ab985f20a4" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ae95a3c8bd86cd7efcdf5ea7c298eeba0" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a5149963c8c7d3298872c67b642c8dc76" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a61301428439c8f7156fe8f963cb60d6f" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a0b3a6f90a4f64c935138887d5887cd2a" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a2337b6aaff0dc0a1a3144b56e3bbd36c" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a61f6bd9b1b693d21008f541039fd0d8c" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1acae3bab0f5994196462ff34bad0f476c" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ac8d3733a89a65e68c197e3a2cdd93d92" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a5dd182536e26ebb2261f0eaffff0520d" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a1d2b373e4792183ad0a81fa542c776ea" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ae31b65e092fc9e851c3420c780b58c54" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1acd5610d20bf6e2cfb14cda0cf0252895" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1ae82593e92e1e97c3381948c51b5bff2f" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a58bf4df3cf871a029f9e35824c4e8140" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1af4b0204cd43f24226bf2314f59120d4c" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a968f9c9df9373249630a5d32a4bb67c7" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_mock_consensus_module_1a270a58705a0160726efb528334662cda" prot="public" virt="non-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>MOCK_METHOD</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6d7a8f5129bf1b2cc98a240537a0884" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>onCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1af4e15a033c7c2064dfe930b0972406fd" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>onLeaderChange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aee56e58061ad88aa336bc576227c62e1" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>onStateChange</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1adaf2b0f967c4c635d78c8123fefe80fc" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>propose</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1adf94c2f9a7bba429c7d0faaaee55e763" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>readLog</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a0912ec311abb7769bcda991c9d042179" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>removeNode</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a1fcfa30acb35b9d6976c4d880327d370" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>restoreSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a5851d5f141f85e31b42f5fc0370bf723" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>start</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1afbcf4f19b90bb6ada83b36ad470f4488" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>stop</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aa6787d6aba6ba9b5d1c605ff8bf49b8f" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>takeSnapshot</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1ab5d1da4f19a6f003c8610833c6256413" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>transferLeadership</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1a2c9b5927f506d55d5f6482046e771a39" prot="public" virt="pure-virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>waitForCommit</name></member>
+      <member refid="classthemisdb_1_1sharding_1_1_consensus_module_1aea7c50f32fbb821075e9854a52862816" prot="public" virt="virtual"><scope>themisdb::sharding::MockConsensusModule</scope><name>~ConsensusModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1auth_1_1_s_a_m_l_claims" kind="struct" language="C++" prot="public">
+    <compoundname>themis::auth::SAMLClaims</compoundname>
+    <includes refid="saml__authenticator_8h" local="no">saml_authenticator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1ac0b3df1cfd6f24a6abc250c828e86456" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLClaims::subject_name_id</definition>
+        <argsstring></argsstring>
+        <name>subject_name_id</name>
+        <qualifiedname>themis::auth::SAMLClaims::subject_name_id</qualifiedname>
+        <briefdescription>
+<para>NameID value (typically email or unique opaque ID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="93" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a2a64bde13a2a7e3519a2a401a2e8795d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLClaims::name_id_format</definition>
+        <argsstring></argsstring>
+        <name>name_id_format</name>
+        <qualifiedname>themis::auth::SAMLClaims::name_id_format</qualifiedname>
+        <briefdescription>
+<para>NameID Format URI. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="94" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a6144dd0848b8ad7477f075f2f70e8c73" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLClaims::email</definition>
+        <argsstring></argsstring>
+        <name>email</name>
+        <qualifiedname>themis::auth::SAMLClaims::email</qualifiedname>
+        <briefdescription>
+<para>Email extracted from configured attribute (may equal subject_name_id). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="95" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a94f100c3e388895e9140ffb111eb1fd8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLClaims::issuer</definition>
+        <argsstring></argsstring>
+        <name>issuer</name>
+        <qualifiedname>themis::auth::SAMLClaims::issuer</qualifiedname>
+        <briefdescription>
+<para>Issuer (IdP EntityID). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="96" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a06172ffbd16cde4d231fa6a40ff4f7a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLClaims::session_index</definition>
+        <argsstring></argsstring>
+        <name>session_index</name>
+        <qualifiedname>themis::auth::SAMLClaims::session_index</qualifiedname>
+        <briefdescription>
+<para>AuthnStatement SessionIndex (for SLO). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="97" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a735f541b7cef6c162b2131c1fb35dce6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::auth::SAMLClaims::assertion_id</definition>
+        <argsstring></argsstring>
+        <name>assertion_id</name>
+        <qualifiedname>themis::auth::SAMLClaims::assertion_id</qualifiedname>
+        <briefdescription>
+<para>Assertion ID (used for replay detection). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="98" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1ab6cc4a2f1d2e6bffac5008092f7b46b4" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::SAMLClaims::issued_at</definition>
+        <argsstring></argsstring>
+        <name>issued_at</name>
+        <qualifiedname>themis::auth::SAMLClaims::issued_at</qualifiedname>
+        <briefdescription>
+<para>IssueInstant of the Assertion. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="100" column="43" bodyfile="include/auth/saml_authenticator.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1abbbc1c95ecc0428503e55d48922bbc65" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::SAMLClaims::not_before</definition>
+        <argsstring></argsstring>
+        <name>not_before</name>
+        <qualifiedname>themis::auth::SAMLClaims::not_before</qualifiedname>
+        <briefdescription>
+<para>SubjectConfirmationData NotBefore. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="101" column="43" bodyfile="include/auth/saml_authenticator.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1ab935d5e399cd746f1a1cbed79616d488" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::auth::SAMLClaims::not_on_or_after</definition>
+        <argsstring></argsstring>
+        <name>not_on_or_after</name>
+        <qualifiedname>themis::auth::SAMLClaims::not_on_or_after</qualifiedname>
+        <briefdescription>
+<para>SubjectConfirmationData NotOnOrAfter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="102" column="43" bodyfile="include/auth/saml_authenticator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a732e1789d7795e468d9d46f92ced7561" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::SAMLClaims::attributes_groups</definition>
+        <argsstring></argsstring>
+        <name>attributes_groups</name>
+        <qualifiedname>themis::auth::SAMLClaims::attributes_groups</qualifiedname>
+        <briefdescription>
+<para>Values of any &quot;groups&quot; / &quot;memberOf&quot; attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="104" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a7156c4db94a9b2be8199282e5233748b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::SAMLClaims::attributes_roles</definition>
+        <argsstring></argsstring>
+        <name>attributes_roles</name>
+        <qualifiedname>themis::auth::SAMLClaims::attributes_roles</qualifiedname>
+        <briefdescription>
+<para>Values of any &quot;roles&quot; attribute. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="105" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a015008d2da74f91e6962683e513f34a8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::auth::SAMLClaims::audience</definition>
+        <argsstring></argsstring>
+        <name>audience</name>
+        <qualifiedname>themis::auth::SAMLClaims::audience</qualifiedname>
+        <briefdescription>
+<para>AudienceRestriction values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="106" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1auth_1_1_s_a_m_l_claims_1a7204665dc1c218e8bc6cdf4a1481ee12" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::auth::SAMLClaims::raw_attributes</definition>
+        <argsstring></argsstring>
+        <name>raw_attributes</name>
+        <qualifiedname>themis::auth::SAMLClaims::raw_attributes</qualifiedname>
+        <briefdescription>
+<para>All IdP attributes (name, value). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/saml_authenticator.h" line="109" column="17" bodyfile="include/auth/saml_authenticator.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/saml_authenticator.h" line="92" column="1" bodyfile="include/auth/saml_authenticator.h" bodystart="92" bodyend="110"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a735f541b7cef6c162b2131c1fb35dce6" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>assertion_id</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a732e1789d7795e468d9d46f92ced7561" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>attributes_groups</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a7156c4db94a9b2be8199282e5233748b" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>attributes_roles</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a015008d2da74f91e6962683e513f34a8" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>audience</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a6144dd0848b8ad7477f075f2f70e8c73" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>email</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1ab6cc4a2f1d2e6bffac5008092f7b46b4" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>issued_at</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a94f100c3e388895e9140ffb111eb1fd8" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>issuer</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a2a64bde13a2a7e3519a2a401a2e8795d" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>name_id_format</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1abbbc1c95ecc0428503e55d48922bbc65" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>not_before</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1ab935d5e399cd746f1a1cbed79616d488" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>not_on_or_after</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a7204665dc1c218e8bc6cdf4a1481ee12" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>raw_attributes</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1a06172ffbd16cde4d231fa6a40ff4f7a0" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>session_index</name></member>
+      <member refid="structthemis_1_1auth_1_1_s_a_m_l_claims_1ac0b3df1cfd6f24a6abc250c828e86456" prot="public" virt="non-virtual"><scope>themis::auth::SAMLClaims</scope><name>subject_name_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

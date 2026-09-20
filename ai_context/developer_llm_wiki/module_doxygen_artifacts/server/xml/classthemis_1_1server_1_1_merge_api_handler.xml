@@ -1,0 +1,493 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_merge_api_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::MergeApiHandler</compoundname>
+    <includes refid="merge__api__handler_8h" local="no">merge_api_handler.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_merge_api_handler_1a842ddde17a441a1a399c23b26ac83705" prot="private" static="no" mutable="no">
+        <type>transaction::MergeEngine &amp;</type>
+        <definition>transaction::MergeEngine&amp; themis::server::MergeApiHandler::merge_engine_</definition>
+        <argsstring></argsstring>
+        <name>merge_engine_</name>
+        <qualifiedname>themis::server::MergeApiHandler::merge_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="90" column="30" bodyfile="include/server/merge_api_handler.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_merge_api_handler_1a3090651c66a59e108aadb8df93b5305c" prot="private" static="no" mutable="no">
+        <type>transaction::SnapshotManager &amp;</type>
+        <definition>transaction::SnapshotManager&amp; themis::server::MergeApiHandler::snapshot_manager_</definition>
+        <argsstring></argsstring>
+        <name>snapshot_manager_</name>
+        <qualifiedname>themis::server::MergeApiHandler::snapshot_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="91" column="34" bodyfile="include/server/merge_api_handler.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a69972002293f29b9f7c6a3b28de5dde8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MergeApiHandler::MergeApiHandler</definition>
+        <argsstring>(transaction::MergeEngine &amp;merge_engine, transaction::SnapshotManager &amp;snapshot_manager)</argsstring>
+        <name>MergeApiHandler</name>
+        <qualifiedname>themis::server::MergeApiHandler::MergeApiHandler</qualifiedname>
+        <param>
+          <type>transaction::MergeEngine &amp;</type>
+          <declname>merge_engine</declname>
+        </param>
+        <param>
+          <type>transaction::SnapshotManager &amp;</type>
+          <declname>snapshot_manager</declname>
+        </param>
+        <briefdescription>
+<para>Merge Api Handler. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">merge_engine</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">snapshot_manager</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="40" column="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1ac59bedf40c41101bdd09a99a1ad667cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MergeApiHandler::~MergeApiHandler</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MergeApiHandler</name>
+        <qualifiedname>themis::server::MergeApiHandler::~MergeApiHandler</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="45" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1ae1916f0edf7857a7ac4f7c0102ed58b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MergeApiHandler::MergeApiHandler</definition>
+        <argsstring>(const MergeApiHandler &amp;)=delete</argsstring>
+        <name>MergeApiHandler</name>
+        <qualifiedname>themis::server::MergeApiHandler::MergeApiHandler</qualifiedname>
+        <param>
+          <type>const MergeApiHandler &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="48" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a5eec439f17d4e0577c4affe9aaf55fc4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_merge_api_handler_1a69972002293f29b9f7c6a3b28de5dde8" kindref="member">MergeApiHandler</ref> &amp;</type>
+        <definition>MergeApiHandler &amp; themis::server::MergeApiHandler::operator=</definition>
+        <argsstring>(const MergeApiHandler &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::MergeApiHandler::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_merge_api_handler_1a69972002293f29b9f7c6a3b28de5dde8" kindref="member">MergeApiHandler</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="49" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a082375a5a86e84d87fef58d781f10148" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MergeApiHandler::MergeApiHandler</definition>
+        <argsstring>(MergeApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>MergeApiHandler</name>
+        <qualifiedname>themis::server::MergeApiHandler::MergeApiHandler</qualifiedname>
+        <param>
+          <type>MergeApiHandler &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="50" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a3353b63c6197a3dc9dc219b4e33e78f8" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1server_1_1_merge_api_handler_1a69972002293f29b9f7c6a3b28de5dde8" kindref="member">MergeApiHandler</ref> &amp;</type>
+        <definition>MergeApiHandler &amp; themis::server::MergeApiHandler::operator=</definition>
+        <argsstring>(MergeApiHandler &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::server::MergeApiHandler::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_merge_api_handler_1a69972002293f29b9f7c6a3b28de5dde8" kindref="member">MergeApiHandler</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="51" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a6ff4dfd17016df105f166f4c34a6bd9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MergeApiHandler::registerRoutes</definition>
+        <argsstring>(httplib::Server &amp;server)</argsstring>
+        <name>registerRoutes</name>
+        <qualifiedname>themis::server::MergeApiHandler::registerRoutes</qualifiedname>
+        <param>
+          <type>httplib::Server &amp;</type>
+          <declname>server</declname>
+        </param>
+        <briefdescription>
+<para>Register Routes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">server</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="58" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a8c7e67cf0c658708a0c6a619189368e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MergeApiHandler::handleMerge</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleMerge</name>
+        <qualifiedname>themis::server::MergeApiHandler::handleMerge</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Merge. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="65" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a2438ec8db9218610c5f143f0302b0eab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MergeApiHandler::handleMergePreview</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleMergePreview</name>
+        <qualifiedname>themis::server::MergeApiHandler::handleMergePreview</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Merge Preview. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="72" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a333ecfd4aea18b3e95938f6783ee0549" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MergeApiHandler::handleMergeByTag</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleMergeByTag</name>
+        <qualifiedname>themis::server::MergeApiHandler::handleMergeByTag</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Merge By Tag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="79" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1aa2b833a816baa855a81781eabdf3c92a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MergeApiHandler::handleCanFastForward</definition>
+        <argsstring>(const httplib::Request &amp;req, httplib::Response &amp;res)</argsstring>
+        <name>handleCanFastForward</name>
+        <qualifiedname>themis::server::MergeApiHandler::handleCanFastForward</qualifiedname>
+        <param>
+          <type>const httplib::Request &amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <briefdescription>
+<para>Handle Can Fast Forward. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">req</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="86" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a1c00ff1b199a3f8996c67a9ac7d2bf82" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>transaction::MergeEngine::MergeOptions</type>
+        <definition>transaction::MergeEngine::MergeOptions themis::server::MergeApiHandler::parseMergeOptions</definition>
+        <argsstring>(const json &amp;body) const</argsstring>
+        <name>parseMergeOptions</name>
+        <qualifiedname>themis::server::MergeApiHandler::parseMergeOptions</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>body</declname>
+        </param>
+        <briefdescription>
+<para>Parse Merge Options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="99" column="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1a22733ff5c017b67dda30655a3ec414b9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MergeApiHandler::sendError</definition>
+        <argsstring>(httplib::Response &amp;res, int status_code, const std::string &amp;message) const</argsstring>
+        <name>sendError</name>
+        <qualifiedname>themis::server::MergeApiHandler::sendError</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Send Error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">res</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">status_code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="107" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_merge_api_handler_1afeb3948c79ab98a111a05319dc4abc00" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MergeApiHandler::sendJson</definition>
+        <argsstring>(httplib::Response &amp;res, const json &amp;data, int status_code=200) const</argsstring>
+        <name>sendJson</name>
+        <qualifiedname>themis::server::MergeApiHandler::sendJson</qualifiedname>
+        <param>
+          <type>httplib::Response &amp;</type>
+          <declname>res</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1server_1abd7d164658d1ec701264c986116778ed" kindref="member">json</ref> &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>status_code</declname>
+          <defval>200</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/merge_api_handler.h" line="109" column="10"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/merge_api_handler.h" line="32" column="1" bodyfile="include/server/merge_api_handler.h" bodystart="32" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1aa2b833a816baa855a81781eabdf3c92a" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>handleCanFastForward</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a8c7e67cf0c658708a0c6a619189368e1" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>handleMerge</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a333ecfd4aea18b3e95938f6783ee0549" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>handleMergeByTag</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a2438ec8db9218610c5f143f0302b0eab" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>handleMergePreview</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a842ddde17a441a1a399c23b26ac83705" prot="private" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>merge_engine_</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a69972002293f29b9f7c6a3b28de5dde8" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>MergeApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1ae1916f0edf7857a7ac4f7c0102ed58b5" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>MergeApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a082375a5a86e84d87fef58d781f10148" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>MergeApiHandler</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a5eec439f17d4e0577c4affe9aaf55fc4" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a3353b63c6197a3dc9dc219b4e33e78f8" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a1c00ff1b199a3f8996c67a9ac7d2bf82" prot="private" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>parseMergeOptions</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a6ff4dfd17016df105f166f4c34a6bd9d" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>registerRoutes</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a22733ff5c017b67dda30655a3ec414b9" prot="private" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>sendError</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1afeb3948c79ab98a111a05319dc4abc00" prot="private" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>sendJson</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1a3090651c66a59e108aadb8df93b5305c" prot="private" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>snapshot_manager_</name></member>
+      <member refid="classthemis_1_1server_1_1_merge_api_handler_1ac59bedf40c41101bdd09a99a1ad667cd" prot="public" virt="non-virtual"><scope>themis::server::MergeApiHandler</scope><name>~MergeApiHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

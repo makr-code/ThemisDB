@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_action_config" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::ActionConfig</compoundname>
+    <includes refid="cep__engine_8h" local="no">cep_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_action_config_1a01ef4969826ee3aa9d157a8cfa71f703" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1" kindref="member">ActionType</ref></type>
+        <definition>ActionType themisdb::analytics::ActionConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themisdb::analytics::ActionConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemisdb_1_1analytics_1a3cbce2f7fc125891b6d98b448eda68a1a320f86f60f25459ba5550e000b2c3929" kindref="member">ActionType::ALERT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="321" column="16" bodyfile="include/analytics/cep_engine.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_action_config_1a3d7070873890be35e0ebe65f1a8efac0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ActionConfig::target</definition>
+        <argsstring></argsstring>
+        <name>target</name>
+        <qualifiedname>themisdb::analytics::ActionConfig::target</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="322" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_action_config_1a7e59ba118d259c4611fc7a84ce97b5fa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::ActionConfig::template_str</definition>
+        <argsstring></argsstring>
+        <name>template_str</name>
+        <qualifiedname>themisdb::analytics::ActionConfig::template_str</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="323" column="17" bodyfile="include/analytics/cep_engine.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_action_config_1a71fe1fd9d3bbf7f644e0842a321e7b11" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themisdb::analytics::ActionConfig::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themisdb::analytics::ActionConfig::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="324" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="324" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_action_config_1a173887a2ae39b3e3610075b3e2f147dd" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::analytics::ActionConfig::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themisdb::analytics::ActionConfig::retry_count</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="325" column="14" bodyfile="include/analytics/cep_engine.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_action_config_1aa7d928509521a0e78111d63accba69fa" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themisdb::analytics::ActionConfig::retry_delay</definition>
+        <argsstring></argsstring>
+        <name>retry_delay</name>
+        <qualifiedname>themisdb::analytics::ActionConfig::retry_delay</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="326" column="31" bodyfile="include/analytics/cep_engine.h" bodystart="326" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_action_config_1a389f872f0c3408ea3d3ad51c6de81ec2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::ActionConfig::async</definition>
+        <argsstring></argsstring>
+        <name>async</name>
+        <qualifiedname>themisdb::analytics::ActionConfig::async</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/cep_engine.h" line="327" column="10" bodyfile="include/analytics/cep_engine.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/cep_engine.h" line="320" column="1" bodyfile="include/analytics/cep_engine.h" bodystart="320" bodyend="328"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_action_config_1a389f872f0c3408ea3d3ad51c6de81ec2" prot="public" virt="non-virtual"><scope>themisdb::analytics::ActionConfig</scope><name>async</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_action_config_1a71fe1fd9d3bbf7f644e0842a321e7b11" prot="public" virt="non-virtual"><scope>themisdb::analytics::ActionConfig</scope><name>headers</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_action_config_1a173887a2ae39b3e3610075b3e2f147dd" prot="public" virt="non-virtual"><scope>themisdb::analytics::ActionConfig</scope><name>retry_count</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_action_config_1aa7d928509521a0e78111d63accba69fa" prot="public" virt="non-virtual"><scope>themisdb::analytics::ActionConfig</scope><name>retry_delay</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_action_config_1a3d7070873890be35e0ebe65f1a8efac0" prot="public" virt="non-virtual"><scope>themisdb::analytics::ActionConfig</scope><name>target</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_action_config_1a7e59ba118d259c4611fc7a84ce97b5fa" prot="public" virt="non-virtual"><scope>themisdb::analytics::ActionConfig</scope><name>template_str</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_action_config_1a01ef4969826ee3aa9d157a8cfa71f703" prot="public" virt="non-virtual"><scope>themisdb::analytics::ActionConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

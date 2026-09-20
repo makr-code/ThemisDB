@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1_0d173310147163074105100216225133332235364106275003" kind="namespace" language="C++">
+    <compoundname>themis::llm::@173310147163074105100216225133332235364106275003</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/openai_compat_adapter.cpp" line="26" column="1"/>
+  </compounddef>
+</doxygen>

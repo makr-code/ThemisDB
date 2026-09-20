@@ -1,0 +1,433 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_wikipedia_transform" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaTransform</compoundname>
+    <includes refid="wikipedia__transform_8hpp" local="no">wikipedia_transform.hpp</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1af2d53c806c4b29320cc875262a0ec4c4" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaTransform::normalizeTitle</definition>
+        <argsstring>(std::string_view title)</argsstring>
+        <name>normalizeTitle</name>
+        <qualifiedname>themis::importers::WikipediaTransform::normalizeTitle</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>title</declname>
+        </param>
+        <briefdescription>
+<para>Normalize Title. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">title</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: normalized(), std::replace(), begin(), end(), trim(), reserve(), size(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="26" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="69" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1a92be7073762d382158638b7c1109b6a8" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaTransform::decodeXmlEntities</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>decodeXmlEntities</name>
+        <qualifiedname>themis::importers::WikipediaTransform::decodeXmlEntities</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Decode Xml Entities. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: output(), find(), replace(), std::strlen(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="27" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="100" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1ac2c2c33055e7b9584d74a2b6cef41166" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaTransform::canonicalizeText</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>canonicalizeText</name>
+        <qualifiedname>themis::importers::WikipediaTransform::canonicalizeText</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Canonicalize Text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1a92be7073762d382158638b7c1109b6a8" kindref="member">decodeXmlEntities()</ref>, trim(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="28" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="125" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1a68966cbe7c041f1473939085653fddb9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaTransform::checksumHex</definition>
+        <argsstring>(std::string_view text)</argsstring>
+        <name>checksumHex</name>
+        <qualifiedname>themis::importers::WikipediaTransform::checksumHex</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Checksum Hex. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: hex64(), fnv1a64(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="29" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1ab0f23c0e090aad4ad83fa492ff79cb8e" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_link_record" kindref="compound">WikipediaLinkRecord</ref> &gt;</type>
+        <definition>std::vector&lt; WikipediaLinkRecord &gt; themis::importers::WikipediaTransform::extractLinks</definition>
+        <argsstring>(const WikipediaPageRecord &amp;page, const WikipediaRevisionRecord &amp;revision)</argsstring>
+        <name>extractLinks</name>
+        <qualifiedname>themis::importers::WikipediaTransform::extractLinks</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref> &amp;</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref> &amp;</type>
+          <declname>revision</declname>
+        </param>
+        <briefdescription>
+<para>Extract Links. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">revision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: link_regex(), std::sregex_iterator(), begin(), end(), <ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1af2d53c806c4b29320cc875262a0ec4c4" kindref="member">normalizeTitle()</ref>, str(), rfind(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="30" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="148" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1a076b30a52fb422c33c02de5d81d4ab21" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_category_record" kindref="compound">WikipediaCategoryRecord</ref> &gt;</type>
+        <definition>std::vector&lt; WikipediaCategoryRecord &gt; themis::importers::WikipediaTransform::extractCategories</definition>
+        <argsstring>(const WikipediaPageRecord &amp;page, const WikipediaRevisionRecord &amp;revision)</argsstring>
+        <name>extractCategories</name>
+        <qualifiedname>themis::importers::WikipediaTransform::extractCategories</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref> &amp;</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref> &amp;</type>
+          <declname>revision</declname>
+        </param>
+        <briefdescription>
+<para>Extract Categories. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">revision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: category_regex(), std::sregex_iterator(), begin(), end(), push_back(), <ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1af2d53c806c4b29320cc875262a0ec4c4" kindref="member">normalizeTitle()</ref>, str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="33" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="172" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1a99c70be3c189494349f528332b99768c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_redirect_record" kindref="compound">WikipediaRedirectRecord</ref> &gt;</type>
+        <definition>std::optional&lt; WikipediaRedirectRecord &gt; themis::importers::WikipediaTransform::extractRedirect</definition>
+        <argsstring>(const WikipediaPageRecord &amp;page, const WikipediaRevisionRecord &amp;revision)</argsstring>
+        <name>extractRedirect</name>
+        <qualifiedname>themis::importers::WikipediaTransform::extractRedirect</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref> &amp;</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref> &amp;</type>
+          <declname>revision</declname>
+        </param>
+        <briefdescription>
+<para>Extract Redirect. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), <ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1af2d53c806c4b29320cc875262a0ec4c4" kindref="member">normalizeTitle()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="36" column="27" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="192" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1a85bf4afd00630ace082e52d1d0b9a9d0" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_process_event" kindref="compound">WikipediaProcessEvent</ref> &gt;</type>
+        <definition>std::vector&lt; WikipediaProcessEvent &gt; themis::importers::WikipediaTransform::buildProcessEvents</definition>
+        <argsstring>(const WikipediaPageRecord &amp;page, const std::vector&lt; WikipediaRevisionRecord &gt; &amp;revisions)</argsstring>
+        <name>buildProcessEvents</name>
+        <qualifiedname>themis::importers::WikipediaTransform::buildProcessEvents</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref> &amp;</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref> &gt; &amp;</type>
+          <declname>revisions</declname>
+        </param>
+        <briefdescription>
+<para>Build Process Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">revisions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), push_back(), front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="39" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="208" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1aca55e2f95221b0bac5af3f10487ac65c" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_time_series_metric" kindref="compound">WikipediaTimeSeriesMetric</ref> &gt;</type>
+        <definition>std::vector&lt; WikipediaTimeSeriesMetric &gt; themis::importers::WikipediaTransform::buildTimeSeriesMetrics</definition>
+        <argsstring>(const WikipediaPageRecord &amp;page, const std::vector&lt; WikipediaRevisionRecord &gt; &amp;revisions)</argsstring>
+        <name>buildTimeSeriesMetrics</name>
+        <qualifiedname>themis::importers::WikipediaTransform::buildTimeSeriesMetrics</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref> &amp;</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref> &gt; &amp;</type>
+          <declname>revisions</declname>
+        </param>
+        <briefdescription>
+<para>Build Time Series Metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">revisions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), substr(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="42" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="247" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_wikipedia_transform_1a3c230784d1973dbccab9845a4bee57bc" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_wikipedia_vector_record" kindref="compound">WikipediaVectorRecord</ref> &gt;</type>
+        <definition>std::vector&lt; WikipediaVectorRecord &gt; themis::importers::WikipediaTransform::buildVectorRecords</definition>
+        <argsstring>(const WikipediaPageRecord &amp;page, const WikipediaRevisionRecord &amp;revision, const std::string &amp;embedding_model, bool embedding_enabled)</argsstring>
+        <name>buildVectorRecords</name>
+        <qualifiedname>themis::importers::WikipediaTransform::buildVectorRecords</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_page_record" kindref="compound">WikipediaPageRecord</ref> &amp;</type>
+          <declname>page</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_wikipedia_revision_record" kindref="compound">WikipediaRevisionRecord</ref> &amp;</type>
+          <declname>revision</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>embedding_model</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>embedding_enabled</declname>
+        </param>
+        <briefdescription>
+<para>Build Vector Records. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">page</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">revision</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding_model</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">embedding_enabled</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), append(), <ref refid="classthemis_1_1importers_1_1_wikipedia_transform_1ac2c2c33055e7b9584d74a2b6cef41166" kindref="member">canonicalizeText()</ref>, substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_transform.hpp" line="45" column="25" bodyfile="src/importers/wikipedia_transform.cpp" bodystart="271" bodyend="282"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wikipedia transform. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_transform.hpp" line="24" column="1" bodyfile="include/importers/wikipedia_transform.hpp" bodystart="24" bodyend="50"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1a85bf4afd00630ace082e52d1d0b9a9d0" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>buildProcessEvents</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1aca55e2f95221b0bac5af3f10487ac65c" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>buildTimeSeriesMetrics</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1a3c230784d1973dbccab9845a4bee57bc" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>buildVectorRecords</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1ac2c2c33055e7b9584d74a2b6cef41166" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>canonicalizeText</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1a68966cbe7c041f1473939085653fddb9" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>checksumHex</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1a92be7073762d382158638b7c1109b6a8" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>decodeXmlEntities</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1a076b30a52fb422c33c02de5d81d4ab21" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>extractCategories</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1ab0f23c0e090aad4ad83fa492ff79cb8e" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>extractLinks</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1a99c70be3c189494349f528332b99768c" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>extractRedirect</name></member>
+      <member refid="classthemis_1_1importers_1_1_wikipedia_transform_1af2d53c806c4b29320cc875262a0ec4c4" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaTransform</scope><name>normalizeTitle</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1068 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1replication" kind="namespace" language="C++">
+    <compoundname>themisdb::replication</compoundname>
+    <innerclass refid="classthemisdb_1_1replication_1_1_advanced_conflict_resolver" prot="public">themisdb::replication::AdvancedConflictResolver</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_alert_event" prot="public">themisdb::replication::AlertEvent</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_async_wal_shipper" prot="public">themisdb::replication::AsyncWalShipper</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_batched_ack_tracker" prot="public">themisdb::replication::BatchedAckTracker</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_bidirectional_replication_manager" prot="public">themisdb::replication::BidirectionalReplicationManager</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_c_d_c_manager" prot="public">themisdb::replication::CDCManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_collection_access_stats" prot="public">themisdb::replication::CollectionAccessStats</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_compressed_replication_stream" prot="public">themisdb::replication::CompressedReplicationStream</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_conflict_record" prot="public">themisdb::replication::ConflictRecord</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_conflict_resolver" prot="public">themisdb::replication::ConflictResolver</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic" prot="public">themisdb::replication::ConsensusHealthDiagnostic</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_c_r_d_t_conflict_resolver" prot="public">themisdb::replication::CRDTConflictResolver</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_c_r_d_t_merge_resolver" prot="public">themisdb::replication::CRDTMergeResolver</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_cross_cluster_publication" prot="public">themisdb::replication::CrossClusterPublication</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_cross_cluster_subscription" prot="public">themisdb::replication::CrossClusterSubscription</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_custom_resolver" prot="public">themisdb::replication::CustomResolver</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic" prot="public">themisdb::replication::FailoverCandidateDiagnostic</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic" prot="public">themisdb::replication::FailoverExecutionDiagnostic</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_field_level_merge_resolver" prot="public">themisdb::replication::FieldLevelMergeResolver</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_geo_replica_placement_manager" prot="public">themisdb::replication::GeoReplicaPlacementManager</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_geo_replication_manager" prot="public">themisdb::replication::GeoReplicationManager</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_hybrid_logical_clock" prot="public">themisdb::replication::HybridLogicalClock</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_i_archival_backend" prot="public">themisdb::replication::IArchivalBackend</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_i_conflict_resolver" prot="public">themisdb::replication::IConflictResolver</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_i_replication_listener" prot="public">themisdb::replication::IReplicationListener</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_lag_alert_manager" prot="public">themisdb::replication::LagAlertManager</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_lag_based_read_router" prot="public">themisdb::replication::LagBasedReadRouter</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_last_write_wins_resolver" prot="public">themisdb::replication::LastWriteWinsResolver</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_leader_election" prot="public">themisdb::replication::LeaderElection</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_logical_change" prot="public">themisdb::replication::LogicalChange</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_logical_replication_manager" prot="public">themisdb::replication::LogicalReplicationManager</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_l_w_w_conflict_resolver" prot="public">themisdb::replication::LWWConflictResolver</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_membership_change_entry" prot="public">themisdb::replication::MembershipChangeEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_membership_change_manager" prot="public">themisdb::replication::MembershipChangeManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_m_m_peer_info" prot="public">themisdb::replication::MMPeerInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_m_m_replication_config" prot="public">themisdb::replication::MMReplicationConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_m_m_write_entry" prot="public">themisdb::replication::MMWriteEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_multi_master_replication_manager" prot="public">themisdb::replication::MultiMasterReplicationManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_multi_region_active_active_config" prot="public">themisdb::replication::MultiRegionActiveActiveConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_multi_region_active_active_manager" prot="public">themisdb::replication::MultiRegionActiveActiveManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_multi_tier_config" prot="public">themisdb::replication::MultiTierConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_multi_tier_replication_manager" prot="public">themisdb::replication::MultiTierReplicationManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_multi_tier_stats" prot="public">themisdb::replication::MultiTierStats</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_parallel_replication_worker" prot="public">themisdb::replication::ParallelReplicationWorker</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_persistent_replication_state" prot="public">themisdb::replication::PersistentReplicationState</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_placement_constraints" prot="public">themisdb::replication::PlacementConstraints</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_placement_validation_result" prot="public">themisdb::replication::PlacementValidationResult</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis" prot="public">themisdb::replication::PromotionEligibilityAnalysis</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_publication_filter" prot="public">themisdb::replication::PublicationFilter</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_quorum_read_manager" prot="public">themisdb::replication::QuorumReadManager</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_raft_v2_cluster_config" prot="public">themisdb::replication::RaftV2ClusterConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_raft_v2_state" prot="public">themisdb::replication::RaftV2State</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_region_staleness_info" prot="public">themisdb::replication::RegionStalenessInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic" prot="public">themisdb::replication::ReplicaHealthTransitionDiagnostic</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replica_info" prot="public">themisdb::replication::ReplicaInfo</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replica_lag" prot="public">themisdb::replication::ReplicaLag</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_analytics" prot="public">themisdb::replication::ReplicationAnalytics</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_benchmark" prot="public">themisdb::replication::ReplicationBenchmark</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_config" prot="public">themisdb::replication::ReplicationConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_event_stream" prot="public">themisdb::replication::ReplicationEventStream</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_event_stream_config" prot="public">themisdb::replication::ReplicationEventStreamConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_manager" prot="public">themisdb::replication::ReplicationManager</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_observer" prot="public">themisdb::replication::ReplicationObserver</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_observer_config" prot="public">themisdb::replication::ReplicationObserverConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_policy" prot="public">themisdb::replication::ReplicationPolicy</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_slot" prot="public">themisdb::replication::ReplicationSlot</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_slot_manager" prot="public">themisdb::replication::ReplicationSlotManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_replication_stats" prot="public">themisdb::replication::ReplicationStats</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_replication_stream" prot="public">themisdb::replication::ReplicationStream</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_schema_aware_c_d_c_bridge" prot="public">themisdb::replication::SchemaAwareCDCBridge</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_schema_encoded_event" prot="public">themisdb::replication::SchemaEncodedEvent</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_s_l_o_thresholds" prot="public">themisdb::replication::SLOThresholds</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_three_way_merge_resolver" prot="public">themisdb::replication::ThreeWayMergeResolver</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_tier_config" prot="public">themisdb::replication::TierConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_vector_clock" prot="public">themisdb::replication::VectorClock</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_w_a_l_archival_manager" prot="public">themisdb::replication::WALArchivalManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_w_a_l_entry" prot="public">themisdb::replication::WALEntry</innerclass>
+    <innerclass refid="classthemisdb_1_1replication_1_1_w_a_l_manager" prot="public">themisdb::replication::WALManager</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_wal_segment" prot="public">themisdb::replication::WalSegment</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_wal_shipping_config" prot="public">themisdb::replication::WalShippingConfig</innerclass>
+    <innerclass refid="structthemisdb_1_1replication_1_1_wal_shipping_stats" prot="public">themisdb::replication::WalShippingStats</innerclass>
+    <innernamespace refid="namespacethemisdb_1_1replication_1_1crdt">themisdb::replication::crdt</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1replication_1_1test">themisdb::replication::test</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1aa9b7908996c79c00a3753875fbd044bf" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>MMNodeState</name>
+        <qualifiedname>themisdb::replication::MMNodeState</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa9b7908996c79c00a3753875fbd044bfa18ff74f43da410c5529f7d6fca84f115" prot="public">
+          <name>ACTIVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa9b7908996c79c00a3753875fbd044bfaf0be1f77b2d12fe3d6424fbf9eecc109" prot="public">
+          <name>SYNCING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa9b7908996c79c00a3753875fbd044bfa44c98f91eb8d3d58eda8b38501db52b3" prot="public">
+          <name>PARTITIONED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa9b7908996c79c00a3753875fbd044bfabdfbb6f2aa06fd5d4c2cc0072f960254" prot="public">
+          <name>RECOVERING</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa9b7908996c79c00a3753875fbd044bfa7ed929f45ba34eff59d81d74d4f80a58" prot="public">
+          <name>OFFLINE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Multi-Master Node State </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="61" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1a038846665e94d8fc45a1b79b741e97b0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictType</name>
+        <qualifiedname>themisdb::replication::ConflictType</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1a038846665e94d8fc45a1b79b741e97b0a4cc0d30b02175ca353cff805bc6491ac" prot="public">
+          <name>CONCURRENT_UPDATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a038846665e94d8fc45a1b79b741e97b0aabd55b4346606176f2716661e32e0273" prot="public">
+          <name>DELETE_UPDATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a038846665e94d8fc45a1b79b741e97b0a00294febef7c848ccf6ce27a804bce45" prot="public">
+          <name>SCHEMA_CONFLICT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a038846665e94d8fc45a1b79b741e97b0a1d67a525f6cada988939ffdd393cae45" prot="public">
+          <name>CONSTRAINT_VIOLATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a038846665e94d8fc45a1b79b741e97b0ab524bba4a38d6dada6be74dfbfee081e" prot="public">
+          <name>CAUSALITY_VIOLATION</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conflict Type </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_master_replication.h" line="72" column="1" bodyfile="include/replication/multi_master_replication.h" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReplicationTier</name>
+        <qualifiedname>themisdb::replication::ReplicationTier</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87a27d3e561fdae26c0039edeb79f93fd90" prot="public">
+          <name>TIER_1_CRITICAL</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+<para>Strong consistency, high durability. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87aeef767dda7ea588f055c8a1e2b8556bc" prot="public">
+          <name>TIER_2_STANDARD</name>
+          <initializer>= 2</initializer>
+          <briefdescription>
+<para>Eventual consistency, moderate durability. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a1ce83409e54fd9d02a229f8868405a87a58f29658223afe57eb6e7db22d54d400" prot="public">
+          <name>TIER_3_ARCHIVAL</name>
+          <initializer>= 3</initializer>
+          <briefdescription>
+<para>Best-effort, low durability. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replication tier classification.</para>
+<para>TIER_1_CRITICAL – 3+ synchronous replicas; strong consistency; &lt; 10 ms commit latency. Suitable for financial transactions, user auth, order processing. TIER_2_STANDARD – 2 semi-synchronous replicas; eventual consistency; &lt; 50 ms. Suitable for user profiles, product catalogs, session data. TIER_3_ARCHIVAL – 1 asynchronous replica; best-effort durability; no latency guarantee. Suitable for audit logs, analytics events, metrics. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/multi_tier_replication.h" line="62" column="1" bodyfile="include/replication/multi_tier_replication.h" bodystart="62" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReplicationRole</name>
+        <qualifiedname>themisdb::replication::ReplicationRole</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3ab8058aa3ecd39b676ce80d6aaadc5e64" prot="public">
+          <name>LEADER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3a8026987f2531b5fa5178a851c108397c" prot="public">
+          <name>FOLLOWER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3abea4821516973214973a70aea8337c38" prot="public">
+          <name>CANDIDATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3aff728df6b722b64ac3eb9019959d716c" prot="public">
+          <name>OBSERVER</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3adf044493215078582843d84afe71217f" prot="public">
+          <name>WITNESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replication Role </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="61" column="1" bodyfile="include/replication/replication_manager.h" bodystart="61" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReplicationMode</name>
+        <qualifiedname>themisdb::replication::ReplicationMode</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bca274ccef15a21e829d03293a6fd1974f3" prot="public">
+          <name>SYNC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bca767c2b6654e7bd7ac3dae9cbaa2c390b" prot="public">
+          <name>SEMI_SYNC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1ab2c44fa8fc1b43c8b21821aa509c54bcabe553330beb7b3d994656e0a4e66cd96" prot="public">
+          <name>ASYNC</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replication Mode </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="72" column="1" bodyfile="include/replication/replication_manager.h" bodystart="72" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConflictResolution</name>
+        <qualifiedname>themisdb::replication::ConflictResolution</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17a3247ad84b54dd5dd5cdf48354b0f4058" prot="public">
+          <name>LAST_WRITE_WINS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17ae412f4e42051f297d7d40c063e1bb78c" prot="public">
+          <name>FIRST_WRITE_WINS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17a7665765aecb32a2e24385a848a6a1742" prot="public">
+          <name>VECTOR_CLOCK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1aa3451658dcf1d5aa2a457dd142ce8f17a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Conflict Resolution Strategy </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="81" column="1" bodyfile="include/replication/replication_manager.h" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>HealthStatus</name>
+        <qualifiedname>themisdb::replication::HealthStatus</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaaf068ebe4133e3e6563080836268ea979" prot="public">
+          <name>HEALTHY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaa0021017005f0e5134b204c2e69d3d4ed" prot="public">
+          <name>DEGRADED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aaa696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replica Health Status </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="91" column="1" bodyfile="include/replication/replication_manager.h" bodystart="91" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ReadPreference</name>
+        <qualifiedname>themisdb::replication::ReadPreference</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6a428429ba9ea83e4841036fb0508fd6dc" prot="public">
+          <name>PRIMARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6a371b09d93ca01e09a42fbd5a2a423f8e" prot="public">
+          <name>SECONDARY</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6ad3df6e0a7baaedc4411417b8e2096462" prot="public">
+          <name>PRIMARY_PREFERRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6aca494867c5da233cadf7b8425b7e726e" prot="public">
+          <name>SECONDARY_PREFERRED</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1abbde7da7944aeb6aa079b3957aab68c6aad135772d7cf93dd0ccf9d2474b34e6a" prot="public">
+          <name>NEAREST</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Read Preference for query routing </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="101" column="1" bodyfile="include/replication/replication_manager.h" bodystart="101" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ConsistencyLevel</name>
+        <qualifiedname>themisdb::replication::ConsistencyLevel</qualifiedname>
+        <enumvalue id="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada3dfb3ae3cdaa322f0388f1a531c39520" prot="public">
+          <name>STRONG</name>
+          <briefdescription>
+<para>Linearizable: reads always reflect the latest committed write. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada6e2393ccd8704b297631426aa1ea2d34" prot="public">
+          <name>BOUNDED_STALENESS</name>
+          <briefdescription>
+<para>Stale reads are permitted up to max_staleness_ms. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada8e32a82fa7897baa1c7f2bbf920b0ff1" prot="public">
+          <name>SESSION</name>
+          <briefdescription>
+<para>Read-your-writes guarantee within the same session token. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cada1c24fbd27d8776c209d0d7d22584e46f" prot="public">
+          <name>EVENTUAL</name>
+          <briefdescription>
+<para>No consistency guarantee – maximum availability and lowest latency. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="namespacethemisdb_1_1replication_1acfeea6095f4a51e57317a8befe704cad" kindref="member">ConsistencyLevel</ref></para>
+<para>Defines the consistency guarantee for a read or write operation in a multi-region active-active deployment. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1926" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1926" bodyend="1931"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemisdb_1_1replication_1aff4564559c8a49b1c83bafadb7b4ec06" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1replication_1_1_alert_event" kindref="compound">AlertEvent</ref> &amp;)&gt;</type>
+        <definition>using themisdb::replication::AlertCallback = std::function&lt;void(const AlertEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>AlertCallback</name>
+        <qualifiedname>themisdb::replication::AlertCallback</qualifiedname>
+        <briefdescription>
+<para>Callback signature for alert notifications. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invoked when a lag threshold is crossed (alert, critical, or failover). Implementations should be short-lived and exception-safe. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/lag_alert_manager.h" line="116" column="1" bodyfile="include/replication/lag_alert_manager.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a4cd61eab0a6a66d2f2ec9e4b631a96cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_failover_candidate_diagnostic" kindref="compound">FailoverCandidateDiagnostic</ref> &gt;</type>
+        <definition>std::vector&lt; FailoverCandidateDiagnostic &gt; themisdb::replication::getFailoverCandidateDiagnostics</definition>
+        <argsstring>(const std::string &amp;exclude_node_id)</argsstring>
+        <name>getFailoverCandidateDiagnostics</name>
+        <qualifiedname>themisdb::replication::getFailoverCandidateDiagnostics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>exclude_node_id</declname>
+        </param>
+        <briefdescription>
+<para>Get diagnostic information about all failover candidates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns the evaluation steps and ranking for each candidate, enabling operators to understand the failover selection process.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exclude_node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Node ID to exclude from candidate list (typically the failed leader). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of diagnostic information for each candidate, sorted by ranking score (best first).</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe; safe to call concurrently from any thread. </para>
+</simplesect>
+<simplesect kind="note"><para>Captures a snapshot at the time of the call. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="96" column="1" declfile="include/replication/replication_failover_diagnostics.h" declline="96" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a632e5cc2ac5e0c1719abae2b20313d93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic" kindref="compound">FailoverExecutionDiagnostic</ref> &gt;</type>
+        <definition>std::optional&lt; FailoverExecutionDiagnostic &gt; themisdb::replication::getLastFailoverDiagnostic</definition>
+        <argsstring>()</argsstring>
+        <name>getLastFailoverDiagnostic</name>
+        <qualifiedname>themisdb::replication::getLastFailoverDiagnostic</qualifiedname>
+        <briefdescription>
+<para>Get diagnostic information about the last failover operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns detailed information about the most recent failover (whether successful or failed), enabling operators to investigate failover issues.</para>
+<para><simplesect kind="return"><para>Diagnostic information, or std::nullopt if no failover has occurred.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe; returns a snapshot of the last operation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="163" column="15" declfile="include/replication/replication_failover_diagnostics.h" declline="163" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a4d8478e101c1e64c5679f46c5c9adc07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic" kindref="compound">FailoverExecutionDiagnostic</ref> &gt;</type>
+        <definition>std::optional&lt; FailoverExecutionDiagnostic &gt; themisdb::replication::getFailoverDiagnostic</definition>
+        <argsstring>(const std::string &amp;failover_id)</argsstring>
+        <name>getFailoverDiagnostic</name>
+        <qualifiedname>themisdb::replication::getFailoverDiagnostic</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>failover_id</declname>
+        </param>
+        <briefdescription>
+<para>Get diagnostic information about a specific failover operation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>failover_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>ID of the failover operation. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Diagnostic information, or std::nullopt if not found. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="171" column="15" declfile="include/replication/replication_failover_diagnostics.h" declline="171" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a21b5560865a83cfbbb43489ec8ba2a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_failover_execution_diagnostic" kindref="compound">FailoverExecutionDiagnostic</ref> &gt;</type>
+        <definition>std::vector&lt; FailoverExecutionDiagnostic &gt; themisdb::replication::getFailoverHistory</definition>
+        <argsstring>(size_t max_entries=0)</argsstring>
+        <name>getFailoverHistory</name>
+        <qualifiedname>themisdb::replication::getFailoverHistory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Get history of recent failover operations. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of entries to return (0 = all available). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of failover diagnostics, ordered by timestamp (newest first).</para>
+</simplesect>
+<simplesect kind="note"><para>Useful for trend analysis (e.g., are failovers becoming slower?) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="182" column="13" declfile="include/replication/replication_failover_diagnostics.h" declline="182" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a6ecda79fbfc1db47f7d34c6fc3db19bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic" kindref="compound">ReplicaHealthTransitionDiagnostic</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicaHealthTransitionDiagnostic &gt; themisdb::replication::getReplicaHealthHistory</definition>
+        <argsstring>(const std::string &amp;node_id, size_t max_entries=10)</argsstring>
+        <name>getReplicaHealthHistory</name>
+        <qualifiedname>themisdb::replication::getReplicaHealthHistory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+          <defval>10</defval>
+        </param>
+        <briefdescription>
+<para>Get recent health state transitions for a specific replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica node ID. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of transitions to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of transitions, ordered by timestamp (newest first). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="232" column="1" declfile="include/replication/replication_failover_diagnostics.h" declline="232" declcolumn="1"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1adf30bce4a3cdce9f1910763f2cbd26ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_replica_health_transition_diagnostic" kindref="compound">ReplicaHealthTransitionDiagnostic</ref> &gt;</type>
+        <definition>std::vector&lt; ReplicaHealthTransitionDiagnostic &gt; themisdb::replication::getClusterHealthHistory</definition>
+        <argsstring>(size_t max_entries=50)</argsstring>
+        <name>getClusterHealthHistory</name>
+        <qualifiedname>themisdb::replication::getClusterHealthHistory</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>max_entries</declname>
+          <defval>50</defval>
+        </param>
+        <briefdescription>
+<para>Get recent health state transitions for all replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>max_entries</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum total transitions to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of transitions for all replicas, ordered by timestamp. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="240" column="13" declfile="include/replication/replication_failover_diagnostics.h" declline="240" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a4b5f02ab9f7c3746ed5141dd591d3ae4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis" kindref="compound">PromotionEligibilityAnalysis</ref></type>
+        <definition>PromotionEligibilityAnalysis themisdb::replication::analyzePromotionEligibility</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>analyzePromotionEligibility</name>
+        <qualifiedname>themisdb::replication::analyzePromotionEligibility</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>Analyze promotion eligibility for a specific replica. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Replica node ID to analyze. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Detailed eligibility analysis.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe; returns a snapshot at the time of the call. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="285" column="30" declfile="include/replication/replication_failover_diagnostics.h" declline="285" declcolumn="30"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a1cf9e42f6578d415618f71b9b1041049" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemisdb_1_1replication_1_1_promotion_eligibility_analysis" kindref="compound">PromotionEligibilityAnalysis</ref> &gt;</type>
+        <definition>std::vector&lt; PromotionEligibilityAnalysis &gt; themisdb::replication::analyzeAllReplicasPromotion</definition>
+        <argsstring>()</argsstring>
+        <name>analyzeAllReplicasPromotion</name>
+        <qualifiedname>themisdb::replication::analyzeAllReplicasPromotion</qualifiedname>
+        <briefdescription>
+<para>Analyze promotion eligibility for all replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of eligibility analyses, sorted by node ID. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="293" column="13" declfile="include/replication/replication_failover_diagnostics.h" declline="293" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a5bcbe986234840333ac2383719b38ea8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_consensus_health_diagnostic" kindref="compound">ConsensusHealthDiagnostic</ref></type>
+        <definition>ConsensusHealthDiagnostic themisdb::replication::getConsensusHealthDiagnostic</definition>
+        <argsstring>()</argsstring>
+        <name>getConsensusHealthDiagnostic</name>
+        <qualifiedname>themisdb::replication::getConsensusHealthDiagnostic</qualifiedname>
+        <briefdescription>
+<para>Get diagnostic information about consensus health. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Current consensus health state.</para>
+</simplesect>
+<simplesect kind="note"><para>Thread-safe; returns a snapshot. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_failover_diagnostics.h" line="344" column="27" declfile="include/replication/replication_failover_diagnostics.h" declline="344" declcolumn="27"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a075b5a2167a2ab58798aa4001a8a3856" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::replication::roleToString</definition>
+        <argsstring>(ReplicationRole role)</argsstring>
+        <name>roleToString</name>
+        <qualifiedname>themisdb::replication::roleToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+          <declname>role</declname>
+        </param>
+        <briefdescription>
+<para>Role To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">role</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements roleToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/replication/event_stream.cpp" line="219" column="20" bodyfile="src/replication/event_stream.cpp" bodystart="219" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1ab525086657cad22edce8a9a8259813bc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::replication::healthToString</definition>
+        <argsstring>(HealthStatus s)</argsstring>
+        <name>healthToString</name>
+        <qualifiedname>themisdb::replication::healthToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Health To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements healthToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/replication/event_stream.cpp" line="236" column="20" bodyfile="src/replication/event_stream.cpp" bodystart="236" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1ab814807f8555e749fb12f36db8ab2810" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, int64_t &gt;</type>
+        <definition>static std::map&lt; std::string, int64_t &gt; themisdb::replication::extractJsonInts</definition>
+        <argsstring>(const std::string &amp;doc)</argsstring>
+        <name>extractJsonInts</name>
+        <qualifiedname>themisdb::replication::extractJsonInts</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/replication/replication_manager.cpp" line="3204" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3204" bodyend="3238"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1adcb96bcbe7b00920af32de9594cb3782" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::replication::extractSubObject</definition>
+        <argsstring>(const std::string &amp;doc, const std::string &amp;key)</argsstring>
+        <name>extractSubObject</name>
+        <qualifiedname>themisdb::replication::extractSubObject</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Helper: extract the sub-object string for a named key, e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+g. extractSubObject(doc,&quot;P&quot;) returns the raw content between the outermost braces of &quot;P&quot;: { ... } Calls: find(), size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/replication/replication_manager.cpp" line="3247" column="20" bodyfile="src/replication/replication_manager.cpp" bodystart="3247" bodyend="3265"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1aba0518a082a258f88ccf43f2c6b85757" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::set&lt; std::string &gt;</type>
+        <definition>static std::set&lt; std::string &gt; themisdb::replication::extractJsonArrayStrings</definition>
+        <argsstring>(const std::string &amp;arr)</argsstring>
+        <name>extractJsonArrayStrings</name>
+        <qualifiedname>themisdb::replication::extractJsonArrayStrings</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>arr</declname>
+        </param>
+        <briefdescription>
+<para>Helper: extract quoted string tokens from a JSON array e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+g. [&quot;a&quot;,&quot;b&quot;] → {&quot;a&quot;,&quot;b&quot;} BATCH C FIX: Add bounds checking and container stability guards to prevent iterator invalidation and out-of-bounds access during iteration. Calls: empty(), size(), find(), insert(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/replication/replication_manager.cpp" line="3273" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="3273" bodyend="3305"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a15bab33b50a5f7f260c8ed7966972a2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::replication::extractSubArray</definition>
+        <argsstring>(const std::string &amp;doc, const std::string &amp;key)</argsstring>
+        <name>extractSubArray</name>
+        <qualifiedname>themisdb::replication::extractSubArray</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Helper: find the raw JSON array string for a named key, e. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+g. extractSubArray(doc,&quot;add&quot;) Calls: find(), size(), substr(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/replication/replication_manager.cpp" line="3314" column="20" bodyfile="src/replication/replication_manager.cpp" bodystart="3314" bodyend="3336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1ac6d431dec06356371fca060865cf2f84" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themisdb::replication::generateWriteId</definition>
+        <argsstring>(const std::string &amp;node_id)</argsstring>
+        <name>generateWriteId</name>
+        <qualifiedname>themisdb::replication::generateWriteId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_id</declname>
+        </param>
+        <briefdescription>
+<para>WAVE1-FIX [no_timeout:3331]: generateWriteId is O(1) — no blocking I/O or wait. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the node. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+The system_clock::now() call is non-blocking (kernel vDSO); seq.fetch_add is lock-free atomic. No deadline is required. Documented here to close the gap. Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), std::to_string(), fetch_add(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/replication/replication_manager.cpp" line="3923" column="20" bodyfile="src/replication/replication_manager.cpp" bodystart="3923" bodyend="3931"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a10e4a2a8d02634642f3f8201b2734712" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::TEST</definition>
+        <argsstring>(ReplicationWave1Contract, ObservabilityConfigAccessible)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::replication::TEST</qualifiedname>
+        <param>
+          <type>ReplicationWave1Contract</type>
+        </param>
+        <param>
+          <type>ObservabilityConfigAccessible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_wave1_critical_fixes.cpp" line="15" column="1" bodyfile="tests/replication/test_replication_wave1_critical_fixes.cpp" bodystart="15" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1ad599bc4a5bf179a7ae153e9920f92f82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::TEST</definition>
+        <argsstring>(ReplicationWave1Contract, ReplicationConfigConstructible)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::replication::TEST</qualifiedname>
+        <param>
+          <type>ReplicationWave1Contract</type>
+        </param>
+        <param>
+          <type>ReplicationConfigConstructible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_wave1_critical_fixes.cpp" line="20" column="1" bodyfile="tests/replication/test_replication_wave1_critical_fixes.cpp" bodystart="20" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1replication_1a3ea4edb1dbc007ca18e0c489c1c223df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::TEST</definition>
+        <argsstring>(ReplicationWave1Contract, LogicalReplicationConfigConstructible)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::replication::TEST</qualifiedname>
+        <param>
+          <type>ReplicationWave1Contract</type>
+        </param>
+        <param>
+          <type>LogicalReplicationConfigConstructible</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_wave1_critical_fixes.cpp" line="25" column="1" bodyfile="tests/replication/test_replication_wave1_critical_fixes.cpp" bodystart="25" bodyend="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/replication/async_wal_shipper.h" line="38" column="1"/>
+  </compounddef>
+</doxygen>

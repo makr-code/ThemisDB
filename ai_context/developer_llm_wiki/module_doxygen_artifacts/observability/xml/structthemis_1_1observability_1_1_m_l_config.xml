@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_m_l_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::MLConfig</compoundname>
+    <includes refid="ml__anomaly__detector_8h" local="no">ml_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1af84c49c12cfefd22ba21e7274bfb639c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MLConfig::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::MLConfig::metric_name</qualifiedname>
+        <initializer>{&quot;metric&quot;}</initializer>
+        <briefdescription>
+<para>Human-friendly metric name used in results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="43" column="17" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1a17c77eb55dd064b446577abbe5224891" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8" kindref="member">ForecastBackend</ref></type>
+        <definition>ForecastBackend themis::observability::MLConfig::forecast_backend</definition>
+        <argsstring></argsstring>
+        <name>forecast_backend</name>
+        <qualifiedname>themis::observability::MLConfig::forecast_backend</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1af0ddc3c8c34e39690fb68ee1571c87a8a70ee30f9f425566bad73cd7a48e77384" kindref="member">ForecastBackend::ARIMA</ref>}</initializer>
+        <briefdescription>
+<para>Forecasting backend. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="46" column="21" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1ae797a00e6d7f027276a81423a58c7e40" prot="public" static="no" mutable="no">
+        <type>themisdb::analytics::ForecastConfig</type>
+        <definition>themisdb::analytics::ForecastConfig themis::observability::MLConfig::forecast_config</definition>
+        <argsstring></argsstring>
+        <name>forecast_config</name>
+        <qualifiedname>themis::observability::MLConfig::forecast_config</qualifiedname>
+        <initializer>{}</initializer>
+        <briefdescription>
+<para>Underlying forecast options (seasonality, confidence interval, etc.). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="49" column="41" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1a3ae86f9b97935600c5fcf7b89afa1105" prot="public" static="no" mutable="no">
+        <type>themisdb::analytics::DetectorConfig</type>
+        <definition>themisdb::analytics::DetectorConfig themis::observability::MLConfig::outlier_config</definition>
+        <argsstring></argsstring>
+        <name>outlier_config</name>
+        <qualifiedname>themis::observability::MLConfig::outlier_config</qualifiedname>
+        <initializer>                                                   = [] {
+    themisdb::analytics::DetectorConfig cfg;
+    cfg.method = themisdb::analytics::AnomalyMethod::ISOLATION_FOREST;
+    cfg.threshold = 0.6;
+    return cfg;
+}()</initializer>
+        <briefdescription>
+<para>Outlier detector configuration (Isolation Forest / LOF / ensemble). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="52" column="41" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1adf4859a2b0eb735d0743246a99ae1de8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MLConfig::anomaly_threshold</definition>
+        <argsstring></argsstring>
+        <name>anomaly_threshold</name>
+        <qualifiedname>themis::observability::MLConfig::anomaly_threshold</qualifiedname>
+        <initializer>{0.7}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Confidence score threshold in [0, 1] above which a point is treated as anomalous. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="61" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1ad9de75ddcc1b862bced444661dd7448a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MLConfig::min_training_points</definition>
+        <argsstring></argsstring>
+        <name>min_training_points</name>
+        <qualifiedname>themis::observability::MLConfig::min_training_points</qualifiedname>
+        <initializer>{30}</initializer>
+        <briefdescription>
+<para>Minimum training points required before inference. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="64" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1a0d875c5ef4a44e048c93741fb05e164e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MLConfig::dbscan_eps</definition>
+        <argsstring></argsstring>
+        <name>dbscan_eps</name>
+        <qualifiedname>themis::observability::MLConfig::dbscan_eps</qualifiedname>
+        <initializer>{1.5}</initializer>
+        <briefdescription>
+<para>DBSCAN epsilon (distance) for 1-D clustering of metric values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="67" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1a7e443c6b26e1f4f352ac8db90bebbb1f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MLConfig::dbscan_min_samples</definition>
+        <argsstring></argsstring>
+        <name>dbscan_min_samples</name>
+        <qualifiedname>themis::observability::MLConfig::dbscan_min_samples</qualifiedname>
+        <initializer>{4}</initializer>
+        <briefdescription>
+<para>Minimum neighbours for DBSCAN core point detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="70" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="70" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1abbb086d402713775f281f1831c1623b9" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::MLConfig::change_point_threshold</definition>
+        <argsstring></argsstring>
+        <name>change_point_threshold</name>
+        <qualifiedname>themis::observability::MLConfig::change_point_threshold</qualifiedname>
+        <initializer>{3.0}</initializer>
+        <briefdescription>
+<para>Change-point sensitivity (z-score threshold against baseline mean). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="73" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_m_l_config_1a9eab314bf91d98856d9c49037f44b619" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MLConfig::seasonality_period</definition>
+        <argsstring></argsstring>
+        <name>seasonality_period</name>
+        <qualifiedname>themis::observability::MLConfig::seasonality_period</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Optional seasonality hint (number of points per seasonal period). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="76" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="76" bodyend="76"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for <ref refid="classthemis_1_1observability_1_1_m_l_anomaly_detector" kindref="compound">MLAnomalyDetector</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/ml_anomaly_detector.h" line="41" column="1" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="41" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1adf4859a2b0eb735d0743246a99ae1de8" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>anomaly_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1abbb086d402713775f281f1831c1623b9" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>change_point_threshold</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1a0d875c5ef4a44e048c93741fb05e164e" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>dbscan_eps</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1a7e443c6b26e1f4f352ac8db90bebbb1f" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>dbscan_min_samples</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1a17c77eb55dd064b446577abbe5224891" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>forecast_backend</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1ae797a00e6d7f027276a81423a58c7e40" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>forecast_config</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1af84c49c12cfefd22ba21e7274bfb639c" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1ad9de75ddcc1b862bced444661dd7448a" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>min_training_points</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1a3ae86f9b97935600c5fcf7b89afa1105" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>outlier_config</name></member>
+      <member refid="structthemis_1_1observability_1_1_m_l_config_1a9eab314bf91d98856d9c49037f44b619" prot="public" virt="non-virtual"><scope>themis::observability::MLConfig</scope><name>seasonality_period</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

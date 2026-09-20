@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="grpc__channel__pool_8h" kind="file" language="C++">
+    <compoundname>grpc_channel_pool.h</compoundname>
+    <includes local="no">grpcpp/grpcpp.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">queue</includes>
+    <includes local="no">condition_variable</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="grpc__channel__pool_8cpp" local="yes">src/utils/grpc_channel_pool.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/utils/grpc_channel_pool.h</label>
+        <link refid="grpc__channel__pool_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>condition_variable</label>
+      </node>
+      <node id="2">
+        <label>grpcpp/grpcpp.h</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>queue</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>unordered_map</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/utils/grpc_channel_pool.h</label>
+        <link refid="grpc__channel__pool_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/utils/grpc_channel_pool.cpp</label>
+        <link refid="grpc__channel__pool_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1utils_1_1_grpc_channel_pool" prot="public">themis::utils::GrpcChannelPool</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" prot="public">themis::utils::GrpcChannelPool::Config</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats" prot="public">themis::utils::GrpcChannelPool::Stats</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_pooled_channel" prot="private">themis::utils::GrpcChannelPool::PooledChannel</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_target_pool" prot="private">themis::utils::GrpcChannelPool::TargetPool</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_circuit_breaker_state" prot="private">themis::utils::GrpcChannelPool::CircuitBreakerState</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1utils">themis::utils</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;grpcpp/grpcpp.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;queue&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;condition_variable&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">utils</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classthemis_1_1utils_1_1_grpc_channel_pool" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>limits<sp/>(Phase<sp/>2.6<sp/>cross-cutting<sp/>hardening)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a33ae982df62b845f2da7b2d93ec42c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a33ae982df62b845f2da7b2d93ec42c27" kindref="member">DEFAULT_MAX_CHANNELS_PER_TARGET</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a29c95b250299ec97b7a1a740960b26ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a29c95b250299ec97b7a1a740960b26ea" kindref="member">MAX_CHANNELS_PER_TARGET</ref><sp/>=<sp/>1000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Hard<sp/>limit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5bde969cd6f25a1149af45aa72d774fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5bde969cd6f25a1149af45aa72d774fe" kindref="member">DEFAULT_MAX_TOTAL_CHANNELS</ref><sp/>=<sp/>10&apos;000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Across<sp/>all<sp/>targets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a6ccf7a142fed2621383f0c279cc6c825" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a6ccf7a142fed2621383f0c279cc6c825" kindref="member">MAX_CONCURRENT_STREAMS</ref><sp/>=<sp/>1000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Per<sp/>channel</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1affd1422f32668f33719f5113f6f5ae38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1affd1422f32668f33719f5113f6f5ae38" kindref="member">max_channels_per_target</ref><sp/>=<sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a33ae982df62b845f2da7b2d93ec42c27" kindref="member">DEFAULT_MAX_CHANNELS_PER_TARGET</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a72e9f488fabb94126c73c2e45bf2e113" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a72e9f488fabb94126c73c2e45bf2e113" kindref="member">idle_timeout</ref>{30};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a00a052bc19b629c6574af976ddeb2dae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a00a052bc19b629c6574af976ddeb2dae" kindref="member">connect_timeout</ref>{5};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a5cb1e4b072c639f1afadd3a29b5ce7d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a5cb1e4b072c639f1afadd3a29b5ce7d0" kindref="member">acquire_timeout</ref>{10};<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a9a9e2b67faf9fb28ce5520ef66a3bb75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a9a9e2b67faf9fb28ce5520ef66a3bb75" kindref="member">enable_keepalive</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1ad9180f220edbe6016fb9565348939a33" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1ad9180f220edbe6016fb9565348939a33" kindref="member">keepalive_time</ref>{30};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a56ed782e65306cd3b1a0921366024617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a56ed782e65306cd3b1a0921366024617" kindref="member">keepalive_timeout</ref>{10};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a2d41a7120f7040a64b2e6df45d9617c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1a2d41a7120f7040a64b2e6df45d9617c9" kindref="member">max_concurrent_streams</ref><sp/>=<sp/>100;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1abf6d725369398e657ab23932e9d37efb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config_1abf6d725369398e657ab23932e9d37efb" kindref="member">allow_insecure</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a66161bce30be55ce9bd64ddc7de5e8ad" kindref="member">~GrpcChannelPool</ref>();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ad368ccaf3538afbe6cd75bee765cc6bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ad368ccaf3538afbe6cd75bee765cc6bc" kindref="member">GrpcChannelPool</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a3a7ecd9a572e62e4eb632d564f15c857" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref>&amp;<sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a3a7ecd9a572e62e4eb632d564f15c857" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9603072972c196a585ed0f1aecb1676e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9603072972c196a585ed0f1aecb1676e" kindref="member">GrpcChannelPool</ref>(<ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ab4760f81c52c171d23cbc36345bffbc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a9d36016e9ffb86f03bd6780cb7c73c5a" kindref="member">GrpcChannelPool</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;grpc::Channel&gt;<sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ac76e4dacf9bad598c5251e996126432f" kindref="member">acquireChannel</ref>(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;grpc::ChannelCredentials&gt;<sp/>credentials<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a4fb2d70139ddf70754dfbd2e8d62eb81" kindref="member">releaseChannel</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target,<sp/>std::shared_ptr&lt;grpc::Channel&gt;<sp/>channel);</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1a384e730ff113a21e2bbac1a59adb6394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1a384e730ff113a21e2bbac1a59adb6394" kindref="member">total_channels</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1a707d434b19513efc8387277523259863" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1a707d434b19513efc8387277523259863" kindref="member">available_channels</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1ac2e61c42fc70d72e759da66f58242b10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1ac2e61c42fc70d72e759da66f58242b10" kindref="member">in_use_channels</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="129" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1ab4a93cdfc022cae93b4fb462aac03cc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1ab4a93cdfc022cae93b4fb462aac03cc6" kindref="member">stale_channels_removed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1a2bea88cc1c3132dc9f2ea0fc84e6189b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1a2bea88cc1c3132dc9f2ea0fc84e6189b" kindref="member">acquire_timeouts</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1ac1c571af4aadaa4fa547c9bd586009ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1ac1c571af4aadaa4fa547c9bd586009ed" kindref="member">channels_created</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1a0c0041d2d604d04651a1e36c872638da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats_1a0c0041d2d604d04651a1e36c872638da" kindref="member">channels_reused</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1ad70dce1a25e3f1f3a3d0ddfc2b64b781" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a684312b4ab4f7390c8a801c2035baba7" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a8fc3062f447e13bb9121cf7150346522" kindref="member">pruneStaleChannels</ref>();</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5a00e27eb62d4a04364b3da8db20cdba" kindref="member">warmup</ref>(</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;grpc::ChannelCredentials&gt;<sp/>credentials<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>num_channels<sp/>=<sp/>0</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>6:<sp/>Circuit<sp/>Breaker<sp/>&amp;<sp/>Health<sp/>Check</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257" kindref="member">CircuitState</ref><sp/>{</highlight></codeline>
+<codeline lineno="172" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257a110ccf2f5d2ff4eda1fd1a494293467d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CLOSED</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257aa38bd5138bf35514df41a1795ebbf5c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257aa38bd5138bf35514df41a1795ebbf5c3" kindref="member">OPEN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257a5c1c0fca237f238d3c656d55a4db3ca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257a5c1c0fca237f238d3c656d55a4db3ca4" kindref="member">HALF_OPEN</ref>,<sp/></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257" kindref="member">CircuitState</ref><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a88374ac5233d823395d4794a864ef890" kindref="member">getCircuitState</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a5daf631b8104dcff4f06a2a2f89a45b7" kindref="member">reportSuccess</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a59208d184622f3b6512dae4c1cdcfc27" kindref="member">reportFailure</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,<sp/>uint16_t<sp/>error_code<sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a672ab4f66f41596196db6e736643f6b6" kindref="member">healthCheck</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::milliseconds<sp/>timeout<sp/>=<sp/>std::chrono::milliseconds(500));</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">PooledChannel<sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;grpc::Channel&gt;<sp/>channel;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_used;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>in_use<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isStale(std::chrono::seconds<sp/>timeout)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(now<sp/>-<sp/>last_used)<sp/>&gt;<sp/>timeout;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isReady()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>state<sp/>=<sp/>channel-&gt;GetState(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>state<sp/>==<sp/>GRPC_CHANNEL_READY<sp/>||<sp/>state<sp/>==<sp/>GRPC_CHANNEL_IDLE;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TargetPool<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::mutex<sp/>mutex;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::condition_variable<sp/>cv;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::queue&lt;std::shared_ptr&lt;PooledChannel&gt;&gt;<sp/>available;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::shared_ptr&lt;grpc::Channel&gt;,<sp/>std::shared_ptr&lt;PooledChannel&gt;&gt;<sp/>all_channels;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;grpc::Channel&gt;<sp/>createChannel(</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;grpc::ChannelCredentials&gt;<sp/>credentials</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;TargetPool&gt;<sp/>getOrCreateTargetPool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1utils_1_1_grpc_channel_pool_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>pools_mutex_;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::shared_ptr&lt;TargetPool&gt;&gt;<sp/>target_pools_;</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>total_channels_{0};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>channels_created_{0};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>channels_reused_{0};</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>stale_removed_{0};</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;size_t&gt;<sp/>acquire_timeouts_{0};</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>shutdown_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Circuit<sp/>breaker<sp/>per<sp/>target</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>CB_FAILURE_THRESHOLD<sp/><sp/>=<sp/>5;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>CB_SUCCESS_THRESHOLD<sp/><sp/>=<sp/>2;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/><sp/><sp/>CB_OPEN_TIMEOUT<sp/>=<sp/>std::chrono::seconds(30);<sp/></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">CircuitBreakerState<sp/>{</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257" kindref="member">CircuitState</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>state{<ref refid="classthemis_1_1utils_1_1_grpc_channel_pool_1a50ac2961dc856ff4cadaf50a70051257a110ccf2f5d2ff4eda1fd1a494293467d" kindref="member">CircuitState::CLOSED</ref>};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>failure_count{0};</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>success_count{0};</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>tripped_at{};</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cb_mutex_;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>CircuitBreakerState&gt;<sp/><sp/>circuit_breakers_;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>utils</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/utils/grpc_channel_pool.h"/>
+  </compounddef>
+</doxygen>

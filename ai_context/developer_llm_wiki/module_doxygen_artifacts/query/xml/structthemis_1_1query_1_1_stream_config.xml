@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_stream_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::StreamConfig</compoundname>
+    <includes refid="result__stream_8h" local="no">result_stream.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_stream_config_1a5ac736efcb8425a755a6836d60ff60ee" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::StreamConfig::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::query::StreamConfig::batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="26" column="12" bodyfile="include/query/result_stream.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_stream_config_1a6d6e4b86afc21b2904ac03589ace5264" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::StreamConfig::max_buffer_size</definition>
+        <argsstring></argsstring>
+        <name>max_buffer_size</name>
+        <qualifiedname>themis::query::StreamConfig::max_buffer_size</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="27" column="12" bodyfile="include/query/result_stream.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_stream_config_1a5a3b29072da033bfed70bd038538595c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::StreamConfig::enable_backpressure</definition>
+        <argsstring></argsstring>
+        <name>enable_backpressure</name>
+        <qualifiedname>themis::query::StreamConfig::enable_backpressure</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="28" column="10" bodyfile="include/query/result_stream.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_stream_config_1afc76bbde0a0eefb326e70e67fcfbab24" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::StreamConfig::backpressure_threshold</definition>
+        <argsstring></argsstring>
+        <name>backpressure_threshold</name>
+        <qualifiedname>themis::query::StreamConfig::backpressure_threshold</qualifiedname>
+        <initializer>= 800</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_stream.h" line="29" column="12" bodyfile="include/query/result_stream.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/result_stream.h" line="25" column="1" bodyfile="include/query/result_stream.h" bodystart="25" bodyend="30"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_stream_config_1afc76bbde0a0eefb326e70e67fcfbab24" prot="public" virt="non-virtual"><scope>themis::query::StreamConfig</scope><name>backpressure_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_stream_config_1a5ac736efcb8425a755a6836d60ff60ee" prot="public" virt="non-virtual"><scope>themis::query::StreamConfig</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1query_1_1_stream_config_1a5a3b29072da033bfed70bd038538595c" prot="public" virt="non-virtual"><scope>themis::query::StreamConfig</scope><name>enable_backpressure</name></member>
+      <member refid="structthemis_1_1query_1_1_stream_config_1a6d6e4b86afc21b2904ac03589ace5264" prot="public" virt="non-virtual"><scope>themis::query::StreamConfig</scope><name>max_buffer_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

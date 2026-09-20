@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::acceleration::HIPVectorBackend::HIPConfig</compoundname>
+    <includes refid="hip__backend_8h" local="no">hip_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1a2cd03963e72d44a80f01a1beee58049f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::HIPVectorBackend::HIPConfig::deviceId</definition>
+        <argsstring></argsstring>
+        <name>deviceId</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::HIPConfig::deviceId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="28" column="13" bodyfile="include/acceleration/hip_backend.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1ad7b10b4bd7faf8d4c450ed1e2f717bc6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::acceleration::HIPVectorBackend::HIPConfig::waveSize</definition>
+        <argsstring></argsstring>
+        <name>waveSize</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::HIPConfig::waveSize</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="29" column="13" bodyfile="include/acceleration/hip_backend.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1a737ed249376ab094ddd2e62038b0b02d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPVectorBackend::HIPConfig::enableRocBLAS</definition>
+        <argsstring></argsstring>
+        <name>enableRocBLAS</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::HIPConfig::enableRocBLAS</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="30" column="14" bodyfile="include/acceleration/hip_backend.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1a0411e0f7cbbfb7b4a3a88df4043d7626" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::acceleration::HIPVectorBackend::HIPConfig::maxVRAM_MB</definition>
+        <argsstring></argsstring>
+        <name>maxVRAM_MB</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::HIPConfig::maxVRAM_MB</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="31" column="16" bodyfile="include/acceleration/hip_backend.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1a6ffa2b05a3ec6fef60b0fbc4862f784e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPVectorBackend::HIPConfig::enableProfiling</definition>
+        <argsstring></argsstring>
+        <name>enableProfiling</name>
+        <qualifiedname>themis::acceleration::HIPVectorBackend::HIPConfig::enableProfiling</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="32" column="14" bodyfile="include/acceleration/hip_backend.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/hip_backend.h" line="27" column="5" bodyfile="include/acceleration/hip_backend.h" bodystart="27" bodyend="33"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1a2cd03963e72d44a80f01a1beee58049f" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::HIPConfig</scope><name>deviceId</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1a6ffa2b05a3ec6fef60b0fbc4862f784e" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::HIPConfig</scope><name>enableProfiling</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1a737ed249376ab094ddd2e62038b0b02d" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::HIPConfig</scope><name>enableRocBLAS</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1a0411e0f7cbbfb7b4a3a88df4043d7626" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::HIPConfig</scope><name>maxVRAM_MB</name></member>
+      <member refid="structthemis_1_1acceleration_1_1_h_i_p_vector_backend_1_1_h_i_p_config_1ad7b10b4bd7faf8d4c450ed1e2f717bc6" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPVectorBackend::HIPConfig</scope><name>waveSize</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

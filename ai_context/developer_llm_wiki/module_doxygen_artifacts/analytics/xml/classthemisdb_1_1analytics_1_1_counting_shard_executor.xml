@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1analytics_1_1_counting_shard_executor" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::analytics::CountingShardExecutor</compoundname>
+    <basecompoundref refid="classthemisdb_1_1analytics_1_1_shard_query_executor" prot="public" virt="non-virtual">themisdb::analytics::ShardQueryExecutor</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_counting_shard_executor_1a6dd662b75bada18bdb8ae46a3ef05e8a" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themisdb::analytics::CountingShardExecutor::call_count</definition>
+        <argsstring></argsstring>
+        <name>call_count</name>
+        <qualifiedname>themisdb::analytics::CountingShardExecutor::call_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of <ref refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ace0c5cb4d9042c032f28c2e36092761c" kindref="member">execute()</ref> invocations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="50" column="17" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_counting_shard_executor_1a7601f7c1a10e714c9fe2414f53dab9d6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::analytics::CountingShardExecutor::fail_for_n_calls</definition>
+        <argsstring></argsstring>
+        <name>fail_for_n_calls</name>
+        <qualifiedname>themisdb::analytics::CountingShardExecutor::fail_for_n_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>After this many failures the executor succeeds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="53" column="9" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ac6b860c65a2fbedaaa2f6402989277e8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::CountingShardExecutor::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::analytics::CountingShardExecutor::error_message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>When non-empty the error message is thrown (used to inject &quot;permanent&quot; errors). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="56" column="17" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ace0c5cb4d9042c032f28c2e36092761c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1analytics_1_1_o_l_a_p_result" kindref="compound">themis::analytics::OLAPResult</ref></type>
+        <definition>themis::analytics::OLAPResult themisdb::analytics::CountingShardExecutor::execute</definition>
+        <argsstring>(const std::string &amp;, const themis::analytics::OLAPQuery &amp;) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themisdb::analytics::CountingShardExecutor::execute</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa3986a26fa7b7ad3eb9355ec44917f2a">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1analytics_1_1_o_l_a_p_query" kindref="compound">themis::analytics::OLAPQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="58" column="35" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="58" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1analytics_1_1_counting_shard_executor_1aa5e54f88184e61e22a0c72c5b31f0670" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::CountingShardExecutor::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themisdb::analytics::CountingShardExecutor::isHealthy</qualifiedname>
+        <reimplements refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1aa0c09cb8b04ecc18c5320ecdddab547b">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="74" column="10" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="74" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::analytics::CountingShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_counting_shard_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::analytics::CountingShardExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_counting_shard_executor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::analytics::ShardQueryExecutor</label>
+        <link refid="classthemisdb_1_1analytics_1_1_shard_query_executor"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_wave_next_analytics_hardening.cpp" line="47" column="1" bodyfile="tests/analytics/test_wave_next_analytics_hardening.cpp" bodystart="47" bodyend="75"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1a6dd662b75bada18bdb8ae46a3ef05e8a" prot="public" virt="non-virtual"><scope>themisdb::analytics::CountingShardExecutor</scope><name>call_count</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ac6b860c65a2fbedaaa2f6402989277e8" prot="public" virt="non-virtual"><scope>themisdb::analytics::CountingShardExecutor</scope><name>error_message</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1ace0c5cb4d9042c032f28c2e36092761c" prot="public" virt="virtual"><scope>themisdb::analytics::CountingShardExecutor</scope><name>execute</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1a7601f7c1a10e714c9fe2414f53dab9d6" prot="public" virt="non-virtual"><scope>themisdb::analytics::CountingShardExecutor</scope><name>fail_for_n_calls</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_counting_shard_executor_1aa5e54f88184e61e22a0c72c5b31f0670" prot="public" virt="virtual"><scope>themisdb::analytics::CountingShardExecutor</scope><name>isHealthy</name></member>
+      <member refid="classthemisdb_1_1analytics_1_1_shard_query_executor_1abaecd42838910a0fcc4d50d31eeb075e" prot="public" virt="virtual"><scope>themisdb::analytics::CountingShardExecutor</scope><name>~ShardQueryExecutor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

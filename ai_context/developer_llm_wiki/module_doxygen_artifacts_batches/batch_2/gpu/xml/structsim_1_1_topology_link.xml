@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structsim_1_1_topology_link" kind="struct" language="C++" prot="public">
+    <compoundname>sim::TopologyLink</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structsim_1_1_topology_link_1a43a4392897da2a26a39b8abccea7fb21" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacesim_1a83a7d1e04cc90419e113695137e2302a" kindref="member">InterconnectType</ref></type>
+        <definition>InterconnectType sim::TopologyLink::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>sim::TopologyLink::type</qualifiedname>
+        <initializer>= <ref refid="namespacesim_1a83a7d1e04cc90419e113695137e2302aa2b55387dd066c5bac646ac61543d152d" kindref="member">InterconnectType::CPU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="147" column="22" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_topology_link_1a046ab3277b8f0800b63f21266c186b17" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float sim::TopologyLink::bandwidth_gbps</definition>
+        <argsstring></argsstring>
+        <name>bandwidth_gbps</name>
+        <qualifiedname>sim::TopologyLink::bandwidth_gbps</qualifiedname>
+        <initializer>= 8.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="148" column="22" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_topology_link_1ad61dbd2b9ae647c91cb6ddeb8f73a9ed" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::TopologyLink::src</definition>
+        <argsstring></argsstring>
+        <name>src</name>
+        <qualifiedname>sim::TopologyLink::src</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="149" column="22" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structsim_1_1_topology_link_1abb17c1e7e836bcfe18b5f63073550c1d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int sim::TopologyLink::dst</definition>
+        <argsstring></argsstring>
+        <name>dst</name>
+        <qualifiedname>sim::TopologyLink::dst</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="150" column="22" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="150" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/gpu/bench_gpu_hardware_capability.cpp" line="146" column="1" bodyfile="benchmarks/gpu/bench_gpu_hardware_capability.cpp" bodystart="146" bodyend="151"/>
+    <listofallmembers>
+      <member refid="structsim_1_1_topology_link_1a046ab3277b8f0800b63f21266c186b17" prot="public" virt="non-virtual"><scope>sim::TopologyLink</scope><name>bandwidth_gbps</name></member>
+      <member refid="structsim_1_1_topology_link_1abb17c1e7e836bcfe18b5f63073550c1d" prot="public" virt="non-virtual"><scope>sim::TopologyLink</scope><name>dst</name></member>
+      <member refid="structsim_1_1_topology_link_1ad61dbd2b9ae647c91cb6ddeb8f73a9ed" prot="public" virt="non-virtual"><scope>sim::TopologyLink</scope><name>src</name></member>
+      <member refid="structsim_1_1_topology_link_1a43a4392897da2a26a39b8abccea7fb21" prot="public" virt="non-virtual"><scope>sim::TopologyLink</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

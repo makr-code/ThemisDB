@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1llm_1_1_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::llm::EvaluationResult</compoundname>
+    <includes refid="llamacpp__training__backend_8h" local="no">llamacpp_training_backend.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_evaluation_result_1a46092be6782f4f962774f896ac0e55bc" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::llm::EvaluationResult::loss</definition>
+        <argsstring></argsstring>
+        <name>loss</name>
+        <qualifiedname>themisdb::llm::EvaluationResult::loss</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="173" column="11" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_evaluation_result_1ac554596829e7d54c8239d84e1fbaacd0" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themisdb::llm::EvaluationResult::perplexity</definition>
+        <argsstring></argsstring>
+        <name>perplexity</name>
+        <qualifiedname>themisdb::llm::EvaluationResult::perplexity</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="174" column="11" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_evaluation_result_1a12fa21860b61292009b3a30566fc32e0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themisdb::llm::EvaluationResult::num_tokens</definition>
+        <argsstring></argsstring>
+        <name>num_tokens</name>
+        <qualifiedname>themisdb::llm::EvaluationResult::num_tokens</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="175" column="9" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_evaluation_result_1a10e839cafe662efb2604ec3cce0acb94" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::llm::EvaluationResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themisdb::llm::EvaluationResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="176" column="10" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1llm_1_1_evaluation_result_1a7427ca41ecb93a0e19ae232c9aaab5c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::llm::EvaluationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themisdb::llm::EvaluationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="177" column="17" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1llm_1_1_evaluation_result_1a527c301b330457d320dd40203c294151" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themisdb::llm::EvaluationResult::~EvaluationResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>~EvaluationResult</name>
+        <qualifiedname>themisdb::llm::EvaluationResult::~EvaluationResult</qualifiedname>
+        <briefdescription>
+<para>Evaluation Result. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="172" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1llm_1_1_evaluation_result_1a5a9393c61049e24e036bf35a7fa5dab7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::llm::EvaluationResult::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themisdb::llm::EvaluationResult::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llamacpp_training_backend.h" line="179" column="20" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="179" bodyend="187"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llamacpp_training_backend.h" line="167" column="1" bodyfile="include/llm/llamacpp_training_backend.h" bodystart="167" bodyend="188"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1llm_1_1_evaluation_result_1a7427ca41ecb93a0e19ae232c9aaab5c0" prot="public" virt="non-virtual"><scope>themisdb::llm::EvaluationResult</scope><name>error_message</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_evaluation_result_1a46092be6782f4f962774f896ac0e55bc" prot="public" virt="non-virtual"><scope>themisdb::llm::EvaluationResult</scope><name>loss</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_evaluation_result_1a12fa21860b61292009b3a30566fc32e0" prot="public" virt="non-virtual"><scope>themisdb::llm::EvaluationResult</scope><name>num_tokens</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_evaluation_result_1ac554596829e7d54c8239d84e1fbaacd0" prot="public" virt="non-virtual"><scope>themisdb::llm::EvaluationResult</scope><name>perplexity</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_evaluation_result_1a10e839cafe662efb2604ec3cce0acb94" prot="public" virt="non-virtual"><scope>themisdb::llm::EvaluationResult</scope><name>success</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_evaluation_result_1a5a9393c61049e24e036bf35a7fa5dab7" prot="public" virt="non-virtual"><scope>themisdb::llm::EvaluationResult</scope><name>toJSON</name></member>
+      <member refid="structthemisdb_1_1llm_1_1_evaluation_result_1a527c301b330457d320dd40203c294151" prot="public" virt="virtual"><scope>themisdb::llm::EvaluationResult</scope><name>~EvaluationResult</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

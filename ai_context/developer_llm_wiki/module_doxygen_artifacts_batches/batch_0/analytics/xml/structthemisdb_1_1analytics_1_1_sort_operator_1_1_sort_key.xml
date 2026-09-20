@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::SortOperator::SortKey</compoundname>
+    <includes refid="columnar__execution_8h" local="no">columnar_execution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key_1ab6a28622fb6c26160a334b39b11cb315" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::analytics::SortOperator::SortKey::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themisdb::analytics::SortOperator::SortKey::column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="496" column="21" bodyfile="include/analytics/columnar_execution.h" bodystart="496" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key_1ac08c0980af9714687c36dbda7cf0008a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::SortOperator::SortKey::ascending</definition>
+        <argsstring></argsstring>
+        <name>ascending</name>
+        <qualifiedname>themisdb::analytics::SortOperator::SortKey::ascending</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/columnar_execution.h" line="497" column="21" bodyfile="include/analytics/columnar_execution.h" bodystart="497" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/columnar_execution.h" line="495" column="5" bodyfile="include/analytics/columnar_execution.h" bodystart="495" bodyend="498"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key_1ac08c0980af9714687c36dbda7cf0008a" prot="public" virt="non-virtual"><scope>themisdb::analytics::SortOperator::SortKey</scope><name>ascending</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_sort_operator_1_1_sort_key_1ab6a28622fb6c26160a334b39b11cb315" prot="public" virt="non-virtual"><scope>themisdb::analytics::SortOperator::SortKey</scope><name>column</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

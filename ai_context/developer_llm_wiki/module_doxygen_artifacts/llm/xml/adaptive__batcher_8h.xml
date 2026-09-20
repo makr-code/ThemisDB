@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="adaptive__batcher_8h" kind="file" language="C++">
+    <compoundname>adaptive_batcher.h</compoundname>
+    <includes refid="gpu__memory__manager_8h" local="yes">llm/gpu_memory_manager.h</includes>
+    <includes local="no">cstddef</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">algorithm</includes>
+    <includedby refid="gpu__training__loop_8h" local="yes">include/llm/lora_framework/gpu_training_loop.h</includedby>
+    <includedby refid="adaptive__batcher_8cpp" local="yes">src/llm/lora_framework/adaptive_batcher.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>llm/gpu_memory_manager.h</label>
+        <link refid="gpu__memory__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/adaptive_batcher.h</label>
+        <link refid="adaptive__batcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/adaptive_batcher.h</label>
+        <link refid="adaptive__batcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/llm/lora_framework/adaptive_batcher.cpp</label>
+        <link refid="adaptive__batcher_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher" prot="public">themis::llm::lora::AdaptiveBatcher</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" prot="public">themis::llm::lora::AdaptiveBatcher::Config</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats" prot="public">themis::llm::lora::AdaptiveBatcher::Stats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__memory__manager_8h" kindref="compound">llm/gpu_memory_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a7c712ca02836b3a2ffc6c04ee023843f" kindref="member">AdaptiveBatcher</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29" refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aebfbdcbbda71219ba0d46e99d76ecff8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1aebfbdcbbda71219ba0d46e99d76ecff8" kindref="member">~AdaptiveBatcher</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a6557e18271dee08b0630d3d9472443c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a6557e18271dee08b0630d3d9472443c1" kindref="member">min_batch_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1ab25967c3f6ceb0cdfa4575b1a74cdf08" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1ab25967c3f6ceb0cdfa4575b1a74cdf08" kindref="member">max_batch_size</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a33fe0403c2f27d631a6459bfe246bce7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a33fe0403c2f27d631a6459bfe246bce7" kindref="member">target_vram_utilization_pct</ref><sp/>=<sp/>85;<sp/><sp/></highlight><highlight class="comment">//<sp/>Target<sp/>85%<sp/>VRAM<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a406b453ebb2572846fe93bb7c291f18b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a406b453ebb2572846fe93bb7c291f18b" kindref="member">enable_dynamic_batching</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a0ddfcf11399b3aa70ef78fc71fa1becc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a0ddfcf11399b3aa70ef78fc71fa1becc" kindref="member">vram_safety_margin</ref><sp/>=<sp/>0.9f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Leave<sp/>10%<sp/>headroom</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>estimation<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a97d53b0d38dcb8d6ea8ae863b8b5bce1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a97d53b0d38dcb8d6ea8ae863b8b5bce1" kindref="member">hidden_dim</ref><sp/>=<sp/>768;<sp/><sp/></highlight><highlight class="comment">//<sp/>Model<sp/>hidden<sp/>dimension</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a8efde4206315ae1659ba51fd2674bcd3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config_1a8efde4206315ae1659ba51fd2674bcd3" kindref="member">lora_rank</ref><sp/>=<sp/>8;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>LoRA<sp/>rank</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a7c712ca02836b3a2ffc6c04ee023843f" kindref="member">AdaptiveBatcher</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,<sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">::themis::llm::GPUMemoryManager</ref>*<sp/>mem_manager);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ab8d45927255f1595db90f70b9b295f85" kindref="member">computeOptimalBatchSize</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sequence_length);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1afb67a493bd682c87ceef25d3c821c2e1" kindref="member">handleOOMEvent</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a5c5f6e70a187dc759f235c453b105045" kindref="member">increaseBatchSizeIfPossible</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a22054a74736bda48fd10ab29ef5fcf64" kindref="member">updateUtilization</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>utilization);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1ac779647b0620882e76213505b862d3b3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1ac779647b0620882e76213505b862d3b3" kindref="member">current_batch_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1abc05566002fdbe3785b3cad69211f2b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1abc05566002fdbe3785b3cad69211f2b6" kindref="member">vram_utilization_pct</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1a7d64f5b87636aae5ff376efaffe921d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1a7d64f5b87636aae5ff376efaffe921d3" kindref="member">oom_events</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1a1c9c4d3a71b29df04fb2d13b6ca6dca4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats_1a1c9c4d3a71b29df04fb2d13b6ca6dca4" kindref="member">avg_gpu_utilization</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a93c523a52b21a946b91be35901908c94" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ac148ff251fa548c8de963aed15a135ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1ac148ff251fa548c8de963aed15a135ed" kindref="member">getCurrentBatchSize</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_batch_size_;<sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86" refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a94e4493fb88f3bbbae66856df34ca887" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a94e4493fb88f3bbbae66856df34ca887" kindref="member">resetOOMCounter</ref>()<sp/>{<sp/>oom_count_<sp/>=<sp/>0;<sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_adaptive_batcher_1a58524711bcef3559dea3b13d611c2e22" kindref="member">calibrateMemoryEstimation</ref>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>actual_memory_used,<sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sequence_length,<sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>batch_size);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">::themis::llm::GPUMemoryManager</ref>*<sp/>mem_manager_;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>current_batch_size_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>oom_count_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>recent_utilizations_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Calibration<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_calibrated_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>memory_estimation_multiplier_<sp/>=<sp/>1.0f;<sp/><sp/></highlight><highlight class="comment">//<sp/>Adjust<sp/>estimates<sp/>based<sp/>on<sp/>actual<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>computeAverageUtilization()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimateMemoryPerSample(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>sequence_length)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>estimateSharedMemory()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/adaptive_batcher.h"/>
+  </compounddef>
+</doxygen>

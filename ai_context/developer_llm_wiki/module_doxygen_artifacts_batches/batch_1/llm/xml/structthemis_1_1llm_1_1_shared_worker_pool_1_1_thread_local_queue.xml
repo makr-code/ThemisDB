@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_thread_local_queue" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::SharedWorkerPool::ThreadLocalQueue</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_thread_local_queue_1a9244e19a0bc7af014cf8e69b8e7df758" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; Task &gt;</type>
+        <definition>std::deque&lt;Task&gt; themis::llm::SharedWorkerPool::ThreadLocalQueue::tasks</definition>
+        <argsstring></argsstring>
+        <name>tasks</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::ThreadLocalQueue::tasks</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="102" column="21" bodyfile="include/llm/shared_worker_pool.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_shared_worker_pool_1_1_thread_local_queue_1a59ffbd0ab59e38fbc570ca696d297d9b" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::SharedWorkerPool::ThreadLocalQueue::mutex</definition>
+        <argsstring></argsstring>
+        <name>mutex</name>
+        <qualifiedname>themis::llm::SharedWorkerPool::ThreadLocalQueue::mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/shared_worker_pool.h" line="103" column="28" bodyfile="include/llm/shared_worker_pool.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/shared_worker_pool.h" line="101" column="5" bodyfile="include/llm/shared_worker_pool.h" bodystart="101" bodyend="104"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_thread_local_queue_1a59ffbd0ab59e38fbc570ca696d297d9b" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool::ThreadLocalQueue</scope><name>mutex</name></member>
+      <member refid="structthemis_1_1llm_1_1_shared_worker_pool_1_1_thread_local_queue_1a9244e19a0bc7af014cf8e69b8e7df758" prot="public" virt="non-virtual"><scope>themis::llm::SharedWorkerPool::ThreadLocalQueue</scope><name>tasks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

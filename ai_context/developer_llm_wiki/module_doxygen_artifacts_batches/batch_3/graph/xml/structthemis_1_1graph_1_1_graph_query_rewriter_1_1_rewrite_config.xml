@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GraphQueryRewriter::RewriteConfig</compoundname>
+    <includes refid="graph__query__rewriter_8h" local="no">graph_query_rewriter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1aa2f8e874091448ffabea3061f43a9ac7" prot="public" static="no" mutable="no">
+        <type>std::set&lt; <ref refid="classthemis_1_1graph_1_1_graph_query_rewriter_1a47a9c1c1be86f1b845e044aa93671ae3" kindref="member">RewriteRule</ref> &gt;</type>
+        <definition>std::set&lt;RewriteRule&gt; themis::graph::GraphQueryRewriter::RewriteConfig::enabled_rules</definition>
+        <argsstring></argsstring>
+        <name>enabled_rules</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::RewriteConfig::enabled_rules</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="51" column="18" bodyfile="include/graph/graph_query_rewriter.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1ab531a912273cdb3f5603b784c4722157" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::GraphQueryRewriter::RewriteConfig::aggressive_optimization</definition>
+        <argsstring></argsstring>
+        <name>aggressive_optimization</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::RewriteConfig::aggressive_optimization</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="53" column="14" bodyfile="include/graph/graph_query_rewriter.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1ab10dfea479ff5bb6839420f6c6b14380" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::GraphQueryRewriter::RewriteConfig::rewrite_time_limit_ms</definition>
+        <argsstring></argsstring>
+        <name>rewrite_time_limit_ms</name>
+        <qualifiedname>themis::graph::GraphQueryRewriter::RewriteConfig::rewrite_time_limit_ms</qualifiedname>
+        <initializer>= 100.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/graph_query_rewriter.h" line="55" column="16" bodyfile="include/graph/graph_query_rewriter.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/graph_query_rewriter.h" line="50" column="5" bodyfile="include/graph/graph_query_rewriter.h" bodystart="50" bodyend="56"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1ab531a912273cdb3f5603b784c4722157" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter::RewriteConfig</scope><name>aggressive_optimization</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1aa2f8e874091448ffabea3061f43a9ac7" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter::RewriteConfig</scope><name>enabled_rules</name></member>
+      <member refid="structthemis_1_1graph_1_1_graph_query_rewriter_1_1_rewrite_config_1ab10dfea479ff5bb6839420f6c6b14380" prot="public" virt="non-virtual"><scope>themis::graph::GraphQueryRewriter::RewriteConfig</scope><name>rewrite_time_limit_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,240 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="embedding__provider_8h" kind="file" language="C++">
+    <compoundname>embedding_provider.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">mutex</includes>
+    <includedby refid="lora__router_8h" local="yes">include/llm/lora_router.h</includedby>
+    <includedby refid="embedding__provider_8cpp" local="yes">src/llm/lora_framework/embedding_provider.cpp</includedby>
+    <includedby refid="lora__training__service_8cpp" local="yes">src/llm/lora_framework/lora_training_service.cpp</includedby>
+    <includedby refid="test__real__embeddings_8cpp" local="yes">tests/llm/test_real_embeddings.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/embedding_provider.h</label>
+        <link refid="embedding__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/embedding_provider.h</label>
+        <link refid="embedding__provider_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_router.h</label>
+        <link refid="lora__router_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/llm/lora_framework/embedding_provider.cpp</label>
+        <link refid="embedding__provider_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/lora_framework/lora_training_service.cpp</label>
+        <link refid="lora__training__service_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/lora_router.cpp</label>
+        <link refid="lora__router_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/llm/test_real_embeddings.cpp</label>
+        <link refid="test__real__embeddings_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache" prot="public">themis::llm::lora::EmbeddingCache</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" prot="public">themis::llm::lora::EmbeddingCacheStats</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider" prot="public">themis::llm::lora::EmbeddingProvider</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config" prot="public">themis::llm::lora::EmbeddingProvider::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declaration<sp/>for<sp/>llama.cpp<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">llama_model;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">llama_context;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache" kindref="compound">EmbeddingCache</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a6ba0b40e90a4fbfe4db204d2c111e23c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a6ba0b40e90a4fbfe4db204d2c111e23c" kindref="member">~EmbeddingCache</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a58cba65db2924711a705b7cfb2e5e90a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a58cba65db2924711a705b7cfb2e5e90a" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ab531d82e1b1b4bef58181275885ebdcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ab531d82e1b1b4bef58181275885ebdcd" kindref="member">embedding</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Real<sp/>embedding<sp/>from<sp/>model,<sp/>not<sp/>hash-based</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ad91ebc82e34be1e360da8aab03a64a90" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::system_clock::time_point<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ad91ebc82e34be1e360da8aab03a64a90" kindref="member">cached_at</ref>;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a28e34956fecf170d2d8cda911a732358" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a28e34956fecf170d2d8cda911a732358" kindref="member">access_count</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>if<sp/>cache<sp/>entry<sp/>is<sp/>expired</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a7c5bc404aad963080d44e3190376d346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1a7c5bc404aad963080d44e3190376d346" kindref="member">isExpired</ref>(std::chrono::seconds<sp/>ttl)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>now<sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>age<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::seconds&gt;(now<sp/>-<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_1ad91ebc82e34be1e360da8aab03a64a90" kindref="member">cached_at</ref>);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>age<sp/>&gt;<sp/>ttl;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" kindref="compound">EmbeddingCacheStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a861c13f64f91fc2e5b0c1f27cd846333" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a861c13f64f91fc2e5b0c1f27cd846333" kindref="member">~EmbeddingCacheStats</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1aadda92982413e4451688d11686b0a1c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1aadda92982413e4451688d11686b0a1c6" kindref="member">total_requests</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7c3a7811869aa748c2365898f2dd9fd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7c3a7811869aa748c2365898f2dd9fd2" kindref="member">cache_hits</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a582ebd68837de9b8170277dc07942e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a582ebd68837de9b8170277dc07942e13" kindref="member">cache_misses</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1af1b55a4c2e56aad74816d79fd89c8221" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1af1b55a4c2e56aad74816d79fd89c8221" kindref="member">total_entries</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a04a17b07d5a1bd4ea0e50cf2159eb74a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a04a17b07d5a1bd4ea0e50cf2159eb74a" kindref="member">memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7fdb6b43b33a7b98a408fe41399fa540" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7fdb6b43b33a7b98a408fe41399fa540" kindref="member">hitRate</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1aadda92982413e4451688d11686b0a1c6" kindref="member">total_requests</ref><sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0f;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1a7c3a7811869aa748c2365898f2dd9fd2" kindref="member">cache_hits</ref>)<sp/>/<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">float</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats_1aadda92982413e4451688d11686b0a1c6" kindref="member">total_requests</ref>);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" kindref="member">EmbeddingProvider</ref><sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a080a8a860721e5e648e71d03f796c9b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a080a8a860721e5e648e71d03f796c9b2" kindref="member">max_cache_entries</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Maximum<sp/>cached<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a283ca80e9e396f9b18e233085d5331f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a283ca80e9e396f9b18e233085d5331f5" kindref="member">cache_ttl</ref>{3600};<sp/></highlight><highlight class="comment">//<sp/>Cache<sp/>time-to-live</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a2020208c4f980ef624c81d875d7a8bb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a2020208c4f980ef624c81d875d7a8bb1" kindref="member">enable_cache</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Enable<sp/>caching</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a9103e95e354cc3e169f0eb660dc94c85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a9103e95e354cc3e169f0eb660dc94c85" kindref="member">cache_file</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>cache<sp/>persistence<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a264d19ea6598c7774a3c762d03c633cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config_1a264d19ea6598c7774a3c762d03c633cd" kindref="member">batch_size</ref><sp/>=<sp/>32;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Batch<sp/>size<sp/>for<sp/>embedding<sp/>generation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" kindref="member">EmbeddingProvider</ref>(</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llama_model*<sp/>model,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>llama_context*<sp/>context,</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_provider_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a5d46d7594425d8b01fc75c3bd2d552b8" kindref="member">~EmbeddingProvider</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aab42983df9d70deefa67a513e5b3c34f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aab42983df9d70deefa67a513e5b3c34f" kindref="member">EmbeddingProvider</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" kindref="member">EmbeddingProvider</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a22476bd6bab76a6273c324766ec29b35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" kindref="member">EmbeddingProvider</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a22476bd6bab76a6273c324766ec29b35" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a4d473d27d3ae9496078b3258226c0cd4" kindref="member">EmbeddingProvider</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ae5d9956ea57dd0071b53f1b60dfefe07" kindref="member">getEmbedding</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;float&gt;&gt;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a1c1ded6863eee98764e8d83fdeaefac8" kindref="member">getEmbeddings</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>texts);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1aa1c514fa132e40d41f65a9d45b294097" kindref="member">buildEmbeddingCache</ref>(</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>training_texts,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;EmbeddingCache&gt;&amp;<sp/>cache_out</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1af39fa8d0f0568007ca0dcef306f7abbe" kindref="member">getEmbeddingDim</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" kindref="compound">EmbeddingCacheStats</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1ac4e80ff1c4bb98b8e6ab014646ccb54d" kindref="member">getCacheStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a942d600c2b1173e34e9f187c62c12e61" kindref="member">clearCache</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a0db4e33a7965cec874b9aca403212281" kindref="member">saveCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1a48a5253b5ee2fb4e136eb6fe9a2e3130" kindref="member">loadCache</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="154" refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1adf0745b7865a81784c994710982ace06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1adf0745b7865a81784c994710982ace06" kindref="member">isCacheEnabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_.enable_cache;<sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161" refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1acfb1efbe554c19caa0b963eb30b57e89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_embedding_provider_1acfb1efbe554c19caa0b963eb30b57e89" kindref="member">enableCache</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enable)<sp/>{<sp/>config_.enable_cache<sp/>=<sp/>enable;<sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>llama_model*<sp/>model_;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>llama_context*<sp/>context_;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cache:<sp/>text<sp/>-&gt;<sp/>embedding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>cache_mutex_;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>EmbeddingCache&gt;<sp/>cache_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_embedding_cache_stats" kindref="compound">EmbeddingCacheStats</ref><sp/>cache_stats_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>extractEmbeddingFromTokens(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;&amp;<sp/>tokens);</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>evictCacheIfNeeded();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;float&gt;&gt;<sp/>getCachedEmbedding(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>addToCache(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/embedding_provider.h"/>
+  </compounddef>
+</doxygen>

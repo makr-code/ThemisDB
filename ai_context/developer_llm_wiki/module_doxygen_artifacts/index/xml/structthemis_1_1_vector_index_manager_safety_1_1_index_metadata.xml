@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata" kind="struct" language="C++" prot="private">
+    <compoundname>themis::VectorIndexManagerSafety::IndexMetadata</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1aecd9fc80a74ab74637506dc5c8de8f43" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VectorIndexManagerSafety::IndexMetadata::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::IndexMetadata::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="153" column="18" bodyfile="include/index/vector_index_manager_safety.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1ad35a4e60af6b1a2a95df22ea32bb6297" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::VectorIndexManagerSafety::IndexMetadata::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::IndexMetadata::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="154" column="21" bodyfile="include/index/vector_index_manager_safety.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1a6a05f6ef213b45c985e98dadaf53cffa" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::VectorIndexManagerSafety::IndexMetadata::dimension</definition>
+        <argsstring></argsstring>
+        <name>dimension</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::IndexMetadata::dimension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="155" column="18" bodyfile="include/index/vector_index_manager_safety.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1a4c621197580d79bbd604cb00f2122487" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_vector_index_data" kindref="compound">VectorIndexData</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexData&gt; themis::VectorIndexManagerSafety::IndexMetadata::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::IndexMetadata::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="156" column="25" bodyfile="include/index/vector_index_manager_safety.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1aab5294160f7c987244606b090cddeac4" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::VectorIndexManagerSafety::IndexMetadata::generation</definition>
+        <argsstring></argsstring>
+        <name>generation</name>
+        <qualifiedname>themis::VectorIndexManagerSafety::IndexMetadata::generation</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index_manager_safety.h" line="157" column="18" bodyfile="include/index/vector_index_manager_safety.h" bodystart="157" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_index_manager_safety.h" line="152" column="5" bodyfile="include/index/vector_index_manager_safety.h" bodystart="152" bodyend="158"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1a4c621197580d79bbd604cb00f2122487" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety::IndexMetadata</scope><name>data</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1a6a05f6ef213b45c985e98dadaf53cffa" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety::IndexMetadata</scope><name>dimension</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1aab5294160f7c987244606b090cddeac4" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety::IndexMetadata</scope><name>generation</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1aecd9fc80a74ab74637506dc5c8de8f43" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety::IndexMetadata</scope><name>id</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_safety_1_1_index_metadata_1ad35a4e60af6b1a2a95df22ea32bb6297" prot="public" virt="non-virtual"><scope>themis::VectorIndexManagerSafety::IndexMetadata</scope><name>name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

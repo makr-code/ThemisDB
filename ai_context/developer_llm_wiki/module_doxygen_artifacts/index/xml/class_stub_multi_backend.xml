@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stub_multi_backend" kind="class" language="C++" prot="public">
+    <compoundname>StubMultiBackend</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stub_multi_backend_1a5b67270f089227a7bb136fd8511dd0c1" prot="private" static="no" mutable="no">
+        <type><ref refid="class_stress_vector_store" kindref="compound">StressVectorStore</ref></type>
+        <definition>StressVectorStore StubMultiBackend::flat_</definition>
+        <argsstring></argsstring>
+        <name>flat_</name>
+        <qualifiedname>StubMultiBackend::flat_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="124" column="23" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_multi_backend_1a8afa6f6dbb65df8c47e923aab5386698" prot="private" static="no" mutable="no">
+        <type><ref refid="class_stress_vector_store" kindref="compound">StressVectorStore</ref></type>
+        <definition>StressVectorStore StubMultiBackend::hnsw_</definition>
+        <argsstring></argsstring>
+        <name>hnsw_</name>
+        <qualifiedname>StubMultiBackend::hnsw_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="125" column="23" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stub_multi_backend_1a758f670126ef116476b4421176838b4a" prot="private" static="no" mutable="no">
+        <type><ref refid="class_stress_vector_store" kindref="compound">StressVectorStore</ref></type>
+        <definition>StressVectorStore StubMultiBackend::ivfpq_</definition>
+        <argsstring></argsstring>
+        <name>ivfpq_</name>
+        <qualifiedname>StubMultiBackend::ivfpq_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="126" column="23" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stub_multi_backend_1a0225fb294eb1061464e2079fd49abed2" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StubMultiBackend::StubMultiBackend</definition>
+        <argsstring>(std::size_t dim=32)</argsstring>
+        <name>StubMultiBackend</name>
+        <qualifiedname>StubMultiBackend::StubMultiBackend</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>dim</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="93" column="14" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="93" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_multi_backend_1a588a133e37a4723596f93540fbb48cf4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool StubMultiBackend::insert</definition>
+        <argsstring>(StubBackend backend, StressVecEntry entry)</argsstring>
+        <name>insert</name>
+        <qualifiedname>StubMultiBackend::insert</qualifiedname>
+        <param>
+          <type><ref refid="test__index__highcardinality__stress_8cpp_1a36e672880c7bd40c7880c95a9e39c160" kindref="member">StubBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_stress_vec_entry" kindref="compound">StressVecEntry</ref></type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="96" column="10" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_multi_backend_1a4bf27211de0102b2b076f7dc1249fa18" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_stress_vec_entry" kindref="compound">StressVecEntry</ref> &gt;</type>
+        <definition>std::vector&lt; StressVecEntry &gt; StubMultiBackend::query</definition>
+        <argsstring>(StubBackend backend, uint32_t qid, int k) const</argsstring>
+        <name>query</name>
+        <qualifiedname>StubMultiBackend::query</qualifiedname>
+        <param>
+          <type><ref refid="test__index__highcardinality__stress_8cpp_1a36e672880c7bd40c7880c95a9e39c160" kindref="member">StubBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>qid</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="105" column="17" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="105" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stub_multi_backend_1a51f565eb0f921f63f8cf42c5e07e8f3a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t StubMultiBackend::size</definition>
+        <argsstring>(StubBackend backend) const</argsstring>
+        <name>size</name>
+        <qualifiedname>StubMultiBackend::size</qualifiedname>
+        <param>
+          <type><ref refid="test__index__highcardinality__stress_8cpp_1a36e672880c7bd40c7880c95a9e39c160" kindref="member">StubBackend</ref></type>
+          <declname>backend</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/index/test_index_highcardinality_stress.cpp" line="114" column="17" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="114" bodyend="121"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub backend router — dispatches to one of three CPU-only stub stores. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/index/test_index_highcardinality_stress.cpp" line="91" column="1" bodyfile="tests/index/test_index_highcardinality_stress.cpp" bodystart="91" bodyend="127"/>
+    <listofallmembers>
+      <member refid="class_stub_multi_backend_1a5b67270f089227a7bb136fd8511dd0c1" prot="private" virt="non-virtual"><scope>StubMultiBackend</scope><name>flat_</name></member>
+      <member refid="class_stub_multi_backend_1a8afa6f6dbb65df8c47e923aab5386698" prot="private" virt="non-virtual"><scope>StubMultiBackend</scope><name>hnsw_</name></member>
+      <member refid="class_stub_multi_backend_1a588a133e37a4723596f93540fbb48cf4" prot="public" virt="non-virtual"><scope>StubMultiBackend</scope><name>insert</name></member>
+      <member refid="class_stub_multi_backend_1a758f670126ef116476b4421176838b4a" prot="private" virt="non-virtual"><scope>StubMultiBackend</scope><name>ivfpq_</name></member>
+      <member refid="class_stub_multi_backend_1a4bf27211de0102b2b076f7dc1249fa18" prot="public" virt="non-virtual"><scope>StubMultiBackend</scope><name>query</name></member>
+      <member refid="class_stub_multi_backend_1a51f565eb0f921f63f8cf42c5e07e8f3a" prot="public" virt="non-virtual"><scope>StubMultiBackend</scope><name>size</name></member>
+      <member refid="class_stub_multi_backend_1a0225fb294eb1061464e2079fd49abed2" prot="public" virt="non-virtual"><scope>StubMultiBackend</scope><name>StubMultiBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

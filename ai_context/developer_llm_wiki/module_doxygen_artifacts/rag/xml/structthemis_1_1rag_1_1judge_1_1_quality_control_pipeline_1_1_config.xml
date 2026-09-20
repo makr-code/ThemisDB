@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::QualityControlPipeline::Config</compoundname>
+    <includes refid="quality__control__pipeline_8h" local="no">quality_control_pipeline.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1af9c75ab55c9f897a124af6dbf484b441" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlPipeline::Config::enable_fast_stage</definition>
+        <argsstring></argsstring>
+        <name>enable_fast_stage</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::enable_fast_stage</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="136" column="14" bodyfile="include/rag/quality_control_pipeline.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a7a355697f8bc65ecff50db6ce4537fac" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlPipeline::Config::enable_balanced_stage</definition>
+        <argsstring></argsstring>
+        <name>enable_balanced_stage</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::enable_balanced_stage</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="137" column="14" bodyfile="include/rag/quality_control_pipeline.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a0cbe848dea53a8278ca29859f38df672" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlPipeline::Config::enable_thorough_stage</definition>
+        <argsstring></argsstring>
+        <name>enable_thorough_stage</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::enable_thorough_stage</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="138" column="14" bodyfile="include/rag/quality_control_pipeline.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1af69d249052735bd9e99017789f49eafa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlPipeline::Config::enable_learning_feedback</definition>
+        <argsstring></argsstring>
+        <name>enable_learning_feedback</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::enable_learning_feedback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="139" column="14" bodyfile="include/rag/quality_control_pipeline.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a01bfe508236623ea231d284b6eaffea3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::fast_stage_threshold</definition>
+        <argsstring></argsstring>
+        <name>fast_stage_threshold</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::fast_stage_threshold</qualifiedname>
+        <initializer>= 0.6</initializer>
+        <briefdescription>
+<para>Min score to pass fast stage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="142" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1aa911a86e5c3be7dafc18e6655ce9fc2e" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::balanced_stage_threshold</definition>
+        <argsstring></argsstring>
+        <name>balanced_stage_threshold</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::balanced_stage_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Min score to pass balanced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="143" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1aadecd2a8934740253ec96bae715c7980" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::thorough_stage_threshold</definition>
+        <argsstring></argsstring>
+        <name>thorough_stage_threshold</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::thorough_stage_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Min score for production. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="144" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a923944c83bf8c9f355e17ae4d9cf7054" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::faithfulness_weight</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_weight</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::faithfulness_weight</qualifiedname>
+        <initializer>= 0.35</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="147" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1aa94e6b314556bf34d4c354b93da7f427" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::relevance_weight</definition>
+        <argsstring></argsstring>
+        <name>relevance_weight</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::relevance_weight</qualifiedname>
+        <initializer>= 0.25</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="148" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1ad4879a77355f2dcafa77429b6c0be1ab" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::completeness_weight</definition>
+        <argsstring></argsstring>
+        <name>completeness_weight</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::completeness_weight</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="149" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a6f19692f450752ffdb7cf513fd1102ff" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::coherence_weight</definition>
+        <argsstring></argsstring>
+        <name>coherence_weight</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::coherence_weight</qualifiedname>
+        <initializer>= 0.15</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="150" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a341bf189a5c084f5920027df14fc37eb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::ethical_weight</definition>
+        <argsstring></argsstring>
+        <name>ethical_weight</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::ethical_weight</qualifiedname>
+        <initializer>= 0.10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="151" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a4cb0d9c389e9c151242b3c8d808b3440" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlPipeline::Config::enable_auto_retry</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_retry</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::enable_auto_retry</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="154" column="14" bodyfile="include/rag/quality_control_pipeline.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a53ae03a12469dc1cf86100a837bd0601" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::QualityControlPipeline::Config::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::max_retries</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="155" column="13" bodyfile="include/rag/quality_control_pipeline.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a8db3d7bb881956dad6166b4265d89908" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::QualityControlPipeline::Config::retry_threshold</definition>
+        <argsstring></argsstring>
+        <name>retry_threshold</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::retry_threshold</qualifiedname>
+        <initializer>= 0.5</initializer>
+        <briefdescription>
+<para>Min score to allow retry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="156" column="16" bodyfile="include/rag/quality_control_pipeline.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a862b9d97bf08bd0351a8937738fe26ca" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlPipeline::Config::enable_citation_check</definition>
+        <argsstring></argsstring>
+        <name>enable_citation_check</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::enable_citation_check</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Run citation-coverage check via <ref refid="classthemis_1_1rag_1_1judge_1_1_citation_highlighter" kindref="compound">CitationHighlighter</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="159" column="14" bodyfile="include/rag/quality_control_pipeline.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1acfef3db6f4a56b5d88aaab568bfb4ea4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::QualityControlPipeline::Config::fast_stage_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>fast_stage_timeout_ms</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::fast_stage_timeout_ms</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="162" column="13" bodyfile="include/rag/quality_control_pipeline.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a09d63b34488ed05f87ed916f225c99f6" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::QualityControlPipeline::Config::balanced_stage_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>balanced_stage_timeout_ms</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::balanced_stage_timeout_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="163" column="13" bodyfile="include/rag/quality_control_pipeline.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a47d804fe36359468cc4695a7f4ab5d01" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::QualityControlPipeline::Config::thorough_stage_timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>thorough_stage_timeout_ms</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::thorough_stage_timeout_ms</qualifiedname>
+        <initializer>= 2000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="164" column="13" bodyfile="include/rag/quality_control_pipeline.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a26a921674ac1a984d91d1b8ad81cf74a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::QualityControlPipeline::Config::learning_orchestrator_url</definition>
+        <argsstring></argsstring>
+        <name>learning_orchestrator_url</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::learning_orchestrator_url</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="167" column="21" bodyfile="include/rag/quality_control_pipeline.h" bodystart="167" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1aef28fad97805f3afe99f9bf59bcfd53b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::QualityControlPipeline::Config::enable_async_feedback</definition>
+        <argsstring></argsstring>
+        <name>enable_async_feedback</name>
+        <qualifiedname>themis::rag::judge::QualityControlPipeline::Config::enable_async_feedback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/quality_control_pipeline.h" line="168" column="14" bodyfile="include/rag/quality_control_pipeline.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for quality pipeline. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/quality_control_pipeline.h" line="134" column="5" bodyfile="include/rag/quality_control_pipeline.h" bodystart="134" bodyend="169"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1aa911a86e5c3be7dafc18e6655ce9fc2e" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>balanced_stage_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a09d63b34488ed05f87ed916f225c99f6" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>balanced_stage_timeout_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a6f19692f450752ffdb7cf513fd1102ff" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>coherence_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1ad4879a77355f2dcafa77429b6c0be1ab" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>completeness_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1aef28fad97805f3afe99f9bf59bcfd53b" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>enable_async_feedback</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a4cb0d9c389e9c151242b3c8d808b3440" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>enable_auto_retry</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a7a355697f8bc65ecff50db6ce4537fac" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>enable_balanced_stage</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a862b9d97bf08bd0351a8937738fe26ca" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>enable_citation_check</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1af9c75ab55c9f897a124af6dbf484b441" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>enable_fast_stage</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1af69d249052735bd9e99017789f49eafa" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>enable_learning_feedback</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a0cbe848dea53a8278ca29859f38df672" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>enable_thorough_stage</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a341bf189a5c084f5920027df14fc37eb" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>ethical_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a923944c83bf8c9f355e17ae4d9cf7054" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>faithfulness_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a01bfe508236623ea231d284b6eaffea3" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>fast_stage_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1acfef3db6f4a56b5d88aaab568bfb4ea4" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>fast_stage_timeout_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a26a921674ac1a984d91d1b8ad81cf74a" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>learning_orchestrator_url</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a53ae03a12469dc1cf86100a837bd0601" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1aa94e6b314556bf34d4c354b93da7f427" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>relevance_weight</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a8db3d7bb881956dad6166b4265d89908" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>retry_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1aadecd2a8934740253ec96bae715c7980" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>thorough_stage_threshold</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_quality_control_pipeline_1_1_config_1a47d804fe36359468cc4695a7f4ab5d01" prot="public" virt="non-virtual"><scope>themis::rag::judge::QualityControlPipeline::Config</scope><name>thorough_stage_timeout_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

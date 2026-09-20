@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_02d5f1716644a60cd4a3677650c51bde" kind="dir">
+    <compoundname>tests/distributed_knowledge</compoundname>
+    <innerfile refid="test__adapter__capability__announcement__focused_8cpp">test_adapter_capability_announcement_focused.cpp</innerfile>
+    <innerfile refid="test__cross__shard__feedback__sync__focused_8cpp">test_cross_shard_feedback_sync_focused.cpp</innerfile>
+    <innerfile refid="test__distributed__knowledge__highcardinality__stress_8cpp">test_distributed_knowledge_highcardinality_stress.cpp</innerfile>
+    <innerfile refid="test__distributed__knowledge__llm__focused_8cpp">test_distributed_knowledge_llm_focused.cpp</innerfile>
+    <innerfile refid="test__dk__contract__hardening__focused_8cpp">test_dk_contract_hardening_focused.cpp</innerfile>
+    <innerfile refid="test__dk__diagnostics__focused_8cpp">test_dk_diagnostics_focused.cpp</innerfile>
+    <innerfile refid="test__federated__distillation__coordinator__focused_8cpp">test_federated_distillation_coordinator_focused.cpp</innerfile>
+    <innerfile refid="test__federated__rag__merger__focused_8cpp">test_federated_rag_merger_focused.cpp</innerfile>
+    <innerfile refid="test__lora__federation__coordinator__focused_8cpp">test_lora_federation_coordinator_focused.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/distributed_knowledge/"/>
+  </compounddef>
+</doxygen>

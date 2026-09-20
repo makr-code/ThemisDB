@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="maintenance__api__contract_8h" kind="file" language="C++">
+    <compoundname>maintenance_api_contract.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <includes local="no">chrono</includes>
+    <includedby refid="bench__maintenance__distributed__gates_8cpp" local="yes">benchmarks/maintenance/bench_maintenance_distributed_gates.cpp</includedby>
+    <includedby refid="bench__maintenance__release__gates_8cpp" local="yes">benchmarks/maintenance/bench_maintenance_release_gates.cpp</includedby>
+    <includedby refid="maintenance__schedule__store_8cpp" local="yes">src/maintenance/maintenance_schedule_store.cpp</includedby>
+    <includedby refid="test__maintenance__churn__hardening__focused_8cpp" local="yes">tests/maintenance/test_maintenance_churn_hardening_focused.cpp</includedby>
+    <includedby refid="test__maintenance__contract__hardening__focused_8cpp" local="yes">tests/maintenance/test_maintenance_contract_hardening_focused.cpp</includedby>
+    <includedby refid="test__maintenance__diagnostics__focused_8cpp" local="yes">tests/maintenance/test_maintenance_diagnostics_focused.cpp</includedby>
+    <includedby refid="test__maintenance__hardening__phase23__focused_8cpp" local="yes">tests/maintenance/test_maintenance_hardening_phase23_focused.cpp</includedby>
+    <includedby refid="test__maintenance__stress__focused_8cpp" local="yes">tests/maintenance/test_maintenance_stress_focused.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/maintenance/maintenance_api_contract.h</label>
+        <link refid="maintenance__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/maintenance/bench_maintenance_distributed_gates.cpp</label>
+        <link refid="bench__maintenance__distributed__gates_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/maintenance/bench_maintenance_release_gates.cpp</label>
+        <link refid="bench__maintenance__release__gates_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/maintenance/maintenance_api_contract.h</label>
+        <link refid="maintenance__api__contract_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/maintenance/maintenance_schedule_store.cpp</label>
+        <link refid="maintenance__schedule__store_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/maintenance/test_maintenance_churn_hardening_focused.cpp</label>
+        <link refid="test__maintenance__churn__hardening__focused_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/maintenance/test_maintenance_contract_hardening_focused.cpp</label>
+        <link refid="test__maintenance__contract__hardening__focused_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/maintenance/test_maintenance_diagnostics_focused.cpp</label>
+        <link refid="test__maintenance__diagnostics__focused_8cpp"/>
+      </node>
+      <node id="8">
+        <label>tests/maintenance/test_maintenance_hardening_phase23_focused.cpp</label>
+        <link refid="test__maintenance__hardening__phase23__focused_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/maintenance/test_maintenance_stress_focused.cpp</label>
+        <link refid="test__maintenance__stress__focused_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor" prot="public">themis::maintenance::MaintenanceScheduleDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot" prot="public">themis::maintenance::MaintenanceHealthSnapshot</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1maintenance">themis::maintenance</innernamespace>
+    <briefdescription>
+<para>Frozen maintenance module API contract for schedule, execution, and persistence. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+</para>
+<sect1 id="maintenance__api__contract_8h_1autotoc_md0_1s1"><sect2 id="maintenance__api__contract_8h_1autotoc_md0">
+<title>§Purpose</title><para>Defines the normative contract for the maintenance module covering schedule orchestration, task-handler dispatch, persistence/reload, and registry-driven setup. All maintenance module components must honour these contracts within the current v1.x major release line.</para>
+</sect2></sect1>
+<sect1 id="maintenance__api__contract_8h_1autotoc_md1_1s1"><sect2 id="maintenance__api__contract_8h_1autotoc_md1">
+<title>§API Contracts</title><para>Key behavioural invariants:<orderedlist>
+<listitem><para>A schedule may only be executed if its handler is registered in the task registry; missing handlers produce kHandlerNotRegistered, never a crash.</para>
+</listitem><listitem><para>Persistence operations are atomic from the caller&apos;s perspective: a failed write leaves the existing persisted state intact (kPersistenceFailed).</para>
+</listitem><listitem><para>Schedule reload on restart MUST reconstruct an identical in-memory representation from the persisted state.</para>
+</listitem><listitem><para>The orchestrator propagates kOrchestratorDegraded and halts further dispatches when the underlying infrastructure is unhealthy.</para>
+</listitem><listitem><para>All timing operations use monotonic clocks; wall-clock adjustments do not affect schedule correctness.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="maintenance__api__contract_8h_1autotoc_md2_1s1"><sect2 id="maintenance__api__contract_8h_1autotoc_md2">
+<title>§Error Taxonomy</title><para><table rows="10" cols="3"><row>
+<entry thead="yes"><para>Code  </para>
+</entry><entry thead="yes"><para>Constant  </para>
+</entry><entry thead="yes"><para>Meaning  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>0  </para>
+</entry><entry thead="no"><para>kSuccess  </para>
+</entry><entry thead="no"><para>Operation completed without error  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8100  </para>
+</entry><entry thead="no"><para>kScheduleNotFound  </para>
+</entry><entry thead="no"><para>Referenced schedule ID does not exist  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8101  </para>
+</entry><entry thead="no"><para>kHandlerNotRegistered  </para>
+</entry><entry thead="no"><para>No handler registered for task type  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8102  </para>
+</entry><entry thead="no"><para>kPersistenceFailed  </para>
+</entry><entry thead="no"><para>Schedule store write or read operation failed  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8103  </para>
+</entry><entry thead="no"><para>kExecutionTimeout  </para>
+</entry><entry thead="no"><para>Task execution exceeded allowed time budget  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8104  </para>
+</entry><entry thead="no"><para>kConcurrentModification  </para>
+</entry><entry thead="no"><para>Schedule modified concurrently; retry safe  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8105  </para>
+</entry><entry thead="no"><para>kInvalidSchedule  </para>
+</entry><entry thead="no"><para>Schedule descriptor fails structural checks  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8106  </para>
+</entry><entry thead="no"><para>kOrchestratorDegraded  </para>
+</entry><entry thead="no"><para>Orchestrator health check failed; deny all  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>8107  </para>
+</entry><entry thead="no"><para>kInternalError  </para>
+</entry><entry thead="no"><para>Unclassified internal error; always deny  </para>
+</entry></row>
+</table>
+</para>
+</sect2></sect1>
+<sect1 id="maintenance__api__contract_8h_1autotoc_md3_1s1"><sect2 id="maintenance__api__contract_8h_1autotoc_md3">
+<title>§Threading Guarantees</title><para><itemizedlist>
+<listitem><para>ScheduleStore implementations MUST be safe for concurrent reads; writes are serialized by the orchestrator&apos;s internal mutex.</para>
+</listitem><listitem><para>Handler registration is single-threaded at startup; subsequent reads are lock-free (read-only map).</para>
+</listitem><listitem><para>kConcurrentModification is a retriable error; callers MUST back off and retry with an appropriate jitter strategy.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="maintenance__api__contract_8h_1autotoc_md4_1s1"><sect2 id="maintenance__api__contract_8h_1autotoc_md4">
+<title>§Contract Freeze</title><para>This contract is stable within v1.x. Breaking changes require a v2.0 bump with migration notes and a CHANGELOG entry.</para>
+<para><simplesect kind="see"><para>src/maintenance/ROADMAP.md — Phase 1 item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1maintenance" kindref="compound">maintenance</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Error<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05b" kindref="member">MaintenanceError</ref><sp/>:<sp/>int32_t<sp/>{</highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba8c632159fa131f09d04f94e3cbcd8782" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba8c632159fa131f09d04f94e3cbcd8782" kindref="member">kSuccess</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baa703b7a8f5a57cc89ec098bbc8d7921e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baa703b7a8f5a57cc89ec098bbc8d7921e" kindref="member">kScheduleNotFound</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8100,<sp/></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baaa93e518e6b373a4c9e78b62c86289b4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baaa93e518e6b373a4c9e78b62c86289b4" kindref="member">kHandlerNotRegistered</ref><sp/><sp/>=<sp/>8101,<sp/></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba1a8c39fbba29f3e60545f11c3e52554f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba1a8c39fbba29f3e60545f11c3e52554f" kindref="member">kPersistenceFailed</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>8102,<sp/></highlight></codeline>
+<codeline lineno="82" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba7b53e5920b10cd9111864160d63d4551" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba7b53e5920b10cd9111864160d63d4551" kindref="member">kExecutionTimeout</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8103,<sp/></highlight></codeline>
+<codeline lineno="83" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05babb0ee3b1441d38aefa3c275454364672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05babb0ee3b1441d38aefa3c275454364672" kindref="member">kConcurrentModification</ref><sp/>=<sp/>8104,<sp/></highlight></codeline>
+<codeline lineno="84" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baf9eda1609c7b45d5e676a071d930fe66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05baf9eda1609c7b45d5e676a071d930fe66" kindref="member">kInvalidSchedule</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8105,<sp/></highlight></codeline>
+<codeline lineno="85" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05bafaeac8adc13cccde1fe33242942b568b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05bafaeac8adc13cccde1fe33242942b568b" kindref="member">kOrchestratorDegraded</ref><sp/><sp/>=<sp/>8106,<sp/></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05bafcd417a134c251034b0d61b07c826394" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05bafcd417a134c251034b0d61b07c826394" kindref="member">kInternalError</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>8107,<sp/></highlight></codeline>
+<codeline lineno="87" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba692130a30f1b5f94f7e56f43ccf28859" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba692130a30f1b5f94f7e56f43ccf28859" kindref="member">kSkippedConcurrent</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>8108,<sp/></highlight></codeline>
+<codeline lineno="88" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba97936e12dd1ee2f3b5f45e00d05c9a0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba97936e12dd1ee2f3b5f45e00d05c9a0c" kindref="member">kPersistenceCorrupt</ref><sp/><sp/><sp/><sp/>=<sp/>8109,<sp/></highlight></codeline>
+<codeline lineno="89" refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba89eb04a7d77d4cd399ea2e4ee8cbd63e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba89eb04a7d77d4cd399ea2e4ee8cbd63e" kindref="member">kChurnLimitExceeded</ref><sp/><sp/><sp/><sp/>=<sp/>8110,<sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>Schedule<sp/>descriptor<sp/>constraints</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespacethemis_1_1maintenance_1ad584937359225d65be45866c0af1a900" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1maintenance_1ad584937359225d65be45866c0af1a900" kindref="member">kMaxScheduleIdBytes</ref><sp/>=<sp/>256;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="namespacethemis_1_1maintenance_1a3d32eb246b07c0b46ec8c02764abf969" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="namespacethemis_1_1maintenance_1a3d32eb246b07c0b46ec8c02764abf969" kindref="member">kMaxSchedulesPerOrchestrator</ref><sp/>=<sp/>65536;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="namespacethemis_1_1maintenance_1a763a6c1c63038d36c0b022e5dfab220b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::minutes<sp/><ref refid="namespacethemis_1_1maintenance_1a763a6c1c63038d36c0b022e5dfab220b" kindref="member">kMaxTaskExecutionDuration</ref>{60};</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="namespacethemis_1_1maintenance_1aaba091ac3157dd8d72df48fef7fd2b62" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>std::chrono::seconds<sp/><ref refid="namespacethemis_1_1maintenance_1aaba091ac3157dd8d72df48fef7fd2b62" kindref="member">kMinRecurringIntervalSeconds</ref>{10};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>3<sp/><sp/>Supporting<sp/>structs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor" kindref="compound">MaintenanceScheduleDescriptor</ref><sp/>{</highlight></codeline>
+<codeline lineno="121" refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a14acec90a7eb14e8100ebae11b6696de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a14acec90a7eb14e8100ebae11b6696de" kindref="member">schedule_id</ref>;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a221e2511bb5868fc4d869254bd47cca0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a221e2511bb5868fc4d869254bd47cca0" kindref="member">task_type</ref>;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a1102218f593517f3beadf3336ae4d6bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a1102218f593517f3beadf3336ae4d6bd" kindref="member">interval</ref>{0};</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130" refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a2b79a694945e92ad088e250083586738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a2b79a694945e92ad088e250083586738" kindref="member">enabled</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1aa8ce645bafd0254ff465240ff7213e7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::seconds<sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1aa8ce645bafd0254ff465240ff7213e7e" kindref="member">timeout</ref>{0};</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146" refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a9b8c9be6b77b29dfeca46043e39224e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_schedule_descriptor_1a9b8c9be6b77b29dfeca46043e39224e0" kindref="member">max_schedule_changes_per_interval</ref>{0};</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot" kindref="compound">MaintenanceHealthSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="155" refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae8c066c6ad4617475f485b60f33be23e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae8c066c6ad4617475f485b60f33be23e" kindref="member">is_healthy</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156" refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae2b48a52dc6400b93b18fba1d9073c69" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1ae2b48a52dc6400b93b18fba1d9073c69" kindref="member">active_schedule_count</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a2d0fba71eb26cdbd66178eb81adb1cf5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a2d0fba71eb26cdbd66178eb81adb1cf5" kindref="member">failed_execution_count</ref>{0};<sp/></highlight></codeline>
+<codeline lineno="158" refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a409c609bee026003ccea62ba8bbc5c01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><ref refid="structthemis_1_1maintenance_1_1_maintenance_health_snapshot_1a409c609bee026003ccea62ba8bbc5c01" kindref="member">last_error_message</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>4<sp/><sp/>Fail-closed<sp/>contract<sp/>for<sp/>degraded<sp/>orchestrator</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170" refid="namespacethemis_1_1maintenance_1aa19c0036b10981566f5bacf51f96c4e0" refkind="member"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1maintenance_1aa19c0036b10981566f5bacf51f96c4e0" kindref="member">isMaintenanceFailClosed</ref>(<ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05b" kindref="member">MaintenanceError</ref><sp/>e)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05bafaeac8adc13cccde1fe33242942b568b" kindref="member">MaintenanceError::kOrchestratorDegraded</ref></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05bafcd417a134c251034b0d61b07c826394" kindref="member">MaintenanceError::kInternalError</ref></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba1a8c39fbba29f3e60545f11c3e52554f" kindref="member">MaintenanceError::kPersistenceFailed</ref></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>||<sp/>e<sp/>==<sp/><ref refid="namespacethemis_1_1maintenance_1ae1a42412965993222bd7e6ca427ee05ba97936e12dd1ee2f3b5f45e00d05c9a0c" kindref="member">MaintenanceError::kPersistenceCorrupt</ref>;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>maintenance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/maintenance/maintenance_api_contract.h"/>
+  </compounddef>
+</doxygen>

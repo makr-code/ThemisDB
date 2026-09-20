@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::CrossClusterFederator::ExecutionPlan</compoundname>
+    <includes refid="cross__cluster__federation_8h" local="no">cross_cluster_federation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan_1ada699bd6abfa0944209788c3e02125c8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::CrossClusterFederator::ExecutionPlan::selected_clusters</definition>
+        <argsstring></argsstring>
+        <name>selected_clusters</name>
+        <qualifiedname>themis::query::CrossClusterFederator::ExecutionPlan::selected_clusters</qualifiedname>
+        <briefdescription>
+<para>Cluster IDs to query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="64" column="27" bodyfile="include/query/cross_cluster_federation.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan_1a2734be1a3d511565d6d7fb95b972eec5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_cluster_cost_estimate" kindref="compound">ClusterCostEstimate</ref> &gt;</type>
+        <definition>std::vector&lt;ClusterCostEstimate&gt; themis::query::CrossClusterFederator::ExecutionPlan::cost_estimates</definition>
+        <argsstring></argsstring>
+        <name>cost_estimates</name>
+        <qualifiedname>themis::query::CrossClusterFederator::ExecutionPlan::cost_estimates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="65" column="21" bodyfile="include/query/cross_cluster_federation.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan_1a970e837bd943d3f65a2bcc52c7d3ab7d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::CrossClusterFederator::ExecutionPlan::total_estimated_cost</definition>
+        <argsstring></argsstring>
+        <name>total_estimated_cost</name>
+        <qualifiedname>themis::query::CrossClusterFederator::ExecutionPlan::total_estimated_cost</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="66" column="41" bodyfile="include/query/cross_cluster_federation.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan_1a15ea82197da8abd5f53d9809df6b9192" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::CrossClusterFederator::ExecutionPlan::merge_strategy</definition>
+        <argsstring></argsstring>
+        <name>merge_strategy</name>
+        <qualifiedname>themis::query::CrossClusterFederator::ExecutionPlan::merge_strategy</qualifiedname>
+        <briefdescription>
+<para>&quot;union&quot; (default) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/cross_cluster_federation.h" line="67" column="41" bodyfile="include/query/cross_cluster_federation.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/cross_cluster_federation.h" line="63" column="5" bodyfile="include/query/cross_cluster_federation.h" bodystart="63" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan_1a2734be1a3d511565d6d7fb95b972eec5" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::ExecutionPlan</scope><name>cost_estimates</name></member>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan_1a15ea82197da8abd5f53d9809df6b9192" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::ExecutionPlan</scope><name>merge_strategy</name></member>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan_1ada699bd6abfa0944209788c3e02125c8" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::ExecutionPlan</scope><name>selected_clusters</name></member>
+      <member refid="structthemis_1_1query_1_1_cross_cluster_federator_1_1_execution_plan_1a970e837bd943d3f65a2bcc52c7d3ab7d" prot="public" virt="non-virtual"><scope>themis::query::CrossClusterFederator::ExecutionPlan</scope><name>total_estimated_cost</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

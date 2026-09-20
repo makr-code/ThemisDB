@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::scraper::InMemoryLLMEvaluator</compoundname>
+    <basecompoundref refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator" prot="public" virt="non-virtual">themis::scraper::IScraperLLMEvaluator</basecompoundref>
+    <includes refid="scraper__llm__evaluator_8h" local="no">scraper_llm_evaluator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1a5f92e7b3f3a3d57c0e44f1feac81decc" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::scraper::InMemoryLLMEvaluator::default_</definition>
+        <argsstring></argsstring>
+        <name>default_</name>
+        <qualifiedname>themis::scraper::InMemoryLLMEvaluator::default_</qualifiedname>
+        <initializer>{0.8, 0.8, &quot;mock summary&quot;, {}, &quot;&quot;, false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="152" column="22" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1a85ff12746879402d91a7dc97c3711243" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref> &gt;</type>
+        <definition>std::map&lt;std::string, EvaluationResult&gt; themis::scraper::InMemoryLLMEvaluator::overrides_</definition>
+        <argsstring></argsstring>
+        <name>overrides_</name>
+        <qualifiedname>themis::scraper::InMemoryLLMEvaluator::overrides_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="153" column="14" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="153" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1a8b8dae38672bf4ca0775b817aa606f95" prot="private" static="no" mutable="yes">
+        <type>int</type>
+        <definition>int themis::scraper::InMemoryLLMEvaluator::call_count_</definition>
+        <argsstring></argsstring>
+        <name>call_count_</name>
+        <qualifiedname>themis::scraper::InMemoryLLMEvaluator::call_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="154" column="17" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1ac4704d4f89235a463fb2e2c64eee53f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::InMemoryLLMEvaluator::setDefaultResult</definition>
+        <argsstring>(EvaluationResult r)</argsstring>
+        <name>setDefaultResult</name>
+        <qualifiedname>themis::scraper::InMemoryLLMEvaluator::setDefaultResult</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="127" column="10" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1af14cadb4f403d30d149fb618f5fe6b28" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::scraper::InMemoryLLMEvaluator::injectResult</definition>
+        <argsstring>(const std::string &amp;url_substring, EvaluationResult r)</argsstring>
+        <name>injectResult</name>
+        <qualifiedname>themis::scraper::InMemoryLLMEvaluator::injectResult</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url_substring</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="128" column="10" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1afd96f1296ab3a6f2489f8ea7f190efc4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::scraper::InMemoryLLMEvaluator::callCount</definition>
+        <argsstring>() const</argsstring>
+        <name>callCount</name>
+        <qualifiedname>themis::scraper::InMemoryLLMEvaluator::callCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="131" column="9" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="131" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1aacb1c68a93323e0ec450b944ad840677" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref></type>
+        <definition>EvaluationResult themis::scraper::InMemoryLLMEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;url, const GapContext &amp;, double threshold) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::scraper::InMemoryLLMEvaluator::evaluate</qualifiedname>
+        <reimplements refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator_1ac62f5cfd3a6c044a24d8d54463ca1511">evaluate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>url</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1scraper_1_1_gap_context" kindref="compound">GapContext</ref> &amp;</type>
+          <declname>gap</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plain text extracted from the scraped page. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source URL (for logging / metadata). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Gap context to evaluate against. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum quality_score to pass; set below_threshold when score falls short. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1scraper_1_1_evaluation_result" kindref="compound">EvaluationResult</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="133" column="22" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="133" bodyend="149"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Test double that returns pre-configured evaluation results. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::scraper::IScraperLLMEvaluator</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::InMemoryLLMEvaluator</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::scraper::IScraperLLMEvaluator</label>
+        <link refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator"/>
+      </node>
+      <node id="1">
+        <label>themis::scraper::InMemoryLLMEvaluator</label>
+        <link refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/scraper/scraper_llm_evaluator.h" line="125" column="1" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="125" bodyend="155"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1a8b8dae38672bf4ca0775b817aa606f95" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryLLMEvaluator</scope><name>call_count_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1afd96f1296ab3a6f2489f8ea7f190efc4" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryLLMEvaluator</scope><name>callCount</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1a5f92e7b3f3a3d57c0e44f1feac81decc" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryLLMEvaluator</scope><name>default_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1aacb1c68a93323e0ec450b944ad840677" prot="public" virt="virtual"><scope>themis::scraper::InMemoryLLMEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1af14cadb4f403d30d149fb618f5fe6b28" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryLLMEvaluator</scope><name>injectResult</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1a85ff12746879402d91a7dc97c3711243" prot="private" virt="non-virtual"><scope>themis::scraper::InMemoryLLMEvaluator</scope><name>overrides_</name></member>
+      <member refid="classthemis_1_1scraper_1_1_in_memory_l_l_m_evaluator_1ac4704d4f89235a463fb2e2c64eee53f6" prot="public" virt="non-virtual"><scope>themis::scraper::InMemoryLLMEvaluator</scope><name>setDefaultResult</name></member>
+      <member refid="classthemis_1_1scraper_1_1_i_scraper_l_l_m_evaluator_1a8801be0e4de89add96c5d7fbe7ed993b" prot="public" virt="virtual"><scope>themis::scraper::InMemoryLLMEvaluator</scope><name>~IScraperLLMEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

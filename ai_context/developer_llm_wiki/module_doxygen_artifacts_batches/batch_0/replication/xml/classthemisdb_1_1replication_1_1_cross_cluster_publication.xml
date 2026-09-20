@@ -1,0 +1,648 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemisdb_1_1replication_1_1_cross_cluster_publication" kind="class" language="C++" prot="public">
+    <compoundname>themisdb::replication::CrossClusterPublication</compoundname>
+    <basecompoundref refid="classthemisdb_1_1replication_1_1_i_replication_listener" prot="public" virt="non-virtual">themisdb::replication::IReplicationListener</basecompoundref>
+    <includes refid="replication__manager_8h" local="no">replication_manager.h</includes>
+    <innerclass refid="structthemisdb_1_1replication_1_1_cross_cluster_publication_1_1_remote_subscriber" prot="private">themisdb::replication::CrossClusterPublication::RemoteSubscriber</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a70d6e117a21a8ec2740229ad2412f052" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;)&gt;</type>
+        <definition>using themisdb::replication::CrossClusterPublication::RemoteSubscriberCallback = std::function&lt;void(const WALEntry&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RemoteSubscriberCallback</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::RemoteSubscriberCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1657" column="5" bodyfile="include/replication/replication_manager.h" bodystart="1657" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1add6a84b8a2a67377c88e35c8f56d5afb" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CrossClusterPublication::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1707" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1707" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ae015c294818019a9fb1ead884bd0d589" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::CrossClusterPublication::filter_mutex_</definition>
+        <argsstring></argsstring>
+        <name>filter_mutex_</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::filter_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1709" column="31" bodyfile="include/replication/replication_manager.h" bodystart="1709" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ab6d6882f2d69e19955b5999e9c97bb27" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemisdb_1_1replication_1_1_publication_filter" kindref="compound">PublicationFilter</ref></type>
+        <definition>PublicationFilter themisdb::replication::CrossClusterPublication::filter_</definition>
+        <argsstring></argsstring>
+        <name>filter_</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::filter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1710" column="23" bodyfile="include/replication/replication_manager.h" bodystart="1710" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1aa2c2af0d1d85b6ee33a02007ed1db236" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themisdb::replication::CrossClusterPublication::subs_mutex_</definition>
+        <argsstring></argsstring>
+        <name>subs_mutex_</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::subs_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1712" column="31" bodyfile="include/replication/replication_manager.h" bodystart="1712" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a8b28d9ecc4d23506995ebc32b3288f0e" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; RemoteSubscriber &gt;</type>
+        <definition>std::vector&lt;RemoteSubscriber&gt; themisdb::replication::CrossClusterPublication::subscribers_</definition>
+        <argsstring></argsstring>
+        <name>subscribers_</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::subscribers_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1713" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1713" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a630f9ad9371c704c6e7f88c6afed055d" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::CrossClusterPublication::next_id_</definition>
+        <argsstring></argsstring>
+        <name>next_id_</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::next_id_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1714" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1714" bodyend="1714"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a2cc161414b1cc1b4f78d7063fd0d3405" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themisdb::replication::CrossClusterPublication::published_count_</definition>
+        <argsstring></argsstring>
+        <name>published_count_</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::published_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1715" column="17" bodyfile="include/replication/replication_manager.h" bodystart="1715" bodyend="1715"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a5bf449da78e1c8099139b618021151ad" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::replication::CrossClusterPublication::CrossClusterPublication</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>CrossClusterPublication</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::CrossClusterPublication</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1659" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6446" bodyend="6447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ae2f75b731d7d558f20d91455e9746995" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themisdb::replication::CrossClusterPublication::name</definition>
+        <argsstring>() const</argsstring>
+        <name>name</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1662" column="23" bodyfile="src/replication/replication_manager.cpp" bodystart="6449" bodyend="6449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a605e051eb542e5657f1e7a4da56f46a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::setFilter</definition>
+        <argsstring>(const PublicationFilter &amp;filter)</argsstring>
+        <name>setFilter</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::setFilter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_publication_filter" kindref="compound">PublicationFilter</ref> &amp;</type>
+          <declname>filter</declname>
+        </param>
+        <briefdescription>
+<para>Set Filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1665" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6456" bodyend="6459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a56273de7ff554b5e12446c33b432b3f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1replication_1_1_publication_filter" kindref="compound">PublicationFilter</ref></type>
+        <definition>PublicationFilter themisdb::replication::CrossClusterPublication::getFilter</definition>
+        <argsstring>() const</argsstring>
+        <name>getFilter</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::getFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1666" column="23" bodyfile="src/replication/replication_manager.cpp" bodystart="6461" bodyend="6469"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a0c88832bd4af57f4ebec68f89929bfa3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::CrossClusterPublication::addRemoteSubscriber</definition>
+        <argsstring>(RemoteSubscriberCallback callback)</argsstring>
+        <name>addRemoteSubscriber</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::addRemoteSubscriber</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a70d6e117a21a8ec2740229ad2412f052" kindref="member">RemoteSubscriberCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Add Remote Subscriber. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), lock(), push_back(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1669" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6477" bodyend="6482"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a5fffffaa2686e843b45b6704f0f4c41d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::removeRemoteSubscriber</definition>
+        <argsstring>(uint64_t subscriber_id)</argsstring>
+        <name>removeRemoteSubscriber</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::removeRemoteSubscriber</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>subscriber_id</declname>
+        </param>
+        <briefdescription>
+<para>Remove Remote Subscriber. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscriber_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subscriber.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), erase(), std::remove_if(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1672" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6489" bodyend="6497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a9c417c8962f86063722bfd8026d36e08" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themisdb::replication::CrossClusterPublication::subscriberCount</definition>
+        <argsstring>() const</argsstring>
+        <name>subscriberCount</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::subscriberCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subs_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1675" column="12" bodyfile="src/replication/replication_manager.cpp" bodystart="6499" bodyend="6507"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a7130e81a1a91788fd7d0b5c1320da3fb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::replication::CrossClusterPublication::publishedCount</definition>
+        <argsstring>() const</argsstring>
+        <name>publishedCount</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::publishedCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1678" column="14" bodyfile="src/replication/replication_manager.cpp" bodystart="6509" bodyend="6511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a09e21d66088bdb9ced7c2ad9a11631fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::publish</definition>
+        <argsstring>(const WALEntry &amp;entry)</argsstring>
+        <name>publish</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::publish</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Publish. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), matches(), fetch_add(), callback(), THEMIS_ERROR(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1681" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6518" bodyend="6538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a0dc97b544d753338f2e26c0fdcd3bd92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::replication::CrossClusterPublication::exportPrometheusMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>exportPrometheusMetrics</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::exportPrometheusMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1684" column="17" bodyfile="src/replication/replication_manager.cpp" bodystart="6549" bodyend="6557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1aebaeba13ca6d487e86e5df408871a80d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onWALEntryApplied</definition>
+        <argsstring>(const WALEntry &amp;entry) override</argsstring>
+        <name>onWALEntryApplied</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onWALEntryApplied</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1af5af59bfb9d4a5136514552f110de9c8">onWALEntryApplied</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>On <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref> Applied. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a09e21d66088bdb9ced7c2ad9a11631fe" kindref="member">publish()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1689" column="10" bodyfile="src/replication/replication_manager.cpp" bodystart="6545" bodyend="6547"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1accceefe9cf69dfaf2205dac5549d90bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onRoleChange</definition>
+        <argsstring>(ReplicationRole, ReplicationRole) override</argsstring>
+        <name>onRoleChange</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onRoleChange</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a2cdbbc2a8a075ed4a4285542d16b3c7a">onRoleChange</reimplements>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1ad76e811d58066a482358e9c3959a09e3" kindref="member">ReplicationRole</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1690" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1690" bodyend="1690"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a31f6c3a67cc8e7cbed8c8ff298b726cd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onLeaderElected</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onLeaderElected</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onLeaderElected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a3fcbfce08a82f5f74f1b060a5a6d082f">onLeaderElected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1691" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1691" bodyend="1691"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a8382e666839b10e706accadf5dd408ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onReplicaAdded</definition>
+        <argsstring>(const ReplicaInfo &amp;) override</argsstring>
+        <name>onReplicaAdded</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onReplicaAdded</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a16aa55efb52c2495bf50b719e7497b43">onReplicaAdded</reimplements>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1replication_1_1_replica_info" kindref="compound">ReplicaInfo</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1692" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1692" bodyend="1692"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a65a85f63453fc3f9959a96e1ce914843" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onReplicaRemoved</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onReplicaRemoved</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onReplicaRemoved</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a4303b3ab155bb1c2df41f89069b02931">onReplicaRemoved</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1693" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1693" bodyend="1693"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a1ba908dc021d7c3d027bc311867f186e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onConflictDetected</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>onConflictDetected</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onConflictDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a261c025241caa1597f4ae8cb0f20947f">onConflictDetected</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1694" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1694" bodyend="1694"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a28b8bc441a576f063a2a3cd09d8668e1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onReplicationLagWarning</definition>
+        <argsstring>(int64_t) override</argsstring>
+        <name>onReplicationLagWarning</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onReplicationLagWarning</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a5f00cb59d9e5f4286dbee3f8418c1375">onReplicationLagWarning</reimplements>
+        <param>
+          <type>int64_t</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1695" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1695" bodyend="1695"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1af07974945ea1d517b2604c69cfc9cfde" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onReplicaHealthChanged</definition>
+        <argsstring>(const std::string &amp;, HealthStatus, HealthStatus) override</argsstring>
+        <name>onReplicaHealthChanged</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onReplicaHealthChanged</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1ace538bfc02cb257542fb2b11d55e7139">onReplicaHealthChanged</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1replication_1a22bb381941cf06c4c30110c4ba7f60aa" kindref="member">HealthStatus</ref></type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1696" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1696" bodyend="1696"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a6b422503e10068815ff84e536842f52b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onFailoverStarted</definition>
+        <argsstring>(const std::string &amp;, const std::string &amp;) override</argsstring>
+        <name>onFailoverStarted</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onFailoverStarted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a03c09e34da59b2594d79810c33b2420d">onFailoverStarted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1697" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1697" bodyend="1697"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ab4963a2699d9aeb4af453ac1e80a9f22" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onFailoverCompleted</definition>
+        <argsstring>(const std::string &amp;, bool) override</argsstring>
+        <name>onFailoverCompleted</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onFailoverCompleted</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a68c566bb34bb71967ab672e492b4024f">onFailoverCompleted</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type>bool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1698" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1698" bodyend="1698"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemisdb_1_1replication_1_1_cross_cluster_publication_1adb6ab0a34d6b43877a92a6bfcd2064d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themisdb::replication::CrossClusterPublication::onNetworkPartitionDetected</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;) override</argsstring>
+        <name>onNetworkPartitionDetected</name>
+        <qualifiedname>themisdb::replication::CrossClusterPublication::onNetworkPartitionDetected</qualifiedname>
+        <reimplements refid="classthemisdb_1_1replication_1_1_i_replication_listener_1a1e9909fe6f6bc69a4fd284819647ff7c">onNetworkPartitionDetected</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/replication/replication_manager.h" line="1699" column="10" bodyfile="include/replication/replication_manager.h" bodystart="1699" bodyend="1699"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemisdb_1_1replication_1_1_cross_cluster_publication" kindref="compound">CrossClusterPublication</ref></para>
+<para>Publishes WAL entries to remote cluster subscriptions. Implements <ref refid="classthemisdb_1_1replication_1_1_i_replication_listener" kindref="compound">IReplicationListener</ref> so it can be registered directly with <ref refid="classthemisdb_1_1replication_1_1_replication_manager_1a10e1433302c16db2b07c5101d8a3ab3e" kindref="member">ReplicationManager::addListener()</ref>. Every WAL entry that passes the configured filter is forwarded to all registered remote subscribers.</para>
+<para>Usage: auto pub = std::make_shared&lt;CrossClusterPublication&gt;(&quot;orders_pub&quot;); pub-&gt;setFilter(filter); repl_mgr.addListener(pub); pub-&gt;addRemoteSubscriber([](const <ref refid="structthemisdb_1_1replication_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp; e){ remote.apply(e); }); </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themisdb::replication::CrossClusterPublication</label>
+        <link refid="classthemisdb_1_1replication_1_1_cross_cluster_publication"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themisdb::replication::CrossClusterPublication</label>
+        <link refid="classthemisdb_1_1replication_1_1_cross_cluster_publication"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themisdb::replication::IReplicationListener</label>
+        <link refid="classthemisdb_1_1replication_1_1_i_replication_listener"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/replication/replication_manager.h" line="1655" column="1" bodyfile="include/replication/replication_manager.h" bodystart="1655" bodyend="1716"/>
+    <listofallmembers>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a0c88832bd4af57f4ebec68f89929bfa3" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>addRemoteSubscriber</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a5bf449da78e1c8099139b618021151ad" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>CrossClusterPublication</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a0dc97b544d753338f2e26c0fdcd3bd92" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>exportPrometheusMetrics</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ab6d6882f2d69e19955b5999e9c97bb27" prot="private" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>filter_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ae015c294818019a9fb1ead884bd0d589" prot="private" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>filter_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a56273de7ff554b5e12446c33b432b3f4" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>getFilter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ae2f75b731d7d558f20d91455e9746995" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>name</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1add6a84b8a2a67377c88e35c8f56d5afb" prot="private" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>name_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a630f9ad9371c704c6e7f88c6afed055d" prot="private" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>next_id_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a1ba908dc021d7c3d027bc311867f186e" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onConflictDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1ab4963a2699d9aeb4af453ac1e80a9f22" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onFailoverCompleted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a6b422503e10068815ff84e536842f52b" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onFailoverStarted</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a31f6c3a67cc8e7cbed8c8ff298b726cd" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onLeaderElected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1adb6ab0a34d6b43877a92a6bfcd2064d5" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onNetworkPartitionDetected</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a8382e666839b10e706accadf5dd408ca" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onReplicaAdded</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1af07974945ea1d517b2604c69cfc9cfde" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onReplicaHealthChanged</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a65a85f63453fc3f9959a96e1ce914843" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onReplicaRemoved</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a28b8bc441a576f063a2a3cd09d8668e1" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onReplicationLagWarning</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1accceefe9cf69dfaf2205dac5549d90bc" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onRoleChange</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1aebaeba13ca6d487e86e5df408871a80d" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>onWALEntryApplied</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a09e21d66088bdb9ced7c2ad9a11631fe" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>publish</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a2cc161414b1cc1b4f78d7063fd0d3405" prot="private" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>published_count_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a7130e81a1a91788fd7d0b5c1320da3fb" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>publishedCount</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a70d6e117a21a8ec2740229ad2412f052" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>RemoteSubscriberCallback</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a5fffffaa2686e843b45b6704f0f4c41d" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>removeRemoteSubscriber</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a605e051eb542e5657f1e7a4da56f46a7" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>setFilter</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1aa2c2af0d1d85b6ee33a02007ed1db236" prot="private" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>subs_mutex_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a9c417c8962f86063722bfd8026d36e08" prot="public" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>subscriberCount</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_cross_cluster_publication_1a8b28d9ecc4d23506995ebc32b3288f0e" prot="private" virt="non-virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>subscribers_</name></member>
+      <member refid="classthemisdb_1_1replication_1_1_i_replication_listener_1acb88cf6198e73097f327c58dbbe23d67" prot="public" virt="virtual"><scope>themisdb::replication::CrossClusterPublication</scope><name>~IReplicationListener</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

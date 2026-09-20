@@ -1,0 +1,395 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="hybrid__search_8h" kind="file" language="C++">
+    <compoundname>hybrid_search.h</compoundname>
+    <includes local="yes">themis/export.h</includes>
+    <includes local="yes">themis/search/llm_reranker_interface.h</includes>
+    <includes local="yes">themis/search/llm_reranker_factory.h</includes>
+    <includes refid="search__error__codes_8h" local="yes">search/search_error_codes.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includedby refid="bench__search__release__gates_8cpp" local="yes">benchmarks/search/bench_search_release_gates.cpp</includedby>
+    <includedby refid="benchmark__hybrid__search_8cpp" local="yes">benchmarks/search/benchmark_hybrid_search.cpp</includedby>
+    <includedby refid="conversational__search_8h" local="yes">include/search/conversational_search.h</includedby>
+    <includedby refid="distributed__hybrid__search_8h" local="yes">include/search/distributed_hybrid_search.h</includedby>
+    <includedby refid="federated__search_8h" local="yes">include/search/federated_search.h</includedby>
+    <includedby refid="search__result__stream_8h" local="yes">include/search/search_result_stream.h</includedby>
+    <includedby refid="hybrid__search_8cpp" local="yes">src/search/hybrid_search.cpp</includedby>
+    <includedby refid="test__search__distributed__merge__phase2_8cpp" local="yes">tests/search/test_search_distributed_merge_phase2.cpp</includedby>
+    <includedby refid="test__search__edge__cases__distributed_8cpp" local="yes">tests/search/test_search_edge_cases_distributed.cpp</includedby>
+    <includedby refid="test__search__edge__cases__fusion_8cpp" local="yes">tests/search/test_search_edge_cases_fusion.cpp</includedby>
+    <includedby refid="test__search__edge__cases__phase3_8cpp" local="yes">tests/search/test_search_edge_cases_phase3.cpp</includedby>
+    <includedby refid="test__search__edge__cases__retrieval_8cpp" local="yes">tests/search/test_search_edge_cases_retrieval.cpp</includedby>
+    <includedby refid="test__search__hybrid__degradation__phase2_8cpp" local="yes">tests/search/test_search_hybrid_degradation_phase2.cpp</includedby>
+    <includedby refid="test__search__integration__phase4_8cpp" local="yes">tests/search/test_search_integration_phase4.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/search/hybrid_search.h</label>
+        <link refid="hybrid__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>search/search_error_codes.h</label>
+        <link refid="search__error__codes_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="10">
+        <label>memory</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="2">
+        <label>themis/export.h</label>
+      </node>
+      <node id="4">
+        <label>themis/search/llm_reranker_factory.h</label>
+      </node>
+      <node id="3">
+        <label>themis/search/llm_reranker_interface.h</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/search/bench_search_release_gates.cpp</label>
+        <link refid="bench__search__release__gates_8cpp"/>
+      </node>
+      <node id="8">
+        <label>benchmarks/search/benchmark_distributed_hybrid_search.cpp</label>
+        <link refid="benchmark__distributed__hybrid__search_8cpp"/>
+      </node>
+      <node id="3">
+        <label>benchmarks/search/benchmark_hybrid_search.cpp</label>
+        <link refid="benchmark__hybrid__search_8cpp"/>
+      </node>
+      <node id="4">
+        <label>include/search/conversational_search.h</label>
+        <link refid="conversational__search_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/search/distributed_hybrid_search.h</label>
+        <link refid="distributed__hybrid__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/search/federated_search.h</label>
+        <link refid="federated__search_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/search/hybrid_search.h</label>
+        <link refid="hybrid__search_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/search/search_result_stream.h</label>
+        <link refid="search__result__stream_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/search/conversational_search.cpp</label>
+        <link refid="conversational__search_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/search/distributed_hybrid_search.cpp</label>
+        <link refid="distributed__hybrid__search_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/search/federated_search.cpp</label>
+        <link refid="federated__search_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/search/hybrid_search.cpp</label>
+        <link refid="hybrid__search_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/search/search_result_stream.cpp</label>
+        <link refid="search__result__stream_8cpp"/>
+      </node>
+      <node id="10">
+        <label>tests/search/test_search_distributed_merge_phase2.cpp</label>
+        <link refid="test__search__distributed__merge__phase2_8cpp"/>
+      </node>
+      <node id="11">
+        <label>tests/search/test_search_distributed_merge_stress.cpp</label>
+        <link refid="test__search__distributed__merge__stress_8cpp"/>
+      </node>
+      <node id="19">
+        <label>tests/search/test_search_edge_cases_analytics.cpp</label>
+        <link refid="test__search__edge__cases__analytics_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/search/test_search_edge_cases_distributed.cpp</label>
+        <link refid="test__search__edge__cases__distributed_8cpp"/>
+      </node>
+      <node id="21">
+        <label>tests/search/test_search_edge_cases_fusion.cpp</label>
+        <link refid="test__search__edge__cases__fusion_8cpp"/>
+      </node>
+      <node id="13">
+        <label>tests/search/test_search_edge_cases_phase3.cpp</label>
+        <link refid="test__search__edge__cases__phase3_8cpp"/>
+      </node>
+      <node id="22">
+        <label>tests/search/test_search_edge_cases_retrieval.cpp</label>
+        <link refid="test__search__edge__cases__retrieval_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/search/test_search_future_interfaces.cpp</label>
+        <link refid="test__search__future__interfaces_8cpp"/>
+      </node>
+      <node id="23">
+        <label>tests/search/test_search_hybrid_degradation_phase2.cpp</label>
+        <link refid="test__search__hybrid__degradation__phase2_8cpp"/>
+      </node>
+      <node id="14">
+        <label>tests/search/test_search_integration_phase4.cpp</label>
+        <link refid="test__search__integration__phase4_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_hybrid_search" prot="public">themis::HybridSearch</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_search_1_1_config" prot="public">themis::HybridSearch::Config</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_search_1_1_result" prot="public">themis::HybridSearch::Result</innerclass>
+    <innerclass refid="structthemis_1_1_hybrid_search_1_1_search_stats" prot="public">themis::HybridSearch::SearchStats</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>2.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 95/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready - v2.0.0 Contract Freeze (Phase 1) </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/export.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/search/llm_reranker_interface.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;themis/search/llm_reranker_factory.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="search__error__codes_8h" kindref="compound">search/search_error_codes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">SecondaryIndexManager;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">VectorIndexManager;</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1index" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">index</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">AnnFrontdoor;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1_hybrid_search" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">THEMIS_QUERY_API<sp/><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1_hybrid_search_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_hybrid_search_1_1_config_1a2a2d50c357b090968e989c6c0e2fa62f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a2a2d50c357b090968e989c6c0e2fa62f" kindref="member">bm25_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_hybrid_search_1_1_config_1aba9141f4a87f8c7d522e9053b7b41bc4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1aba9141f4a87f8c7d522e9053b7b41bc4" kindref="member">vector_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a4a5dba6b00d1667b394279ca33afe11e" kindref="member">k</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Final<sp/>result<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a738a3d9d327054ca9b663465c7729fe5" kindref="member">k_bm25</ref><sp/>=<sp/>50;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>BM25<sp/>candidate<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1ae1c7b448d6a4844e8507626955bf7926" kindref="member">k_vector</ref><sp/>=<sp/>50;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>candidate<sp/>count</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1_hybrid_search_1_1_config_1a5e333c5dee7f7a950b0b48bfbb2201dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a5e333c5dee7f7a950b0b48bfbb2201dc" kindref="member">use_rrf</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>RRF<sp/>(recommended)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1_hybrid_search_1_1_config_1a97852878b845fd1802c4756dc5c8740b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a97852878b845fd1802c4756dc5c8740b" kindref="member">rrf_k</ref><sp/>=<sp/>60.0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RRF<sp/>constant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1_hybrid_search_1_1_config_1a9a768ccbe400703661083e15e62eba6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a9a768ccbe400703661083e15e62eba6f" kindref="member">normalize_scores</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>limits:<sp/>k<sp/>and<sp/>candidates<sp/>are<sp/>clamped<sp/>to<sp/>these<sp/>bounds<sp/>at</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>construction<sp/>time<sp/>to<sp/>prevent<sp/>unbounded<sp/>memory<sp/>/<sp/>latency<sp/>spikes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a0f219c83c2f163fd527b0208236fc18d" kindref="member">max_k</ref><sp/>=<sp/>10&apos;000;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hard<sp/>upper<sp/>bound<sp/>for<sp/>final<sp/>result<sp/>k</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a82ff68429f754936fa9dfa206a179b1f" kindref="member">max_candidates</ref><sp/>=<sp/>10&apos;000;<sp/></highlight><highlight class="comment">//<sp/>Hard<sp/>upper<sp/>bound<sp/>for<sp/>k_bm25<sp/>/<sp/>k_vector</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configurable<sp/>table/column<sp/>for<sp/>searches</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1_hybrid_search_1_1_config_1ac34d8e628ce281a43752ba6d364a1052" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1ac34d8e628ce281a43752ba6d364a1052" kindref="member">default_table</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;documents&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1_hybrid_search_1_1_config_1a27c8ec736f8681b5e772963293223bc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1a27c8ec736f8681b5e772963293223bc7" kindref="member">default_column</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;content&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Vector<sp/>distance<sp/>metric<sp/>used<sp/>for<sp/>similarity<sp/>conversion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1_hybrid_search_1_1_config_1ada8b8ab3146fe97a06399d96777f66ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VectorIndexManager::Metric<sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config_1ada8b8ab3146fe97a06399d96777f66ef" kindref="member">vector_metric</ref><sp/>=<sp/>VectorIndexManager::Metric::COSINE;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1_hybrid_search_1_1_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref><sp/>{</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5f98f4a5ae5e0b6136e5748854649cb8" kindref="member">document_id</ref>;</highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1_hybrid_search_1_1_result_1a4c7f6f683c9aa48a467ecd0634a955eb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result_1a4c7f6f683c9aa48a467ecd0634a955eb" kindref="member">bm25_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1_hybrid_search_1_1_result_1a9efb285ce451e53a0599494f96bebe25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result_1a9efb285ce451e53a0599494f96bebe25" kindref="member">vector_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="110" refid="structthemis_1_1_hybrid_search_1_1_result_1a5af5cc78f00a97e73c08c53e1b3803af" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result_1a5af5cc78f00a97e73c08c53e1b3803af" kindref="member">hybrid_score</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="111" refid="structthemis_1_1_hybrid_search_1_1_result_1a890e8eb9ec9d2d6a0ca79d6adfd0f791" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result_1a890e8eb9ec9d2d6a0ca79d6adfd0f791" kindref="member">bm25_rank</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1_hybrid_search_1_1_result_1a2dcf839e1974d770f8fc2fe5b7a8c46e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result_1a2dcf839e1974d770f8fc2fe5b7a8c46e" kindref="member">vector_rank</ref><sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1_hybrid_search_1_1_result_1a9cae698ec67a3289295acc26d61122f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result_1a9cae698ec67a3289295acc26d61122f7" kindref="member">content</ref>;</highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1_hybrid_search_1_1_result_1a80889b95aac8b0c168d944b291f5117c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;double&gt;<sp/><ref refid="structthemis_1_1_hybrid_search_1_1_result_1a80889b95aac8b0c168d944b291f5117c" kindref="member">geo_distance</ref>;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1_hybrid_search_1_1_search_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats" kindref="compound">SearchStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1_hybrid_search_1_1_search_stats_1aa201a5ba0145dc0f327195dc5ddab5f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats_1aa201a5ba0145dc0f327195dc5ddab5f9" kindref="member">bm25_ok</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125" refid="structthemis_1_1_hybrid_search_1_1_search_stats_1ace8966371dad88603d662e1c9e0ff987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats_1ace8966371dad88603d662e1c9e0ff987" kindref="member">vector_ok</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="126" refid="structthemis_1_1_hybrid_search_1_1_search_stats_1aa1f1ecce8871f88fbe67be2929b1dd9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats_1aa1f1ecce8871f88fbe67be2929b1dd9d" kindref="member">partial_result</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="127" refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a11a54a3a94b3e593e88c795554e7f4a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a11a54a3a94b3e593e88c795554e7f4a8" kindref="member">bm25_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="128" refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a45dc8b18d43bca0b8ddaa88a3bd03286" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a45dc8b18d43bca0b8ddaa88a3bd03286" kindref="member">vector_count</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>2:<sp/>Degradation<sp/>visibility<sp/>flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="structthemis_1_1_hybrid_search_1_1_search_stats_1ac96e6ca5a22247ffd0fdc3fb73979d55" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats_1ac96e6ca5a22247ffd0fdc3fb73979d55" kindref="member">primary_error_code</ref><sp/>=<sp/>0x0000;<sp/><sp/></highlight></codeline>
+<codeline lineno="132" refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a3e297d4523bdffe2d3d0fd0361789d95" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats_1a3e297d4523bdffe2d3d0fd0361789d95" kindref="member">fusion_failed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1_hybrid_search_1_1_search_stats_1afb7653f3af2cd8a06e03b349518ed1d5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats_1afb7653f3af2cd8a06e03b349518ed1d5" kindref="member">rerank_fallback</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>(</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SecondaryIndexManager*<sp/>fulltext_index,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>VectorIndexManager*<sp/>vector_index,</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1_hybrid_search_1ae834c50fbcb06e73012e595f886b2c8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search_1ae834c50fbcb06e73012e595f886b2c8b" kindref="member">~HybridSearch</ref>()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145" refid="classthemis_1_1_hybrid_search_1a1e19e389db4ce3b877f171d5f66fec14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>(const<sp/><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="146" refid="classthemis_1_1_hybrid_search_1aa9cd20a5762e662b63d2e53a7f4b8a6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>&amp;<sp/>operator=(const<sp/><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>&amp;)<sp/>=<sp/>delete;</highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1_hybrid_search_1a799157e103c2058933deccd4e86334cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>(<ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="148" refid="classthemis_1_1_hybrid_search_1a8c9fb345248945cd6c00c7cf93733f9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1_hybrid_search_1acb85d97d2901fb9cae1d6e566af7c07c" kindref="member">HybridSearch</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref>&gt;<sp/><ref refid="classthemis_1_1_hybrid_search_1a21e278c43125f175a8e646a0d4d482ac" kindref="member">search</ref>(</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>text_query,</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal">*<sp/>vector_query<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vector_dim<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_search_stats" kindref="compound">SearchStats</ref>*<sp/>stats<sp/>=<sp/></highlight><highlight class="keywordtype">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref>&gt;<sp/><ref refid="classthemis_1_1_hybrid_search_1a85906e3c62830c1c27be9c25a8d64f44" kindref="member">reciprocalRankFusion</ref>(</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref>&gt;&amp;<sp/>bm25_results,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="structthemis_1_1_hybrid_search_1_1_result" kindref="compound">Result</ref>&gt;&amp;<sp/>vector_results</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1_hybrid_search_1a84f9ecb8e73d0188c36907e17386597c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref>&amp;<sp/><ref refid="classthemis_1_1_hybrid_search_1a84f9ecb8e73d0188c36907e17386597c" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="188" refid="classthemis_1_1_hybrid_search_1aa9bd98d5af53b31de18115a58c80d51b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_hybrid_search_1aa9bd98d5af53b31de18115a58c80d51b" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_hybrid_search_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config)<sp/>{<sp/>config_<sp/>=<sp/>config;<sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setAnnFrontdoor(std::shared_ptr&lt;index::AnnFrontdoor&gt;<sp/>frontdoor);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>setReranker(ILlmReranker::LlmBackend<sp/>backend,</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ILlmReranker::Config&amp;<sp/>config<sp/>=<sp/>ILlmReranker::Config{});</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>normalizeScores(std::vector&lt;Result&gt;&amp;<sp/>results,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>is_bm25);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>SecondaryIndexManager*<sp/>fulltext_index_;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>VectorIndexManager*<sp/>vector_index_;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>Config<sp/>config_;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;index::AnnFrontdoor&gt;<sp/>ann_frontdoor_;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;ILlmReranker&gt;<sp/>reranker_;<sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/search/hybrid_search.h"/>
+  </compounddef>
+</doxygen>

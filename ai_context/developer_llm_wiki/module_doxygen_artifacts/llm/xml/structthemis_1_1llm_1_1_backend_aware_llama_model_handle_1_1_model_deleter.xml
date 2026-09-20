@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_backend_aware_llama_model_handle_1_1_model_deleter" kind="struct" language="C++" prot="private">
+    <compoundname>themis::llm::BackendAwareLlamaModelHandle::ModelDeleter</compoundname>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_backend_aware_llama_model_handle_1_1_model_deleter_1ab296ed202268156e8ccd255bf837b11c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::llm::BackendAwareLlamaModelHandle::ModelDeleter::operator()</definition>
+        <argsstring>(llama_model *model) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::llm::BackendAwareLlamaModelHandle::ModelDeleter::operator()</qualifiedname>
+        <param>
+          <type>llama_model *</type>
+          <declname>model</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/llama_resource_manager.h" line="235" column="14" bodyfile="src/llm/llama_resource_manager.cpp" bodystart="290" bodyend="295"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/llama_resource_manager.h" line="234" column="5" bodyfile="include/llm/llama_resource_manager.h" bodystart="234" bodyend="236"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_backend_aware_llama_model_handle_1_1_model_deleter_1ab296ed202268156e8ccd255bf837b11c" prot="public" virt="non-virtual"><scope>themis::llm::BackendAwareLlamaModelHandle::ModelDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

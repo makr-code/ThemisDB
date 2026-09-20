@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classprometheus_1_1_family" kind="class" language="C++" prot="public">
+    <compoundname>prometheus::Family</compoundname>
+    <includes refid="lora__metrics_8h" local="no">lora_metrics.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename T</type>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/lora_metrics.h" line="30" column="15" bodyfile="include/llm/lora_framework/lora_metrics.h" bodystart="30" bodyend="30"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

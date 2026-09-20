@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="wal__storage_8h" kind="file" language="C++">
+    <compoundname>wal_storage.h</compoundname>
+    <includes local="yes">utils/expected.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bench__storage__performance_8cpp" local="yes">benchmarks/storage/bench_storage_performance.cpp</includedby>
+    <includedby refid="wal__storage_8cpp" local="yes">src/storage/wal_storage.cpp</includedby>
+    <includedby refid="test__storage__fuzz_8cpp" local="yes">tests/storage/test_storage_fuzz.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/storage/wal_storage.h</label>
+        <link refid="wal__storage_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="2">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/storage/bench_storage_performance.cpp</label>
+        <link refid="bench__storage__performance_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/storage/wal_storage.h</label>
+        <link refid="wal__storage_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/storage/wal_storage.cpp</label>
+        <link refid="wal__storage_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/storage/test_storage_fuzz.cpp</label>
+        <link refid="test__storage__fuzz_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1_w_a_l_storage" prot="public">themis::WALStorage</innerclass>
+    <innerclass refid="structthemis_1_1_w_a_l_storage_1_1_entry" prot="public">themis::WALStorage::Entry</innerclass>
+    <innerclass refid="structthemis_1_1_w_a_l_storage_1_1_config" prot="public">themis::WALStorage::Config</innerclass>
+    <innerclass refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry" prot="public">themis::WALStorage::BatchEntry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.46 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2025<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/expected.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1_w_a_l_storage" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref><sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" kindref="member">EntryType</ref><sp/>:<sp/>uint8_t<sp/>{</highlight></codeline>
+<codeline lineno="78" refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a3e75383a5992a6d15fb81e872e46e256" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a3e75383a5992a6d15fb81e872e46e256" kindref="member">PUT</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a2bbe23c0e8b3f638f0f5aed4b6864513" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a2bbe23c0e8b3f638f0f5aed4b6864513" kindref="member">DEL</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a0f15e1247e93ddfa95c008106eb0d22f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906a0f15e1247e93ddfa95c008106eb0d22f" kindref="member">CHECKPOINT</ref><sp/>=<sp/>3,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1_w_a_l_storage_1_1_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_w_a_l_storage_1_1_entry" kindref="compound">Entry</ref><sp/>{</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1_w_a_l_storage_1_1_entry_1a9aab1e14244704a7704c07bbcbc8bf15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_entry_1a9aab1e14244704a7704c07bbcbc8bf15" kindref="member">sequence</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1_w_a_l_storage_1_1_entry_1adfe9a5657660b4ee4244143793c5dbd2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" kindref="member">EntryType</ref><sp/><sp/><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_entry_1adfe9a5657660b4ee4244143793c5dbd2" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1_w_a_l_storage_1_1_entry_1a10b08686974d1f8857edb565dc64831b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_entry_1a10b08686974d1f8857edb565dc64831b" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1_w_a_l_storage_1_1_entry_1a0c8cd3d087088e39f1159d2e339082c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_entry_1a0c8cd3d087088e39f1159d2e339082c2" kindref="member">value</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>for<sp/>DEL<sp/>/<sp/>CHECKPOINT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1_w_a_l_storage_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_w_a_l_storage_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1_w_a_l_storage_1_1_config_1a5c9767884a232dfa5050beefd2ff78db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_config_1a5c9767884a232dfa5050beefd2ff78db" kindref="member">dir</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94" refid="structthemis_1_1_w_a_l_storage_1_1_config_1ab1774d21e7df6d64a7212443154a8088" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_config_1ab1774d21e7df6d64a7212443154a8088" kindref="member">rotation_threshold_bytes</ref><sp/>=<sp/>64<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/></highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1_w_a_l_storage_1_1_config_1ae7d9f7e1dcf6a99d9da1de21ae5fb78f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_config_1ae7d9f7e1dcf6a99d9da1de21ae5fb78f" kindref="member">fsync_on_write</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry" kindref="compound">BatchEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="105" refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1aa87fcd2b5b804bfd29bae8394662db0d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" kindref="member">EntryType</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1aa87fcd2b5b804bfd29bae8394662db0d" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1ae94166a83e1870b4d02c19fb0a862e15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1ae94166a83e1870b4d02c19fb0a862e15" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="107" refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1a23aebe3d7cfcf902b2ea00f5cdb70e35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_batch_entry_1a23aebe3d7cfcf902b2ea00f5cdb70e35" kindref="member">value</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" kindref="member">RecoveryCallback</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_entry" kindref="compound">Entry</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Result&lt;std::unique_ptr&lt;WALStorage&gt;&gt;<sp/><ref refid="classthemis_1_1_w_a_l_storage_1a2e16ed7eea8f2c68e123617841f6b2a7" kindref="member">open</ref>(</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" kindref="member">RecoveryCallback</ref><sp/>on_recover<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1af8758592d003378d3c02170e3ce247c2" kindref="member">~WALStorage</ref>();</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>copyable<sp/>or<sp/>movable<sp/>after<sp/>construction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137" refid="classthemis_1_1_w_a_l_storage_1a4f43cc1efb810da57d6f562bdd01b68a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref>&amp;<sp/><ref refid="classthemis_1_1_w_a_l_storage_1a4f43cc1efb810da57d6f562bdd01b68a" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Write<sp/>operations<sp/>──────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1_w_a_l_storage_1a12c3934ef0a4db046932f243af1ac77f" kindref="member">appendPut</ref>(std::string_view<sp/>key,<sp/>std::string_view<sp/>value);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1_w_a_l_storage_1ad513e0de9e91cb970cdcd49893583ec8" kindref="member">appendDelete</ref>(std::string_view<sp/>key);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1_w_a_l_storage_1a66ff33005d56ef67a026dd7776a89d71" kindref="member">appendBatch</ref>(std::vector&lt;BatchEntry&gt;<sp/>entries);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1_w_a_l_storage_1a4954d8559a2d3e7c7cd56334fb5c477d" kindref="member">checkpoint</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>delete_old_segments<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Accessors<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="classthemis_1_1_w_a_l_storage_1a449fc8b0a962641a825183b3e2377eca" kindref="member">lastSequence</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_w_a_l_storage_1a3507456e01285a2f8b2f2eb07a666521" kindref="member">segmentCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/><ref refid="classthemis_1_1_w_a_l_storage_1a40e679672e816b0f4a73bc29b0076980" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Key<sp/>encoding<sp/>helpers<sp/>(public<sp/>for<sp/>testing)<sp/>─────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1_w_a_l_storage_1ab25bec11044648ceca9331e3b29f6ca6" kindref="member">segmentName</ref>(uint64_t<sp/>segment_id);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/><ref refid="classthemis_1_1_w_a_l_storage_1aeebfdd0b46d78777ac9ec32b5f090e54" kindref="member">parseSegmentId</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1_w_a_l_storage_1ae00c4e125ff1ee791a587a865ede4f84" kindref="member">WALStorage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_config" kindref="compound">Config</ref>&amp;<sp/>cfg);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>openOrCreate(<ref refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" kindref="member">RecoveryCallback</ref>&amp;<sp/>on_recover);</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>replaySegment(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path,<sp/><ref refid="classthemis_1_1_w_a_l_storage_1aa3d3eaa8281985292cea9e6810ea22c9" kindref="member">RecoveryCallback</ref>&amp;<sp/>cb);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>rotateIfNeeded();</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>openNewSegment(uint64_t<sp/>segment_id);</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;uint64_t&gt;<sp/>appendEntry(<ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" kindref="member">EntryType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>key,</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>value);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>one<sp/>entry<sp/>to<sp/>fd_<sp/>without<sp/>taking<sp/>the<sp/>mutex<sp/>or<sp/>calling<sp/>syncIfRequired().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Caller<sp/>must<sp/>hold<sp/>mutex_<sp/>and<sp/>handle<sp/>rotation/fsync<sp/>externally.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;uint64_t&gt;<sp/>appendEntryLocked(<ref refid="classthemis_1_1_w_a_l_storage_1aa91a474033231c2963171f65d2333906" kindref="member">EntryType</ref><sp/>type,</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>key,</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>value);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>Result&lt;void&gt;<sp/>syncIfRequired();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_w_a_l_storage_1_1_config" kindref="compound">Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config_;</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>fd_{-1};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>current<sp/>segment<sp/>file<sp/>descriptor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_segment_{0};</highlight><highlight class="comment">//<sp/>index<sp/>of<sp/>current<sp/>segment<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>segment_bytes_{0};<sp/><sp/></highlight><highlight class="comment">//<sp/>bytes<sp/>written<sp/>to<sp/>current<sp/>segment</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>next_seq_{1};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>next<sp/>sequence<sp/>number<sp/>to<sp/>assign</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Track<sp/>segment<sp/>IDs<sp/>present<sp/>on<sp/>disk<sp/>for<sp/>cleanup</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint64_t&gt;<sp/>segments_;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/storage/wal_storage.h"/>
+  </compounddef>
+</doxygen>

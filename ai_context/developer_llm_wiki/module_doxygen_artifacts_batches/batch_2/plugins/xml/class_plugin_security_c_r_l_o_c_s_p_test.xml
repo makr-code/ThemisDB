@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_plugin_security_c_r_l_o_c_s_p_test" kind="class" language="C++" prot="public">
+    <compoundname>PluginSecurityCRLOCSPTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_plugin_security_c_r_l_o_c_s_p_test_1af046eca5969a7cfe87ec1e1da51653e5" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path PluginSecurityCRLOCSPTest::test_dir_</definition>
+        <argsstring></argsstring>
+        <name>test_dir_</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::test_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="224" column="27" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_security_c_r_l_o_c_s_p_test_1a6ccb571d21e982a8192e62c64365c4da" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginSecurityCRLOCSPTest::plain_cert_pem_</definition>
+        <argsstring></argsstring>
+        <name>plain_cert_pem_</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::plain_cert_pem_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="225" column="17" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="225" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_security_c_r_l_o_c_s_p_test_1a91929838ebfd4a535d48265b13b496d4" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginSecurityCRLOCSPTest::crl_cert_pem_</definition>
+        <argsstring></argsstring>
+        <name>crl_cert_pem_</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::crl_cert_pem_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="226" column="17" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_plugin_security_c_r_l_o_c_s_p_test_1ae4a063fdd5e006ca1a3e9542a3c1881f" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string PluginSecurityCRLOCSPTest::ocsp_cert_pem_</definition>
+        <argsstring></argsstring>
+        <name>ocsp_cert_pem_</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::ocsp_cert_pem_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="227" column="17" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="227" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_plugin_security_c_r_l_o_c_s_p_test_1a9dd354fc0ed5547c1e319cb670a863e0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSecurityCRLOCSPTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="28" column="10" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="28" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_security_c_r_l_o_c_s_p_test_1a2b212d29019577bcd8160d7f811ca71a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSecurityCRLOCSPTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="38" column="10" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_security_c_r_l_o_c_s_p_test_1a77c80d6b9d5843cfc01c570ffc643217" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSecurityCRLOCSPTest::generateSelfSignedCert</definition>
+        <argsstring>()</argsstring>
+        <name>generateSelfSignedCert</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::generateSelfSignedCert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="92" column="10" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="92" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_security_c_r_l_o_c_s_p_test_1acac28eb0c4ee02a4248d2faa10123a3a" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSecurityCRLOCSPTest::generateCertWithCRLExtension</definition>
+        <argsstring>()</argsstring>
+        <name>generateCertWithCRLExtension</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::generateCertWithCRLExtension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="106" column="10" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="106" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_security_c_r_l_o_c_s_p_test_1a8121409c280a798d5a37e0e87b608626" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void PluginSecurityCRLOCSPTest::generateCertWithOCSPExtension</definition>
+        <argsstring>()</argsstring>
+        <name>generateCertWithOCSPExtension</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::generateCertWithOCSPExtension</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="139" column="10" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="139" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-static-func">
+      <memberdef kind="function" id="class_plugin_security_c_r_l_o_c_s_p_test_1a6ac399213a6d899070f7de0223e9b098" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool PluginSecurityCRLOCSPTest::makeKeyAndCert</definition>
+        <argsstring>(EVP_PKEY **out_pkey, X509 **out_cert, long serial_number=42, const char *cn=&quot;ThemisDB Test Cert&quot;)</argsstring>
+        <name>makeKeyAndCert</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::makeKeyAndCert</qualifiedname>
+        <param>
+          <type>EVP_PKEY **</type>
+          <declname>out_pkey</declname>
+        </param>
+        <param>
+          <type>X509 **</type>
+          <declname>out_cert</declname>
+        </param>
+        <param>
+          <type>long</type>
+          <declname>serial_number</declname>
+          <defval>42</defval>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>cn</declname>
+          <defval>&quot;ThemisDB Test Cert&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="45" column="17" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="45" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_security_c_r_l_o_c_s_p_test_1a3f9c964c050ef461dc5705e9566fcbe1" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string PluginSecurityCRLOCSPTest::certToPEM</definition>
+        <argsstring>(X509 *cert)</argsstring>
+        <name>certToPEM</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::certToPEM</qualifiedname>
+        <param>
+          <type>X509 *</type>
+          <declname>cert</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="79" column="24" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="79" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="class_plugin_security_c_r_l_o_c_s_p_test_1a53c246f01e951336b049fd0f2be7bc5d" prot="protected" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>static std::vector&lt; uint8_t &gt; PluginSecurityCRLOCSPTest::buildDERCRL</definition>
+        <argsstring>(EVP_PKEY *signing_key, X509 *issuer_cert, long revoke_serial=-1, int days_valid=7)</argsstring>
+        <name>buildDERCRL</name>
+        <qualifiedname>PluginSecurityCRLOCSPTest::buildDERCRL</qualifiedname>
+        <param>
+          <type>EVP_PKEY *</type>
+          <declname>signing_key</declname>
+        </param>
+        <param>
+          <type>X509 *</type>
+          <declname>issuer_cert</declname>
+        </param>
+        <param>
+          <type>long</type>
+          <declname>revoke_serial</declname>
+          <defval>-1</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>days_valid</declname>
+          <defval>7</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="171" column="24" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="171" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PluginSecurityCRLOCSPTest</label>
+        <link refid="class_plugin_security_c_r_l_o_c_s_p_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PluginSecurityCRLOCSPTest</label>
+        <link refid="class_plugin_security_c_r_l_o_c_s_p_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/plugins/test_plugin_security_crl_ocsp.cpp" line="26" column="1" bodyfile="tests/plugins/test_plugin_security_crl_ocsp.cpp" bodystart="26" bodyend="228"/>
+    <listofallmembers>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a53c246f01e951336b049fd0f2be7bc5d" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>buildDERCRL</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a3f9c964c050ef461dc5705e9566fcbe1" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>certToPEM</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a91929838ebfd4a535d48265b13b496d4" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>crl_cert_pem_</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1acac28eb0c4ee02a4248d2faa10123a3a" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>generateCertWithCRLExtension</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a8121409c280a798d5a37e0e87b608626" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>generateCertWithOCSPExtension</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a77c80d6b9d5843cfc01c570ffc643217" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>generateSelfSignedCert</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a6ac399213a6d899070f7de0223e9b098" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>makeKeyAndCert</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1ae4a063fdd5e006ca1a3e9542a3c1881f" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>ocsp_cert_pem_</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a6ccb571d21e982a8192e62c64365c4da" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>plain_cert_pem_</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a9dd354fc0ed5547c1e319cb670a863e0" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>SetUp</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1a2b212d29019577bcd8160d7f811ca71a" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>TearDown</name></member>
+      <member refid="class_plugin_security_c_r_l_o_c_s_p_test_1af046eca5969a7cfe87ec1e1da51653e5" prot="protected" virt="non-virtual"><scope>PluginSecurityCRLOCSPTest</scope><name>test_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

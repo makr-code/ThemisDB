@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1prompt__safety" kind="namespace" language="C++">
+    <compoundname>themis::llm::prompt_safety</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1prompt__safety_1a8cdd3352e8bab4fa1bb5695b88c6c3a5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm_1_1_prompt_policy" kindref="compound">PromptPolicy</ref> &amp;</type>
+        <definition>PromptPolicy &amp; themis::llm::prompt_safety::sharedPromptSafetyPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>sharedPromptSafetyPolicy</name>
+        <qualifiedname>themis::llm::prompt_safety::sharedPromptSafetyPolicy</qualifiedname>
+        <briefdescription>
+<para>Shared Prompt Safety Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: addBlockRule(), addRedactRule(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_safety_utils.h" line="102" column="21" bodyfile="include/llm/prompt_safety_utils.h" bodystart="102" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1llm_1_1prompt__safety_1adf589a0b4ce9b5f73bd0a96d319d3942" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::prompt_safety::sanitizePromptWithSharedPolicy</definition>
+        <argsstring>(const std::string &amp;input, std::string &amp;sanitized, std::string *blocked_rule, std::string *blocked_reason)</argsstring>
+        <name>sanitizePromptWithSharedPolicy</name>
+        <qualifiedname>themis::llm::prompt_safety::sanitizePromptWithSharedPolicy</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>input</declname>
+        </param>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>sanitized</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>blocked_rule</declname>
+        </param>
+        <param>
+          <type>std::string *</type>
+          <declname>blocked_reason</declname>
+        </param>
+        <briefdescription>
+<para>Sanitize Prompt With Shared Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">sanitized</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">blocked_rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">blocked_reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/prompt_safety_utils.h" line="125" column="13" bodyfile="include/llm/prompt_safety_utils.h" bodystart="125" bodyend="156"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/prompt_safety_utils.h" line="95" column="1"/>
+  </compounddef>
+</doxygen>

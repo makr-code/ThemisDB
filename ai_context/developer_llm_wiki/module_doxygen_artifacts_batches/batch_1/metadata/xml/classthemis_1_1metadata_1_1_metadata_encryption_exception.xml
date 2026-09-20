@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1metadata_1_1_metadata_encryption_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::metadata::MetadataEncryptionException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="imetadata__encryption__provider_8h" local="no">imetadata_encryption_provider.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_metadata_encryption_exception_1a5522406f216d898fa2ae959c11bd8099" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataEncryptionException::field_name_</definition>
+        <argsstring></argsstring>
+        <name>field_name_</name>
+        <qualifiedname>themis::metadata::MetadataEncryptionException::field_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="60" column="17" bodyfile="include/metadata/imetadata_encryption_provider.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1metadata_1_1_metadata_encryption_exception_1a0eccf1535115ff6832d0de70f98a6862" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::metadata::MetadataEncryptionException::reason_</definition>
+        <argsstring></argsstring>
+        <name>reason_</name>
+        <qualifiedname>themis::metadata::MetadataEncryptionException::reason_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="61" column="17" bodyfile="include/metadata/imetadata_encryption_provider.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_encryption_exception_1a958287ccd44b39a6de61a9c6d6d85d88" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::metadata::MetadataEncryptionException::MetadataEncryptionException</definition>
+        <argsstring>(std::string_view field_name, std::string_view reason)</argsstring>
+        <name>MetadataEncryptionException</name>
+        <qualifiedname>themis::metadata::MetadataEncryptionException::MetadataEncryptionException</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>field_name</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="45" column="5" bodyfile="include/metadata/imetadata_encryption_provider.h" bodystart="45" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_encryption_exception_1ad3463ad41150ed9f1228acd39322daee" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::metadata::MetadataEncryptionException::fieldName</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>fieldName</name>
+        <qualifiedname>themis::metadata::MetadataEncryptionException::fieldName</qualifiedname>
+        <briefdescription>
+<para>The metadata field that triggered the exception. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="54" column="23" bodyfile="include/metadata/imetadata_encryption_provider.h" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1metadata_1_1_metadata_encryption_exception_1a0126fcf7e12726155164acf35d0bb938" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::metadata::MetadataEncryptionException::reason</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::metadata::MetadataEncryptionException::reason</qualifiedname>
+        <briefdescription>
+<para>Human-readable description of the failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/imetadata_encryption_provider.h" line="57" column="23" bodyfile="include/metadata/imetadata_encryption_provider.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Exception thrown when an encryption or decryption operation fails. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries the affected field name and a human-readable reason so that callers can distinguish configuration errors (e.g. empty key) from runtime errors (e.g. corrupt ciphertext). </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::metadata::MetadataEncryptionException</label>
+        <link refid="classthemis_1_1metadata_1_1_metadata_encryption_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::metadata::MetadataEncryptionException</label>
+        <link refid="classthemis_1_1metadata_1_1_metadata_encryption_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/metadata/imetadata_encryption_provider.h" line="43" column="1" bodyfile="include/metadata/imetadata_encryption_provider.h" bodystart="43" bodyend="62"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1metadata_1_1_metadata_encryption_exception_1a5522406f216d898fa2ae959c11bd8099" prot="private" virt="non-virtual"><scope>themis::metadata::MetadataEncryptionException</scope><name>field_name_</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_encryption_exception_1ad3463ad41150ed9f1228acd39322daee" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataEncryptionException</scope><name>fieldName</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_encryption_exception_1a958287ccd44b39a6de61a9c6d6d85d88" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataEncryptionException</scope><name>MetadataEncryptionException</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_encryption_exception_1a0126fcf7e12726155164acf35d0bb938" prot="public" virt="non-virtual"><scope>themis::metadata::MetadataEncryptionException</scope><name>reason</name></member>
+      <member refid="classthemis_1_1metadata_1_1_metadata_encryption_exception_1a0eccf1535115ff6832d0de70f98a6862" prot="private" virt="non-virtual"><scope>themis::metadata::MetadataEncryptionException</scope><name>reason_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

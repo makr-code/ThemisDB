@@ -1,0 +1,828 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_let_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::LetEvaluator</compoundname>
+    <includes refid="let__evaluator_8h" local="no">let_evaluator.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_let_evaluator_1ad35d1c32287f94b52c0bfdda25406e59" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, nlohmann::json &gt;</type>
+        <definition>std::unordered_map&lt;std::string, nlohmann::json&gt; themis::query::LetEvaluator::bindings_</definition>
+        <argsstring></argsstring>
+        <name>bindings_</name>
+        <qualifiedname>themis::query::LetEvaluator::bindings_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="85" column="24" bodyfile="include/query/let_evaluator.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1_let_evaluator_1a8e42568aefed15bf7f6e9531993f2cb8" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">themis::SecondaryIndexManager</ref> *</type>
+        <definition>themis::SecondaryIndexManager* themis::query::LetEvaluator::secondary_idx_mgr_</definition>
+        <argsstring></argsstring>
+        <name>secondary_idx_mgr_</name>
+        <qualifiedname>themis::query::LetEvaluator::secondary_idx_mgr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="88" column="35" bodyfile="include/query/let_evaluator.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a4a2998ff19f8a28a20efc2299ed08e7f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::LetEvaluator::LetEvaluator</definition>
+        <argsstring>()=default</argsstring>
+        <name>LetEvaluator</name>
+        <qualifiedname>themis::query::LetEvaluator::LetEvaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="30" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1af8fd9ac2df964532613251042bf60b3e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::LetEvaluator::setSecondaryIndexManager</definition>
+        <argsstring>(themis::SecondaryIndexManager *mgr)</argsstring>
+        <name>setSecondaryIndexManager</name>
+        <qualifiedname>themis::query::LetEvaluator::setSecondaryIndexManager</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a009499ca0e1e7bd6ae1ec27d8c5486d4" kindref="member">themis::SecondaryIndexManager</ref> *</type>
+          <declname>mgr</declname>
+        </param>
+        <briefdescription>
+<para>Set Secondary Index Manager. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setSecondaryIndexManager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="37" column="10" bodyfile="include/query/let_evaluator.h" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1ac231b5b7caf8ed3fdba8b35a5f774c64" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::LetEvaluator::evaluateLet</definition>
+        <argsstring>(const LetNode &amp;node, const nlohmann::json &amp;currentDoc)</argsstring>
+        <name>evaluateLet</name>
+        <qualifiedname>themis::query::LetEvaluator::evaluateLet</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_let_node" kindref="compound">LetNode</ref> &amp;</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>currentDoc</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate Let. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1_let_evaluator_1a3406fe4cc41e5b1efdcad28dde843ded" kindref="member">evaluateExpression()</ref>, std::move(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="47" column="10" bodyfile="src/query/let_evaluator.cpp" bodystart="55" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a135f9c6947bd0cc330d4a111645c5c7d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::query::LetEvaluator::resolveVariable</definition>
+        <argsstring>(const std::string &amp;varName) const</argsstring>
+        <name>resolveVariable</name>
+        <qualifiedname>themis::query::LetEvaluator::resolveVariable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>varName</declname>
+        </param>
+        <briefdescription>
+<para>Resolve Variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">varName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="54" column="19" bodyfile="src/query/let_evaluator.cpp" bodystart="67" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1aa4cddc55e036a19ce96658b95a479eec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::LetEvaluator::hasVariable</definition>
+        <argsstring>(const std::string &amp;varName) const</argsstring>
+        <name>hasVariable</name>
+        <qualifiedname>themis::query::LetEvaluator::hasVariable</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>varName</declname>
+        </param>
+        <briefdescription>
+<para>Has Variable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">varName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="61" column="10" bodyfile="src/query/let_evaluator.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a5a5ed771060bfb2a24ad5d22e74d93fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::LetEvaluator::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::query::LetEvaluator::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="66" column="10" bodyfile="src/query/let_evaluator.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a3406fe4cc41e5b1efdcad28dde843ded" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::evaluateExpression</definition>
+        <argsstring>(const std::shared_ptr&lt; Expression &gt; &amp;expr, const nlohmann::json &amp;currentDoc) const</argsstring>
+        <name>evaluateExpression</name>
+        <qualifiedname>themis::query::LetEvaluator::evaluateExpression</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>currentDoc</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate <ref refid="structthemis_1_1query_1_1_expression" kindref="compound">Expression</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="74" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="87" bodyend="214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a8b7c35be55021438fb03a25c4592825d" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, nlohmann::json &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, nlohmann::json &gt; &amp; themis::query::LetEvaluator::getBindings</definition>
+        <argsstring>() const</argsstring>
+        <name>getBindings</name>
+        <qualifiedname>themis::query::LetEvaluator::getBindings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="79" column="30" bodyfile="include/query/let_evaluator.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a137789bd5014dc6e0babc342ea7098c4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::evaluateFieldAccess</definition>
+        <argsstring>(const FieldAccessExpr *fieldAccess, const nlohmann::json &amp;currentDoc) const</argsstring>
+        <name>evaluateFieldAccess</name>
+        <qualifiedname>themis::query::LetEvaluator::evaluateFieldAccess</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_field_access_expr" kindref="compound">FieldAccessExpr</ref> *</type>
+          <declname>fieldAccess</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>currentDoc</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Evaluiert Field Access (z. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fieldAccess</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+B. doc.age, doc.address.city) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="97" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="230" bodyend="261"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1ae60652a6b5c1fe64a9dcd6690b43a0bf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::evaluateBinaryOp</definition>
+        <argsstring>(const BinaryOpExpr *binOp, const nlohmann::json &amp;currentDoc) const</argsstring>
+        <name>evaluateBinaryOp</name>
+        <qualifiedname>themis::query::LetEvaluator::evaluateBinaryOp</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_binary_op_expr" kindref="compound">BinaryOpExpr</ref> *</type>
+          <declname>binOp</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>currentDoc</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Evaluiert Binary Operations (+, -, *, /, %, ==, ! </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">binOp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+=, &lt;, &gt;, etc.) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="109" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="291" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a9cc57d7084aabb7c290c080993da5ef4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::evaluateUnaryOp</definition>
+        <argsstring>(const UnaryOpExpr *unaryOp, const nlohmann::json &amp;currentDoc) const</argsstring>
+        <name>evaluateUnaryOp</name>
+        <qualifiedname>themis::query::LetEvaluator::evaluateUnaryOp</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_unary_op_expr" kindref="compound">UnaryOpExpr</ref> *</type>
+          <declname>unaryOp</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>currentDoc</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Evaluiert Unary Operations (-, NOT). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">unaryOp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="120" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="432" bodyend="447"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1ac0c763f067fdc311114fe4b47fca11a7" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::evaluateFunctionCall</definition>
+        <argsstring>(const FunctionCallExpr *funcCall, const nlohmann::json &amp;currentDoc) const</argsstring>
+        <name>evaluateFunctionCall</name>
+        <qualifiedname>themis::query::LetEvaluator::evaluateFunctionCall</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_function_call_expr" kindref="compound">FunctionCallExpr</ref> *</type>
+          <declname>funcCall</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>currentDoc</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Evaluiert Function Calls (LENGTH, CONCAT, SUBSTRING, etc. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">funcCall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+) </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ctx. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Iss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">coords</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Tss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Tss. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="132" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="449" bodyend="1571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a43140345aaaa258d69a7a2d515834223" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::evaluateLiteral</definition>
+        <argsstring>(const LiteralExpr *lit) const</argsstring>
+        <name>evaluateLiteral</name>
+        <qualifiedname>themis::query::LetEvaluator::evaluateLiteral</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_literal_expr" kindref="compound">LiteralExpr</ref> *</type>
+          <declname>lit</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Evaluiert Array/Object Literal. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="142" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="216" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a1d77e5095188135f3a37388d4b81f577" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::getNestedValue</definition>
+        <argsstring>(const nlohmann::json &amp;obj, const std::vector&lt; std::string &gt; &amp;path) const</argsstring>
+        <name>getNestedValue</name>
+        <qualifiedname>themis::query::LetEvaluator::getNestedValue</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Holt Wert aus nested JSON object (z. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+B. [&quot;address&quot;, &quot;city&quot;]) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="151" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="263" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1aa9ac09826f5970ceec13765655ff4eca" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::applyArithmeticOp</definition>
+        <argsstring>(const std::string &amp;op, const nlohmann::json &amp;left, const nlohmann::json &amp;right) const</argsstring>
+        <name>applyArithmeticOp</name>
+        <qualifiedname>themis::query::LetEvaluator::applyArithmeticOp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Arithmetische Operation auf zwei JSON-Werten. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="163" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="322" bodyend="360"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a5b33b8e8cae870eb23d98c2ed471bd95" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::applyComparisonOp</definition>
+        <argsstring>(const std::string &amp;op, const nlohmann::json &amp;left, const nlohmann::json &amp;right) const</argsstring>
+        <name>applyComparisonOp</name>
+        <qualifiedname>themis::query::LetEvaluator::applyComparisonOp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Vergleichsoperation auf zwei JSON-Werten. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="176" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="362" bodyend="412"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1ab73cb5338886ebaf0046785095d70d44" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LetEvaluator::applyLogicalOp</definition>
+        <argsstring>(const std::string &amp;op, const nlohmann::json &amp;left, const nlohmann::json &amp;right) const</argsstring>
+        <name>applyLogicalOp</name>
+        <qualifiedname>themis::query::LetEvaluator::applyLogicalOp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>op</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>left</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>right</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Logische Operation (AND, OR). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">op</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">left</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">right</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="189" column="20" bodyfile="src/query/let_evaluator.cpp" bodystart="414" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a3b67bd0de9e749f76ce8628a83626a1c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::LetEvaluator::toBool</definition>
+        <argsstring>(const nlohmann::json &amp;value) const</argsstring>
+        <name>toBool</name>
+        <qualifiedname>themis::query::LetEvaluator::toBool</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Konvertiert JSON zu bool für Conditions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="200" column="10" bodyfile="src/query/let_evaluator.cpp" bodystart="1573" bodyend="1590"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_let_evaluator_1a95c6b2070da0245be165e7e2c3b093aa" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::LetEvaluator::toNumber</definition>
+        <argsstring>(const nlohmann::json &amp;value) const</argsstring>
+        <name>toNumber</name>
+        <qualifiedname>themis::query::LetEvaluator::toNumber</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Konvertiert JSON zu number für Arithmetik. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/let_evaluator.h" line="207" column="12" bodyfile="src/query/let_evaluator.cpp" bodystart="1592" bodyend="1608"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/let_evaluator.h" line="28" column="1" bodyfile="include/query/let_evaluator.h" bodystart="28" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1aa9ac09826f5970ceec13765655ff4eca" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>applyArithmeticOp</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a5b33b8e8cae870eb23d98c2ed471bd95" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>applyComparisonOp</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1ab73cb5338886ebaf0046785095d70d44" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>applyLogicalOp</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1ad35d1c32287f94b52c0bfdda25406e59" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>bindings_</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a5a5ed771060bfb2a24ad5d22e74d93fc" prot="public" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>clear</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1ae60652a6b5c1fe64a9dcd6690b43a0bf" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>evaluateBinaryOp</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a3406fe4cc41e5b1efdcad28dde843ded" prot="public" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>evaluateExpression</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a137789bd5014dc6e0babc342ea7098c4" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>evaluateFieldAccess</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1ac0c763f067fdc311114fe4b47fca11a7" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>evaluateFunctionCall</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1ac231b5b7caf8ed3fdba8b35a5f774c64" prot="public" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>evaluateLet</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a43140345aaaa258d69a7a2d515834223" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>evaluateLiteral</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a9cc57d7084aabb7c290c080993da5ef4" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>evaluateUnaryOp</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a8b7c35be55021438fb03a25c4592825d" prot="public" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>getBindings</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a1d77e5095188135f3a37388d4b81f577" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>getNestedValue</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1aa4cddc55e036a19ce96658b95a479eec" prot="public" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>hasVariable</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a4a2998ff19f8a28a20efc2299ed08e7f" prot="public" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>LetEvaluator</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a135f9c6947bd0cc330d4a111645c5c7d" prot="public" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>resolveVariable</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a8e42568aefed15bf7f6e9531993f2cb8" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>secondary_idx_mgr_</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1af8fd9ac2df964532613251042bf60b3e" prot="public" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>setSecondaryIndexManager</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a3b67bd0de9e749f76ce8628a83626a1c" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>toBool</name></member>
+      <member refid="classthemis_1_1query_1_1_let_evaluator_1a95c6b2070da0245be165e7e2c3b093aa" prot="private" virt="non-virtual"><scope>themis::query::LetEvaluator</scope><name>toNumber</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

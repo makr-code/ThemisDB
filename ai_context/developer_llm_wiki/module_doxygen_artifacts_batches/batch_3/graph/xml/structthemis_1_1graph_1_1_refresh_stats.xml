@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_refresh_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::RefreshStats</compoundname>
+    <includes refid="scheduled__edge__refresh_8h" local="no">scheduled_edge_refresh.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1a38e7a4461e091b25d684f0041cc320a5" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::RefreshStats::edges_evaluated</definition>
+        <argsstring></argsstring>
+        <name>edges_evaluated</name>
+        <qualifiedname>themis::graph::RefreshStats::edges_evaluated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="104" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="104" bodyend="104"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1a9f341c3408b121ca96a0660fd35cc4a9" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::RefreshStats::edges_removed</definition>
+        <argsstring></argsstring>
+        <name>edges_removed</name>
+        <qualifiedname>themis::graph::RefreshStats::edges_removed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="106" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1ab7472433d3bbe7af5a765ca81289c927" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::RefreshStats::edges_added</definition>
+        <argsstring></argsstring>
+        <name>edges_added</name>
+        <qualifiedname>themis::graph::RefreshStats::edges_added</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="108" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="108" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1abd497360fb26ea59c6c32b8f65d35e92" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::RefreshStats::candidate_pairs_evaluated</definition>
+        <argsstring></argsstring>
+        <name>candidate_pairs_evaluated</name>
+        <qualifiedname>themis::graph::RefreshStats::candidate_pairs_evaluated</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="110" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="110" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1a959d4e5b142c5d985c6a9f5471f7abc2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::RefreshStats::avg_relevance_retained</definition>
+        <argsstring></argsstring>
+        <name>avg_relevance_retained</name>
+        <qualifiedname>themis::graph::RefreshStats::avg_relevance_retained</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="112" column="12" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1ad54eebda2a2568769799601d93cb8cc4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::RefreshStats::avg_relevance_improvement</definition>
+        <argsstring></argsstring>
+        <name>avg_relevance_improvement</name>
+        <qualifiedname>themis::graph::RefreshStats::avg_relevance_improvement</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="114" column="12" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1a0bc475075ee5cf70e8a6e8a62d035a0f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::RefreshStats::cycle_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>cycle_duration_ms</name>
+        <qualifiedname>themis::graph::RefreshStats::cycle_duration_ms</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="116" column="12" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="116" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1a38a953ef92634f8231bb39471fc8750f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::RefreshStats::aborted_safety_gate</definition>
+        <argsstring></argsstring>
+        <name>aborted_safety_gate</name>
+        <qualifiedname>themis::graph::RefreshStats::aborted_safety_gate</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="118" column="10" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1ab9af3ba0be9fc59e1bb69681d70bdcf6" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::graph::RefreshStats::total_cycles_completed</definition>
+        <argsstring></argsstring>
+        <name>total_cycles_completed</name>
+        <qualifiedname>themis::graph::RefreshStats::total_cycles_completed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="120" column="14" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1a354bfd163af4c6fb564aba57d427c651" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::graph::RefreshStats::removal_rate</definition>
+        <argsstring></argsstring>
+        <name>removal_rate</name>
+        <qualifiedname>themis::graph::RefreshStats::removal_rate</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="124" column="12" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_refresh_stats_1a8adb305310af24c2656b804e916320cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::graph::RefreshStats::anomaly_high_removal_rate</definition>
+        <argsstring></argsstring>
+        <name>anomaly_high_removal_rate</name>
+        <qualifiedname>themis::graph::RefreshStats::anomaly_high_removal_rate</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/scheduled_edge_refresh.h" line="126" column="10" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="126" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/scheduled_edge_refresh.h" line="103" column="1" bodyfile="include/graph/scheduled_edge_refresh.h" bodystart="103" bodyend="127"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1a38a953ef92634f8231bb39471fc8750f" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>aborted_safety_gate</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1a8adb305310af24c2656b804e916320cb" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>anomaly_high_removal_rate</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1ad54eebda2a2568769799601d93cb8cc4" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>avg_relevance_improvement</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1a959d4e5b142c5d985c6a9f5471f7abc2" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>avg_relevance_retained</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1abd497360fb26ea59c6c32b8f65d35e92" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>candidate_pairs_evaluated</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1a0bc475075ee5cf70e8a6e8a62d035a0f" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>cycle_duration_ms</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1ab7472433d3bbe7af5a765ca81289c927" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>edges_added</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1a38e7a4461e091b25d684f0041cc320a5" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>edges_evaluated</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1a9f341c3408b121ca96a0660fd35cc4a9" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>edges_removed</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1a354bfd163af4c6fb564aba57d427c651" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>removal_rate</name></member>
+      <member refid="structthemis_1_1graph_1_1_refresh_stats_1ab9af3ba0be9fc59e1bb69681d70bdcf6" prot="public" virt="non-virtual"><scope>themis::graph::RefreshStats</scope><name>total_cycles_completed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

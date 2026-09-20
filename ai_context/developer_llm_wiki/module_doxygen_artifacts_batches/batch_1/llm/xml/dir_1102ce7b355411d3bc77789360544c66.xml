@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1102ce7b355411d3bc77789360544c66" kind="dir">
+    <compoundname>src/llm/lora_framework/kernels</compoundname>
+    <innerfile refid="cpu__fused__kernels_8cpp">cpu_fused_kernels.cpp</innerfile>
+    <innerfile refid="directx__kernels_8cpp">directx_kernels.cpp</innerfile>
+    <innerfile refid="hip__fused__kernels_8cpp">hip_fused_kernels.cpp</innerfile>
+    <innerfile refid="hip__kernels_8cpp">hip_kernels.cpp</innerfile>
+    <innerfile refid="vulkan__kernels_8cpp">vulkan_kernels.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/llm/lora_framework/kernels/"/>
+  </compounddef>
+</doxygen>

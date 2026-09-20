@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_replica_state" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::ReplicaState</compoundname>
+    <includes refid="raft__consensus_8h" local="no">raft_consensus.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_state_1a99fef9f8e30f7eae474be73bdd68f682" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ReplicaState::node_id</definition>
+        <argsstring></argsstring>
+        <name>node_id</name>
+        <qualifiedname>themisdb::sharding::ReplicaState::node_id</qualifiedname>
+        <briefdescription>
+<para>Replica node identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="52" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_state_1acbc0ad0006b5f315cc8ceb974dc063a0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::ReplicaState::endpoint</definition>
+        <argsstring></argsstring>
+        <name>endpoint</name>
+        <qualifiedname>themisdb::sharding::ReplicaState::endpoint</qualifiedname>
+        <briefdescription>
+<para>Network endpoint (&quot;host:port&quot; or URL); updated by updatePeerAddress(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="53" column="17" bodyfile="include/sharding/raft_consensus.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_state_1a1e04d7a34d70b2d87e68a35f76a27858" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1sharding_1a9e66567a875879140ca887c10eaf5a6b" kindref="member">ReplicaHealth</ref></type>
+        <definition>ReplicaHealth themisdb::sharding::ReplicaState::health</definition>
+        <argsstring></argsstring>
+        <name>health</name>
+        <qualifiedname>themisdb::sharding::ReplicaState::health</qualifiedname>
+        <briefdescription>
+<para>Current health classification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="54" column="19" bodyfile="include/sharding/raft_consensus.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_state_1a6e5f5ea1424f17cb2c499598ff055caa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicaState::next_index</definition>
+        <argsstring></argsstring>
+        <name>next_index</name>
+        <qualifiedname>themisdb::sharding::ReplicaState::next_index</qualifiedname>
+        <briefdescription>
+<para>Next log index to send to replica. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="55" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_state_1afb631038571ea90721010eaec34fb78a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::ReplicaState::match_index</definition>
+        <argsstring></argsstring>
+        <name>match_index</name>
+        <qualifiedname>themisdb::sharding::ReplicaState::match_index</qualifiedname>
+        <briefdescription>
+<para>Highest log index known replicated on replica. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="56" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_state_1a50b127f8d7369064fae896058c072da0" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::ReplicaState::last_contact</definition>
+        <argsstring></argsstring>
+        <name>last_contact</name>
+        <qualifiedname>themisdb::sharding::ReplicaState::last_contact</qualifiedname>
+        <briefdescription>
+<para>Last successful contact timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="57" column="43" bodyfile="include/sharding/raft_consensus.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_replica_state_1a652d7eb39a9e835066143eb02ced4975" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::sharding::ReplicaState::consecutive_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_failures</name>
+        <qualifiedname>themisdb::sharding::ReplicaState::consecutive_failures</qualifiedname>
+        <briefdescription>
+<para>Consecutive failed contact attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/raft_consensus.h" line="58" column="14" bodyfile="include/sharding/raft_consensus.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Replica state tracking. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/raft_consensus.h" line="51" column="1" bodyfile="include/sharding/raft_consensus.h" bodystart="51" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_state_1a652d7eb39a9e835066143eb02ced4975" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaState</scope><name>consecutive_failures</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_state_1acbc0ad0006b5f315cc8ceb974dc063a0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaState</scope><name>endpoint</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_state_1a1e04d7a34d70b2d87e68a35f76a27858" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaState</scope><name>health</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_state_1a50b127f8d7369064fae896058c072da0" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaState</scope><name>last_contact</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_state_1afb631038571ea90721010eaec34fb78a" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaState</scope><name>match_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_state_1a6e5f5ea1424f17cb2c499598ff055caa" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaState</scope><name>next_index</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_replica_state_1a99fef9f8e30f7eae474be73bdd68f682" prot="public" virt="non-virtual"><scope>themisdb::sharding::ReplicaState</scope><name>node_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_distributed_s_a_g_a_definition" kind="struct" language="C++" prot="public">
+    <compoundname>themis::DistributedSAGADefinition</compoundname>
+    <includes refid="distributed__saga_8h" local="no">distributed_saga.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_distributed_s_a_g_a_definition_1ad05c57f2d87626bc5bae4936b62b0185" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::DistributedSAGADefinition::saga_id</definition>
+        <argsstring></argsstring>
+        <name>saga_id</name>
+        <qualifiedname>themis::DistributedSAGADefinition::saga_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="177" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_s_a_g_a_definition_1a59fdc105325f745b4ce92dc8ef34e7fc" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_remote_step" kindref="compound">RemoteStep</ref> &gt;</type>
+        <definition>std::vector&lt;RemoteStep&gt; themis::DistributedSAGADefinition::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::DistributedSAGADefinition::steps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="179" column="17" bodyfile="include/transaction/distributed_saga.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_distributed_s_a_g_a_definition_1afd3a0d54c612853ec57b2d18d79df190" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::DistributedSAGADefinition::context</definition>
+        <argsstring></argsstring>
+        <name>context</name>
+        <qualifiedname>themis::DistributedSAGADefinition::context</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/distributed_saga.h" line="181" column="14" bodyfile="include/transaction/distributed_saga.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/distributed_saga.h" line="176" column="1" bodyfile="include/transaction/distributed_saga.h" bodystart="176" bodyend="182"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_distributed_s_a_g_a_definition_1afd3a0d54c612853ec57b2d18d79df190" prot="public" virt="non-virtual"><scope>themis::DistributedSAGADefinition</scope><name>context</name></member>
+      <member refid="structthemis_1_1_distributed_s_a_g_a_definition_1ad05c57f2d87626bc5bae4936b62b0185" prot="public" virt="non-virtual"><scope>themis::DistributedSAGADefinition</scope><name>saga_id</name></member>
+      <member refid="structthemis_1_1_distributed_s_a_g_a_definition_1a59fdc105325f745b4ce92dc8ef34e7fc" prot="public" virt="non-virtual"><scope>themis::DistributedSAGADefinition</scope><name>steps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

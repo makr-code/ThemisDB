@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1test_1_1wave__d_1_1_tiered_blob_store_1_1_blob_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::test::wave_d::TieredBlobStore::BlobEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_tiered_blob_store_1_1_blob_entry_1a790c5ef2db2852809282b244e8fd3278" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::test::wave_d::TieredBlobStore::BlobEntry::data</definition>
+        <argsstring></argsstring>
+        <name>data</name>
+        <qualifiedname>themis::test::wave_d::TieredBlobStore::BlobEntry::data</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="112" column="22" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_tiered_blob_store_1_1_blob_entry_1a6a06306b0372d0eb2366a7a7358ae177" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1test_1_1wave__d_1a8c1ba83b958966964d2bdb73a31ec5d4" kindref="member">Tier</ref></type>
+        <definition>Tier themis::test::wave_d::TieredBlobStore::BlobEntry::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themis::test::wave_d::TieredBlobStore::BlobEntry::tier</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1test_1_1wave__d_1a8c1ba83b958966964d2bdb73a31ec5d4a735ea69825df35eefc36aeb4533bc83a" kindref="member">Tier::kCold</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="113" column="22" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="113" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1test_1_1wave__d_1_1_tiered_blob_store_1_1_blob_entry_1a2734ecf2808871a07dedef8e9d99dd9e" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::test::wave_d::TieredBlobStore::BlobEntry::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::test::wave_d::TieredBlobStore::BlobEntry::access_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="114" column="22" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/storage/test_storage_highcardinality_stress.cpp" line="111" column="5" bodyfile="tests/storage/test_storage_highcardinality_stress.cpp" bodystart="111" bodyend="115"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_tiered_blob_store_1_1_blob_entry_1a2734ecf2808871a07dedef8e9d99dd9e" prot="public" virt="non-virtual"><scope>themis::test::wave_d::TieredBlobStore::BlobEntry</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_tiered_blob_store_1_1_blob_entry_1a790c5ef2db2852809282b244e8fd3278" prot="public" virt="non-virtual"><scope>themis::test::wave_d::TieredBlobStore::BlobEntry</scope><name>data</name></member>
+      <member refid="structthemis_1_1test_1_1wave__d_1_1_tiered_blob_store_1_1_blob_entry_1a6a06306b0372d0eb2366a7a7358ae177" prot="public" virt="non-virtual"><scope>themis::test::wave_d::TieredBlobStore::BlobEntry</scope><name>tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

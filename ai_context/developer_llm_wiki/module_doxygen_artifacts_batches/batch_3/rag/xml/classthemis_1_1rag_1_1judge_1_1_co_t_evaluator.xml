@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::judge::CoTEvaluator</compoundname>
+    <includes refid="cot__evaluator_8h" local="no">cot_evaluator.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config" prot="public">themis::rag::judge::CoTEvaluator::Config</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl" prot="public">themis::rag::judge::CoTEvaluator::Impl</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1aa646ff84dad41a8b636de4a5776f12f6" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::rag::judge::CoTEvaluator::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="115" column="21" bodyfile="include/rag/cot_evaluator.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1ae1c7c2f707e4eae2e7690012c3f72fbf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CoTEvaluator::CoTEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>CoTEvaluator</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::CoTEvaluator</qualifiedname>
+        <briefdescription>
+<para>Construct evaluator with configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="63" column="5" bodyfile="src/rag/cot_evaluator.cpp" bodystart="82" bodyend="84"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a532fd5fa0a10866b649921a7aeaa34ea" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CoTEvaluator::CoTEvaluator</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>CoTEvaluator</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::CoTEvaluator</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="64" column="14" bodyfile="src/rag/cot_evaluator.cpp" bodystart="86" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a4079245ccf9960a3e5eaddc3197ea0b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::judge::CoTEvaluator::~CoTEvaluator</definition>
+        <argsstring>()</argsstring>
+        <name>~CoTEvaluator</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::~CoTEvaluator</qualifiedname>
+        <briefdescription>
+<para>Destructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="69" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1aaf8ecc71fb27e793b456ebc00424a4fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1judge_1_1_co_t_evaluation_result" kindref="compound">CoTEvaluationResult</ref></type>
+        <definition>CoTEvaluationResult themis::rag::judge::CoTEvaluator::evaluate</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;answer, const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;documents, const std::string &amp;dimension=&quot;overall&quot;)</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::evaluate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>answer</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>documents</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dimension</declname>
+          <defval>&quot;overall&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Evaluate with chain-of-thought reasoning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>answer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Generated answer </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>documents</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieved documents </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dimension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Evaluation dimension (optional) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>CoT evaluation result </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="79" column="25" bodyfile="src/rag/cot_evaluator.cpp" bodystart="300" bodyend="352"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a981288cd74ad6d8bb67b93dcb45b16a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step" kindref="compound">ReasoningStep</ref> &gt;</type>
+        <definition>std::vector&lt; ReasoningStep &gt; themis::rag::judge::CoTEvaluator::parseCoTResponse</definition>
+        <argsstring>(const std::string &amp;response)</argsstring>
+        <name>parseCoTResponse</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::parseCoTResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Parse CoT response from LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Parse Co TResponse.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LLM response with CoT reasoning </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Parsed reasoning steps</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: step_regex(), std::sregex_iterator(), begin(), end(), std::stoi(), str(), push_back(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="91" column="17" bodyfile="src/rag/cot_evaluator.cpp" bodystart="108" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a8dd3b4eb1541726c3a7ca9f86b650650" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::rag::judge::CoTEvaluator::validateLogicConsistency</definition>
+        <argsstring>(const std::vector&lt; ReasoningStep &gt; &amp;steps)</argsstring>
+        <name>validateLogicConsistency</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::validateLogicConsistency</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step" kindref="compound">ReasoningStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <briefdescription>
+<para>Validate logic consistency in reasoning steps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Logic Consistency.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reasoning steps to validate </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>List of inconsistencies found</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size_t(), size(), std::transform(), begin(), end(), find(), stream_i(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="98" column="17" bodyfile="src/rag/cot_evaluator.cpp" bodystart="174" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a1dc2e6ba5f6a20599c263a13220bb2e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::rag::judge::CoTEvaluator::extractFinalScore</definition>
+        <argsstring>(const std::vector&lt; ReasoningStep &gt; &amp;steps, const std::string &amp;response)</argsstring>
+        <name>extractFinalScore</name>
+        <qualifiedname>themis::rag::judge::CoTEvaluator::extractFinalScore</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_reasoning_step" kindref="compound">ReasoningStep</ref> &gt; &amp;</type>
+          <declname>steps</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Extract final score from CoT reasoning. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Extract Final Score.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reasoning steps </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Full LLM response </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Extracted score 0-1</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">steps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: score_regex(), std::regex_search(), std::stod(), str(), std::max(), std::min(), THEMIS_WARN(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/cot_evaluator.h" line="108" column="12" bodyfile="src/rag/cot_evaluator.cpp" bodystart="260" bodyend="298"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Chain-of-Thought evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Evaluates answers using explicit step-by-step reasoning. Provides transparency into the evaluation process and enables logic validation. </para>
+    </detaileddescription>
+    <location file="include/rag/cot_evaluator.h" line="48" column="1" bodyfile="include/rag/cot_evaluator.h" bodystart="48" bodyend="116"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1ae1c7c2f707e4eae2e7690012c3f72fbf" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator</scope><name>CoTEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a532fd5fa0a10866b649921a7aeaa34ea" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator</scope><name>CoTEvaluator</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1aaf8ecc71fb27e793b456ebc00424a4fa" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a1dc2e6ba5f6a20599c263a13220bb2e7" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator</scope><name>extractFinalScore</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1aa646ff84dad41a8b636de4a5776f12f6" prot="private" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a981288cd74ad6d8bb67b93dcb45b16a9" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator</scope><name>parseCoTResponse</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a8dd3b4eb1541726c3a7ca9f86b650650" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator</scope><name>validateLogicConsistency</name></member>
+      <member refid="classthemis_1_1rag_1_1judge_1_1_co_t_evaluator_1a4079245ccf9960a3e5eaddc3197ea0b0" prot="public" virt="non-virtual"><scope>themis::rag::judge::CoTEvaluator</scope><name>~CoTEvaluator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

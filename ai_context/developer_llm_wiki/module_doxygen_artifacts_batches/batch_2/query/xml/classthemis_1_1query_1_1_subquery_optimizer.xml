@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_subquery_optimizer" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::SubqueryOptimizer</compoundname>
+    <includes refid="subquery__optimizer_8h" local="no">subquery_optimizer.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_subquery_optimizer_1ae4a5515f957b6a730f62a13db7fb264c" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::query::SubqueryOptimizer::shouldMaterializeCTE</definition>
+        <argsstring>(const CTEDefinition &amp;cte, size_t referenceCount)</argsstring>
+        <name>shouldMaterializeCTE</name>
+        <qualifiedname>themis::query::SubqueryOptimizer::shouldMaterializeCTE</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1query_1_1_c_t_e_definition" kindref="compound">CTEDefinition</ref> &amp;</type>
+          <declname>cte</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>referenceCount</declname>
+        </param>
+        <briefdescription>
+<para>Should Materialize CTE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cte</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">referenceCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements shouldMaterializeCTE without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/subquery_optimizer.h" line="32" column="17" bodyfile="include/query/subquery_optimizer.h" bodystart="32" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_subquery_optimizer_1ac9c1b3ceecba3519abbaa848207f66df" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::query::SubqueryOptimizer::canConvertToJoin</definition>
+        <argsstring>(const std::shared_ptr&lt; Query &gt; &amp;subquery, const std::unordered_set&lt; std::string &gt; &amp;outerVariables)</argsstring>
+        <name>canConvertToJoin</name>
+        <qualifiedname>themis::query::SubqueryOptimizer::canConvertToJoin</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt; &amp;</type>
+          <declname>subquery</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>outerVariables</declname>
+        </param>
+        <briefdescription>
+<para>Can Convert To Join. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subquery</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outerVariables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: hasCorrelation(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/subquery_optimizer.h" line="77" column="17" bodyfile="include/query/subquery_optimizer.h" bodystart="77" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_subquery_optimizer_1aa5d9ce4940ed26f8d1022ea6c00d9e53" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>static int themis::query::SubqueryOptimizer::estimateQueryCost</definition>
+        <argsstring>(const std::shared_ptr&lt; Query &gt; &amp;query)</argsstring>
+        <name>estimateQueryCost</name>
+        <qualifiedname>themis::query::SubqueryOptimizer::estimateQueryCost</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Estimate <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Cost. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/subquery_optimizer.h" line="103" column="16" bodyfile="include/query/subquery_optimizer.h" bodystart="103" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_subquery_optimizer_1abade7f12dc3e3e93c43e4a355996671d" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::query::SubqueryOptimizer::hasCorrelation</definition>
+        <argsstring>(const std::shared_ptr&lt; Query &gt; &amp;query, const std::unordered_set&lt; std::string &gt; &amp;outerVariables)</argsstring>
+        <name>hasCorrelation</name>
+        <qualifiedname>themis::query::SubqueryOptimizer::hasCorrelation</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt; &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>outerVariables</declname>
+        </param>
+        <briefdescription>
+<para>Has Correlation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">outerVariables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), expressionReferencesVariables(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/subquery_optimizer.h" line="151" column="17" bodyfile="include/query/subquery_optimizer.h" bodystart="151" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_subquery_optimizer_1a605868693e9d22cdace9a0ecf6c291c7" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::query::SubqueryOptimizer::expressionReferencesVariables</definition>
+        <argsstring>(const std::shared_ptr&lt; Expression &gt; &amp;expr, const std::unordered_set&lt; std::string &gt; &amp;variables)</argsstring>
+        <name>expressionReferencesVariables</name>
+        <qualifiedname>themis::query::SubqueryOptimizer::expressionReferencesVariables</qualifiedname>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt; &amp;</type>
+          <declname>expr</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>variables</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_expression" kindref="compound">Expression</ref> References Variables. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">expr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">variables</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getType(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/subquery_optimizer.h" line="185" column="17" bodyfile="include/query/subquery_optimizer.h" bodystart="185" bodyend="248"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/subquery_optimizer.h" line="23" column="1" bodyfile="include/query/subquery_optimizer.h" bodystart="23" bodyend="249"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_subquery_optimizer_1ac9c1b3ceecba3519abbaa848207f66df" prot="public" virt="non-virtual"><scope>themis::query::SubqueryOptimizer</scope><name>canConvertToJoin</name></member>
+      <member refid="classthemis_1_1query_1_1_subquery_optimizer_1aa5d9ce4940ed26f8d1022ea6c00d9e53" prot="public" virt="non-virtual"><scope>themis::query::SubqueryOptimizer</scope><name>estimateQueryCost</name></member>
+      <member refid="classthemis_1_1query_1_1_subquery_optimizer_1a605868693e9d22cdace9a0ecf6c291c7" prot="private" virt="non-virtual"><scope>themis::query::SubqueryOptimizer</scope><name>expressionReferencesVariables</name></member>
+      <member refid="classthemis_1_1query_1_1_subquery_optimizer_1abade7f12dc3e3e93c43e4a355996671d" prot="private" virt="non-virtual"><scope>themis::query::SubqueryOptimizer</scope><name>hasCorrelation</name></member>
+      <member refid="classthemis_1_1query_1_1_subquery_optimizer_1ae4a5515f957b6a730f62a13db7fb264c" prot="public" virt="non-virtual"><scope>themis::query::SubqueryOptimizer</scope><name>shouldMaterializeCTE</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

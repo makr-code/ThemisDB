@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_hopping_window_test" kind="class" language="C++" prot="public">
+    <compoundname>HoppingWindowTest</compoundname>
+    <basecompoundref refid="classtesting_1_1_test" prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_hopping_window_test_1a8b16f6bac225aa032df010d1747b11a1" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1analytics_1_1_hopping_window_config" kindref="compound">HoppingWindowConfig</ref></type>
+        <definition>HoppingWindowConfig HoppingWindowTest::cfg</definition>
+        <argsstring>(std::chrono::milliseconds size, std::chrono::milliseconds hop)</argsstring>
+        <name>cfg</name>
+        <qualifiedname>HoppingWindowTest::cfg</qualifiedname>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>std::chrono::milliseconds</type>
+          <declname>hop</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/analytics/test_streaming_window.cpp" line="495" column="25" bodyfile="tests/analytics/test_streaming_window.cpp" bodystart="495" bodyend="501"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>HoppingWindowTest</label>
+        <link refid="class_hopping_window_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>HoppingWindowTest</label>
+        <link refid="class_hopping_window_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+        <link refid="classtesting_1_1_test"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/analytics/test_streaming_window.cpp" line="493" column="1" bodyfile="tests/analytics/test_streaming_window.cpp" bodystart="493" bodyend="502"/>
+    <listofallmembers>
+      <member refid="class_hopping_window_test_1a8b16f6bac225aa032df010d1747b11a1" prot="protected" virt="non-virtual"><scope>HoppingWindowTest</scope><name>cfg</name></member>
+      <member refid="classtesting_1_1_test_1a57a4116f39f6636a80710ded7d42e889" prot="protected" virt="non-virtual"><scope>HoppingWindowTest</scope><name>SetUp</name></member>
+      <member refid="classtesting_1_1_test_1a2889fd829b6c712d98fb3896d28f64a3" prot="protected" virt="non-virtual"><scope>HoppingWindowTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

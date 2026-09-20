@@ -1,0 +1,1121 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1compression_1_1_compression_strategy_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::compression::CompressionStrategyManager</compoundname>
+    <includes refid="compression__strategy_8h" local="no">compression_strategy.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a69654d257f36631986d2950cb03e9622" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">CompressionConfig</ref></type>
+        <definition>CompressionConfig themis::compression::CompressionStrategyManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="228" column="23" bodyfile="include/storage/compression_strategy.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1compression_1_1_compression_strategy_manager_1ab3e54774e4174d45338b2d6c7bcb7c5e" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1storage_1_1_gpu_compression_manager" kindref="compound">themis::storage::GpuCompressionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;themis::storage::GpuCompressionManager&gt; themis::compression::CompressionStrategyManager::gpu_manager_</definition>
+        <argsstring></argsstring>
+        <name>gpu_manager_</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::gpu_manager_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="229" column="21" bodyfile="include/storage/compression_strategy.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a016dd2b3f41c7f4e7d9282238a48bb9c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::compression::CompressionStrategyManager::CompressionStrategyManager</definition>
+        <argsstring>(const CompressionConfig &amp;config=CompressionConfig{})</argsstring>
+        <name>CompressionStrategyManager</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::CompressionStrategyManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">CompressionConfig</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="107" column="14" bodyfile="src/storage/compression_strategy.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1ab749a1e30a446461b3f9824798482ceb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress</definition>
+        <argsstring>(const uint8_t *data, size_t size, std::optional&lt; DataType &gt; hint=std::nullopt)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">DataType</ref> &gt;</type>
+          <declname>hint</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Compress data with configured or adaptive strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">hint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: assign(), value_or(), detect_data_type(), std::min(), <ref refid="classthemis_1_1compression_1_1_compression_strategy_manager_1afaf917ec8ddca4dc2e7ba9d7ef6ac58c" kindref="member">select_method()</ref>, timer(), <ref refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ada1f40386436d91b56b33111c63fcd27" kindref="member">method_to_string()</ref>, compress_zstd(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="112" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="40" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a0dcacb03334075969e40c0714e35fe17" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, std::optional&lt; DataType &gt; hint=std::nullopt)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">DataType</ref> &gt;</type>
+          <declname>hint</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Compress vector data (convenience overload). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="121" column="23" bodyfile="include/storage/compression_strategy.h" bodystart="121" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1ae3fa9806d8083a91bbb2d88d839d9bbe" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress</definition>
+        <argsstring>(const std::string &amp;data, std::optional&lt; DataType &gt; hint=std::nullopt)</argsstring>
+        <name>compress</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">DataType</ref> &gt;</type>
+          <declname>hint</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Compress string data (convenience overload). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="131" column="23" bodyfile="include/storage/compression_strategy.h" bodystart="131" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a6eab09e15e5e03293bf6f93c32d88e5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::CompressionStrategyManager::decompress</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, CompressionMethod method)</argsstring>
+        <name>decompress</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::decompress</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Decompress data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Compressed data </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Method used for compression </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Decompressed data, or empty vector on failure</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), timer(), <ref refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ada1f40386436d91b56b33111c63fcd27" kindref="member">method_to_string()</ref>, size(), decompress_zstd(), decompress_rle(), decompress_delta(), decompress_dictionary(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="149" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="125" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1afaf917ec8ddca4dc2e7ba9d7ef6ac58c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref></type>
+        <definition>CompressionMethod themis::compression::CompressionStrategyManager::select_method</definition>
+        <argsstring>(const uint8_t *data, size_t size, DataType type)</argsstring>
+        <name>select_method</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::select_method</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">DataType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Select optimal compression method for given data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Select method.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements select_method without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="157" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="178" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1adcbedd1b14fd449318037c399dbdc8a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::compression::CompressionStrategyManager::get_metrics</definition>
+        <argsstring>() const</argsstring>
+        <name>get_metrics</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::get_metrics</qualifiedname>
+        <briefdescription>
+<para>Get compression metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="166" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="561" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a92fa420b2438fb851eef214a989a9c9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::compression::CompressionStrategyManager::reset_metrics</definition>
+        <argsstring>()</argsstring>
+        <name>reset_metrics</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::reset_metrics</qualifiedname>
+        <briefdescription>
+<para>Reset metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: utils::CompressionMetrics::instance(), reset(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="171" column="10" bodyfile="src/storage/compression_strategy.cpp" bodystart="569" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1ac08005d5657e1ec2b17e761b698ec0b7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::compression::CompressionStrategyManager::set_config</definition>
+        <argsstring>(const CompressionConfig &amp;config)</argsstring>
+        <name>set_config</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::set_config</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="176" column="10" bodyfile="include/storage/compression_strategy.h" bodystart="176" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1ada766746366e325e811e92db6df930be" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1compression_1_1_compression_config" kindref="compound">CompressionConfig</ref> &amp;</type>
+        <definition>const CompressionConfig &amp; themis::compression::CompressionStrategyManager::get_config</definition>
+        <argsstring>() const</argsstring>
+        <name>get_config</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::get_config</qualifiedname>
+        <briefdescription>
+<para>Get current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="183" column="29" bodyfile="include/storage/compression_strategy.h" bodystart="183" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1ada1f40386436d91b56b33111c63fcd27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::compression::CompressionStrategyManager::method_to_string</definition>
+        <argsstring>(CompressionMethod method)</argsstring>
+        <name>method_to_string</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::method_to_string</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref></type>
+          <declname>method</declname>
+        </param>
+        <briefdescription>
+<para>Convert method enum to string. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Method to string.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">method</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements method_to_string without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="190" column="24" bodyfile="src/storage/compression_strategy.cpp" bodystart="579" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1aff72d99b269537c996fa0901bbcf4cc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1compression_1aae2bc8f38ea3052fc2ec8d4c5f44d0f7" kindref="member">CompressionMethod</ref> &gt;</type>
+        <definition>std::optional&lt; CompressionMethod &gt; themis::compression::CompressionStrategyManager::string_to_method</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>string_to_method</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::string_to_method</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+<para>Convert string to method enum. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>String to method.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: find(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="195" column="26" bodyfile="src/storage/compression_strategy.cpp" bodystart="603" bodyend="623"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1ad9708557fd819acfd3457a05109c3e1e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress_zstd</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress_zstd</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress_zstd</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress zstd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::zstd_compress(), empty(), size(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="199" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="288" bodyend="305"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a3173cd199b3cd763001779603be07750" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress_rle</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress_rle</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress_rle</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress rle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1compression_1_1_r_l_e_codec_1ad3af2172f70c2d6aabd95b8cd4f1b7c8" kindref="member">RLECodec::compress()</ref>, empty(), size(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="200" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="314" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a72bf5363de9f8b3bd599429cfa8d0486" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress_delta</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress_delta</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress_delta</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress delta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1compression_1_1_delta_codec_1a841ea76cd8980658074cbc57d088b839" kindref="member">DeltaCodec::compress()</ref>, empty(), size(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="201" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="338" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a8c966685e96a224c006cd7a3c1cfd7e2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress_dictionary</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress_dictionary</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress_dictionary</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress dictionary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1compression_1_1_simple_dictionary_codec_1a18203eca5383436c2f6243ef66b3524f" kindref="member">SimpleDictionaryCodec::compress()</ref>, empty(), size(), assign(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="202" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="362" bodyend="377"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a196716489fe7af5273e917753f245213" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress_gpu_zstd</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress_gpu_zstd</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress_gpu_zstd</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress gpu zstd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="205" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="443" bodyend="463"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a9cafac2f1bc4c1778277d0d786341d1d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress_gpu_snappy</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress_gpu_snappy</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress_gpu_snappy</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress gpu snappy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="206" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="471" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a16fcc01665f7730252a8f9ea7c3505f6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1compression_1_1_compression_result" kindref="compound">CompressionResult</ref></type>
+        <definition>CompressionResult themis::compression::CompressionStrategyManager::compress_gpu_lz4</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>compress_gpu_lz4</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::compress_gpu_lz4</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Compress gpu lz4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="207" column="23" bodyfile="src/storage/compression_strategy.cpp" bodystart="499" bodyend="519"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1abb6ce1ece5d5585bacfe09df94337fa6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::CompressionStrategyManager::decompress_zstd</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress_zstd</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::decompress_zstd</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress zstd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: utils::zstd_decompress(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="210" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="389" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a82d599f6162aabdff74e18f331465265" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::CompressionStrategyManager::decompress_rle</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress_rle</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::decompress_rle</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress rle. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1compression_1_1_r_l_e_codec_1a2240124cab30b9a43c8533f43f3a40c2" kindref="member">RLECodec::decompress()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="211" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="399" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a877096e89207fdc6432241e5aafb70d6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::CompressionStrategyManager::decompress_delta</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress_delta</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::decompress_delta</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress delta. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1compression_1_1_delta_codec_1a477a8f9ad8518246a9e3e1db34201848" kindref="member">DeltaCodec::decompress()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="212" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="409" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a33a22749f715bca1943bd35f0e1c8f56" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::CompressionStrategyManager::decompress_dictionary</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress_dictionary</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::decompress_dictionary</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress dictionary. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1compression_1_1_simple_dictionary_codec_1a413e82743ebb8a331820e1f3b201a28a" kindref="member">SimpleDictionaryCodec::decompress()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="213" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="419" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a0b2267fcd9460812ced1b04e2245829c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::CompressionStrategyManager::decompress_gpu_zstd</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress_gpu_zstd</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::decompress_gpu_zstd</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress gpu zstd. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="216" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="526" bodyend="531"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a22c1fd15d8ac846246c11e0425c98150" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::CompressionStrategyManager::decompress_gpu_snappy</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress_gpu_snappy</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::decompress_gpu_snappy</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress gpu snappy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="217" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="538" bodyend="543"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1af2a66de11df6995c794b824efaa1c6c1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::compression::CompressionStrategyManager::decompress_gpu_lz4</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>decompress_gpu_lz4</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::decompress_gpu_lz4</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Decompress gpu lz4. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="218" column="17" bodyfile="src/storage/compression_strategy.cpp" bodystart="550" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a012c296c94112c59b05cbedea077cb6d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1compression_1aa46359137fdb9053b68ee1ddc432b0d5" kindref="member">DataType</ref></type>
+        <definition>DataType themis::compression::CompressionStrategyManager::detect_data_type</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>detect_data_type</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::detect_data_type</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Detect data type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: is_mostly_text(), std::min(), size_t(), is_sparse_data(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="221" column="14" bodyfile="src/storage/compression_strategy.cpp" bodystart="213" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a2082ebf584af17a22e97a159a817ad9a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::compression::CompressionStrategyManager::is_mostly_text</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>is_mostly_text</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::is_mostly_text</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Is mostly text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::min(), size_t(), std::isprint(), std::isspace(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="222" column="10" bodyfile="src/storage/compression_strategy.cpp" bodystart="244" bodyend="255"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1ae9303a1031013eb1395d800795ba0c63" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::compression::CompressionStrategyManager::is_sparse_data</definition>
+        <argsstring>(const uint8_t *data, size_t size)</argsstring>
+        <name>is_sparse_data</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::is_sparse_data</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Is sparse data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::min(), size_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="223" column="10" bodyfile="src/storage/compression_strategy.cpp" bodystart="264" bodyend="275"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1compression_1_1_compression_strategy_manager_1a6503b6550bb50c250443c362ba6d087d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1storage_1_1_gpu_compression_manager" kindref="compound">themis::storage::GpuCompressionManager</ref> &amp;</type>
+        <definition>themis::storage::GpuCompressionManager &amp; themis::compression::CompressionStrategyManager::gpu_manager</definition>
+        <argsstring>()</argsstring>
+        <name>gpu_manager</name>
+        <qualifiedname>themis::compression::CompressionStrategyManager::gpu_manager</qualifiedname>
+        <briefdescription>
+<para>============================================================================ GPU-Accelerated Compression Method Implementations ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements gpu_manager without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/compression_strategy.h" line="226" column="44" bodyfile="src/storage/compression_strategy.cpp" bodystart="429" bodyend="435"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Comprehensive compression strategy manager. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides unified interface for multiple compression methods with adaptive selection, performance tracking, and fallback strategies. </para>
+    </detaileddescription>
+    <location file="include/storage/compression_strategy.h" line="105" column="1" bodyfile="include/storage/compression_strategy.h" bodystart="105" bodyend="230"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ab749a1e30a446461b3f9824798482ceb" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a0dcacb03334075969e40c0714e35fe17" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ae3fa9806d8083a91bbb2d88d839d9bbe" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a72bf5363de9f8b3bd599429cfa8d0486" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress_delta</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a8c966685e96a224c006cd7a3c1cfd7e2" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress_dictionary</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a16fcc01665f7730252a8f9ea7c3505f6" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress_gpu_lz4</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a9cafac2f1bc4c1778277d0d786341d1d" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress_gpu_snappy</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a196716489fe7af5273e917753f245213" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress_gpu_zstd</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a3173cd199b3cd763001779603be07750" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress_rle</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ad9708557fd819acfd3457a05109c3e1e" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>compress_zstd</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a016dd2b3f41c7f4e7d9282238a48bb9c" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>CompressionStrategyManager</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a69654d257f36631986d2950cb03e9622" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a6eab09e15e5e03293bf6f93c32d88e5b" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>decompress</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a877096e89207fdc6432241e5aafb70d6" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>decompress_delta</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a33a22749f715bca1943bd35f0e1c8f56" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>decompress_dictionary</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1af2a66de11df6995c794b824efaa1c6c1" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>decompress_gpu_lz4</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a22c1fd15d8ac846246c11e0425c98150" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>decompress_gpu_snappy</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a0b2267fcd9460812ced1b04e2245829c" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>decompress_gpu_zstd</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a82d599f6162aabdff74e18f331465265" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>decompress_rle</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1abb6ce1ece5d5585bacfe09df94337fa6" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>decompress_zstd</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a012c296c94112c59b05cbedea077cb6d" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>detect_data_type</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ada766746366e325e811e92db6df930be" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>get_config</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1adcbedd1b14fd449318037c399dbdc8a4" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>get_metrics</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a6503b6550bb50c250443c362ba6d087d" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>gpu_manager</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ab3e54774e4174d45338b2d6c7bcb7c5e" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>gpu_manager_</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a2082ebf584af17a22e97a159a817ad9a" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>is_mostly_text</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ae9303a1031013eb1395d800795ba0c63" prot="private" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>is_sparse_data</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ada1f40386436d91b56b33111c63fcd27" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>method_to_string</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1a92fa420b2438fb851eef214a989a9c9a" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>reset_metrics</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1afaf917ec8ddca4dc2e7ba9d7ef6ac58c" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>select_method</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1ac08005d5657e1ec2b17e761b698ec0b7" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>set_config</name></member>
+      <member refid="classthemis_1_1compression_1_1_compression_strategy_manager_1aff72d99b269537c996fa0901bbcf4cc8" prot="public" virt="non-virtual"><scope>themis::compression::CompressionStrategyManager</scope><name>string_to_method</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,380 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="tenant__buffer__manager_8h" kind="file" language="C++">
+    <compoundname>tenant_buffer_manager.h</compoundname>
+    <includes refid="changefeed_8h" local="yes">cdc/changefeed.h</includes>
+    <includes refid="changefeed__buffer_8h" local="yes">cdc/changefeed_buffer.h</includes>
+    <includes refid="cdc__metrics_8h" local="yes">cdc/cdc_metrics.h</includes>
+    <includes refid="cdc__error_8h" local="yes">cdc/cdc_error.h</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="cdc__admin_8cpp" local="yes">src/cdc/cdc_admin.cpp</includedby>
+    <includedby refid="tenant__buffer__manager_8cpp" local="yes">src/cdc/tenant_buffer_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="23">
+        <label>cdc/cdc_error.h</label>
+        <link refid="cdc__error_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>cdc/cdc_metrics.h</label>
+        <link refid="cdc__metrics_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cdc/changefeed.h</label>
+        <link refid="changefeed_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>cdc/changefeed_buffer.h</label>
+        <link refid="changefeed__buffer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>cdc/dead_letter_queue.h</label>
+        <link refid="dead__letter__queue_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/cdc/tenant_buffer_manager.h</label>
+        <link refid="tenant__buffer__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>algorithm</label>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>condition_variable</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="21">
+        <label>deque</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="22">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="16">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>set</label>
+      </node>
+      <node id="24">
+        <label>stdexcept</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/cdc/tenant_buffer_manager.h</label>
+        <link refid="tenant__buffer__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/cdc/cdc_admin.cpp</label>
+        <link refid="cdc__admin_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/cdc/tenant_buffer_manager.cpp</label>
+        <link refid="tenant__buffer__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1cdc_1_1_tenant_config" prot="public">themis::cdc::TenantConfig</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_tenant_stats" prot="public">themis::cdc::TenantStats</innerclass>
+    <innerclass refid="classthemis_1_1cdc_1_1_tenant_buffer_manager" prot="public">themis::cdc::TenantBufferManager</innerclass>
+    <innerclass refid="structthemis_1_1cdc_1_1_tenant_buffer_manager_1_1_tenant_buffer_state" prot="private">themis::cdc::TenantBufferManager::TenantBufferState</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1cdc">themis::cdc</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed_8h" kindref="compound">cdc/changefeed.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="changefeed__buffer_8h" kindref="compound">cdc/changefeed_buffer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__metrics_8h" kindref="compound">cdc/cdc_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cdc__error_8h" kindref="compound">cdc/cdc_error.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1cdc" kindref="compound">cdc</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1cdc_1_1_tenant_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_tenant_config" kindref="compound">TenantConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1cdc_1_1_tenant_config_1a39b1b6a739bba6debe2bb50735c531cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config_1a39b1b6a739bba6debe2bb50735c531cc" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Buffer<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1cdc_1_1_tenant_config_1a3a8576cffd5270d1bc0d4630d611140e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config_1a3a8576cffd5270d1bc0d4630d611140e" kindref="member">buffer_config</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-tenant<sp/>quotas</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1cdc_1_1_tenant_config_1ae65c86364f14e0bab404612f9224186e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config_1ae65c86364f14e0bab404612f9224186e" kindref="member">enable_quotas</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1cdc_1_1_tenant_config_1a998810f6a50c655f5108910881343e1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config_1a998810f6a50c655f5108910881343e1b" kindref="member">max_events_per_second</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Events/sec<sp/>quota</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1cdc_1_1_tenant_config_1a540e97078e3e4f9276543c64feb923ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config_1a540e97078e3e4f9276543c64feb923ef" kindref="member">max_memory_bytes</ref><sp/>=<sp/>100<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>100MB<sp/>per<sp/>tenant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1cdc_1_1_tenant_config_1a4f8e2b8c70124b29e02d87e4d417091f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config_1a4f8e2b8c70124b29e02d87e4d417091f" kindref="member">max_buffered_events</ref><sp/>=<sp/>10000;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>events<sp/>in<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant-specific<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1cdc_1_1_tenant_config_1ab71ce5988cad0f4779164e022d11199b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config_1ab71ce5988cad0f4779164e022d11199b" kindref="member">enabled</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>is<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1cdc_1_1_tenant_config_1aba3dc9d64baa2cb528a241caa7414090" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config_1aba3dc9d64baa2cb528a241caa7414090" kindref="member">priority</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>priority<sp/>=<sp/>more<sp/>resources</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1cdc_1_1_tenant_stats" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1cdc_1_1_tenant_stats" kindref="compound">TenantStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1cdc_1_1_tenant_stats_1a8e8b7b1d68523518cb1d4df958c4f04f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a8e8b7b1d68523518cb1d4df958c4f04f" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Counters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1cdc_1_1_tenant_stats_1a1e54c7a7ca2285e8087e5e3864681fb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a1e54c7a7ca2285e8087e5e3864681fb7" kindref="member">events_recorded</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1cdc_1_1_tenant_stats_1af44cc2d6455688ad0c1f66917dceb901" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1af44cc2d6455688ad0c1f66917dceb901" kindref="member">events_flushed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1cdc_1_1_tenant_stats_1ac960e262085a7e37253f403090d14f9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1ac960e262085a7e37253f403090d14f9c" kindref="member">errors</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1cdc_1_1_tenant_stats_1a3d07de628a85dd39b09adc19dc13f5ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a3d07de628a85dd39b09adc19dc13f5ad" kindref="member">quota_violations</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>usage</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1cdc_1_1_tenant_stats_1af0c0ef3875793c25915d632b6bafd5ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1af0c0ef3875793c25915d632b6bafd5ec" kindref="member">current_buffer_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1cdc_1_1_tenant_stats_1afd6bdefe24200442f0aa1f8e40cf4c28" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1afd6bdefe24200442f0aa1f8e40cf4c28" kindref="member">current_memory_bytes</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Rates<sp/>(calculated)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1cdc_1_1_tenant_stats_1a80d5bb0a592bd8e8a712fab9589edbe8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a80d5bb0a592bd8e8a712fab9589edbe8" kindref="member">events_per_second</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1cdc_1_1_tenant_stats_1a4413af58b248a908d76b6a22238595b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a4413af58b248a908d76b6a22238595b6" kindref="member">memory_usage_percent</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1cdc_1_1_tenant_stats_1aee0c3e21af06e492e11b8a82d020b1c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1aee0c3e21af06e492e11b8a82d020b1c0" kindref="member">toJson</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;tenant_id&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a8e8b7b1d68523518cb1d4df958c4f04f" kindref="member">tenant_id</ref>},</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;counters&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_recorded&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a1e54c7a7ca2285e8087e5e3864681fb7" kindref="member">events_recorded</ref>},</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_flushed&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1af44cc2d6455688ad0c1f66917dceb901" kindref="member">events_flushed</ref>},</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;errors&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1ac960e262085a7e37253f403090d14f9c" kindref="member">errors</ref>},</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;quota_violations&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a3d07de628a85dd39b09adc19dc13f5ad" kindref="member">quota_violations</ref>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;resource_usage&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;current_buffer_size&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1af0c0ef3875793c25915d632b6bafd5ec" kindref="member">current_buffer_size</ref>},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;current_memory_bytes&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1afd6bdefe24200442f0aa1f8e40cf4c28" kindref="member">current_memory_bytes</ref>},</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;events_per_second&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a80d5bb0a592bd8e8a712fab9589edbe8" kindref="member">events_per_second</ref>},</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;memory_usage_percent&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats_1a4413af58b248a908d76b6a22238595b6" kindref="member">memory_usage_percent</ref>}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1cdc_1_1_tenant_buffer_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a20b833135855182640dc69862bb99686" kindref="member">TenantBufferManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a20b833135855182640dc69862bb99686" kindref="member">TenantBufferManager</ref>(<ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref>*<sp/>changefeed,<sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref>&amp;<sp/>default_config<sp/>=<sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref>());</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a191e7684094168fb0994ad9d906cd899" kindref="member">~TenantBufferManager</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a3caf44f22c324fa445a3f46aa8abae76" kindref="member">start</ref>();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a0fda2a4e4aab2a27559321a9d37fbe26" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a911898039cbd159330548c98f3876b3b" kindref="member">recordEvent</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">Changefeed::ChangeEvent</ref><sp/>event);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a3af99f1193e01d4fc00c79ae4662edb7" kindref="member">flushTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a8d617c21ee7ef5e1cd73c30cf01fc054" kindref="member">flushAll</ref>();</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1aab27eaa80f3a721f5619488d25336d07" kindref="member">configureTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config" kindref="compound">TenantConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TenantConfig&gt;<sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a17e53dffc333d5a6789e5859032e98c2" kindref="member">getTenantConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;TenantStats&gt;<sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a7a77243e94cdd8abca8c7a07867b6e62" kindref="member">getTenantStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::reference_wrapper&lt;const<sp/>CDCMetrics&gt;&gt;<sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a8104a55c55f658e1fd3b7df02d9f5901" kindref="member">getTenantMetrics</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a301e755463dddd9ba18e7282e5b09867" kindref="member">getGlobalMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TenantStats&gt;<sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a5d2f4c4b7d211278a81f46fe3f785fe2" kindref="member">getAllTenantStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a9cd6f434543a431b39af63cd055b3a7a" kindref="member">getActiveTenants</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a6b3d28db58c8dce6e567aa16360236fc" kindref="member">hasTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1ac2fc6c6374437fd06c59a31348ef8e7c" kindref="member">disableTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1a2c2ce4d0cb392763b2177a267f40bd13" kindref="member">enableTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1cdc_1_1_tenant_buffer_manager_1aced5c825e51aec021ceee059c740b888" kindref="member">removeTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-tenant<sp/>buffer<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TenantBufferState<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;ChangefeedBuffer&gt;<sp/>buffer;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_config" kindref="compound">TenantConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1cdc_1_1_tenant_stats" kindref="compound">TenantStats</ref><sp/>stats;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::time_point<sp/>last_event_time;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>enabled{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref>*<sp/>changefeed_;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_changefeed_buffer_config" kindref="compound">ChangefeedBufferConfig</ref><sp/>default_config_;</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>buffers:<sp/>tenant_id<sp/>-&gt;<sp/>buffer<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>TenantBufferState&gt;<sp/>tenant_buffers_;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>buffers_mutex_;</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Manager<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>running_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>TenantBufferState&amp;<sp/>getOrCreateTenantBuffer(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>checkTenantQuota(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,<sp/>TenantBufferState&amp;<sp/>state);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateTenantStats(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,<sp/>TenantBufferState&amp;<sp/>state);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>cdc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/cdc/tenant_buffer_manager.h"/>
+  </compounddef>
+</doxygen>

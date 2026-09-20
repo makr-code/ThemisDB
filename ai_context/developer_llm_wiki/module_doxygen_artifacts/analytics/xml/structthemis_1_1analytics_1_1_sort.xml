@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1analytics_1_1_sort" kind="struct" language="C++" prot="public">
+    <compoundname>themis::analytics::Sort</compoundname>
+    <includes refid="olap_8h" local="no">olap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_sort_1af0585a70b2b47260bff188850f9d9715" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::analytics::Sort::field</definition>
+        <argsstring></argsstring>
+        <name>field</name>
+        <qualifiedname>themis::analytics::Sort::field</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="105" column="17" bodyfile="include/analytics/olap.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_sort_1a6aef560bec84054d24f3d43eb0085e7b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::Sort::ascending</definition>
+        <argsstring></argsstring>
+        <name>ascending</name>
+        <qualifiedname>themis::analytics::Sort::ascending</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="106" column="10" bodyfile="include/analytics/olap.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1analytics_1_1_sort_1a881b5677e42d6ea548734c01c8fb3fab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::analytics::Sort::nulls_first</definition>
+        <argsstring></argsstring>
+        <name>nulls_first</name>
+        <qualifiedname>themis::analytics::Sort::nulls_first</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/olap.h" line="107" column="10" bodyfile="include/analytics/olap.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/olap.h" line="104" column="1" bodyfile="include/analytics/olap.h" bodystart="104" bodyend="108"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1analytics_1_1_sort_1a6aef560bec84054d24f3d43eb0085e7b" prot="public" virt="non-virtual"><scope>themis::analytics::Sort</scope><name>ascending</name></member>
+      <member refid="structthemis_1_1analytics_1_1_sort_1af0585a70b2b47260bff188850f9d9715" prot="public" virt="non-virtual"><scope>themis::analytics::Sort</scope><name>field</name></member>
+      <member refid="structthemis_1_1analytics_1_1_sort_1a881b5677e42d6ea548734c01c8fb3fab" prot="public" virt="non-virtual"><scope>themis::analytics::Sort</scope><name>nulls_first</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

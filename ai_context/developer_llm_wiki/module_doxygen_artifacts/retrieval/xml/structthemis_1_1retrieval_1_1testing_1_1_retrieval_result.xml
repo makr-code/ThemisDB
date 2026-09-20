@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::retrieval::testing::RetrievalResult</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a6039d9e214b0f7e96bca52a149bcee08" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::testing::RetrievalResult::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::retrieval::testing::RetrievalResult::id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="39" column="17" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a59cca066fc55eca626160b82b0cadb11" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::retrieval::testing::RetrievalResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::retrieval::testing::RetrievalResult::score</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="40" column="11" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a99b3740dcc414d7a2bebb225c57f9584" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::testing::RetrievalResult::content</definition>
+        <argsstring></argsstring>
+        <name>content</name>
+        <qualifiedname>themis::retrieval::testing::RetrievalResult::content</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="41" column="17" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a06525f0775318ded3fb5f2b47e0b8646" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::retrieval::testing::RetrievalResult::operator==</definition>
+        <argsstring>(const RetrievalResult &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::retrieval::testing::RetrievalResult::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result" kindref="compound">RetrievalResult</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="43" column="10" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result from a retrieval operation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" line="38" column="1" bodyfile="tests/retrieval/test_retrieval_hybrid_parity_focused.cpp" bodystart="38" bodyend="46"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a99b3740dcc414d7a2bebb225c57f9584" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::RetrievalResult</scope><name>content</name></member>
+      <member refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a6039d9e214b0f7e96bca52a149bcee08" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::RetrievalResult</scope><name>id</name></member>
+      <member refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a06525f0775318ded3fb5f2b47e0b8646" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::RetrievalResult</scope><name>operator==</name></member>
+      <member refid="structthemis_1_1retrieval_1_1testing_1_1_retrieval_result_1a59cca066fc55eca626160b82b0cadb11" prot="public" virt="non-virtual"><scope>themis::retrieval::testing::RetrievalResult</scope><name>score</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

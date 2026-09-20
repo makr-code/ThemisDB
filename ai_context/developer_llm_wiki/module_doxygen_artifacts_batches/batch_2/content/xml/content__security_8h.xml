@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="content__security_8h" kind="file" language="C++">
+    <compoundname>content_security.h</compoundname>
+    <includes refid="content__errors_8h" local="yes">content/content_errors.h</includes>
+    <includes refid="abuse__detector_8h" local="yes">content/abuse_detector.h</includes>
+    <includes local="yes">security/malware_scanner.h</includes>
+    <includes local="yes">utils/pii_detector.h</includes>
+    <includes local="yes">utils/audit_logger.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="archive__processor_8h" local="yes">include/content/archive_processor.h</includedby>
+    <includedby refid="content__security_8cpp" local="yes">src/content/content_security.cpp</includedby>
+    <includedby refid="test__content__security_8cpp" local="yes">tests/content/test_content_security.cpp</includedby>
+    <incdepgraph>
+      <node id="6">
+        <label>content/abuse_detector.h</label>
+        <link refid="abuse__detector_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>content/content_errors.h</label>
+        <link refid="content__errors_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/content_security.h</label>
+        <link refid="content__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>atomic</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="9">
+        <label>map</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>optional</label>
+      </node>
+      <node id="10">
+        <label>regex</label>
+      </node>
+      <node id="12">
+        <label>security/malware_scanner.h</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>utils/audit_logger.h</label>
+      </node>
+      <node id="13">
+        <label>utils/pii_detector.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/content/archive_processor.h</label>
+        <link refid="archive__processor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/content/content_security.h</label>
+        <link refid="content__security_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/content/adapters/archive_extractor_adapter.cpp</label>
+        <link refid="archive__extractor__adapter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/content/archive_processor.cpp</label>
+        <link refid="archive__processor_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/content/archive_processor_enhancements.cpp</label>
+        <link refid="archive__processor__enhancements_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/content/content_manager.cpp</label>
+        <link refid="content__manager_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/content/content_security.cpp</label>
+        <link refid="content__security_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/content/test_archive_processor_validation.cpp</label>
+        <link refid="test__archive__processor__validation_8cpp"/>
+      </node>
+      <node id="9">
+        <label>tests/content/test_content_security.cpp</label>
+        <link refid="test__content__security_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1content_1_1_content_security_config" prot="public">themis::content::ContentSecurityConfig</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_security_check_result" prot="public">themis::content::SecurityCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1content_1_1_content_security_manager" prot="public">themis::content::ContentSecurityManager</innerclass>
+    <innerclass refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics" prot="public">themis::content::ContentSecurityManager::Metrics</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1content">themis::content</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="content__errors_8h" kindref="compound">content/content_errors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="abuse__detector_8h" kindref="compound">content/abuse_detector.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/malware_scanner.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/pii_detector.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/audit_logger.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content" kindref="compound">content</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1content_1_1_content_security_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Malware<sp/>scanning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1content_1_1_content_security_config_1a7030d4b9bad900d03c25c48f9b3d69e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a7030d4b9bad900d03c25c48f9b3d69e9" kindref="member">enable_malware_scan</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1content_1_1_content_security_config_1a1fe68ccae8b2f1f17532e3514f98d2d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a1fe68ccae8b2f1f17532e3514f98d2d7" kindref="member">block_on_malware</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1content_1_1_content_security_config_1a6c52798d6c67a13e2e424b7462e96e11" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>security::ThreatLevel<sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a6c52798d6c67a13e2e424b7462e96e11" kindref="member">malware_block_threshold</ref><sp/>=<sp/>security::ThreatLevel::MEDIUM;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PII<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1content_1_1_content_security_config_1a0c108aac39a2c515d401a8827dbf9cb8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a0c108aac39a2c515d401a8827dbf9cb8" kindref="member">enable_pii_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional,<sp/>performance<sp/>impact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1content_1_1_content_security_config_1ad7ebd0b96b40452a1934b112464668f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1ad7ebd0b96b40452a1934b112464668f1" kindref="member">block_on_pii</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Usually<sp/>just<sp/>warn,<sp/>don&apos;t<sp/>block</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1content_1_1_content_security_config_1a48062a29d126944e624392ce50c9fc14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a48062a29d126944e624392ce50c9fc14" kindref="member">redact_pii_in_logs</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Redact<sp/>PII<sp/>from<sp/>log<sp/>output</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Abuse<sp/>detection</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1content_1_1_content_security_config_1ab6f13e1a2b8d5dedff42e636db14b29b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1ab6f13e1a2b8d5dedff42e636db14b29b" kindref="member">enable_abuse_detection</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1content_1_1_content_security_config_1af8aee063487632c64d54b6db04772758" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1af8aee063487632c64d54b6db04772758" kindref="member">block_on_abuse</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Error<sp/>sanitization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1content_1_1_content_security_config_1aa48f5f76ad6da4228bd84801829b4986" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1aa48f5f76ad6da4228bd84801829b4986" kindref="member">sanitize_error_messages</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1content_1_1_content_security_config_1a07a9204f3aed2ba582db2c138e719a4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a07a9204f3aed2ba582db2c138e719a4a" kindref="member">hide_internal_paths</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1content_1_1_content_security_config_1a6cc112d99537562ad396a9978f23957b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a6cc112d99537562ad396a9978f23957b" kindref="member">hide_system_info</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Zip-bomb<sp/>protection<sp/>for<sp/>archive<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1content_1_1_content_security_config_1a3012217381c786c91a9bf9a70a3389f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a3012217381c786c91a9bf9a70a3389f2" kindref="member">enable_zip_bomb_check</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1content_1_1_content_security_config_1a5063fcd17665cdbddf72964aa6947617" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a5063fcd17665cdbddf72964aa6947617" kindref="member">max_zip_bomb_ratio</ref><sp/>=<sp/>100;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>decompressed/compressed<sp/>ratio<sp/>(100×)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1content_1_1_content_security_config_1ae613d84b7142e2d2980b885d3ff0243d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1ae613d84b7142e2d2980b885d3ff0243d" kindref="member">max_zip_file_count</ref><sp/>=<sp/>1000;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Max<sp/>number<sp/>of<sp/>files<sp/>per<sp/>archive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a2e8430ac8d84855aa551752121223832" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref><sp/><ref refid="structthemis_1_1content_1_1_content_security_config_1a6232503f605bd1e9034d947e3d3af6fd" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="structthemis_1_1content_1_1_security_check_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1content_1_1_security_check_result_1afc665a1fcc68b5943dc61fbe873ae40b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1afc665a1fcc68b5943dc61fbe873ae40b" kindref="member">error</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>OK<sp/>if<sp/>all<sp/>checks<sp/>passed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Check<sp/>results</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1content_1_1_security_check_result_1a9a4137c54fb6b6fe716ad32dfb27304b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1a9a4137c54fb6b6fe716ad32dfb27304b" kindref="member">malware_checked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1content_1_1_security_check_result_1a40efbbfa51b48315599ff984c5fd3244" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1a40efbbfa51b48315599ff984c5fd3244" kindref="member">malware_clean</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1content_1_1_security_check_result_1a739fc10f08eb358fa3641bba4fe84041" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1a739fc10f08eb358fa3641bba4fe84041" kindref="member">malware_threat</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1content_1_1_security_check_result_1afc76b037f1031bdd285259f587272799" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1afc76b037f1031bdd285259f587272799" kindref="member">pii_checked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1content_1_1_security_check_result_1aac9653c26469152f367cdc005e05b233" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1aac9653c26469152f367cdc005e05b233" kindref="member">pii_found</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1content_1_1_security_check_result_1aa87b5d6f8ba319e79cd9c2fa95acdb97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1aa87b5d6f8ba319e79cd9c2fa95acdb97" kindref="member">pii_types</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1content_1_1_security_check_result_1a7ab8fbb4d03e43520dbb84cb7d078400" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1a7ab8fbb4d03e43520dbb84cb7d078400" kindref="member">abuse_checked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1content_1_1_security_check_result_1a66dcd66428aa40683ec2a7fd255cc24d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1a66dcd66428aa40683ec2a7fd255cc24d" kindref="member">abuse_detected</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1content_1_1_security_check_result_1abd5ab7598597c55e6f776bc810f96d19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1abd5ab7598597c55e6f776bc810f96d19" kindref="member">abuse_action</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1content_1_1_security_check_result_1ab2be6c34644f2bd4b97a94acb29a7cac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1ab2be6c34644f2bd4b97a94acb29a7cac" kindref="member">abuse_detector_type</ref>;<sp/></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1content_1_1_security_check_result_1aa4faa74e39c4b5712e172fd05de9f327" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1aa4faa74e39c4b5712e172fd05de9f327" kindref="member">abuse_pattern_name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1content_1_1_security_check_result_1ad7c84ec616a4d71ff7576be2faf12c9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1ad7c84ec616a4d71ff7576be2faf12c9e" kindref="member">zip_bomb_checked</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1content_1_1_security_check_result_1aeddcf05dc843c8586c80bb045956bc14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1aeddcf05dc843c8586c80bb045956bc14" kindref="member">zip_bomb_detected</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_security_check_result_1a100979032682fa748ba6592694d33023" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95" refid="classthemis_1_1content_1_1_content_security_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1content_1_1_content_security_manager_1a736106be7f9b1dfaac1a7fca87d456d3" kindref="member">ContentSecurityManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a736106be7f9b1dfaac1a7fca87d456d3" kindref="member">ContentSecurityManager</ref>(</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref>&amp;<sp/>config<sp/>=<sp/><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref>{}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a9d51c4185808e13426cc036ccdf5efcc" kindref="member">setMalwareFilter</ref>(std::shared_ptr&lt;security::MalwareFilterManager&gt;<sp/>filter);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a021e2a9fe3641b2e9e152e68aa6112da" kindref="member">setPiiDetector</ref>(std::shared_ptr&lt;utils::PIIDetector&gt;<sp/>detector);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a27119b66810b82b42d02c0a66f324ed6" kindref="member">setPhotoAbuseDetector</ref>(std::shared_ptr&lt;IAbuseDetector&gt;<sp/>detector);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1acdd1628972bd69a5046ec8186ab0fe2d" kindref="member">setTextAbuseDetector</ref>(std::shared_ptr&lt;IAbuseDetector&gt;<sp/>detector);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1adbeefccde3cc50e2a221b55e0dbfc331" kindref="member">setAuditLogger</ref>(utils::AuditLogger*<sp/>logger);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1abce012dc8be56f50a8f48743c4f2f2fe" kindref="member">checkContent</ref>(</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a5222fdefb8a02da4941db1b0d4b63ce4" kindref="member">checkZipBomb</ref>(</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>compressed_size,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>uncompressed_size,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>file_count,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a1948f89e5f064828706c722c58768399" kindref="member">checkTextForPii</ref>(</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a40e0b0db33a19b15384a41b6bba50583" kindref="member">sanitizeError</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_error" kindref="compound">ContentError</ref>&amp;<sp/>error)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a5e492380c7bb37d747a98bf957e6cbb0" kindref="member">sanitizeErrorMessage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a10e72e5066460af1575418d1da67a5fc" kindref="member">setConfig</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref>&amp;<sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1adbcde892bc8e94cc79b0df013765e9c2" kindref="member">getConfig</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics" kindref="compound">Metrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="190" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ab216b7cd9b4f706161d4c50d18a628f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ab216b7cd9b4f706161d4c50d18a628f6" kindref="member">total_checks</ref>{0};</highlight></codeline>
+<codeline lineno="191" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a1e5edd4de8fd075b505820d0a4a1083c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a1e5edd4de8fd075b505820d0a4a1083c" kindref="member">malware_scans</ref>{0};</highlight></codeline>
+<codeline lineno="192" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a51138cf72bcd78f0acacc26c2f22f8ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a51138cf72bcd78f0acacc26c2f22f8ef" kindref="member">malware_detected</ref>{0};</highlight></codeline>
+<codeline lineno="193" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a8be60e6e2aa416b5c113eed5360dac0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a8be60e6e2aa416b5c113eed5360dac0f" kindref="member">malware_blocked</ref>{0};</highlight></codeline>
+<codeline lineno="194" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a7d7c8dbcafef869c97b7d4488fdbb1e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a7d7c8dbcafef869c97b7d4488fdbb1e2" kindref="member">pii_scans</ref>{0};</highlight></codeline>
+<codeline lineno="195" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ab14fc04b2d32025d0b770ec5c9d32e16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ab14fc04b2d32025d0b770ec5c9d32e16" kindref="member">pii_detected</ref>{0};</highlight></codeline>
+<codeline lineno="196" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a3e1c0bc48f5ae1a3a68a9160911413f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a3e1c0bc48f5ae1a3a68a9160911413f8" kindref="member">pii_blocked</ref>{0};</highlight></codeline>
+<codeline lineno="197" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a061f4f9660b901c1e98100fda8f2551a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a061f4f9660b901c1e98100fda8f2551a" kindref="member">abuse_scans</ref>{0};</highlight></codeline>
+<codeline lineno="198" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a34c2b75760647c24c4fe26b66780c8f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a34c2b75760647c24c4fe26b66780c8f1" kindref="member">abuse_detected</ref>{0};</highlight></codeline>
+<codeline lineno="199" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ac22f23323fc83595ffe32fad2748d3a8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1ac22f23323fc83595ffe32fad2748d3a8" kindref="member">abuse_blocked</ref>{0};</highlight></codeline>
+<codeline lineno="200" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a6664ef29163e1af034446c88a0cd0eaf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a6664ef29163e1af034446c88a0cd0eaf" kindref="member">errors_sanitized</ref>{0};</highlight></codeline>
+<codeline lineno="201" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a3ccaa908c68b20d1e6ff7b3c992571de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a3ccaa908c68b20d1e6ff7b3c992571de" kindref="member">zip_bomb_scans</ref>{0};</highlight></codeline>
+<codeline lineno="202" refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a464d27838f335de157bbc335d9d2803c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::atomic&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1a464d27838f335de157bbc335d9d2803c" kindref="member">zip_bomb_blocked</ref>{0};</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref><sp/><ref refid="structthemis_1_1content_1_1_content_security_manager_1_1_metrics_1afb1917eaf595c228e427c2fe4aefbf1a" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Metrics&amp;<sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1ae7ceb4dbbffcfa66f60d9504575e9627" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1content_1_1_content_security_manager_1a2e9fcdafb76c8c6f17b132e133c79ff9" kindref="member">resetMetrics</ref>();</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_content_security_config" kindref="compound">ContentSecurityConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;security::MalwareFilterManager&gt;<sp/>malware_filter_;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;utils::PIIDetector&gt;<sp/>pii_detector_;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IAbuseDetector&gt;<sp/>photo_abuse_detector_;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;IAbuseDetector&gt;<sp/>text_abuse_detector_;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>utils::AuditLogger*<sp/>audit_logger_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>Metrics<sp/>metrics_;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref><sp/>checkMalware(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filename,</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref><sp/>checkPii(</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1content_1_1_security_check_result" kindref="compound">SecurityCheckResult</ref><sp/>checkAbuse(</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>data,</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>mime_type,</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>content_id</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>sanitizePath(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>sanitizeSystemInfo(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>content</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/content/content_security.h"/>
+  </compounddef>
+</doxygen>

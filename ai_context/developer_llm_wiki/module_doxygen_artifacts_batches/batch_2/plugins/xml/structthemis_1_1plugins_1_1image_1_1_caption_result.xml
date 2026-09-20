@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_caption_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::CaptionResult</compoundname>
+    <includes refid="image__analysis__interface_8h" local="no">image_analysis_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_caption_result_1a8a967d37d774fbd765b8cfaf2e9ec3f0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::CaptionResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::plugins::image::CaptionResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="110" column="10" bodyfile="include/plugins/image_analysis_interface.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_caption_result_1a5117b288cf4f4ca6f45a579fa195d03b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::CaptionResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::plugins::image::CaptionResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="111" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_caption_result_1a4c362d49f11a20ae95e7180e3e6cf227" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::CaptionResult::caption</definition>
+        <argsstring></argsstring>
+        <name>caption</name>
+        <qualifiedname>themis::plugins::image::CaptionResult::caption</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="113" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_caption_result_1a4d3ecfaa50a23bded03b57a0a6b0ffb5" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::CaptionResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::plugins::image::CaptionResult::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="114" column="11" bodyfile="include/plugins/image_analysis_interface.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_caption_result_1a9af3928632991d734fd6096cf0d430a3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::CaptionResult::model_name</definition>
+        <argsstring></argsstring>
+        <name>model_name</name>
+        <qualifiedname>themis::plugins::image::CaptionResult::model_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="115" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_caption_result_1a19b7cc9a1ced7ab51e39ab3ef309c781" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, float &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, float&gt; &gt; themis::plugins::image::CaptionResult::alternatives</definition>
+        <argsstring></argsstring>
+        <name>alternatives</name>
+        <qualifiedname>themis::plugins::image::CaptionResult::alternatives</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="118" column="17" bodyfile="include/plugins/image_analysis_interface.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_caption_result_1a6c9c7ce12d107ba4186955a73c282766" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::plugins::image::CaptionResult::inference_time_ms</definition>
+        <argsstring></argsstring>
+        <name>inference_time_ms</name>
+        <qualifiedname>themis::plugins::image::CaptionResult::inference_time_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="120" column="13" bodyfile="include/plugins/image_analysis_interface.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Image Caption Result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_interface.h" line="109" column="1" bodyfile="include/plugins/image_analysis_interface.h" bodystart="109" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_caption_result_1a19b7cc9a1ced7ab51e39ab3ef309c781" prot="public" virt="non-virtual"><scope>themis::plugins::image::CaptionResult</scope><name>alternatives</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_caption_result_1a4c362d49f11a20ae95e7180e3e6cf227" prot="public" virt="non-virtual"><scope>themis::plugins::image::CaptionResult</scope><name>caption</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_caption_result_1a4d3ecfaa50a23bded03b57a0a6b0ffb5" prot="public" virt="non-virtual"><scope>themis::plugins::image::CaptionResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_caption_result_1a5117b288cf4f4ca6f45a579fa195d03b" prot="public" virt="non-virtual"><scope>themis::plugins::image::CaptionResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_caption_result_1a6c9c7ce12d107ba4186955a73c282766" prot="public" virt="non-virtual"><scope>themis::plugins::image::CaptionResult</scope><name>inference_time_ms</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_caption_result_1a9af3928632991d734fd6096cf0d430a3" prot="public" virt="non-virtual"><scope>themis::plugins::image::CaptionResult</scope><name>model_name</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_caption_result_1a8a967d37d774fbd765b8cfaf2e9ec3f0" prot="public" virt="non-virtual"><scope>themis::plugins::image::CaptionResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

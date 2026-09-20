@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__sd__plugin__real__backend__e2e_8cpp" kind="file" language="C++">
+    <compoundname>test_sd_plugin_real_backend_e2e.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="sd__plugin_8h" local="yes">stable_diffusion/sd_plugin.h</includes>
+    <includes local="yes">utils/checksum_utils.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">cstring</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="5">
+        <label>stable_diffusion/sd_config.h</label>
+        <link refid="sd__config_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>stable_diffusion/sd_generator.h</label>
+        <link refid="sd__generator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stable_diffusion/sd_plugin.h</label>
+        <link refid="sd__plugin_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>stable_diffusion/sd_prompt_sanitizer.h</label>
+        <link refid="sd__prompt__sanitizer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp</label>
+        <link refid="test__sd__plugin__real__backend__e2e_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>algorithm</label>
+      </node>
+      <node id="23">
+        <label>atomic</label>
+      </node>
+      <node id="9">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="12">
+        <label>cstdlib</label>
+      </node>
+      <node id="24">
+        <label>cstring</label>
+      </node>
+      <node id="13">
+        <label>filesystem</label>
+      </node>
+      <node id="20">
+        <label>fstream</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="4">
+        <label>plugins/image_generation_interface.h</label>
+      </node>
+      <node id="21">
+        <label>sstream</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="25">
+        <label>thread</label>
+      </node>
+      <node id="22">
+        <label>utils/checksum_utils.h</label>
+      </node>
+      <node id="17">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__sd__plugin__real__backend__e2e_8cpp_1ab319d04266301643d86c0aefc2d1dca7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRealBackendE2ETests, E2E_Text2ImgAndImg2Img_WithModelSha256Gate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRealBackendE2ETests</type>
+        </param>
+        <param>
+          <type>E2E_Text2ImgAndImg2Img_WithModelSha256Gate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp" line="33" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp" bodystart="33" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="test__sd__plugin__real__backend__e2e_8cpp_1a51dba00557cd9a30ab2f4cf6facc6ac1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(SDPluginRealBackendE2ETests, ParallelAudit_RealBackendGenerate)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>SDPluginRealBackendE2ETests</type>
+        </param>
+        <param>
+          <type>ParallelAudit_RealBackendGenerate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp" line="88" column="1" bodyfile="src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp" bodystart="88" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="sd__plugin_8h" kindref="compound">stable_diffusion/sd_plugin.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/checksum_utils.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstring&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1imggen" kindref="compound">themis::imggen</ref>;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>requireEnv(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>key)<sp/>{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>value<sp/>=<sp/>std::getenv(key);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!value<sp/>||<sp/>value[0]<sp/>==<sp/></highlight><highlight class="charliteral">&apos;\0&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Set<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>key<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>to<sp/>run<sp/>stable_diffusion<sp/>real-backend<sp/>E2E<sp/>tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasPngSignature(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>png)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint8_t<sp/>kSig[8]<sp/>=<sp/>{0x89u,<sp/></highlight><highlight class="charliteral">&apos;P&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;N&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;G&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;\r&apos;</highlight><highlight class="normal">,<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">,<sp/>0x1Au,<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>png.size()<sp/>&gt;=<sp/>8<sp/>&amp;&amp;<sp/>std::memcmp(png.data(),<sp/>kSig,<sp/>8)<sp/>==<sp/>0;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__sd__plugin__real__backend__e2e_8cpp_1ab319d04266301643d86c0aefc2d1dca7" kindref="member">TEST</ref>(SDPluginRealBackendE2ETests,<sp/>E2E_Text2ImgAndImg2Img_WithModelSha256Gate)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>model_path<sp/>=<sp/>requireEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_SD_E2E_MODEL_PATH&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::filesystem::exists(model_path))</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;THEMIS_SD_E2E_MODEL_PATH<sp/>does<sp/>not<sp/>exist:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>model_path;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>model_sha256<sp/>=<sp/>themis::utils::calculateSHA256(model_path);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(model_sha256.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;failed<sp/>to<sp/>calculate<sp/>model<sp/>SHA-256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>init_cfg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;model_sha256&quot;</highlight><highlight class="normal">,<sp/>model_sha256},</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;width&quot;</highlight><highlight class="normal">,<sp/>64},</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;height&quot;</highlight><highlight class="normal">,<sp/>64},</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;steps&quot;</highlight><highlight class="normal">,<sp/>2},</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cfg_scale&quot;</highlight><highlight class="normal">,<sp/>5.0f},</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sampler&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;euler_a&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac24fa29baa124649c765af7e359aaf2f" kindref="member">initialize</ref>(model_path,<sp/>init_cfg))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;real-backend<sp/>init<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>SDGenerationConfig<sp/>t2i_cfg;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>t2i_cfg.width<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>t2i_cfg.height<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>t2i_cfg.steps<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>t2i_cfg.cfg_scale<sp/>=<sp/>5.0f;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>t2i_cfg.sampler<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;euler_a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>t2i_cfg.seed<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t2i<sp/>=<sp/>plugin.<ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1afec5f78bed193e25f65284b0409f96a6" kindref="member">generate</ref>(</highlight><highlight class="stringliteral">&quot;a<sp/>minimal<sp/>geometric<sp/>icon&quot;</highlight><highlight class="normal">,<sp/>t2i_cfg);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(t2i.success)<sp/>&lt;&lt;<sp/>t2i.error_message;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(t2i.width,<sp/>0);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(t2i.height,<sp/>0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(hasPngSignature(t2i.png_data));</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(t2i.prompt_hash.empty());</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(t2i.plugin_version,<sp/></highlight><highlight class="stringliteral">&quot;2.3.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>Img2ImgConfig<sp/>i2i_cfg;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.input_width<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.input_height<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.input_image_rgb.assign(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(64<sp/>*<sp/>64<sp/>*<sp/>3),<sp/>120);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.width<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.height<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.steps<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.cfg_scale<sp/>=<sp/>5.0f;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.sampler<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;euler_a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.seed<sp/>=<sp/>1337;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>i2i_cfg.strength<sp/>=<sp/>0.5f;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>i2i<sp/>=<sp/>plugin.<ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1af39475fc6b918d55cc35340e0ddc73d3" kindref="member">generateImg2Img</ref>(</highlight><highlight class="stringliteral">&quot;refine<sp/>edges<sp/>and<sp/>improve<sp/>contrast&quot;</highlight><highlight class="normal">,<sp/>i2i_cfg);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(i2i.success)<sp/>&lt;&lt;<sp/>i2i.error_message;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(i2i.width,<sp/>0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(i2i.height,<sp/>0);</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(hasPngSignature(i2i.png_data));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(i2i.prompt_hash.empty());</highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><ref refid="test__sd__plugin__real__backend__e2e_8cpp_1ab319d04266301643d86c0aefc2d1dca7" kindref="member">TEST</ref>(SDPluginRealBackendE2ETests,<sp/>ParallelAudit_RealBackendGenerate)<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>model_path<sp/>=<sp/>requireEnv(</highlight><highlight class="stringliteral">&quot;THEMIS_SD_E2E_MODEL_PATH&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(std::filesystem::exists(model_path))</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;THEMIS_SD_E2E_MODEL_PATH<sp/>does<sp/>not<sp/>exist:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>model_path;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>model_sha256<sp/>=<sp/>themis::utils::calculateSHA256(model_path);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_FALSE(model_sha256.empty())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;failed<sp/>to<sp/>calculate<sp/>model<sp/>SHA-256&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1imggen_1_1_s_d_plugin" kindref="compound">SDPlugin</ref><sp/>plugin;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1imggen_1a9024eebd946aeb051d92dcd260e0c813" kindref="member">json</ref><sp/>init_cfg<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;model_sha256&quot;</highlight><highlight class="normal">,<sp/>model_sha256},</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;width&quot;</highlight><highlight class="normal">,<sp/>32},</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;height&quot;</highlight><highlight class="normal">,<sp/>32},</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;steps&quot;</highlight><highlight class="normal">,<sp/>1},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;cfg_scale&quot;</highlight><highlight class="normal">,<sp/>4.5f},</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;sampler&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;euler_a&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(plugin.<ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1ac24fa29baa124649c765af7e359aaf2f" kindref="member">initialize</ref>(model_path,<sp/>init_cfg))<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;real-backend<sp/>init<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>failures{0};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>workers;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>workers.reserve(4);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>worker<sp/>=<sp/>0;<sp/>worker<sp/>&lt;<sp/>4;<sp/>++worker)<sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>workers.emplace_back([&amp;plugin,<sp/>&amp;failures,<sp/>worker]()<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>2;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SDGenerationConfig<sp/>cfg;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.width<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.height<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.steps<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.cfg_scale<sp/>=<sp/>4.5f;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.sampler<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;euler_a&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cfg.seed<sp/>=<sp/>worker<sp/>*<sp/>100<sp/>+<sp/>i;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>plugin.<ref refid="classthemis_1_1imggen_1_1_s_d_plugin_1afec5f78bed193e25f65284b0409f96a6" kindref="member">generate</ref>(</highlight><highlight class="stringliteral">&quot;parallel<sp/>audit<sp/>prompt&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.success<sp/>||<sp/>result.png_data.empty()<sp/>||<sp/>result.width<sp/>&lt;=<sp/>0<sp/>||<sp/>result.height<sp/>&lt;=<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++failures;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++failures;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>worker<sp/>:<sp/>workers)<sp/>{</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>worker.join();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(failures.load(),<sp/>0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;parallel<sp/>real-backend<sp/>generate<sp/>audit<sp/>failures&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/stable_diffusion/tests/test_sd_plugin_real_backend_e2e.cpp"/>
+  </compounddef>
+</doxygen>

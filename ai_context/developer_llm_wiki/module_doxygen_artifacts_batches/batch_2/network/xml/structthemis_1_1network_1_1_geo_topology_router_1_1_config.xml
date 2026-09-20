@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_geo_topology_router_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::GeoTopologyRouter::Config</compoundname>
+    <includes refid="geo__topology__router_8h" local="no">geo_topology_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a91e0a6f35ae06a2cf6902a5fc2ee31cc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::GeoTopologyRouter::Config::local_region</definition>
+        <argsstring></argsstring>
+        <name>local_region</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Config::local_region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Geo-region of this node (e.g., &quot;us-east&quot;, &quot;eu-west&quot;). Used to score local vs remote shards. May be empty if the node has no region assignment (treats all regions as equal). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="107" column="21" bodyfile="include/network/geo_topology_router.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1acf34d32d9d13ed34f294d766fe9c2b95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::GeoTopologyRouter::Config::local_zone</definition>
+        <argsstring></argsstring>
+        <name>local_zone</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Config::local_zone</qualifiedname>
+        <briefdescription>
+<para>Availability zone of this node (e.g., &quot;us-east-1a&quot;). Optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="110" column="21" bodyfile="include/network/geo_topology_router.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a1a885d619a74ca92430a46e111707dcf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::GeoTopologyRouter::Config::local_datacenter</definition>
+        <argsstring></argsstring>
+        <name>local_datacenter</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Config::local_datacenter</qualifiedname>
+        <briefdescription>
+<para>Datacenter identifier of this node (e.g., &quot;dc1&quot;). Optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="113" column="21" bodyfile="include/network/geo_topology_router.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a6b5d1d9c9589dffbbef089377098dcfa" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50b" kindref="member">Strategy</ref></type>
+        <definition>Strategy themis::network::GeoTopologyRouter::Config::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Config::strategy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1network_1_1_geo_topology_router_1a4ebe77273866838c0e9d69e904acf50ba6d1313ba7ab8afcb895591481871ef89" kindref="member">Strategy::PREFER_LOCAL</ref></initializer>
+        <briefdescription>
+<para>Routing strategy applied when selecting endpoints. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="116" column="18" bodyfile="include/network/geo_topology_router.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1adcae1ba96ef1ee95ed864dec9cb3ce77" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::GeoTopologyRouter::Config::fallback_cross_region</definition>
+        <argsstring></argsstring>
+        <name>fallback_cross_region</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Config::fallback_cross_region</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>When true, requests that cannot be served by the local region are forwarded to healthy shards in other regions. When false, <computeroutput><ref refid="classthemis_1_1network_1_1_geo_topology_router_1adad37887c3cc8c86ceda4375a833e348" kindref="member">selectEndpoint()</ref></computeroutput> returns an empty string for such requests. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="121" column="14" bodyfile="include/network/geo_topology_router.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1ab64734f8bb8dccd789d3f6996becb850" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, uint32_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, uint32_t&gt; themis::network::GeoTopologyRouter::Config::region_latency_hints</definition>
+        <argsstring></argsstring>
+        <name>region_latency_hints</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Config::region_latency_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>One-way latency hints per region in milliseconds. Used exclusively by the LOWEST_LATENCY strategy. Key: region name Value: estimated one-way latency in ms. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="126" column="28" bodyfile="include/network/geo_topology_router.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a0c4d4e41f588f3d6b2b78b527439a748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::GeoTopologyRouter::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::network::GeoTopologyRouter::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/geo_topology_router.h" line="128" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/geo_topology_router.h" line="103" column="5" bodyfile="include/network/geo_topology_router.h" bodystart="103" bodyend="129"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a0c4d4e41f588f3d6b2b78b527439a748" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1adcae1ba96ef1ee95ed864dec9cb3ce77" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Config</scope><name>fallback_cross_region</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a1a885d619a74ca92430a46e111707dcf" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Config</scope><name>local_datacenter</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a91e0a6f35ae06a2cf6902a5fc2ee31cc" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Config</scope><name>local_region</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1acf34d32d9d13ed34f294d766fe9c2b95" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Config</scope><name>local_zone</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1ab64734f8bb8dccd789d3f6996becb850" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Config</scope><name>region_latency_hints</name></member>
+      <member refid="structthemis_1_1network_1_1_geo_topology_router_1_1_config_1a6b5d1d9c9589dffbbef089377098dcfa" prot="public" virt="non-virtual"><scope>themis::network::GeoTopologyRouter::Config</scope><name>strategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

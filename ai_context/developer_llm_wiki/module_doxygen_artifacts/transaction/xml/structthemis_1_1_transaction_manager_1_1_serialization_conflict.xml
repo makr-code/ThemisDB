@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_serialization_conflict" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::SerializationConflict</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_serialization_conflict_1acb0924a6a430c4a5cd14c52ce367416c" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_transaction_manager_1ad0abde3348686e963248f2a28fb04bd7" kindref="member">TransactionId</ref></type>
+        <definition>TransactionId themis::TransactionManager::SerializationConflict::other_txn_id</definition>
+        <argsstring></argsstring>
+        <name>other_txn_id</name>
+        <qualifiedname>themis::TransactionManager::SerializationConflict::other_txn_id</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="829" column="23" bodyfile="include/transaction/transaction_manager.h" bodystart="829" bodyend="829"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_serialization_conflict_1aa325a603f1b0262739ab27ad5fed6983" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::SerializationConflict::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::TransactionManager::SerializationConflict::key</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="831" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="831" bodyend="831"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_serialization_conflict_1af7ce3e9e0581af4cb27d8f1532634194" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::SerializationConflict::conflict_type</definition>
+        <argsstring></argsstring>
+        <name>conflict_type</name>
+        <qualifiedname>themis::TransactionManager::SerializationConflict::conflict_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="833" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="833" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_serialization_conflict_1a184c2e79c2e618f7131bb387a3dc0474" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::TransactionManager::SerializationConflict::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::TransactionManager::SerializationConflict::message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="835" column="21" bodyfile="include/transaction/transaction_manager.h" bodystart="835" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="828" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="828" bodyend="836"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_serialization_conflict_1af7ce3e9e0581af4cb27d8f1532634194" prot="public" virt="non-virtual"><scope>themis::TransactionManager::SerializationConflict</scope><name>conflict_type</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_serialization_conflict_1aa325a603f1b0262739ab27ad5fed6983" prot="public" virt="non-virtual"><scope>themis::TransactionManager::SerializationConflict</scope><name>key</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_serialization_conflict_1a184c2e79c2e618f7131bb387a3dc0474" prot="public" virt="non-virtual"><scope>themis::TransactionManager::SerializationConflict</scope><name>message</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_serialization_conflict_1acb0924a6a430c4a5cd14c52ce367416c" prot="public" virt="non-virtual"><scope>themis::TransactionManager::SerializationConflict</scope><name>other_txn_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

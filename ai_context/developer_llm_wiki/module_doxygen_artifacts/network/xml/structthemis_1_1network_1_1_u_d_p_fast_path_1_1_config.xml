@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::network::UDPFastPath::Config</compoundname>
+    <includes refid="udp__fast__path_8h" local="no">udp_fast_path.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a87d19c1f0a0585aa97264811f27ade1a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::network::UDPFastPath::Config::host</definition>
+        <argsstring></argsstring>
+        <name>host</name>
+        <qualifiedname>themis::network::UDPFastPath::Config::host</qualifiedname>
+        <initializer>= &quot;0.0.0.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="114" column="21" bodyfile="include/network/udp_fast_path.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a9910b6cd9290f9126e305d56be49f885" prot="public" static="no" mutable="no">
+        <type>uint16_t</type>
+        <definition>uint16_t themis::network::UDPFastPath::Config::port</definition>
+        <argsstring></argsstring>
+        <name>port</name>
+        <qualifiedname>themis::network::UDPFastPath::Config::port</qualifiedname>
+        <initializer>= 8769</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="115" column="21" bodyfile="include/network/udp_fast_path.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a30f241ff1f578815f58670fd50411046" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::UDPFastPath::Config::num_threads</definition>
+        <argsstring></argsstring>
+        <name>num_threads</name>
+        <qualifiedname>themis::network::UDPFastPath::Config::num_threads</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="116" column="21" bodyfile="include/network/udp_fast_path.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1ac8f8718de97df2c0608f70c8cc1b8b8a" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::network::UDPFastPath::Config::max_packet_size</definition>
+        <argsstring></argsstring>
+        <name>max_packet_size</name>
+        <qualifiedname>themis::network::UDPFastPath::Config::max_packet_size</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1network_1a493b81c8b89cb5cd3f54130a69fefe84" kindref="member">kUdpFastPathMaxPacketSize</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Maximum datagram size the server accepts. Oversized packets are silently dropped to avoid allocating unbounded memory. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="120" column="21" bodyfile="include/network/udp_fast_path.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1accc26f50a85c4840d9d0f5ad38de496f" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::network::UDPFastPath::Config::max_packets_per_second_per_ip</definition>
+        <argsstring></argsstring>
+        <name>max_packets_per_second_per_ip</name>
+        <qualifiedname>themis::network::UDPFastPath::Config::max_packets_per_second_per_ip</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+<para>Per-source-IP rate limit: maximum datagrams per second. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="123" column="18" bodyfile="include/network/udp_fast_path.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a057b1dac2de65ffac5c76e7fd72cd9c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::UDPFastPath::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::network::UDPFastPath::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/udp_fast_path.h" line="125" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/network/udp_fast_path.h" line="113" column="5" bodyfile="include/network/udp_fast_path.h" bodystart="113" bodyend="126"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a057b1dac2de65ffac5c76e7fd72cd9c5" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a87d19c1f0a0585aa97264811f27ade1a" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Config</scope><name>host</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1ac8f8718de97df2c0608f70c8cc1b8b8a" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Config</scope><name>max_packet_size</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1accc26f50a85c4840d9d0f5ad38de496f" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Config</scope><name>max_packets_per_second_per_ip</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a30f241ff1f578815f58670fd50411046" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Config</scope><name>num_threads</name></member>
+      <member refid="structthemis_1_1network_1_1_u_d_p_fast_path_1_1_config_1a9910b6cd9290f9126e305d56be49f885" prot="public" virt="non-virtual"><scope>themis::network::UDPFastPath::Config</scope><name>port</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

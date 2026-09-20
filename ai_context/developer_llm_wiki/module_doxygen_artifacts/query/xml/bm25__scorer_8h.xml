@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bm25__scorer_8h" kind="file" language="C++">
+    <compoundname>bm25_scorer.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes refid="fts__parser_8h" local="yes">query/fts_parser.h</includes>
+    <includes refid="fts__index_8h" local="yes">query/fts_index.h</includes>
+    <includedby refid="fts__executor_8h" local="yes">include/query/fts_executor.h</includedby>
+    <includedby refid="bm25__scorer_8cpp" local="yes">src/query/bm25_scorer.cpp</includedby>
+    <includedby refid="test__fts__bm25__scorer_8cpp" local="yes">tests/query/test_fts_bm25_scorer.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/query/bm25_scorer.h</label>
+        <link refid="bm25__scorer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>query/fts_index.h</label>
+        <link refid="fts__index_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>query/fts_parser.h</label>
+        <link refid="fts__parser_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/query/bm25_scorer.h</label>
+        <link refid="bm25__scorer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/query/fts_executor.h</label>
+        <link refid="fts__executor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/query/bm25_scorer.cpp</label>
+        <link refid="bm25__scorer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/query/fts_executor.cpp</label>
+        <link refid="fts__executor_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/query/test_fts_bm25_scorer.cpp</label>
+        <link refid="test__fts__bm25__scorer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/query/test_fts_executor.cpp</label>
+        <link refid="test__fts__executor_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer" prot="public">themis::query::fts::BM25Scorer</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" prot="public">themis::query::fts::BM25Scorer::Config</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1fts">themis::query::fts</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>include/query/bm25_scorer.h</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>BM25<sp/>Scoring<sp/>Algorithm<sp/>Implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Okapi<sp/>BM25<sp/>ranking<sp/>function<sp/>for<sp/>relevance<sp/>scoring</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Formula:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>score(D,<sp/>Q)<sp/>=<sp/>Σ(i=1<sp/>to<sp/>n)<sp/>IDF(qi)<sp/>*<sp/>(tf(qi,<sp/>D)<sp/>*<sp/>(k1<sp/>+<sp/>1))<sp/>/<sp/></highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(tf(qi,<sp/>D)<sp/>+<sp/>k1<sp/>*<sp/>(1<sp/>-<sp/>b<sp/>+<sp/>b<sp/>*<sp/>|D|<sp/>/<sp/>avgDL))</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Parameters:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>k1<sp/>=<sp/>1.5<sp/><sp/>(controls<sp/>term<sp/>frequency<sp/>saturation)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>b<sp/><sp/>=<sp/>0.75<sp/>(controls<sp/>length<sp/>normalization)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Thread-Safety:<sp/>NOT<sp/>thread-safe<sp/>(immutable<sp/>after<sp/>construction)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>All<sp/>members<sp/>const<sp/>after<sp/>construction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>-<sp/>Safe<sp/>to<sp/>share<sp/>const<sp/>pointer<sp/>across<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="fts__parser_8h" kindref="compound">query/fts_parser.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/></highlight><highlight class="comment">//<sp/>SearchNode<sp/>AST</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="fts__index_8h" kindref="compound">query/fts_index.h</ref>&quot;</highlight><highlight class="normal"><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Index<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1query_1_1fts" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1fts" kindref="compound">themis::query::fts</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33" refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a607fce9e1d8ee9f27fe92a6e5ee9ae18" kindref="member">BM25Scorer</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" refkind="compound"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" kindref="compound">Config</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config_1aef27fb3368cb8a2e66e4171ba71a1e63" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config_1aef27fb3368cb8a2e66e4171ba71a1e63" kindref="member">k1</ref><sp/>=<sp/>1.5f;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config_1a3e6229fe714da325085992d35f4f0e89" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config_1a3e6229fe714da325085992d35f4f0e89" kindref="member">b</ref><sp/>=<sp/>0.75f;<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/>};</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a607fce9e1d8ee9f27fe92a6e5ee9ae18" kindref="member">BM25Scorer</ref>();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a607fce9e1d8ee9f27fe92a6e5ee9ae18" kindref="member">BM25Scorer</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" kindref="compound">Config</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a1acbd35aa102166036e7f06abdd8ad4e" kindref="member">compute</ref>(</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>doc_id,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_search_node" kindref="compound">SearchNode</ref>&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_index_statistics" kindref="compound">IndexStatistics</ref>&amp;<sp/>index_stats)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1a65f5ac3762b800a1ac0435bcbbfa5b05" kindref="member">computeIDF</ref>(</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>doc_freq,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>total_docs);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1query_1_1fts_1_1_b_m25_scorer_1ab480881a6a62c2fdb43013811313212c" kindref="member">computeTFComponent</ref>(</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>term_freq,</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>doc_length,</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>avg_doc_length)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><ref refid="structthemis_1_1query_1_1fts_1_1_b_m25_scorer_1_1_config" kindref="compound">Config</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::query::fts</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/query/bm25_scorer.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1exporters_1_1_hub_upload_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::exporters::HubUploadConfig</compoundname>
+    <includes refid="huggingface__hub__client_8h" local="no">huggingface_hub_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1ab0181665f901244b84c44ca74632c8fc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HubUploadConfig::hf_token</definition>
+        <argsstring></argsstring>
+        <name>hf_token</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::hf_token</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="46" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1a2e09fbc25aaba3b447e914ae003ef3f4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HubUploadConfig::hf_token_kek_id</definition>
+        <argsstring></argsstring>
+        <name>hf_token_kek_id</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::hf_token_kek_id</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="48" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1a7767d6dd6d8d2b00aa6124c2816a006d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::KeyProvider &gt;</type>
+        <definition>std::shared_ptr&lt;themis::KeyProvider&gt; themis::exporters::HubUploadConfig::key_provider</definition>
+        <argsstring></argsstring>
+        <name>key_provider</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::key_provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="50" column="21" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1a2a863f5a8b610bfb9985ab2c2d09cec9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HubUploadConfig::repo_id</definition>
+        <argsstring></argsstring>
+        <name>repo_id</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::repo_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="52" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1a0b658f1532555261b945474bfdd64bfb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HubUploadConfig::commit_message</definition>
+        <argsstring></argsstring>
+        <name>commit_message</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::commit_message</qualifiedname>
+        <initializer>= &quot;Upload via ThemisDB HuggingFaceHubClient&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="54" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1abb56a4329949a078b7e3736b40e1cbbc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::HubUploadConfig::create_repo</definition>
+        <argsstring></argsstring>
+        <name>create_repo</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::create_repo</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="56" column="10" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1a9eb202d4c665266daf93e699aa616048" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::exporters::HubUploadConfig::private_repo</definition>
+        <argsstring></argsstring>
+        <name>private_repo</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::private_repo</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="58" column="10" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1a718697701e13a94b7c1c147550b2d996" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HubUploadConfig::hub_base_url</definition>
+        <argsstring></argsstring>
+        <name>hub_base_url</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::hub_base_url</qualifiedname>
+        <initializer>= &quot;https://huggingface.co&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="60" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1ac419856674efb01c2746bb93daf40959" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::exporters::HubUploadConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="62" column="9" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1a95565376100d176e693a22cbdd801f2b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::exporters::HubUploadConfig::retry_delay_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_delay_ms</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::retry_delay_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="64" column="9" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1a2c2dd1106c17b89ceb0f2612c8d26b9b" prot="public" static="no" mutable="no">
+        <type>long</type>
+        <definition>long themis::exporters::HubUploadConfig::timeout_seconds</definition>
+        <argsstring></argsstring>
+        <name>timeout_seconds</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::timeout_seconds</qualifiedname>
+        <initializer>= 120</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="66" column="10" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1abb010a45fccd67ed16c104a8636fa76e" prot="public" static="no" mutable="no">
+        <type>themis::governance::PolicyEngine *</type>
+        <definition>themis::governance::PolicyEngine* themis::exporters::HubUploadConfig::policy_engine</definition>
+        <argsstring></argsstring>
+        <name>policy_engine</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::policy_engine</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="68" column="38" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1ae92ca0166be54458db1d3eb6c995a0f9" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::utils::AuditLogger &gt;</type>
+        <definition>std::shared_ptr&lt;themis::utils::AuditLogger&gt; themis::exporters::HubUploadConfig::audit_log</definition>
+        <argsstring></argsstring>
+        <name>audit_log</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::audit_log</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="70" column="21" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1abf0933fa4a5c55bb9c39b577b94c852f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::HubUploadConfig::requesting_user</definition>
+        <argsstring></argsstring>
+        <name>requesting_user</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::requesting_user</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="72" column="17" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1exporters_1_1_hub_upload_config_1aceccb8c94c9bbed873c05d87029a236d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1exporters_1_1_exporter_metrics" kindref="compound">ExporterMetrics</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ExporterMetrics&gt; themis::exporters::HubUploadConfig::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::exporters::HubUploadConfig::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/huggingface_hub_client.h" line="74" column="21" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/huggingface_hub_client.h" line="45" column="1" bodyfile="include/exporters/huggingface_hub_client.h" bodystart="45" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1ae92ca0166be54458db1d3eb6c995a0f9" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>audit_log</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1a0b658f1532555261b945474bfdd64bfb" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>commit_message</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1abb56a4329949a078b7e3736b40e1cbbc" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>create_repo</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1ab0181665f901244b84c44ca74632c8fc" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>hf_token</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1a2e09fbc25aaba3b447e914ae003ef3f4" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>hf_token_kek_id</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1a718697701e13a94b7c1c147550b2d996" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>hub_base_url</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1a7767d6dd6d8d2b00aa6124c2816a006d" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>key_provider</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1ac419856674efb01c2746bb93daf40959" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1aceccb8c94c9bbed873c05d87029a236d" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1abb010a45fccd67ed16c104a8636fa76e" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>policy_engine</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1a9eb202d4c665266daf93e699aa616048" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>private_repo</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1a2a863f5a8b610bfb9985ab2c2d09cec9" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>repo_id</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1abf0933fa4a5c55bb9c39b577b94c852f" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>requesting_user</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1a95565376100d176e693a22cbdd801f2b" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>retry_delay_ms</name></member>
+      <member refid="structthemis_1_1exporters_1_1_hub_upload_config_1a2c2dd1106c17b89ceb0f2612c8d26b9b" prot="public" virt="non-virtual"><scope>themis::exporters::HubUploadConfig</scope><name>timeout_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

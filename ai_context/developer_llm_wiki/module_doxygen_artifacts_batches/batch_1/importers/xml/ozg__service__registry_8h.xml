@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="ozg__service__registry_8h" kind="file" language="C++">
+    <compoundname>ozg_service_registry.h</compoundname>
+    <includes local="no">algorithm</includes>
+    <includes local="no">map</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/importers/ozg_service_registry.h</label>
+        <link refid="ozg__service__registry_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>algorithm</label>
+      </node>
+      <node id="3">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>mutex</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>string_view</label>
+      </node>
+      <node id="9">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="structthemis_1_1importers_1_1_o_z_g_data_field" prot="public">themis::importers::OZGDataField</innerclass>
+    <innerclass refid="structthemis_1_1importers_1_1_o_z_g_service_entry" prot="public">themis::importers::OZGServiceEntry</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry" prot="public">themis::importers::IOZGServiceRegistry</innerclass>
+    <innerclass refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry" prot="public">themis::importers::InMemoryOZGServiceRegistry</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1importers">themis::importers</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.12 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1importers" kindref="compound">importers</ref><sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>OZGServiceStatus<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043" kindref="member">OZGServiceStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043a06972acc3aafeb3a65dbd996c8dedc73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043a06972acc3aafeb3a65dbd996c8dedc73" kindref="member">NOT_STARTED</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043a31cd55e08ed0d33866435f6f3acc2fa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043a31cd55e08ed0d33866435f6f3acc2fa3" kindref="member">INFORMATION_ONLY</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043a902dbfb535d8f6faf4be2a2bbc10df96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043a902dbfb535d8f6faf4be2a2bbc10df96" kindref="member">FORM_AVAILABLE</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043aa502f4f53fd9e5faf1c1bc4ee0298dfa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043aa502f4f53fd9e5faf1c1bc4ee0298dfa" kindref="member">ONLINE_TRANSACTION</ref>,<sp/></highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043affdf9033477c9f3b0fcf4dbfd468bf6b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043affdf9033477c9f3b0fcf4dbfd468bf6b" kindref="member">PROACTIVE_SERVICE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="58"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>OZGFederalLevel<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5" kindref="member">OZGFederalLevel</ref><sp/>{</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5a22f0e88936fa6bebb21ddf146421e037" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5a22f0e88936fa6bebb21ddf146421e037" kindref="member">FEDERAL</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5a2b848a8cc886d253d21a77c43cd50aae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5a2b848a8cc886d253d21a77c43cd50aae" kindref="member">STATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5a49c554534575fc4d777162363f0ff1f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5a49c554534575fc4d777162363f0ff1f3" kindref="member">MUNICIPAL</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5ad23ebea261547644cfd82a38d31a4861" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5ad23ebea261547644cfd82a38d31a4861" kindref="member">SUPRANATIONAL</ref>,<sp/></highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>OZGFieldType<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7a" kindref="member">OZGFieldType</ref><sp/>{</highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa61a96ffcb251bb9bf0abf8fec19d0ea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">TEXT</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa633a6c7a6b9958f8174250094daf1e6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa633a6c7a6b9958f8174250094daf1e6a" kindref="member">DATE</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="74" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aac48d5da12d702e73d6966069f2687376" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aac48d5da12d702e73d6966069f2687376" kindref="member">BOOLEAN</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="75" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa5d5cd46919fa987731fb2edefe0f2a0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa5d5cd46919fa987731fb2edefe0f2a0c" kindref="member">INTEGER</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa13d992d671957e9a2b3e936ca0cf14a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa13d992d671957e9a2b3e936ca0cf14a4" kindref="member">DECIMAL</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa85a1979d26d0ef93dcc13a72fee80705" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa85a1979d26d0ef93dcc13a72fee80705" kindref="member">ENUM</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa2664f03ac6b8bb9eee4287720e407db3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa2664f03ac6b8bb9eee4287720e407db3" kindref="member">ADDRESS</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aaef932ad40153d770661681c0976d16ac" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aaef932ad40153d770661681c0976d16ac" kindref="member">PERSON_NAME</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="80" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aab6ec1665589914a8edd2311b3aa6c569" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aab6ec1665589914a8edd2311b3aa6c569" kindref="member">DOCUMENT_REF</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa6fcc416051346daca31c571646af127a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa6fcc416051346daca31c571646af127a" kindref="member">IDENTIFIER</ref>,<sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>OZGDataField<sp/>─────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1importers_1_1_o_z_g_data_field" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_o_z_g_data_field" kindref="compound">OZGDataField</ref><sp/>{</highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a575cc1c57a5c79322ed1cde756f35210" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a575cc1c57a5c79322ed1cde756f35210" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1importers_1_1_o_z_g_data_field_1aafc02d9dc87fff08ab6f59dcdadef970" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_data_field_1aafc02d9dc87fff08ab6f59dcdadef970" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1importers_1_1_o_z_g_data_field_1ad219b9a82edf26931e7ec4e6e695388a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7a" kindref="member">OZGFieldType</ref><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_data_field_1ad219b9a82edf26931e7ec4e6e695388a" kindref="member">type</ref>{<ref refid="namespacethemis_1_1importers_1ab99588e5b368b9b9c09c99bda1af6c7aa61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">OZGFieldType::TEXT</ref>};<sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a242340691c8957ce650c06ff065a528b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a242340691c8957ce650c06ff065a528b" kindref="member">required</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1importers_1_1_o_z_g_data_field_1ae2f5ef5578b74084b37c5dd5de01f02d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_data_field_1ae2f5ef5578b74084b37c5dd5de01f02d" kindref="member">description</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a8d3162b87100433877dbd14ede5dda74" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a8d3162b87100433877dbd14ede5dda74" kindref="member">fim_reference</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a3c97162bc42bd3c7037761661b3d76db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_data_field_1a3c97162bc42bd3c7037761661b3d76db" kindref="member">allowed_values</ref>;<sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>OZGServiceEntry<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1importers_1_1_o_z_g_service_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry" kindref="compound">OZGServiceEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Identity<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ad7161a681355d73807ff6a9e8b24e046" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ad7161a681355d73807ff6a9e8b24e046" kindref="member">short_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1af94b50e1d54dd37de932bf8e5cbcf2b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1af94b50e1d54dd37de932bf8e5cbcf2b9" kindref="member">name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a420d62c9068852b52105d7bad635c31d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a420d62c9068852b52105d7bad635c31d" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Jurisdiction<sp/>──────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1afa46282c9f83c6e61a0aee260b244a34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5" kindref="member">OZGFederalLevel</ref><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1afa46282c9f83c6e61a0aee260b244a34" kindref="member">level</ref>{<ref refid="namespacethemis_1_1importers_1a1ba08130b2768217f725b5e46f2483b5a49c554534575fc4d777162363f0ff1f3" kindref="member">OZGFederalLevel::MUNICIPAL</ref>};</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Legacy<sp/>compatibility<sp/>field<sp/>used<sp/>by<sp/>older<sp/>tests<sp/>and<sp/>fixtures.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ad087d727fa23d4382303f813a54c9c13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ad087d727fa23d4382303f813a54c9c13" kindref="member">responsible_authority</ref>;</highlight></codeline>
+<codeline lineno="109" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ab507af1f836fe14ac392902a6d387cdd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1ab507af1f836fe14ac392902a6d387cdd" kindref="member">applicable_states</ref>;<sp/></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Legal<sp/>basis<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a6eb4ff0323cd828c8bd1103a1bfc6345" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a6eb4ff0323cd828c8bd1103a1bfc6345" kindref="member">legal_basis</ref>;<sp/></highlight></codeline>
+<codeline lineno="113" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a0c14a58fe98c2da5f88bb886d2ab414f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a0c14a58fe98c2da5f88bb886d2ab414f" kindref="member">compliance_tags</ref>;<sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Digitisation<sp/>status<sp/>───────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a275a960c5812a13313eae7eabdfc134b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043" kindref="member">OZGServiceStatus</ref><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a275a960c5812a13313eae7eabdfc134b" kindref="member">status</ref>{<ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043a06972acc3aafeb3a65dbd996c8dedc73" kindref="member">OZGServiceStatus::NOT_STARTED</ref>};</highlight></codeline>
+<codeline lineno="117" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1aadf39d17b7e5ed7c63ddd6fda30bb7c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1aadf39d17b7e5ed7c63ddd6fda30bb7c7" kindref="member">sdg_relevant</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Data<sp/>schema<sp/>───────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a5222d0cea41aa06c763af320e2eed0a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;OZGDataField&gt;<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a5222d0cea41aa06c763af320e2eed0a6" kindref="member">fields</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Catalogue<sp/>metadata<sp/>────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a85bf798f7dbaa9c0f90234f3be84798b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a85bf798f7dbaa9c0f90234f3be84798b" kindref="member">fim_process_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124" refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a0ae7da6b7d9b4a9a8c651df5f12d7619" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a0ae7da6b7d9b4a9a8c651df5f12d7619" kindref="member">catalog_version</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>IOZGServiceRegistry<sp/>───────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry" kindref="compound">IOZGServiceRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="135" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a2fd33ba7559142f2a2e89f69d0be5268" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a2fd33ba7559142f2a2e89f69d0be5268" kindref="member">~IOZGServiceRegistry</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1aece3efcf01b6a87cd19b75bfed993786" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1aece3efcf01b6a87cd19b75bfed993786" kindref="member">registerService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry" kindref="compound">OZGServiceEntry</ref>&amp;<sp/>entry)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a38424c161e4c39e53df4ddc132db3c0b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a38424c161e4c39e53df4ddc132db3c0b" kindref="member">updateService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry" kindref="compound">OZGServiceEntry</ref>&amp;<sp/>entry)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a7f0d51cb5c7092a94ca13e310da36ba2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a7f0d51cb5c7092a94ca13e310da36ba2" kindref="member">removeService</ref>(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a079048693cb5aa18ecf4932c8af19e86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::optional&lt;OZGServiceEntry&gt;<sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a079048693cb5aa18ecf4932c8af19e86" kindref="member">findById</ref>(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;OZGServiceEntry&gt;</highlight></codeline>
+<codeline lineno="163" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a23b2df4b20f9ec203858ae585c855c58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a23b2df4b20f9ec203858ae585c855c58" kindref="member">findByStatus</ref>(<ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043" kindref="member">OZGServiceStatus</ref><sp/>status)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;OZGServiceEntry&gt;</highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a5eb834d0064e3bb53b40f7c81c3d0fd7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a5eb834d0064e3bb53b40f7c81c3d0fd7" kindref="member">findByState</ref>(std::string_view<sp/>state_code)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;OZGServiceEntry&gt;</highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1ac361d85013aeee23ba2089229e82b488" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1ac361d85013aeee23ba2089229e82b488" kindref="member">findByComplianceTag</ref>(std::string_view<sp/>tag)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a91aaa87715478d4429f63406c78660d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a91aaa87715478d4429f63406c78660d0" kindref="member">all</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a680060f096557aa858aa9c15a1030940" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1a680060f096557aa858aa9c15a1030940" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1ac059d31ab81b10d0543093c13ce78f8f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry_1ac059d31ab81b10d0543093c13ce78f8f" kindref="member">empty</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>──<sp/>InMemoryOZGServiceRegistry<sp/>────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry" kindref="compound">InMemoryOZGServiceRegistry</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_i_o_z_g_service_registry" kindref="compound">IOZGServiceRegistry</ref><sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Mutation<sp/>──────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1aabc8eb3c6fcc13ee3fb44a6a974159dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1aabc8eb3c6fcc13ee3fb44a6a974159dc" kindref="member">registerService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry" kindref="compound">OZGServiceEntry</ref>&amp;<sp/>entry)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.<ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;OZGServiceEntry::id<sp/>must<sp/>not<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entries_.count(entry.<ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;OZG<sp/>service<sp/>already<sp/>registered:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>entry.<ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entries_[entry.<ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>]<sp/>=<sp/>entry;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1a8a261323860a9d1b0875fda7e73dff62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1a8a261323860a9d1b0875fda7e73dff62" kindref="member">updateService</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry" kindref="compound">OZGServiceEntry</ref>&amp;<sp/>entry)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.<ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>.empty())<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;OZGServiceEntry::id<sp/>must<sp/>not<sp/>be<sp/>empty&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!entries_.count(entry.<ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>))<sp/>{</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::invalid_argument(</highlight><highlight class="stringliteral">&quot;OZG<sp/>service<sp/>not<sp/>registered:<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>entry.<ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>);</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entries_[entry.<ref refid="structthemis_1_1importers_1_1_o_z_g_service_entry_1a64a7503caeab573a2acd94e2ba8b5bfe" kindref="member">id</ref>]<sp/>=<sp/>entry;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1a44add216a2860c10cc32de616b31b6e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1a44add216a2860c10cc32de616b31b6e5" kindref="member">removeService</ref>(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entries_.erase(std::string(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Queries<sp/>───────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1ab06c4a95fa571c2d5758bf3ab8ae35fb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;OZGServiceEntry&gt;<sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1ab06c4a95fa571c2d5758bf3ab8ae35fb" kindref="member">findById</ref>(std::string_view<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>entries_.find(std::string(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>entries_.end())<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::nullopt;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>it-&gt;second;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="254" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1a517218582f83f3f3e59abf0cb8601a16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1a517218582f83f3f3e59abf0cb8601a16" kindref="member">findByStatus</ref>(<ref refid="namespacethemis_1_1importers_1ad5d10a58785309baab5db07a177d6043" kindref="member">OZGServiceStatus</ref><sp/>status)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>e]<sp/>:<sp/>entries_)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(e.status<sp/>==<sp/>status)<sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(e);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1aa1d1741689e8db33ec1be13e16a97cbe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1aa1d1741689e8db33ec1be13e16a97cbe" kindref="member">findByState</ref>(std::string_view<sp/>state_code)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>sc(state_code);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>e]<sp/>:<sp/>entries_)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>s<sp/>:<sp/>e.applicable_states)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(s<sp/>==<sp/>sc)<sp/>{<sp/>result.push_back(e);<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1ae58b7399577ef49555d2a3f8aff3eb0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1ae58b7399577ef49555d2a3f8aff3eb0f" kindref="member">findByComplianceTag</ref>(std::string_view<sp/>tag)</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>t(tag);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>e]<sp/>:<sp/>entries_)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>ct<sp/>:<sp/>e.compliance_tags)<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(ct<sp/>==<sp/>t)<sp/>{<sp/>result.push_back(e);<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1a480b18100cc6ef618e83c6cfa4399e13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1a480b18100cc6ef618e83c6cfa4399e13" kindref="member">all</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;OZGServiceEntry&gt;<sp/>result<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.reserve(entries_.size());</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>[</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>e]<sp/>:<sp/>entries_)<sp/>{</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.push_back(e);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1acb68e267cd9cddf3671eed462e340bae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1acb68e267cd9cddf3671eed462e340bae" kindref="member">size</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entries_.size();</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341" refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1ab63a5e3c184709ac84dfb3fd994d15c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1importers_1_1_in_memory_o_z_g_service_registry_1ab63a5e3c184709ac84dfb3fd994d15c7" kindref="member">empty</ref>()</highlight><highlight class="keyword"><sp/>const<sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_lock&lt;std::mutex&gt;<sp/>lk(mutex_);</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entries_.empty();</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;std::string,<sp/>OZGServiceEntry&gt;<sp/>entries_;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>importers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/importers/ozg_service_registry.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RAGTestCase</compoundname>
+    <includes refid="rag__judge_8h" local="no">rag_judge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1affc1dc495d53f255bc570869af51656f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGTestCase::test_id</definition>
+        <argsstring></argsstring>
+        <name>test_id</name>
+        <qualifiedname>themis::rag::judge::RAGTestCase::test_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="251" column="17" bodyfile="include/rag/rag_judge.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1ae677f8958152f5de3d73c78c34031f52" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGTestCase::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>themis::rag::judge::RAGTestCase::query</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="252" column="17" bodyfile="include/rag/rag_judge.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1ae2ae8a4b8e0d3b721eca9e9120d7f043" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt;RetrievedDocument&gt; themis::rag::judge::RAGTestCase::documents</definition>
+        <argsstring></argsstring>
+        <name>documents</name>
+        <qualifiedname>themis::rag::judge::RAGTestCase::documents</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="253" column="17" bodyfile="include/rag/rag_judge.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1a6f8542b0f4957154e89ecd5fea6741ec" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGTestCase::generated_answer</definition>
+        <argsstring></argsstring>
+        <name>generated_answer</name>
+        <qualifiedname>themis::rag::judge::RAGTestCase::generated_answer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="254" column="17" bodyfile="include/rag/rag_judge.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1a86b7787e2974c0b31f29fd07aa234a50" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RAGTestCase::expected_answer</definition>
+        <argsstring></argsstring>
+        <name>expected_answer</name>
+        <qualifiedname>themis::rag::judge::RAGTestCase::expected_answer</qualifiedname>
+        <briefdescription>
+<para>Optional ground truth. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="255" column="17" bodyfile="include/rag/rag_judge.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1a812dbfe2771700d2dcda9cefedbaba2e" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::rag::judge::RAGTestCase::expected_scores</definition>
+        <argsstring></argsstring>
+        <name>expected_scores</name>
+        <qualifiedname>themis::rag::judge::RAGTestCase::expected_scores</qualifiedname>
+        <briefdescription>
+<para>Optional. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_judge.h" line="256" column="24" bodyfile="include/rag/rag_judge.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAG test case for batch evaluation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rag_judge.h" line="250" column="1" bodyfile="include/rag/rag_judge.h" bodystart="250" bodyend="257"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1ae2ae8a4b8e0d3b721eca9e9120d7f043" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGTestCase</scope><name>documents</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1a86b7787e2974c0b31f29fd07aa234a50" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGTestCase</scope><name>expected_answer</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1a812dbfe2771700d2dcda9cefedbaba2e" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGTestCase</scope><name>expected_scores</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1a6f8542b0f4957154e89ecd5fea6741ec" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGTestCase</scope><name>generated_answer</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1ae677f8958152f5de3d73c78c34031f52" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGTestCase</scope><name>query</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_r_a_g_test_case_1affc1dc495d53f255bc570869af51656f" prot="public" virt="non-virtual"><scope>themis::rag::judge::RAGTestCase</scope><name>test_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

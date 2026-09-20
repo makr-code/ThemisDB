@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_dspy_predict" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::DspyPredict</compoundname>
+    <basecompoundref refid="classthemis_1_1prompt__engineering_1_1_dspy_module" prot="public" virt="non-virtual">themis::prompt_engineering::DspyModule</basecompoundref>
+    <includes refid="dspy__module_8h" local="no">dspy_module.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_predict_1ae2ecb1be85ed79d84fbd71f706f9d313" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::DspyModule::DspyModule</definition>
+        <argsstring>(DspySignature signature)</argsstring>
+        <name>DspyModule</name>
+        <qualifiedname>themis::prompt_engineering::DspyPredict::DspyModule</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1prompt__engineering_1_1_dspy_signature" kindref="compound">DspySignature</ref></type>
+          <declname>signature</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="237" column="5" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="247" bodyend="249"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Basic DSPy predictor. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Directly forwards the signature inputs to the LLM and returns parsed outputs with no additional scaffolding. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::prompt_engineering::DspyModule</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_module"/>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::DspyPredict</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_predict"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::prompt_engineering::DspyModule</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_module"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>signature_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::DspyPredict</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_predict"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::prompt_engineering::DspySignature</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_signature"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/dspy_module.h" line="235" column="1" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="235" bodyend="238"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_predict_1ae2ecb1be85ed79d84fbd71f706f9d313" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyPredict</scope><name>DspyModule</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a56e42fe6bab1c4b145bda5615bf9be50" prot="public" virt="virtual"><scope>themis::prompt_engineering::DspyPredict</scope><name>forward</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ad3f8e5e70b372a055fa081b8c05fd568" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyPredict</scope><name>getSignature</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ae9b129f89ac5cd0ae3c2128849e7ffc5" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::DspyPredict</scope><name>llm_provider_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1ac2714ba8b1850c11ce15eaf7ddb1ecbc" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyPredict</scope><name>setLLMProvider</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a30ce3e4c5ecdfcb8b68859aaf4c259a4" prot="protected" virt="non-virtual"><scope>themis::prompt_engineering::DspyPredict</scope><name>signature_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_module_1a842faebdf6d5f9bf1e301b62a5687f6f" prot="public" virt="virtual"><scope>themis::prompt_engineering::DspyPredict</scope><name>~DspyModule</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

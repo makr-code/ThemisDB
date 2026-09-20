@@ -1,0 +1,263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::gpu::GPUQueryAccelerator::Stats</compoundname>
+    <includes refid="query__accelerator_8h" local="no">query_accelerator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a435e9e5a9b567831f2ed5a1febff9e70" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::total_scans</definition>
+        <argsstring></argsstring>
+        <name>total_scans</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::total_scans</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="175" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1abfc64d7032a0677661b3b34b3962b634" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::total_sorts</definition>
+        <argsstring></argsstring>
+        <name>total_sorts</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::total_sorts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="176" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a46d593381703aecd35fed95313639f04" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::total_aggregates</definition>
+        <argsstring></argsstring>
+        <name>total_aggregates</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::total_aggregates</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="177" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a2ed82588b774d3415b81bcb6c0b4db70" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::total_joins</definition>
+        <argsstring></argsstring>
+        <name>total_joins</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::total_joins</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="178" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a9c66f1ec98b8975862d7403020903660" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::total_dot_products</definition>
+        <argsstring></argsstring>
+        <name>total_dot_products</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::total_dot_products</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Dot-product operations completed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="179" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1ace25198bbeafcb353b06449acabbaae5" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::total_ann_searches</definition>
+        <argsstring></argsstring>
+        <name>total_ann_searches</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::total_ann_searches</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>ANN search operations completed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="180" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a6556e01bef9de0da3a4bf831d6dbacad" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::total_topk</definition>
+        <argsstring></argsstring>
+        <name>total_topk</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::total_topk</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>TopK partial-sort operations completed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="181" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="181" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a6cf71d85f6b3107c917a172f5d55d622" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUQueryAccelerator::Stats::rows_processed</definition>
+        <argsstring></argsstring>
+        <name>rows_processed</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::rows_processed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="182" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="182" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a12a26eab503cf7b8d2b43afa54dcd536" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::gpu::GPUQueryAccelerator::Stats::bytes_scanned</definition>
+        <argsstring></argsstring>
+        <name>bytes_scanned</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::bytes_scanned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="183" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1aa5ef9917e2ddbf34b5d579834a21b2ef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::gpu_ops</definition>
+        <argsstring></argsstring>
+        <name>gpu_ops</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::gpu_ops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="184" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="184" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a60348b97dbe68946dc65a869956bce86" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::cpu_fallback_ops</definition>
+        <argsstring></argsstring>
+        <name>cpu_fallback_ops</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::cpu_fallback_ops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="185" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="185" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1afcfe22234eb3b21a16b935c61cdb075f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::graph_cache_hits</definition>
+        <argsstring></argsstring>
+        <name>graph_cache_hits</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::graph_cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Operations served via graph replay. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="186" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a19f27b188c28af7d456cba31182e53ba" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::graph_cache_misses</definition>
+        <argsstring></argsstring>
+        <name>graph_cache_misses</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::graph_cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>New patterns captured into the cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="187" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a3bedb25fa7369c5e555e368f5916f5e0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::fp16_ops</definition>
+        <argsstring></argsstring>
+        <name>fp16_ops</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::fp16_ops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tensor Core FP16 dot-product calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="188" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a0dc16798e8d09e58d118829f9dba5c92" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::gpu::GPUQueryAccelerator::Stats::bf16_ops</definition>
+        <argsstring></argsstring>
+        <name>bf16_ops</name>
+        <qualifiedname>themis::gpu::GPUQueryAccelerator::Stats::bf16_ops</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Tensor Core BF16 dot-product calls. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/gpu/query_accelerator.h" line="189" column="18" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/gpu/query_accelerator.h" line="174" column="5" bodyfile="include/themis/gpu/query_accelerator.h" bodystart="174" bodyend="190"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a0dc16798e8d09e58d118829f9dba5c92" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>bf16_ops</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a12a26eab503cf7b8d2b43afa54dcd536" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>bytes_scanned</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a60348b97dbe68946dc65a869956bce86" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>cpu_fallback_ops</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a3bedb25fa7369c5e555e368f5916f5e0" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>fp16_ops</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1aa5ef9917e2ddbf34b5d579834a21b2ef" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>gpu_ops</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1afcfe22234eb3b21a16b935c61cdb075f" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>graph_cache_hits</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a19f27b188c28af7d456cba31182e53ba" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>graph_cache_misses</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a6cf71d85f6b3107c917a172f5d55d622" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>rows_processed</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a46d593381703aecd35fed95313639f04" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>total_aggregates</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1ace25198bbeafcb353b06449acabbaae5" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>total_ann_searches</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a9c66f1ec98b8975862d7403020903660" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>total_dot_products</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a2ed82588b774d3415b81bcb6c0b4db70" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>total_joins</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a435e9e5a9b567831f2ed5a1febff9e70" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>total_scans</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1abfc64d7032a0677661b3b34b3962b634" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>total_sorts</name></member>
+      <member refid="structthemis_1_1gpu_1_1_g_p_u_query_accelerator_1_1_stats_1a6556e01bef9de0da3a4bf831d6dbacad" prot="public" virt="non-virtual"><scope>themis::gpu::GPUQueryAccelerator::Stats</scope><name>total_topk</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

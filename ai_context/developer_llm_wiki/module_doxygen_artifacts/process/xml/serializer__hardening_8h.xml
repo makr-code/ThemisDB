@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="serializer__hardening_8h" kind="file" language="C++">
+    <compoundname>serializer_hardening.h</compoundname>
+    <includes refid="process__common_8h" local="yes">process/process_common.h</includes>
+    <includes refid="process__diagnostics_8h" local="yes">process/process_diagnostics.h</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string_view</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="bpmn__serializer_8cpp" local="yes">src/process/bpmn_serializer.cpp</includedby>
+    <includedby refid="cmmn__serializer_8cpp" local="yes">src/process/cmmn_serializer.cpp</includedby>
+    <includedby refid="epk__serializer_8cpp" local="yes">src/process/epk_serializer.cpp</includedby>
+    <includedby refid="serializer__hardening_8cpp" local="yes">src/process/serializer_hardening.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>process/process_api_contract.h</label>
+        <link refid="process__api__contract_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>process/process_common.h</label>
+        <link refid="process__common_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>process/process_diagnostics.h</label>
+        <link refid="process__diagnostics_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/process/serializer_hardening.h</label>
+        <link refid="serializer__hardening_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>map</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="15">
+        <label>optional</label>
+      </node>
+      <node id="12">
+        <label>shared_mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>string_view</label>
+      </node>
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/process/serializer_hardening.h</label>
+        <link refid="serializer__hardening_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/process/bpmn_serializer.cpp</label>
+        <link refid="bpmn__serializer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/process/cmmn_serializer.cpp</label>
+        <link refid="cmmn__serializer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/process/epk_serializer.cpp</label>
+        <link refid="epk__serializer_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/process/serializer_hardening.cpp</label>
+        <link refid="serializer__hardening_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1process_1_1_serializer_validation_result" prot="public">themis::process::SerializerValidationResult</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_serializer_input_validator" prot="public">themis::process::SerializerInputValidator</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_parser_state_tracker" prot="public">themis::process::ParserStateTracker</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_bpmn_validator" prot="public">themis::process::BpmnValidator</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_epk_validator" prot="public">themis::process::EpkValidator</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_cmmn_validator" prot="public">themis::process::CmmnValidator</innerclass>
+    <innerclass refid="classthemis_1_1process_1_1_dmn_validator" prot="public">themis::process::DmnValidator</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1process">themis::process</innernamespace>
+    <briefdescription>
+<para>Hardening utilities for process model serializers (BPMN, EPK, CMMN, DMN). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>1.0.0</para>
+</simplesect>
+Provides common validation, bounds checking, and error handling for all process model format parsers. Implements Phase 3 edge-case hardening. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__common_8h" kindref="compound">process/process_common.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="process__diagnostics_8h" kindref="compound">process/process_diagnostics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string_view&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1process" kindref="compound">themis::process</ref><sp/>{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="structthemis_1_1process_1_1_serializer_validation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="28" refid="structthemis_1_1process_1_1_serializer_validation_result_1a36658f9d0272cb6e004c8c0c0eb16e16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result_1a36658f9d0272cb6e004c8c0c0eb16e16" kindref="member">ok</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1process_1_1_serializer_validation_result_1a4db52f67d184399bb28d73ddf08abec5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result_1a4db52f67d184399bb28d73ddf08abec5" kindref="member">error_message</ref>;</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1process_1_1_serializer_validation_result_1ae3ddc8b0ecbd86f7030012230c6f4222" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result_1ae3ddc8b0ecbd86f7030012230c6f4222" kindref="member">incident_type</ref>{<ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da957d9268f98bcb2629609988916d362d" kindref="member">DiagnosticIncidentType::MALFORMED_INPUT_INCIDENT</ref>};</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1process_1_1_serializer_validation_result_1af17e113bce7b7ebada7dd731bb75bb57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result_1af17e113bce7b7ebada7dd731bb75bb57" kindref="member">success</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1process_1_1_serializer_validation_result_1a36658f9d0272cb6e004c8c0c0eb16e16" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1process_1_1_serializer_validation_result_1a2263a5322eabf351a3f50047daf63da0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result_1a2263a5322eabf351a3f50047daf63da0" kindref="member">failure</ref>(</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>msg,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1d" kindref="member">DiagnosticIncidentType</ref><sp/>incident<sp/>=<sp/><ref refid="namespacethemis_1_1process_1a09c85630ed5b4bf202cd3c58b0422f1da957d9268f98bcb2629609988916d362d" kindref="member">DiagnosticIncidentType::MALFORMED_INPUT_INCIDENT</ref></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1process_1_1_serializer_validation_result_1a36658f9d0272cb6e004c8c0c0eb16e16" kindref="member">ok</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1process_1_1_serializer_validation_result_1a4db52f67d184399bb28d73ddf08abec5" kindref="member">error_message</ref><sp/>=<sp/>std::string(msg);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>r.<ref refid="structthemis_1_1process_1_1_serializer_validation_result_1ae3ddc8b0ecbd86f7030012230c6f4222" kindref="member">incident_type</ref><sp/>=<sp/>incident;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>r;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1process_1_1_serializer_input_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_serializer_input_validator" kindref="compound">SerializerInputValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/><ref refid="classthemis_1_1process_1_1_serializer_input_validator_1affcad0aefde531657609b0fbf5d59b96" kindref="member">validateInput</ref>(</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>input,</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>format_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Process<sp/>Model&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_serializer_input_validator_1adf1b047e4c973355fd43874b4096e4ae" kindref="member">isXmlTruncated</ref>(std::string_view<sp/>xml);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_serializer_input_validator_1a2be9c471790cea77d8aeb50bda18e8b9" kindref="member">isValidUtf8</ref>(std::string_view<sp/>s);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_serializer_input_validator_1a4fe12a3cab037411403d723d360f9ccd" kindref="member">extractXmlVersion</ref>(std::string_view<sp/>xml);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::pair&lt;int32_t,<sp/>int32_t&gt;<sp/><ref refid="classthemis_1_1process_1_1_serializer_input_validator_1a0aa6572d02421380088fb4e8d9cf91a9" kindref="member">countXmlTags</ref>(std::string_view<sp/>xml);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Private<sp/>implementation<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isAsciiControlChar(</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>c);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isValidUtf8Sequence(</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>data,</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>remaining_bytes,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&amp;<sp/>sequence_length</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="classthemis_1_1process_1_1_parser_state_tracker" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1a4166169938b6103255fa9a11876d48c2" kindref="member">ParserStateTracker</ref><sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1a4166169938b6103255fa9a11876d48c2" kindref="member">ParserStateTracker</ref>(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>max_depth<sp/>=<sp/><ref refid="namespacethemis_1_1process_1a6f5928d1a93c1f54d721a83d7743dddb" kindref="member">kMaxModelNestingDepth</ref>,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>max_elements<sp/>=<sp/><ref refid="namespacethemis_1_1process_1a17a9819d699c52a566e29dc436618664" kindref="member">kMaxModelElements</ref>,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/>timeout_ms<sp/>=<sp/><ref refid="namespacethemis_1_1process_1a9f1c77cc2bb82ea81177da5b3c56cfe6" kindref="member">kMaxOperationTimeoutMs</ref></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1a8886fc50d5bcc4224e6bf127cc1095e4" kindref="member">enterScope</ref>();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1af42d3ce82511da572c3c94d417977677" kindref="member">exitScope</ref>();</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1a7d7055b657ec56031e2918f568ec765b" kindref="member">recordElement</ref>();</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1aee8b2a5d98c290d5f6b9f272247a9f10" kindref="member">hasTimedOut</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="171" refid="classthemis_1_1process_1_1_parser_state_tracker_1aadc0d1d99d031ed353de9fb88604761e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>int32_t<sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1aadc0d1d99d031ed353de9fb88604761e" kindref="member">getCurrentDepth</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>current_depth_;<sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178" refid="classthemis_1_1process_1_1_parser_state_tracker_1a8d03f84e55c973ea8ba3efc63cdfce51" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>int32_t<sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1a8d03f84e55c973ea8ba3efc63cdfce51" kindref="member">getElementCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>element_count_;<sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>int64_t<sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1a661fa043795032f9b405b52e2dc02cc0" kindref="member">getElapsedMs</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>std::string<sp/><ref refid="classthemis_1_1process_1_1_parser_state_tracker_1a2a6282d180517cdb58cafc136f7f6b50" kindref="member">getDiagnosticMessage</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>max_depth_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>max_elements_;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>timeout_ms_;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>current_depth_{0};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>int32_t<sp/>element_count_{0};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>int64_t<sp/>start_time_ms_{0};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206" refid="classthemis_1_1process_1_1_bpmn_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_bpmn_validator" kindref="compound">BpmnValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/><ref refid="classthemis_1_1process_1_1_bpmn_validator_1a0abded42af4270b5f3833e0c77882e6d" kindref="member">validateBpmnConstraints</ref>(</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>element_ids</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225" refid="classthemis_1_1process_1_1_epk_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_epk_validator" kindref="compound">EpkValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/><ref refid="classthemis_1_1process_1_1_epk_validator_1ae40d792f02338ef50f85275b4504e498" kindref="member">validateEpkConstraints</ref>(</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>nodes,</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&amp;<sp/>edges</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="classthemis_1_1process_1_1_cmmn_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_cmmn_validator" kindref="compound">CmmnValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/><ref refid="classthemis_1_1process_1_1_cmmn_validator_1a902ebd69ddddb650db6dc72fd9ab5586" kindref="member">validateCmmnConstraints</ref>(</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>case_id,</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>item_ids</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264" refid="classthemis_1_1process_1_1_dmn_validator" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1process_1_1_dmn_validator" kindref="compound">DmnValidator</ref><sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1process_1_1_serializer_validation_result" kindref="compound">SerializerValidationResult</ref><sp/><ref refid="classthemis_1_1process_1_1_dmn_validator_1a0793d6d339313341271bbdab898d374a" kindref="member">validateDmnConstraints</ref>(</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>decision_id,</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/>rule_count</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::process</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/process/serializer_hardening.h"/>
+  </compounddef>
+</doxygen>

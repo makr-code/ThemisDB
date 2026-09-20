@@ -1,0 +1,2467 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemisdb_1_1graph_1_1test_1_1phase3" kind="namespace" language="C++">
+    <compoundname>themisdb::graph::test::phase3</compoundname>
+    <innerclass refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" prot="public">themisdb::graph::test::phase3::ConnectionPoolTest</innerclass>
+    <innerclass refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" prot="public">themisdb::graph::test::phase3::LoadBalancerTest</innerclass>
+    <innernamespace refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1qpc">themisdb::graph::test::phase3::qpc</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1cem">themisdb::graph::test::phase3::cem</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1res">themisdb::graph::test::phase3::res</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1_1lbs">themisdb::graph::test::phase3::lbs</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" prot="public" static="no">
+        <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1qpc_1_1_plan_cache_fixture" kindref="compound">qpc::PlanCacheFixture</ref></type>
+        <definition>using themisdb::graph::test::phase3::PlanCacheTest = qpc::PlanCacheFixture</definition>
+        <argsstring></argsstring>
+        <name>PlanCacheTest</name>
+        <qualifiedname>themisdb::graph::test::phase3::PlanCacheTest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="270" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" prot="public" static="no">
+        <type><ref refid="structthemisdb_1_1graph_1_1test_1_1phase3_1_1cem_1_1_multi_tier_fixture" kindref="compound">cem::MultiTierFixture</ref></type>
+        <definition>using themisdb::graph::test::phase3::MultiTierTest = cem::MultiTierFixture</definition>
+        <argsstring></argsstring>
+        <name>MultiTierTest</name>
+        <qualifiedname>themisdb::graph::test::phase3::MultiTierTest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="873" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="873" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aa44899b51fd76c92c78a30fee9d3038c" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themisdb::graph::test::phase3::kCanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kCanonicalSeed</name>
+        <qualifiedname>themisdb::graph::test::phase3::kCanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+<para>Canonical seed for all deterministic randomness in Phase 3 tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="55" column="20" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a0abc45e52afd193cd46137f8c607f0e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_01_HitOnRepeatLookup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_01_HitOnRepeatLookup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="273" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="273" bodyend="279"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ad629ff7fd6216799b4a64a601a82f3e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_02_MissOnNovelHash)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_02_MissOnNovelHash</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="282" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="282" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1acb8141eb3badaf90c0647d533a740034" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_03_LruEvictionRemovesOldest)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_03_LruEvictionRemovesOldest</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="289" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="289" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1acf8df594c466e867573b8ddd65674c5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_04_LruOrderMultipleEntries)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_04_LruOrderMultipleEntries</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="303" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="303" bodyend="317"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a8ba6e188d42e768c8ad803b53141c34f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_05_CapacityBoundaryEvictsOne)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_05_CapacityBoundaryEvictsOne</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="320" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="320" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a0a43b24957554e606b01b65fb24df39a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_06_CostModelNonNegative)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_06_CostModelNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="330" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="330" bodyend="336"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a4681da36572db478dc7679eb7a60bb57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_07_CostModelPrefersBfsForWideShallowGraph)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_07_CostModelPrefersBfsForWideShallowGraph</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="339" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="339" bodyend="346"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a299703280a9e4a7c4a748c4b0f71d8e1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_08_CostModelLowerDfsForDeepSparse)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_08_CostModelLowerDfsForDeepSparse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="349" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="349" bodyend="354"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a1a3be4e671ba722d17bd5e653c1a116d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_09_InvalidationByPrefix)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_09_InvalidationByPrefix</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="357" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="357" bodyend="366"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a8f22985ba51360ac28afd4f70e512b55" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_10_InvalidationNoMatchLeavesIntact)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_10_InvalidationNoMatchLeavesIntact</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="369" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="369" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1adacdf5e4130ec9b1e271b88fa0aa5f5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_11_ConcurrentReadsNoCorruption)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_11_ConcurrentReadsNoCorruption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="378" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="378" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a6a6dd666d097006f67d5b510bfbd432a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_12_ConcurrentWritesSerialize)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_12_ConcurrentWritesSerialize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="400" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="400" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aac428d1d991958d46e76bff9a7f51afa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_13_PlanExpiredAfterTtl)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_13_PlanExpiredAfterTtl</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="419" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="419" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aab09f6f68eb7f41e06bee419d315a235" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_14_UnexpiredPlanReturned)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_14_UnexpiredPlanReturned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="429" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="429" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a49a46f8a46beb760ee7d1d8b74b2f577" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_15_WarmupRestoresHitRatio)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_15_WarmupRestoresHitRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="437" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="437" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1af4c5594c31ec8845b9aae97820ac78c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_16_MetricsAccurate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_16_MetricsAccurate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="453" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="453" bodyend="464"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a1342da4b4eb050e2e925362494b800bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_17_PlanFieldsPreserved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_17_PlanFieldsPreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="467" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="467" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ad630e73160459689cc5ba80b8e34066b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_18_ZeroCapacityCacheAlwaysMiss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_18_ZeroCapacityCacheAlwaysMiss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="479" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="479" bodyend="484"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a317bcf6b3284bdfcb14a4a7a7e79850e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_19_SingleEntryCapacity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_19_SingleEntryCapacity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="487" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="487" bodyend="493"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a51d32b54b84ed7aa6fc5f1fdf8e81fac" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_20_HitRatioAbove80Pct)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_20_HitRatioAbove80Pct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="496" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="496" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a0155144020bd48d6890b6ee6fc3a2c47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_21_SelectivityAdjustmentLinear)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_21_SelectivityAdjustmentLinear</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="520" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="520" bodyend="525"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1abff91c8ce0fc0466291514b5fe2a5b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_22_SelectAlgorithmHighDensity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_22_SelectAlgorithmHighDensity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="528" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="528" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ad654bfe655c712806d66a13a892434dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_23_DijkstraScalesFasterThanBfs)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_23_DijkstraScalesFasterThanBfs</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="535" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="535" bodyend="541"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a5aee08c97cdbd8d8ce11f8b9658015c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_24_EquivalentQueriesSharePlan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_24_EquivalentQueriesSharePlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="544" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="544" bodyend="551"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a51e2700ea05616bd9c4dd76248ad3713" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_25_DifferentQueriesDoNotSharePlan)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_25_DifferentQueriesDoNotSharePlan</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="554" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="554" bodyend="562"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a44fd2f8f4ebe525dfb8d3292238bb497" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_26_ConcurrentStressNoDeadlock)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_26_ConcurrentStressNoDeadlock</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="565" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="565" bodyend="587"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ae1e659f552fdb99d6c1cf42600911b7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_27_EvictionNoStaleIndex)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_27_EvictionNoStaleIndex</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="590" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="590" bodyend="597"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a6ffc3fed766746a6d27e4fea21c24ccc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(PlanCacheTest, QPC_28_InvariantGateHitsPlusMissesEqualTotal)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aceb1ceb554343c858afbcb6fec5cf4f5" kindref="member">PlanCacheTest</ref></type>
+        </param>
+        <param>
+          <type>QPC_28_InvariantGateHitsPlusMissesEqualTotal</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="600" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="600" bodyend="608"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a13818187c4e682cfcffe4a1a64e6d101" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_01_NewEntryInColdTier)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_01_NewEntryInColdTier</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="876" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="876" bodyend="880"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ac6e9385b6e539e0a52da2504962e9d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_02_HitReturnsCorrectValue)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_02_HitReturnsCorrectValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="883" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="883" bodyend="886"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1afc92cbde20db647e7473972db95927c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_03_MissReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_03_MissReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="889" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="889" bodyend="892"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a902304bef3bd6a97a3c12d48149642dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_04_RepeatedAccessPromotesFromColdToWarm)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_04_RepeatedAccessPromotesFromColdToWarm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="895" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="895" bodyend="902"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a0639970fbffb4c9dac07ee26cd4cc591" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_05_WarmEntryPromotesToHot)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_05_WarmEntryPromotesToHot</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="905" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="905" bodyend="912"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1afa8164e37461d7e6665267682baa7d6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_06_HotTierBounded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_06_HotTierBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="915" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="915" bodyend="925"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a19c14953dea72f4cbbf9e2b8db1ce72d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_07_ColdOverflowEvictsLowestScore)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_07_ColdOverflowEvictsLowestScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="928" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="928" bodyend="934"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1adbf0400e0bdc9f7f85b77a0c5b62a71d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_08_UpdateDoesNotDuplicate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_08_UpdateDoesNotDuplicate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="937" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="937" bodyend="942"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1af6ae9b35d6825f7b50e267a7209b9ffe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_09_ScoreIncreasesWithFrequency)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_09_ScoreIncreasesWithFrequency</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="945" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="945" bodyend="953"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aedee17e928689c00df4914c8153c15a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_10_HotEntrySurvivesColdPressure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_10_HotEntrySurvivesColdPressure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="956" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="956" bodyend="963"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1af362549733af53ae68b92f698dc8fe01" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_11_HitRatioAccurate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_11_HitRatioAccurate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="966" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="966" bodyend="974"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a15f1b49964c1513e17aabc5aa99f94f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_12_EmptyCacheZeroHitRatio)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_12_EmptyCacheZeroHitRatio</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="977" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="977" bodyend="979"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a76317db562d6535cbd8e561f1df02826" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_13_DemotionFromHotIncreasesWarm)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_13_DemotionFromHotIncreasesWarm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="982" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="982" bodyend="992"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a9a5cccb617916b8b0c4d369cdf623f0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_14_DemotionChainHotToWarmToCold)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_14_DemotionChainHotToWarmToCold</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="995" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="995" bodyend="1006"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ab1fae81ba6ff1a94999fa4da5cbdd913" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_15_ConcurrentOpsNoCorruption)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_15_ConcurrentOpsNoCorruption</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1009" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1009" bodyend="1028"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a6f52cce036bf96bbfe78739ad09bfed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_16_MemoryBoundedUnderInsertPressure)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_16_MemoryBoundedUnderInsertPressure</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1031" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1031" bodyend="1036"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ac01d3e484c128b009757b46ff126d421" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_17_HotEntriesLowerEvictionRate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_17_HotEntriesLowerEvictionRate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1039" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1039" bodyend="1050"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ad403b6598bbc7bc13e4729be90f6bbd6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_18_PromotionCountMonotonic)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_18_PromotionCountMonotonic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1053" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1053" bodyend="1061"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1abb8b79763bc2324fcf6f59bf3898ebd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_19_EvictionThresholdNoBurst)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_19_EvictionThresholdNoBurst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1064" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1064" bodyend="1068"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a69ca1b68363f9e826d96688c8fcfece7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_20_RarelyAccessedEntryDemoted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_20_RarelyAccessedEntryDemoted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1071" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1071" bodyend="1084"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a2b79b795b3297f9737e8ef656feb5ef4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_21_HitRatioAbove85PctHotWorkload)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_21_HitRatioAbove85PctHotWorkload</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1087" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1087" bodyend="1111"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ac6bd7d6d1140d6d7c6ef4245386521e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_22_EvictionNonBlocking)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_22_EvictionNonBlocking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1114" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1114" bodyend="1120"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a2ae3d1044f91f8e48c404d39d616fbfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_23_ValueUpdatePreservesTier)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_23_ValueUpdatePreservesTier</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1123" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1123" bodyend="1133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1afd70f1a6629016603d0925c44eee0e49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_24_TotalSizeBound)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_24_TotalSizeBound</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1136" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1136" bodyend="1140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a438bbeaf5bdf678a30b1920440a6a6dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_25_AlternatingPutGet)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_25_AlternatingPutGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1143" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1143" bodyend="1148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a76481980736f59a8914bf7b1f1f171b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_26_ColdTierBoundedRapidInserts)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_26_ColdTierBoundedRapidInserts</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1151" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1151" bodyend="1155"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a5d1850da691bcadab6d89598e4391e09" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_27_PromotionsDemotionsConsistent)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_27_PromotionsDemotionsConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1158" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1158" bodyend="1169"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aa7da03abb8957abd1490ae6939fb8b54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_28_ThreadSafeHighLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_28_ThreadSafeHighLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1172" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1172" bodyend="1192"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a2653f3dcc0e18f27f7d3fc454b77e8ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_29_MinimalColdCapacity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_29_MinimalColdCapacity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1195" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1195" bodyend="1205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a1635c87228cec648f5fe30ac1df13b6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_30_GetAfterFullEviction)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_30_GetAfterFullEviction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1208" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1208" bodyend="1217"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aa52bdfbb75f7da703f3aa83e29641a82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_31_TierPromotionCorrectPath)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_31_TierPromotionCorrectPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1220" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1220" bodyend="1228"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a97f70f82c85578f0e9c181d298058e26" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(MultiTierTest, CEM_32_InvariantGateTierSizesInBounds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93d91617db6080f54f86994abaadaa53" kindref="member">MultiTierTest</ref></type>
+        </param>
+        <param>
+          <type>CEM_32_InvariantGateTierSizesInBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1231" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1231" bodyend="1243"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a8d764fa4f33bc1a69aeee5828446f60c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_01_InitialSizeIsMinSize)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_01_InitialSizeIsMinSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1522" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1522" bodyend="1525"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aaec86f420779876a83e45047776bd54e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_02_AcquireReturnsValidId)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_02_AcquireReturnsValidId</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1528" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1528" bodyend="1532"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a98235384582a2fcbf6ef40347a71e3a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_03_ReleaseRestoresAvailability)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_03_ReleaseRestoresAvailability</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1535" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1535" bodyend="1540"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a065d5b1264f3924508e5bc0563312bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_04_ScaleUpBelowMax)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_04_ScaleUpBelowMax</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1543" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1543" bodyend="1552"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a6a31af0bb0af1b5277aa4f17077c3c0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_05_DoesNotExceedMaxSize)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_05_DoesNotExceedMaxSize</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1555" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1555" bodyend="1568"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aff4ea9e6f583846fb37fee3f823b3420" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_06_TimeoutWhenExhausted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_06_TimeoutWhenExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1571" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1571" bodyend="1581"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a6cd9ff5565707a3e02182ed46cf039d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_07_AcquireReleasePairsBalance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_07_AcquireReleasePairsBalance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1584" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1584" bodyend="1595"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a1521eefc1fdec39eb0e84d212d756e07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_08_PeakSizeTracksHighWaterMark)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_08_PeakSizeTracksHighWaterMark</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1598" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1598" bodyend="1609"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a5b0f07ab68c2b4dd23fb3c1b8f08e91d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_09_ConcurrentAcquiresAllValid)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_09_ConcurrentAcquiresAllValid</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1612" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1612" bodyend="1637"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ad032f396789c7f08be8e84a400ad1877" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_10_ConnectionIdReused)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_10_ConnectionIdReused</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1640" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1640" bodyend="1647"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a5ffdbf4021c64909e01ece3d3505d4ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_11_WorkerCount)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_11_WorkerCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1650" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1650" bodyend="1653"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a990dc018ff17f5e81da5950dad8daff5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_12_TaskExecuted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_12_TaskExecuted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1656" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1656" bodyend="1662"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a6fb42e16638a54d08ce9f76af6ce55f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_13_AllTasksExecuted)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_13_AllTasksExecuted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1665" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1665" bodyend="1672"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aad665270fb4e78f1bc304506f82633e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_14_BackpressureReturnsFalse)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_14_BackpressureReturnsFalse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1675" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1675" bodyend="1689"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a6b774ebc2b8a71e56f2b27357732690a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_15_CompletesInTime)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_15_CompletesInTime</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1692" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1692" bodyend="1699"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a55e5fe72487253039edf8c141b255fd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_16_ExceptionInTaskDoesNotCrashPool)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_16_ExceptionInTaskDoesNotCrashPool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1702" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1702" bodyend="1712"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a7b2712a841e86202d43c605dc45d598f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_17_ConcurrentSubmissionsNoLoss)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_17_ConcurrentSubmissionsNoLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1715" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1715" bodyend="1731"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a357942e077aa02d9d81deadbd34d4c0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_18_AllocReturnsNonNull)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_18_AllocReturnsNonNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1734" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1734" bodyend="1739"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a35cd67b25155bf653c7a873839c955cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_19_OversizedRequestReturnsNull)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_19_OversizedRequestReturnsNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1742" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1742" bodyend="1746"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a7e67c2a44594aeed4fd1cb5edb50e85c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_20_ReusesFreedBuffers)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_20_ReusesFreedBuffers</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1749" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1749" bodyend="1757"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a8a7d70f75da82ca92b8b1c7ddec3f099" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_21_AllSizeClasses)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_21_AllSizeClasses</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1760" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1760" bodyend="1768"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1af7c7502a614bd87b5a834242358619f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_22_ReusedBufferIsZeroed)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_22_ReusedBufferIsZeroed</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1771" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1771" bodyend="1781"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a93fa8fb27a1ce07b53ff8ef6a6ba5265" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_23_ReuseRateAbove90PctAfterWarmup)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_23_ReuseRateAbove90PctAfterWarmup</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1784" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1784" bodyend="1800"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a75869ad104a48f2ceed6b392cd58714c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_24_MetricsTrackAllocsAndFrees)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_24_MetricsTrackAllocsAndFrees</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1803" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1803" bodyend="1810"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a032c6aa0fbb7c98945a8ea6e017cd6c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_25_ConcurrentAllocFreeSafe)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_25_ConcurrentAllocFreeSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1813" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1813" bodyend="1831"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a8f25b142564edb723ea9e0c06f946a0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_26_SaturationStressBounds)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_26_SaturationStressBounds</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1834" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1834" bodyend="1863"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a3bd25e43b7002d1e377fe9f579666448" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_27_BoundarySizeExactlyAtClassLimit)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_27_BoundarySizeExactlyAtClassLimit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1866" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1866" bodyend="1872"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aa2d2bd069bca2e87d37905a14665370e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_28_BackpressureConsistent)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_28_BackpressureConsistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1875" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1875" bodyend="1888"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a80948f173b3d8ba6392c9f0f9bcedc9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_29_MetricsAccumulate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_29_MetricsAccumulate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1891" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1891" bodyend="1898"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aab6aaa1523d6d0f88ad0f242318c6225" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_30_WorkerCountMatchesArg)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_30_WorkerCountMatchesArg</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1901" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1901" bodyend="1904"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a25ccddbabd5e2abb7b219273fbdd3689" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_31_FreeNullIsNoop)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_31_FreeNullIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1907" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1907" bodyend="1910"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a905dd4e0b14f3f510be888924d9e07e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_32_ReleaseMinusOneIsNoop)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_32_ReleaseMinusOneIsNoop</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1913" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1913" bodyend="1917"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a755f11e4b84399099933a7334ca9c9cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(BufferPoolTest, RES_33_AllocZeroReturnsSmallestClass)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>RES_33_AllocZeroReturnsSmallestClass</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1920" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1920" bodyend="1926"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aaf706c10efbc840e97be7d8126e08065" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ThreadPoolTest, RES_34_QueueDrainsBeforeDestruction)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>RES_34_QueueDrainsBeforeDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1929" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1929" bodyend="1938"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ae1de0ed22f5dc692128e9dfc5ba2db46" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(ConnectionPoolTest, RES_35_ScaleUpLatencyBounded)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_connection_pool_test" kindref="compound">ConnectionPoolTest</ref></type>
+        </param>
+        <param>
+          <type>RES_35_ScaleUpLatencyBounded</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1941" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1941" bodyend="1950"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a24e9158cabb141304f15c59f8e67e930" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST</definition>
+        <argsstring>(ResourcePoolInvariantGate, RES_36_InvariantGate)</argsstring>
+        <name>TEST</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST</qualifiedname>
+        <param>
+          <type>ResourcePoolInvariantGate</type>
+        </param>
+        <param>
+          <type>RES_36_InvariantGate</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="1953" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="1953" bodyend="1971"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a31c137f769f65945423cd98c65f80446" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_01_SelectorReturnsNonEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_01_SelectorReturnsNonEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2136" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2136" bodyend="2139"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a39cf04cd31b236d054b259f0c940ae1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_02_EmptyShardSetReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_02_EmptyShardSetReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2142" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2142" bodyend="2145"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a15944f7555165cc9a1d9a4b5a7fbfcf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_03_SelectsLeastLoadedShard)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_03_SelectsLeastLoadedShard</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2148" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2148" bodyend="2156"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a7f39faff22f725eb1891ef22b897de75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_04_MetricsUpdateChangesSelection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_04_MetricsUpdateChangesSelection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2159" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2159" bodyend="2166"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1af943010ae3c4f98ac5bd2945b7237210" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_05_IdleShardLowerScore)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_05_IdleShardLowerScore</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2169" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2169" bodyend="2173"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ae51ac86dee5aee9525244e84d75f25a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_06_LoadScoreNonNegative)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_06_LoadScoreNonNegative</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2176" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2176" bodyend="2181"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a8d8fa3c6ab4ce48f16b5ddc6d39b219e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_07_SchedulerEnqueueDispatch)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_07_SchedulerEnqueueDispatch</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2184" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2184" bodyend="2196"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a48e46c236142df1e14f121505624a7fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_08_HighPriorityDispatchedFirst)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_08_HighPriorityDispatchedFirst</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2199" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2199" bodyend="2212"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1afbeca877b1281f1766382216f36282c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_09_SlaMet)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_09_SlaMet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2215" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2215" bodyend="2222"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a007abd3ce4cf729bb48697ec13dfd87b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_10_SlaViolated)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_10_SlaViolated</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2225" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2225" bodyend="2233"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a130039a255960f6d7cc9346f9eabef58" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_11_DispatchEmptyQueueReturnsEmpty)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_11_DispatchEmptyQueueReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2236" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2236" bodyend="2240"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aba8d1d9f5ba3d47d8afdbd407fcd6f1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_12_PendingCountDecrement)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_12_PendingCountDecrement</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2243" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2243" bodyend="2251"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1af6e58e09025453858362c99f97a5c653" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_13_LowVarianceUniformLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_13_LowVarianceUniformLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2254" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2254" bodyend="2257"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a99c01ea2b8d39017781a958104a3542c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_14_HighVarianceSkewedLoad)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_14_HighVarianceSkewedLoad</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2260" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2260" bodyend="2269"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ab4cd9cd90dc1cd1bd31d58e5383198cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_15_ConcurrentEnqueueNoLoss)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_15_ConcurrentEnqueueNoLoss</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2272" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2272" bodyend="2288"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1acbd49d49a83da4e523a7e56537716785" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_16_FullQueueDrains)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_16_FullQueueDrains</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2291" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2291" bodyend="2301"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a476387794154f93db9d7bdb3ff819ba7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_17_ShardCountCorrect)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_17_ShardCountCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2304" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2304" bodyend="2307"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a1722a54f47d966bab7c7f249cfbc9c07" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_18_UniformLoadConsistentSelection)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_18_UniformLoadConsistentSelection</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2310" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2310" bodyend="2315"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1ac8f31fe3f7166b58a2961edb4d6488fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_19_OverloadedShardNotSelected)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_19_OverloadedShardNotSelected</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2318" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2318" bodyend="2327"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1aae4e5a96fad1a8d088a4edc95e33a05a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_20_EqualPriorityDeadlineOrder)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_20_EqualPriorityDeadlineOrder</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2330" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2330" bodyend="2340"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a75e3664d2cee92bc1c310e1174514039" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_21_SlaComplianceAbove99Pct)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_21_SlaComplianceAbove99Pct</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2343" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2343" bodyend="2354"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a0a33fdeb7f08d2e571ba33c4de9d238f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_22_CrossShardLowVariance)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_22_CrossShardLowVariance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2357" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2357" bodyend="2361"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1abbf90f3da238b8e63fcb7e3ba6fb7619" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_23_LoadScoreWeightsCorrect)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_23_LoadScoreWeightsCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2364" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2364" bodyend="2374"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemisdb_1_1graph_1_1test_1_1phase3_1a4798287fbacff1588c21a65f9b415656" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themisdb::graph::test::phase3::TEST_F</definition>
+        <argsstring>(LoadBalancerTest, LBS_24_InvariantGateDispatchedEqualsSlaSumm)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themisdb::graph::test::phase3::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemisdb_1_1graph_1_1test_1_1phase3_1_1_load_balancer_test" kindref="compound">LoadBalancerTest</ref></type>
+        </param>
+        <param>
+          <type>LBS_24_InvariantGateDispatchedEqualsSlaSumm</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_phase3_optimization.cpp" line="2377" column="1" bodyfile="tests/graph/test_graph_phase3_optimization.cpp" bodystart="2377" bodyend="2388"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_phase3_optimization.cpp" line="48" column="45"/>
+  </compounddef>
+</doxygen>

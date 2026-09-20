@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::VoiceAntiSpoofEngine::Config</compoundname>
+    <includes refid="voice__anti__spoof__engine_8h" local="no">voice_anti_spoof_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a2ef19678e0c037a291dfebac3e60d666" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::VoiceAntiSpoofEngine::Config::freshness_threshold</definition>
+        <argsstring></argsstring>
+        <name>freshness_threshold</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::Config::freshness_threshold</qualifiedname>
+        <initializer>= 0.7</initializer>
+        <briefdescription>
+<para>Min freshness score to pass (0.7 = 70% confidence live). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="91" column="16" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1abaacb0da8e3cec8c2beb5decb1be9a4f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::VoiceAntiSpoofEngine::Config::speaker_match_threshold</definition>
+        <argsstring></argsstring>
+        <name>speaker_match_threshold</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::Config::speaker_match_threshold</qualifiedname>
+        <initializer>= 0.8</initializer>
+        <briefdescription>
+<para>Min speaker match to pass (0.8 = 80% match). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="92" column="16" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1aeacf8f05399e2fce3b94280f7bf23f25" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::VoiceAntiSpoofEngine::Config::noise_consistency_threshold</definition>
+        <argsstring></argsstring>
+        <name>noise_consistency_threshold</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::Config::noise_consistency_threshold</qualifiedname>
+        <initializer>= 0.65</initializer>
+        <briefdescription>
+<para>Min noise consistency (0.65 = 65% consistency). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="93" column="16" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a0b8f1b2728c9e5b4397fc39fe08f41c5" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::voice::VoiceAntiSpoofEngine::Config::require_all_checks</definition>
+        <argsstring></argsstring>
+        <name>require_all_checks</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::Config::require_all_checks</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Require all three checks to pass (fail-closed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="94" column="14" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1ad7d32a06ba934b9f89e4bb869e7af3a1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceAntiSpoofEngine::Config::min_audio_bytes</definition>
+        <argsstring></argsstring>
+        <name>min_audio_bytes</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::Config::min_audio_bytes</qualifiedname>
+        <initializer>= 3200</initializer>
+        <briefdescription>
+<para>Require at least ~100 ms PCM payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="95" column="16" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1ad3354b69cea46e422ef02bf905137650" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::VoiceAntiSpoofEngine::Config::max_audio_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_audio_bytes</name>
+        <qualifiedname>themis::voice::VoiceAntiSpoofEngine::Config::max_audio_bytes</qualifiedname>
+        <initializer>= 2 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>Reject oversized payloads fail-closed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_anti_spoof_engine.h" line="96" column="16" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configuration for anti-spoofing. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_anti_spoof_engine.h" line="90" column="5" bodyfile="include/voice/voice_anti_spoof_engine.h" bodystart="90" bodyend="97"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a2ef19678e0c037a291dfebac3e60d666" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine::Config</scope><name>freshness_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1ad3354b69cea46e422ef02bf905137650" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine::Config</scope><name>max_audio_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1ad7d32a06ba934b9f89e4bb869e7af3a1" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine::Config</scope><name>min_audio_bytes</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1aeacf8f05399e2fce3b94280f7bf23f25" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine::Config</scope><name>noise_consistency_threshold</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1a0b8f1b2728c9e5b4397fc39fe08f41c5" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine::Config</scope><name>require_all_checks</name></member>
+      <member refid="structthemis_1_1voice_1_1_voice_anti_spoof_engine_1_1_config_1abaacb0da8e3cec8c2beb5decb1be9a4f" prot="public" virt="non-virtual"><scope>themis::voice::VoiceAntiSpoofEngine::Config</scope><name>speaker_match_threshold</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

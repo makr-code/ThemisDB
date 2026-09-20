@@ -1,0 +1,357 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_timestamp_token" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::TimestampToken</compoundname>
+    <includes refid="timestamp__authority_8h" local="no">timestamp_authority.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a7c091abbe7ebf65b9b9845bfce973b1a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TimestampToken::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::security::TimestampToken::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="98" column="10" bodyfile="include/security/timestamp_authority.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a0a175726ee5bf08ca272b91e932e02a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampToken::timestamp_utc</definition>
+        <argsstring></argsstring>
+        <name>timestamp_utc</name>
+        <qualifiedname>themis::security::TimestampToken::timestamp_utc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="101" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a94192888427a9f929d585286a3bbd3e1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::TimestampToken::timestamp_unix_ms</definition>
+        <argsstring></argsstring>
+        <name>timestamp_unix_ms</name>
+        <qualifiedname>themis::security::TimestampToken::timestamp_unix_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="102" column="14" bodyfile="include/security/timestamp_authority.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1ae1a6f1ee13676262312cc42da76b610b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampToken::serial_number</definition>
+        <argsstring></argsstring>
+        <name>serial_number</name>
+        <qualifiedname>themis::security::TimestampToken::serial_number</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="105" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a79e832192b7b11678eac38936d824102" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampToken::policy_oid</definition>
+        <argsstring></argsstring>
+        <name>policy_oid</name>
+        <qualifiedname>themis::security::TimestampToken::policy_oid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="106" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a5bc575a3501fb6cc95901190677a4764" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampToken::hash_algorithm</definition>
+        <argsstring></argsstring>
+        <name>hash_algorithm</name>
+        <qualifiedname>themis::security::TimestampToken::hash_algorithm</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="107" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1af8a4d97cd2dca7492b726b634730b665" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TimestampToken::nonce</definition>
+        <argsstring></argsstring>
+        <name>nonce</name>
+        <qualifiedname>themis::security::TimestampToken::nonce</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="108" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a9dc61cdcca94106769e9c3771255070f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TimestampToken::has_accuracy</definition>
+        <argsstring></argsstring>
+        <name>has_accuracy</name>
+        <qualifiedname>themis::security::TimestampToken::has_accuracy</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="112" column="10" bodyfile="include/security/timestamp_authority.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1af761f97c9cc52752c285ed8ba6c436ab" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::TimestampToken::accuracy_seconds</definition>
+        <argsstring></argsstring>
+        <name>accuracy_seconds</name>
+        <qualifiedname>themis::security::TimestampToken::accuracy_seconds</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="113" column="14" bodyfile="include/security/timestamp_authority.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a9bc314760de0c31004a99b3b0df8a9f8" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::TimestampToken::accuracy_millis</definition>
+        <argsstring></argsstring>
+        <name>accuracy_millis</name>
+        <qualifiedname>themis::security::TimestampToken::accuracy_millis</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="114" column="14" bodyfile="include/security/timestamp_authority.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a1c9c0494957f6b3fb9b4582050be9411" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::TimestampToken::accuracy_micros</definition>
+        <argsstring></argsstring>
+        <name>accuracy_micros</name>
+        <qualifiedname>themis::security::TimestampToken::accuracy_micros</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="115" column="14" bodyfile="include/security/timestamp_authority.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a41fe5c636bd8754e7da736ddea88da26" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TimestampToken::ordering</definition>
+        <argsstring></argsstring>
+        <name>ordering</name>
+        <qualifiedname>themis::security::TimestampToken::ordering</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="119" column="10" bodyfile="include/security/timestamp_authority.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a9db8bd0bfdc8ccc0374070f908f174ba" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TimestampToken::token_der</definition>
+        <argsstring></argsstring>
+        <name>token_der</name>
+        <qualifiedname>themis::security::TimestampToken::token_der</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="122" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1ac0912844b865105b02f086a323ff8c4a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampToken::token_b64</definition>
+        <argsstring></argsstring>
+        <name>token_b64</name>
+        <qualifiedname>themis::security::TimestampToken::token_b64</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="123" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a8fb375fe49a8387d893a781035b2e894" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampToken::tsa_name</definition>
+        <argsstring></argsstring>
+        <name>tsa_name</name>
+        <qualifiedname>themis::security::TimestampToken::tsa_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="126" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a50b2eb3d37f1ee51d100672f95a1e099" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampToken::tsa_serial</definition>
+        <argsstring></argsstring>
+        <name>tsa_serial</name>
+        <qualifiedname>themis::security::TimestampToken::tsa_serial</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="127" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a7b4ff4fb15d6535945126a11b2275670" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt;uint8_t&gt; themis::security::TimestampToken::tsa_cert</definition>
+        <argsstring></argsstring>
+        <name>tsa_cert</name>
+        <qualifiedname>themis::security::TimestampToken::tsa_cert</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="128" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1adfb3b38da1c539ae10de5e63f456c8ab" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TimestampToken::verified</definition>
+        <argsstring></argsstring>
+        <name>verified</name>
+        <qualifiedname>themis::security::TimestampToken::verified</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="131" column="10" bodyfile="include/security/timestamp_authority.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a324b314acd623bcc3847c02a5e177406" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::TimestampToken::cert_valid</definition>
+        <argsstring></argsstring>
+        <name>cert_valid</name>
+        <qualifiedname>themis::security::TimestampToken::cert_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="132" column="10" bodyfile="include/security/timestamp_authority.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1ab864a540a6977e7a3148046762fe8589" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::TimestampToken::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::security::TimestampToken::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="135" column="17" bodyfile="include/security/timestamp_authority.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1ac4e20a210377d151a96b8656578e7131" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::TimestampToken::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::security::TimestampToken::status_code</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="136" column="9" bodyfile="include/security/timestamp_authority.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_timestamp_token_1a00029a79fb5b7ba81ba5c49261c78fe4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::security::TimestampToken::pki_status</definition>
+        <argsstring></argsstring>
+        <name>pki_status</name>
+        <qualifiedname>themis::security::TimestampToken::pki_status</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/timestamp_authority.h" line="137" column="9" bodyfile="include/security/timestamp_authority.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/timestamp_authority.h" line="97" column="1" bodyfile="include/security/timestamp_authority.h" bodystart="97" bodyend="138"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a1c9c0494957f6b3fb9b4582050be9411" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>accuracy_micros</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a9bc314760de0c31004a99b3b0df8a9f8" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>accuracy_millis</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1af761f97c9cc52752c285ed8ba6c436ab" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>accuracy_seconds</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a324b314acd623bcc3847c02a5e177406" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>cert_valid</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1ab864a540a6977e7a3148046762fe8589" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a9dc61cdcca94106769e9c3771255070f" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>has_accuracy</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a5bc575a3501fb6cc95901190677a4764" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>hash_algorithm</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1af8a4d97cd2dca7492b726b634730b665" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>nonce</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a41fe5c636bd8754e7da736ddea88da26" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>ordering</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a00029a79fb5b7ba81ba5c49261c78fe4" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>pki_status</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a79e832192b7b11678eac38936d824102" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>policy_oid</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1ae1a6f1ee13676262312cc42da76b610b" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>serial_number</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1ac4e20a210377d151a96b8656578e7131" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>status_code</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a7c091abbe7ebf65b9b9845bfce973b1a" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>success</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a94192888427a9f929d585286a3bbd3e1" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>timestamp_unix_ms</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a0a175726ee5bf08ca272b91e932e02a4" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>timestamp_utc</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1ac0912844b865105b02f086a323ff8c4a" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>token_b64</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a9db8bd0bfdc8ccc0374070f908f174ba" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>token_der</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a7b4ff4fb15d6535945126a11b2275670" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>tsa_cert</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a8fb375fe49a8387d893a781035b2e894" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>tsa_name</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1a50b2eb3d37f1ee51d100672f95a1e099" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>tsa_serial</name></member>
+      <member refid="structthemis_1_1security_1_1_timestamp_token_1adfb3b38da1c539ae10de5e63f456c8ab" prot="public" virt="non-virtual"><scope>themis::security::TimestampToken</scope><name>verified</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

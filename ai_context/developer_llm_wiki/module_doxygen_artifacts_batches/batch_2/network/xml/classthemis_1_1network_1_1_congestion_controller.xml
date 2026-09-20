@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_congestion_controller" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::CongestionController</compoundname>
+    <includes refid="qos__manager_8h" local="no">qos_manager.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_congestion_controller_1a477e40c12932aab154cd160446e0f98a" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionController::kDefaultMss</definition>
+        <argsstring></argsstring>
+        <name>kDefaultMss</name>
+        <qualifiedname>themis::network::CongestionController::kDefaultMss</qualifiedname>
+        <initializer>= 1&apos;460</initializer>
+        <briefdescription>
+<para>bytes </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="212" column="31" bodyfile="include/network/qos_manager.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_congestion_controller_1ad3c756499b7f8ebdf5c27659092c7c03" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionController::kDefaultInitialCwnd</definition>
+        <argsstring></argsstring>
+        <name>kDefaultInitialCwnd</name>
+        <qualifiedname>themis::network::CongestionController::kDefaultInitialCwnd</qualifiedname>
+        <initializer>= 10 * <ref refid="classthemis_1_1network_1_1_congestion_controller_1a477e40c12932aab154cd160446e0f98a" kindref="member">kDefaultMss</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="213" column="31" bodyfile="include/network/qos_manager.h" bodystart="213" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_congestion_controller_1ada75bc26573c33d983516098c4129eed" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionController::kMaxCwnd</definition>
+        <argsstring></argsstring>
+        <name>kMaxCwnd</name>
+        <qualifiedname>themis::network::CongestionController::kMaxCwnd</qualifiedname>
+        <initializer>= 64 * 1024 * 1024</initializer>
+        <briefdescription>
+<para>64 MB </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="214" column="31" bodyfile="include/network/qos_manager.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_congestion_controller_1a76d4d7bc382cd15502f479252690c51c" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::network::CongestionController::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::network::CongestionController::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="249" column="24" bodyfile="include/network/qos_manager.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_congestion_controller_1af2ee43cefc92408d5b04f89b04dcd841" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionController::cwnd_</definition>
+        <argsstring></argsstring>
+        <name>cwnd_</name>
+        <qualifiedname>themis::network::CongestionController::cwnd_</qualifiedname>
+        <briefdescription>
+<para>Congestion window (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="250" column="14" bodyfile="include/network/qos_manager.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_congestion_controller_1a5f2bba80e90e30e46a128d792ac0bd29" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionController::ssthresh_</definition>
+        <argsstring></argsstring>
+        <name>ssthresh_</name>
+        <qualifiedname>themis::network::CongestionController::ssthresh_</qualifiedname>
+        <briefdescription>
+<para>Slow-start threshold (bytes). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="251" column="14" bodyfile="include/network/qos_manager.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_congestion_controller_1aac13cf025155e6f4d152c4c5d13cdb11" prot="private" static="no" mutable="no">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::network::CongestionController::srtt_</definition>
+        <argsstring></argsstring>
+        <name>srtt_</name>
+        <qualifiedname>themis::network::CongestionController::srtt_</qualifiedname>
+        <briefdescription>
+<para>Smoothed RTT. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="252" column="31" bodyfile="include/network/qos_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_congestion_controller_1ad47c2a97eb404b30907cd59f84ebf80a" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::network::CongestionController::in_slow_start_</definition>
+        <argsstring></argsstring>
+        <name>in_slow_start_</name>
+        <qualifiedname>themis::network::CongestionController::in_slow_start_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="253" column="10" bodyfile="include/network/qos_manager.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_congestion_controller_1afbd240f1c2299c10c2a1a51dcfcdc96e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::CongestionController::CongestionController</definition>
+        <argsstring>()</argsstring>
+        <name>CongestionController</name>
+        <qualifiedname>themis::network::CongestionController::CongestionController</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="216" column="5" bodyfile="src/network/qos_manager.cpp" bodystart="337" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_congestion_controller_1a81fa4023fbb0eb1dbd9cf40554d74346" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::CongestionController::recordAck</definition>
+        <argsstring>(uint64_t bytes_acked, std::chrono::microseconds rtt)</argsstring>
+        <name>recordAck</name>
+        <qualifiedname>themis::network::CongestionController::recordAck</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>bytes_acked</declname>
+        </param>
+        <param>
+          <type>std::chrono::microseconds</type>
+          <declname>rtt</declname>
+        </param>
+        <briefdescription>
+<para>Record a successful ACK (bytes acknowledged, round-trip time). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Ack.</para>
+<para>Grows the congestion window according to slow-start / congestion-avoidance.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bytes_acked</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of bytes acknowledged. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rtt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured round-trip time.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">bytes_acked</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">rtt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), count(), std::chrono::microseconds(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="226" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="350" bodyend="378"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_congestion_controller_1a164929cd706b37abf4d68c3f175e7928" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::CongestionController::recordLoss</definition>
+        <argsstring>()</argsstring>
+        <name>recordLoss</name>
+        <qualifiedname>themis::network::CongestionController::recordLoss</qualifiedname>
+        <briefdescription>
+<para>Record a packet loss event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Record Loss.</para>
+<para>Halves the congestion window (AIMD decrease) and sets the slow-start threshold.</para>
+<para>Calls: lock(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="234" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="384" bodyend="389"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_congestion_controller_1a8095c3d515709e640b412026f6780908" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionController::cwnd</definition>
+        <argsstring>() const</argsstring>
+        <name>cwnd</name>
+        <qualifiedname>themis::network::CongestionController::cwnd</qualifiedname>
+        <briefdescription>
+<para>Current congestion window in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="237" column="14" bodyfile="src/network/qos_manager.cpp" bodystart="391" bodyend="399"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_congestion_controller_1aee13f94306e13fb896cd7485c3860b47" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::network::CongestionController::ssthresh</definition>
+        <argsstring>() const</argsstring>
+        <name>ssthresh</name>
+        <qualifiedname>themis::network::CongestionController::ssthresh</qualifiedname>
+        <briefdescription>
+<para>Current slow-start threshold in bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="240" column="14" bodyfile="src/network/qos_manager.cpp" bodystart="401" bodyend="409"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_congestion_controller_1a6636ac9f64a4e8413273247872a598e9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::chrono::microseconds</type>
+        <definition>std::chrono::microseconds themis::network::CongestionController::smoothedRtt</definition>
+        <argsstring>() const</argsstring>
+        <name>smoothedRtt</name>
+        <qualifiedname>themis::network::CongestionController::smoothedRtt</qualifiedname>
+        <briefdescription>
+<para>Smoothed RTT estimate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="243" column="31" bodyfile="src/network/qos_manager.cpp" bodystart="411" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_congestion_controller_1a880e08c5449590816962b8bcde523117" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::network::CongestionController::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::network::CongestionController::reset</qualifiedname>
+        <briefdescription>
+<para>Reset to initial state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Calls: lock(), std::chrono::microseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/qos_manager.h" line="246" column="10" bodyfile="src/network/qos_manager.cpp" bodystart="425" bodyend="431"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Simple AIMD congestion controller for per-connection rate adaptation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements a TCP-like AIMD (Additive Increase / Multiplicative Decrease) algorithm:<itemizedlist>
+<listitem><para>Slow start: window doubles each RTT until <computeroutput>ssthresh_bytes</computeroutput> is reached.</para>
+</listitem><listitem><para>Congestion avoidance: window increases by MSS per RTT.</para>
+</listitem><listitem><para>On packet loss: ssthresh = window / 2; window = ssthresh.</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safe via an internal mutex. </para>
+    </detaileddescription>
+    <location file="include/network/qos_manager.h" line="210" column="1" bodyfile="include/network/qos_manager.h" bodystart="210" bodyend="254"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1afbd240f1c2299c10c2a1a51dcfcdc96e" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>CongestionController</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1a8095c3d515709e640b412026f6780908" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>cwnd</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1af2ee43cefc92408d5b04f89b04dcd841" prot="private" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>cwnd_</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1ad47c2a97eb404b30907cd59f84ebf80a" prot="private" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>in_slow_start_</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1ad3c756499b7f8ebdf5c27659092c7c03" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>kDefaultInitialCwnd</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1a477e40c12932aab154cd160446e0f98a" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>kDefaultMss</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1ada75bc26573c33d983516098c4129eed" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>kMaxCwnd</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1a76d4d7bc382cd15502f479252690c51c" prot="private" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1a81fa4023fbb0eb1dbd9cf40554d74346" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>recordAck</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1a164929cd706b37abf4d68c3f175e7928" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>recordLoss</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1a880e08c5449590816962b8bcde523117" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>reset</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1a6636ac9f64a4e8413273247872a598e9" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>smoothedRtt</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1aac13cf025155e6f4d152c4c5d13cdb11" prot="private" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>srtt_</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1aee13f94306e13fb896cd7485c3860b47" prot="public" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>ssthresh</name></member>
+      <member refid="classthemis_1_1network_1_1_congestion_controller_1a5f2bba80e90e30e46a128d792ac0bd29" prot="private" virt="non-virtual"><scope>themis::network::CongestionController</scope><name>ssthresh_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

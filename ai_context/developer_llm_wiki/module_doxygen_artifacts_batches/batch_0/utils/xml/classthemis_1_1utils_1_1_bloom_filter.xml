@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_bloom_filter" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::BloomFilter</compoundname>
+    <includes refid="bloom__filter_8h" local="no">bloom_filter.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_bloom_filter_1a996d97ee7bbd5d1d76d61f592ecc4e1e" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BloomFilter::num_bits_</definition>
+        <argsstring></argsstring>
+        <name>num_bits_</name>
+        <qualifiedname>themis::utils::BloomFilter::num_bits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="89" column="18" bodyfile="include/utils/bloom_filter.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_bloom_filter_1a47a0a835470789ea5ff3ad7e179446d2" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BloomFilter::num_hashes_</definition>
+        <argsstring></argsstring>
+        <name>num_hashes_</name>
+        <qualifiedname>themis::utils::BloomFilter::num_hashes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="90" column="18" bodyfile="include/utils/bloom_filter.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_bloom_filter_1a04dacc5e5018554b305859ec1dbb88da" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::utils::BloomFilter::fpr_</definition>
+        <argsstring></argsstring>
+        <name>fpr_</name>
+        <qualifiedname>themis::utils::BloomFilter::fpr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="91" column="18" bodyfile="include/utils/bloom_filter.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_bloom_filter_1a3498da2506af6b13bd7bdc115b7fa4aa" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BloomFilter::approx_count_</definition>
+        <argsstring></argsstring>
+        <name>approx_count_</name>
+        <qualifiedname>themis::utils::BloomFilter::approx_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="92" column="18" bodyfile="include/utils/bloom_filter.h" bodystart="92" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_bloom_filter_1a458e48a1fe93706b71047406408bab60" prot="private" static="no" mutable="yes">
+        <type>std::shared_mutex</type>
+        <definition>std::shared_mutex themis::utils::BloomFilter::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::utils::BloomFilter::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="94" column="31" bodyfile="include/utils/bloom_filter.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_bloom_filter_1a1a37f3f66f77ce97ceddca05f78fb6e0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt;bool&gt; themis::utils::BloomFilter::bits_</definition>
+        <argsstring></argsstring>
+        <name>bits_</name>
+        <qualifiedname>themis::utils::BloomFilter::bits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="95" column="25" bodyfile="include/utils/bloom_filter.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1aaf723abad8801a8561e883bbc136d2bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::BloomFilter::BloomFilter</definition>
+        <argsstring>(size_t expected_elements, double false_positive_rate)</argsstring>
+        <name>BloomFilter</name>
+        <qualifiedname>themis::utils::BloomFilter::BloomFilter</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>expected_elements</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>false_positive_rate</declname>
+        </param>
+        <briefdescription>
+<para>Construct a Bloom filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>expected_elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Anticipated number of distinct insertions. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>false_positive_rate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Desired max false-positive probability (0 &lt; p &lt; 1). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="42" column="5" bodyfile="src/utils/bloom_filter.cpp" bodystart="57" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1a0921fdaaf0e43b1224608be8978603c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::BloomFilter::insert</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::utils::BloomFilter::insert</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Insert a key into the filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), probeIndex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="47" column="10" bodyfile="src/utils/bloom_filter.cpp" bodystart="111" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1ab916aeeefeebd504e5bba8ff4c937134" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::BloomFilter::contains</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>contains</name>
+        <qualifiedname>themis::utils::BloomFilter::contains</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Test membership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>false → definitely not in set. true → probably in set. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="53" column="10" bodyfile="src/utils/bloom_filter.cpp" bodystart="119" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1a14b7ec63fad93ee1035ce91643132088" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::BloomFilter::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::utils::BloomFilter::clear</qualifiedname>
+        <briefdescription>
+<para>Reset all bits to zero and the approximate element counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Clear.</para>
+<para>Calls: lock(), std::fill(), begin(), end(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="58" column="10" bodyfile="src/utils/bloom_filter.cpp" bodystart="138" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1a5aaee272649a17e1942dae1912a36786" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BloomFilter::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::utils::BloomFilter::size</qualifiedname>
+        <briefdescription>
+<para>Approximate number of elements inserted since last <ref refid="classthemis_1_1utils_1_1_bloom_filter_1a14b7ec63fad93ee1035ce91643132088" kindref="member">clear()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="63" column="12" bodyfile="src/utils/bloom_filter.cpp" bodystart="144" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1ad84eb4cb058198dd70966b87195ef4fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BloomFilter::bitset_size</definition>
+        <argsstring>() const</argsstring>
+        <name>bitset_size</name>
+        <qualifiedname>themis::utils::BloomFilter::bitset_size</qualifiedname>
+        <briefdescription>
+<para>Total number of bits in the underlying bit array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="68" column="12" bodyfile="src/utils/bloom_filter.cpp" bodystart="154" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1a98a64ffe824cdf40261251e9a307959c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::utils::BloomFilter::false_positive_rate</definition>
+        <argsstring>() const</argsstring>
+        <name>false_positive_rate</name>
+        <qualifiedname>themis::utils::BloomFilter::false_positive_rate</qualifiedname>
+        <briefdescription>
+<para>Configured target false-positive rate. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="73" column="12" bodyfile="src/utils/bloom_filter.cpp" bodystart="158" bodyend="160"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1af699a655995c4e657ae04618d5e0b7ab" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BloomFilter::optimalBits</definition>
+        <argsstring>(size_t n, double p)</argsstring>
+        <name>optimalBits</name>
+        <qualifiedname>themis::utils::BloomFilter::optimalBits</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Compute optimal bit-count from expected_n and target fpr. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimal Bits.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::log(), std::ceil(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="77" column="19" bodyfile="src/utils/bloom_filter.cpp" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1a7a75a69dbbb269c69bc13f0e1396634c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BloomFilter::optimalHashCount</definition>
+        <argsstring>(size_t bits, size_t n)</argsstring>
+        <name>optimalHashCount</name>
+        <qualifiedname>themis::utils::BloomFilter::optimalHashCount</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>bits</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+<para>Compute optimal hash-function count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Optimal Hash Count.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">bits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">n</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::ceil(), std::log(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="79" column="19" bodyfile="src/utils/bloom_filter.cpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1a30dde8d5db5a9b9271d027cd79ce6fd8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::BloomFilter::hash1</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>hash1</name>
+        <qualifiedname>themis::utils::BloomFilter::hash1</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>First hash (std::hash). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Hash1.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements hash1 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="85" column="21" bodyfile="src/utils/bloom_filter.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1acfe9348665b971e5560231a009484f4d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::BloomFilter::hash2</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>hash2</name>
+        <qualifiedname>themis::utils::BloomFilter::hash2</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Second independent hash (murmur-style mix). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Hash2.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements hash2 without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="87" column="21" bodyfile="src/utils/bloom_filter.cpp" bodystart="85" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_bloom_filter_1ac18db91c53a92a7b081b4fb957aa633d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::BloomFilter::probeIndex</definition>
+        <argsstring>(const std::string &amp;key, size_t i) const</argsstring>
+        <name>probeIndex</name>
+        <qualifiedname>themis::utils::BloomFilter::probeIndex</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+<para>Double-hashing: return the i-th probe index for <computeroutput>key</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/bloom_filter.h" line="82" column="12" bodyfile="src/utils/bloom_filter.cpp" bodystart="98" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Probabilistic set membership data structure (Bloom filter). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Guarantees zero false negatives. False positive rate is bounded by the configured rate supplied at construction time. Thread-safe via std::shared_mutex (concurrent readers, exclusive writers).</para>
+<para>Hash strategy: h1 = std::hash&lt;std::string&gt; h2 = murmur-style mix (fnv-style rotate-xor) hash_i(k) = (h1(k) + i * h2(k)) % m (double-hashing) </para>
+    </detaileddescription>
+    <location file="include/utils/bloom_filter.h" line="35" column="1" bodyfile="include/utils/bloom_filter.h" bodystart="35" bodyend="96"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a3498da2506af6b13bd7bdc115b7fa4aa" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>approx_count_</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a1a37f3f66f77ce97ceddca05f78fb6e0" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>bits_</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1ad84eb4cb058198dd70966b87195ef4fc" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>bitset_size</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1aaf723abad8801a8561e883bbc136d2bc" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>BloomFilter</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a14b7ec63fad93ee1035ce91643132088" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>clear</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1ab916aeeefeebd504e5bba8ff4c937134" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>contains</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a98a64ffe824cdf40261251e9a307959c" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>false_positive_rate</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a04dacc5e5018554b305859ec1dbb88da" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>fpr_</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a30dde8d5db5a9b9271d027cd79ce6fd8" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>hash1</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1acfe9348665b971e5560231a009484f4d" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>hash2</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a0921fdaaf0e43b1224608be8978603c5" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>insert</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a458e48a1fe93706b71047406408bab60" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a996d97ee7bbd5d1d76d61f592ecc4e1e" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>num_bits_</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a47a0a835470789ea5ff3ad7e179446d2" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>num_hashes_</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1af699a655995c4e657ae04618d5e0b7ab" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>optimalBits</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a7a75a69dbbb269c69bc13f0e1396634c" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>optimalHashCount</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1ac18db91c53a92a7b081b4fb957aa633d" prot="private" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>probeIndex</name></member>
+      <member refid="classthemis_1_1utils_1_1_bloom_filter_1a5aaee272649a17e1942dae1912a36786" prot="public" virt="non-virtual"><scope>themis::utils::BloomFilter</scope><name>size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

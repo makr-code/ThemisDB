@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1llm_1_1testing" kind="namespace" language="C++">
+    <compoundname>themis::llm::testing</compoundname>
+    <innerclass refid="classthemis_1_1llm_1_1testing_1_1_production_validator" prot="public">themis::llm::testing::ProductionValidator</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1testing_1_1_performance_regression_detector" prot="public">themis::llm::testing::PerformanceRegressionDetector</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1testing_1_1_integration_test_suite" prot="public">themis::llm::testing::IntegrationTestSuite</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/production_validator.h" line="30" column="1"/>
+  </compounddef>
+</doxygen>

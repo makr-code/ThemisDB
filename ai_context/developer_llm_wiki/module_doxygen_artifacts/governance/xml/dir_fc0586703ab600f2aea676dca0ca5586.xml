@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_fc0586703ab600f2aea676dca0ca5586" kind="dir">
+    <compoundname>src/governance</compoundname>
+    <innerfile refid="audit__batch__writer_8cpp">audit_batch_writer.cpp</innerfile>
+    <innerfile refid="ccpa__rules_8cpp">ccpa_rules.cpp</innerfile>
+    <innerfile refid="compliance__framework_8cpp">compliance_framework.cpp</innerfile>
+    <innerfile refid="compliance__mapping_8cpp">compliance_mapping.cpp</innerfile>
+    <innerfile refid="compliance__reporter_8cpp">compliance_reporter.cpp</innerfile>
+    <innerfile refid="compliance__reporting_8cpp">compliance_reporting.cpp</innerfile>
+    <innerfile refid="compliance__validator_8cpp">compliance_validator.cpp</innerfile>
+    <innerfile refid="cross__border__transfer_8cpp">cross_border_transfer.cpp</innerfile>
+    <innerfile refid="cross__tenant__policy__inheritance_8cpp">cross_tenant_policy_inheritance.cpp</innerfile>
+    <innerfile refid="data__lineage_8cpp">data_lineage.cpp</innerfile>
+    <innerfile refid="data__masker_8cpp">data_masker.cpp</innerfile>
+    <innerfile refid="gdpr__subject__rights_8cpp">gdpr_subject_rights.cpp</innerfile>
+    <innerfile refid="governance__audit__integrity_8cpp">governance_audit_integrity.cpp</innerfile>
+    <innerfile refid="governance__diagnostics_8cpp">governance_diagnostics.cpp</innerfile>
+    <innerfile refid="hipaa__rules_8cpp">hipaa_rules.cpp</innerfile>
+    <innerfile refid="iso27001__rules_8cpp">iso27001_rules.cpp</innerfile>
+    <innerfile refid="model__governance_8cpp">model_governance.cpp</innerfile>
+    <innerfile refid="opa__adapter_8cpp">opa_adapter.cpp</innerfile>
+    <innerfile refid="operational__audit_8cpp">operational_audit.cpp</innerfile>
+    <innerfile refid="pci__dss__rules_8cpp">pci_dss_rules.cpp</innerfile>
+    <innerfile refid="policy__approval__workflow_8cpp">policy_approval_workflow.cpp</innerfile>
+    <innerfile refid="policy__change__manager_8cpp">policy_change_manager.cpp</innerfile>
+    <innerfile refid="policy__conflict__detector_8cpp">policy_conflict_detector.cpp</innerfile>
+    <innerfile refid="policy__coordinator_8cpp">policy_coordinator.cpp</innerfile>
+    <innerfile refid="policy__engine_8cpp">policy_engine.cpp</innerfile>
+    <innerfile refid="policy__file__watcher_8cpp">policy_file_watcher.cpp</innerfile>
+    <innerfile refid="policy__manager_8cpp">policy_manager.cpp</innerfile>
+    <innerfile refid="policy__manager__versioned_8cpp">policy_manager_versioned.cpp</innerfile>
+    <innerfile refid="policy__review_8cpp">policy_review.cpp</innerfile>
+    <innerfile refid="policy__template_8cpp">policy_template.cpp</innerfile>
+    <innerfile refid="policy__validation_8cpp">policy_validation.cpp</innerfile>
+    <innerfile refid="policy__validator_8cpp">policy_validator.cpp</innerfile>
+    <innerfile refid="policy__version__history_8cpp">policy_version_history.cpp</innerfile>
+    <innerfile refid="review__scheduler_8cpp">review_scheduler.cpp</innerfile>
+    <innerfile refid="soc2__controls_8cpp">soc2_controls.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/governance/"/>
+  </compounddef>
+</doxygen>

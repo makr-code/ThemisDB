@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_result_field_annotation" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ResultFieldAnnotation</compoundname>
+    <includes refid="result__type__annotation_8h" local="no">result_type_annotation.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_field_annotation_1a6f83f3cd21305d870814fab7c9c86634" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::ResultFieldAnnotation::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::query::ResultFieldAnnotation::name</qualifiedname>
+        <briefdescription>
+<para>Field / column name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_type_annotation.h" line="50" column="24" bodyfile="include/query/result_type_annotation.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_field_annotation_1aa1a8e5f34f75eae38ebbbf9fe9208ce0" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41" kindref="member">ResultFieldType</ref></type>
+        <definition>ResultFieldType themis::query::ResultFieldAnnotation::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::ResultFieldAnnotation::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ResultFieldType::UNKNOWN</ref></initializer>
+        <briefdescription>
+<para>Inferred type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_type_annotation.h" line="51" column="24" bodyfile="include/query/result_type_annotation.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_field_annotation_1a945f0cc4e62fae7058fe3bc12204e5d1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ResultFieldAnnotation::nullable</definition>
+        <argsstring></argsstring>
+        <name>nullable</name>
+        <qualifiedname>themis::query::ResultFieldAnnotation::nullable</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True if null seen in any row. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_type_annotation.h" line="52" column="24" bodyfile="include/query/result_type_annotation.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_field_annotation_1a4d9c2635e68480288d7f1ef006dbc5c2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::ResultFieldAnnotation::is_array</definition>
+        <argsstring></argsstring>
+        <name>is_array</name>
+        <qualifiedname>themis::query::ResultFieldAnnotation::is_array</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>True when type == ARRAY. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_type_annotation.h" line="53" column="24" bodyfile="include/query/result_type_annotation.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_result_field_annotation_1a835a19eb49c40f64485cf38f6c0c7f33" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41" kindref="member">ResultFieldType</ref></type>
+        <definition>ResultFieldType themis::query::ResultFieldAnnotation::element_type</definition>
+        <argsstring></argsstring>
+        <name>element_type</name>
+        <qualifiedname>themis::query::ResultFieldAnnotation::element_type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1ac91093ffc77be070d1e511836dcdcc41a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">ResultFieldType::UNKNOWN</ref></initializer>
+        <briefdescription>
+<para>Element type for arrays. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_type_annotation.h" line="54" column="24" bodyfile="include/query/result_type_annotation.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_result_field_annotation_1a25172419c943dd8a6dc562c278640483" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::ResultFieldAnnotation::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::query::ResultFieldAnnotation::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/result_type_annotation.h" line="56" column="21" bodyfile="src/query/result_type_annotation.cpp" bodystart="47" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/result_type_annotation.h" line="49" column="1" bodyfile="include/query/result_type_annotation.h" bodystart="49" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_result_field_annotation_1a835a19eb49c40f64485cf38f6c0c7f33" prot="public" virt="non-virtual"><scope>themis::query::ResultFieldAnnotation</scope><name>element_type</name></member>
+      <member refid="structthemis_1_1query_1_1_result_field_annotation_1a4d9c2635e68480288d7f1ef006dbc5c2" prot="public" virt="non-virtual"><scope>themis::query::ResultFieldAnnotation</scope><name>is_array</name></member>
+      <member refid="structthemis_1_1query_1_1_result_field_annotation_1a6f83f3cd21305d870814fab7c9c86634" prot="public" virt="non-virtual"><scope>themis::query::ResultFieldAnnotation</scope><name>name</name></member>
+      <member refid="structthemis_1_1query_1_1_result_field_annotation_1a945f0cc4e62fae7058fe3bc12204e5d1" prot="public" virt="non-virtual"><scope>themis::query::ResultFieldAnnotation</scope><name>nullable</name></member>
+      <member refid="structthemis_1_1query_1_1_result_field_annotation_1a25172419c943dd8a6dc562c278640483" prot="public" virt="non-virtual"><scope>themis::query::ResultFieldAnnotation</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1query_1_1_result_field_annotation_1aa1a8e5f34f75eae38ebbbf9fe9208ce0" prot="public" virt="non-virtual"><scope>themis::query::ResultFieldAnnotation</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

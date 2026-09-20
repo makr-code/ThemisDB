@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::delegate_eval::ReconstructionScoreAtK</compoundname>
+    <includes refid="delegate__evaluator_8h" local="no">delegate_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref> &gt;</type>
+        <definition>std::vector&lt;ReconstructionScore&gt; themis::rag::delegate_eval::ReconstructionScoreAtK::rs_per_interaction</definition>
+        <argsstring></argsstring>
+        <name>rs_per_interaction</name>
+        <qualifiedname>themis::rag::delegate_eval::ReconstructionScoreAtK::rs_per_interaction</qualifiedname>
+        <briefdescription>
+<para>RS sampled after each interaction (1-based; index i → interaction i+1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="186" column="17" bodyfile="include/rag/delegate_evaluator.h" bodystart="186" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a9a2a7ce109dd1c65a3d2273f6bdd9073" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1rag_1_1delegate__eval_1a212cf6ebc69c48af30ae907d14e8567f" kindref="member">ReconstructionScore</ref></type>
+        <definition>ReconstructionScore themis::rag::delegate_eval::ReconstructionScoreAtK::rs_at</definition>
+        <argsstring>(size_t k) const noexcept</argsstring>
+        <name>rs_at</name>
+        <qualifiedname>themis::rag::delegate_eval::ReconstructionScoreAtK::rs_at</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>RS after interaction <computeroutput>k</computeroutput> (1-based). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Interaction index starting at 1. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>RS at that position, or 1.0 if k == 0 (no edit), or the last available score if k exceeds the recorded history. </para>
+</simplesect>
+<simplesect kind="note"><para>Return value must not be discarded; the function silently clamps out-of-range k to the last available index. </para>
+</simplesect>
+<simplesect kind="note"><para>No exception is thrown for out-of-range k. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="198" column="26" bodyfile="include/rag/delegate_evaluator.h" bodystart="198" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a7e5466b9fb45cc1c84978a46a27a4eaa" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::delegate_eval::ReconstructionScoreAtK::hasCatastrophicEvent</definition>
+        <argsstring>(double threshold=0.80) const noexcept</argsstring>
+        <name>hasCatastrophicEvent</name>
+        <qualifiedname>themis::rag::delegate_eval::ReconstructionScoreAtK::hasCatastrophicEvent</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>threshold</declname>
+          <defval>0.80</defval>
+        </param>
+        <briefdescription>
+<para>True when any RS in the history is below the catastrophic threshold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Catastrophic threshold (default matches paper: 0.80). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/delegate_evaluator.h" line="214" column="10" bodyfile="include/rag/delegate_evaluator.h" bodystart="214" bodyend="217"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RS@k aggregation over all interactions in a relay. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Mirrors the DELEGATE-52 evaluation protocol where RS is sampled at interaction indices k = 1, 5, 10, 20 (two-sided: forward = odd, backward = even in the raw interaction sequence).</para>
+<para>In ThemisDB&apos;s model each element of <computeroutput><ref refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" kindref="member">rs_per_interaction</ref></computeroutput> stores the RS against the original seed <emphasis>after</emphasis> that numbered interaction (1-based). So <computeroutput>rs_at(k)</computeroutput> simply retrieves element [k-1] when <computeroutput>k ≤ size</computeroutput>. </para>
+    </detaileddescription>
+    <location file="include/rag/delegate_evaluator.h" line="184" column="1" bodyfile="include/rag/delegate_evaluator.h" bodystart="184" bodyend="218"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a7e5466b9fb45cc1c84978a46a27a4eaa" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::ReconstructionScoreAtK</scope><name>hasCatastrophicEvent</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a9a2a7ce109dd1c65a3d2273f6bdd9073" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::ReconstructionScoreAtK</scope><name>rs_at</name></member>
+      <member refid="structthemis_1_1rag_1_1delegate__eval_1_1_reconstruction_score_at_k_1a2ae3295c3b9f1032698a1c3078bdd534" prot="public" virt="non-virtual"><scope>themis::rag::delegate_eval::ReconstructionScoreAtK</scope><name>rs_per_interaction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

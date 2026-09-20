@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::AdaptiveShardRouter::AdaptiveStats</compoundname>
+    <includes refid="adaptive__shard__router_8h" local="no">adaptive_shard_router.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1ad5c31e20127cf3e928d3b152bd590ea5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AdaptiveShardRouter::AdaptiveStats::query_id</definition>
+        <argsstring></argsstring>
+        <name>query_id</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::query_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="114" column="21" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1aa28a4822c3dc3a36be67b4b01558b3db" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::AdaptiveShardRouter::AdaptiveStats::start_time</definition>
+        <argsstring></argsstring>
+        <name>start_time</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::start_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="115" column="47" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a9bd5023e7f5c0dd19019950050efb95b" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::AdaptiveShardRouter::AdaptiveStats::end_time</definition>
+        <argsstring></argsstring>
+        <name>end_time</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::end_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="116" column="47" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a411d93277ae4c7ff13cc8395f798f87d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::AdaptiveShardRouter::AdaptiveStats::total_time_ms</definition>
+        <argsstring></argsstring>
+        <name>total_time_ms</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::total_time_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="117" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1aa46affe617a332c1c9ff25a7a2154c5b" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveStats::iterations_executed</definition>
+        <argsstring></argsstring>
+        <name>iterations_executed</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::iterations_executed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="118" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a3fce4865e2d1a46982c2387e20225c24" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveStats::total_shards_queried</definition>
+        <argsstring></argsstring>
+        <name>total_shards_queried</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::total_shards_queried</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="119" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a5679a705161d52d1b4b53be6bc36f4da" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::AdaptiveShardRouter::AdaptiveStats::total_results</definition>
+        <argsstring></argsstring>
+        <name>total_results</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::total_results</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="120" column="18" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a81a1363aee10dce50b79369bf6b19bb6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdaptiveShardRouter::AdaptiveStats::used_adaptive_routing</definition>
+        <argsstring></argsstring>
+        <name>used_adaptive_routing</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::used_adaptive_routing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="121" column="14" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a968402d809909344a47ba0f95075adea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::AdaptiveShardRouter::AdaptiveStats::stopped_early</definition>
+        <argsstring></argsstring>
+        <name>stopped_early</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::stopped_early</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="122" column="14" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a0925c9255a0724cbbadadce50f338147" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::AdaptiveShardRouter::AdaptiveStats::stop_reason</definition>
+        <argsstring></argsstring>
+        <name>stop_reason</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::stop_reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="123" column="21" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a61563da57100a80417e70a97fa473a04" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_iteration_stats" kindref="compound">IterationStats</ref> &gt;</type>
+        <definition>std::vector&lt;IterationStats&gt; themis::sharding::AdaptiveShardRouter::AdaptiveStats::iteration_details</definition>
+        <argsstring></argsstring>
+        <name>iteration_details</name>
+        <qualifiedname>themis::sharding::AdaptiveShardRouter::AdaptiveStats::iteration_details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/adaptive_shard_router.h" line="124" column="21" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/adaptive_shard_router.h" line="113" column="5" bodyfile="include/sharding/adaptive_shard_router.h" bodystart="113" bodyend="125"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a9bd5023e7f5c0dd19019950050efb95b" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>end_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a61563da57100a80417e70a97fa473a04" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>iteration_details</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1aa46affe617a332c1c9ff25a7a2154c5b" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>iterations_executed</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1ad5c31e20127cf3e928d3b152bd590ea5" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>query_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1aa28a4822c3dc3a36be67b4b01558b3db" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>start_time</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a0925c9255a0724cbbadadce50f338147" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>stop_reason</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a968402d809909344a47ba0f95075adea" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>stopped_early</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a5679a705161d52d1b4b53be6bc36f4da" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>total_results</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a3fce4865e2d1a46982c2387e20225c24" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>total_shards_queried</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a411d93277ae4c7ff13cc8395f798f87d" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>total_time_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_adaptive_shard_router_1_1_adaptive_stats_1a81a1363aee10dce50b79369bf6b19bb6" prot="public" virt="non-virtual"><scope>themis::sharding::AdaptiveShardRouter::AdaptiveStats</scope><name>used_adaptive_routing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

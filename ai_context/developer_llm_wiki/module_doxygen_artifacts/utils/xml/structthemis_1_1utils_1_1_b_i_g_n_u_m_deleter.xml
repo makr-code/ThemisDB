@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_b_i_g_n_u_m_deleter" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::BIGNUMDeleter</compoundname>
+    <includes refid="openssl__deleter_8h" local="no">openssl_deleter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1utils_1_1_b_i_g_n_u_m_deleter_1af8485f07b77b12e33f94414480712a53" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::BIGNUMDeleter::operator()</definition>
+        <argsstring>(BIGNUM *bn) const noexcept</argsstring>
+        <name>operator()</name>
+        <qualifiedname>themis::utils::BIGNUMDeleter::operator()</qualifiedname>
+        <param>
+          <type>BIGNUM *</type>
+          <declname>bn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/openssl_deleter.h" line="128" column="10" bodyfile="include/utils/openssl_deleter.h" bodystart="128" bodyend="132"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Deleter for BIGNUM. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/openssl_deleter.h" line="127" column="1" bodyfile="include/utils/openssl_deleter.h" bodystart="127" bodyend="133"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_b_i_g_n_u_m_deleter_1af8485f07b77b12e33f94414480712a53" prot="public" virt="non-virtual"><scope>themis::utils::BIGNUMDeleter</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_throwing_embedding_provider" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>ThrowingEmbeddingProvider</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">IEmbeddingProvider</basecompoundref>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_throwing_embedding_provider_1a750744fdf96a82ae4d270b242a017b73" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; ThrowingEmbeddingProvider::embed</definition>
+        <argsstring>(const std::string &amp;) override</argsstring>
+        <name>embed</name>
+        <qualifiedname>ThrowingEmbeddingProvider::embed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_aql_embedding_bridge.cpp" line="62" column="17" bodyfile="tests/llm/test_llm_aql_embedding_bridge.cpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="class_throwing_embedding_provider" kindref="compound">ThrowingEmbeddingProvider</ref> — always throws on <ref refid="class_throwing_embedding_provider_1a750744fdf96a82ae4d270b242a017b73" kindref="member">embed()</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>IEmbeddingProvider</label>
+      </node>
+      <node id="1">
+        <label>ThrowingEmbeddingProvider</label>
+        <link refid="class_throwing_embedding_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>IEmbeddingProvider</label>
+      </node>
+      <node id="1">
+        <label>ThrowingEmbeddingProvider</label>
+        <link refid="class_throwing_embedding_provider"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/llm/test_llm_aql_embedding_bridge.cpp" line="60" column="1" bodyfile="tests/llm/test_llm_aql_embedding_bridge.cpp" bodystart="60" bodyend="65"/>
+    <listofallmembers>
+      <member refid="class_throwing_embedding_provider_1a750744fdf96a82ae4d270b242a017b73" prot="public" virt="non-virtual"><scope>ThrowingEmbeddingProvider</scope><name>embed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

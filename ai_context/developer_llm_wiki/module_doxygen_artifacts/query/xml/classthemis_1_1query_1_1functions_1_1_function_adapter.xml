@@ -1,0 +1,328 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_function_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::FunctionAdapter</compoundname>
+    <includes refid="function__adapter_8h" local="no">function_adapter.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1a1fa126819a932ebeef470696b6a49c33" prot="private" static="yes" mutable="no">
+        <type>std::once_flag</type>
+        <definition>std::once_flag themis::query::functions::FunctionAdapter::init_flag_</definition>
+        <argsstring></argsstring>
+        <name>init_flag_</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::init_flag_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="155" column="27" bodyfile="include/query/functions/function_adapter.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1a4db0a39e47745336df4f226b48ee574b" prot="private" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::functions::FunctionAdapter::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="156" column="17" bodyfile="include/query/functions/function_adapter.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab99bae967b76900722bab35ddb5479c4" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::query::functions::FunctionAdapter::initialize</definition>
+        <argsstring>()</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::initialize</qualifiedname>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::call_once(), <ref refid="namespacethemis_1_1query_1_1functions_1af8ad580507df1f9d7f896e7c833e95a7" kindref="member">registerBuiltinFunctions()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="30" column="17" bodyfile="include/query/functions/function_adapter.h" bodystart="30" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1a5c8b808cfdcc49ea6fcae399d1827539" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::query::functions::FunctionAdapter::hasFunction</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>hasFunction</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::hasFunction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has Function. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab99bae967b76900722bab35ddb5479c4" kindref="member">initialize()</ref>, <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="43" column="17" bodyfile="include/query/functions/function_adapter.h" bodystart="43" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1af56075033fe67bc56c7c9b0225bea7a6" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::query::functions::FunctionAdapter::tryCall</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; nlohmann::json &gt; &amp;args, const nlohmann::json &amp;currentDoc, nlohmann::json &amp;result)</argsstring>
+        <name>tryCall</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::tryCall</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>currentDoc</declname>
+        </param>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Try Call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab99bae967b76900722bab35ddb5479c4" kindref="member">initialize()</ref>, <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>, <ref refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a5c8b808cfdcc49ea6fcae399d1827539" kindref="member">hasFunction()</ref>, ctx(), <ref refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a0bb255305146d0adf3776cbb31cc344d" kindref="member">call()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="57" column="17" bodyfile="include/query/functions/function_adapter.h" bodystart="57" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1a0bb255305146d0adf3776cbb31cc344d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>static nlohmann::json themis::query::functions::FunctionAdapter::call</definition>
+        <argsstring>(const std::string &amp;name, const std::vector&lt; nlohmann::json &gt; &amp;args, const FunctionContext &amp;context)</argsstring>
+        <name>call</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::call</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Call. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab99bae967b76900722bab35ddb5479c4" kindref="member">initialize()</ref>, <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="88" column="27" bodyfile="include/query/functions/function_adapter.h" bodystart="88" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab4448cc943f097681cc1c0e1c27d6af3" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref></type>
+        <definition>static FunctionContext themis::query::functions::FunctionAdapter::createContext</definition>
+        <argsstring>(const nlohmann::json &amp;currentDoc, const std::unordered_map&lt; std::string, nlohmann::json &gt; *variables=nullptr)</argsstring>
+        <name>createContext</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::createContext</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>currentDoc</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; std::string, nlohmann::json &gt; *</type>
+          <declname>variables</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ctx. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">currentDoc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="97" column="28" bodyfile="include/query/functions/function_adapter.h" bodystart="97" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1aaa7b852fda5a153f97c32d2ee3a2ac7d" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>static std::vector&lt; std::string &gt; themis::query::functions::FunctionAdapter::getAvailableFunctions</definition>
+        <argsstring>()</argsstring>
+        <name>getAvailableFunctions</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::getAvailableFunctions</qualifiedname>
+        <briefdescription>
+<para>Get Available Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab99bae967b76900722bab35ddb5479c4" kindref="member">initialize()</ref>, <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>, getAllSignatures(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="120" column="24" bodyfile="include/query/functions/function_adapter.h" bodystart="120" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1a60e110b2a66b88a8b1924077bd506136" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref> &gt;</type>
+        <definition>static std::optional&lt; FunctionSignature &gt; themis::query::functions::FunctionAdapter::getSignature</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getSignature</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::getSignature</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Get Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab99bae967b76900722bab35ddb5479c4" kindref="member">initialize()</ref>, <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>, <ref refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a5c8b808cfdcc49ea6fcae399d1827539" kindref="member">hasFunction()</ref>, getFunction(), signature(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="136" column="26" bodyfile="include/query/functions/function_adapter.h" bodystart="136" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_function_adapter_1a5313048ac43bb1861ecaed7a3d7dcc10" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::query::functions::FunctionAdapter::isInitialized</definition>
+        <argsstring>()</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::query::functions::FunctionAdapter::isInitialized</qualifiedname>
+        <briefdescription>
+<para>Is Initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements isInitialized without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_adapter.h" line="150" column="17" bodyfile="include/query/functions/function_adapter.h" bodystart="150" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/function_adapter.h" line="24" column="1" bodyfile="include/query/functions/function_adapter.h" bodystart="24" bodyend="157"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a0bb255305146d0adf3776cbb31cc344d" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>call</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab4448cc943f097681cc1c0e1c27d6af3" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>createContext</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1aaa7b852fda5a153f97c32d2ee3a2ac7d" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>getAvailableFunctions</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a60e110b2a66b88a8b1924077bd506136" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>getSignature</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a5c8b808cfdcc49ea6fcae399d1827539" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>hasFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a1fa126819a932ebeef470696b6a49c33" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>init_flag_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1ab99bae967b76900722bab35ddb5479c4" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a4db0a39e47745336df4f226b48ee574b" prot="private" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1a5313048ac43bb1861ecaed7a3d7dcc10" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_function_adapter_1af56075033fe67bc56c7c9b0225bea7a6" prot="public" virt="non-virtual"><scope>themis::query::functions::FunctionAdapter</scope><name>tryCall</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

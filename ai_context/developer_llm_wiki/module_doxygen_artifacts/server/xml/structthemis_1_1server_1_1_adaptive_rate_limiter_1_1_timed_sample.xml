@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_timed_sample" kind="struct" language="C++" prot="private">
+    <compoundname>themis::server::AdaptiveRateLimiter::TimedSample</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_timed_sample_1abb7320ce2ffa4239450502d5a7b90d56" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::AdaptiveRateLimiter::TimedSample::ts</definition>
+        <argsstring></argsstring>
+        <name>ts</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::TimedSample::ts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="88" column="47" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_timed_sample_1aff250f7fbc42379ac38729011cc68a2a" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::server::AdaptiveRateLimiter::TimedSample::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::TimedSample::latency_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="89" column="35" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_timed_sample_1aed954fb0bb04b668e8d95c21fcdda6f4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::AdaptiveRateLimiter::TimedSample::is_error</definition>
+        <argsstring></argsstring>
+        <name>is_error</name>
+        <qualifiedname>themis::server::AdaptiveRateLimiter::TimedSample::is_error</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/adaptive_rate_limiter.h" line="90" column="14" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/adaptive_rate_limiter.h" line="87" column="5" bodyfile="include/server/adaptive_rate_limiter.h" bodystart="87" bodyend="91"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_timed_sample_1aed954fb0bb04b668e8d95c21fcdda6f4" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::TimedSample</scope><name>is_error</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_timed_sample_1aff250f7fbc42379ac38729011cc68a2a" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::TimedSample</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1server_1_1_adaptive_rate_limiter_1_1_timed_sample_1abb7320ce2ffa4239450502d5a7b90d56" prot="public" virt="non-virtual"><scope>themis::server::AdaptiveRateLimiter::TimedSample</scope><name>ts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

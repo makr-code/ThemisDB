@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_audit_log_verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::AuditLogVerifier</compoundname>
+    <includes refid="audit__logger_8h" local="no">audit_logger.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_log_verifier_1a9f870f7345e3a11282e2ce22b277e09d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::AuditLogVerifier::AuditLogVerifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>AuditLogVerifier</name>
+        <qualifiedname>themis::utils::AuditLogVerifier::AuditLogVerifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="665" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_log_verifier_1add5d810e8a6508bf8b83dc184efaa422" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_audit_verify_result" kindref="compound">AuditVerifyResult</ref></type>
+        <definition>AuditVerifyResult themis::utils::AuditLogVerifier::verify_chain</definition>
+        <argsstring>(const std::string &amp;log_path, const std::string &amp;genesis_hash=std::string(64, &apos;0&apos;)) const</argsstring>
+        <name>verify_chain</name>
+        <qualifiedname>themis::utils::AuditLogVerifier::verify_chain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>genesis_hash</declname>
+          <defval>std::string(64, &apos;0&apos;)</defval>
+        </param>
+        <briefdescription>
+<para>Replay the hash chain in <computeroutput>log_path</computeroutput> and verify each link. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>log_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the JSONL log file. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>genesis_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Expected genesis hash (64-char hex). Use the all-zero default when the log was written with the default chain seed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result struct. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the log. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="676" column="23" bodyfile="src/utils/audit_logger.cpp" bodystart="2091" bodyend="2158"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_log_verifier_1a875a4c25d1198fadf4c911ba710df110" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogVerifier::computeEntryHash</definition>
+        <argsstring>(const std::string &amp;prev_hash, const nlohmann::json &amp;entry)</argsstring>
+        <name>computeEntryHash</name>
+        <qualifiedname>themis::utils::AuditLogVerifier::computeEntryHash</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prev_hash</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+<para>Compute Entry Hash. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">prev_hash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">entry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: dump(), bytes(), begin(), end(), digest(), SHA256(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="680" column="24" bodyfile="src/utils/audit_logger.cpp" bodystart="2074" bodyend="2089"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Standalone audit log chain verifier. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Replays the hash chain in a log file written by <ref refid="classthemis_1_1utils_1_1_hash_chain_audit_writer" kindref="compound">HashChainAuditWriter</ref> and reports the first entry where the <computeroutput>prev_hash</computeroutput> field does not match the expected running hash.</para>
+<para>Usage: <programlisting><codeline><highlight class="normal"><ref refid="classthemis_1_1utils_1_1_audit_log_verifier_1a9f870f7345e3a11282e2ce22b277e09d" kindref="member">AuditLogVerifier</ref><sp/>verifier;</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>verifier.verify_chain(</highlight><highlight class="stringliteral">&quot;data/logs/audit_chain.jsonl&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!result.ok)<sp/>{<sp/>...<sp/>}</highlight></codeline>
+</programlisting></para>
+<para>v1.5.0: Initial implementation (Phase 3 FUTURE_ENHANCEMENTS.md). </para>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="663" column="1" bodyfile="include/utils/audit_logger.h" bodystart="663" bodyend="682"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_audit_log_verifier_1a9f870f7345e3a11282e2ce22b277e09d" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogVerifier</scope><name>AuditLogVerifier</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_log_verifier_1a875a4c25d1198fadf4c911ba710df110" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogVerifier</scope><name>computeEntryHash</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_log_verifier_1add5d810e8a6508bf8b83dc184efaa422" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogVerifier</scope><name>verify_chain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

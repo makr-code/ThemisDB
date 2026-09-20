@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_latency_tracker" kind="class" language="C++" prot="public">
+    <compoundname>LatencyTracker</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_latency_tracker_1a8ceb4155998202582334e26040a8b0fb" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; LatencyTracker::latencies_</definition>
+        <argsstring></argsstring>
+        <name>latencies_</name>
+        <qualifiedname>LatencyTracker::latencies_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="164" column="17" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_latency_tracker_1aa6f567ae0bfb6a23aed8e13bca07e9c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void LatencyTracker::record</definition>
+        <argsstring>(uint64_t latency_ns)</argsstring>
+        <name>record</name>
+        <qualifiedname>LatencyTracker::record</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="142" column="10" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="class_latency_tracker_1a92c9371487fb1d527691b47d5ae2cff4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double LatencyTracker::p50_ms</definition>
+        <argsstring>() const</argsstring>
+        <name>p50_ms</name>
+        <qualifiedname>LatencyTracker::p50_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="146" column="12" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="146" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_latency_tracker_1a8ba87ecb7a3d22ec1d976a5718a25b92" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double LatencyTracker::p95_ms</definition>
+        <argsstring>() const</argsstring>
+        <name>p95_ms</name>
+        <qualifiedname>LatencyTracker::p95_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="147" column="12" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="147" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_latency_tracker_1ad973fb022423481a6bd73001d6df9912" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double LatencyTracker::p99_ms</definition>
+        <argsstring>() const</argsstring>
+        <name>p99_ms</name>
+        <qualifiedname>LatencyTracker::p99_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="148" column="12" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="class_latency_tracker_1a2c023d3d2119541354ae0cc6a80551d4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t LatencyTracker::count</definition>
+        <argsstring>() const</argsstring>
+        <name>count</name>
+        <qualifiedname>LatencyTracker::count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="150" column="14" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="150" bodyend="150"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_latency_tracker_1acfcb3e3d85e649cb32aa0975316c0016" prot="private" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double LatencyTracker::percentile</definition>
+        <argsstring>(int p) const</argsstring>
+        <name>percentile</name>
+        <qualifiedname>LatencyTracker::percentile</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="153" column="12" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="153" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Records per-operation latencies for P50/P95/P99 calculation. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/tensor/test_tensor_stress_suite_focused.cpp" line="140" column="1" bodyfile="tests/tensor/test_tensor_stress_suite_focused.cpp" bodystart="140" bodyend="165"/>
+    <listofallmembers>
+      <member refid="class_latency_tracker_1a2c023d3d2119541354ae0cc6a80551d4" prot="public" virt="non-virtual"><scope>LatencyTracker</scope><name>count</name></member>
+      <member refid="class_latency_tracker_1a8ceb4155998202582334e26040a8b0fb" prot="private" virt="non-virtual"><scope>LatencyTracker</scope><name>latencies_</name></member>
+      <member refid="class_latency_tracker_1a92c9371487fb1d527691b47d5ae2cff4" prot="public" virt="non-virtual"><scope>LatencyTracker</scope><name>p50_ms</name></member>
+      <member refid="class_latency_tracker_1a8ba87ecb7a3d22ec1d976a5718a25b92" prot="public" virt="non-virtual"><scope>LatencyTracker</scope><name>p95_ms</name></member>
+      <member refid="class_latency_tracker_1ad973fb022423481a6bd73001d6df9912" prot="public" virt="non-virtual"><scope>LatencyTracker</scope><name>p99_ms</name></member>
+      <member refid="class_latency_tracker_1acfcb3e3d85e649cb32aa0975316c0016" prot="private" virt="non-virtual"><scope>LatencyTracker</scope><name>percentile</name></member>
+      <member refid="class_latency_tracker_1aa6f567ae0bfb6a23aed8e13bca07e9c8" prot="public" virt="non-virtual"><scope>LatencyTracker</scope><name>record</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

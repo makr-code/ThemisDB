@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1storage_1_1_exponential_backoff_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::storage::ExponentialBackoff::Config</compoundname>
+    <includes refid="database__connection__manager_8h" local="no">database_connection_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a484e112ebe8fe527ddfa0e7e6afef83b" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::ExponentialBackoff::Config::initial_delay</definition>
+        <argsstring></argsstring>
+        <name>initial_delay</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::Config::initial_delay</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="250" column="35" bodyfile="include/storage/database_connection_manager.h" bodystart="250" bodyend="250"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1aa792cfc542dfe78579b6ace0fb154a98" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::storage::ExponentialBackoff::Config::max_delay</definition>
+        <argsstring></argsstring>
+        <name>max_delay</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::Config::max_delay</qualifiedname>
+        <initializer>{30000}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="251" column="35" bodyfile="include/storage/database_connection_manager.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a7e1a33ae96e95ebe89fdc6d57db61d47" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::ExponentialBackoff::Config::multiplier</definition>
+        <argsstring></argsstring>
+        <name>multiplier</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::Config::multiplier</qualifiedname>
+        <initializer>= 2.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="252" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a0dae988d7a37f34ddd4e56673f0752c8" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::storage::ExponentialBackoff::Config::jitter_factor</definition>
+        <argsstring></argsstring>
+        <name>jitter_factor</name>
+        <qualifiedname>themis::storage::ExponentialBackoff::Config::jitter_factor</qualifiedname>
+        <initializer>= 0.2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/database_connection_manager.h" line="253" column="16" bodyfile="include/storage/database_connection_manager.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/database_connection_manager.h" line="249" column="5" bodyfile="include/storage/database_connection_manager.h" bodystart="249" bodyend="254"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a484e112ebe8fe527ddfa0e7e6afef83b" prot="public" virt="non-virtual"><scope>themis::storage::ExponentialBackoff::Config</scope><name>initial_delay</name></member>
+      <member refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a0dae988d7a37f34ddd4e56673f0752c8" prot="public" virt="non-virtual"><scope>themis::storage::ExponentialBackoff::Config</scope><name>jitter_factor</name></member>
+      <member refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1aa792cfc542dfe78579b6ace0fb154a98" prot="public" virt="non-virtual"><scope>themis::storage::ExponentialBackoff::Config</scope><name>max_delay</name></member>
+      <member refid="structthemis_1_1storage_1_1_exponential_backoff_1_1_config_1a7e1a33ae96e95ebe89fdc6d57db61d47" prot="public" virt="non-virtual"><scope>themis::storage::ExponentialBackoff::Config</scope><name>multiplier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

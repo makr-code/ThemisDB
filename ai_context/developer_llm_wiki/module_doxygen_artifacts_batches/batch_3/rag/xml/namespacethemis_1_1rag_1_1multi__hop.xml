@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1multi__hop" kind="namespace" language="C++">
+    <compoundname>themis::rag::multi_hop</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_config" prot="public">themis::rag::multi_hop::MultiHopConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multi__hop_1_1_hop_record" prot="public">themis::rag::multi_hop::HopRecord</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_result" prot="public">themis::rag::multi_hop::MultiHopResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner" prot="public">themis::rag::multi_hop::MultiHopReasoner</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multi__hop_1_1_multi_hop_reasoner_factory" prot="public">themis::rag::multi_hop::MultiHopReasonerFactory</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>QueryComplexityHint</name>
+        <qualifiedname>themis::rag::multi_hop::QueryComplexityHint</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5ae5564829e2f85f6a6873a9d5c4f26d09" prot="public">
+          <name>SIMPLE</name>
+          <briefdescription>
+<para>Single-fact question; usually 1 hop. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a5137485eff3ff278d233d993c8539599" prot="public">
+          <name>MODERATE</name>
+          <briefdescription>
+<para>Two-step question; typically 2 hops. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a921a0157a6e61eebbaa0f713fdfbb0f7" prot="public">
+          <name>COMPLEX</name>
+          <briefdescription>
+<para>Multi-step; 3-5 hops. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1multi__hop_1a46e431229b73bb344698838dd30e20e5a696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>No hint; let the decomposer decide. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Hint about the estimated complexity of the original query. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="54" column="1" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="54" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1multi__hop_1af1e918a1ab9df5d841a48943c302d56d" prot="public" static="no">
+        <type>std::function&lt; std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;( const std::string &amp;sub_query, size_t top_k)&gt;</type>
+        <definition>using themis::rag::multi_hop::RetrievalFn = std::function&lt;std::vector&lt;judge::RetrievedDocument&gt;(
+   const std::string&amp; sub_query, size_t top_k)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RetrievalFn</name>
+        <qualifiedname>themis::rag::multi_hop::RetrievalFn</qualifiedname>
+        <briefdescription>
+<para>Retrieve documents for a sub-query. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sub_query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The decomposed sub-question. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>top_k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum number of documents to return. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Retrieved documents (may be empty on failure). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="34" column="1" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1rag_1_1multi__hop_1a9924dcec7cef3cfb9c700463c35205b3" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;prompt, int max_tokens)&gt;</type>
+        <definition>using themis::rag::multi_hop::InferenceFn = std::function&lt;std::string(const std::string&amp; prompt,
+                                              int max_tokens)&gt;</definition>
+        <argsstring></argsstring>
+        <name>InferenceFn</name>
+        <qualifiedname>themis::rag::multi_hop::InferenceFn</qualifiedname>
+        <briefdescription>
+<para>Generate an answer given a prompt. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prompt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fully assembled prompt including context and query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max_tokens</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum tokens to generate. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Generated text (empty string on failure). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/multi_hop_reasoner.h" line="44" column="1" bodyfile="include/rag/multi_hop_reasoner.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/multi_hop_reasoner.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

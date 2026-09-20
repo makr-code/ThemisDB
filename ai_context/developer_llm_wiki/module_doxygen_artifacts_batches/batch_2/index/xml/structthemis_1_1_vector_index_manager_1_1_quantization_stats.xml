@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_vector_index_manager_1_1_quantization_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::VectorIndexManager::QuantizationStats</compoundname>
+    <includes refid="vector__index_8h" local="no">vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1a83574b7add5c520ec666fa1fbe1fbdf4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexManager::QuantizationStats::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::VectorIndexManager::QuantizationStats::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="462" column="14" bodyfile="include/index/vector_index.h" bodystart="462" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1a21f4b06e7f7886e65e34093043bae0a7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::VectorIndexManager::QuantizationStats::trained</definition>
+        <argsstring></argsstring>
+        <name>trained</name>
+        <qualifiedname>themis::VectorIndexManager::QuantizationStats::trained</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="463" column="14" bodyfile="include/index/vector_index.h" bodystart="463" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1ae3876e27070cec1c76402fb68ae42a89" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::VectorIndexManager::QuantizationStats::num_subquantizers</definition>
+        <argsstring></argsstring>
+        <name>num_subquantizers</name>
+        <qualifiedname>themis::VectorIndexManager::QuantizationStats::num_subquantizers</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="464" column="13" bodyfile="include/index/vector_index.h" bodystart="464" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1a216cfe01e86427e144cef7d86d82e3b2" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::VectorIndexManager::QuantizationStats::compression_ratio</definition>
+        <argsstring></argsstring>
+        <name>compression_ratio</name>
+        <qualifiedname>themis::VectorIndexManager::QuantizationStats::compression_ratio</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="465" column="15" bodyfile="include/index/vector_index.h" bodystart="465" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1ae7056fccd83300c7d0675778fcff389e" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::VectorIndexManager::QuantizationStats::memory_usage_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_bytes</name>
+        <qualifiedname>themis::VectorIndexManager::QuantizationStats::memory_usage_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/vector_index.h" line="466" column="16" bodyfile="include/index/vector_index.h" bodystart="466" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Product quantization state and compression statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/vector_index.h" line="461" column="5" bodyfile="include/index/vector_index.h" bodystart="461" bodyend="467"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1a216cfe01e86427e144cef7d86d82e3b2" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::QuantizationStats</scope><name>compression_ratio</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1a83574b7add5c520ec666fa1fbe1fbdf4" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::QuantizationStats</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1ae7056fccd83300c7d0675778fcff389e" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::QuantizationStats</scope><name>memory_usage_bytes</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1ae3876e27070cec1c76402fb68ae42a89" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::QuantizationStats</scope><name>num_subquantizers</name></member>
+      <member refid="structthemis_1_1_vector_index_manager_1_1_quantization_stats_1a21f4b06e7f7886e65e34093043bae0a7" prot="public" virt="non-virtual"><scope>themis::VectorIndexManager::QuantizationStats</scope><name>trained</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

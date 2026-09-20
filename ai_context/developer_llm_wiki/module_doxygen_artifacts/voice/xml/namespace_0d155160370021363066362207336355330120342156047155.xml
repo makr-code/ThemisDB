@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d155160370021363066362207336355330120342156047155" kind="namespace" language="C++">
+    <compoundname>@155160370021363066362207336355330120342156047155</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/voice/test_voice_wave_a8_hardening_focused.cpp" line="18" column="1"/>
+  </compounddef>
+</doxygen>

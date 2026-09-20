@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_schema_manager_1_1_relationship_schema" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SchemaManager::RelationshipSchema</compoundname>
+    <includes refid="schema__manager_8h" local="no">schema_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_relationship_schema_1a084e1c97e7ef438299c8803ba66fd7b9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaManager::RelationshipSchema::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::SchemaManager::RelationshipSchema::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="143" column="21" bodyfile="include/metadata/schema_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_relationship_schema_1a521ce9ab9f24a38288b720a20249bcb1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaManager::RelationshipSchema::from_table</definition>
+        <argsstring></argsstring>
+        <name>from_table</name>
+        <qualifiedname>themis::SchemaManager::RelationshipSchema::from_table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="144" column="21" bodyfile="include/metadata/schema_manager.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_relationship_schema_1ab146c5f55a339bdda16b6663800c6b49" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SchemaManager::RelationshipSchema::to_table</definition>
+        <argsstring></argsstring>
+        <name>to_table</name>
+        <qualifiedname>themis::SchemaManager::RelationshipSchema::to_table</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="145" column="21" bodyfile="include/metadata/schema_manager.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_schema_manager_1_1_relationship_schema_1a5211c8e9b9ca4050f170960c95d3a59c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_schema_manager_1_1_property_info" kindref="compound">PropertyInfo</ref> &gt;</type>
+        <definition>std::vector&lt;PropertyInfo&gt; themis::SchemaManager::RelationshipSchema::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::SchemaManager::RelationshipSchema::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="146" column="21" bodyfile="include/metadata/schema_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_schema_manager_1_1_relationship_schema_1abba7849e8c177989428e63e16930499c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::SchemaManager::RelationshipSchema::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::SchemaManager::RelationshipSchema::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise this relationship schema to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object representing the relationship metadata. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/schema_manager.h" line="152" column="14" bodyfile="src/metadata/schema_manager.cpp" bodystart="80" bodyend="93"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Schema snapshot for one relationship or edge type. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/schema_manager.h" line="142" column="5" bodyfile="include/metadata/schema_manager.h" bodystart="142" bodyend="153"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a521ce9ab9f24a38288b720a20249bcb1" prot="public" virt="non-virtual"><scope>themis::SchemaManager::RelationshipSchema</scope><name>from_table</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a084e1c97e7ef438299c8803ba66fd7b9" prot="public" virt="non-virtual"><scope>themis::SchemaManager::RelationshipSchema</scope><name>name</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1a5211c8e9b9ca4050f170960c95d3a59c" prot="public" virt="non-virtual"><scope>themis::SchemaManager::RelationshipSchema</scope><name>properties</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1ab146c5f55a339bdda16b6663800c6b49" prot="public" virt="non-virtual"><scope>themis::SchemaManager::RelationshipSchema</scope><name>to_table</name></member>
+      <member refid="structthemis_1_1_schema_manager_1_1_relationship_schema_1abba7849e8c177989428e63e16930499c" prot="public" virt="non-virtual"><scope>themis::SchemaManager::RelationshipSchema</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,706 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_hypertable" kind="class" language="C++" prot="public">
+    <compoundname>themis::Hypertable</compoundname>
+    <includes refid="hypertable_8h" local="no">hypertable.h</includes>
+    <innerclass refid="structthemis_1_1_hypertable_1_1_config" prot="public">themis::Hypertable::Config</innerclass>
+    <innerclass refid="structthemis_1_1_hypertable_1_1_chunk_info" prot="public">themis::Hypertable::ChunkInfo</innerclass>
+    <innerclass refid="structthemis_1_1_hypertable_1_1_chunk_health" prot="public">themis::Hypertable::ChunkHealth</innerclass>
+    <innerclass refid="structthemis_1_1_hypertable_1_1_stats" prot="public">themis::Hypertable::Stats</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChunkStatus</name>
+        <qualifiedname>themis::Hypertable::ChunkStatus</qualifiedname>
+        <enumvalue id="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387a4d3d769b812b6faa6b76e1a8abaece2d" prot="public">
+          <name>Active</name>
+          <briefdescription>
+<para>Within retention window, being written to. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387a68abcc3d0869f8a52c2b286b3c511dd3" prot="public">
+          <name>Frozen</name>
+          <briefdescription>
+<para>Past current interval but within retention window. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387aa0f3a2e3bb63fc79dfb25421ca63094c" prot="public">
+          <name>Compressible</name>
+          <briefdescription>
+<para>Older than compress_threshold, not yet compressed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387a4d602abc0c0f2f7c1a5156d964517e4e" prot="public">
+          <name>Compressed</name>
+          <briefdescription>
+<para>Already compressed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387a24fe48030f7d3097d5882535b04c3fa8" prot="public">
+          <name>Expired</name>
+          <briefdescription>
+<para>Past retention window, ready to drop. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Chunk health status and lifecycle events. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="114" column="5" bodyfile="include/timeseries/hypertable.h" bodystart="114" bodyend="120"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_hypertable_1adcf90aae539a8009ca74b8501a4c4142" prot="private" static="no" mutable="no">
+        <type>RocksDBWrapper *</type>
+        <definition>RocksDBWrapper* themis::Hypertable::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::Hypertable::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="188" column="20" bodyfile="include/timeseries/hypertable.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_hypertable_1a77c292f287779c210df0aa086d29467c" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_hypertable_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::Hypertable::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::Hypertable::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="189" column="12" bodyfile="include/timeseries/hypertable.h" bodystart="189" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a16add1127d798d4fb9cd0d78746bf035" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Hypertable::Hypertable</definition>
+        <argsstring>(RocksDBWrapper *db, const Config &amp;config)</argsstring>
+        <name>Hypertable</name>
+        <qualifiedname>themis::Hypertable::Hypertable</qualifiedname>
+        <param>
+          <type>RocksDBWrapper *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1_hypertable_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Create or open a hypertable. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">db</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="76" column="14" bodyfile="src/timeseries/hypertable.cpp" bodystart="24" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a1ef098219c7b8b947748f33f3072fe53" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Hypertable::~Hypertable</definition>
+        <argsstring>()</argsstring>
+        <name>~Hypertable</name>
+        <qualifiedname>themis::Hypertable::~Hypertable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="77" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a067a0d90c7f08672b547fe9cd8cb8c22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Hypertable::Hypertable</definition>
+        <argsstring>(const Hypertable &amp;)=delete</argsstring>
+        <name>Hypertable</name>
+        <qualifiedname>themis::Hypertable::Hypertable</qualifiedname>
+        <param>
+          <type>const Hypertable &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="80" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a1b3a0b3b87e728a307ff0170ba7a4e47" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_hypertable_1a16add1127d798d4fb9cd0d78746bf035" kindref="member">Hypertable</ref> &amp;</type>
+        <definition>Hypertable &amp; themis::Hypertable::operator=</definition>
+        <argsstring>(const Hypertable &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::Hypertable::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_hypertable_1a16add1127d798d4fb9cd0d78746bf035" kindref="member">Hypertable</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="81" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a7ea4ca6d3f267501755d2f53d9170d6c" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Hypertable::Hypertable</definition>
+        <argsstring>(Hypertable &amp;&amp;) noexcept=default</argsstring>
+        <name>Hypertable</name>
+        <qualifiedname>themis::Hypertable::Hypertable</qualifiedname>
+        <param>
+          <type>Hypertable &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="82" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1ae1499388b82521305ecfb2b0938e1613" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_hypertable_1a16add1127d798d4fb9cd0d78746bf035" kindref="member">Hypertable</ref> &amp;</type>
+        <definition>Hypertable &amp; themis::Hypertable::operator=</definition>
+        <argsstring>(Hypertable &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::Hypertable::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_hypertable_1a16add1127d798d4fb9cd0d78746bf035" kindref="member">Hypertable</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="83" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a44b545804d33991a6fe7b5dd60ae34e7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Hypertable::insert</definition>
+        <argsstring>(int64_t timestamp, const std::string &amp;data)</argsstring>
+        <name>insert</name>
+        <qualifiedname>themis::Hypertable::insert</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Insert time-series data point. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Insert.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Unix timestamp (seconds or milliseconds) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON data to store </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if successful</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: getOrCreateChunk(), fetch_add(), buildKey(), value(), begin(), end(), put(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="92" column="10" bodyfile="src/timeseries/hypertable.cpp" bodystart="97" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1afce79885813fea88b7a907b878ad8c2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Hypertable::insertBatch</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; int64_t, std::string &gt; &gt; &amp;batch)</argsstring>
+        <name>insertBatch</name>
+        <qualifiedname>themis::Hypertable::insertBatch</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; int64_t, std::string &gt; &gt; &amp;</type>
+          <declname>batch</declname>
+        </param>
+        <briefdescription>
+<para>Batch insert for high throughput. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="97" column="10" bodyfile="src/timeseries/hypertable.cpp" bodystart="121" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1aab8be7f6ddba6183b7b6f23f8365f4d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; int64_t, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; int64_t, std::string &gt; &gt; themis::Hypertable::query</definition>
+        <argsstring>(int64_t start_time, int64_t end_time)</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::Hypertable::query</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_time</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_time</declname>
+        </param>
+        <briefdescription>
+<para>Query time range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>start_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start timestamp (inclusive) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>end_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End timestamp (exclusive) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Vector of (timestamp, data) pairs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Parse timestamp from key <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Data. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="106" column="17" bodyfile="src/timeseries/hypertable.cpp" bodystart="145" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1affdc357c41109319b78426c070f448b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hypertable_1_1_chunk_health" kindref="compound">ChunkHealth</ref> &gt;</type>
+        <definition>std::vector&lt; Hypertable::ChunkHealth &gt; themis::Hypertable::getChunkHealth</definition>
+        <argsstring>()</argsstring>
+        <name>getChunkHealth</name>
+        <qualifiedname>themis::Hypertable::getChunkHealth</qualifiedname>
+        <briefdescription>
+<para>Get health and lifecycle status for all chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Chunk Health.</para>
+<para>Returns a health report for each tracked chunk, including status (Active / Frozen / Compressible / Compressed / Expired) and diagnostic messages. <simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1_hypertable_1aa27289dce44a28827916a2673e7c53db" kindref="member">listChunks()</ref>, push_back(), THEMIS_INFO(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="141" column="17" bodyfile="src/timeseries/hypertable.cpp" bodystart="213" bodyend="256"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1aa27289dce44a28827916a2673e7c53db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_hypertable_1_1_chunk_info" kindref="compound">ChunkInfo</ref> &gt;</type>
+        <definition>std::vector&lt; Hypertable::ChunkInfo &gt; themis::Hypertable::listChunks</definition>
+        <argsstring>()</argsstring>
+        <name>listChunks</name>
+        <qualifiedname>themis::Hypertable::listChunks</qualifiedname>
+        <briefdescription>
+<para>Get list of chunks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>List Chunks.</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_INFO(), listColumnFamilies(), rfind(), parseChunkTimeRange(), THEMIS_WARN(), push_back(), std::move(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="147" column="17" bodyfile="src/timeseries/hypertable.cpp" bodystart="281" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a9983055ed9484f11cd062eed56b65a1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::Hypertable::compressOldChunks</definition>
+        <argsstring>()</argsstring>
+        <name>compressOldChunks</name>
+        <qualifiedname>themis::Hypertable::compressOldChunks</qualifiedname>
+        <briefdescription>
+<para>Compress old chunks (&gt; 7 days) manually. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress Old Chunks.</para>
+<para><simplesect kind="return"><para>Number of chunks compressed</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1_hypertable_1aa27289dce44a28827916a2673e7c53db" kindref="member">listChunks()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="154" column="14" bodyfile="src/timeseries/hypertable.cpp" bodystart="329" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a92561c4bb524c30dc8965e9218e8f08e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::Hypertable::dropExpiredChunks</definition>
+        <argsstring>()</argsstring>
+        <name>dropExpiredChunks</name>
+        <qualifiedname>themis::Hypertable::dropExpiredChunks</qualifiedname>
+        <briefdescription>
+<para>Drop expired chunks based on retention policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Drop Expired Chunks.</para>
+<para><simplesect kind="return"><para>Number of chunks dropped</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1_hypertable_1aa27289dce44a28827916a2673e7c53db" kindref="member">listChunks()</ref>, THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="161" column="14" bodyfile="src/timeseries/hypertable.cpp" bodystart="358" bodyend="381"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a8a6fce80b1d1dbe1d9c62c5af3d66f42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_hypertable_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Hypertable::Stats themis::Hypertable::getStats</definition>
+        <argsstring>()</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::Hypertable::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_hypertable_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), time_since_epoch(), count(), <ref refid="classthemis_1_1_hypertable_1aa27289dce44a28827916a2673e7c53db" kindref="member">listChunks()</ref>, size(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="180" column="11" bodyfile="src/timeseries/hypertable.cpp" bodystart="388" bodyend="426"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a62f5a84bba2a00cd039bf981d204bed8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_hypertable_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::Hypertable::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::Hypertable::getConfig</qualifiedname>
+        <briefdescription>
+<para>Get configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="185" column="18" bodyfile="include/timeseries/hypertable.h" bodystart="185" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a611a78f129245bf319135e4b23ab9c89" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::Hypertable::getChunkName</definition>
+        <argsstring>(int64_t timestamp)</argsstring>
+        <name>getChunkName</name>
+        <qualifiedname>themis::Hypertable::getChunkName</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Get chunk name for timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Chunk Name.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="196" column="17" bodyfile="src/timeseries/hypertable.cpp" bodystart="43" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a5faa80a252a90ae54892ee9f633fabd2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle * themis::Hypertable::getOrCreateChunk</definition>
+        <argsstring>(int64_t timestamp)</argsstring>
+        <name>getOrCreateChunk</name>
+        <qualifiedname>themis::Hypertable::getOrCreateChunk</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp</declname>
+        </param>
+        <briefdescription>
+<para>Get or create chunk for timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Or Create Chunk.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: getChunkName(), getOrCreateColumnFamily(), THEMIS_DEBUG(), THEMIS_ERROR(), error(), message(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="203" column="33" bodyfile="src/timeseries/hypertable.cpp" bodystart="59" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a3996e97fad143ffa1f82e3dfc445d54d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; int64_t, int64_t &gt;</type>
+        <definition>std::pair&lt; int64_t, int64_t &gt; themis::Hypertable::parseChunkTimeRange</definition>
+        <argsstring>(const std::string &amp;chunk_name)</argsstring>
+        <name>parseChunkTimeRange</name>
+        <qualifiedname>themis::Hypertable::parseChunkTimeRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>chunk_name</declname>
+        </param>
+        <briefdescription>
+<para>Parse chunk name to get time range. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="208" column="15" bodyfile="src/timeseries/hypertable.cpp" bodystart="258" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_hypertable_1a5f4b4f2bdcad2f1fa0a513ff1584aaef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::Hypertable::buildKey</definition>
+        <argsstring>(int64_t timestamp, uint64_t sequence_id)</argsstring>
+        <name>buildKey</name>
+        <qualifiedname>themis::Hypertable::buildKey</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>timestamp</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence_id</declname>
+        </param>
+        <briefdescription>
+<para>Build key for time-series entry. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Build Key.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">timestamp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the sequence. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::setfill(), std::setw(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/hypertable.h" line="216" column="17" bodyfile="src/timeseries/hypertable.cpp" bodystart="81" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="classthemis_1_1_hypertable" kindref="compound">Hypertable</ref> implementation for TimescaleDB-compatible time-series storage. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>v1.2.0 Feature: Uses RocksDB Column Families for automatic partitioning with TTL support for data retention policies.</para>
+<para>Architecture:<itemizedlist>
+<listitem><para>1 Chunk = 1 RocksDB Column Family (CF)</para>
+</listitem><listitem><para>Default: 1 Chunk per Day (configurable)</para>
+</listitem><listitem><para>Automatic TTL cleanup via RocksDB (v1.1.0 feature)</para>
+</listitem><listitem><para>Time-based partitioning for efficient queries</para>
+</listitem></itemizedlist>
+</para>
+<para>Sources:<itemizedlist>
+<listitem><para>Concept inspired by: TimescaleDB Hypertables</para>
+</listitem><listitem><para>Project: TimescaleDB - <ulink url="https://github.com/timescale/timescaledb">https://github.com/timescale/timescaledb</ulink></para>
+</listitem><listitem><para>License: Timescale License (Apache 2.0 compatible for Community Edition)</para>
+</listitem><listitem><para>Paper: Freedman, A., et al. (2017) &quot;TimescaleDB: An Open-Source Time-Series SQL Database&quot;</para>
+</listitem><listitem><para>ThemisDB Implementation: Uses RocksDB Column Families instead of PostgreSQL partitions, custom chunk management, and integration with ThemisDB&apos;s MVCC transaction system </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/timeseries/hypertable.h" line="49" column="1" bodyfile="include/timeseries/hypertable.h" bodystart="49" bodyend="217"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_hypertable_1a5f4b4f2bdcad2f1fa0a513ff1584aaef" prot="private" virt="non-virtual"><scope>themis::Hypertable</scope><name>buildKey</name></member>
+      <member refid="classthemis_1_1_hypertable_1a2a568f9df2679090ad06892322a7e387" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>ChunkStatus</name></member>
+      <member refid="classthemis_1_1_hypertable_1a9983055ed9484f11cd062eed56b65a1e" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>compressOldChunks</name></member>
+      <member refid="classthemis_1_1_hypertable_1a77c292f287779c210df0aa086d29467c" prot="private" virt="non-virtual"><scope>themis::Hypertable</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_hypertable_1adcf90aae539a8009ca74b8501a4c4142" prot="private" virt="non-virtual"><scope>themis::Hypertable</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_hypertable_1a92561c4bb524c30dc8965e9218e8f08e" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>dropExpiredChunks</name></member>
+      <member refid="classthemis_1_1_hypertable_1affdc357c41109319b78426c070f448b3" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>getChunkHealth</name></member>
+      <member refid="classthemis_1_1_hypertable_1a611a78f129245bf319135e4b23ab9c89" prot="private" virt="non-virtual"><scope>themis::Hypertable</scope><name>getChunkName</name></member>
+      <member refid="classthemis_1_1_hypertable_1a62f5a84bba2a00cd039bf981d204bed8" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_hypertable_1a5faa80a252a90ae54892ee9f633fabd2" prot="private" virt="non-virtual"><scope>themis::Hypertable</scope><name>getOrCreateChunk</name></member>
+      <member refid="classthemis_1_1_hypertable_1a8a6fce80b1d1dbe1d9c62c5af3d66f42" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_hypertable_1a16add1127d798d4fb9cd0d78746bf035" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>Hypertable</name></member>
+      <member refid="classthemis_1_1_hypertable_1a067a0d90c7f08672b547fe9cd8cb8c22" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>Hypertable</name></member>
+      <member refid="classthemis_1_1_hypertable_1a7ea4ca6d3f267501755d2f53d9170d6c" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>Hypertable</name></member>
+      <member refid="classthemis_1_1_hypertable_1a44b545804d33991a6fe7b5dd60ae34e7" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>insert</name></member>
+      <member refid="classthemis_1_1_hypertable_1afce79885813fea88b7a907b878ad8c2a" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>insertBatch</name></member>
+      <member refid="classthemis_1_1_hypertable_1aa27289dce44a28827916a2673e7c53db" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>listChunks</name></member>
+      <member refid="classthemis_1_1_hypertable_1a1b3a0b3b87e728a307ff0170ba7a4e47" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_hypertable_1ae1499388b82521305ecfb2b0938e1613" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_hypertable_1a3996e97fad143ffa1f82e3dfc445d54d" prot="private" virt="non-virtual"><scope>themis::Hypertable</scope><name>parseChunkTimeRange</name></member>
+      <member refid="classthemis_1_1_hypertable_1aab8be7f6ddba6183b7b6f23f8365f4d0" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>query</name></member>
+      <member refid="classthemis_1_1_hypertable_1a1ef098219c7b8b947748f33f3072fe53" prot="public" virt="non-virtual"><scope>themis::Hypertable</scope><name>~Hypertable</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

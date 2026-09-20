@@ -1,0 +1,619 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gpu__training__loop_8h" kind="file" language="C++">
+    <compoundname>gpu_training_loop.h</compoundname>
+    <includes refid="gpu__lora__layers_8h" local="yes">llm/lora_framework/gpu_lora_layers.h</includes>
+    <includes refid="gpu__data__loader_8h" local="yes">llm/lora_framework/gpu_data_loader.h</includes>
+    <includes refid="mixed__precision_8h" local="yes">llm/lora_framework/mixed_precision.h</includes>
+    <includes refid="multi__gpu__lora__layer_8h" local="yes">llm/lora_framework/multi_gpu_lora_layer.h</includes>
+    <includes refid="vram__allocator_8h" local="yes">llm/lora_framework/vram_allocator.h</includes>
+    <includes refid="gpu__embedding__layer_8h" local="yes">llm/lora_framework/gpu_embedding_layer.h</includes>
+    <includes refid="adaptive__batcher_8h" local="yes">llm/lora_framework/adaptive_batcher.h</includes>
+    <includes refid="gpu__utilization__monitor_8h" local="yes">llm/lora_framework/gpu_utilization_monitor.h</includes>
+    <includes refid="gradient__checkpointing_8h" local="yes">llm/lora_framework/gradient_checkpointing.h</includes>
+    <includes refid="gpu__memory__manager_8h" local="yes">llm/gpu_memory_manager.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">atomic</includes>
+    <includedby refid="gpu__training__loop_8cpp" local="yes">src/llm/lora_framework/gpu_training_loop.cpp</includedby>
+    <incdepgraph>
+      <node id="35">
+        <label>llm/gpu_memory_manager.h</label>
+        <link refid="gpu__memory__manager_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>llm/lora_framework/adaptive_batcher.h</label>
+        <link refid="adaptive__batcher_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>llm/lora_framework/custom_allreduce.h</label>
+        <link refid="custom__allreduce_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>llm/lora_framework/data_loader.h</label>
+        <link refid="data__loader_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>llm/lora_framework/gpu_data_loader.h</label>
+        <link refid="gpu__data__loader_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>llm/lora_framework/gpu_embedding_layer.h</label>
+        <link refid="gpu__embedding__layer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>llm/lora_framework/gpu_lora_layers.h</label>
+        <link refid="gpu__lora__layers_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>llm/lora_framework/gpu_memory.h</label>
+        <link refid="gpu__memory_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>llm/lora_framework/gpu_tensor.h</label>
+        <link refid="gpu__tensor_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>llm/lora_framework/gpu_utilization_monitor.h</label>
+        <link refid="gpu__utilization__monitor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>llm/lora_framework/gradient_checkpointing.h</label>
+        <link refid="gradient__checkpointing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>lora_config.h</label>
+        <link refid="lora__config_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>lora_layers.h</label>
+        <link refid="lora__layers_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>llm/lora_framework/mixed_precision.h</label>
+        <link refid="mixed__precision_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>llm/lora_framework/multi_gpu.h</label>
+        <link refid="multi__gpu_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>llm/lora_framework/multi_gpu_lora_layer.h</label>
+        <link refid="multi__gpu__lora__layer_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>llm/lora_framework/nccl_backend.h</label>
+        <link refid="nccl__backend_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>llm/lora_framework/rccl_backend.h</label>
+        <link refid="rccl__backend_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>llm/lora_framework/tensor_dtype.h</label>
+        <link refid="tensor__dtype_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>llm/lora_framework/vram_allocator.h</label>
+        <link refid="vram__allocator_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>acceleration/compute_backend.h</label>
+      </node>
+      <node id="37">
+        <label>algorithm</label>
+      </node>
+      <node id="36">
+        <label>atomic</label>
+      </node>
+      <node id="20">
+        <label>chrono</label>
+      </node>
+      <node id="25">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>cstring</label>
+      </node>
+      <node id="16">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="21">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="22">
+        <label>optional</label>
+      </node>
+      <node id="24">
+        <label>queue</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>thread</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="40">
+        <label>unordered_set</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/lora_framework/gpu_training_loop.h</label>
+        <link refid="gpu__training__loop_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" prot="public">themis::llm::lora::GPUTrainingMetrics</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config" prot="public">themis::llm::lora::GPUTrainingConfig</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop" prot="public">themis::llm::lora::GPUTrainingLoop</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1lora">themis::llm::lora</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__lora__layers_8h" kindref="compound">llm/lora_framework/gpu_lora_layers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__data__loader_8h" kindref="compound">llm/lora_framework/gpu_data_loader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="mixed__precision_8h" kindref="compound">llm/lora_framework/mixed_precision.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="multi__gpu__lora__layer_8h" kindref="compound">llm/lora_framework/multi_gpu_lora_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vram__allocator_8h" kindref="compound">llm/lora_framework/vram_allocator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__embedding__layer_8h" kindref="compound">llm/lora_framework/gpu_embedding_layer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="adaptive__batcher_8h" kindref="compound">llm/lora_framework/adaptive_batcher.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__utilization__monitor_8h" kindref="compound">llm/lora_framework/gpu_utilization_monitor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gradient__checkpointing_8h" kindref="compound">llm/lora_framework/gradient_checkpointing.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__memory__manager_8h" kindref="compound">llm/gpu_memory_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora" kindref="compound">lora</ref><sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter" kindref="compound">BaseModelAdapter</ref>;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" kindref="compound">GPUTrainingMetrics</ref><sp/>{</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ac3b03478c1ddb3e70aedacdbe6166af4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ac3b03478c1ddb3e70aedacdbe6166af4" kindref="member">~GPUTrainingMetrics</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a854cb69dd6d9b162815cfdd0db7833ee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a854cb69dd6d9b162815cfdd0db7833ee" kindref="member">current_epoch</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a4ea751b4596ebd4461d3e8d6cff2fc12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a4ea751b4596ebd4461d3e8d6cff2fc12" kindref="member">total_epochs</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a3819d4785cf8bc265292dcb83d946616" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a3819d4785cf8bc265292dcb83d946616" kindref="member">current_step</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ade8f0dc2e2e3ca656e42351666d33639" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ade8f0dc2e2e3ca656e42351666d33639" kindref="member">total_steps</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a1d357c2e5206cfb0c7d8e5f1322e0d98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a1d357c2e5206cfb0c7d8e5f1322e0d98" kindref="member">current_loss</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1affbc3e5052e6beb25c8d5a19ec5ff43e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1affbc3e5052e6beb25c8d5a19ec5ff43e" kindref="member">learning_rate</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a584ed589bbbbf06c1279858f1323a723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a584ed589bbbbf06c1279858f1323a723" kindref="member">progress</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a8a23266c8546abe905d33841c3fc1b07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a8a23266c8546abe905d33841c3fc1b07" kindref="member">gpu_memory_used</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ab11bf44bb120533b0fbffa21a85c32d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1ab11bf44bb120533b0fbffa21a85c32d3" kindref="member">gpu_memory_available</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1aa621bd7e9c84bc5778985a13332ba366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1aa621bd7e9c84bc5778985a13332ba366" kindref="member">gpu_utilization</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a2cf09af1f0728bde6f02c60b5db62e68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics_1a2cf09af1f0728bde6f02c60b5db62e68" kindref="member">status</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;idle&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1llm_1_1lora_1a362ae9a83ecbd526db1702367e96f7ba" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1lora_1a362ae9a83ecbd526db1702367e96f7ba" kindref="member">GPUTrainingCallback</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" kindref="compound">GPUTrainingMetrics</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config" kindref="compound">GPUTrainingConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1acf49111db4086bcf83e74a2ba9d10ce4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1acf49111db4086bcf83e74a2ba9d10ce4" kindref="member">~GPUTrainingConfig</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Basic<sp/>training<sp/>parameters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a282a5acbbf76a992e5b7aa3198f4ae0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a282a5acbbf76a992e5b7aa3198f4ae0f" kindref="member">num_epochs</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1ad9682b95f9c397e7b071275d4e2cede5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1ad9682b95f9c397e7b071275d4e2cede5" kindref="member">learning_rate</ref><sp/>=<sp/>1e-4f;</highlight></codeline>
+<codeline lineno="65" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1aa7f46445522a31ef251d60f99e368173" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1aa7f46445522a31ef251d60f99e368173" kindref="member">momentum</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="66" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a7c36192298540c80d36f914d8ff2460f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a7c36192298540c80d36f914d8ff2460f" kindref="member">weight_decay</ref><sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Device<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a10cb2f1190e1f2446875afb190cb38f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device" kindref="compound">Device</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a10cb2f1190e1f2446875afb190cb38f5" kindref="member">device</ref><sp/>=<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_device_1a2b36573071ecbef41d06d30b2436928b" kindref="member">Device::cuda</ref>();</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1adc9d4202d07dcfdb1860b76bac76be50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1adc9d4202d07dcfdb1860b76bac76be50" kindref="member">use_mixed_precision</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a23d4f9c7ae7fbdbeb3709edc403d3286" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a23d4f9c7ae7fbdbeb3709edc403d3286" kindref="member">max_vram_bytes</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>0<sp/>=<sp/>auto-detect</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a2ebae07220fcb54ea969f14a0007d11a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a2ebae07220fcb54ea969f14a0007d11a" kindref="member">enable_gradient_checkpointing</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a10e78b292bdaa53333628b5a4437ee06" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51" kindref="member">CheckpointStrategy</ref><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a10e78b292bdaa53333628b5a4437ee06" kindref="member">checkpoint_strategy</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a7de3b747989b4416c5ab881a8bcc4e51ac79ccdb9e2ea037575fb8d91a53814aa" kindref="member">CheckpointStrategy::SQRT_N</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a358707f9f5e2626e87ec5775961f86a6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a358707f9f5e2626e87ec5775961f86a6" kindref="member">checkpoint_frequency</ref><sp/>=<sp/>4;<sp/><sp/></highlight><highlight class="comment">//<sp/>For<sp/>UNIFORM<sp/>strategy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Multi-GPU</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1abc0568cd071c6c193f6cb4615857dd66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1abc0568cd071c6c193f6cb4615857dd66" kindref="member">use_multi_gpu</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a099bc4cc04d62ce25bd5ecafe9f2b9d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int&gt;<sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a099bc4cc04d62ce25bd5ecafe9f2b9d1" kindref="member">gpu_ids</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Optimization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a54ae261b62539e17d6d35ced55655974" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a54ae261b62539e17d6d35ced55655974" kindref="member">use_fused_kernels</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1abcae37fb405678f698451e26881d208a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1abcae37fb405678f698451e26881d208a" kindref="member">gradient_accumulation_steps</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dynamic<sp/>batch<sp/>size<sp/>adaptation<sp/>(NEW)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a1a3b45e92a756000e573f957e704b8bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a1a3b45e92a756000e573f957e704b8bb" kindref="member">enable_adaptive_batching</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1ac17cacb2ffdb8922b223583403f7ca42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1ac17cacb2ffdb8922b223583403f7ca42" kindref="member">min_batch_size</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a876c458a2e2415629b2ef8bd9b535d96" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config_1a876c458a2e2415629b2ef8bd9b535d96" kindref="member">max_batch_size</ref><sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref><sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config" kindref="compound">GPUTrainingConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a40db6464bc94eb5d953e07965aa537ca" kindref="member">~GPUTrainingLoop</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a971d7f8542259adc0839ab0119fcd1a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a971d7f8542259adc0839ab0119fcd1a7" kindref="member">GPUTrainingLoop</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aec2b1f7be2e82986eae4ea3f38d9df64" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aec2b1f7be2e82986eae4ea3f38d9df64" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1acb7ccb088923105aa19966ff3f770257" kindref="member">GPUTrainingLoop</ref>&amp;&amp;)<sp/>noexcept;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a4b6e3c7690a3a1dfa900a640e3129340" kindref="member">setDataLoader</ref>(std::unique_ptr&lt;<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_data_loader" kindref="compound">GPUDataLoader</ref>&gt;<sp/>loader);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a06e2be9a60e082b981ce9b8348b87e69" kindref="member">addLayer</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_lo_r_a_layer" kindref="compound">GPULoRALayer</ref>*<sp/>layer);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a1be8d4eb500127fe199640b0603281fe" kindref="member">setMultiGPULayer</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref>*<sp/>layer);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1afc4b7bf635c74c824909bbc61f78774f" kindref="member">setMixedPrecisionTrainer</ref>(<ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref>*<sp/>trainer);</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1aad362235a65e419406471f4fd69e1425" kindref="member">registerCallback</ref>(<ref refid="namespacethemis_1_1llm_1_1lora_1a362ae9a83ecbd526db1702367e96f7ba" kindref="member">GPUTrainingCallback</ref><sp/>callback);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1ab7af8faab3a55530d8325e3a490ee5f1" kindref="member">train</ref>();</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a971d6a85f5f671a93b0826390adcd2ab" kindref="member">stop</ref>();</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a58f3e12170719cafe8005dcb3ee26cf3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a58f3e12170719cafe8005dcb3ee26cf3" kindref="member">isTraining</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>is_training_.load();<sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_metrics" kindref="compound">GPUTrainingMetrics</ref><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1abb6c7403002b51cef1d541855363aa2b" kindref="member">getMetrics</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a3e3e2c2538c12ca42cb88eb010d81c80" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1a3e3e2c2538c12ca42cb88eb010d81c80" kindref="member">getFinalLoss</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>final_loss_;<sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_g_p_u_training_loop_1adada13ec3bd6803ef9d8bb2e84a99964" kindref="member">setBaseModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter" kindref="compound">BaseModelAdapter</ref>*<sp/>base_model);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1lora_1_1_g_p_u_training_config" kindref="compound">GPUTrainingConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Data<sp/>and<sp/>model</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GPUDataLoader&gt;<sp/>data_loader_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;GPULoRALayer*&gt;<sp/>layers_;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_multi_g_p_u_lo_r_a_layer" kindref="compound">MultiGPULoRALayer</ref>*<sp/>multi_gpu_layer_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Base<sp/>model<sp/>and<sp/>embeddings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_base_model_adapter" kindref="compound">BaseModelAdapter</ref>*<sp/>base_model_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GPUEmbeddingLayer&gt;<sp/>gpu_embedding_layer_;</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Training<sp/>components</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GPUSGDOptimizer&gt;<sp/>optimizer_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1lora_1_1_mixed_precision_trainer" kindref="compound">MixedPrecisionTrainer</ref>*<sp/>mixed_precision_trainer_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GradientCheckpointer&gt;<sp/>checkpointer_;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Memory<sp/>management</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;VRAMAllocator&gt;<sp/>vram_allocator_;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_p_u_memory_manager" kindref="compound">::themis::llm::GPUMemoryManager</ref>*<sp/>gpu_memory_manager_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dynamic<sp/>batch<sp/>size<sp/>adaptation<sp/>(NEW)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;AdaptiveBatcher&gt;<sp/>adaptive_batcher_;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;GPUUtilizationMonitor&gt;<sp/>gpu_monitor_;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>State</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>is_training_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop_requested_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTrainingMetrics<sp/>current_metrics_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a362ae9a83ecbd526db1702367e96f7ba" kindref="member">GPUTrainingCallback</ref><sp/>callback_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>final_loss_<sp/>=<sp/>0.0f;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Helper<sp/>methods</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeOptimizer();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeMemoryManagement();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeAdaptiveBatching();</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>initializeCheckpointing();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>trainEpoch(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>epoch);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>trainStep(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUBatch&amp;<sp/>batch);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>updateMetrics(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>epoch,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>step,<sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>loss);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>checkMemoryUsage();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal">GPUTensor<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a5b1746b747c8c471961f0f45510a1d8d" kindref="member">createEmbeddingsOnGPU</ref>(</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUTensor&amp;<sp/>token_ids,</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>hidden_dim,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Device&amp;<sp/>device,</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUEmbeddingLayer*<sp/>embedding_layer<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a02cf4b4c84fd51206013944bd675030a" kindref="member">computeMSELossGPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUTensor&amp;<sp/>predictions,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUTensor&amp;<sp/>targets);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal">GPUTensor<sp/><ref refid="namespacethemis_1_1llm_1_1lora_1a00d23b60942bd7711c277d27650cb4e0" kindref="member">computeMSEGradientGPU</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUTensor&amp;<sp/>predictions,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUTensor&amp;<sp/>targets);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1lora_1aa40f21c960c3f9e089fc89f2636e3b3e" kindref="member">computeFusedMSELossGradientGPU</ref>(</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUTensor&amp;<sp/>predictions,<sp/></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>GPUTensor&amp;<sp/>targets,</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>GPUTensor&amp;<sp/>grad_output</highlight></codeline>
+<codeline lineno="274"><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>lora</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/lora_framework/gpu_training_loop.h"/>
+  </compounddef>
+</doxygen>

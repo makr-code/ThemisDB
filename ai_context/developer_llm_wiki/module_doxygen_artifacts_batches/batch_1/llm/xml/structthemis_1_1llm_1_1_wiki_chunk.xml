@@ -1,0 +1,163 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_wiki_chunk" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::WikiChunk</compoundname>
+    <includes refid="wiki__index__store_8h" local="no">wiki_index_store.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1aaf13407f7f10e1f0c9f8905b54594935" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiChunk::chunk_id</definition>
+        <argsstring></argsstring>
+        <name>chunk_id</name>
+        <qualifiedname>themis::llm::WikiChunk::chunk_id</qualifiedname>
+        <briefdescription>
+<para>Stable deterministic ID (FNV-64 hex, 12 chars + &quot;-&quot; + seq). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="86" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1add0b7d7133bc42191dc38bd7f4396bb3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiChunk::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::llm::WikiChunk::doc_id</qualifiedname>
+        <briefdescription>
+<para>Source document identifier (normalised file path). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="87" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1aeb9b0d261ef303964bb302f2a2925cb8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiChunk::section_title</definition>
+        <argsstring></argsstring>
+        <name>section_title</name>
+        <qualifiedname>themis::llm::WikiChunk::section_title</qualifiedname>
+        <briefdescription>
+<para>Heading of the containing section (&quot;&quot; for preamble). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="88" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1a4f353a31ad7c6ecf34efd690d34e41c8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiChunk::line_start</definition>
+        <argsstring></argsstring>
+        <name>line_start</name>
+        <qualifiedname>themis::llm::WikiChunk::line_start</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>1-based inclusive start line within the source file </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="89" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1a56576c924a0f0e8950bfb633e813fdfb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::WikiChunk::line_end</definition>
+        <argsstring></argsstring>
+        <name>line_end</name>
+        <qualifiedname>themis::llm::WikiChunk::line_end</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>1-based inclusive end line within the source file </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="90" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1aca92da869651544ea836ccfc8a0b6907" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiChunk::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::llm::WikiChunk::text</qualifiedname>
+        <briefdescription>
+<para>Raw chunk text. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="91" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1a056a13f578d47c2f24812ec497c771f4" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::WikiChunk::embedding</definition>
+        <argsstring></argsstring>
+        <name>embedding</name>
+        <qualifiedname>themis::llm::WikiChunk::embedding</qualifiedname>
+        <briefdescription>
+<para>Dense embedding (empty until indexed by <ref refid="classthemis_1_1llm_1_1_wiki_index_store" kindref="compound">WikiIndexStore</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="92" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1a7bf12315dee2da8b3a6da9d1df6221e9" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::llm::WikiChunk::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::llm::WikiChunk::score</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+<para>Retrieval score populated by query results. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="93" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_wiki_chunk_1a7219020a8c250c001538f8461486bcc0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::WikiChunk::source_path</definition>
+        <argsstring></argsstring>
+        <name>source_path</name>
+        <qualifiedname>themis::llm::WikiChunk::source_path</qualifiedname>
+        <briefdescription>
+<para>Absolute or relative path of the originating file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/wiki_index_store.h" line="94" column="17" bodyfile="include/llm/wiki_index_store.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/wiki_index_store.h" line="85" column="1" bodyfile="include/llm/wiki_index_store.h" bodystart="85" bodyend="95"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1aaf13407f7f10e1f0c9f8905b54594935" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>chunk_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1add0b7d7133bc42191dc38bd7f4396bb3" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1a056a13f578d47c2f24812ec497c771f4" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>embedding</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1a56576c924a0f0e8950bfb633e813fdfb" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>line_end</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1a4f353a31ad7c6ecf34efd690d34e41c8" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>line_start</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1a7bf12315dee2da8b3a6da9d1df6221e9" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>score</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1aeb9b0d261ef303964bb302f2a2925cb8" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>section_title</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1a7219020a8c250c001538f8461486bcc0" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>source_path</name></member>
+      <member refid="structthemis_1_1llm_1_1_wiki_chunk_1aca92da869651544ea836ccfc8a0b6907" prot="public" virt="non-virtual"><scope>themis::llm::WikiChunk</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

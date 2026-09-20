@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_validation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::ValidationResult</compoundname>
+    <includes refid="input__validator_8hpp" local="no">input_validator.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_validation_result_1a2d6c535a2b35716971d979627b5251a2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::security::ValidationResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::security::ValidationResult::is_valid</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="54" column="8" bodyfile="include/security/input_validator.hpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_validation_result_1a210f7ace6b1ed0806bd163451da55211" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ValidationResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::security::ValidationResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="55" column="15" bodyfile="include/security/input_validator.hpp" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_validation_result_1ad5e842f4f15183d559e7a3c9a0fbec5a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::security::ValidationResult::remediation_hint</definition>
+        <argsstring></argsstring>
+        <name>remediation_hint</name>
+        <qualifiedname>themis::security::ValidationResult::remediation_hint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="56" column="15" bodyfile="include/security/input_validator.hpp" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1security_1_1_validation_result_1ad86a62136f5cc97ff075273892051984" prot="public" static="no" const="yes" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::security::ValidationResult::operator bool</definition>
+        <argsstring>() const</argsstring>
+        <name>operator bool</name>
+        <qualifiedname>themis::security::ValidationResult::operator bool</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/input_validator.hpp" line="58" column="12" bodyfile="include/security/input_validator.hpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Input validation result with detailed error information. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/input_validator.hpp" line="53" column="1" bodyfile="include/security/input_validator.hpp" bodystart="53" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_validation_result_1a210f7ace6b1ed0806bd163451da55211" prot="public" virt="non-virtual"><scope>themis::security::ValidationResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1security_1_1_validation_result_1a2d6c535a2b35716971d979627b5251a2" prot="public" virt="non-virtual"><scope>themis::security::ValidationResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1security_1_1_validation_result_1ad86a62136f5cc97ff075273892051984" prot="public" virt="non-virtual"><scope>themis::security::ValidationResult</scope><name>operator bool</name></member>
+      <member refid="structthemis_1_1security_1_1_validation_result_1ad5e842f4f15183d559e7a3c9a0fbec5a" prot="public" virt="non-virtual"><scope>themis::security::ValidationResult</scope><name>remediation_hint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

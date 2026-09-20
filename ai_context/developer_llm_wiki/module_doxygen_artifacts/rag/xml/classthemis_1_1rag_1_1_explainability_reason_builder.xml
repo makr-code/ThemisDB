@@ -1,0 +1,365 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_explainability_reason_builder" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::ExplainabilityReasonBuilder</compoundname>
+    <includes refid="explainability__reason__builder_8h" local="no">explainability_reason_builder.h</includes>
+    <innerclass refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" prot="public">themis::rag::ExplainabilityReasonBuilder::CausalChain</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry" prot="public">themis::rag::ExplainabilityReasonBuilder::TemplateEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1rag_1_1_explainability_reason_builder_1a6b9832cb7bee59cb61f7d1ed8b82be65" prot="public" static="no">
+        <type>std::function&lt; std::string(const <ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref> &amp;)&gt;</type>
+        <definition>using themis::rag::ExplainabilityReasonBuilder::NlGeneratorFn = std::function&lt;std::string(const CausalChain&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>NlGeneratorFn</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::NlGeneratorFn</qualifiedname>
+        <briefdescription>
+<para>Type alias for an injected natural-language generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>When set via <ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1afedf85df281e6d81f8138a70a95d8dc7" kindref="member">setNlGeneratorFn()</ref>, <computeroutput><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a54d42c83ba132e607b5204e8b99b5cec" kindref="member">toNaturalLanguage()</ref></computeroutput> delegates to this function instead of the built-in template renderer. The fn receives a fully-populated <ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref> and must return a non-empty string synchronously. An empty return value falls back to the template renderer.</para>
+<para>Planned use: inject a LoRA-adapted prose generator (IMPL-A2 Loop-1). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="148" column="5" bodyfile="include/rag/explainability_reason_builder.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_explainability_reason_builder_1af469809bd603e949343ead18d039d939" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6b9832cb7bee59cb61f7d1ed8b82be65" kindref="member">NlGeneratorFn</ref></type>
+        <definition>NlGeneratorFn themis::rag::ExplainabilityReasonBuilder::nl_generator_fn_</definition>
+        <argsstring></argsstring>
+        <name>nl_generator_fn_</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::nl_generator_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="205" column="19" bodyfile="include/rag/explainability_reason_builder.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::ExplainabilityReasonBuilder::ExplainabilityReasonBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>ExplainabilityReasonBuilder</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::ExplainabilityReasonBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="127" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5e679f7615ffe90633d23097e831fd0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::ExplainabilityReasonBuilder::~ExplainabilityReasonBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ExplainabilityReasonBuilder</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::~ExplainabilityReasonBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="128" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1a956a60eb67d627c141a01db046cebd9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::ExplainabilityReasonBuilder::ExplainabilityReasonBuilder</definition>
+        <argsstring>(const ExplainabilityReasonBuilder &amp;)=default</argsstring>
+        <name>ExplainabilityReasonBuilder</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::ExplainabilityReasonBuilder</qualifiedname>
+        <param>
+          <type>const ExplainabilityReasonBuilder &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="130" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1a6e663cba725977701cfb19dbd69f5eea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref> &amp;</type>
+        <definition>ExplainabilityReasonBuilder &amp; themis::rag::ExplainabilityReasonBuilder::operator=</definition>
+        <argsstring>(const ExplainabilityReasonBuilder &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="131" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1a0e31a9a34716aff58f5ca0791f9cd135" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::ExplainabilityReasonBuilder::ExplainabilityReasonBuilder</definition>
+        <argsstring>(ExplainabilityReasonBuilder &amp;&amp;) noexcept=default</argsstring>
+        <name>ExplainabilityReasonBuilder</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::ExplainabilityReasonBuilder</qualifiedname>
+        <param>
+          <type>ExplainabilityReasonBuilder &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="132" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1a5f0942aacb9583ecfe4b451aa7a8cf5b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref> &amp;</type>
+        <definition>ExplainabilityReasonBuilder &amp; themis::rag::ExplainabilityReasonBuilder::operator=</definition>
+        <argsstring>(ExplainabilityReasonBuilder &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" kindref="member">ExplainabilityReasonBuilder</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="133" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1afedf85df281e6d81f8138a70a95d8dc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::ExplainabilityReasonBuilder::setNlGeneratorFn</definition>
+        <argsstring>(NlGeneratorFn fn)</argsstring>
+        <name>setNlGeneratorFn</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::setNlGeneratorFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6b9832cb7bee59cb61f7d1ed8b82be65" kindref="member">NlGeneratorFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Inject a natural-language generator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Nl Generator Fn.</para>
+<para>When <computeroutput>fn</computeroutput> is non-null, <computeroutput><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a54d42c83ba132e607b5204e8b99b5cec" kindref="member">toNaturalLanguage()</ref></computeroutput> calls it and returns its result. Pass an empty (default-constructed) function to revert to the built-in template renderer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Callable that converts a <ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref> to a NL string.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="159" column="10" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="201" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5b86add952fcd9e0fd790e7c6df1063" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref></type>
+        <definition>ExplainabilityReasonBuilder::CausalChain themis::rag::ExplainabilityReasonBuilder::build</definition>
+        <argsstring>(const AIDecisionRecord &amp;record) const</argsstring>
+        <name>build</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::build</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref> &amp;</type>
+          <declname>record</declname>
+        </param>
+        <briefdescription>
+<para>Build a causal explanation from an autonomous decision record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Selects the appropriate template from the built-in library, substitutes parameter values, and evaluates whether DBA action is required.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>record</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The autonomous decision to explain. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A fully-populated <ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref> (never empty). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="172" column="17" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="248" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1a54d42c83ba132e607b5204e8b99b5cec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::rag::ExplainabilityReasonBuilder::toNaturalLanguage</definition>
+        <argsstring>(const CausalChain &amp;chain) const</argsstring>
+        <name>toNaturalLanguage</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::toNaturalLanguage</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref> &amp;</type>
+          <declname>chain</declname>
+        </param>
+        <briefdescription>
+<para>Render a <ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref> as human-readable natural language. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Produces a paragraph of 50–500 words suitable for the DBA REST API or CLI output.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>chain</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A <ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref> produced by <ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5b86add952fcd9e0fd790e7c6df1063" kindref="member">build()</ref>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Multi-sentence English explanation. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="183" column="17" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="295" bodyend="329"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1afbb1f9dc940048f81c27b066f53e1da8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::rag::ExplainabilityReasonBuilder::enrichAuditor</definition>
+        <argsstring>(std::vector&lt; AIDecisionRecord &gt; &amp;records) const</argsstring>
+        <name>enrichAuditor</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::enrichAuditor</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref> &gt; &amp;</type>
+          <declname>records</declname>
+        </param>
+        <briefdescription>
+<para>Batch-enrich a vector of decision records with causal chain text. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For each record, calls <ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5b86add952fcd9e0fd790e7c6df1063" kindref="member">build()</ref> + <ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a54d42c83ba132e607b5204e8b99b5cec" kindref="member">toNaturalLanguage()</ref> and stores the result in <computeroutput>record.parameters["_explanation"]</computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>records</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>In/out vector of records to enrich. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of records successfully enriched. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="194" column="12" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="332" bodyend="342"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1ad905cb9e5b7288fed630ad28c29414a3" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::rag::ExplainabilityReasonBuilder::requiresDbaAction</definition>
+        <argsstring>(const AIDecisionRecord &amp;record)</argsstring>
+        <name>requiresDbaAction</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::requiresDbaAction</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref> &amp;</type>
+          <declname>record</declname>
+          <defname>rec</defname>
+        </param>
+        <briefdescription>
+<para>Evaluate whether DBA action is required for the given record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Requires Dba Action.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rec</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="208" column="17" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="222" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_explainability_reason_builder_1ac8c7288315787788e5a006ad12d0b5c6" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_template_entry" kindref="compound">TemplateEntry</ref> &amp;</type>
+        <definition>const ExplainabilityReasonBuilder::TemplateEntry &amp; themis::rag::ExplainabilityReasonBuilder::getTemplate</definition>
+        <argsstring>(const std::string &amp;decision_type)</argsstring>
+        <name>getTemplate</name>
+        <qualifiedname>themis::rag::ExplainabilityReasonBuilder::getTemplate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>decision_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/explainability_reason_builder.h" line="210" column="32" bodyfile="src/rag/explainability_reason_builder.cpp" bodystart="207" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Layer-9 LLM Optimization: causal explanation builder. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Every autonomous ThemisDB decision must be explainable to the DBA in natural language. <computeroutput><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder" kindref="compound">ExplainabilityReasonBuilder</ref></computeroutput> translates a lightweight <computeroutput><ref refid="structthemis_1_1rag_1_1_a_i_decision_record" kindref="compound">AIDecisionRecord</ref></computeroutput> into a structured <computeroutput><ref refid="structthemis_1_1rag_1_1_explainability_reason_builder_1_1_causal_chain" kindref="compound">CausalChain</ref></computeroutput> (signal → analysis → decision → confidence → impact → dba_action_required) using a per-type template library.</para>
+<para><heading level="3">Design goals</heading>
+</para>
+<para><itemizedlist>
+<listitem><para><bold>Template-based</bold> — no LLM call, deterministic output, zero latency.</para>
+</listitem><listitem><para><bold>100 % coverage</bold> — every known <computeroutput>decision_type</computeroutput> has a template; unknown types fall back to a generic template rather than crashing.</para>
+</listitem><listitem><para><bold>EU AI Act compliant</bold> — each explanation explicitly states whether DBA action is required and the expected impact.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para><computeroutput><ref refid="classthemis_1_1rag_1_1_explainability_reason_builder" kindref="compound">ExplainabilityReasonBuilder</ref></computeroutput> is stateless after construction and safe for concurrent use.</para>
+<para>// STUB/SIMULATION NOTE: // Purpose: Template-based fallback for NL generation when no LoRA-adapted // generator is injected via <ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1afedf85df281e6d81f8138a70a95d8dc7" kindref="member">setNlGeneratorFn()</ref>. // Activation: Always active when nl_generator_fn_ is null (default). // Replaced by the injected fn when <ref refid="classthemis_1_1rag_1_1_explainability_reason_builder_1afedf85df281e6d81f8138a70a95d8dc7" kindref="member">setNlGeneratorFn()</ref> is called. // Production Delta: Template text is deterministic; injected LoRA fn produces // context-sensitive prose with richer detail. // Removal Plan: Template path is retained as permanent fallback; // callers inject a real LoRA NL generator in IMPL-A2 Loop-1. </para>
+    </detaileddescription>
+    <location file="include/rag/explainability_reason_builder.h" line="92" column="1" bodyfile="include/rag/explainability_reason_builder.h" bodystart="92" bodyend="211"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5b86add952fcd9e0fd790e7c6df1063" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>build</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1afbb1f9dc940048f81c27b066f53e1da8" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>enrichAuditor</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a37841171e93b7011f5c5f6efb99ab4f3" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>ExplainabilityReasonBuilder</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a956a60eb67d627c141a01db046cebd9f" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>ExplainabilityReasonBuilder</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a0e31a9a34716aff58f5ca0791f9cd135" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>ExplainabilityReasonBuilder</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ac8c7288315787788e5a006ad12d0b5c6" prot="private" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>getTemplate</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1af469809bd603e949343ead18d039d939" prot="private" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>nl_generator_fn_</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6b9832cb7bee59cb61f7d1ed8b82be65" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>NlGeneratorFn</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a6e663cba725977701cfb19dbd69f5eea" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a5f0942aacb9583ecfe4b451aa7a8cf5b" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ad905cb9e5b7288fed630ad28c29414a3" prot="private" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>requiresDbaAction</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1afedf85df281e6d81f8138a70a95d8dc7" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>setNlGeneratorFn</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1a54d42c83ba132e607b5204e8b99b5cec" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>toNaturalLanguage</name></member>
+      <member refid="classthemis_1_1rag_1_1_explainability_reason_builder_1ac5e679f7615ffe90633d23097e831fd0" prot="public" virt="non-virtual"><scope>themis::rag::ExplainabilityReasonBuilder</scope><name>~ExplainabilityReasonBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

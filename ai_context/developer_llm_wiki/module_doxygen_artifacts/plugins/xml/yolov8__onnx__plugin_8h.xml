@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="yolov8__onnx__plugin_8h" kind="file" language="C++">
+    <compoundname>yolov8_onnx_plugin.h</compoundname>
+    <includes refid="image__analysis__interface_8h" local="yes">plugins/image_analysis_interface.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>plugins/image_analysis_interface.h</label>
+        <link refid="image__analysis__interface_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/plugins/yolov8_onnx_plugin.h</label>
+        <link refid="yolov8__onnx__plugin_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>mutex</label>
+      </node>
+      <node id="8">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin" prot="public">themis::plugins::image::YOLOv8OnnxPlugin</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins">themis::plugins</innernamespace>
+    <innernamespace refid="namespacethemis_1_1plugins_1_1image">themis::plugins::image</innernamespace>
+    <briefdescription>
+<para>YOLOv8 object detection plugin using ONNX Runtime. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements <ref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" kindref="compound">themis::plugins::image::IImageAnalysisBackend</ref> for bounding-box object detection via a YOLOv8-n/s/m/l/x ONNX model.</para>
+<sect1 id="yolov8__onnx__plugin_8h_1autotoc_md9_1s1"><sect2 id="yolov8__onnx__plugin_8h_1autotoc_md9">
+<title>Configuration keys (PluginConfig)</title><para><itemizedlist>
+<listitem><para><computeroutput>model_path</computeroutput> (string, required) – path to the YOLOv8 <computeroutput>.onnx</computeroutput> file.</para>
+</listitem><listitem><para><computeroutput>labels_path</computeroutput> (string, optional) – path to a COCO-style labels file (one label per line). Defaults to 80 COCO class names.</para>
+</listitem><listitem><para><computeroutput>input_width</computeroutput> (int, default: 640) – model input width in pixels.</para>
+</listitem><listitem><para><computeroutput>input_height</computeroutput> (int, default: 640) – model input height in pixels.</para>
+</listitem><listitem><para><computeroutput>confidence_threshold</computeroutput> (float, default: 0.25) – minimum object confidence.</para>
+</listitem><listitem><para><computeroutput>nms_iou_threshold</computeroutput> (float, default: 0.45) – IoU threshold for NMS.</para>
+</listitem><listitem><para><computeroutput>max_detections</computeroutput> (int, default: 100) – cap on returned detections.</para>
+</listitem><listitem><para><computeroutput>enable_mmap_loading</computeroutput> (bool, default: false) – memory-map model file.</para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+<sect1 id="yolov8__onnx__plugin_8h_1autotoc_md10_1s1"><sect2 id="yolov8__onnx__plugin_8h_1autotoc_md10">
+<title>Thread-Safety</title><para><computeroutput>detectObjects()</computeroutput> and <computeroutput>healthCheck()</computeroutput> are safe to call concurrently. <computeroutput>initialize()</computeroutput> / <computeroutput>shutdown()</computeroutput> / <computeroutput>reloadModel()</computeroutput> must not overlap.</para>
+</sect2></sect1>
+<sect1 id="yolov8__onnx__plugin_8h_1autotoc_md11_1s1"><sect2 id="yolov8__onnx__plugin_8h_1autotoc_md11">
+<title>Metrics (Prometheus counters exported via getStatistics())</title><para><itemizedlist>
+<listitem><para><computeroutput>yolov8_inference_total</computeroutput> – total inference calls</para>
+</listitem><listitem><para><computeroutput>yolov8_inference_errors</computeroutput> – failed inference calls</para>
+</listitem><listitem><para><computeroutput>yolov8_latency_ms_sum</computeroutput> – cumulative latency for histogram</para>
+</listitem><listitem><para><computeroutput>yolov8_latency_ms_count</computeroutput> – sample count for histogram</para>
+</listitem><listitem><para><computeroutput>yolov8_detections_total</computeroutput> – total bounding boxes produced </para>
+</listitem></itemizedlist>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="image__analysis__interface_8h" kindref="compound">plugins/image_analysis_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins" kindref="compound">plugins</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1plugins_1_1image" kindref="compound">image</ref><sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1ae37afb7eb8fd128ef87d2b184862eb3a" kindref="member">YOLOv8OnnxPlugin</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" kindref="compound">IImageAnalysisBackend</ref><sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1ae37afb7eb8fd128ef87d2b184862eb3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1ae37afb7eb8fd128ef87d2b184862eb3a" kindref="member">YOLOv8OnnxPlugin</ref>();</highlight></codeline>
+<codeline lineno="59" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a175e29542050700a37e562d52f4e3f02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a175e29542050700a37e562d52f4e3f02" kindref="member">~YOLOv8OnnxPlugin</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IImageAnalysisBackend<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a6868e3678529544d4de6742a3d65fbc1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_plugin_info" kindref="compound">PluginInfo</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a6868e3678529544d4de6742a3d65fbc1" kindref="member">getInfo</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acb6ec957f3715d2c88643ac269cea7bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acb6ec957f3715d2c88643ac269cea7bd" kindref="member">initialize</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref>&amp;<sp/>config,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref><sp/>backend<sp/>=<sp/><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">BackendType::AUTO</ref>)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a7df7ecf85abc8009aa7db6e2bd51df4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a7df7ecf85abc8009aa7db6e2bd51df4d" kindref="member">shutdown</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a3460addb9137fbfe1118deca385a9f9f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a3460addb9137fbfe1118deca385a9f9f" kindref="member">isReady</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a269376c34bb021b093cb7b8a98524612" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a269376c34bb021b093cb7b8a98524612" kindref="member">getBackend</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afd2f32972ed9b2958ffdba73acb27764" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_detection_result" kindref="compound">DetectionResult</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afd2f32972ed9b2958ffdba73acb27764" kindref="member">detectObjects</ref>(</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>image_data,</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref>*<sp/>metadata<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>confidence_threshold<sp/>=<sp/>0.0f)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a08c77415be319eae9dc07162f5375f8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_embedding_result" kindref="compound">EmbeddingResult</ref><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1a08c77415be319eae9dc07162f5375f8a" kindref="member">generateEmbedding</ref>(</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>image_data,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref>*<sp/>metadata<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1aebef02b4cdc20a0aa89cb82ebe44b9d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1aebef02b4cdc20a0aa89cb82ebe44b9d6" kindref="member">healthCheck</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acff6853281281a89b9957b81fadc8ff5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1acff6853281281a89b9957b81fadc8ff5" kindref="member">getStatistics</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Hot-swap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141" refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afdb2c3ce4bbb093c167774701807bc5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin_1afdb2c3ce4bbb093c167774701807bc5c" kindref="member">reloadModel</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref>&amp;<sp/>new_config);</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">Impl;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>impl_swap_mtx_;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;Impl&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>image</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>plugins</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>THEMIS_IMAGE_PLUGIN_DISABLE_EXPORT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><ref refid="image__analysis__interface_8h_1a77758a451a7562ae505f73d4646c80a1" kindref="member">THEMIS_IMAGE_PLUGIN</ref>(<ref refid="classthemis_1_1plugins_1_1image_1_1_y_o_l_ov8_onnx_plugin" kindref="compound">themis::plugins::image::YOLOv8OnnxPlugin</ref>)</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/plugins/yolov8_onnx_plugin.h"/>
+  </compounddef>
+</doxygen>

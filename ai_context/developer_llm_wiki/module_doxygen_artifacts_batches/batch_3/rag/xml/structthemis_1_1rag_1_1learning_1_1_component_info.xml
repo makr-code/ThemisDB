@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1learning_1_1_component_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::learning::ComponentInfo</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_component_info_1a3ff4de80c7e597e72d41df515ae9c3d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ComponentInfo::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>themis::rag::learning::ComponentInfo::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="142" column="17" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_component_info_1a71d8bbdb4d220f96c083abf5598d2a92" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::learning::ComponentInfo::info</definition>
+        <argsstring></argsstring>
+        <name>info</name>
+        <qualifiedname>themis::rag::learning::ComponentInfo::info</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="143" column="17" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_component_info_1a5665e750d20f0c996b65b2c2ac86ad86" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::rag::learning::ComponentInfo::last_training</definition>
+        <argsstring></argsstring>
+        <name>last_training</name>
+        <qualifiedname>themis::rag::learning::ComponentInfo::last_training</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="144" column="43" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1learning_1_1_component_info_1a1fe1ab27654d74e5d265e47bd4f6636b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::learning::ComponentInfo::feedback_count</definition>
+        <argsstring></argsstring>
+        <name>feedback_count</name>
+        <qualifiedname>themis::rag::learning::ComponentInfo::feedback_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/rag/continuous_learning_orchestrator.cpp" line="145" column="12" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rag/continuous_learning_orchestrator.cpp" line="141" column="1" bodyfile="src/rag/continuous_learning_orchestrator.cpp" bodystart="141" bodyend="146"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_component_info_1a1fe1ab27654d74e5d265e47bd4f6636b" prot="public" virt="non-virtual"><scope>themis::rag::learning::ComponentInfo</scope><name>feedback_count</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_component_info_1a3ff4de80c7e597e72d41df515ae9c3d5" prot="public" virt="non-virtual"><scope>themis::rag::learning::ComponentInfo</scope><name>id</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_component_info_1a71d8bbdb4d220f96c083abf5598d2a92" prot="public" virt="non-virtual"><scope>themis::rag::learning::ComponentInfo</scope><name>info</name></member>
+      <member refid="structthemis_1_1rag_1_1learning_1_1_component_info_1a5665e750d20f0c996b65b2c2ac86ad86" prot="public" virt="non-virtual"><scope>themis::rag::learning::ComponentInfo</scope><name>last_training</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

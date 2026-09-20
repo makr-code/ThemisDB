@@ -1,0 +1,227 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::concerns::NoOpCircuitBreaker</compoundname>
+    <basecompoundref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker" prot="public" virt="non-virtual">themis::core::concerns::ICircuitBreaker</basecompoundref>
+    <includes refid="noop__implementations_8h" local="no">noop_implementations.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a512b46346b70df72f18d5249d9a755c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::core::concerns::NoOpCircuitBreaker::allowRequest</definition>
+        <argsstring>() override</argsstring>
+        <name>allowRequest</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::allowRequest</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a193b41a0595d4488ae4499bdc4fb8f1a">allowRequest</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="177" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a5769c455d2ceaeccb587aec594e25470" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCircuitBreaker::recordSuccess</definition>
+        <argsstring>() override</argsstring>
+        <name>recordSuccess</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::recordSuccess</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a867dc804ca92a81224039bcde19b7a7a">recordSuccess</reimplements>
+        <briefdescription>
+<para>Record Success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="178" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a5e9e6988dd6c420ae1f120faa8f182d0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCircuitBreaker::recordFailure</definition>
+        <argsstring>() override</argsstring>
+        <name>recordFailure</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::recordFailure</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a8973c56d0d50232422e2d36afeaabc08">recordFailure</reimplements>
+        <briefdescription>
+<para>Record Failure. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="179" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="179" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a4812327f9a05c1669c76cbc2e8b1c2c1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" kindref="member">State</ref></type>
+        <definition>State themis::core::concerns::NoOpCircuitBreaker::getState</definition>
+        <argsstring>() const override</argsstring>
+        <name>getState</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::getState</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a37e6e6d36aeca3b83615d57c68b6b1f5">getState</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="180" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="180" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a94edd2ff28b860fb175f2383167c2d92" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::NoOpCircuitBreaker::getFailureCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getFailureCount</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::getFailureCount</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae9226af0c51d4bcf6f69a853bd88350f">getFailureCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="181" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="181" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a47a0832725db8effa4e471e625bd5b89" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::core::concerns::NoOpCircuitBreaker::getSuccessCount</definition>
+        <argsstring>() const override</argsstring>
+        <name>getSuccessCount</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::getSuccessCount</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1adadc5a1abafe13279d833edca10fa715">getSuccessCount</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="182" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a342562e1749852f688ae7e1f5f0bba6d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCircuitBreaker::reset</definition>
+        <argsstring>() override</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::reset</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a325d3e82ff9211af3a35150782c9ad9c">reset</reimplements>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="183" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1aafb6dd8bf1ec3413017d02b70c690963" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCircuitBreaker::forceOpen</definition>
+        <argsstring>() override</argsstring>
+        <name>forceOpen</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::forceOpen</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a15cf257a04ddc0c586ce1e43d03da701">forceOpen</reimplements>
+        <briefdescription>
+<para>Force Open. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="184" column="12" bodyfile="include/core/concerns/noop_implementations.h" bodystart="184" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a4e131156a0595a120cec33ae7c2653cc" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCircuitBreaker::flush</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::flush</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a975e8766eb47ecdfe9116450e0660d79">flush</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="186" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="186" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a6c845ebb1eb45d042f6b13eedc53c97c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::core::concerns::NoOpCircuitBreaker::shutdown</definition>
+        <argsstring>() noexcept override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a7c97ce4f356e987552aab5f2529c2847">shutdown</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="187" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1ac5d4d5e311b1ddddabc836f60b31d7e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1core_1_1concerns_1_1_probe_result" kindref="compound">ProbeResult</ref></type>
+        <definition>ProbeResult themis::core::concerns::NoOpCircuitBreaker::isHealthy</definition>
+        <argsstring>() const override</argsstring>
+        <name>isHealthy</name>
+        <qualifiedname>themis::core::concerns::NoOpCircuitBreaker::isHealthy</qualifiedname>
+        <reimplements refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6904e3f4a8d692678b3beb1e0e53914e">isHealthy</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/noop_implementations.h" line="188" column="17" bodyfile="include/core/concerns/noop_implementations.h" bodystart="188" bodyend="188"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>No-op circuit breaker implementation for testing or when the circuit breaker concern is disabled. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Always reports CLOSED state and allows every request. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::core::concerns::ICircuitBreaker</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpCircuitBreaker</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::ICircuitBreaker</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker"/>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::NoOpCircuitBreaker</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/noop_implementations.h" line="175" column="1" bodyfile="include/core/concerns/noop_implementations.h" bodystart="175" bodyend="189"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a512b46346b70df72f18d5249d9a755c3" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>allowRequest</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1ae372645cbccaa455b176413564e86aa7" prot="public" virt="non-virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>call</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a4e131156a0595a120cec33ae7c2653cc" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>flush</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1aafb6dd8bf1ec3413017d02b70c690963" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>forceOpen</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a94edd2ff28b860fb175f2383167c2d92" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>getFailureCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a4812327f9a05c1669c76cbc2e8b1c2c1" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>getState</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a47a0832725db8effa4e471e625bd5b89" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>getSuccessCount</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1ac5d4d5e311b1ddddabc836f60b31d7e8" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>isHealthy</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a5e9e6988dd6c420ae1f120faa8f182d0" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>recordFailure</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a5769c455d2ceaeccb587aec594e25470" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>recordSuccess</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a342562e1749852f688ae7e1f5f0bba6d" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>reset</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_no_op_circuit_breaker_1a6c845ebb1eb45d042f6b13eedc53c97c" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a6f5527fd7b729ad978e3eb27087e0751" prot="public" virt="non-virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>State</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1a22f6b1d7a69201eede78c7c1b1498268" prot="public" virt="non-virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>stateToString</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_i_circuit_breaker_1afef1f62ec60cf2061162ab1b97fcd27a" prot="public" virt="virtual"><scope>themis::core::concerns::NoOpCircuitBreaker</scope><name>~ICircuitBreaker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

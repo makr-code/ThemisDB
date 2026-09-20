@@ -1,0 +1,462 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1retrieval_1_1_portable_adapter_product" kind="struct" language="C++" prot="public">
+    <compoundname>themis::retrieval::PortableAdapterProduct</compoundname>
+    <includes refid="lora__package_8h" local="no">lora_package.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1ad649185a7578e99f81cdc85e170cd2fb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::product_id</definition>
+        <argsstring></argsstring>
+        <name>product_id</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::product_id</qualifiedname>
+        <briefdescription>
+<para>Unique product identifier (UUID or hash-based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="217" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1ace93a418fd8f5ada3184949675fdd514" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::name</qualifiedname>
+        <briefdescription>
+<para>Human-readable product name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="218" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="218" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a65c793874a842716398bc430c8801182" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="219" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="219" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8d5bdfc7593e33ee5b8da1004e9cba46" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::source_package_id</definition>
+        <argsstring></argsstring>
+        <name>source_package_id</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::source_package_id</qualifiedname>
+        <briefdescription>
+<para>ID of the originating <ref refid="structthemis_1_1retrieval_1_1_lo_r_a_package" kindref="compound">LoRAPackage</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="220" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a0d4615a0f1be6c03dc9db9c184de1b47" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::target_base_model_id</definition>
+        <argsstring></argsstring>
+        <name>target_base_model_id</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::target_base_model_id</qualifiedname>
+        <briefdescription>
+<para>Specific base model this product targets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="223" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a3318903a700f520db19ff6d23c439ce8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::target_model_architecture</definition>
+        <argsstring></argsstring>
+        <name>target_model_architecture</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::target_model_architecture</qualifiedname>
+        <briefdescription>
+<para>Architecture family (&quot;llama&quot;, &quot;mistral&quot;, …). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="224" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="224" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a79ca7187db0c23b49bd98f7ee67bf9c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::quantization</definition>
+        <argsstring></argsstring>
+        <name>quantization</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::quantization</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="226" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="226" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1aafb4579868918f79f179c99a37e63c63" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::format</definition>
+        <argsstring></argsstring>
+        <name>format</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::format</qualifiedname>
+        <initializer>= &quot;SafeTensors&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="229" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a890171a1bfb057485c3e71c5c9f05961" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::file_path</definition>
+        <argsstring></argsstring>
+        <name>file_path</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::file_path</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="231" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1ae683a7fd61b7a23ec9897be5c70f8b71" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::PortableAdapterProduct::file_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>file_size_bytes</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::file_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Byte size of the binary file(s). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="233" column="12" bodyfile="src/retrieval/include/lora_package.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a9d43cad95856186a710da27fe350bdec" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::retrieval::PortableAdapterProduct::max_context_length</definition>
+        <argsstring></argsstring>
+        <name>max_context_length</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::max_context_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Supported maximum context tokens (0 = inherit from base). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="236" column="12" bodyfile="src/retrieval/include/lora_package.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a89a01f3c00c4c923e88470ac4653392d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::retrieval::PortableAdapterProduct::memory_requirement_mb</definition>
+        <argsstring></argsstring>
+        <name>memory_requirement_mb</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::memory_requirement_mb</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Estimated peak VRAM / RAM footprint in MiB. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="237" column="12" bodyfile="src/retrieval/include/lora_package.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8b12d44fd70eb5ae06baa755a9ee6830" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::retrieval::PortableAdapterProduct::compatible_model_versions</definition>
+        <argsstring></argsstring>
+        <name>compatible_model_versions</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::compatible_model_versions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="240" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a182d2e3e75b4806781fa3af749e906a7" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1retrieval_1_1_artifact_integrity" kindref="compound">ArtifactIntegrity</ref></type>
+        <definition>ArtifactIntegrity themis::retrieval::PortableAdapterProduct::integrity</definition>
+        <argsstring></argsstring>
+        <name>integrity</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::integrity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="243" column="23" bodyfile="src/retrieval/include/lora_package.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a078434f92f73d90d0d5206b7cf50e2ad" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551" kindref="member">AdapterProductStatus</ref></type>
+        <definition>AdapterProductStatus themis::retrieval::PortableAdapterProduct::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::status</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551a71a6834884666147c0334f0c40bc7295" kindref="member">AdapterProductStatus::BUILDING</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="246" column="26" bodyfile="src/retrieval/include/lora_package.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a48f3ddb9b79b10cbb14a438accbbb162" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::created_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC creation timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="247" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a329410f24a26d32c99bd66a403e3b08d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::updated_at</definition>
+        <argsstring></argsstring>
+        <name>updated_at</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::updated_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC last-modification timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="248" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a9fa087d3ba8d66d552cffc36209b54ca" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::deployed_at</definition>
+        <argsstring></argsstring>
+        <name>deployed_at</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::deployed_at</qualifiedname>
+        <briefdescription>
+<para>ISO 8601 UTC deployment timestamp (empty if not yet deployed). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="249" column="17" bodyfile="src/retrieval/include/lora_package.h" bodystart="249" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a1e5d5ff1c4bd6b366369c1a51fb43920" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kindref="member">json</ref></type>
+        <definition>json themis::retrieval::PortableAdapterProduct::to_json</definition>
+        <argsstring>() const</argsstring>
+        <name>to_json</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::to_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="253" column="11" bodyfile="src/retrieval/src/lora_package.cc" bodystart="513" bodyend="534"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a98e04207e4cdf35f13c7e7aa50b89262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::retrieval::PortableAdapterProduct::computeManifestHash</definition>
+        <argsstring>()</argsstring>
+        <name>computeManifestHash</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::computeManifestHash</qualifiedname>
+        <briefdescription>
+<para>── Helpers ────────────────────────────────────────────────────────── </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compute Manifest Hash.</para>
+<para>Calls: <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a1e5d5ff1c4bd6b366369c1a51fb43920" kindref="member">to_json()</ref>, dump(), <ref refid="namespacethemis_1_1retrieval_1_1_integrity_helper_1aaa08298db90e694094f11a1e6534ae3c" kindref="member">IntegrityHelper::sha256Hex()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="261" column="10" bodyfile="src/retrieval/src/lora_package.cc" bodystart="606" bodyend="616"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1ada68f64932ea3cdee86b32bdbddee2bd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::retrieval::PortableAdapterProduct::statusToString</definition>
+        <argsstring>() const</argsstring>
+        <name>statusToString</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::statusToString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="263" column="18" bodyfile="src/retrieval/src/lora_package.cc" bodystart="618" bodyend="627"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a581549733386729baf6d9c63b2bb4716" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product" kindref="compound">PortableAdapterProduct</ref></type>
+        <definition>PortableAdapterProduct themis::retrieval::PortableAdapterProduct::from_json</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>from_json</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::from_json</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1retrieval_1a767e8c8e3db26f14bd28a768739b00a3" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), at(), <ref refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8627cc5a1c60e13ca562de1103ed85c5" kindref="member">statusFromString()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="255" column="36" bodyfile="src/retrieval/src/lora_package.cc" bodystart="543" bodyend="600"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8627cc5a1c60e13ca562de1103ed85c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1retrieval_1a0fcfe20fbe790dca6f0174f05b7ba551" kindref="member">AdapterProductStatus</ref></type>
+        <definition>AdapterProductStatus themis::retrieval::PortableAdapterProduct::statusFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>statusFromString</name>
+        <qualifiedname>themis::retrieval::PortableAdapterProduct::statusFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Status From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements statusFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/retrieval/include/lora_package.h" line="270" column="33" bodyfile="src/retrieval/src/lora_package.cc" bodystart="636" bodyend="654"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::retrieval::ArtifactIntegrity</label>
+        <link refid="structthemis_1_1retrieval_1_1_artifact_integrity"/>
+      </node>
+      <node id="1">
+        <label>themis::retrieval::PortableAdapterProduct</label>
+        <link refid="structthemis_1_1retrieval_1_1_portable_adapter_product"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>integrity</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/retrieval/include/lora_package.h" line="215" column="1" bodyfile="src/retrieval/include/lora_package.h" bodystart="215" bodyend="271"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8b12d44fd70eb5ae06baa755a9ee6830" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>compatible_model_versions</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a98e04207e4cdf35f13c7e7aa50b89262" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>computeManifestHash</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a48f3ddb9b79b10cbb14a438accbbb162" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a9fa087d3ba8d66d552cffc36209b54ca" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>deployed_at</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a890171a1bfb057485c3e71c5c9f05961" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>file_path</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1ae683a7fd61b7a23ec9897be5c70f8b71" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>file_size_bytes</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1aafb4579868918f79f179c99a37e63c63" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>format</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a581549733386729baf6d9c63b2bb4716" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>from_json</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a182d2e3e75b4806781fa3af749e906a7" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>integrity</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a9d43cad95856186a710da27fe350bdec" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>max_context_length</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a89a01f3c00c4c923e88470ac4653392d" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>memory_requirement_mb</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1ace93a418fd8f5ada3184949675fdd514" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>name</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1ad649185a7578e99f81cdc85e170cd2fb" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>product_id</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a79ca7187db0c23b49bd98f7ee67bf9c3" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>quantization</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8d5bdfc7593e33ee5b8da1004e9cba46" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>source_package_id</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a078434f92f73d90d0d5206b7cf50e2ad" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>status</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a8627cc5a1c60e13ca562de1103ed85c5" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>statusFromString</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1ada68f64932ea3cdee86b32bdbddee2bd" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>statusToString</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a0d4615a0f1be6c03dc9db9c184de1b47" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>target_base_model_id</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a3318903a700f520db19ff6d23c439ce8" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>target_model_architecture</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a1e5d5ff1c4bd6b366369c1a51fb43920" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>to_json</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a329410f24a26d32c99bd66a403e3b08d" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>updated_at</name></member>
+      <member refid="structthemis_1_1retrieval_1_1_portable_adapter_product_1a65c793874a842716398bc430c8801182" prot="public" virt="non-virtual"><scope>themis::retrieval::PortableAdapterProduct</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

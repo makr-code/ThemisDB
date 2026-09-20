@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1training_1_1_checkpoint_fault_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::training::CheckpointFaultHandler</compoundname>
+    <includes refid="training__failsafe_8h" local="no">training_failsafe.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1training_1_1_checkpoint_fault_handler_1a09df4e2dfc9782d031f4418d6d8317c2" prot="public" static="no">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_fault_result_1aaee69dc085eca3f22e7abdd8b98ecd18" kindref="member">CheckpointFaultResult::RecoveryStrategy</ref></type>
+        <definition>using themis::training::CheckpointFaultHandler::RecoveryStrategy = CheckpointFaultResult::RecoveryStrategy</definition>
+        <argsstring></argsstring>
+        <name>RecoveryStrategy</name>
+        <qualifiedname>themis::training::CheckpointFaultHandler::RecoveryStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="124" column="5" bodyfile="include/training/training_failsafe.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_checkpoint_fault_handler_1ab8d5812617c9bc1229cc932eeaf68033" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1training_1_1_checkpoint_fault_result" kindref="compound">CheckpointFaultResult</ref></type>
+        <definition>CheckpointFaultResult themis::training::CheckpointFaultHandler::handle</definition>
+        <argsstring>(const CheckpointFaultContext &amp;ctx, TrainingIncidentEmitter *emitter) const noexcept</argsstring>
+        <name>handle</name>
+        <qualifiedname>themis::training::CheckpointFaultHandler::handle</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1training_1_1_checkpoint_fault_context" kindref="compound">CheckpointFaultContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1training_1_1_training_incident_emitter" kindref="compound">TrainingIncidentEmitter</ref> *</type>
+          <declname>emitter</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate a checkpoint fault and return the recovery decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fault context (path, code, fallback availability). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>emitter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional incident emitter; pass nullptr to suppress output. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Resolved <ref refid="structthemis_1_1training_1_1_checkpoint_fault_result" kindref="compound">CheckpointFaultResult</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="133" column="28" bodyfile="include/training/training_failsafe.h" bodystart="336" bodyend="398"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1training_1_1_checkpoint_fault_handler_1a6086cc9e7b49449749de767219f7b737" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointFaultHandler::isCorruptionFault</definition>
+        <argsstring>(TrainingErrorCode code) noexcept</argsstring>
+        <name>isCorruptionFault</name>
+        <qualifiedname>themis::training::CheckpointFaultHandler::isCorruptionFault</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Classify the fault code into broad fault families. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code to classify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the fault indicates data corruption or integrity failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="144" column="18" bodyfile="include/training/training_failsafe.h" bodystart="308" bodyend="318"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_checkpoint_fault_handler_1ac682f860cdd963a865fe954cd7f4f133" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointFaultHandler::isDiskExhaustionFault</definition>
+        <argsstring>(TrainingErrorCode code) noexcept</argsstring>
+        <name>isDiskExhaustionFault</name>
+        <qualifiedname>themis::training::CheckpointFaultHandler::isDiskExhaustionFault</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the fault is a disk/resource exhaustion fault. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code to classify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true for disk space or I/O resource exhaustion. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="152" column="18" bodyfile="include/training/training_failsafe.h" bodystart="320" bodyend="322"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1training_1_1_checkpoint_fault_handler_1a578d830387364640d5267e8f1b1e9afd" prot="private" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::training::CheckpointFaultHandler::isTransientIoFault</definition>
+        <argsstring>(TrainingErrorCode code) noexcept</argsstring>
+        <name>isTransientIoFault</name>
+        <qualifiedname>themis::training::CheckpointFaultHandler::isTransientIoFault</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1training_1a989d1a56dd341d79ec9a2e414c64841b" kindref="member">TrainingErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Return true if the fault is a transient I/O or timeout fault. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error code to classify. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true for I/O read/write errors and timeouts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_failsafe.h" line="160" column="18" bodyfile="include/training/training_failsafe.h" bodystart="324" bodyend="334"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fail-closed handler for checkpoint faults. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Decision table: <table rows="11" cols="4"><row>
+<entry thead="yes"><para>Fault class  </para>
+</entry><entry thead="yes"><para>has_fallback  </para>
+</entry><entry thead="yes"><para>during_save  </para>
+</entry><entry thead="yes"><para>Strategy  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CORRUPTION / INTEGRITY / INVALID  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>any  </para>
+</entry><entry thead="no"><para>ROLLBACK  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>CORRUPTION / INTEGRITY / INVALID  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>any  </para>
+</entry><entry thead="no"><para>ABORT  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>DISK_SPACE_EXHAUSTED  </para>
+</entry><entry thead="no"><para>any  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>SKIP_SAVE  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>DISK_SPACE_EXHAUSTED  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>ROLLBACK  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>DISK_SPACE_EXHAUSTED  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>ABORT  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IO_WRITE / IO_READ / TIMEOUT  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>any  </para>
+</entry><entry thead="no"><para>ROLLBACK  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IO_WRITE / IO_READ / TIMEOUT  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>SKIP_SAVE  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>IO_WRITE / IO_READ / TIMEOUT  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>ABORT  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Other  </para>
+</entry><entry thead="no"><para>yes  </para>
+</entry><entry thead="no"><para>any  </para>
+</entry><entry thead="no"><para>ROLLBACK  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Other  </para>
+</entry><entry thead="no"><para>no  </para>
+</entry><entry thead="no"><para>any  </para>
+</entry><entry thead="no"><para>ABORT  </para>
+</entry></row>
+</table>
+</para>
+<para>All handled faults emit an incident to <computeroutput>emitter</computeroutput> when non-null. </para>
+    </detaileddescription>
+    <location file="include/training/training_failsafe.h" line="122" column="1" bodyfile="include/training/training_failsafe.h" bodystart="122" bodyend="161"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1training_1_1_checkpoint_fault_handler_1ab8d5812617c9bc1229cc932eeaf68033" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultHandler</scope><name>handle</name></member>
+      <member refid="classthemis_1_1training_1_1_checkpoint_fault_handler_1a6086cc9e7b49449749de767219f7b737" prot="private" virt="non-virtual"><scope>themis::training::CheckpointFaultHandler</scope><name>isCorruptionFault</name></member>
+      <member refid="classthemis_1_1training_1_1_checkpoint_fault_handler_1ac682f860cdd963a865fe954cd7f4f133" prot="private" virt="non-virtual"><scope>themis::training::CheckpointFaultHandler</scope><name>isDiskExhaustionFault</name></member>
+      <member refid="classthemis_1_1training_1_1_checkpoint_fault_handler_1a578d830387364640d5267e8f1b1e9afd" prot="private" virt="non-virtual"><scope>themis::training::CheckpointFaultHandler</scope><name>isTransientIoFault</name></member>
+      <member refid="classthemis_1_1training_1_1_checkpoint_fault_handler_1a09df4e2dfc9782d031f4418d6d8317c2" prot="public" virt="non-virtual"><scope>themis::training::CheckpointFaultHandler</scope><name>RecoveryStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

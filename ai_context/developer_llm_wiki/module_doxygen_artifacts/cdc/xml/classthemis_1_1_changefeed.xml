@@ -1,0 +1,1263 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_changefeed" kind="class" language="C++" prot="public">
+    <compoundname>themis::Changefeed</compoundname>
+    <includes refid="changefeed_8h" local="no">changefeed.h</includes>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_change_event" prot="public">themis::Changefeed::ChangeEvent</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_list_options" prot="public">themis::Changefeed::ListOptions</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_retention_policy" prot="public">themis::Changefeed::RetentionPolicy</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_watermarks" prot="public">themis::Changefeed::Watermarks</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_stats" prot="public">themis::Changefeed::Stats</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_compaction_result" prot="public">themis::Changefeed::CompactionResult</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_redaction_result" prot="public">themis::Changefeed::RedactionResult</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_subscription_filter" prot="public">themis::Changefeed::SubscriptionFilter</innerclass>
+    <innerclass refid="classthemis_1_1_changefeed_1_1_subscription_handle" prot="public">themis::Changefeed::SubscriptionHandle</innerclass>
+    <innerclass refid="structthemis_1_1_changefeed_1_1_subscription_entry" prot="private">themis::Changefeed::SubscriptionEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ChangeEventType</name>
+        <qualifiedname>themis::Changefeed::ChangeEventType</qualifiedname>
+        <enumvalue id="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a6cb4b5ef33ab335211f73af9fbd56d3b" prot="public">
+          <name>EVENT_PUT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0abe731652dcbe388ce5fb20e99b57029f" prot="public">
+          <name>EVENT_DELETE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0ae3a8f40c30238b0e0b6d2f10b7582c91" prot="public">
+          <name>EVENT_TRANSACTION_COMMIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0a7c15e3e288d30b94ad4e66b23a0597e5" prot="public">
+          <name>EVENT_TRANSACTION_ROLLBACK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="40" column="5" bodyfile="include/cdc/changefeed.h" bodystart="40" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1_changefeed_1aa38af7b02036b188d864a9eccdbbf919" prot="public" static="no">
+        <type>std::function&lt; void(const <ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref> &amp;)&gt;</type>
+        <definition>using themis::Changefeed::SubscriptionCallback = std::function&lt;void(const ChangeEvent&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>SubscriptionCallback</name>
+        <qualifiedname>themis::Changefeed::SubscriptionCallback</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="328" column="5" bodyfile="include/cdc/changefeed.h" bodystart="328" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1aade005a3f6e72d40f39b7b32e857273c" prot="private" static="no" mutable="no">
+        <type>rocksdb::TransactionDB *</type>
+        <definition>rocksdb::TransactionDB* themis::Changefeed::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::Changefeed::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="347" column="28" bodyfile="include/cdc/changefeed.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1ae288f3527c79b76eb1b7fc695b0fab37" prot="private" static="no" mutable="no">
+        <type>rocksdb::ColumnFamilyHandle *</type>
+        <definition>rocksdb::ColumnFamilyHandle* themis::Changefeed::cf_</definition>
+        <argsstring></argsstring>
+        <name>cf_</name>
+        <qualifiedname>themis::Changefeed::cf_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="348" column="33" bodyfile="include/cdc/changefeed.h" bodystart="348" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a10eec9a0c4dd2ce56667087cf3ab4723" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></type>
+        <definition>RetentionPolicy themis::Changefeed::retention_policy_</definition>
+        <argsstring></argsstring>
+        <name>retention_policy_</name>
+        <qualifiedname>themis::Changefeed::retention_policy_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="349" column="21" bodyfile="include/cdc/changefeed.h" bodystart="349" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a67a054251f81be76c8b7fd4e1e37d613" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::Changefeed::sequence_counter_</definition>
+        <argsstring></argsstring>
+        <name>sequence_counter_</name>
+        <qualifiedname>themis::Changefeed::sequence_counter_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="391" column="17" bodyfile="include/cdc/changefeed.h" bodystart="391" bodyend="391"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1ab7b0e20cccecbc6ffdba71b93c8cf7b4" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::Changefeed::persisted_sequence_</definition>
+        <argsstring></argsstring>
+        <name>persisted_sequence_</name>
+        <qualifiedname>themis::Changefeed::persisted_sequence_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="396" column="17" bodyfile="include/cdc/changefeed.h" bodystart="396" bodyend="396"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a9e7d8ad09d1cff5306310c5cd0eb60be" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::Changefeed::sequence_merge_supported_</definition>
+        <argsstring></argsstring>
+        <name>sequence_merge_supported_</name>
+        <qualifiedname>themis::Changefeed::sequence_merge_supported_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="397" column="17" bodyfile="include/cdc/changefeed.h" bodystart="397" bodyend="397"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1ad2b29b92e41f8c9f97008261664a4c90" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::Changefeed::sequence_persist_mutex_</definition>
+        <argsstring></argsstring>
+        <name>sequence_persist_mutex_</name>
+        <qualifiedname>themis::Changefeed::sequence_persist_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="398" column="24" bodyfile="include/cdc/changefeed.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a15fda1c4780571c56aced447ced186a3" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::Changefeed::retention_thread_running_</definition>
+        <argsstring></argsstring>
+        <name>retention_thread_running_</name>
+        <qualifiedname>themis::Changefeed::retention_thread_running_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="401" column="17" bodyfile="include/cdc/changefeed.h" bodystart="401" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1ac64bda9de8fc5eee0620303c6dffae1e" prot="private" static="no" mutable="no">
+        <type>std::thread</type>
+        <definition>std::thread themis::Changefeed::retention_thread_</definition>
+        <argsstring></argsstring>
+        <name>retention_thread_</name>
+        <qualifiedname>themis::Changefeed::retention_thread_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="402" column="17" bodyfile="include/cdc/changefeed.h" bodystart="402" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a6af90a7a924e941bc7da8a444285e87e" prot="private" static="no" mutable="no">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::Changefeed::retention_cv_</definition>
+        <argsstring></argsstring>
+        <name>retention_cv_</name>
+        <qualifiedname>themis::Changefeed::retention_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="403" column="29" bodyfile="include/cdc/changefeed.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a8ddb58bc45abf06c04bc0a0a01d7f1b9" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::Changefeed::retention_mutex_</definition>
+        <argsstring></argsstring>
+        <name>retention_mutex_</name>
+        <qualifiedname>themis::Changefeed::retention_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="404" column="24" bodyfile="include/cdc/changefeed.h" bodystart="404" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1ae517483d6698f07cd60deeb6f42f409a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; uint64_t, SubscriptionEntry &gt;</type>
+        <definition>std::unordered_map&lt;uint64_t, SubscriptionEntry&gt; themis::Changefeed::subscriptions_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_</name>
+        <qualifiedname>themis::Changefeed::subscriptions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="416" column="24" bodyfile="include/cdc/changefeed.h" bodystart="416" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a2641557694eb159fe32f3ee933f8e2f4" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::Changefeed::subscriptions_mutex_</definition>
+        <argsstring></argsstring>
+        <name>subscriptions_mutex_</name>
+        <qualifiedname>themis::Changefeed::subscriptions_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="417" column="24" bodyfile="include/cdc/changefeed.h" bodystart="417" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a62bf0f93122fc487689babae682bf0e5" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::Changefeed::next_subscription_id_</definition>
+        <argsstring></argsstring>
+        <name>next_subscription_id_</name>
+        <qualifiedname>themis::Changefeed::next_subscription_id_</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="418" column="17" bodyfile="include/cdc/changefeed.h" bodystart="418" bodyend="418"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a43acc42fee971ca0c85c66aa0898a95a" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::Changefeed::subscription_count_</definition>
+        <argsstring></argsstring>
+        <name>subscription_count_</name>
+        <qualifiedname>themis::Changefeed::subscription_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="419" column="17" bodyfile="include/cdc/changefeed.h" bodystart="419" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1a6865e01bec9a23a7d94560db22e3f9e3" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::Changefeed::KEY_PREFIX</definition>
+        <argsstring></argsstring>
+        <name>KEY_PREFIX</name>
+        <qualifiedname>themis::Changefeed::KEY_PREFIX</qualifiedname>
+        <initializer>= &quot;changefeed:&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="351" column="33" bodyfile="include/cdc/changefeed.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_changefeed_1ad5c51e2699d026c78b58ba87f7bfaec7" prot="private" static="yes" constexpr="yes" mutable="no">
+        <type>const char *</type>
+        <definition>const char* themis::Changefeed::SEQUENCE_KEY</definition>
+        <argsstring></argsstring>
+        <name>SEQUENCE_KEY</name>
+        <qualifiedname>themis::Changefeed::SEQUENCE_KEY</qualifiedname>
+        <initializer>= &quot;changefeed_sequence&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="352" column="33" bodyfile="include/cdc/changefeed.h" bodystart="352" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1aab5fc25453511c099dca45a42b3388d0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; rocksdb::MergeOperator &gt;</type>
+        <definition>std::shared_ptr&lt; rocksdb::MergeOperator &gt; themis::Changefeed::makeSequenceMergeOperator</definition>
+        <argsstring>()</argsstring>
+        <name>makeSequenceMergeOperator</name>
+        <qualifiedname>themis::Changefeed::makeSequenceMergeOperator</qualifiedname>
+        <briefdescription>
+<para>Make Sequence Merge Operator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>===== <ref refid="classthemis_1_1_changefeed" kindref="compound">Changefeed</ref> Implementation =====</para>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements makeSequenceMergeOperator without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="125" column="28" bodyfile="src/cdc/changefeed.cpp" bodystart="196" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1ad9f4bf1aa8bbc297824091e744f3570d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::Changefeed::Changefeed</definition>
+        <argsstring>(rocksdb::TransactionDB *db, rocksdb::ColumnFamilyHandle *cf=nullptr, RetentionPolicy retention=RetentionPolicy::defaults())</argsstring>
+        <name>Changefeed</name>
+        <qualifiedname>themis::Changefeed::Changefeed</qualifiedname>
+        <param>
+          <type>rocksdb::TransactionDB *</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>rocksdb::ColumnFamilyHandle *</type>
+          <declname>cf</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></type>
+          <declname>retention</declname>
+          <defval><ref refid="structthemis_1_1_changefeed_1_1_retention_policy_1a4a838fe42bfe3a4112fd01c50eb36bfd" kindref="member">RetentionPolicy::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="127" column="14" bodyfile="src/cdc/changefeed.cpp" bodystart="275" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a3809bbab20386e00db8ef7a688534935" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::Changefeed::~Changefeed</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~Changefeed</name>
+        <qualifiedname>themis::Changefeed::~Changefeed</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="131" column="5" bodyfile="src/cdc/changefeed.cpp" bodystart="322" bodyend="324"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a8a2e6f28d96d1e39c52bc71d45af855e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent themis::Changefeed::recordEvent</definition>
+        <argsstring>(ChangeEvent event)</argsstring>
+        <name>recordEvent</name>
+        <qualifiedname>themis::Changefeed::recordEvent</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref></type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Record Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::eventRecordFailed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nextSequence(), std::chrono::system_clock::now(), time_since_epoch(), count(), toJson(), dump(), makeKey(), Put(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="138" column="17" bodyfile="src/cdc/changefeed.cpp" bodystart="410" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1af88538e78b7f5bcbeba82c25d56b3c61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::Changefeed::listEvents</definition>
+        <argsstring>() const</argsstring>
+        <name>listEvents</name>
+        <qualifiedname>themis::Changefeed::listEvents</qualifiedname>
+        <briefdescription>
+<para>List Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="144" column="17" bodyfile="src/cdc/changefeed.cpp" bodystart="531" bodyend="533"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1abe381c4887cef9f11ddd339801fa6f36" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref> &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::Changefeed::listEvents</definition>
+        <argsstring>(const ListOptions &amp;options) const</argsstring>
+        <name>listEvents</name>
+        <qualifiedname>themis::Changefeed::listEvents</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_changefeed_1_1_list_options" kindref="compound">ListOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>List Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="150" column="17" bodyfile="src/cdc/changefeed.cpp" bodystart="446" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1abb8c9c7884844fcc90a3ff395e013cc4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::getLatestSequence</definition>
+        <argsstring>() const</argsstring>
+        <name>getLatestSequence</name>
+        <qualifiedname>themis::Changefeed::getLatestSequence</qualifiedname>
+        <briefdescription>
+<para>Get Latest Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="156" column="14" bodyfile="src/cdc/changefeed.cpp" bodystart="535" bodyend="538"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a9d10585232e82c77aa38b5f03402709f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Changefeed::Stats themis::Changefeed::getStats</definition>
+        <argsstring>() const</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::Changefeed::getStats</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_changefeed_1_1_stats" kindref="compound">Stats</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="162" column="11" bodyfile="src/cdc/changefeed.cpp" bodystart="561" bodyend="589"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a320316054ef102dadef78ae2d1f61d9a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_watermarks" kindref="compound">Watermarks</ref></type>
+        <definition>Changefeed::Watermarks themis::Changefeed::getWatermarks</definition>
+        <argsstring>() const</argsstring>
+        <name>getWatermarks</name>
+        <qualifiedname>themis::Changefeed::getWatermarks</qualifiedname>
+        <briefdescription>
+<para>Get <ref refid="structthemis_1_1_changefeed_1_1_watermarks" kindref="compound">Watermarks</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="168" column="16" bodyfile="src/cdc/changefeed.cpp" bodystart="916" bodyend="969"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a191ef97ec7c294d6ff985e975c65c3a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Changefeed::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::Changefeed::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: reset(), NewIterator(), Seek(), Valid(), Next(), key(), ToString(), compare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="173" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="595" bodyend="641"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a485983779a153b2bb8db35a5a2e69823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::deleteOldEvents</definition>
+        <argsstring>(uint64_t before_sequence)</argsstring>
+        <name>deleteOldEvents</name>
+        <qualifiedname>themis::Changefeed::deleteOldEvents</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>before_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Delete Old Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reset(), NewIterator(), Seek(), Valid(), Next(), key(), ToString(), compare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="180" column="12" bodyfile="src/cdc/changefeed.cpp" bodystart="869" bodyend="914"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1abd4e92b948b9a6511c9c4c5796dc15bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::deleteOldEventsBySequence</definition>
+        <argsstring>(uint64_t before_sequence)</argsstring>
+        <name>deleteOldEventsBySequence</name>
+        <qualifiedname>themis::Changefeed::deleteOldEventsBySequence</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>before_sequence</declname>
+        </param>
+        <briefdescription>
+<para>Delete Old Events By Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1_changefeed_1a485983779a153b2bb8db35a5a2e69823" kindref="member">deleteOldEvents()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="188" column="12" bodyfile="include/cdc/changefeed.h" bodystart="188" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1af2ecd83da744cc8443b4290c8a66e609" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::deleteOldEventsByTimestamp</definition>
+        <argsstring>(int64_t before_timestamp_ms)</argsstring>
+        <name>deleteOldEventsByTimestamp</name>
+        <qualifiedname>themis::Changefeed::deleteOldEventsByTimestamp</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>before_timestamp_ms</declname>
+        </param>
+        <briefdescription>
+<para>Delete Old Events By Timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">before_timestamp_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reset(), NewIterator(), Seek(), Valid(), Next(), key(), ToString(), compare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="197" column="12" bodyfile="src/cdc/changefeed.cpp" bodystart="977" bodyend="1022"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a44728fee9c20a713eacf87412ebbbeaf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref></type>
+        <definition>Changefeed::ChangeEvent themis::Changefeed::getEvent</definition>
+        <argsstring>(uint64_t sequence) const</argsstring>
+        <name>getEvent</name>
+        <qualifiedname>themis::Changefeed::getEvent</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Get Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="204" column="17" bodyfile="src/cdc/changefeed.cpp" bodystart="643" bodyend="661"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1aace1d23916a9f1ab882aa1349bf5f161" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_compaction_result" kindref="compound">CompactionResult</ref></type>
+        <definition>Changefeed::CompactionResult themis::Changefeed::compactByKey</definition>
+        <argsstring>()</argsstring>
+        <name>compactByKey</name>
+        <qualifiedname>themis::Changefeed::compactByKey</qualifiedname>
+        <briefdescription>
+<para>Compact By Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reset(), NewIterator(), Seek(), Valid(), Next(), key(), ToString(), compare(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="223" column="22" bodyfile="src/cdc/changefeed.cpp" bodystart="668" bodyend="777"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a08adf9c802754b3c0383a1eb100bdd5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_redaction_result" kindref="compound">RedactionResult</ref></type>
+        <definition>Changefeed::RedactionResult themis::Changefeed::redactByKeyPrefix</definition>
+        <argsstring>(const std::string &amp;key_prefix)</argsstring>
+        <name>redactByKeyPrefix</name>
+        <qualifiedname>themis::Changefeed::redactByKeyPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_prefix</declname>
+        </param>
+        <briefdescription>
+<para>Redact By Key Prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>error::invalidArgument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), reset(), NewIterator(), Seek(), makeKey(), Valid(), Next(), key(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="230" column="21" bodyfile="src/cdc/changefeed.cpp" bodystart="786" bodyend="861"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a265b7a0033b2198e1a39389fc02a7bdc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::Changefeed::applyRetentionPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>applyRetentionPolicy</name>
+        <qualifiedname>themis::Changefeed::applyRetentionPolicy</qualifiedname>
+        <briefdescription>
+<para>Apply Retention Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: plk(), <ref refid="classthemis_1_1_changefeed_1a9d10585232e82c77aa38b5f03402709f" kindref="member">getStats()</ref>, count(), std::chrono::system_clock::now(), time_since_epoch(), <ref refid="classthemis_1_1_changefeed_1af2ecd83da744cc8443b4290c8a66e609" kindref="member">deleteOldEventsByTimestamp()</ref>, THEMIS_DEBUG(), <ref refid="classthemis_1_1_changefeed_1a485983779a153b2bb8db35a5a2e69823" kindref="member">deleteOldEvents()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="236" column="12" bodyfile="src/cdc/changefeed.cpp" bodystart="1029" bodyend="1091"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1abe5d7454f12db9044859c9dbafc33838" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Changefeed::updateRetentionPolicy</definition>
+        <argsstring>(const RetentionPolicy &amp;policy)</argsstring>
+        <name>updateRetentionPolicy</name>
+        <qualifiedname>themis::Changefeed::updateRetentionPolicy</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <briefdescription>
+<para>Update Retention Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">policy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), THEMIS_INFO(), count(), <ref refid="classthemis_1_1_changefeed_1a7ca84a7a55578ff0c87e0d65b33b2ecd" kindref="member">startRetentionCleanup()</ref>, <ref refid="classthemis_1_1_changefeed_1ad534b70c25f90ed41db0a55d07f9806f" kindref="member">stopRetentionCleanup()</ref>, notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="242" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="1098" bodyend="1119"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1aa8a47653f833d8002e5fe33719c56a9d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1_changefeed_1_1_retention_policy" kindref="compound">RetentionPolicy</ref></type>
+        <definition>Changefeed::RetentionPolicy themis::Changefeed::getRetentionPolicy</definition>
+        <argsstring>() const</argsstring>
+        <name>getRetentionPolicy</name>
+        <qualifiedname>themis::Changefeed::getRetentionPolicy</qualifiedname>
+        <briefdescription>
+<para>Get Retention Policy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">retention_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="248" column="21" bodyfile="src/cdc/changefeed.cpp" bodystart="1121" bodyend="1129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a7ca84a7a55578ff0c87e0d65b33b2ecd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Changefeed::startRetentionCleanup</definition>
+        <argsstring>()</argsstring>
+        <name>startRetentionCleanup</name>
+        <qualifiedname>themis::Changefeed::startRetentionCleanup</qualifiedname>
+        <briefdescription>
+<para>Start Retention Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), THEMIS_WARN(), std::thread(), lk(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="253" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="1135" bodyend="1146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1ad534b70c25f90ed41db0a55d07f9806f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Changefeed::stopRetentionCleanup</definition>
+        <argsstring>()</argsstring>
+        <name>stopRetentionCleanup</name>
+        <qualifiedname>themis::Changefeed::stopRetentionCleanup</qualifiedname>
+        <briefdescription>
+<para>Stop Retention Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: exchange(), notify_all(), joinable(), join(), THEMIS_INFO(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="258" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="1152" bodyend="1167"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1ab416fd2b299c7f834cbab8356efe95d7" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Changefeed::isRetentionCleanupRunning</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isRetentionCleanupRunning</name>
+        <qualifiedname>themis::Changefeed::isRetentionCleanupRunning</qualifiedname>
+        <briefdescription>
+<para>Is Retention Cleanup Running. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="265" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="1169" bodyend="1171"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a26f6907697ffd7105f7105daf333e6fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_changefeed_1_1_subscription_handle" kindref="compound">SubscriptionHandle</ref></type>
+        <definition>Changefeed::SubscriptionHandle themis::Changefeed::subscribe</definition>
+        <argsstring>(SubscriptionFilter filter, SubscriptionCallback callback)</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themis::Changefeed::subscribe</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1_changefeed_1_1_subscription_filter" kindref="compound">SubscriptionFilter</ref></type>
+          <declname>filter</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1_changefeed_1aa38af7b02036b188d864a9eccdbbf919" kindref="member">SubscriptionCallback</ref></type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Subscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), lk(), emplace(), std::move(), THEMIS_DEBUG(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="336" column="24" bodyfile="src/cdc/changefeed.cpp" bodystart="1237" bodyend="1246"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1ad1de3ddcb0c259554c7e8f6c646d2b59" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Changefeed::unsubscribe</definition>
+        <argsstring>(uint64_t subscription_id) noexcept</argsstring>
+        <name>unsubscribe</name>
+        <qualifiedname>themis::Changefeed::unsubscribe</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>subscription_id</declname>
+        </param>
+        <briefdescription>
+<para>Unsubscribe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscription_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the subscription. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subscriptions_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="344" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="1248" bodyend="1259"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a8b05eaa21aab9c214432a53b123474a1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::Changefeed::makeKey</definition>
+        <argsstring>(uint64_t sequence) const</argsstring>
+        <name>makeKey</name>
+        <qualifiedname>themis::Changefeed::makeKey</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>sequence</declname>
+        </param>
+        <briefdescription>
+<para>Make Key. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="359" column="17" bodyfile="src/cdc/changefeed.cpp" bodystart="326" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a947b44eff540f9e0e106554cd1acf364" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::nextSequence</definition>
+        <argsstring>()</argsstring>
+        <name>nextSequence</name>
+        <qualifiedname>themis::Changefeed::nextSequence</qualifiedname>
+        <briefdescription>
+<para>Next Sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: fetch_add(), load(), delta_slice(), Merge(), ok(), compare_exchange_weak(), store(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="364" column="14" bodyfile="src/cdc/changefeed.cpp" bodystart="338" bodyend="401"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a1c1accbc9c97615cc10f36602bb831d4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::loadInitialSequence</definition>
+        <argsstring>() const</argsstring>
+        <name>loadInitialSequence</name>
+        <qualifiedname>themis::Changefeed::loadInitialSequence</qualifiedname>
+        <briefdescription>
+<para>Load the initial sequence counter value from RocksDB at construction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Handles both the binary little-endian uint64 format (new) and the legacy decimal-string format (old). Falls back to scanning events when the DB key cannot be read (e.g. unresolved Merge operands without a registered merge operator). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="371" column="14" bodyfile="src/cdc/changefeed.cpp" bodystart="200" bodyend="235"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a82664ab554324653606614413d535fac" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::Changefeed::scanMaxSequence</definition>
+        <argsstring>() const</argsstring>
+        <name>scanMaxSequence</name>
+        <qualifiedname>themis::Changefeed::scanMaxSequence</qualifiedname>
+        <briefdescription>
+<para>Scan all stored changefeed events and return the maximum sequence number. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Used as a crash-recovery fallback when loadInitialSequence() cannot read SEQUENCE_KEY directly. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="378" column="14" bodyfile="src/cdc/changefeed.cpp" bodystart="237" bodyend="273"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a2410ebc046bcd68103b8dfbf9f5d7c88" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::Changefeed::waitForEvents</definition>
+        <argsstring>(uint64_t from_sequence, uint32_t timeout_ms) const</argsstring>
+        <name>waitForEvents</name>
+        <qualifiedname>themis::Changefeed::waitForEvents</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>from_sequence</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>timeout_ms</declname>
+        </param>
+        <briefdescription>
+<para>Helper to wait for new events (for long-poll). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from_sequence</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">timeout_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="386" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="540" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a39d61474aa20bddea77204c350233acb" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Changefeed::retentionCleanupThread</definition>
+        <argsstring>()</argsstring>
+        <name>retentionCleanupThread</name>
+        <qualifiedname>themis::Changefeed::retentionCleanupThread</qualifiedname>
+        <briefdescription>
+<para>Retention Cleanup Thread. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: load(), <ref refid="classthemis_1_1_changefeed_1a265b7a0033b2198e1a39389fc02a7bdc" kindref="member">applyRetentionPolicy()</ref>, plk(), <ref refid="classthemis_1_1_changefeed_1aace1d23916a9f1ab882aa1349bf5f161" kindref="member">compactByKey()</ref>, THEMIS_DEBUG(), lock(), wait_for(), THEMIS_ERROR(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="409" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="1177" bodyend="1214"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_changefeed_1a43737b59bc96a16273a84896e0e4cec7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::Changefeed::notifySubscribers</definition>
+        <argsstring>(const ChangeEvent &amp;event)</argsstring>
+        <name>notifySubscribers</name>
+        <qualifiedname>themis::Changefeed::notifySubscribers</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_changefeed_1_1_change_event" kindref="compound">ChangeEvent</ref> &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Notify Subscribers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: load(), lk(), reserve(), size(), push_back(), matches(), callback(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/changefeed.h" line="425" column="10" bodyfile="src/cdc/changefeed.cpp" bodystart="1266" bodyend="1303"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/changefeed.h" line="38" column="1" bodyfile="include/cdc/changefeed.h" bodystart="38" bodyend="426"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_changefeed_1a265b7a0033b2198e1a39389fc02a7bdc" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>applyRetentionPolicy</name></member>
+      <member refid="classthemis_1_1_changefeed_1ae288f3527c79b76eb1b7fc695b0fab37" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>cf_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a1c985f349b58773fb6e152df70b5c7f0" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>ChangeEventType</name></member>
+      <member refid="classthemis_1_1_changefeed_1ad9f4bf1aa8bbc297824091e744f3570d" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>Changefeed</name></member>
+      <member refid="classthemis_1_1_changefeed_1a191ef97ec7c294d6ff985e975c65c3a7" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>clear</name></member>
+      <member refid="classthemis_1_1_changefeed_1aace1d23916a9f1ab882aa1349bf5f161" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>compactByKey</name></member>
+      <member refid="classthemis_1_1_changefeed_1aade005a3f6e72d40f39b7b32e857273c" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>db_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a485983779a153b2bb8db35a5a2e69823" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>deleteOldEvents</name></member>
+      <member refid="classthemis_1_1_changefeed_1abd4e92b948b9a6511c9c4c5796dc15bf" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>deleteOldEventsBySequence</name></member>
+      <member refid="classthemis_1_1_changefeed_1af2ecd83da744cc8443b4290c8a66e609" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>deleteOldEventsByTimestamp</name></member>
+      <member refid="classthemis_1_1_changefeed_1a44728fee9c20a713eacf87412ebbbeaf" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>getEvent</name></member>
+      <member refid="classthemis_1_1_changefeed_1abb8c9c7884844fcc90a3ff395e013cc4" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>getLatestSequence</name></member>
+      <member refid="classthemis_1_1_changefeed_1aa8a47653f833d8002e5fe33719c56a9d" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>getRetentionPolicy</name></member>
+      <member refid="classthemis_1_1_changefeed_1a9d10585232e82c77aa38b5f03402709f" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1_changefeed_1a320316054ef102dadef78ae2d1f61d9a" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>getWatermarks</name></member>
+      <member refid="classthemis_1_1_changefeed_1ab416fd2b299c7f834cbab8356efe95d7" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>isRetentionCleanupRunning</name></member>
+      <member refid="classthemis_1_1_changefeed_1a6865e01bec9a23a7d94560db22e3f9e3" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>KEY_PREFIX</name></member>
+      <member refid="classthemis_1_1_changefeed_1af88538e78b7f5bcbeba82c25d56b3c61" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>listEvents</name></member>
+      <member refid="classthemis_1_1_changefeed_1abe381c4887cef9f11ddd339801fa6f36" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>listEvents</name></member>
+      <member refid="classthemis_1_1_changefeed_1a1c1accbc9c97615cc10f36602bb831d4" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>loadInitialSequence</name></member>
+      <member refid="classthemis_1_1_changefeed_1a8b05eaa21aab9c214432a53b123474a1" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>makeKey</name></member>
+      <member refid="classthemis_1_1_changefeed_1aab5fc25453511c099dca45a42b3388d0" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>makeSequenceMergeOperator</name></member>
+      <member refid="classthemis_1_1_changefeed_1a62bf0f93122fc487689babae682bf0e5" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>next_subscription_id_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a947b44eff540f9e0e106554cd1acf364" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>nextSequence</name></member>
+      <member refid="classthemis_1_1_changefeed_1a43737b59bc96a16273a84896e0e4cec7" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>notifySubscribers</name></member>
+      <member refid="classthemis_1_1_changefeed_1ab7b0e20cccecbc6ffdba71b93c8cf7b4" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>persisted_sequence_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a8a2e6f28d96d1e39c52bc71d45af855e" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>recordEvent</name></member>
+      <member refid="classthemis_1_1_changefeed_1a08adf9c802754b3c0383a1eb100bdd5f" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>redactByKeyPrefix</name></member>
+      <member refid="classthemis_1_1_changefeed_1a6af90a7a924e941bc7da8a444285e87e" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>retention_cv_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a8ddb58bc45abf06c04bc0a0a01d7f1b9" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>retention_mutex_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a10eec9a0c4dd2ce56667087cf3ab4723" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>retention_policy_</name></member>
+      <member refid="classthemis_1_1_changefeed_1ac64bda9de8fc5eee0620303c6dffae1e" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>retention_thread_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a15fda1c4780571c56aced447ced186a3" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>retention_thread_running_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a39d61474aa20bddea77204c350233acb" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>retentionCleanupThread</name></member>
+      <member refid="classthemis_1_1_changefeed_1a82664ab554324653606614413d535fac" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>scanMaxSequence</name></member>
+      <member refid="classthemis_1_1_changefeed_1a67a054251f81be76c8b7fd4e1e37d613" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>sequence_counter_</name></member>
+      <member refid="classthemis_1_1_changefeed_1ad5c51e2699d026c78b58ba87f7bfaec7" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>SEQUENCE_KEY</name></member>
+      <member refid="classthemis_1_1_changefeed_1a9e7d8ad09d1cff5306310c5cd0eb60be" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>sequence_merge_supported_</name></member>
+      <member refid="classthemis_1_1_changefeed_1ad2b29b92e41f8c9f97008261664a4c90" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>sequence_persist_mutex_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a7ca84a7a55578ff0c87e0d65b33b2ecd" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>startRetentionCleanup</name></member>
+      <member refid="classthemis_1_1_changefeed_1ad534b70c25f90ed41db0a55d07f9806f" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>stopRetentionCleanup</name></member>
+      <member refid="classthemis_1_1_changefeed_1a26f6907697ffd7105f7105daf333e6fa" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>subscribe</name></member>
+      <member refid="classthemis_1_1_changefeed_1a43acc42fee971ca0c85c66aa0898a95a" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>subscription_count_</name></member>
+      <member refid="classthemis_1_1_changefeed_1aa38af7b02036b188d864a9eccdbbf919" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>SubscriptionCallback</name></member>
+      <member refid="classthemis_1_1_changefeed_1ae517483d6698f07cd60deeb6f42f409a" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>subscriptions_</name></member>
+      <member refid="classthemis_1_1_changefeed_1a2641557694eb159fe32f3ee933f8e2f4" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>subscriptions_mutex_</name></member>
+      <member refid="classthemis_1_1_changefeed_1ad1de3ddcb0c259554c7e8f6c646d2b59" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>unsubscribe</name></member>
+      <member refid="classthemis_1_1_changefeed_1abe5d7454f12db9044859c9dbafc33838" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>updateRetentionPolicy</name></member>
+      <member refid="classthemis_1_1_changefeed_1a2410ebc046bcd68103b8dfbf9f5d7c88" prot="private" virt="non-virtual"><scope>themis::Changefeed</scope><name>waitForEvents</name></member>
+      <member refid="classthemis_1_1_changefeed_1a3809bbab20386e00db8ef7a688534935" prot="public" virt="non-virtual"><scope>themis::Changefeed</scope><name>~Changefeed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

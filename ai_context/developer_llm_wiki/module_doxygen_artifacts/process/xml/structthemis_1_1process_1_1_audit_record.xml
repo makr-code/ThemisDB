@@ -1,0 +1,234 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_audit_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::AuditRecord</compoundname>
+    <includes refid="model__history__contract_8h" local="no">model_history_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a661a88b34b340dc252682e5dd5af3703" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::AuditRecord::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::process::AuditRecord::timestamp_ns</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>UTC timestamp of operation (nanoseconds since epoch). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="131" column="13" bodyfile="include/process/model_history_contract.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a88096921dd92efc62182cb43f39014f8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::actor</definition>
+        <argsstring></argsstring>
+        <name>actor</name>
+        <qualifiedname>themis::process::AuditRecord::actor</qualifiedname>
+        <briefdescription>
+<para>Principal (user/service) ID that performed the operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="134" column="17" bodyfile="include/process/model_history_contract.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a9b0a9b6daf09e4a6a5ca76b83fa22c23" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::operation_type</definition>
+        <argsstring></argsstring>
+        <name>operation_type</name>
+        <qualifiedname>themis::process::AuditRecord::operation_type</qualifiedname>
+        <briefdescription>
+<para>Operation type: &quot;import&quot; | &quot;link&quot; | &quot;delete&quot; | &quot;merge&quot; | &quot;recover&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="137" column="17" bodyfile="include/process/model_history_contract.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a0f85b605305401662f9c51c5fac54850" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::model_id</definition>
+        <argsstring></argsstring>
+        <name>model_id</name>
+        <qualifiedname>themis::process::AuditRecord::model_id</qualifiedname>
+        <briefdescription>
+<para>Model ID affected by this operation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="140" column="17" bodyfile="include/process/model_history_contract.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a9c6a693237c3ed3460540818ad2cfc89" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::process::AuditRecord::shard_id</qualifiedname>
+        <briefdescription>
+<para>Shard ID where operation executed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="143" column="17" bodyfile="include/process/model_history_contract.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a78606aa9160b7dca7b6f3dd0695bf4a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::model_state_hash</definition>
+        <argsstring></argsstring>
+        <name>model_state_hash</name>
+        <qualifiedname>themis::process::AuditRecord::model_state_hash</qualifiedname>
+        <briefdescription>
+<para>Cryptographic hash of model state after operation (for integrity). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="146" column="17" bodyfile="include/process/model_history_contract.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a91e04ae42ded2f5228a207da84cc8508" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::delta</definition>
+        <argsstring></argsstring>
+        <name>delta</name>
+        <qualifiedname>themis::process::AuditRecord::delta</qualifiedname>
+        <briefdescription>
+<para>Serialized operation delta (diff representation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="149" column="17" bodyfile="include/process/model_history_contract.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1ad60d78c9cae63c0e20ac4631165820da" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::AuditRecord::conflict_resolved</definition>
+        <argsstring></argsstring>
+        <name>conflict_resolved</name>
+        <qualifiedname>themis::process::AuditRecord::conflict_resolved</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true if conflict resolution was involved </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="152" column="10" bodyfile="include/process/model_history_contract.h" bodystart="152" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1adb0fd5116b9ea9f161dcab0af9b2950f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::merge_metadata</definition>
+        <argsstring></argsstring>
+        <name>merge_metadata</name>
+        <qualifiedname>themis::process::AuditRecord::merge_metadata</qualifiedname>
+        <briefdescription>
+<para>Metadata about conflict resolution (if conflict_resolved=true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="155" column="17" bodyfile="include/process/model_history_contract.h" bodystart="155" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1aaf32e4e4716c9d7ea8b431dcbf0147c6" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::trace_id</definition>
+        <argsstring></argsstring>
+        <name>trace_id</name>
+        <qualifiedname>themis::process::AuditRecord::trace_id</qualifiedname>
+        <briefdescription>
+<para>Correlation ID for distributed tracing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="158" column="17" bodyfile="include/process/model_history_contract.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a188a8d68a61be08431eef1bf3c5286e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::process::AuditRecord::legal_hold</definition>
+        <argsstring></argsstring>
+        <name>legal_hold</name>
+        <qualifiedname>themis::process::AuditRecord::legal_hold</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Optional: legal hold flag (prevents deletion during retention window). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="161" column="10" bodyfile="include/process/model_history_contract.h" bodystart="161" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_audit_record_1a1ae25642a904c2323d9ccd4728f7faac" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::AuditRecord::compliance_marker</definition>
+        <argsstring></argsstring>
+        <name>compliance_marker</name>
+        <qualifiedname>themis::process::AuditRecord::compliance_marker</qualifiedname>
+        <briefdescription>
+<para>Optional: GDPR/compliance marker (right to explain, data subject access). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="164" column="17" bodyfile="include/process/model_history_contract.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_audit_record_1aa3204d0ecaaa9572329cf0934b85ffca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::AuditRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::process::AuditRecord::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize audit record to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON representation </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/model_history_contract.h" line="170" column="20" bodyfile="include/process/model_history_contract.h" bodystart="170" bodyend="185"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Single record in the immutable audit trail. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Append-only log entry; no retroactive deletion. </para>
+    </detaileddescription>
+    <location file="include/process/model_history_contract.h" line="129" column="1" bodyfile="include/process/model_history_contract.h" bodystart="129" bodyend="186"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a88096921dd92efc62182cb43f39014f8" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>actor</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a1ae25642a904c2323d9ccd4728f7faac" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>compliance_marker</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1ad60d78c9cae63c0e20ac4631165820da" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>conflict_resolved</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a91e04ae42ded2f5228a207da84cc8508" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>delta</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a188a8d68a61be08431eef1bf3c5286e0" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>legal_hold</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1adb0fd5116b9ea9f161dcab0af9b2950f" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>merge_metadata</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a0f85b605305401662f9c51c5fac54850" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>model_id</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a78606aa9160b7dca7b6f3dd0695bf4a4" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>model_state_hash</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a9b0a9b6daf09e4a6a5ca76b83fa22c23" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>operation_type</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a9c6a693237c3ed3460540818ad2cfc89" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1a661a88b34b340dc252682e5dd5af3703" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>timestamp_ns</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1aa3204d0ecaaa9572329cf0934b85ffca" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1process_1_1_audit_record_1aaf32e4e4716c9d7ea8b431dcbf0147c6" prot="public" virt="non-virtual"><scope>themis::process::AuditRecord</scope><name>trace_id</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

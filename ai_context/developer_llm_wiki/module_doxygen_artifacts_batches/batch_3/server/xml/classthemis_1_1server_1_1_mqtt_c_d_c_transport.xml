@@ -1,0 +1,229 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_mqtt_c_d_c_transport" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::MqttCDCTransport</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">cdc::ICDCTransport</basecompoundref>
+    <includes refid="mqtt__client__service_8h" local="no">mqtt_client_service.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a816d5e0348d0828ea6aa49618019c2c6" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_mqtt_client_service" kindref="compound">MqttClientService</ref> &amp;</type>
+        <definition>MqttClientService&amp; themis::server::MqttCDCTransport::service_</definition>
+        <argsstring></argsstring>
+        <name>service_</name>
+        <qualifiedname>themis::server::MqttCDCTransport::service_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="452" column="23" bodyfile="include/server/mqtt_client_service.h" bodystart="452" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1ac157eb2ebc34b18a53100757d9117e50" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::MqttCDCTransport::MqttCDCTransport</definition>
+        <argsstring>(MqttClientService &amp;s)</argsstring>
+        <name>MqttCDCTransport</name>
+        <qualifiedname>themis::server::MqttCDCTransport::MqttCDCTransport</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1server_1_1_mqtt_client_service" kindref="compound">MqttClientService</ref> &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="432" column="14" bodyfile="include/server/mqtt_client_service.h" bodystart="432" bodyend="432"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a541487ab2befafef801d4240c9818083" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::MqttCDCTransport::start</definition>
+        <argsstring>() override</argsstring>
+        <name>start</name>
+        <qualifiedname>themis::server::MqttCDCTransport::start</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="433" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="433" bodyend="433"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a8f51b513942c4704485069aedfdba722" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MqttCDCTransport::stop</definition>
+        <argsstring>() override</argsstring>
+        <name>stop</name>
+        <qualifiedname>themis::server::MqttCDCTransport::stop</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="434" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="434" bodyend="434"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a8c7ba0984d9cc5d4300bfd92aa8f95d2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::server::MqttCDCTransport::publish</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;) override</argsstring>
+        <name>publish</name>
+        <qualifiedname>themis::server::MqttCDCTransport::publish</qualifiedname>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="435" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="435" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1ad734d6df30b9896d5d129f0302549aef" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::server::MqttCDCTransport::topicForEvent</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;) const</argsstring>
+        <name>topicForEvent</name>
+        <qualifiedname>themis::server::MqttCDCTransport::topicForEvent</qualifiedname>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="436" column="17" bodyfile="include/server/mqtt_client_service.h" bodystart="436" bodyend="436"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a9704676ac71bfe1f1414c06f64987a37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MqttCDCTransport::setTopicPrefix</definition>
+        <argsstring>(const std::string &amp;)</argsstring>
+        <name>setTopicPrefix</name>
+        <qualifiedname>themis::server::MqttCDCTransport::setTopicPrefix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <briefdescription>
+<para>Set Topic Prefix. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setTopicPrefix without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="442" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="442" bodyend="442"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a28bd8d8b08070a0972f77a8ff3c03098" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::MqttCDCTransport::setQos</definition>
+        <argsstring>(uint8_t)</argsstring>
+        <name>setQos</name>
+        <qualifiedname>themis::server::MqttCDCTransport::setQos</qualifiedname>
+        <param>
+          <type>uint8_t</type>
+        </param>
+        <briefdescription>
+<para>Set Qos. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">uint8_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setQos without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="448" column="10" bodyfile="include/server/mqtt_client_service.h" bodystart="448" bodyend="448"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a1ae46e6cd5fadfb3cd5ed6788c8a15f9" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::server::MqttCDCTransport::topicPrefix</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>topicPrefix</name>
+        <qualifiedname>themis::server::MqttCDCTransport::topicPrefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="449" column="23" bodyfile="include/server/mqtt_client_service.h" bodystart="449" bodyend="449"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1aab37a585d7398d3d5e614485e6f77a2f" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::server::MqttCDCTransport::qos</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>qos</name>
+        <qualifiedname>themis::server::MqttCDCTransport::qos</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/mqtt_client_service.h" line="450" column="13" bodyfile="include/server/mqtt_client_service.h" bodystart="450" bodyend="450"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>cdc::ICDCTransport</label>
+      </node>
+      <node id="1">
+        <label>themis::server::MqttCDCTransport</label>
+        <link refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>cdc::ICDCTransport</label>
+      </node>
+      <node id="1">
+        <label>themis::server::MqttCDCTransport</label>
+        <link refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/mqtt_client_service.h" line="430" column="1" bodyfile="include/server/mqtt_client_service.h" bodystart="430" bodyend="453"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1ac157eb2ebc34b18a53100757d9117e50" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>MqttCDCTransport</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a8c7ba0984d9cc5d4300bfd92aa8f95d2" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>publish</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1aab37a585d7398d3d5e614485e6f77a2f" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>qos</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a816d5e0348d0828ea6aa49618019c2c6" prot="private" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>service_</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a28bd8d8b08070a0972f77a8ff3c03098" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>setQos</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a9704676ac71bfe1f1414c06f64987a37" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>setTopicPrefix</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a541487ab2befafef801d4240c9818083" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>start</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a8f51b513942c4704485069aedfdba722" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>stop</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1ad734d6df30b9896d5d129f0302549aef" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>topicForEvent</name></member>
+      <member refid="classthemis_1_1server_1_1_mqtt_c_d_c_transport_1a1ae46e6cd5fadfb3cd5ed6788c8a15f9" prot="public" virt="non-virtual"><scope>themis::server::MqttCDCTransport</scope><name>topicPrefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

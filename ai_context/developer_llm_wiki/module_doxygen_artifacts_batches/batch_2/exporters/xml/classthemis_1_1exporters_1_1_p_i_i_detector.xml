@@ -1,0 +1,590 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1exporters_1_1_p_i_i_detector" kind="class" language="C++" prot="public">
+    <compoundname>themis::exporters::PIIDetector</compoundname>
+    <includes refid="pii__detector_8h" local="no">pii_detector.h</includes>
+    <innerclass refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match" prot="public">themis::exporters::PIIDetector::PIIMatch</innerclass>
+    <innerclass refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config" prot="public">themis::exporters::PIIDetector::Config</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PIIType</name>
+        <qualifiedname>themis::exporters::PIIDetector::PIIType</qualifiedname>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446a61a649a33f2869e5e35fbb7aff3a80d9" prot="public">
+          <name>EMAIL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446af9dd946cc89c1f3b41a0edbe0f36931d" prot="public">
+          <name>PHONE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446a8fe59663630697bb628e4de0d1592cdc" prot="public">
+          <name>SSN</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446a23a27a41c4dad3ef8c54f896b77f9056" prot="public">
+          <name>CREDIT_CARD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446ab3e03bb42ca194c075e80b94ec97b484" prot="public">
+          <name>IP_ADDRESS</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446a72baef04098f035e8a320b03ad197818" prot="public">
+          <name>CUSTOM</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="24" column="5" bodyfile="include/exporters/pii_detector.h" bodystart="24" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="enum" id="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RedactionStrategy</name>
+        <qualifiedname>themis::exporters::PIIDetector::RedactionStrategy</qualifiedname>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7a0a9501840acacfc8efe7522f5340000c" prot="public">
+          <name>MASK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7a50b7748612b28db487d115f220bb77ab" prot="public">
+          <name>HASH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7a78baf367c4626442174307cdf41c6538" prot="public">
+          <name>REMOVE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7afba5cdfa4bcb408f641c743519a0fe19" prot="public">
+          <name>PARTIAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="33" column="5" bodyfile="include/exporters/pii_detector.h" bodystart="33" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a45876bc86cf9c2975f4567a609e2f328" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::exporters::PIIDetector::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::exporters::PIIDetector::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="111" column="12" bodyfile="include/exporters/pii_detector.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a2de766a6e66fcca283da9f8172d4f54d" prot="private" static="no" mutable="no">
+        <type>std::regex</type>
+        <definition>std::regex themis::exporters::PIIDetector::email_pattern_</definition>
+        <argsstring></argsstring>
+        <name>email_pattern_</name>
+        <qualifiedname>themis::exporters::PIIDetector::email_pattern_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="114" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_p_i_i_detector_1ac24616b298ad26ed168ae174573fa286" prot="private" static="no" mutable="no">
+        <type>std::regex</type>
+        <definition>std::regex themis::exporters::PIIDetector::phone_pattern_</definition>
+        <argsstring></argsstring>
+        <name>phone_pattern_</name>
+        <qualifiedname>themis::exporters::PIIDetector::phone_pattern_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="115" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_p_i_i_detector_1afc76a4621a4c506199cef8762a5529bb" prot="private" static="no" mutable="no">
+        <type>std::regex</type>
+        <definition>std::regex themis::exporters::PIIDetector::ssn_pattern_</definition>
+        <argsstring></argsstring>
+        <name>ssn_pattern_</name>
+        <qualifiedname>themis::exporters::PIIDetector::ssn_pattern_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="116" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_p_i_i_detector_1ae062b8bbbb016da253d401c9173df939" prot="private" static="no" mutable="no">
+        <type>std::regex</type>
+        <definition>std::regex themis::exporters::PIIDetector::credit_card_pattern_</definition>
+        <argsstring></argsstring>
+        <name>credit_card_pattern_</name>
+        <qualifiedname>themis::exporters::PIIDetector::credit_card_pattern_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="117" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a06457110272e1861959d41660c3f14b1" prot="private" static="no" mutable="no">
+        <type>std::regex</type>
+        <definition>std::regex themis::exporters::PIIDetector::ip_pattern_</definition>
+        <argsstring></argsstring>
+        <name>ip_pattern_</name>
+        <qualifiedname>themis::exporters::PIIDetector::ip_pattern_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="118" column="16" bodyfile="include/exporters/pii_detector.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a69159b23495ffa5f75664bf1edc5e5fe" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::PIIDetector::PIIDetector</definition>
+        <argsstring>()</argsstring>
+        <name>PIIDetector</name>
+        <qualifiedname>themis::exporters::PIIDetector::PIIDetector</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector" kindref="compound">PIIDetector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="66" column="14" bodyfile="src/exporters/pii_detector.cpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1ae6e5fe9e724336c8ee0de6dea174f3e6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::exporters::PIIDetector::PIIDetector</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>PIIDetector</name>
+        <qualifiedname>themis::exporters::PIIDetector::PIIDetector</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector" kindref="compound">PIIDetector</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="72" column="14" bodyfile="src/exporters/pii_detector.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a2ad5e02b82dc3de17647219640985196" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1exporters_1_1_p_i_i_detector_1_1_p_i_i_match" kindref="compound">PIIMatch</ref> &gt;</type>
+        <definition>std::vector&lt; PIIDetector::PIIMatch &gt; themis::exporters::PIIDetector::detectPII</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>detectPII</name>
+        <qualifiedname>themis::exporters::PIIDetector::detectPII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Detect PII. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="79" column="17" bodyfile="src/exporters/pii_detector.cpp" bodystart="57" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a2b37d8129a7eff6446651339fdb3ff24" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PIIDetector::redactPII</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>redactPII</name>
+        <qualifiedname>themis::exporters::PIIDetector::redactPII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Redact PII. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="86" column="17" bodyfile="src/exporters/pii_detector.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a5d350dad68f86c90f3da292fb7fa1cd0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PIIDetector::redactPII</definition>
+        <argsstring>(const std::string &amp;text, RedactionStrategy strategy) const</argsstring>
+        <name>redactPII</name>
+        <qualifiedname>themis::exporters::PIIDetector::redactPII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7" kindref="member">RedactionStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Redact PII. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="94" column="17" bodyfile="src/exporters/pii_detector.cpp" bodystart="132" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a5985a397ba26cdafd76d8735da751846" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::exporters::PIIDetector::containsPII</definition>
+        <argsstring>(const std::string &amp;text) const</argsstring>
+        <name>containsPII</name>
+        <qualifiedname>themis::exporters::PIIDetector::containsPII</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+<para>Contains PII. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="101" column="10" bodyfile="src/exporters/pii_detector.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a39a3fed98911b6598b4ff034630962dc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7" kindref="member">RedactionStrategy</ref></type>
+        <definition>PIIDetector::RedactionStrategy themis::exporters::PIIDetector::getStrategy</definition>
+        <argsstring>(PIIType type) const</argsstring>
+        <name>getStrategy</name>
+        <qualifiedname>themis::exporters::PIIDetector::getStrategy</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446" kindref="member">PIIType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Get Strategy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="108" column="23" bodyfile="src/exporters/pii_detector.cpp" bodystart="164" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1aa4df6dca1bf012f2f2045cbb1c21e3d3" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::exporters::PIIDetector::initPatterns</definition>
+        <argsstring>()</argsstring>
+        <name>initPatterns</name>
+        <qualifiedname>themis::exporters::PIIDetector::initPatterns</qualifiedname>
+        <briefdescription>
+<para>Init Patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::regex(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="123" column="10" bodyfile="src/exporters/pii_detector.cpp" bodystart="29" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1adf1d6bd09a27de7fbbcab4c71300a96f" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PIIDetector::applyRedaction</definition>
+        <argsstring>(const std::string &amp;value, RedactionStrategy strategy) const</argsstring>
+        <name>applyRedaction</name>
+        <qualifiedname>themis::exporters::PIIDetector::applyRedaction</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7" kindref="member">RedactionStrategy</ref></type>
+          <declname>strategy</declname>
+        </param>
+        <briefdescription>
+<para>Apply Redaction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">strategy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="130" column="17" bodyfile="src/exporters/pii_detector.cpp" bodystart="172" bodyend="185"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1afb81cf12d62e5a0a5892c5752968c00b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PIIDetector::maskString</definition>
+        <argsstring>(const std::string &amp;value) const</argsstring>
+        <name>maskString</name>
+        <qualifiedname>themis::exporters::PIIDetector::maskString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Mask String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="136" column="17" bodyfile="src/exporters/pii_detector.cpp" bodystart="187" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1aee09414bbc58568c67d663fb22881cae" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PIIDetector::hashString</definition>
+        <argsstring>(const std::string &amp;value) const</argsstring>
+        <name>hashString</name>
+        <qualifiedname>themis::exporters::PIIDetector::hashString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Hash String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="142" column="17" bodyfile="src/exporters/pii_detector.cpp" bodystart="191" bodyend="204"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1exporters_1_1_p_i_i_detector_1a736bdf899b9b07fd90c74349ce928711" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::exporters::PIIDetector::partialRedact</definition>
+        <argsstring>(const std::string &amp;value) const</argsstring>
+        <name>partialRedact</name>
+        <qualifiedname>themis::exporters::PIIDetector::partialRedact</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Partial Redact. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/exporters/pii_detector.h" line="148" column="17" bodyfile="src/exporters/pii_detector.cpp" bodystart="206" bodyend="216"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/exporters/pii_detector.h" line="22" column="1" bodyfile="include/exporters/pii_detector.h" bodystart="22" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1adf1d6bd09a27de7fbbcab4c71300a96f" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>applyRedaction</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a45876bc86cf9c2975f4567a609e2f328" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>config_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a5985a397ba26cdafd76d8735da751846" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>containsPII</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ae062b8bbbb016da253d401c9173df939" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>credit_card_pattern_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a2ad5e02b82dc3de17647219640985196" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>detectPII</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a2de766a6e66fcca283da9f8172d4f54d" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>email_pattern_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a39a3fed98911b6598b4ff034630962dc" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>getStrategy</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1aee09414bbc58568c67d663fb22881cae" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>hashString</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1aa4df6dca1bf012f2f2045cbb1c21e3d3" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>initPatterns</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a06457110272e1861959d41660c3f14b1" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>ip_pattern_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1afb81cf12d62e5a0a5892c5752968c00b" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>maskString</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a736bdf899b9b07fd90c74349ce928711" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>partialRedact</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ac24616b298ad26ed168ae174573fa286" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>phone_pattern_</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a69159b23495ffa5f75664bf1edc5e5fe" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>PIIDetector</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ae6e5fe9e724336c8ee0de6dea174f3e6" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>PIIDetector</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1af9fb393a60a9a0b224e366db090dd446" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>PIIType</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1ac6066f99da86a8793b0b706294530ee7" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>RedactionStrategy</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a2b37d8129a7eff6446651339fdb3ff24" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>redactPII</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1a5d350dad68f86c90f3da292fb7fa1cd0" prot="public" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>redactPII</name></member>
+      <member refid="classthemis_1_1exporters_1_1_p_i_i_detector_1afc76a4621a4c506199cef8762a5529bb" prot="private" virt="non-virtual"><scope>themis::exporters::PIIDetector</scope><name>ssn_pattern_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

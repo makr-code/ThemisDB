@@ -1,0 +1,280 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="analytics__export_8h" kind="file" language="C++">
+    <compoundname>analytics_export.h</compoundname>
+    <includes refid="arrow__export_8h" local="yes">arrow_export.h</includes>
+    <includes refid="analytics__api__contract_8h" local="yes">analytics/analytics_api_contract.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">future</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="bench__analytics__operability__paths_8cpp" local="yes">benchmarks/analytics/bench_analytics_operability_paths.cpp</includedby>
+    <includedby refid="analytics__export_8cpp" local="yes">src/analytics/analytics_export.cpp</includedby>
+    <includedby refid="test__analytics__bounded__execution__policy_8cpp" local="yes">tests/analytics/test_analytics_bounded_execution_policy.cpp</includedby>
+    <includedby refid="test__analytics__serving__export__integration_8cpp" local="yes">tests/analytics/test_analytics_serving_export_integration.cpp</includedby>
+    <includedby refid="test__analytics__wave__d__operability_8cpp" local="yes">tests/analytics/test_analytics_wave_d_operability.cpp</includedby>
+    <includedby refid="test__arrow__export_8cpp" local="yes">tests/analytics/test_arrow_export.cpp</includedby>
+    <incdepgraph>
+      <node id="9">
+        <label>analytics/analytics_api_contract.h</label>
+        <link refid="analytics__api__contract_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/analytics/analytics_export.h</label>
+        <link refid="analytics__export_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>arrow_export.h</label>
+        <link refid="arrow__export_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>atomic</label>
+      </node>
+      <node id="12">
+        <label>chrono</label>
+      </node>
+      <node id="10">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="14">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>variant</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/analytics/bench_analytics_operability_paths.cpp</label>
+        <link refid="bench__analytics__operability__paths_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/analytics/analytics_export.h</label>
+        <link refid="analytics__export_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/analytics/analytics_export.cpp</label>
+        <link refid="analytics__export_8cpp"/>
+      </node>
+      <node id="4">
+        <label>tests/analytics/test_analytics_bounded_execution_policy.cpp</label>
+        <link refid="test__analytics__bounded__execution__policy_8cpp"/>
+      </node>
+      <node id="5">
+        <label>tests/analytics/test_analytics_serving_export_integration.cpp</label>
+        <link refid="test__analytics__serving__export__integration_8cpp"/>
+      </node>
+      <node id="6">
+        <label>tests/analytics/test_analytics_wave_d_operability.cpp</label>
+        <link refid="test__analytics__wave__d__operability_8cpp"/>
+      </node>
+      <node id="7">
+        <label>tests/analytics/test_arrow_export.cpp</label>
+        <link refid="test__arrow__export_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1analytics_1_1_export_options" prot="public">themis::analytics::ExportOptions</innerclass>
+    <innerclass refid="structthemis_1_1analytics_1_1_export_result" prot="public">themis::analytics::ExportResult</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_i_analytics_exporter" prot="public">themis::analytics::IAnalyticsExporter</innerclass>
+    <innerclass refid="classthemis_1_1analytics_1_1_exporter_factory" prot="public">themis::analytics::ExporterFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1analytics">themis::analytics</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="arrow__export_8h" kindref="compound">arrow_export.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="analytics__api__contract_8h" kindref="compound">analytics/analytics_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1analytics" kindref="compound">analytics</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7" kindref="member">ExportStatus</ref><sp/>{</highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ad0749aaba8b833466dfcbb0428e4f89c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ad0749aaba8b833466dfcbb0428e4f89c" kindref="member">SUCCESS</ref>,</highlight></codeline>
+<codeline lineno="28" refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ab9e14d9b2886bcff408b85aefa780419" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7ab9e14d9b2886bcff408b85aefa780419" kindref="member">FAILED</ref>,</highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7afba5cdfa4bcb408f641c743519a0fe19" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7afba5cdfa4bcb408f641c743519a0fe19" kindref="member">PARTIAL</ref>,</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7a5343bcd21aad65124478a61831f6949e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7a5343bcd21aad65124478a61831f6949e" kindref="member">NOT_SUPPORTED</ref>,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7a877d772cba43dce7b509c2f4ab139d73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7a877d772cba43dce7b509c2f4ab139d73" kindref="member">POLICY_REJECTED</ref><sp/></highlight></codeline>
+<codeline lineno="32"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" kindref="member">ExportFormat</ref><sp/>{</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a9831a9a78157affd18960d81cac86c14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a9831a9a78157affd18960d81cac86c14" kindref="member">FMT_ARROW_IPC</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Arrow<sp/>IPC<sp/>(Inter-Process<sp/>Communication)<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191aaff8553ddbd35cd6190a922f0ad7f0f9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191aaff8553ddbd35cd6190a922f0ad7f0f9" kindref="member">FMT_ARROW_PARQUET</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Apache<sp/>Parquet<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a9646480be165c583fe87fff640af860f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a9646480be165c583fe87fff640af860f" kindref="member">FMT_ARROW_FEATHER</ref>,<sp/><sp/></highlight><highlight class="comment">//<sp/>Apache<sp/>Feather<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191acc8d68c551c4a9a6d5313e07de4deafd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191acc8d68c551c4a9a6d5313e07de4deafd" kindref="member">CSV</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Comma-separated<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a0ecd11c1d7a287401d148a23bbd7a2f8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a0ecd11c1d7a287401d148a23bbd7a2f8" kindref="member">JSON</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>JSON<sp/>format</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1analytics_1_1_export_options" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1analytics_1_1_export_options_1a7a4a4484d2686dbd6cc3e2f08309b291" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" kindref="member">ExportFormat</ref><sp/><ref refid="structthemis_1_1analytics_1_1_export_options_1a7a4a4484d2686dbd6cc3e2f08309b291" kindref="member">format</ref><sp/>=<sp/><ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191a9831a9a78157affd18960d81cac86c14" kindref="member">ExportFormat::FMT_ARROW_IPC</ref>;</highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1analytics_1_1_export_options_1a648cfa01b374684d994b5f892c613c7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_options_1a648cfa01b374684d994b5f892c613c7f" kindref="member">compress</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45" refid="structthemis_1_1analytics_1_1_export_options_1a213bed853fa5f64abc29301f1a29f1d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1_export_options_1a213bed853fa5f64abc29301f1a29f1d9" kindref="member">compression_codec</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;zstd&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>zstd,<sp/>gzip,<sp/>snappy,<sp/>lz4</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1analytics_1_1_export_options_1ac6f8953dae930812cd9eef31c17f9422" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_options_1ac6f8953dae930812cd9eef31c17f9422" kindref="member">compression_level</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1analytics_1_1_export_options_1a3393f027be62fc8d1a5f00015d7c8f73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_options_1a3393f027be62fc8d1a5f00015d7c8f73" kindref="member">batch_size</ref><sp/>=<sp/>10000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Rows<sp/>per<sp/>batch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1analytics_1_1_export_options_1a8dd1868db76fa8f70e7ff0cb798040ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_options_1a8dd1868db76fa8f70e7ff0cb798040ae" kindref="member">include_metadata</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1analytics_1_1_export_options_1a0f1207113b684da92f02e54bce95f271" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref><sp/><ref refid="structthemis_1_1analytics_1_1_export_options_1a0f1207113b684da92f02e54bce95f271" kindref="member">policy</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="structthemis_1_1analytics_1_1_export_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1analytics_1_1_export_result" kindref="compound">ExportResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="54" refid="structthemis_1_1analytics_1_1_export_result_1ac1516a90381c135d94d7a3b759e3ca7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1analytics_1a75f49971ff146ac6b6dd9e6b533a94a7" kindref="member">ExportStatus</ref><sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1ac1516a90381c135d94d7a3b759e3ca7e" kindref="member">status</ref>;</highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1analytics_1_1_export_result_1a0a49b28cf4d76ba38e90759be1371d1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1a0a49b28cf4d76ba38e90759be1371d1d" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1analytics_1_1_export_result_1ab840075ff91e93678f08dd72e63063b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1ab840075ff91e93678f08dd72e63063b5" kindref="member">rows_exported</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1analytics_1_1_export_result_1a4f97358a65fb75300f95b73b898a2712" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1a4f97358a65fb75300f95b73b898a2712" kindref="member">bytes_written</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1analytics_1_1_export_result_1a11fd73f5953a5656f8c21695b5f1af3f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1a11fd73f5953a5656f8c21695b5f1af3f" kindref="member">duration_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1ab75a6edee4c29359343443a7a61d1300" kindref="member">operation_id</ref>;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1analytics_1_1_export_result_1a3e0b5b176f55890f8dd57ab0612a05b9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1a3e0b5b176f55890f8dd57ab0612a05b9" kindref="member">correlation_id</ref>;</highlight></codeline>
+<codeline lineno="61" refid="structthemis_1_1analytics_1_1_export_result_1a97a8e62e4018263772fe7f18a1a839e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1a97a8e62e4018263772fe7f18a1a839e3" kindref="member">failure_class</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;none&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1analytics_1_1_export_result_1aef0b92bb9185c33099fef16d3211c3ba" kindref="member">operator_hints</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65" refid="classthemis_1_1analytics_1_1_i_analytics_exporter" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" kindref="member">IAnalyticsExporter</ref><sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="71" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a0ab16a998ce724b2029ef8ded66de856" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a0ab16a998ce724b2029ef8ded66de856" kindref="member">~IAnalyticsExporter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" kindref="member">IAnalyticsExporter</ref>(<ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" kindref="member">IAnalyticsExporter</ref>&amp;&amp;)<sp/>noexcept</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>inflight_export_count_(0u)<sp/>{}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a192b633616abd5502f32a2c76b2fbe15" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" kindref="member">IAnalyticsExporter</ref>&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a192b633616abd5502f32a2c76b2fbe15" kindref="member">operator=</ref>(<ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" kindref="member">IAnalyticsExporter</ref>&amp;&amp;)<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inflight_export_count_.store(0u,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1ae08bcec8d40a8f9667ea568f1da0a733" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1ae08bcec8d40a8f9667ea568f1da0a733" kindref="member">IAnalyticsExporter</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" kindref="member">IAnalyticsExporter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="82" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a8835b911ccd0dfd8a1f6a65f4aab5d54" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" kindref="member">IAnalyticsExporter</ref>&amp;<sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a8835b911ccd0dfd8a1f6a65f4aab5d54" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1aaf0239654e087f0ecad0092502d2703e" kindref="member">IAnalyticsExporter</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a38f55af3620bd274d21e3a9eb339223e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a38f55af3620bd274d21e3a9eb339223e" kindref="member">IAnalyticsExporter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="88" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1ac43ce408c62a8297966cf157b95fe5ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_result" kindref="compound">ExportResult</ref><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1ac43ce408c62a8297966cf157b95fe5ad" kindref="member">exportToFile</ref>(</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">ArrowRecordBatch</ref>&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>output_path,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref>&amp;<sp/>options<sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref>())<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="structthemis_1_1analytics_1_1_export_result" kindref="compound">ExportResult</ref><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1ac43ce408c62a8297966cf157b95fe5ad" kindref="member">exportToFile</ref>(</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">ArrowRecordBatch</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>batch,</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>output_path,</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>options,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_bounded_execution_policy" kindref="compound">BoundedExecutionPolicy</ref>&amp;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policy);</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::atomic&lt;uint32_t&gt;<sp/>inflight_export_count_{0u};</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1ae043984d391a25e8bffcbd010e045a40" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1ae043984d391a25e8bffcbd010e045a40" kindref="member">exportToString</ref>(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">ArrowRecordBatch</ref>&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref>&amp;<sp/>options<sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref>())<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1af6b2eb0f2c7437218d050e86ed28a3c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_result" kindref="compound">ExportResult</ref><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1af6b2eb0f2c7437218d050e86ed28a3c1" kindref="member">exportWithCallback</ref>(</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_arrow_record_batch" kindref="compound">ArrowRecordBatch</ref>&amp;<sp/>batch,</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;)&gt;<sp/>callback,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref>&amp;<sp/>options<sp/>=<sp/><ref refid="structthemis_1_1analytics_1_1_export_options" kindref="compound">ExportOptions</ref>())<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a1da1bd89124b23e05d81996df51cd63f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1a1da1bd89124b23e05d81996df51cd63f" kindref="member">supportsFormat</ref>(<ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" kindref="member">ExportFormat</ref><sp/>format)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1abb006c6d08c02391070d007b96e5ae9a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="classthemis_1_1analytics_1_1_i_analytics_exporter_1abb006c6d08c02391070d007b96e5ae9a" kindref="member">getExporterInfo</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="classthemis_1_1analytics_1_1_exporter_factory" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1analytics_1_1_exporter_factory" kindref="compound">ExporterFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IAnalyticsExporter&gt;<sp/><ref refid="classthemis_1_1analytics_1_1_exporter_factory_1a46517ed36613c998ca03fbf2fcbf71af" kindref="member">createExporter</ref>(<ref refid="namespacethemis_1_1analytics_1a4256541223492e653650ca8abdba4191" kindref="member">ExportFormat</ref><sp/>format);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;IAnalyticsExporter&gt;<sp/><ref refid="classthemis_1_1analytics_1_1_exporter_factory_1ab458864183fa333f918bae5ea006b15a" kindref="member">createDefaultExporter</ref>();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>analytics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/analytics/analytics_export.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::srg::StubHashRing</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1a6fbad2c971317fa7df96e151979e91ab" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::srg::StubHashRing::num_shards_</definition>
+        <argsstring></argsstring>
+        <name>num_shards_</name>
+        <qualifiedname>themis::bench::srg::StubHashRing::num_shards_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="103" column="9" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="103" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1a772d9d36b33c0ec58e82e60274b79142" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::srg::StubHashRing::StubHashRing</definition>
+        <argsstring>(int num_shards)</argsstring>
+        <name>StubHashRing</name>
+        <qualifiedname>themis::bench::srg::StubHashRing::StubHashRing</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>num_shards</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="94" column="14" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="94" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1ac1b3bbdb97aa3bcc6b468ec9c241db7c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::bench::srg::StubHashRing::lookup</definition>
+        <argsstring>(const std::string &amp;key) const noexcept</argsstring>
+        <name>lookup</name>
+        <qualifiedname>themis::bench::srg::StubHashRing::lookup</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="95" column="9" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub consistent-hash ring (no vnodes for benchmark simplicity). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/sharding/bench_sharding_release_gates.cpp" line="92" column="1" bodyfile="benchmarks/sharding/bench_sharding_release_gates.cpp" bodystart="92" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1ac1b3bbdb97aa3bcc6b468ec9c241db7c" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubHashRing</scope><name>lookup</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1a6fbad2c971317fa7df96e151979e91ab" prot="private" virt="non-virtual"><scope>themis::bench::srg::StubHashRing</scope><name>num_shards_</name></member>
+      <member refid="classthemis_1_1bench_1_1srg_1_1_stub_hash_ring_1a772d9d36b33c0ec58e82e60274b79142" prot="public" virt="non-virtual"><scope>themis::bench::srg::StubHashRing</scope><name>StubHashRing</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

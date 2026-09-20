@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1bench_1_1inrg_1_1_ingest_quota" kind="struct" language="C++" prot="public">
+    <compoundname>themis::bench::inrg::IngestQuota</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1inrg_1_1_ingest_quota_1a5585ca0590126ad9c851ece04aa3cb55" prot="public" static="no" mutable="no">
+        <type>std::uint64_t</type>
+        <definition>std::uint64_t themis::bench::inrg::IngestQuota::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::bench::inrg::IngestQuota::limit</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="161" column="34" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="161" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1bench_1_1inrg_1_1_ingest_quota_1a5f571fe2694266bc5730747c00757faf" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; std::uint64_t &gt;</type>
+        <definition>std::atomic&lt;std::uint64_t&gt; themis::bench::inrg::IngestQuota::used</definition>
+        <argsstring></argsstring>
+        <name>used</name>
+        <qualifiedname>themis::bench::inrg::IngestQuota::used</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="162" column="19" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="162" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1bench_1_1inrg_1_1_ingest_quota_1ac336271cfd9c81b57dbc698f573ffe20" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564" kindref="member">IngestionErrorCode</ref></type>
+        <definition>IngestionErrorCode themis::bench::inrg::IngestQuota::check</definition>
+        <argsstring>(std::uint64_t n) noexcept</argsstring>
+        <name>check</name>
+        <qualifiedname>themis::bench::inrg::IngestQuota::check</qualifiedname>
+        <param>
+          <type>std::uint64_t</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="164" column="24" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="164" bodyend="170"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/ingestion/bench_ingestion_release_gates.cpp" line="160" column="1" bodyfile="benchmarks/ingestion/bench_ingestion_release_gates.cpp" bodystart="160" bodyend="171"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_ingest_quota_1ac336271cfd9c81b57dbc698f573ffe20" prot="public" virt="non-virtual"><scope>themis::bench::inrg::IngestQuota</scope><name>check</name></member>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_ingest_quota_1a5585ca0590126ad9c851ece04aa3cb55" prot="public" virt="non-virtual"><scope>themis::bench::inrg::IngestQuota</scope><name>limit</name></member>
+      <member refid="structthemis_1_1bench_1_1inrg_1_1_ingest_quota_1a5f571fe2694266bc5730747c00757faf" prot="public" virt="non-virtual"><scope>themis::bench::inrg::IngestQuota</scope><name>used</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

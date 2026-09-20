@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graph::GPUGraphTraversal::Config</compoundname>
+    <includes refid="gpu__traversal_8h" local="no">gpu_traversal.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a16467631e23a088448086b4b4e155e13" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::GPUGraphTraversal::Config::gpu_device</definition>
+        <argsstring></argsstring>
+        <name>gpu_device</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Config::gpu_device</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="32" column="13" bodyfile="include/graph/gpu_traversal.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a89a42da5e2bb43c56f49a6b4e5984293" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GPUGraphTraversal::Config::min_vertices_for_gpu</definition>
+        <argsstring></argsstring>
+        <name>min_vertices_for_gpu</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Config::min_vertices_for_gpu</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="33" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1ad6ea621b6f177214a38d96c791bb16f1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::graph::GPUGraphTraversal::Config::max_depth</definition>
+        <argsstring></argsstring>
+        <name>max_depth</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Config::max_depth</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="34" column="13" bodyfile="include/graph/gpu_traversal.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a96787fa3e57e3e4a1da571a1876f2aa4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graph::GPUGraphTraversal::Config::max_results</definition>
+        <argsstring></argsstring>
+        <name>max_results</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Config::max_results</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="35" column="16" bodyfile="include/graph/gpu_traversal.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a26e1b994d9337b014a1bfb1d0e64f13e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::graph::GPUGraphTraversal::Config::forbidden_vertices</definition>
+        <argsstring></argsstring>
+        <name>forbidden_vertices</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Config::forbidden_vertices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="36" column="21" bodyfile="include/graph/gpu_traversal.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a882ac3dc61159ac83e4f3ff5a2b121ab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::graph::GPUGraphTraversal::Config::Config</definition>
+        <argsstring>()=default</argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::graph::GPUGraphTraversal::Config::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/graph/gpu_traversal.h" line="38" column="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/graph/gpu_traversal.h" line="31" column="5" bodyfile="include/graph/gpu_traversal.h" bodystart="31" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a882ac3dc61159ac83e4f3ff5a2b121ab" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Config</scope><name>Config</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a26e1b994d9337b014a1bfb1d0e64f13e" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Config</scope><name>forbidden_vertices</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a16467631e23a088448086b4b4e155e13" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Config</scope><name>gpu_device</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1ad6ea621b6f177214a38d96c791bb16f1" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Config</scope><name>max_depth</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a96787fa3e57e3e4a1da571a1876f2aa4" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Config</scope><name>max_results</name></member>
+      <member refid="structthemis_1_1graph_1_1_g_p_u_graph_traversal_1_1_config_1a89a42da5e2bb43c56f49a6b4e5984293" prot="public" virt="non-virtual"><scope>themis::graph::GPUGraphTraversal::Config</scope><name>min_vertices_for_gpu</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function" kind="class" language="C++" prot="public">
+    <compoundname>themis::query::functions::RepeatConstructorFunction</compoundname>
+    <basecompoundref refid="classthemis_1_1query_1_1functions_1_1_i_function" prot="public" virt="non-virtual">themis::query::functions::IFunction</basecompoundref>
+    <includes refid="collection__functions_8h" local="no">collection_functions.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function_1aefcd9640ae25a5d102ff6e31a7db1d3c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::functions::RepeatConstructorFunction::~RepeatConstructorFunction</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~RepeatConstructorFunction</name>
+        <qualifiedname>themis::query::functions::RepeatConstructorFunction::~RepeatConstructorFunction</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/collection_functions.h" line="605" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function_1a7f9d9a390a0deec091b84d0b4a09aa05" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1_function_signature" kindref="compound">FunctionSignature</ref></type>
+        <definition>FunctionSignature themis::query::functions::RepeatConstructorFunction::signature</definition>
+        <argsstring>() const override</argsstring>
+        <name>signature</name>
+        <qualifiedname>themis::query::functions::RepeatConstructorFunction::signature</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a14ab2d91e8a0195c5b73a4ef05151478">signature</reimplements>
+        <briefdescription>
+<para>Signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/collection_functions.h" line="606" column="23" bodyfile="include/query/functions/collection_functions.h" bodystart="606" bodyend="622"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function_1a63a4fc0bdf15b80682cbf0051a24041a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::RepeatConstructorFunction::validateArgs</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;args) const override</argsstring>
+        <name>validateArgs</name>
+        <qualifiedname>themis::query::functions::RepeatConstructorFunction::validateArgs</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a3c825841f6247644e1301cbf65c2d8ad">validateArgs</reimplements>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/collection_functions.h" line="624" column="10" bodyfile="include/query/functions/collection_functions.h" bodystart="624" bodyend="632"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function_1a1f9c6b8bf119e2b8e33ad78ab50a4e1b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::functions::RepeatConstructorFunction::execute</definition>
+        <argsstring>(const std::vector&lt; nlohmann::json &gt; &amp;args, const FunctionContext &amp;) const override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::query::functions::RepeatConstructorFunction::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1query_1_1functions_1_1_i_function_1a7e3401607dd70b42df4da3a392e24c60">execute</reimplements>
+        <param>
+          <type>const std::vector&lt; nlohmann::json &gt; &amp;</type>
+          <declname>args</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>context</declname>
+        </param>
+        <briefdescription>
+<para>Execute. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">args</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/collection_functions.h" line="634" column="20" bodyfile="include/query/functions/collection_functions.h" bodystart="634" bodyend="645"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>REPEAT(value, count) - Create array with repeated value. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::RepeatConstructorFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::functions::IFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_i_function"/>
+      </node>
+      <node id="1">
+        <label>themis::query::functions::RepeatConstructorFunction</label>
+        <link refid="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/functions/collection_functions.h" line="603" column="1" bodyfile="include/query/functions/collection_functions.h" bodystart="603" bodyend="646"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function_1a1f9c6b8bf119e2b8e33ad78ab50a4e1b" prot="public" virt="virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>execute</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a42971eed20f17673a764546eed8e1462" prot="protected" virt="non-virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>isGeometry</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a8141e01394e9c7a14ca2f7152684721e" prot="protected" virt="non-virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>isVector</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function_1a7f9d9a390a0deec091b84d0b4a09aa05" prot="public" virt="virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>signature</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a68ea2fe431937c2a2e5a001027bfd15f" prot="protected" virt="non-virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>toBool</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a13b10298be193ff19480b033de127f80" prot="protected" virt="non-virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>toNumber</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a1eaeedaa323352a073c63b5ca631fd7c" prot="protected" virt="non-virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>toString</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function_1a63a4fc0bdf15b80682cbf0051a24041a" prot="public" virt="virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>validateArgs</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1adea209cca3e5f9a99bb163a9bc333694" prot="protected" virt="non-virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>validateArgType</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_i_function_1a484cc337101f6131acd1ee83ac31563b" prot="public" virt="virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>~IFunction</name></member>
+      <member refid="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function_1aefcd9640ae25a5d102ff6e31a7db1d3c" prot="public" virt="non-virtual"><scope>themis::query::functions::RepeatConstructorFunction</scope><name>~RepeatConstructorFunction</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

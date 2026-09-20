@@ -1,0 +1,319 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="metadata__wal_8h" kind="file" language="C++">
+    <compoundname>metadata_wal.h</compoundname>
+    <includes refid="wal__manager_8h" local="yes">sharding/wal_manager.h</includes>
+    <includes refid="metadata__shard_8h" local="yes">sharding/metadata_shard.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="metadata__shard_8cpp" local="yes">src/sharding/metadata_shard.cpp</includedby>
+    <includedby refid="metadata__wal_8cpp" local="yes">src/sharding/metadata_wal.cpp</includedby>
+    <incdepgraph>
+      <node id="15">
+        <label>sharding/consensus_module.h</label>
+        <link refid="consensus__module_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>sharding/metadata_shard.h</label>
+        <link refid="metadata__shard_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/sharding/metadata_wal.h</label>
+        <link refid="metadata__wal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>sharding/wal_manager.h</label>
+        <link refid="wal__manager_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="17">
+        <label>cache/bounded_lru_cache.h</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>filesystem</label>
+      </node>
+      <node id="9">
+        <label>fstream</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="18">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="8">
+        <label>mutex</label>
+      </node>
+      <node id="13">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="11">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/sharding/metadata_wal.h</label>
+        <link refid="metadata__wal_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/sharding/metadata_shard.cpp</label>
+        <link refid="metadata__shard_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/sharding/metadata_wal.cpp</label>
+        <link refid="metadata__wal_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" prot="public">themisdb::sharding::MetadataWALEntry</innerclass>
+    <innerclass refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config" prot="public">themisdb::sharding::MetadataWALConfig</innerclass>
+    <innerclass refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l" prot="public">themisdb::sharding::MetadataWAL</innerclass>
+    <innernamespace refid="namespacethemisdb">themisdb</innernamespace>
+    <innernamespace refid="namespacethemisdb_1_1sharding">themisdb::sharding</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>2026<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Licensed<sp/>under<sp/>MIT<sp/>License</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>2.2:<sp/>Metadata<sp/>Shard<sp/>Durability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="wal__manager_8h" kindref="compound">sharding/wal_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="metadata__shard_8h" kindref="compound">sharding/metadata_shard.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb" kindref="compound">themisdb</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding" kindref="compound">sharding</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/>=<sp/>themis::sharding::LSN;</highlight></codeline>
+<codeline lineno="31" refid="namespacethemisdb_1_1sharding_1ac4a2162383169558443c37ffdebb2c2b" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref><sp/>=<sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">themis::sharding::WALEntry</ref>;</highlight></codeline>
+<codeline lineno="32" refid="namespacethemisdb_1_1sharding_1a05d180b4f73775b4c8704e3196193c5f" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref><sp/>=<sp/><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">themis::sharding::WALEntryType</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5" kindref="member">MetadataWALEntryType</ref><sp/>{</highlight></codeline>
+<codeline lineno="36" refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a3e75383a5992a6d15fb81e872e46e256" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a3e75383a5992a6d15fb81e872e46e256" kindref="member">PUT</ref><sp/>=<sp/>120,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Put<sp/>metadata<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a36799737e60c3c5fe001ef623be984e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a36799737e60c3c5fe001ef623be984e0" kindref="member">DELETE_OP</ref><sp/>=<sp/>121,<sp/><sp/></highlight><highlight class="comment">//<sp/>Delete<sp/>metadata<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a15a8022d0ed9cd9c2a2e756822703eb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5a15a8022d0ed9cd9c2a2e756822703eb4" kindref="member">UPDATE</ref><sp/>=<sp/>122<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>existing<sp/>entry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" kindref="compound">MetadataWALEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="44" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ad719f528b2e63f2a50d857cc20affbf9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ad719f528b2e63f2a50d857cc20affbf9" kindref="member">lsn</ref>;</highlight></codeline>
+<codeline lineno="46" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a07476ddc613f1a3811f3888a13a27d6d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5" kindref="member">MetadataWALEntryType</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a07476ddc613f1a3811f3888a13a27d6d" kindref="member">type</ref>;</highlight></codeline>
+<codeline lineno="48" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ab4a49fef8f721624bb0b6ff4073d9dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ab4a49fef8f721624bb0b6ff4073d9dcd" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="50" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1adb0f4a2337ff96491dfeabcab3fa0982" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1adb0f4a2337ff96491dfeabcab3fa0982" kindref="member">partition</ref>;</highlight></codeline>
+<codeline lineno="52" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1abf29402b16a23dc765a9eddf5758a917" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1abf29402b16a23dc765a9eddf5758a917" kindref="member">key</ref>;</highlight></codeline>
+<codeline lineno="54" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aba98dac0d85726b088d40b0a62aa9f4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>nlohmann::json<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aba98dac0d85726b088d40b0a62aa9f4b" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="56" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aec684bd02f0ac2477280979df8442463" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aec684bd02f0ac2477280979df8442463" kindref="member">version</ref>;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ae151c6da230bf21ce1d5143819d47a03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ae151c6da230bf21ce1d5143819d47a03" kindref="member">toWALEntry</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref><sp/>entry;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a66fb7a161e6b76f41a4ef41afeffb93a" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemis_1_1sharding_1a4bfc6b43e59e2ca7b489954a01658da1" kindref="member">WALEntryType</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a07476ddc613f1a3811f3888a13a27d6d" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1abc8c60e5472ef9b41df487f0557f7785" kindref="member">timestamp</ref><sp/>=<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ab4a49fef8f721624bb0b6ff4073d9dcd" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" kindref="member">data</ref><sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;partition&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1adb0f4a2337ff96491dfeabcab3fa0982" kindref="member">partition</ref>)},</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1abf29402b16a23dc765a9eddf5758a917" kindref="member">key</ref>},</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aba98dac0d85726b088d40b0a62aa9f4b" kindref="member">value</ref>},</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">,<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aec684bd02f0ac2477280979df8442463" kindref="member">version</ref>}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>entry;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="73" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a52cfd25313c780bc09a52a5aaa8485bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" kindref="compound">MetadataWALEntry</ref><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a52cfd25313c780bc09a52a5aaa8485bf" kindref="member">fromWALEntry</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_w_a_l_entry" kindref="compound">WALEntry</ref>&amp;<sp/>entry)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" kindref="compound">MetadataWALEntry</ref><sp/>metadata_entry;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ad719f528b2e63f2a50d857cc20affbf9" kindref="member">lsn</ref><sp/>=<sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a67b91082c9d904e0c3fc509dcc8f574c" kindref="member">lsn</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1a07476ddc613f1a3811f3888a13a27d6d" kindref="member">type</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1a534ba1129ec87f43f92b8ca5c94154f5" kindref="member">MetadataWALEntryType</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a66fb7a161e6b76f41a4ef41afeffb93a" kindref="member">type</ref>);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1ab4a49fef8f721624bb0b6ff4073d9dcd" kindref="member">timestamp</ref><sp/>=<sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1abc8c60e5472ef9b41df487f0557f7785" kindref="member">timestamp</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1adb0f4a2337ff96491dfeabcab3fa0982" kindref="member">partition</ref><sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" kindref="member">data</ref>[</highlight><highlight class="stringliteral">&quot;partition&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;());</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1abf29402b16a23dc765a9eddf5758a917" kindref="member">key</ref><sp/>=<sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" kindref="member">data</ref>[</highlight><highlight class="stringliteral">&quot;key&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aba98dac0d85726b088d40b0a62aa9f4b" kindref="member">value</ref><sp/>=<sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" kindref="member">data</ref>[</highlight><highlight class="stringliteral">&quot;value&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>metadata_entry.<ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry_1aec684bd02f0ac2477280979df8442463" kindref="member">version</ref><sp/>=<sp/>entry.<ref refid="structthemis_1_1sharding_1_1_w_a_l_entry_1a3780b1bf5afba4984ee6d9de3558176f" kindref="member">data</ref>[</highlight><highlight class="stringliteral">&quot;version&quot;</highlight><highlight class="normal">].get&lt;uint64_t&gt;();</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metadata_entry;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config" kindref="compound">MetadataWALConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="90" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a129ede2604678da6fb069a273d0f0979" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a129ede2604678da6fb069a273d0f0979" kindref="member">wal_directory</ref>;</highlight></codeline>
+<codeline lineno="92" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1ae7e2b87d7bb578b4747b4282253da196" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1ae7e2b87d7bb578b4747b4282253da196" kindref="member">snapshot_directory</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WAL<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a15ce1b315a46e8f674ae3a6735d0efb5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a15ce1b315a46e8f674ae3a6735d0efb5" kindref="member">segment_size</ref><sp/>=<sp/>16<sp/>*<sp/>1024<sp/>*<sp/>1024;<sp/><sp/></highlight><highlight class="comment">//<sp/>16<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1adbb5b1824633810011a00ef27058bb7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1adbb5b1824633810011a00ef27058bb7f" kindref="member">write_buffer_size</ref><sp/>=<sp/>64<sp/>*<sp/>1024;<sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>64<sp/>KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a74dac8f7900e4d3be3ad93366f966981" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a74dac8f7900e4d3be3ad93366f966981" kindref="member">sync_on_write</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>settings</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a4ee982da7270f4c29cbc561705859778" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1a4ee982da7270f4c29cbc561705859778" kindref="member">snapshot_interval</ref><sp/>=<sp/>10000;<sp/><sp/></highlight><highlight class="comment">//<sp/>Snapshot<sp/>every<sp/>10K<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106" refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1af859852ddc174001f0da7119f2bfd7ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config_1af859852ddc174001f0da7119f2bfd7ff" kindref="member">max_snapshots</ref><sp/>=<sp/>10;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Keep<sp/>last<sp/>10<sp/>snapshots</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a756b77acb732e27c4628bcb17618ac95" kindref="member">MetadataWAL</ref><sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a756b77acb732e27c4628bcb17618ac95" kindref="member">MetadataWAL</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config" kindref="compound">MetadataWALConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a80efa6c3af272805a1b35283163999b0" kindref="member">~MetadataWAL</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1aa4b95872e700a05a364e6ef2df1f8075" kindref="member">initialize</ref>();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1aafdf3deaf7df373feec171dea17455a3" kindref="member">logPut</ref>(</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>value,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>version</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a076750fdd4040d598a109cf4879e1bcb" kindref="member">logDelete</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>version</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a87ba78d9ea6d29784463a7ea277d23f9" kindref="member">logUpdate</ref>(</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref><sp/>partition,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>nlohmann::json&amp;<sp/>value,</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/>version</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MetadataWALEntry&gt;<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a96f9ee97d6f437f3351eebc9ed26276d" kindref="member">readEntries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref>&amp;<sp/>start_lsn);</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a05198e61ac4641bffd04be273b21b9ce" kindref="member">flush</ref>();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183" refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a53fe1acc50469c5eaae8e15f84f9f7cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a53fe1acc50469c5eaae8e15f84f9f7cd" kindref="member">shouldCreateSnapshot</ref>(uint64_t<sp/>operations_count)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>operations_count<sp/>&gt;=<sp/>config_.snapshot_interval;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188" refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a79187d0987a6a0475d7d5a9777512750" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config" kindref="compound">MetadataWALConfig</ref>&amp;<sp/><ref refid="classthemisdb_1_1sharding_1_1_metadata_w_a_l_1a79187d0987a6a0475d7d5a9777512750" kindref="member">getConfig</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>config_;<sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref><sp/>writeEntry(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_entry" kindref="compound">MetadataWALEntry</ref>&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemisdb_1_1sharding_1_1_metadata_w_a_l_config" kindref="compound">MetadataWALConfig</ref><sp/>config_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::sharding::WALManager&gt;<sp/>wal_manager_;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mutex<sp/>wal_mutex_;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>sharding</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themisdb</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/sharding/metadata_wal.h"/>
+  </compounddef>
+</doxygen>

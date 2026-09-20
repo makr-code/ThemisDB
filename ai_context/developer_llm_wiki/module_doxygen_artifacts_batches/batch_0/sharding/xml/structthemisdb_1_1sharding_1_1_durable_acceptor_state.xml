@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_durable_acceptor_state" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::DurableAcceptorState</compoundname>
+    <includes refid="paxos__state__persistence_8h" local="no">paxos_state_persistence.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1ab1f82f36e9b305929684550346715bc0" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::DurableAcceptorState::slot</definition>
+        <argsstring></argsstring>
+        <name>slot</name>
+        <qualifiedname>themisdb::sharding::DurableAcceptorState::slot</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Paxos log slot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="43" column="14" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1a465bc9044477b484cc7f1660bf554a77" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::DurableAcceptorState::promised_round</definition>
+        <argsstring></argsstring>
+        <name>promised_round</name>
+        <qualifiedname>themisdb::sharding::DurableAcceptorState::promised_round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Highest ballot number promised. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="44" column="14" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1a5ca410c84e8705ce385f37275dc5551d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::DurableAcceptorState::promised_node</definition>
+        <argsstring></argsstring>
+        <name>promised_node</name>
+        <qualifiedname>themisdb::sharding::DurableAcceptorState::promised_node</qualifiedname>
+        <briefdescription>
+<para>Node ID of the proposer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="45" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1abe80c086f172f3d3e2ad1fcc6d54a135" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::DurableAcceptorState::accepted_round</definition>
+        <argsstring></argsstring>
+        <name>accepted_round</name>
+        <qualifiedname>themisdb::sharding::DurableAcceptorState::accepted_round</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Ballot of the last accepted value. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="46" column="14" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1aa02a07f622c7a3197513e4b34233e8d5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::DurableAcceptorState::accepted_value</definition>
+        <argsstring></argsstring>
+        <name>accepted_value</name>
+        <qualifiedname>themisdb::sharding::DurableAcceptorState::accepted_value</qualifiedname>
+        <briefdescription>
+<para>Serialised accepted value (empty = none). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="47" column="17" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1a4711cec372812bc45f9dd2f8dfe5f78d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::DurableAcceptorState::is_committed</definition>
+        <argsstring></argsstring>
+        <name>is_committed</name>
+        <qualifiedname>themisdb::sharding::DurableAcceptorState::is_committed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether the slot is already committed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="48" column="14" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1a0ffa58b8b6395cc453f0bf41325211f3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::DurableAcceptorState::operator==</definition>
+        <argsstring>(const DurableAcceptorState &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themisdb::sharding::DurableAcceptorState::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state" kindref="compound">DurableAcceptorState</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/paxos_state_persistence.h" line="50" column="10" bodyfile="src/sharding/paxos_state_persistence.cpp" bodystart="90" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The minimal acceptor state that must be persisted per Paxos slot. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Paxos safety requires that once a node has promised a ballot number or accepted a value, those facts must be recoverable after a crash. </para>
+    </detaileddescription>
+    <location file="include/sharding/paxos_state_persistence.h" line="42" column="1" bodyfile="include/sharding/paxos_state_persistence.h" bodystart="42" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1abe80c086f172f3d3e2ad1fcc6d54a135" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableAcceptorState</scope><name>accepted_round</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1aa02a07f622c7a3197513e4b34233e8d5" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableAcceptorState</scope><name>accepted_value</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1a4711cec372812bc45f9dd2f8dfe5f78d" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableAcceptorState</scope><name>is_committed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1a0ffa58b8b6395cc453f0bf41325211f3" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableAcceptorState</scope><name>operator==</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1a5ca410c84e8705ce385f37275dc5551d" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableAcceptorState</scope><name>promised_node</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1a465bc9044477b484cc7f1660bf554a77" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableAcceptorState</scope><name>promised_round</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_durable_acceptor_state_1ab1f82f36e9b305929684550346715bc0" prot="public" virt="non-virtual"><scope>themisdb::sharding::DurableAcceptorState</scope><name>slot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

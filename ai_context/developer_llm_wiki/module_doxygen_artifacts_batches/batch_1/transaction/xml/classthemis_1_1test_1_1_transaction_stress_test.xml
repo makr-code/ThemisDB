@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1test_1_1_transaction_stress_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::test::TransactionStressTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1test_1_1_transaction_stress_test_1a0b3414704e6096b16eee13b64e3dca2e" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1test_1_1_stress_transaction_manager" kindref="compound">StressTransactionManager</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;StressTransactionManager&gt; themis::test::TransactionStressTest::mgr_</definition>
+        <argsstring></argsstring>
+        <name>mgr_</name>
+        <qualifiedname>themis::test::TransactionStressTest::mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="105" column="21" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="105" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1test_1_1_transaction_stress_test_1a3982656c42d1fb9a885f53de249ce7bc" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::TransactionStressTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::test::TransactionStressTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="97" column="10" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="97" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1test_1_1_transaction_stress_test_1a2287042fd227d26d492952e0e1fae842" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::test::TransactionStressTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::test::TransactionStressTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_transaction_stress.cpp" line="99" column="10" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="99" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::test::TransactionStressTest</label>
+        <link refid="classthemis_1_1test_1_1_transaction_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::test::TransactionStressTest</label>
+        <link refid="classthemis_1_1test_1_1_transaction_stress_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_transaction_stress.cpp" line="95" column="1" bodyfile="tests/transaction/test_transaction_stress.cpp" bodystart="95" bodyend="106"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1test_1_1_transaction_stress_test_1a0b3414704e6096b16eee13b64e3dca2e" prot="protected" virt="non-virtual"><scope>themis::test::TransactionStressTest</scope><name>mgr_</name></member>
+      <member refid="classthemis_1_1test_1_1_transaction_stress_test_1a3982656c42d1fb9a885f53de249ce7bc" prot="protected" virt="non-virtual"><scope>themis::test::TransactionStressTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1test_1_1_transaction_stress_test_1a2287042fd227d26d492952e0e1fae842" prot="protected" virt="non-virtual"><scope>themis::test::TransactionStressTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_i_docs_assistant" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::llm::IDocsAssistant</compoundname>
+    <includes refid="llm__interfaces_8h" local="no">llm_interfaces.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_docs_assistant_1adc833e5729c664da7b97696872902eac" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::IDocsAssistant::~IDocsAssistant</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IDocsAssistant</name>
+        <qualifiedname>themis::llm::IDocsAssistant::~IDocsAssistant</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="28" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_docs_assistant_1a88e9342da8d97ebe6ddca7aabc8f4443" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::IDocsAssistant::loadDatabase</definition>
+        <argsstring>(const std::string &amp;path)=0</argsstring>
+        <name>loadDatabase</name>
+        <qualifiedname>themis::llm::IDocsAssistant::loadDatabase</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="29" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_docs_assistant_1a18f5d704bdd6ce51b6b5a8e98f3941a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::llm::IDocsAssistant::isReady</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::llm::IDocsAssistant::isReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="30" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_docs_assistant_1a18b3bd3008a03a1f889238d2154f0dc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::llm::IDocsAssistant::query</definition>
+        <argsstring>(const std::string &amp;q)=0</argsstring>
+        <name>query</name>
+        <qualifiedname>themis::llm::IDocsAssistant::query</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>q</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="31" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_docs_assistant_1af229b731de6bc0795ea767eb1f74fefd" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::llm::IDocsAssistant::clearCache</definition>
+        <argsstring>()=0</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>themis::llm::IDocsAssistant::clearCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="32" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_docs_assistant_1ae114059d0544d2737b27a7d2f7a5bd93" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>themis::llm::DocsQueryResult</type>
+        <definition>virtual themis::llm::DocsQueryResult themis::llm::IDocsAssistant::getConfigHelp</definition>
+        <argsstring>(const std::string &amp;topic)=0</argsstring>
+        <name>getConfigHelp</name>
+        <qualifiedname>themis::llm::IDocsAssistant::getConfigHelp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="33" column="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_docs_assistant_1abbfc9871c8b6b4b60cc8be53c1af66e8" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>themis::llm::DocsQueryResult</type>
+        <definition>virtual themis::llm::DocsQueryResult themis::llm::IDocsAssistant::getTroubleshootingHelp</definition>
+        <argsstring>(const std::string &amp;topic)=0</argsstring>
+        <name>getTroubleshootingHelp</name>
+        <qualifiedname>themis::llm::IDocsAssistant::getTroubleshootingHelp</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>topic</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="34" column="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_i_docs_assistant_1a6c664ee35d1f18c1ce65f144c72629ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>nlohmann::json</type>
+        <definition>virtual nlohmann::json themis::llm::IDocsAssistant::getStats</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::IDocsAssistant::getStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/llm/llm_interfaces.h" line="35" column="28"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/themis/llm/llm_interfaces.h" line="26" column="1" bodyfile="include/themis/llm/llm_interfaces.h" bodystart="26" bodyend="36"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_i_docs_assistant_1af229b731de6bc0795ea767eb1f74fefd" prot="public" virt="pure-virtual"><scope>themis::llm::IDocsAssistant</scope><name>clearCache</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_docs_assistant_1ae114059d0544d2737b27a7d2f7a5bd93" prot="public" virt="pure-virtual"><scope>themis::llm::IDocsAssistant</scope><name>getConfigHelp</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_docs_assistant_1a6c664ee35d1f18c1ce65f144c72629ea" prot="public" virt="pure-virtual"><scope>themis::llm::IDocsAssistant</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_docs_assistant_1abbfc9871c8b6b4b60cc8be53c1af66e8" prot="public" virt="pure-virtual"><scope>themis::llm::IDocsAssistant</scope><name>getTroubleshootingHelp</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_docs_assistant_1a18f5d704bdd6ce51b6b5a8e98f3941a4" prot="public" virt="pure-virtual"><scope>themis::llm::IDocsAssistant</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_docs_assistant_1a88e9342da8d97ebe6ddca7aabc8f4443" prot="public" virt="pure-virtual"><scope>themis::llm::IDocsAssistant</scope><name>loadDatabase</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_docs_assistant_1a18b3bd3008a03a1f889238d2154f0dc0" prot="public" virt="pure-virtual"><scope>themis::llm::IDocsAssistant</scope><name>query</name></member>
+      <member refid="classthemis_1_1llm_1_1_i_docs_assistant_1adc833e5729c664da7b97696872902eac" prot="public" virt="virtual"><scope>themis::llm::IDocsAssistant</scope><name>~IDocsAssistant</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

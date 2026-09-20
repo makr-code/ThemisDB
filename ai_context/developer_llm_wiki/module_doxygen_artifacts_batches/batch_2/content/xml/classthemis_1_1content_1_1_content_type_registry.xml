@@ -1,0 +1,273 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1content_1_1_content_type_registry" kind="class" language="C++" prot="public">
+    <compoundname>themis::content::ContentTypeRegistry</compoundname>
+    <includes refid="content__type_8h" local="no">content_type.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1content_1_1_content_type_registry_1a3d45dd670257d6ab652dc27b95a71384" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &gt;</type>
+        <definition>std::vector&lt;ContentType&gt; themis::content::ContentTypeRegistry::types_</definition>
+        <argsstring></argsstring>
+        <name>types_</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::types_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="126" column="17" bodyfile="include/content/content_type.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1abbdd3453b667cf2d90cf8e3773255d0e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>ContentTypeRegistry &amp;</type>
+        <definition>ContentTypeRegistry &amp; themis::content::ContentTypeRegistry::instance</definition>
+        <argsstring>()</argsstring>
+        <name>instance</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::instance</qualifiedname>
+        <briefdescription>
+<para>Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="77" column="32" bodyfile="src/content/content_type.cpp" bodystart="114" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1a1bf34f1129b02651ea8b7df502a3f13b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentTypeRegistry::registerType</definition>
+        <argsstring>(const ContentType &amp;type)</argsstring>
+        <name>registerType</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::registerType</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &amp;</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Register Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="83" column="10" bodyfile="src/content/content_type.cpp" bodystart="128" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1ac8309f52ce5f494459b5a210d405681d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &gt;</type>
+        <definition>std::optional&lt; ContentType &gt; themis::content::ContentTypeRegistry::getByMimeType</definition>
+        <argsstring>(const std::string &amp;mime_type) const</argsstring>
+        <name>getByMimeType</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::getByMimeType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+        </param>
+        <briefdescription>
+<para>Get By Mime Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mime_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="90" column="19" bodyfile="src/content/content_type.cpp" bodystart="132" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1ac16ef49d7f0c389f7b324cba79ff228d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &gt;</type>
+        <definition>std::optional&lt; ContentType &gt; themis::content::ContentTypeRegistry::getByExtension</definition>
+        <argsstring>(const std::string &amp;extension) const</argsstring>
+        <name>getByExtension</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::getByExtension</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>extension</declname>
+        </param>
+        <briefdescription>
+<para>Get By Extension. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">extension</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="97" column="19" bodyfile="src/content/content_type.cpp" bodystart="141" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1a5a68d09f829e1a8feac9eff6beb37ec5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> &gt;</type>
+        <definition>std::optional&lt; ContentType &gt; themis::content::ContentTypeRegistry::detectFromBlob</definition>
+        <argsstring>(const std::string &amp;blob) const</argsstring>
+        <name>detectFromBlob</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::detectFromBlob</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blob</declname>
+        </param>
+        <briefdescription>
+<para>Detect From Blob. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blob</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="104" column="19" bodyfile="src/content/content_type.cpp" bodystart="163" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1a7210e0ef59691e1d9a01e0dba53a7c87" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> * &gt;</type>
+        <definition>std::vector&lt; const ContentType * &gt; themis::content::ContentTypeRegistry::getByCategory</definition>
+        <argsstring>(ContentCategory category) const</argsstring>
+        <name>getByCategory</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::getByCategory</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1content_1_1_content_category" kindref="compound">ContentCategory</ref></type>
+          <declname>category</declname>
+        </param>
+        <briefdescription>
+<para>Get By Category. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">category</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="111" column="17" bodyfile="src/content/content_type.cpp" bodystart="242" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1a75b35babcea2d05e7da1118a77a3db17" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; const <ref refid="structthemis_1_1content_1_1_content_type" kindref="compound">ContentType</ref> * &gt;</type>
+        <definition>std::vector&lt; const ContentType * &gt; themis::content::ContentTypeRegistry::getAllTypes</definition>
+        <argsstring>() const</argsstring>
+        <name>getAllTypes</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::getAllTypes</qualifiedname>
+        <briefdescription>
+<para>Get All Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="117" column="17" bodyfile="src/content/content_type.cpp" bodystart="253" bodyend="260"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1a433914ec611e50a79e91a9eb4df872ae" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::content::ContentTypeRegistry::ContentTypeRegistry</definition>
+        <argsstring>()</argsstring>
+        <name>ContentTypeRegistry</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::ContentTypeRegistry</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="120" column="5" bodyfile="src/content/content_type.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1content_1_1_content_type_registry_1a2a2cf51645382907a550ebd7f8712b13" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::content::ContentTypeRegistry::registerDefaultTypes</definition>
+        <argsstring>()</argsstring>
+        <name>registerDefaultTypes</name>
+        <qualifiedname>themis::content::ContentTypeRegistry::registerDefaultTypes</qualifiedname>
+        <briefdescription>
+<para>Register Default Types. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1content_1_1_content_type_registry_1a1bf34f1129b02651ea8b7df502a3f13b" kindref="member">registerType()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_type.h" line="124" column="10" bodyfile="src/content/content_type.cpp" bodystart="266" bodyend="616"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_type.h" line="71" column="1" bodyfile="include/content/content_type.h" bodystart="71" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1a433914ec611e50a79e91a9eb4df872ae" prot="private" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>ContentTypeRegistry</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1a5a68d09f829e1a8feac9eff6beb37ec5" prot="public" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>detectFromBlob</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1a75b35babcea2d05e7da1118a77a3db17" prot="public" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>getAllTypes</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1a7210e0ef59691e1d9a01e0dba53a7c87" prot="public" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>getByCategory</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1ac16ef49d7f0c389f7b324cba79ff228d" prot="public" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>getByExtension</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1ac8309f52ce5f494459b5a210d405681d" prot="public" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>getByMimeType</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1abbdd3453b667cf2d90cf8e3773255d0e" prot="public" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>instance</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1a2a2cf51645382907a550ebd7f8712b13" prot="private" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>registerDefaultTypes</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1a1bf34f1129b02651ea8b7df502a3f13b" prot="public" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>registerType</name></member>
+      <member refid="classthemis_1_1content_1_1_content_type_registry_1a3d45dd670257d6ab652dc27b95a71384" prot="private" virt="non-virtual"><scope>themis::content::ContentTypeRegistry</scope><name>types_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

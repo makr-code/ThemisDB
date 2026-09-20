@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_xpdl_package" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::XpdlPackage</compoundname>
+    <includes refid="xpdl__importer_8h" local="no">xpdl_importer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_package_1a0f8e06e7eba1ab99b27cf22b76667bbc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::XpdlPackage::package_id</definition>
+        <argsstring></argsstring>
+        <name>package_id</name>
+        <qualifiedname>themis::process::XpdlPackage::package_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="20" column="17" bodyfile="include/process/xpdl_importer.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_package_1a95508d5fc936433222da44cfc1b15bfb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::XpdlPackage::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::process::XpdlPackage::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="21" column="17" bodyfile="include/process/xpdl_importer.h" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_package_1ab52f7021cf2fc3458e613e25f11d3b1b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::XpdlPackage::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::process::XpdlPackage::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="22" column="17" bodyfile="include/process/xpdl_importer.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_package_1a7d272dc7defa9c850e74248969788775" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::XpdlPackage::vendor</definition>
+        <argsstring></argsstring>
+        <name>vendor</name>
+        <qualifiedname>themis::process::XpdlPackage::vendor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="23" column="17" bodyfile="include/process/xpdl_importer.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_xpdl_package_1a66c6264355cf9fd46934f951dc91892b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::process::XpdlPackage::process_ids</definition>
+        <argsstring></argsstring>
+        <name>process_ids</name>
+        <qualifiedname>themis::process::XpdlPackage::process_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/xpdl_importer.h" line="24" column="17" bodyfile="include/process/xpdl_importer.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/process/xpdl_importer.h" line="19" column="1" bodyfile="include/process/xpdl_importer.h" bodystart="19" bodyend="25"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_xpdl_package_1a95508d5fc936433222da44cfc1b15bfb" prot="public" virt="non-virtual"><scope>themis::process::XpdlPackage</scope><name>name</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_package_1a0f8e06e7eba1ab99b27cf22b76667bbc" prot="public" virt="non-virtual"><scope>themis::process::XpdlPackage</scope><name>package_id</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_package_1a66c6264355cf9fd46934f951dc91892b" prot="public" virt="non-virtual"><scope>themis::process::XpdlPackage</scope><name>process_ids</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_package_1a7d272dc7defa9c850e74248969788775" prot="public" virt="non-virtual"><scope>themis::process::XpdlPackage</scope><name>vendor</name></member>
+      <member refid="structthemis_1_1process_1_1_xpdl_package_1ab52f7021cf2fc3458e613e25f11d3b1b" prot="public" virt="non-virtual"><scope>themis::process::XpdlPackage</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

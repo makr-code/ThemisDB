@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_content_fulltext_index_test" kind="class" language="C++" prot="public">
+    <compoundname>ContentFulltextIndexTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_content_fulltext_index_test_1a2c6b62ce7bead35b0c49f23c8cd1f4d1" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; ContentFulltextIndexTest::storage_</definition>
+        <argsstring></argsstring>
+        <name>storage_</name>
+        <qualifiedname>ContentFulltextIndexTest::storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="21" column="21" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_content_fulltext_index_test_1affc4c42c77dc8ead343a6a9152531d30" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; VectorIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;VectorIndexManager&gt; ContentFulltextIndexTest::vector_index_</definition>
+        <argsstring></argsstring>
+        <name>vector_index_</name>
+        <qualifiedname>ContentFulltextIndexTest::vector_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="22" column="21" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_content_fulltext_index_test_1a09e48546b1b9fc997a33c8327eb78e3f" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; GraphIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;GraphIndexManager&gt; ContentFulltextIndexTest::graph_index_</definition>
+        <argsstring></argsstring>
+        <name>graph_index_</name>
+        <qualifiedname>ContentFulltextIndexTest::graph_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="23" column="21" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_content_fulltext_index_test_1a7df9daaa3765966ca0dd37b2c940be6d" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; SecondaryIndexManager &gt;</type>
+        <definition>std::shared_ptr&lt;SecondaryIndexManager&gt; ContentFulltextIndexTest::secondary_index_</definition>
+        <argsstring></argsstring>
+        <name>secondary_index_</name>
+        <qualifiedname>ContentFulltextIndexTest::secondary_index_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="24" column="21" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_content_fulltext_index_test_1a903bb0e894398c1f05f0cbbd784b7f35" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1content_1_1_content_manager" kindref="compound">ContentManager</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ContentManager&gt; ContentFulltextIndexTest::content_mgr_</definition>
+        <argsstring></argsstring>
+        <name>content_mgr_</name>
+        <qualifiedname>ContentFulltextIndexTest::content_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="25" column="21" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_content_fulltext_index_test_1afe4dca1b123dd8589c351e9e9291c634" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ContentFulltextIndexTest::test_db_path_</definition>
+        <argsstring></argsstring>
+        <name>test_db_path_</name>
+        <qualifiedname>ContentFulltextIndexTest::test_db_path_</qualifiedname>
+        <initializer>= &quot;./test_content_fulltext_index_db&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="27" column="17" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_content_fulltext_index_test_1a30ea4bc6d8241a241d1188f6196a8640" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ContentFulltextIndexTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>ContentFulltextIndexTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="29" column="10" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="29" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_content_fulltext_index_test_1aa080b5e435b4947e6365067d7cad7530" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ContentFulltextIndexTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>ContentFulltextIndexTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="54" column="10" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="54" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_content_fulltext_index_test_1a8bfdfd8338d6dd618b1a6b99d5289d39" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void ContentFulltextIndexTest::enableAutoFulltextIndex</definition>
+        <argsstring>(bool enable=true, const std::string &amp;language=&quot;en&quot;, bool stemming=true, bool stopwords=true)</argsstring>
+        <name>enableAutoFulltextIndex</name>
+        <qualifiedname>ContentFulltextIndexTest::enableAutoFulltextIndex</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enable</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>language</declname>
+          <defval>&quot;en&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>stemming</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>stopwords</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="71" column="10" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="71" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_content_fulltext_index_test_1a6c563b06c4a4b86ece2d1ff5d3050c01" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ContentFulltextIndexTest::importTestContent</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;chunk_texts, const std::string &amp;content_id=&quot;&quot;, const std::string &amp;mime_type=&quot;text/plain&quot;, const std::string &amp;category=&quot;TEXT&quot;, int64_t created_at=1234567890)</argsstring>
+        <name>importTestContent</name>
+        <qualifiedname>ContentFulltextIndexTest::importTestContent</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>chunk_texts</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>content_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>mime_type</declname>
+          <defval>&quot;text/plain&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>category</declname>
+          <defval>&quot;TEXT&quot;</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>created_at</declname>
+          <defval>1234567890</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/content/test_content_fulltext_index.cpp" line="91" column="17" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="91" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ContentFulltextIndexTest</label>
+        <link refid="class_content_fulltext_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ContentFulltextIndexTest</label>
+        <link refid="class_content_fulltext_index_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/content/test_content_fulltext_index.cpp" line="19" column="1" bodyfile="tests/content/test_content_fulltext_index.cpp" bodystart="19" bodyend="144"/>
+    <listofallmembers>
+      <member refid="class_content_fulltext_index_test_1a903bb0e894398c1f05f0cbbd784b7f35" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>content_mgr_</name></member>
+      <member refid="class_content_fulltext_index_test_1a8bfdfd8338d6dd618b1a6b99d5289d39" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>enableAutoFulltextIndex</name></member>
+      <member refid="class_content_fulltext_index_test_1a09e48546b1b9fc997a33c8327eb78e3f" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>graph_index_</name></member>
+      <member refid="class_content_fulltext_index_test_1a6c563b06c4a4b86ece2d1ff5d3050c01" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>importTestContent</name></member>
+      <member refid="class_content_fulltext_index_test_1a7df9daaa3765966ca0dd37b2c940be6d" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>secondary_index_</name></member>
+      <member refid="class_content_fulltext_index_test_1a30ea4bc6d8241a241d1188f6196a8640" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>SetUp</name></member>
+      <member refid="class_content_fulltext_index_test_1a2c6b62ce7bead35b0c49f23c8cd1f4d1" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>storage_</name></member>
+      <member refid="class_content_fulltext_index_test_1aa080b5e435b4947e6365067d7cad7530" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>TearDown</name></member>
+      <member refid="class_content_fulltext_index_test_1afe4dca1b123dd8589c351e9e9291c634" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>test_db_path_</name></member>
+      <member refid="class_content_fulltext_index_test_1affc4c42c77dc8ead343a6a9152531d30" prot="protected" virt="non-virtual"><scope>ContentFulltextIndexTest</scope><name>vector_index_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

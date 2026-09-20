@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_meeting_protocol" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::MeetingProtocol</compoundname>
+    <includes refid="voice__meeting__support_8h" local="no">voice_meeting_support.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1aa28319998e4e395ca8d4e5e81e4b8da9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingProtocol::meeting_id</definition>
+        <argsstring></argsstring>
+        <name>meeting_id</name>
+        <qualifiedname>themis::voice::MeetingProtocol::meeting_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="62" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1a38abdd8db707d7feade0f82d8b018e64" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingProtocol::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::voice::MeetingProtocol::title</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="63" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1adf0b7e7d0d6eea6bf495fc25b6b37b72" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::MeetingProtocol::start_ms</definition>
+        <argsstring></argsstring>
+        <name>start_ms</name>
+        <qualifiedname>themis::voice::MeetingProtocol::start_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="64" column="13" bodyfile="include/voice/voice_meeting_support.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1a3015699e13136af4324163a60619b16d" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::voice::MeetingProtocol::end_ms</definition>
+        <argsstring></argsstring>
+        <name>end_ms</name>
+        <qualifiedname>themis::voice::MeetingProtocol::end_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="65" column="13" bodyfile="include/voice/voice_meeting_support.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1afc5e463973dc4a72730c5bdd6f4379aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingProtocol::organizer</definition>
+        <argsstring></argsstring>
+        <name>organizer</name>
+        <qualifiedname>themis::voice::MeetingProtocol::organizer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="66" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1a2ade26380b26ef479b13d4dcd21446e2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::MeetingProtocol::participants</definition>
+        <argsstring></argsstring>
+        <name>participants</name>
+        <qualifiedname>themis::voice::MeetingProtocol::participants</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="67" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1aef3718a0da77fcfd80f4992c02d69249" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::voice::MeetingProtocol::full_transcript</definition>
+        <argsstring></argsstring>
+        <name>full_transcript</name>
+        <qualifiedname>themis::voice::MeetingProtocol::full_transcript</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="68" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1a29b704dcb062b5f0575475f20e155b09" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_meeting_segment" kindref="compound">MeetingSegment</ref> &gt;</type>
+        <definition>std::vector&lt;MeetingSegment&gt; themis::voice::MeetingProtocol::segments</definition>
+        <argsstring></argsstring>
+        <name>segments</name>
+        <qualifiedname>themis::voice::MeetingProtocol::segments</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="70" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1ae51f34418367db696a710091c6b2b665" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::MeetingProtocol::decisions</definition>
+        <argsstring></argsstring>
+        <name>decisions</name>
+        <qualifiedname>themis::voice::MeetingProtocol::decisions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="71" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1a19cccfa023cac142479a77379b0befad" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::voice::MeetingProtocol::key_points</definition>
+        <argsstring></argsstring>
+        <name>key_points</name>
+        <qualifiedname>themis::voice::MeetingProtocol::key_points</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="72" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1ac7dbf486b8968bbb16efc1045d629a1c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1voice_1_1_action_item" kindref="compound">ActionItem</ref> &gt;</type>
+        <definition>std::vector&lt;ActionItem&gt; themis::voice::MeetingProtocol::action_items</definition>
+        <argsstring></argsstring>
+        <name>action_items</name>
+        <qualifiedname>themis::voice::MeetingProtocol::action_items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="73" column="17" bodyfile="include/voice/voice_meeting_support.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1ad628df2a63511b6aa5fe2e7730b90271" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::voice::MeetingProtocol::speaker_word_counts</definition>
+        <argsstring></argsstring>
+        <name>speaker_word_counts</name>
+        <qualifiedname>themis::voice::MeetingProtocol::speaker_word_counts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="75" column="14" bodyfile="include/voice/voice_meeting_support.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_meeting_protocol_1a14dd1b9c78e6350a515a5dd7d480e771" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1voice_1a0352a0685650c0e855e241bb589fe55f" kindref="member">json</ref></type>
+        <definition>json themis::voice::MeetingProtocol::metadata</definition>
+        <argsstring></argsstring>
+        <name>metadata</name>
+        <qualifiedname>themis::voice::MeetingProtocol::metadata</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_meeting_support.h" line="76" column="10" bodyfile="include/voice/voice_meeting_support.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_meeting_support.h" line="61" column="1" bodyfile="include/voice/voice_meeting_support.h" bodystart="61" bodyend="77"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1ac7dbf486b8968bbb16efc1045d629a1c" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>action_items</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1ae51f34418367db696a710091c6b2b665" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>decisions</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1a3015699e13136af4324163a60619b16d" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>end_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1aef3718a0da77fcfd80f4992c02d69249" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>full_transcript</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1a19cccfa023cac142479a77379b0befad" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>key_points</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1aa28319998e4e395ca8d4e5e81e4b8da9" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>meeting_id</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1a14dd1b9c78e6350a515a5dd7d480e771" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>metadata</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1afc5e463973dc4a72730c5bdd6f4379aa" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>organizer</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1a2ade26380b26ef479b13d4dcd21446e2" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>participants</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1a29b704dcb062b5f0575475f20e155b09" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>segments</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1ad628df2a63511b6aa5fe2e7730b90271" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>speaker_word_counts</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1adf0b7e7d0d6eea6bf495fc25b6b37b72" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>start_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_meeting_protocol_1a38abdd8db707d7feade0f82d8b018e64" prot="public" virt="non-virtual"><scope>themis::voice::MeetingProtocol</scope><name>title</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

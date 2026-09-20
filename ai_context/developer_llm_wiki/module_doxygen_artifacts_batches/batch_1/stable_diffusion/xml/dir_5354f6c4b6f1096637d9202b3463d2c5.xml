@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_5354f6c4b6f1096637d9202b3463d2c5" kind="dir">
+    <compoundname>src/stable_diffusion/tests</compoundname>
+    <innerfile refid="test__sd__plugin_8cpp">test_sd_plugin.cpp</innerfile>
+    <innerfile refid="test__sd__plugin__real__backend__e2e_8cpp">test_sd_plugin_real_backend_e2e.cpp</innerfile>
+    <innerfile refid="test__sd__plugin__registrar_8cpp">test_sd_plugin_registrar.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/stable_diffusion/tests/"/>
+  </compounddef>
+</doxygen>

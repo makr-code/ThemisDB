@@ -1,0 +1,339 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_resource_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ResourceSnapshot</compoundname>
+    <includes refid="gossip__config__manager_8h" local="no">gossip_config_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1aae6c11fb52e9a0586ff2259dabedded2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ResourceSnapshot::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="123" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a59261dae5068086cb4ec44f3c04f254c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResourceSnapshot::timestamp_ns</definition>
+        <argsstring></argsstring>
+        <name>timestamp_ns</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::timestamp_ns</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="124" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1af252df0ccc820e2ca1b7bd3835df47a1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResourceSnapshot::available_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_memory_bytes</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::available_memory_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="127" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a16ddd454b1ad8224deff2b3d04617a12" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResourceSnapshot::total_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_memory_bytes</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::total_memory_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="128" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a50bac1f621d84a081981f0a49269fb67" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ResourceSnapshot::available_cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>available_cpu_cores</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::available_cpu_cores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="129" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1ae8b327f7931f0db58c296969387c9ac1" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::sharding::ResourceSnapshot::total_cpu_cores</definition>
+        <argsstring></argsstring>
+        <name>total_cpu_cores</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::total_cpu_cores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="130" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a06c0155c39e9879f74cc32e05cfa2be8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResourceSnapshot::available_disk_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_disk_bytes</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::available_disk_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="133" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a46a887527b1862b0dd5e287bcc5210e8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResourceSnapshot::total_disk_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_disk_bytes</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::total_disk_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="134" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1aa11a8950c42f6300826bf6381ee60128" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResourceSnapshot::rocksdb_sst_files_count</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_sst_files_count</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::rocksdb_sst_files_count</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="135" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a133a8f49e026f4b77d03b34370b3fa89" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResourceSnapshot::rocksdb_total_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>rocksdb_total_size_bytes</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::rocksdb_total_size_bytes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="136" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1af6a8865122ee2f348c4c3014de472896" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ResourceSnapshot::cpu_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>cpu_usage_percent</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::cpu_usage_percent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="139" column="12" bodyfile="include/sharding/gossip_config_manager.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1ae054356d360c881ddb561e6dbdab1e23" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ResourceSnapshot::memory_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>memory_usage_percent</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::memory_usage_percent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="140" column="12" bodyfile="include/sharding/gossip_config_manager.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a542a870267397a3ab4d9e6b2fca06b3d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ResourceSnapshot::disk_usage_percent</definition>
+        <argsstring></argsstring>
+        <name>disk_usage_percent</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::disk_usage_percent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="141" column="12" bodyfile="include/sharding/gossip_config_manager.h" bodystart="141" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a8983233c44a6531d7630cf8b604557a8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::ResourceSnapshot::requests_per_second</definition>
+        <argsstring></argsstring>
+        <name>requests_per_second</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::requests_per_second</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="142" column="14" bodyfile="include/sharding/gossip_config_manager.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a16c642293b8c1274e20058ab589b31a7" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::sharding::ResourceSnapshot::avg_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_latency_ms</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::avg_latency_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="143" column="12" bodyfile="include/sharding/gossip_config_manager.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1ad0a4b9a155e3192260c6c844d6095e83" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ResourceSnapshot::is_healthy</definition>
+        <argsstring></argsstring>
+        <name>is_healthy</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::is_healthy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="146" column="10" bodyfile="include/sharding/gossip_config_manager.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1a1fbafe1958176dbe15e1006c2a327f06" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ResourceSnapshot::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="147" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="147" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_resource_snapshot_1ae7e5850f7c4c6b946e82ebf8d6b4638c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ResourceSnapshot::warnings</definition>
+        <argsstring></argsstring>
+        <name>warnings</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::warnings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="148" column="17" bodyfile="include/sharding/gossip_config_manager.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_resource_snapshot_1af90dc01ade54d20820823ac663713001" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>proto::ResourceSnapshot</type>
+        <definition>proto::ResourceSnapshot themis::sharding::ResourceSnapshot::toProto</definition>
+        <argsstring>() const</argsstring>
+        <name>toProto</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::toProto</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="151" column="29" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="174" bodyend="197"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_resource_snapshot_1ae7ae9770cffd1fb6604373a6be2e5543" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_resource_snapshot" kindref="compound">ResourceSnapshot</ref></type>
+        <definition>ResourceSnapshot themis::sharding::ResourceSnapshot::fromProto</definition>
+        <argsstring>(const proto::ResourceSnapshot &amp;proto)</argsstring>
+        <name>fromProto</name>
+        <qualifiedname>themis::sharding::ResourceSnapshot::fromProto</qualifiedname>
+        <param>
+          <type>const proto::ResourceSnapshot &amp;</type>
+          <declname>proto</declname>
+        </param>
+        <briefdescription>
+<para>From Proto. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">proto</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="structthemis_1_1sharding_1_1_resource_snapshot_1aae6c11fb52e9a0586ff2259dabedded2" kindref="member">shard_id()</ref>, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot_1a59261dae5068086cb4ec44f3c04f254c" kindref="member">timestamp_ns()</ref>, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot_1af252df0ccc820e2ca1b7bd3835df47a1" kindref="member">available_memory_bytes()</ref>, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot_1a16ddd454b1ad8224deff2b3d04617a12" kindref="member">total_memory_bytes()</ref>, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot_1a50bac1f621d84a081981f0a49269fb67" kindref="member">available_cpu_cores()</ref>, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot_1ae8b327f7931f0db58c296969387c9ac1" kindref="member">total_cpu_cores()</ref>, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot_1a06c0155c39e9879f74cc32e05cfa2be8" kindref="member">available_disk_bytes()</ref>, <ref refid="structthemis_1_1sharding_1_1_resource_snapshot_1a46a887527b1862b0dd5e287bcc5210e8" kindref="member">total_disk_bytes()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/gossip_config_manager.h" line="154" column="29" bodyfile="src/sharding/gossip_config_manager.cpp" bodystart="205" bodyend="228"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Resource Snapshot (YARN-inspired). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Represents the current resource state of a shard, similar to YARN NodeManager&apos;s resource tracking. </para>
+    </detaileddescription>
+    <location file="include/sharding/gossip_config_manager.h" line="122" column="1" bodyfile="include/sharding/gossip_config_manager.h" bodystart="122" bodyend="155"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a50bac1f621d84a081981f0a49269fb67" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>available_cpu_cores</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a06c0155c39e9879f74cc32e05cfa2be8" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>available_disk_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1af252df0ccc820e2ca1b7bd3835df47a1" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>available_memory_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a16c642293b8c1274e20058ab589b31a7" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>avg_latency_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1af6a8865122ee2f348c4c3014de472896" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>cpu_usage_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a542a870267397a3ab4d9e6b2fca06b3d" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>disk_usage_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1ae7ae9770cffd1fb6604373a6be2e5543" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>fromProto</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1ad0a4b9a155e3192260c6c844d6095e83" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>is_healthy</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1ae054356d360c881ddb561e6dbdab1e23" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>memory_usage_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a8983233c44a6531d7630cf8b604557a8" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>requests_per_second</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1aa11a8950c42f6300826bf6381ee60128" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>rocksdb_sst_files_count</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a133a8f49e026f4b77d03b34370b3fa89" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>rocksdb_total_size_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1aae6c11fb52e9a0586ff2259dabedded2" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a1fbafe1958176dbe15e1006c2a327f06" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>status</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a59261dae5068086cb4ec44f3c04f254c" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>timestamp_ns</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1af90dc01ade54d20820823ac663713001" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>toProto</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1ae8b327f7931f0db58c296969387c9ac1" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>total_cpu_cores</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a46a887527b1862b0dd5e287bcc5210e8" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>total_disk_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1a16ddd454b1ad8224deff2b3d04617a12" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>total_memory_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_resource_snapshot_1ae7e5850f7c4c6b946e82ebf8d6b4638c" prot="public" virt="non-virtual"><scope>themis::sharding::ResourceSnapshot</scope><name>warnings</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

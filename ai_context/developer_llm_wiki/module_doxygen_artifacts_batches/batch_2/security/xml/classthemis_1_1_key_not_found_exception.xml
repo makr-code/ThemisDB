@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_key_not_found_exception" kind="class" language="C++" prot="public">
+    <compoundname>themis::KeyNotFoundException</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="include_2security_2key__provider_8h" local="no">key_provider.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_key_not_found_exception_1ac9ce6c8d93cd8ee35687a733cea8cb40" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::KeyNotFoundException::key_id_</definition>
+        <argsstring></argsstring>
+        <name>key_id_</name>
+        <qualifiedname>themis::KeyNotFoundException::key_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="61" column="17" bodyfile="include/security/key_provider.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1_key_not_found_exception_1a1fdc4ddeced5185d9b88a3f7aba7af1c" prot="private" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::KeyNotFoundException::version_</definition>
+        <argsstring></argsstring>
+        <name>version_</name>
+        <qualifiedname>themis::KeyNotFoundException::version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="62" column="14" bodyfile="include/security/key_provider.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_key_not_found_exception_1a0f0b1d540d72f93299398209fa92efc5" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::KeyNotFoundException::KeyNotFoundException</definition>
+        <argsstring>(const std::string &amp;key_id, uint32_t version)</argsstring>
+        <name>KeyNotFoundException</name>
+        <qualifiedname>themis::KeyNotFoundException::KeyNotFoundException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_id</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Key Not Found Exception. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the key. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="51" column="14" bodyfile="include/security/key_provider.h" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_not_found_exception_1a53c91d370aae8b5683d94a747f31ecb3" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::KeyNotFoundException::getKeyId</definition>
+        <argsstring>() const</argsstring>
+        <name>getKeyId</name>
+        <qualifiedname>themis::KeyNotFoundException::getKeyId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="57" column="24" bodyfile="include/security/key_provider.h" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_key_not_found_exception_1a44610d062c584e599afb39dec13e34a6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::KeyNotFoundException::getVersion</definition>
+        <argsstring>() const</argsstring>
+        <name>getVersion</name>
+        <qualifiedname>themis::KeyNotFoundException::getVersion</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/key_provider.h" line="58" column="15" bodyfile="include/security/key_provider.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::KeyNotFoundException</label>
+        <link refid="classthemis_1_1_key_not_found_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+      <node id="1">
+        <label>themis::KeyNotFoundException</label>
+        <link refid="classthemis_1_1_key_not_found_exception"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/security/key_provider.h" line="43" column="1" bodyfile="include/security/key_provider.h" bodystart="43" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_key_not_found_exception_1a53c91d370aae8b5683d94a747f31ecb3" prot="public" virt="non-virtual"><scope>themis::KeyNotFoundException</scope><name>getKeyId</name></member>
+      <member refid="classthemis_1_1_key_not_found_exception_1a44610d062c584e599afb39dec13e34a6" prot="public" virt="non-virtual"><scope>themis::KeyNotFoundException</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1_key_not_found_exception_1ac9ce6c8d93cd8ee35687a733cea8cb40" prot="private" virt="non-virtual"><scope>themis::KeyNotFoundException</scope><name>key_id_</name></member>
+      <member refid="classthemis_1_1_key_not_found_exception_1a0f0b1d540d72f93299398209fa92efc5" prot="public" virt="non-virtual"><scope>themis::KeyNotFoundException</scope><name>KeyNotFoundException</name></member>
+      <member refid="classthemis_1_1_key_not_found_exception_1a1fdc4ddeced5185d9b88a3f7aba7af1c" prot="private" virt="non-virtual"><scope>themis::KeyNotFoundException</scope><name>version_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

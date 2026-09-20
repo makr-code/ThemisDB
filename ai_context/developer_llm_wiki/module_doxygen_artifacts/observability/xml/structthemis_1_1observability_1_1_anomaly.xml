@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_anomaly" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::Anomaly</compoundname>
+    <includes refid="ml__anomaly__detector_8h" local="no">ml_anomaly_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_anomaly_1abc5cdc6965f5a0ff6e9b47f262c6617e" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::Anomaly::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::observability::Anomaly::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="83" column="43" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_anomaly_1ace5c5e416bd30509da3892af30818745" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Anomaly::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::Anomaly::metric_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="84" column="17" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_anomaly_1a72bc4543f99cdf0aaf01cef9362749f4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::Anomaly::actual_value</definition>
+        <argsstring></argsstring>
+        <name>actual_value</name>
+        <qualifiedname>themis::observability::Anomaly::actual_value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="85" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="85" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_anomaly_1aa0182bbead1d7c740dfb7d80b2228bbf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::Anomaly::expected_value</definition>
+        <argsstring></argsstring>
+        <name>expected_value</name>
+        <qualifiedname>themis::observability::Anomaly::expected_value</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="86" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="86" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_anomaly_1a31568a7caf029bbffe45705ffac5f8c5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::Anomaly::confidence_score</definition>
+        <argsstring></argsstring>
+        <name>confidence_score</name>
+        <qualifiedname>themis::observability::Anomaly::confidence_score</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>0–1 </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="87" column="12" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_anomaly_1ae2756bbcdb84c59ea5ff39191f6f7147" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::Anomaly::severity</definition>
+        <argsstring></argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::observability::Anomaly::severity</qualifiedname>
+        <briefdescription>
+<para>low, medium, high, critical </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="88" column="17" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_anomaly_1a188ce885272d6a7a6bee13d6fdc98a7c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::Anomaly::contributing_factors</definition>
+        <argsstring></argsstring>
+        <name>contributing_factors</name>
+        <qualifiedname>themis::observability::Anomaly::contributing_factors</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="89" column="17" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1observability_1_1_anomaly_1a48543d7fac853ed7f814a02a9d391ac2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a75e021f6745639f5feec3d55bbf2899d" kindref="member">json</ref></type>
+        <definition>json themis::observability::Anomaly::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::observability::Anomaly::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/ml_anomaly_detector.h" line="91" column="10" bodyfile="src/observability/ml_anomaly_detector.cpp" bodystart="231" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>ML-detected anomaly with enriched context. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/ml_anomaly_detector.h" line="82" column="1" bodyfile="include/observability/ml_anomaly_detector.h" bodystart="82" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_anomaly_1a72bc4543f99cdf0aaf01cef9362749f4" prot="public" virt="non-virtual"><scope>themis::observability::Anomaly</scope><name>actual_value</name></member>
+      <member refid="structthemis_1_1observability_1_1_anomaly_1a31568a7caf029bbffe45705ffac5f8c5" prot="public" virt="non-virtual"><scope>themis::observability::Anomaly</scope><name>confidence_score</name></member>
+      <member refid="structthemis_1_1observability_1_1_anomaly_1a188ce885272d6a7a6bee13d6fdc98a7c" prot="public" virt="non-virtual"><scope>themis::observability::Anomaly</scope><name>contributing_factors</name></member>
+      <member refid="structthemis_1_1observability_1_1_anomaly_1aa0182bbead1d7c740dfb7d80b2228bbf" prot="public" virt="non-virtual"><scope>themis::observability::Anomaly</scope><name>expected_value</name></member>
+      <member refid="structthemis_1_1observability_1_1_anomaly_1ace5c5e416bd30509da3892af30818745" prot="public" virt="non-virtual"><scope>themis::observability::Anomaly</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_anomaly_1ae2756bbcdb84c59ea5ff39191f6f7147" prot="public" virt="non-virtual"><scope>themis::observability::Anomaly</scope><name>severity</name></member>
+      <member refid="structthemis_1_1observability_1_1_anomaly_1abc5cdc6965f5a0ff6e9b47f262c6617e" prot="public" virt="non-virtual"><scope>themis::observability::Anomaly</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1observability_1_1_anomaly_1a48543d7fac853ed7f814a02a9d391ac2" prot="public" virt="non-virtual"><scope>themis::observability::Anomaly</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
